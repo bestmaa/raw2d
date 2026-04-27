@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/bestmaa/raw2d/issues"
   },
-  "homepage": "https://github.com/bestmaa/raw2d#readme",
+  "homepage": "https://raw2d.com/doc",
   "devDependencies": {
     "typescript": "~6.0.2",
     "vite": "^8.0.10"

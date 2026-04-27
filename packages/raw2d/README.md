@@ -2,6 +2,12 @@
 
 Raw2D is a low-level, modular, browser-first 2D rendering engine for TypeScript.
 
+Public documentation:
+
+```text
+https://raw2d.com/doc
+```
+
 It is designed around explicit control and readable internals:
 
 - `raw2d-core` for scene graph, objects, camera, and materials.
@@ -90,3 +96,9 @@ import { WebGLRenderer2D } from "raw2d-webgl";
 ```
 
 Use `Canvas` for production rendering today. `WebGLRenderer2D` is public but not render-ready yet.
+
+Check the live docs after deployment:
+
+```text
+https://raw2d.com/doc
+```
