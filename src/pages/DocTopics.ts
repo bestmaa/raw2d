@@ -1,5 +1,6 @@
 import type { DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
+import { transformTopics } from "./DocTransformTopics";
 
 const coreTopics: readonly DocTopic[] = [
   {
@@ -212,4 +213,4 @@ rawCanvas.render(scene, camera);`
   }
 ];
 
-export const topics: readonly DocTopic[] = [...coreTopics, ...objectTopics];
+export const topics: readonly DocTopic[] = [...coreTopics, ...transformTopics, ...objectTopics];

@@ -62,6 +62,7 @@ opacity?: number
 rotation?: number
 scaleX?: number
 scaleY?: number
+origin?: Object2DOriginValue
 visible?: boolean`
       },
       {

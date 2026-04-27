@@ -75,6 +75,12 @@
   accent-color: #7dd3fc;
 }
 
+.shape-demo-control select {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+}
+
 .shape-demo-control input[type="color"] {
   width: 52px;
   height: 30px;

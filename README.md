@@ -80,12 +80,21 @@ const sprite = new Sprite({
   x: 120,
   y: 80,
   texture,
+  origin: "center",
   width: 128,
   height: 128
 });
 
 scene.add(sprite);
 rawCanvas.render(scene, camera);
+```
+
+Objects support origin keywords for placement, rotation, and scaling:
+
+```ts
+rect.setOrigin("center");
+sprite.setOrigin("bottom-right");
+circle.setOrigin({ x: 0.5, y: 0.5 });
 ```
 
 ## Architecture

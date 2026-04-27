@@ -50,8 +50,14 @@ const scene = new Scene();
 const camera = new Camera2D();
 const texture = await new TextureLoader().load("/sprite.png");
 
-scene.add(new Sprite({ x: 120, y: 80, texture, width: 128, height: 128 }));
+scene.add(new Sprite({ x: 120, y: 80, texture, origin: "center", width: 128, height: 128 }));
 rawCanvas.render(scene, camera);
+```
+
+Use `origin` to control where x/y and rotation attach to an object:
+
+```ts
+sprite.setOrigin("center");
 ```
 
 Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.

@@ -35,6 +35,7 @@ height: number
 rotation?: number
 scaleX?: number
 scaleY?: number
+origin?: Object2DOriginValue
 visible?: boolean
 material?: BasicMaterial`
       },
@@ -77,6 +78,7 @@ radius: number
 rotation?: number
 scaleX?: number
 scaleY?: number
+origin?: Object2DOriginValue
 visible?: boolean
 material?: BasicMaterial`
       },
@@ -120,6 +122,7 @@ text: string
 font?: string
 align?: CanvasTextAlign
 baseline?: CanvasTextBaseline
+origin?: Object2DOriginValue
 visible?: boolean
 material?: BasicMaterial`
       },
@@ -168,6 +171,7 @@ endY: number
 rotation?: number
 scaleX?: number
 scaleY?: number
+origin?: Object2DOriginValue
 visible?: boolean
 material?: BasicMaterial`
       },

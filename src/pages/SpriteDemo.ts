@@ -5,9 +5,17 @@ const demoCanvasWidth = 520;
 const demoCanvasHeight = 260;
 const demoTextureUrl =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='18' fill='%2335c2ff'/%3E%3Ccircle cx='42' cy='45' r='14' fill='%23f5f7fb'/%3E%3Ccircle cx='86' cy='45' r='14' fill='%23f5f7fb'/%3E%3Cpath d='M38 82c14 16 38 16 52 0' fill='none' stroke='%2310141c' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E";
+const originOptions = ["top-left", "center", "bottom-right"] as const;
 
 export function createSpriteDemo(): HTMLElement {
-  const state: SpriteDemoState = { x: 196, y: 66, size: 128, opacity: 1, rotation: 0 };
+  const state: SpriteDemoState = {
+    x: 260,
+    y: 130,
+    size: 128,
+    opacity: 1,
+    rotation: 0,
+    origin: "center"
+  };
   const section = document.createElement("article");
   section.className = "doc-section shape-demo";
 
@@ -57,7 +65,14 @@ async function setupSpriteDemo(
   code: HTMLElement
 ): Promise<void> {
   const texture = await new TextureLoader().load(demoTextureUrl);
-  const sprite = new Sprite({ x: state.x, y: state.y, texture, width: state.size, height: state.size });
+  const sprite = new Sprite({
+    x: state.x,
+    y: state.y,
+    texture,
+    origin: state.origin,
+    width: state.size,
+    height: state.size
+  });
 
   scene.add(sprite);
   section.querySelector(".shape-demo-loading")?.remove();
@@ -96,6 +111,7 @@ function createControls(
     state.rotation = value / 100;
     updateDemo(rawCanvas, scene, camera, sprite, state, code);
   }));
+  controls.append(createOriginSelect(state, rawCanvas, scene, camera, sprite, code));
   return controls;
 }
 
@@ -131,6 +147,36 @@ function createRangeInput(
   return label;
 }
 
+function createOriginSelect(
+  state: SpriteDemoState,
+  rawCanvas: Canvas,
+  scene: Scene,
+  camera: Camera2D,
+  sprite: Sprite,
+  code: HTMLElement
+): HTMLElement {
+  const label = document.createElement("label");
+  label.className = "shape-demo-control";
+  const span = document.createElement("span");
+  const select = document.createElement("select");
+  span.textContent = "Origin";
+
+  for (const origin of originOptions) {
+    const option = document.createElement("option");
+    option.value = origin;
+    option.textContent = origin;
+    option.selected = origin === state.origin;
+    select.append(option);
+  }
+
+  select.addEventListener("change", () => {
+    state.origin = select.value as SpriteDemoState["origin"];
+    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+  });
+  label.append(span, select);
+  return label;
+}
+
 function updateDemo(
   rawCanvas: Canvas,
   scene: Scene,
@@ -142,6 +188,7 @@ function updateDemo(
   sprite.setPosition(state.x, state.y);
   sprite.setSize(state.size, state.size);
   sprite.setOpacity(state.opacity);
+  sprite.setOrigin(state.origin);
   sprite.rotation = state.rotation;
   rawCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
@@ -158,6 +205,7 @@ const sprite = new Sprite({
   x: ${state.x},
   y: ${state.y},
   texture,
+  origin: "${state.origin}",
   width: ${state.size},
   height: ${state.size},
   opacity: ${state.opacity.toFixed(2)},
