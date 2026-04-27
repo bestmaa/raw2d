@@ -1,8 +1,18 @@
-import { Arc, Circle, Ellipse, Line, Rect } from "raw2d-core";
+import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect } from "raw2d-core";
 import { Sprite } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import type { CanvasObject } from "./Canvas.type.js";
-import { drawArc, drawCircle, drawEllipse, drawLine, drawRect, drawSprite, drawText2D } from "./canvas/index.js";
+import {
+  drawArc,
+  drawCircle,
+  drawEllipse,
+  drawLine,
+  drawPolygon,
+  drawPolyline,
+  drawRect,
+  drawSprite,
+  drawText2D
+} from "./canvas/index.js";
 import type {
   CanvasObjectRendererLike,
   CanvasObjectRendererOptions
@@ -39,6 +49,14 @@ export class CanvasObjectRenderer implements CanvasObjectRendererLike {
 
       if (object instanceof Line) {
         drawLine({ context: this.context, line: object });
+      }
+
+      if (object instanceof Polyline) {
+        drawPolyline({ context: this.context, polyline: object });
+      }
+
+      if (object instanceof Polygon) {
+        drawPolygon({ context: this.context, polygon: object });
       }
 
       if (object instanceof Text2D) {

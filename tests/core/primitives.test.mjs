@@ -7,8 +7,11 @@ import {
   getArcLocalBounds,
   getCoreLocalBounds,
   getEllipseLocalBounds,
+  getPolygonLocalBounds,
+  getPolylineLocalBounds,
   getWorldBounds
 } from "raw2d-core";
+import { Polygon, Polyline } from "raw2d-core";
 
 test("Ellipse stores radii, clamps negative values, and defaults to center origin", () => {
   const ellipse = new Ellipse({ radiusX: -20, radiusY: 14 });
@@ -60,6 +63,47 @@ test("World bounds apply position, scale, and origin", () => {
   const bounds = getWorldBounds({ object: ellipse, localBounds: getEllipseLocalBounds(ellipse) });
 
   assert.deepEqual(rectangleSnapshot(bounds), { x: 40, y: 50, width: 120, height: 60 });
+});
+
+test("Polyline stores an open point list and computes local bounds", () => {
+  const points = [
+    { x: 0, y: 20 },
+    { x: 40, y: -10 },
+    { x: 120, y: 60 }
+  ];
+  const polyline = new Polyline({ points });
+
+  points[0].x = 999;
+
+  assert.deepEqual(polyline.getPoints(), [
+    { x: 0, y: 20 },
+    { x: 40, y: -10 },
+    { x: 120, y: 60 }
+  ]);
+  assert.deepEqual(rectangleSnapshot(getPolylineLocalBounds(polyline)), { x: 0, y: -10, width: 120, height: 70 });
+  assert.deepEqual(rectangleSnapshot(getCoreLocalBounds(polyline)), { x: 0, y: -10, width: 120, height: 70 });
+
+  polyline.addPoint(-20, 10);
+  assert.deepEqual(rectangleSnapshot(getPolylineLocalBounds(polyline)), { x: -20, y: -10, width: 140, height: 70 });
+});
+
+test("Polygon stores a closed point list and computes local bounds", () => {
+  const material = new BasicMaterial({ fillColor: "#22c55e", strokeColor: "#bbf7d0", lineWidth: 3 });
+  const polygon = new Polygon({
+    points: [
+      { x: 80, y: 0 },
+      { x: 260, y: 70 },
+      { x: 40, y: 160 }
+    ],
+    material
+  });
+
+  assert.equal(polygon.material, material);
+  assert.deepEqual(rectangleSnapshot(getPolygonLocalBounds(polygon)), { x: 40, y: 0, width: 220, height: 160 });
+  assert.deepEqual(rectangleSnapshot(getCoreLocalBounds(polygon)), { x: 40, y: 0, width: 220, height: 160 });
+
+  polygon.setPoints([{ x: -10, y: -20 }, { x: 30, y: 40 }]);
+  assert.deepEqual(rectangleSnapshot(getPolygonLocalBounds(polygon)), { x: -10, y: -20, width: 40, height: 60 });
 });
 
 function rectangleSnapshot(rectangle) {

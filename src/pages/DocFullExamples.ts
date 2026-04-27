@@ -116,6 +116,62 @@ const line = new Line({
 scene.add(line);
 rawCanvas.render(scene, camera);`;
 
+export const fullPolylineExample = `import { BasicMaterial, Camera2D, Canvas, Polyline, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+
+const polyline = new Polyline({
+  x: 85,
+  y: 70,
+  points: [
+    { x: 0, y: 120 },
+    { x: 120, y: 20 },
+    { x: 320, y: 150 }
+  ],
+  material: new BasicMaterial({ strokeColor: "#38bdf8", lineWidth: 6 })
+});
+
+scene.add(polyline);
+rawCanvas.render(scene, camera);`;
+
+export const fullPolygonExample = `import { BasicMaterial, Camera2D, Canvas, Polygon, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+
+const polygon = new Polygon({
+  x: 110,
+  y: 55,
+  points: [
+    { x: 80, y: 0 },
+    { x: 260, y: 70 },
+    { x: 40, y: 160 }
+  ],
+  material: new BasicMaterial({
+    fillColor: "#22c55e",
+    strokeColor: "#bbf7d0",
+    lineWidth: 3
+  })
+});
+
+scene.add(polygon);
+rawCanvas.render(scene, camera);`;
+
 export const fullText2DExample = `import { BasicMaterial, Camera2D, Canvas, Scene, Text2D } from "raw2d";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");

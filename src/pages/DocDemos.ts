@@ -4,6 +4,8 @@ import { createCircleDemo } from "./CircleDemo";
 import { createEllipseDemo } from "./EllipseDemo";
 import { createLineDemo } from "./LineDemo";
 import { createOriginDemo } from "./OriginDemo";
+import { createPolygonDemo } from "./PolygonDemo";
+import { createPolylineDemo } from "./PolylineDemo";
 import { createRectDemo } from "./RectDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
@@ -14,6 +16,8 @@ const demoIds = [
   "ellipse",
   "arc",
   "line",
+  "polyline",
+  "polygon",
   "text2d",
   "sprite",
   "origin",
@@ -52,6 +56,14 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "line") {
     return createLineDemo();
+  }
+
+  if (demoId === "polyline") {
+    return createPolylineDemo();
+  }
+
+  if (demoId === "polygon") {
+    return createPolygonDemo();
   }
 
   if (demoId === "text2d" || demoId === "bounds-text2d") {
