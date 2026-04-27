@@ -3,6 +3,7 @@ import { topics } from "./DocTopics";
 import { createCircleDemo } from "./CircleDemo";
 import { createLineDemo } from "./LineDemo";
 import { createRectDemo } from "./RectDemo";
+import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
 
 export function renderDocPage(): HTMLElement {
@@ -90,6 +91,10 @@ function createDemoForTopic(topicId: string): HTMLElement | null {
 
   if (topicId === "text2d") {
     return createDemoPanel(createText2DDemo());
+  }
+
+  if (topicId === "sprite") {
+    return createDemoPanel(createSpriteDemo());
   }
 
   return null;

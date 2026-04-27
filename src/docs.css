@@ -55,6 +55,12 @@
   font: 15px ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
+.shape-demo-loading {
+  margin: 0 0 18px;
+  color: #dce4f2;
+  font: 14px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
 .shape-demo-control {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
