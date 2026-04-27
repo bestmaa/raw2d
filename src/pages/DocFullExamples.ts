@@ -43,6 +43,54 @@ const circle = new Circle({
 scene.add(circle);
 rawCanvas.render(scene, camera);`;
 
+export const fullEllipseExample = `import { BasicMaterial, Camera2D, Canvas, Ellipse, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+
+const ellipse = new Ellipse({
+  x: 260,
+  y: 130,
+  radiusX: 95,
+  radiusY: 52,
+  material: new BasicMaterial({ fillColor: "#a78bfa" })
+});
+
+scene.add(ellipse);
+rawCanvas.render(scene, camera);`;
+
+export const fullArcExample = `import { Arc, BasicMaterial, Camera2D, Canvas, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+
+const arc = new Arc({
+  x: 260,
+  y: 130,
+  radiusX: 110,
+  radiusY: 70,
+  startAngle: 0,
+  endAngle: Math.PI * 1.35,
+  material: new BasicMaterial({ strokeColor: "#f97316", lineWidth: 8 })
+});
+
+scene.add(arc);
+rawCanvas.render(scene, camera);`;
+
 export const fullLineExample = `import { BasicMaterial, Camera2D, Canvas, Line, Scene } from "raw2d";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");

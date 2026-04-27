@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "format": "tsc --noEmit",
+    "test": "npm run build && node --test tests/**/*.test.mjs",
     "pack:check": "npm pack --workspaces --dry-run"
   },
   "repository": {

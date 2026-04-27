@@ -1,5 +1,7 @@
 import { createBoundsDemo } from "./BoundsDemo";
+import { createArcDemo } from "./ArcDemo";
 import { createCircleDemo } from "./CircleDemo";
+import { createEllipseDemo } from "./EllipseDemo";
 import { createLineDemo } from "./LineDemo";
 import { createOriginDemo } from "./OriginDemo";
 import { createRectDemo } from "./RectDemo";
@@ -9,6 +11,8 @@ import { createText2DDemo } from "./Text2DDemo";
 const demoIds = [
   "rect",
   "circle",
+  "ellipse",
+  "arc",
   "line",
   "text2d",
   "sprite",
@@ -36,6 +40,14 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "circle") {
     return createCircleDemo();
+  }
+
+  if (demoId === "ellipse") {
+    return createEllipseDemo();
+  }
+
+  if (demoId === "arc") {
+    return createArcDemo();
   }
 
   if (demoId === "line") {
