@@ -4,6 +4,20 @@ Raw2D is a low-level 2D rendering engine for JavaScript and TypeScript.
 
 It is browser-first, Canvas-first, and built around small isolated classes. Objects store scene data. Renderer modules draw those objects.
 
+## Positioning
+
+Raw2D is not trying to be another PixiJS or Phaser. Those engines already provide powerful high-level rendering and game workflows.
+
+Raw2D focuses on a different identity: low-level, modular, transparent 2D rendering for developers who want control. The engine should keep the rendering path understandable, debuggable, and easy to learn from.
+
+The long-term render pipeline should stay explicit:
+
+```text
+Scene -> Batcher -> Buffer -> Shader -> DrawCall
+```
+
+Performance matters, but Raw2D's main advantage should be control, modularity, and transparent internals.
+
 ## Install
 
 ```bash
@@ -108,6 +122,15 @@ npm run pack:check
 - culling
 - typed array buffers
 - static and dynamic batches
+
+## Modular Roadmap
+
+- core
+- canvas
+- webgl
+- sprite
+- text
+- effects
 
 ## Future WebGL Plan
 
