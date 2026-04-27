@@ -1,31 +1,9 @@
 import type { DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
+import { setupTopics } from "./DocSetupTopics";
 import { transformTopics } from "./DocTransformTopics";
 
 const coreTopics: readonly DocTopic[] = [
-  {
-    id: "setup",
-    label: "Install / Setup",
-    title: "Install / Setup",
-    description: "Start the project locally before using any Raw2D module.",
-    sections: [
-      {
-        title: "Install Dependencies",
-        body: "Install the Vite and TypeScript dependencies already defined in package.json.",
-        code: `npm install`
-      },
-      {
-        title: "Start Dev Server",
-        body: "Run the local development server.",
-        code: `npm run dev`
-      },
-      {
-        title: "Open Docs",
-        body: "Open the local docs route in the browser.",
-        code: `http://localhost:5174/doc`
-      }
-    ]
-  },
   {
     id: "canvas",
     label: "Canvas Init",
@@ -213,4 +191,4 @@ rawCanvas.render(scene, camera);`
   }
 ];
 
-export const topics: readonly DocTopic[] = [...coreTopics, ...transformTopics, ...objectTopics];
+export const topics: readonly DocTopic[] = [...setupTopics, ...coreTopics, ...transformTopics, ...objectTopics];

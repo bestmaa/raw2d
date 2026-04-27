@@ -20,17 +20,31 @@ Performance matters, but Raw2D's main advantage should be control, modularity, a
 
 ## Install
 
+Recommended:
+
 ```bash
 npm install raw2d
+```
+
+Advanced focused packages:
+
+```bash
+npm install raw2d-core raw2d-canvas raw2d-sprite
 ```
 
 ## CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.1/dist/raw2d.umd.cjs"></script>
 ```
 
 The UMD build exposes `Raw2D` on `window`.
+
+```html
+<script>
+  const { BasicMaterial, Camera2D, Canvas, Rect, Scene } = Raw2D;
+</script>
+```
 
 ## Basic Usage
 

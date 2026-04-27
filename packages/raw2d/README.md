@@ -15,6 +15,18 @@ Install the umbrella package when you want the stable public API:
 npm install raw2d
 ```
 
+Install focused packages when you want tighter bundle control:
+
+```sh
+npm install raw2d-core raw2d-canvas raw2d-sprite
+```
+
+Use the CDN build without a bundler:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.1/dist/raw2d.umd.cjs"></script>
+```
+
 ```ts
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 
