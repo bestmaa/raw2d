@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "npm run build:packages && vite --host 0.0.0.0 --port 5174",
     "build": "npm run typecheck && npm run build:packages",
+    "build:docs": "npm run typecheck && vite build --config vite.docs.config.ts",
     "build:packages": "npm run build --workspace raw2d-core && npm run build --workspace raw2d-text && npm run build --workspace raw2d-sprite && npm run build --workspace raw2d-canvas && npm run build --workspace raw2d-webgl && npm run build --workspace raw2d-effects && npm run build --workspace raw2d",
     "preview": "vite preview --host 0.0.0.0 --port 4174",
     "typecheck": "tsc --noEmit",
