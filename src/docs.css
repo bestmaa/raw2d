@@ -45,6 +45,24 @@
   background: rgba(14, 165, 233, 0.22);
 }
 
+.doc-focused-example {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.doc-focused-example h3 {
+  margin: 0 0 8px;
+  color: #f5f7fb;
+  font: 700 16px system-ui, sans-serif;
+}
+
+.doc-focused-example p {
+  margin: 0 0 12px;
+  color: #dce4f2;
+  line-height: 1.45;
+}
+
 .shape-demo-canvas {
   display: block;
   width: 100% !important;

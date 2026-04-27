@@ -44,13 +44,13 @@ function createSidebar(onSelect: (topic: DocTopic) => void): HTMLElement {
 }
 
 function createTopicContent(topic: DocTopic): HTMLElement {
-  const initialDemoId = getInitialDemoId(topic);
+  const initialDemoSection = getInitialDemoSection(topic);
   const wrapper = document.createElement("div");
   const content = document.createElement("div");
   const header = document.createElement("header");
   let demoPanel: HTMLElement | null = null;
 
-  wrapper.className = initialDemoId ? "doc-topic-layout" : "";
+  wrapper.className = initialDemoSection ? "doc-topic-layout" : "";
   content.className = "doc-topic-main";
   header.className = "doc-header";
 
@@ -63,11 +63,11 @@ function createTopicContent(topic: DocTopic): HTMLElement {
   header.append(title, description);
   content.append(header);
 
-  function showLiveDemo(demoId: string): void {
-    const nextDemo = createDemoForId(demoId);
+  function showLiveDemo(section: DocSection): void {
+    const nextDemo = section.liveDemoId ? createDemoForId(section.liveDemoId) : null;
 
     if (nextDemo && demoPanel) {
-      demoPanel.replaceChildren(nextDemo);
+      demoPanel.replaceChildren(createFocusedDemo(nextDemo, section));
     }
   }
 
@@ -77,11 +77,11 @@ function createTopicContent(topic: DocTopic): HTMLElement {
 
   wrapper.append(content);
 
-  if (initialDemoId) {
-    const initialDemo = createDemoForId(initialDemoId);
+  if (initialDemoSection?.liveDemoId) {
+    const initialDemo = createDemoForId(initialDemoSection.liveDemoId);
 
     if (initialDemo) {
-      demoPanel = createDemoPanel(initialDemo);
+      demoPanel = createDemoPanel(initialDemo, initialDemoSection);
       wrapper.append(demoPanel);
     }
   }
@@ -89,19 +89,59 @@ function createTopicContent(topic: DocTopic): HTMLElement {
   return wrapper;
 }
 
-function getInitialDemoId(topic: DocTopic): string | null {
-  const sectionDemoId = topic.sections.find((section) => section.liveDemoId)?.liveDemoId;
-  return sectionDemoId ?? (hasDemoId(topic.id) ? topic.id : null);
+function getInitialDemoSection(topic: DocTopic): DocSection | null {
+  const section = topic.sections.find((candidate) => candidate.liveDemoId);
+
+  if (section) {
+    return section;
+  }
+
+  if (!hasDemoId(topic.id)) {
+    return null;
+  }
+
+  return {
+    title: topic.title,
+    body: topic.description,
+    liveDemoId: topic.id
+  };
 }
 
-function createDemoPanel(demo: HTMLElement): HTMLElement {
+function createDemoPanel(demo: HTMLElement, section: DocSection): HTMLElement {
   const panel = document.createElement("aside");
   panel.className = "doc-demo-panel";
-  panel.append(demo);
+  panel.append(createFocusedDemo(demo, section));
   return panel;
 }
 
-function createSection(section: DocSection, onLiveCheck: (demoId: string) => void): HTMLElement {
+function createFocusedDemo(demo: HTMLElement, section: DocSection): HTMLElement {
+  demo.querySelectorAll("pre").forEach((pre) => pre.remove());
+  demo.append(createFocusedExample(section));
+  return demo;
+}
+
+function createFocusedExample(section: DocSection): HTMLElement {
+  const wrapper = document.createElement("div");
+  const title = document.createElement("h3");
+  const body = document.createElement("p");
+
+  wrapper.className = "doc-focused-example";
+  title.textContent = section.title;
+  body.textContent = section.body;
+  wrapper.append(title, body);
+
+  if (section.code) {
+    const pre = document.createElement("pre");
+    const code = document.createElement("code");
+    code.textContent = section.code;
+    pre.append(code);
+    wrapper.append(pre);
+  }
+
+  return wrapper;
+}
+
+function createSection(section: DocSection, onLiveCheck: (section: DocSection) => void): HTMLElement {
   const article = document.createElement("article");
   article.className = "doc-section";
 
@@ -118,7 +158,7 @@ function createSection(section: DocSection, onLiveCheck: (demoId: string) => voi
   }
 
   if (section.liveDemoId) {
-    article.append(createLiveCheckButton(section.liveDemoId, onLiveCheck));
+    article.append(createLiveCheckButton(section, onLiveCheck));
   }
 
   return article;
@@ -138,12 +178,12 @@ function createCodeBlock(code: string): HTMLElement {
   return details;
 }
 
-function createLiveCheckButton(demoId: string, onLiveCheck: (demoId: string) => void): HTMLElement {
+function createLiveCheckButton(section: DocSection, onLiveCheck: (section: DocSection) => void): HTMLElement {
   const button = document.createElement("button");
   button.className = "doc-live-check";
   button.type = "button";
   button.textContent = "Live Check";
-  button.addEventListener("click", () => onLiveCheck(demoId));
+  button.addEventListener("click", () => onLiveCheck(section));
   return button;
 }
 
