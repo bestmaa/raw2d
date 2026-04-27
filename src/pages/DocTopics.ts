@@ -1,6 +1,7 @@
 import { boundsTopics } from "./DocBoundsTopics";
 import { curveTopics } from "./DocCurveTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
+import { interactionTopics } from "./DocInteractionTopics";
 import type { DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
@@ -208,6 +209,7 @@ export const topics: readonly DocTopic[] = [
   ...boundsTopics,
   ...hitTestingTopics,
   ...pickingTopics,
+  ...interactionTopics,
   ...curveTopics,
   ...pathTopics,
   ...objectTopics

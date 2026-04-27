@@ -28,6 +28,7 @@
     "raw2d-canvas": "0.1.4",
     "raw2d-core": "0.1.4",
     "raw2d-effects": "0.1.4",
+    "raw2d-interaction": "0.1.4",
     "raw2d-sprite": "0.1.4",
     "raw2d-text": "0.1.4",
     "raw2d-webgl": "0.1.4"

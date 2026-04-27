@@ -1,0 +1,27 @@
+{
+  "name": "raw2d-interaction",
+  "version": "0.1.4",
+  "description": "Optional interaction helpers for Raw2D.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "raw2d-core": "0.1.4"
+  },
+  "license": "MIT"
+}

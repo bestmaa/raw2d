@@ -1,6 +1,7 @@
 import { createBoundsDemo } from "./BoundsDemo";
 import { createArcDemo } from "./ArcDemo";
 import { createCircleDemo } from "./CircleDemo";
+import { createDragDemo } from "./DragDemo";
 import { createEllipseDemo } from "./EllipseDemo";
 import { createHitTestingDemo } from "./HitTestingDemo";
 import { createLineDemo } from "./LineDemo";
@@ -34,7 +35,8 @@ const demoIds = [
   "bounds-world",
   "bounds-sprite",
   "bounds-text2d",
-  "hit-testing"
+  "hit-testing",
+  "dragging"
 ] as const;
 
 export function hasDemoId(demoId: string): boolean {
@@ -112,6 +114,10 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "hit-testing") {
     return createHitTestingDemo();
+  }
+
+  if (demoId === "dragging") {
+    return createDragDemo();
   }
 
   return null;

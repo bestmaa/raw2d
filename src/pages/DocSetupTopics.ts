@@ -34,11 +34,12 @@ raw2dCanvas.render(scene, camera);`
       {
         title: "Focused Package Install",
         body: "Advanced users can install only the modules they need.",
-        code: `npm install raw2d-core raw2d-canvas raw2d-sprite
+        code: `npm install raw2d-core raw2d-canvas raw2d-sprite raw2d-interaction
 
 import { Camera2D, Rect, Scene } from "raw2d-core";
 import { Canvas } from "raw2d-canvas";
-import { Sprite, TextureLoader } from "raw2d-sprite";`
+import { Sprite, TextureLoader } from "raw2d-sprite";
+import { startObjectDrag } from "raw2d-interaction";`
       },
       {
         title: "CDN Usage",
