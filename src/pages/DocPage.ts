@@ -21,11 +21,13 @@ export function renderDocPage(): HTMLElement {
 
 function createSidebar(onSelect: (topic: DocTopic) => void): HTMLElement {
   const sidebar = document.createElement("aside");
+  const nav = document.createElement("nav");
   sidebar.className = "doc-sidebar";
   sidebar.innerHTML = `
     <a href="/" class="doc-back">Canvas Preview</a>
     <h1>Raw2D Docs</h1>
   `;
+  nav.className = "doc-nav";
 
   for (const topic of topics) {
     const button = document.createElement("button");
@@ -34,9 +36,10 @@ function createSidebar(onSelect: (topic: DocTopic) => void): HTMLElement {
     button.dataset.topicId = topic.id;
     button.textContent = topic.label;
     button.addEventListener("click", () => onSelect(topic));
-    sidebar.append(button);
+    nav.append(button);
   }
 
+  sidebar.append(nav);
   return sidebar;
 }
 
@@ -153,6 +156,11 @@ function updateActiveNav(root: HTMLElement, topicId: string): void {
   const buttons = root.querySelectorAll<HTMLButtonElement>(".doc-nav-button");
 
   for (const button of buttons) {
-    button.classList.toggle("is-active", button.dataset.topicId === topicId);
+    const isActive = button.dataset.topicId === topicId;
+    button.classList.toggle("is-active", isActive);
+
+    if (isActive) {
+      button.scrollIntoView({ block: "nearest" });
+    }
   }
 }
