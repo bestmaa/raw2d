@@ -5,7 +5,17 @@ const demoCanvasWidth = 520;
 const demoCanvasHeight = 260;
 const demoTextureUrl =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='18' fill='%2335c2ff'/%3E%3Ccircle cx='42' cy='45' r='14' fill='%23f5f7fb'/%3E%3Ccircle cx='86' cy='45' r='14' fill='%23f5f7fb'/%3E%3Cpath d='M38 82c14 16 38 16 52 0' fill='none' stroke='%2310141c' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E";
-const originOptions = ["top-left", "center", "bottom-right"] as const;
+const originOptions = [
+  "top-left",
+  "top",
+  "top-right",
+  "left",
+  "center",
+  "right",
+  "bottom-left",
+  "bottom",
+  "bottom-right"
+] as const;
 
 export function createSpriteDemo(): HTMLElement {
   const state: SpriteDemoState = {
