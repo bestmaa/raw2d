@@ -1,6 +1,8 @@
 import type { DocTopic } from "./DocPage.type";
+import { interactionControllerTopic } from "./DocInteractionControllerTopic";
 
 export const interactionTopics: readonly DocTopic[] = [
+  interactionControllerTopic,
   {
     id: "selection",
     label: "Selection",

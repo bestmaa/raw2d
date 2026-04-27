@@ -4,6 +4,7 @@ import { createCircleDemo } from "./CircleDemo";
 import { createDragDemo } from "./DragDemo";
 import { createEllipseDemo } from "./EllipseDemo";
 import { createHitTestingDemo } from "./HitTestingDemo";
+import { createInteractionControllerDemo } from "./InteractionControllerDemo";
 import { createLineDemo } from "./LineDemo";
 import { createOriginDemo } from "./OriginDemo";
 import { createPolygonDemo } from "./PolygonDemo";
@@ -38,6 +39,7 @@ const demoIds = [
   "bounds-sprite",
   "bounds-text2d",
   "hit-testing",
+  "interaction-controller",
   "dragging",
   "selection",
   "resize"
@@ -118,6 +120,10 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "hit-testing") {
     return createHitTestingDemo();
+  }
+
+  if (demoId === "interaction-controller") {
+    return createInteractionControllerDemo();
   }
 
   if (demoId === "dragging") {

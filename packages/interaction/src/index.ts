@@ -1,3 +1,6 @@
+export * from "./InteractionController.js";
+export * from "./InteractionController.type.js";
+export * from "./InteractionPoint.type.js";
 export * from "./ObjectDrag.type.js";
 export * from "./ObjectResize.type.js";
 export * from "./ResizeHandle.type.js";
@@ -8,6 +11,7 @@ export * from "./endObjectResize.js";
 export * from "./getSelectionBounds.js";
 export * from "./getSelectionBounds.type.js";
 export * from "./getResizeHandles.js";
+export * from "./getInteractionPoint.js";
 export * from "./pickResizeHandle.js";
 export * from "./startObjectDrag.js";
 export * from "./startObjectResize.js";
