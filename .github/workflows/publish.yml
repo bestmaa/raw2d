@@ -39,9 +39,9 @@ jobs:
         run: |
           npm publish --workspace raw2d-core --access public
           npm publish --workspace raw2d-text --access public
+          npm publish --workspace raw2d-sprite --access public
           npm publish --workspace raw2d-canvas --access public
           npm publish --workspace raw2d-webgl --access public
-          npm publish --workspace raw2d-sprite --access public
           npm publish --workspace raw2d-effects --access public
           npm publish --workspace raw2d --access public
         env:

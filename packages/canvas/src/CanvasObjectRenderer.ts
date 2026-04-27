@@ -1,7 +1,8 @@
 import { Circle, Line, Rect } from "raw2d-core";
+import { Sprite } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import type { CanvasObject } from "./Canvas.type.js";
-import { drawCircle, drawLine, drawRect, drawText2D } from "./canvas/index.js";
+import { drawCircle, drawLine, drawRect, drawSprite, drawText2D } from "./canvas/index.js";
 import type {
   CanvasObjectRendererLike,
   CanvasObjectRendererOptions
@@ -34,6 +35,10 @@ export class CanvasObjectRenderer implements CanvasObjectRendererLike {
 
       if (object instanceof Text2D) {
         drawText2D({ context: this.context, text: object });
+      }
+
+      if (object instanceof Sprite) {
+        drawSprite({ context: this.context, sprite: object });
       }
     }
   }

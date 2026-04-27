@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "raw2d-core": "0.1.0",
+    "raw2d-sprite": "0.1.0",
     "raw2d-text": "0.1.0"
   },
   "license": "MIT"

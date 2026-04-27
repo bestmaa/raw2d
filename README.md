@@ -64,6 +64,30 @@ scene.add(rect);
 rawCanvas.render(scene, camera);
 ```
 
+## Texture And Sprite
+
+Use `TextureLoader` to load an image, then pass the texture into `Sprite`:
+
+```ts
+import { Camera2D, Canvas, Scene, Sprite, TextureLoader } from "raw2d";
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+const texture = await new TextureLoader().load("/sprite.png");
+
+const sprite = new Sprite({
+  x: 120,
+  y: 80,
+  texture,
+  width: 128,
+  height: 128
+});
+
+scene.add(sprite);
+rawCanvas.render(scene, camera);
+```
+
 ## Architecture
 
 ```text

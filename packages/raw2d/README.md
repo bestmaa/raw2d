@@ -40,6 +40,20 @@ scene.add(rect);
 rawCanvas.render(scene, camera);
 ```
 
+Load and render a sprite:
+
+```ts
+import { Camera2D, Canvas, Scene, Sprite, TextureLoader } from "raw2d";
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+const texture = await new TextureLoader().load("/sprite.png");
+
+scene.add(new Sprite({ x: 120, y: 80, texture, width: 128, height: 128 }));
+rawCanvas.render(scene, camera);
+```
+
 Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.
 
 Canvas and WebGL are public renderer packages:

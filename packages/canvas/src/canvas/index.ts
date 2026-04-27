@@ -6,5 +6,7 @@ export * from "./drawCircle.js";
 export * from "./drawCircle.type.js";
 export * from "./drawLine.js";
 export * from "./drawLine.type.js";
+export * from "./drawSprite.js";
+export * from "./drawSprite.type.js";
 export * from "./drawText2D.js";
 export * from "./drawText2D.type.js";

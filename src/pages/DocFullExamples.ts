@@ -90,3 +90,35 @@ const text = new Text2D({
 
 scene.add(text);
 rawCanvas.render(scene, camera);`;
+
+export const fullTextureExample = `import { TextureLoader } from "raw2d";
+
+const loader = new TextureLoader();
+const texture = await loader.load("/sprite.png");
+
+console.log(texture.width, texture.height);`;
+
+export const fullSpriteExample = `import { Camera2D, Canvas, Scene, Sprite, TextureLoader } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+const texture = await new TextureLoader().load("/sprite.png");
+
+const sprite = new Sprite({
+  x: 120,
+  y: 80,
+  texture,
+  width: 128,
+  height: 128,
+  opacity: 1
+});
+
+scene.add(sprite);
+rawCanvas.render(scene, camera);`;

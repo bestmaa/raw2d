@@ -5,6 +5,7 @@ import {
   fullRectExample,
   fullText2DExample
 } from "./DocFullExamples";
+import { spriteTopics } from "./DocSpriteTopics";
 
 export const objectTopics: readonly DocTopic[] = [
   {
@@ -184,5 +185,6 @@ material?: BasicMaterial`
         code: fullLineExample
       }
     ]
-  }
+  },
+  ...spriteTopics
 ];

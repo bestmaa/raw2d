@@ -1,7 +1,7 @@
 {
   "name": "raw2d-sprite",
   "version": "0.1.0",
-  "description": "Sprite package placeholder for Raw2D.",
+  "description": "Sprite and texture package for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -16,6 +16,9 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "raw2d-core": "0.1.0"
   },
   "license": "MIT"
 }
