@@ -141,6 +141,7 @@ camera.setZoom(2);`
       {
         title: "Create BasicMaterial",
         body: "Use BasicMaterial to control simple drawing styles.",
+        liveDemoId: "rect",
         code: `const material = new BasicMaterial({
   fillColor: "#f45b69",
   strokeColor: "#facc15",
@@ -150,6 +151,7 @@ camera.setZoom(2);`
       {
         title: "BasicMaterial Parameters",
         body: "These fields can be passed when creating BasicMaterial.",
+        liveDemoId: "rect",
         code: `fillColor?: string    // fill color for Rect, Circle, Text2D
 strokeColor?: string  // stroke color for Line
 lineWidth?: number    // stroke width for Line`
@@ -157,6 +159,7 @@ lineWidth?: number    // stroke width for Line`
       {
         title: "Use With Rect",
         body: "Rect uses fillColor.",
+        liveDemoId: "rect",
         code: `const rect = new Rect({
   x: 100,
   y: 80,
@@ -168,6 +171,7 @@ lineWidth?: number    // stroke width for Line`
       {
         title: "Use With Line",
         body: "Line uses strokeColor and lineWidth.",
+        liveDemoId: "line",
         code: `const line = new Line({
   x: 100,
   y: 120,
@@ -182,6 +186,7 @@ lineWidth?: number    // stroke width for Line`
       {
         title: "Update Material",
         body: "Material values can be updated after creation.",
+        liveDemoId: "rect",
         code: `material.setFillColor("#ffffff");
 material.setStrokeColor("#111111");
 material.setLineWidth(2);

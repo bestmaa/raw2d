@@ -1,12 +1,6 @@
 import type { DocSection, DocTopic } from "./DocPage.type";
+import { createDemoForId, hasDemoId } from "./DocDemos";
 import { topics } from "./DocTopics";
-import { createBoundsDemo } from "./BoundsDemo";
-import { createCircleDemo } from "./CircleDemo";
-import { createLineDemo } from "./LineDemo";
-import { createOriginDemo } from "./OriginDemo";
-import { createRectDemo } from "./RectDemo";
-import { createSpriteDemo } from "./SpriteDemo";
-import { createText2DDemo } from "./Text2DDemo";
 
 export function renderDocPage(): HTMLElement {
   const page = document.createElement("main");
@@ -92,45 +86,9 @@ function createTopicContent(topic: DocTopic): HTMLElement {
   return wrapper;
 }
 
-function createDemoForId(demoId: string): HTMLElement | null {
-  if (demoId === "rect") {
-    return createRectDemo();
-  }
-
-  if (demoId === "circle") {
-    return createCircleDemo();
-  }
-
-  if (demoId === "line") {
-    return createLineDemo();
-  }
-
-  if (demoId === "text2d") {
-    return createText2DDemo();
-  }
-
-  if (demoId === "sprite") {
-    return createSpriteDemo();
-  }
-
-  if (demoId === "origin") {
-    return createOriginDemo();
-  }
-
-  if (demoId === "bounds") {
-    return createBoundsDemo();
-  }
-
-  return null;
-}
-
 function getInitialDemoId(topic: DocTopic): string | null {
   const sectionDemoId = topic.sections.find((section) => section.liveDemoId)?.liveDemoId;
   return sectionDemoId ?? (hasDemoId(topic.id) ? topic.id : null);
-}
-
-function hasDemoId(demoId: string): boolean {
-  return ["rect", "circle", "line", "text2d", "sprite", "origin", "bounds"].includes(demoId);
 }
 
 function createDemoPanel(demo: HTMLElement): HTMLElement {

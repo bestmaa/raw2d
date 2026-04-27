@@ -1,6 +1,6 @@
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene, getRectLocalBounds, getWorldBounds } from "raw2d";
 import type { Object2DOriginKeyword, Rectangle } from "raw2d";
-import type { BoundsDemoState } from "./BoundsDemo.type";
+import type { BoundsDemoOptions, BoundsDemoState, BoundsDemoVariant } from "./BoundsDemo.type";
 
 const demoCanvasWidth = 520;
 const demoCanvasHeight = 260;
@@ -16,8 +16,9 @@ const originOptions: readonly Object2DOriginKeyword[] = [
   "bottom-right"
 ];
 
-export function createBoundsDemo(): HTMLElement {
-  const state: BoundsDemoState = { origin: "center", rotation: 0.72 };
+export function createBoundsDemo(options: BoundsDemoOptions = {}): HTMLElement {
+  const variant = options.variant ?? "world";
+  const state: BoundsDemoState = { origin: "center", rotation: getInitialRotation(variant), variant };
   const section = document.createElement("article");
   section.className = "doc-section shape-demo";
   const canvasElement = document.createElement("canvas");
@@ -40,17 +41,17 @@ export function createBoundsDemo(): HTMLElement {
   });
 
   scene.add(rect);
-  section.append(createTitle(), canvasElement, createControls(state, rawCanvas, scene, camera, rect, code), pre);
+  section.append(createTitle(variant), canvasElement, createControls(state, rawCanvas, scene, camera, rect, code), pre);
   updateDemo(rawCanvas, scene, camera, rect, state, code);
   return section;
 }
 
-function createTitle(): DocumentFragment {
+function createTitle(variant: BoundsDemoVariant): DocumentFragment {
   const fragment = document.createDocumentFragment();
   const title = document.createElement("h2");
   const body = document.createElement("p");
-  title.textContent = "Live Bounds Example";
-  body.textContent = "The yellow shape is the object. The blue outline is its world bounds.";
+  title.textContent = getTitle(variant);
+  body.textContent = getBody(variant);
   fragment.append(title, body);
   return fragment;
 }
@@ -137,22 +138,45 @@ function createRotationInput(
 function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, rect: Rect, state: BoundsDemoState, code: HTMLElement): void {
   rect.setOrigin(state.origin);
   rect.rotation = state.rotation;
-  const bounds = getWorldBounds({ object: rect, localBounds: getRectLocalBounds(rect) });
+  const localBounds = getRectLocalBounds(rect);
+  const bounds = state.variant === "local" ? localBounds : getWorldBounds({ object: rect, localBounds });
   rawCanvas.render(scene, camera);
-  drawBounds(rawCanvas.getContext(), bounds);
+  drawBounds(rawCanvas.getContext(), bounds, state.variant);
   code.textContent = createCode(state, bounds);
 }
 
-function drawBounds(context: CanvasRenderingContext2D, bounds: Rectangle): void {
+function drawBounds(context: CanvasRenderingContext2D, bounds: Rectangle, variant: BoundsDemoVariant): void {
   context.save();
   context.strokeStyle = "#38bdf8";
   context.lineWidth = 2;
   context.setLineDash([7, 5]);
-  context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+  if (variant === "local") {
+    context.strokeRect(260 + bounds.x, 130 + bounds.y, bounds.width, bounds.height);
+  } else {
+    context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+  }
   context.restore();
 }
 
 function createCode(state: BoundsDemoState, bounds: Rectangle): string {
+  if (state.variant === "rectangle") {
+    return `const bounds = new Rectangle({
+  x: ${bounds.x.toFixed(1)},
+  y: ${bounds.y.toFixed(1)},
+  width: ${bounds.width.toFixed(1)},
+  height: ${bounds.height.toFixed(1)}
+});
+
+bounds.containsPoint({ x: 260, y: 130 });`;
+  }
+
+  if (state.variant === "local") {
+    return `const localBounds = getRectLocalBounds(rect);
+
+// x: ${bounds.x.toFixed(1)}, y: ${bounds.y.toFixed(1)}
+// width: ${bounds.width.toFixed(1)}, height: ${bounds.height.toFixed(1)}`;
+  }
+
   return `rect.setOrigin("${state.origin}");
 rect.rotation = ${state.rotation.toFixed(2)};
 
@@ -163,4 +187,28 @@ const worldBounds = getWorldBounds({
 
 // x: ${bounds.x.toFixed(1)}, y: ${bounds.y.toFixed(1)}
 // width: ${bounds.width.toFixed(1)}, height: ${bounds.height.toFixed(1)}`;
+}
+
+function getInitialRotation(variant: BoundsDemoVariant): number {
+  return variant === "local" ? 0 : 0.72;
+}
+
+function getTitle(variant: BoundsDemoVariant): string {
+  const titles: Record<BoundsDemoVariant, string> = {
+    rectangle: "Live Rectangle Bounds",
+    local: "Live Local Bounds",
+    world: "Live World Bounds"
+  };
+
+  return titles[variant];
+}
+
+function getBody(variant: BoundsDemoVariant): string {
+  const bodies: Record<BoundsDemoVariant, string> = {
+    rectangle: "Rectangle stores x/y/width/height and can test points or intersections.",
+    local: "Local bounds are the object size before world transform is applied.",
+    world: "World bounds wrap the transformed object for selection or culling."
+  };
+
+  return bodies[variant];
 }

@@ -1,6 +1,6 @@
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 import type { Object2DOriginKeyword } from "raw2d";
-import type { OriginDemoState } from "./OriginDemo.type";
+import type { OriginDemoOptions, OriginDemoState, OriginDemoVariant } from "./OriginDemo.type";
 
 const demoCanvasWidth = 520;
 const demoCanvasHeight = 260;
@@ -16,8 +16,9 @@ const originOptions: readonly Object2DOriginKeyword[] = [
   "bottom-right"
 ];
 
-export function createOriginDemo(): HTMLElement {
-  const state: OriginDemoState = { origin: "center", rotation: 0.5 };
+export function createOriginDemo(options: OriginDemoOptions = {}): HTMLElement {
+  const variant = options.variant ?? "keywords";
+  const state: OriginDemoState = { origin: getInitialOrigin(variant), rotation: 0.5, variant };
   const section = document.createElement("article");
   section.className = "doc-section shape-demo";
   const canvasElement = document.createElement("canvas");
@@ -40,17 +41,17 @@ export function createOriginDemo(): HTMLElement {
   });
 
   scene.add(rect);
-  section.append(createTitle(), canvasElement, createControls(state, rawCanvas, scene, camera, rect, code), pre);
+  section.append(createTitle(variant), canvasElement, createControls(state, rawCanvas, scene, camera, rect, code), pre);
   updateDemo(rawCanvas, scene, camera, rect, state, code);
   return section;
 }
 
-function createTitle(): DocumentFragment {
+function createTitle(variant: OriginDemoVariant): DocumentFragment {
   const fragment = document.createDocumentFragment();
   const title = document.createElement("h2");
   const body = document.createElement("p");
-  title.textContent = "Live Origin Example";
-  body.textContent = "The red marker is object x/y. Changing origin changes where rotation attaches.";
+  title.textContent = getTitle(variant);
+  body.textContent = getBody(variant);
   fragment.append(title, body);
   return fragment;
 }
@@ -66,7 +67,9 @@ function createControls(
   const controls = document.createElement("div");
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
-  controls.append(createOriginSelect(state, rawCanvas, scene, camera, rect, code));
+  if (state.variant !== "custom") {
+    controls.append(createOriginSelect(state, rawCanvas, scene, camera, rect, code));
+  }
   controls.append(createRotationInput(state, rawCanvas, scene, camera, rect, code));
   return controls;
 }
@@ -135,7 +138,11 @@ function createRotationInput(
 }
 
 function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, rect: Rect, state: OriginDemoState, code: HTMLElement): void {
-  rect.setOrigin(state.origin);
+  if (state.variant === "custom") {
+    rect.setOrigin({ x: 0.25, y: 0.75 });
+  } else {
+    rect.setOrigin(state.origin);
+  }
   rect.rotation = state.rotation;
   rawCanvas.render(scene, camera);
   drawAnchor(rawCanvas.getContext(), rect.x, rect.y);
@@ -156,6 +163,13 @@ function drawAnchor(context: CanvasRenderingContext2D, x: number, y: number): vo
 }
 
 function createCode(state: OriginDemoState): string {
+  if (state.variant === "custom") {
+    return `rect.setOrigin({ x: 0.25, y: 0.75 });
+rect.rotation = ${state.rotation.toFixed(2)};
+
+rawCanvas.render(scene, camera);`;
+  }
+
   return `const rect = new Rect({
   x: 260,
   y: 130,
@@ -167,4 +181,38 @@ function createCode(state: OriginDemoState): string {
 
 scene.add(rect);
 rawCanvas.render(scene, camera);`;
+}
+
+function getInitialOrigin(variant: OriginDemoVariant): Object2DOriginKeyword {
+  if (variant === "defaults") {
+    return "top-left";
+  }
+
+  if (variant === "rect") {
+    return "center";
+  }
+
+  return "center";
+}
+
+function getTitle(variant: OriginDemoVariant): string {
+  const titles: Record<OriginDemoVariant, string> = {
+    keywords: "Live Origin Keywords",
+    rect: "Live Rect Origin",
+    custom: "Live Custom Origin",
+    defaults: "Live Origin Defaults"
+  };
+
+  return titles[variant];
+}
+
+function getBody(variant: OriginDemoVariant): string {
+  const bodies: Record<OriginDemoVariant, string> = {
+    keywords: "Pick any origin keyword and watch the x/y anchor stay fixed.",
+    rect: "Center origin makes x/y point to the rectangle center while rotating.",
+    custom: "Custom origin values use normalized x/y values between 0 and 1.",
+    defaults: "Rect starts from top-left; Circle defaults to center."
+  };
+
+  return bodies[variant];
 }
