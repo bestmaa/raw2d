@@ -1,0 +1,110 @@
+.doc-topic-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 440px;
+  gap: 0;
+  align-items: start;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.doc-topic-main {
+  min-width: 0;
+  padding: 40px 28px 64px;
+}
+
+.doc-demo-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
+  padding: 28px 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0d1118;
+  box-sizing: border-box;
+}
+
+.doc-demo-panel .doc-section {
+  min-height: calc(100vh - 56px);
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.shape-demo-canvas {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  aspect-ratio: 2 / 1;
+  height: auto !important;
+  margin: 18px 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #10141c;
+  box-sizing: border-box;
+}
+
+.shape-demo-controls {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.shape-demo-controls-title {
+  margin: 0 0 4px;
+  color: #f5f7fb;
+  font: 15px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.shape-demo-control {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  color: #dce4f2;
+  font: 14px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.shape-demo-control input {
+  width: 100%;
+  accent-color: #7dd3fc;
+}
+
+.shape-demo-control input[type="color"] {
+  width: 52px;
+  height: 30px;
+  padding: 0;
+}
+
+.shape-demo-control input[type="text"] {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 6px 8px;
+}
+
+@media (max-width: 1040px) {
+  .doc-topic-layout {
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+}
+
+@media (max-width: 760px) {
+  .doc-topic-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .doc-topic-main {
+    padding: 28px 18px 48px;
+  }
+
+  .doc-demo-panel {
+    position: static;
+    padding: 0;
+    border-left: none;
+    max-height: none;
+    height: auto;
+  }
+
+  .doc-demo-panel .doc-section {
+    min-height: 0;
+  }
+}

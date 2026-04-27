@@ -1,0 +1,116 @@
+# Raw2D
+
+Raw2D is a low-level 2D rendering engine for JavaScript and TypeScript.
+
+It is browser-first, Canvas-first, and built around small isolated classes. Objects store scene data. Renderer modules draw those objects.
+
+## Install
+
+```bash
+npm install raw2d
+```
+
+## CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs"></script>
+```
+
+The UMD build exposes `Raw2D` on `window`.
+
+## Basic Usage
+
+```ts
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const rawCanvas = new Canvas({
+  canvas: canvasElement,
+  width: 800,
+  height: 600,
+  backgroundColor: "#10141c"
+});
+const scene = new Scene();
+const camera = new Camera2D();
+
+const rect = new Rect({
+  x: 100,
+  y: 80,
+  width: 200,
+  height: 120,
+  material: new BasicMaterial({ fillColor: "#f45b69" })
+});
+
+scene.add(rect);
+rawCanvas.render(scene, camera);
+```
+
+## Architecture
+
+```text
+src/
+  core/
+    Canvas.ts
+    Scene.ts
+    Camera2D.ts
+    Object2D.ts
+  objects/
+    Rect.ts
+    Circle.ts
+    Line.ts
+    Text2D.ts
+  materials/
+    BasicMaterial.ts
+  renderers/
+    CanvasObjectRenderer.ts
+    canvas/
+      drawRect.ts
+      drawCircle.ts
+      drawLine.ts
+      drawText2D.ts
+```
+
+Every class keeps its own `*.type.ts` file. Drawing logic stays in renderer modules, not inside objects.
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+Docs run at:
+
+```text
+http://localhost:5174/doc
+```
+
+Build and package checks:
+
+```bash
+npm run typecheck
+npm run build
+npm run pack:check
+```
+
+## Performance Roadmap
+
+- WebGL2 renderer
+- batch rendering
+- texture atlas
+- object pooling
+- dirty matrix updates
+- culling
+- typed array buffers
+- static and dynamic batches
+
+## Future WebGL Plan
+
+`Canvas` is the first working renderer path. `WebGLRenderer2D` will stay simple at first, then grow into batched geometry, shaders, texture atlas support, typed arrays, and draw call reduction.
+
+Raw2D intentionally does not include physics, WASM, ECS, React, or external rendering libraries yet.

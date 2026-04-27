@@ -1,0 +1,53 @@
+{
+  "name": "raw2d",
+  "version": "0.1.0",
+  "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
+  "type": "module",
+  "main": "./dist/raw2d.umd.cjs",
+  "module": "./dist/raw2d.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/raw2d.umd.cjs",
+  "jsdelivr": "./dist/raw2d.umd.cjs",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/raw2d.js",
+      "require": "./dist/raw2d.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5174",
+    "build": "npm run typecheck && vite build && tsc -p tsconfig.build.json",
+    "preview": "vite preview --host 0.0.0.0 --port 4174",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "format": "tsc --noEmit",
+    "pack:check": "npm pack --dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestmaa/raw2d.git"
+  },
+  "keywords": [
+    "canvas",
+    "2d",
+    "renderer",
+    "typescript",
+    "graphics"
+  ],
+  "author": "aditya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bestmaa/raw2d/issues"
+  },
+  "homepage": "https://github.com/bestmaa/raw2d#readme",
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.0.10"
+  }
+}

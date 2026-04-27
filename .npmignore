@@ -1,0 +1,9 @@
+AGENTS.md
+src
+docs
+node_modules
+index.html
+vite.config.ts
+tsconfig.json
+tsconfig.build.json
+*.log
