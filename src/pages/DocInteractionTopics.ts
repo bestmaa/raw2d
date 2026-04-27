@@ -102,11 +102,64 @@ if (handle) {
       },
       {
         title: "Foundation Only",
-        body: "This does not resize objects yet. It gives the geometry needed for a resize interaction tool.",
+        body: "Handle geometry is separate from actual object resizing. Use the resize helpers when you want to mutate a Rect.",
         liveDemoId: "selection",
-        code: `// next layer:
-// startResize({ object, handle, pointerX, pointerY })
-// updateResize({ state, pointerX, pointerY })`
+        code: `const resizeState = startObjectResize({
+  object: rect,
+  handleName: handle.name,
+  pointerX,
+  pointerY
+});`
+      }
+    ]
+  },
+  {
+    id: "object-resize",
+    label: "Object Resize",
+    title: "Object Resize",
+    description: "Resize a Rect by dragging a picked resize handle.",
+    sections: [
+      {
+        title: "Rect MVP",
+        body: "Object resize currently supports simple axis-aligned Rect resizing.",
+        liveDemoId: "resize",
+        code: `const resizeState = startObjectResize({
+  object: rect,
+  handleName: "bottom-right",
+  pointerX,
+  pointerY,
+  minWidth: 30,
+  minHeight: 30
+});`
+      },
+      {
+        title: "Update Resize",
+        body: "Update the resize state on pointer move, then render again.",
+        liveDemoId: "resize",
+        code: `updateObjectResize({
+  state: resizeState,
+  pointerX,
+  pointerY
+});
+
+raw2dCanvas.render(scene, camera);`
+      },
+      {
+        title: "End Resize",
+        body: "End the resize state on pointer up or cancel.",
+        liveDemoId: "resize",
+        code: `endObjectResize({ state: resizeState });
+resizeState = null;`
+      },
+      {
+        title: "Current Scope",
+        body: "Circle, Ellipse, Sprite, rotated objects, and origin-aware resize strategies should be added as focused modules later.",
+        liveDemoId: "resize",
+        code: `// current:
+Rect + axis-aligned handles
+
+// future:
+Circle / Ellipse / Sprite strategies`
       }
     ]
   },

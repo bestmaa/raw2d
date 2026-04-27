@@ -9,6 +9,7 @@ import { createOriginDemo } from "./OriginDemo";
 import { createPolygonDemo } from "./PolygonDemo";
 import { createPolylineDemo } from "./PolylineDemo";
 import { createRectDemo } from "./RectDemo";
+import { createResizeDemo } from "./ResizeDemo";
 import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
@@ -38,7 +39,8 @@ const demoIds = [
   "bounds-text2d",
   "hit-testing",
   "dragging",
-  "selection"
+  "selection",
+  "resize"
 ] as const;
 
 export function hasDemoId(demoId: string): boolean {
@@ -124,6 +126,10 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "selection") {
     return createSelectionDemo();
+  }
+
+  if (demoId === "resize") {
+    return createResizeDemo();
   }
 
   return null;
