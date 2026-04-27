@@ -1,6 +1,4 @@
-import { Camera2D, Canvas, Scene } from "../core";
-import { BasicMaterial } from "../materials";
-import { Text2D } from "../objects";
+import { BasicMaterial, Camera2D, Canvas, Scene, Text2D } from "raw2d";
 import type { Text2DDemoState } from "./Text2DDemo.type";
 
 const demoCanvasWidth = 520;

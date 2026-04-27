@@ -1,6 +1,4 @@
-import { Camera2D, Canvas, Scene } from "../core";
-import { BasicMaterial } from "../materials";
-import { Rect } from "../objects";
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 import type { RectDemoState } from "./RectDemo.type";
 
 const demoCanvasWidth = 520;

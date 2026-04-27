@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "raw2d-canvas": ["../canvas/src/index.ts"],
+      "raw2d-core": ["../core/src/index.ts"],
+      "raw2d-effects": ["../effects/src/index.ts"],
+      "raw2d-sprite": ["../sprite/src/index.ts"],
+      "raw2d-text": ["../text/src/index.ts"],
+      "raw2d-webgl": ["../webgl/src/index.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["dist"]
+}

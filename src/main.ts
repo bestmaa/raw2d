@@ -1,8 +1,6 @@
 import "./style.css";
 import "./docs.css";
-import { Camera2D, Canvas, Scene } from "./core";
-import { BasicMaterial } from "./materials";
-import { Rect } from "./objects";
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 import { renderDocPage } from "./pages/DocPage";
 
 const app = document.querySelector<HTMLDivElement>("#app");

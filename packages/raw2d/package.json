@@ -1,0 +1,46 @@
+{
+  "name": "raw2d",
+  "version": "0.1.1",
+  "description": "Umbrella package for the modular Raw2D 2D rendering engine.",
+  "type": "module",
+  "main": "./dist/raw2d.umd.cjs",
+  "module": "./dist/raw2d.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/raw2d.umd.cjs",
+  "jsdelivr": "./dist/raw2d.umd.cjs",
+  "sideEffects": false,
+  "files": ["dist", "README.md"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/raw2d.js",
+      "require": "./dist/raw2d.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && vite build --config vite.config.ts",
+    "pack:check": "npm pack --dry-run"
+  },
+  "dependencies": {
+    "raw2d-canvas": "0.1.0",
+    "raw2d-core": "0.1.0",
+    "raw2d-effects": "0.1.0",
+    "raw2d-sprite": "0.1.0",
+    "raw2d-text": "0.1.0",
+    "raw2d-webgl": "0.1.0"
+  },
+  "devDependencies": {
+    "vite": "^8.0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestmaa/raw2d.git"
+  },
+  "keywords": ["canvas", "webgl", "2d", "renderer", "typescript"],
+  "author": "aditya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bestmaa/raw2d/issues"
+  },
+  "homepage": "https://github.com/bestmaa/raw2d#readme"
+}

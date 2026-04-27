@@ -67,29 +67,31 @@ rawCanvas.render(scene, camera);
 ## Architecture
 
 ```text
-src/
-  core/
-    Canvas.ts
-    Scene.ts
-    Camera2D.ts
-    Object2D.ts
-  objects/
-    Rect.ts
-    Circle.ts
-    Line.ts
-    Text2D.ts
-  materials/
-    BasicMaterial.ts
-  renderers/
-    CanvasObjectRenderer.ts
-    canvas/
-      drawRect.ts
-      drawCircle.ts
-      drawLine.ts
-      drawText2D.ts
+packages/
+  core/      raw2d-core
+  canvas/    raw2d-canvas
+  webgl/     raw2d-webgl
+  sprite/    raw2d-sprite
+  text/      raw2d-text
+  effects/   raw2d-effects
+  raw2d/     umbrella package
 ```
 
 Every class keeps its own `*.type.ts` file. Drawing logic stays in renderer modules, not inside objects.
+
+The umbrella package keeps the easy import:
+
+```ts
+import { Canvas, Scene, Rect } from "raw2d";
+```
+
+Advanced users can depend on focused packages:
+
+```ts
+import { Scene } from "raw2d-core";
+import { Canvas } from "raw2d-canvas";
+import { WebGLRenderer2D } from "raw2d-webgl";
+```
 
 ## Local Development
 

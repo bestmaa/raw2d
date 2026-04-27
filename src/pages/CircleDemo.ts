@@ -1,6 +1,4 @@
-import { Camera2D, Canvas, Scene } from "../core";
-import { BasicMaterial } from "../materials";
-import { Circle } from "../objects";
+import { BasicMaterial, Camera2D, Canvas, Circle, Scene } from "raw2d";
 import type { CircleDemoState } from "./CircleDemo.type";
 
 const demoCanvasWidth = 520;

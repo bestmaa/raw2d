@@ -1,6 +1,4 @@
-import { Camera2D, Canvas, Scene } from "../core";
-import { BasicMaterial } from "../materials";
-import { Line } from "../objects";
+import { BasicMaterial, Camera2D, Canvas, Line, Scene } from "raw2d";
 import type { LineDemoState } from "./LineDemo.type";
 
 const demoCanvasWidth = 520;

@@ -5,8 +5,10 @@
     "lib": ["ES2023", "DOM"],
     "types": ["vite/client"],
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
 
     /* Bundler mode */
+    "baseUrl": ".",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -18,7 +20,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "raw2d": ["packages/raw2d/src/index.ts"],
+      "raw2d-canvas": ["packages/canvas/src/index.ts"],
+      "raw2d-core": ["packages/core/src/index.ts"],
+      "raw2d-effects": ["packages/effects/src/index.ts"],
+      "raw2d-sprite": ["packages/sprite/src/index.ts"],
+      "raw2d-text": ["packages/text/src/index.ts"],
+      "raw2d-webgl": ["packages/webgl/src/index.ts"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "packages/*/src"]
 }
