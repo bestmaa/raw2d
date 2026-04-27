@@ -41,3 +41,12 @@ rawCanvas.render(scene, camera);
 ```
 
 Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.
+
+Canvas and WebGL are public renderer packages:
+
+```ts
+import { Canvas } from "raw2d-canvas";
+import { WebGLRenderer2D } from "raw2d-webgl";
+```
+
+Use `Canvas` for production rendering today. `WebGLRenderer2D` is public but not render-ready yet.

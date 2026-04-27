@@ -93,6 +93,22 @@ import { Canvas } from "raw2d-canvas";
 import { WebGLRenderer2D } from "raw2d-webgl";
 ```
 
+## Canvas And WebGL
+
+`Canvas` is a public renderer API, not an internal-only class. It is the recommended renderer today:
+
+```ts
+import { Canvas } from "raw2d";
+```
+
+`WebGLRenderer2D` is also public, but it is a skeleton right now. It exists so Raw2D can grow a transparent, batch-first WebGL2 pipeline without mixing WebGL code into Canvas modules:
+
+```ts
+import { WebGLRenderer2D } from "raw2d-webgl";
+```
+
+Use Canvas for real rendering today. Use WebGLRenderer2D only for early integration experiments until the batcher, buffers, shaders, and draw calls are implemented.
+
 ## Local Development
 
 ```bash

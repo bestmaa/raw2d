@@ -29,7 +29,7 @@ const coreTopics: readonly DocTopic[] = [
     id: "canvas",
     label: "Canvas Init",
     title: "Canvas Init",
-    description: "Create and control the low-level Raw2D Canvas wrapper.",
+    description: "Create and control the public low-level Raw2D Canvas renderer.",
     sections: [
       {
         title: "Add A Canvas Element",
@@ -53,6 +53,64 @@ const rawCanvas = new Canvas({
   height: 600,
   backgroundColor: "#10141c"
 });`
+      }
+    ]
+  },
+  {
+    id: "renderers",
+    label: "Canvas / WebGL",
+    title: "Canvas / WebGL",
+    description: "Choose the renderer package directly. These APIs are public, not internal-only.",
+    sections: [
+      {
+        title: "Recommended Start",
+        body: "Use Canvas first. It is the stable renderer path and supports the current object set.",
+        code: `import { Canvas } from "raw2d";
+
+const rawCanvas = new Canvas({
+  canvas: canvasElement,
+  width: 800,
+  height: 600,
+  backgroundColor: "#10141c"
+});
+
+rawCanvas.render(scene, camera);`
+      },
+      {
+        title: "Focused Canvas Package",
+        body: "Advanced users can install and import only the Canvas renderer package.",
+        code: `npm install raw2d-core raw2d-canvas
+
+import { Camera2D, Rect, Scene } from "raw2d-core";
+import { Canvas } from "raw2d-canvas";`
+      },
+      {
+        title: "WebGL Package",
+        body: "WebGLRenderer2D is public, but it is a skeleton right now. It is present so the future batch-first API has a stable place.",
+        code: `npm install raw2d-core raw2d-webgl
+
+import { Camera2D, Scene } from "raw2d-core";
+import { WebGLRenderer2D } from "raw2d-webgl";
+
+const renderer = new WebGLRenderer2D({ canvas: canvasElement });
+renderer.setSize(800, 600);
+
+// Not render-ready yet.
+// renderer.render(scene, camera);`
+      },
+      {
+        title: "Renderer Responsibility",
+        body: "Objects store data and scene graph behavior. Canvas and WebGL renderer packages decide how objects are drawn.",
+        code: `const scene = new Scene();
+const camera = new Camera2D();
+
+scene.add(rect);
+
+// Canvas path works now.
+rawCanvas.render(scene, camera);
+
+// WebGL path will later use:
+// Scene -> Batcher -> Buffer -> Shader -> DrawCall`
       }
     ]
   },
