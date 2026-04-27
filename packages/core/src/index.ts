@@ -13,6 +13,8 @@ export * from "./Line.type.js";
 export * from "./Object2D.js";
 export * from "./Object2D.type.js";
 export * from "./PathCommand.type.js";
+export * from "./pickObject.js";
+export * from "./pickObject.type.js";
 export * from "./Polygon.js";
 export * from "./Polygon.type.js";
 export * from "./Polyline.js";

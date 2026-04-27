@@ -21,16 +21,18 @@ const hit = containsPoint({
       },
       {
         title: "Click Selection",
-        body: "Convert the browser pointer into canvas coordinates, then test each object. The objects do not draw or select themselves.",
+        body: "Convert the browser pointer into canvas coordinates, then test the object. Use pickObject when you want to search the whole scene.",
         liveDemoId: "hit-testing",
         code: `canvasElement.addEventListener("pointerdown", (event) => {
   const bounds = canvasElement.getBoundingClientRect();
   const pointerX = event.clientX - bounds.left;
   const pointerY = event.clientY - bounds.top;
 
-  const selected = scene.children.find((object) =>
-    containsPoint({ object, x: pointerX, y: pointerY })
-  );
+  const hit = containsPoint({
+    object: rect,
+    x: pointerX,
+    y: pointerY
+  });
 });`
       },
       {

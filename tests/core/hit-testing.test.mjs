@@ -1,6 +1,20 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Circle, Ellipse, Line, Polygon, Polyline, Rect, ShapePath, containsPoint, worldToLocalPoint, getRectLocalBounds } from "raw2d-core";
+import {
+  Circle,
+  Ellipse,
+  Line,
+  Object2D,
+  Polygon,
+  Polyline,
+  Rect,
+  Scene,
+  ShapePath,
+  containsPoint,
+  getRectLocalBounds,
+  pickObject,
+  worldToLocalPoint
+} from "raw2d-core";
 
 test("containsPoint checks Rect in world coordinates with origin and scale", () => {
   const rect = new Rect({ x: 100, y: 80, width: 40, height: 20, origin: "center" });
@@ -64,6 +78,51 @@ test("containsPoint uses conservative bounds for ShapePath", () => {
 
   assert.equal(containsPoint({ object: shapePath, x: 80, y: 10 }), true);
   assert.equal(containsPoint({ object: shapePath, x: 140, y: -20 }), false);
+});
+
+test("pickObject returns the topmost visible hit object", () => {
+  const scene = new Scene();
+  const bottom = new Rect({ name: "bottom", x: 0, y: 0, width: 100, height: 100 });
+  const top = new Circle({ name: "top", x: 50, y: 50, radius: 40 });
+
+  scene.add(bottom);
+  scene.add(top);
+
+  assert.equal(pickObject({ scene, x: 50, y: 50 }), top);
+  assert.equal(pickObject({ scene, x: 50, y: 50, topmost: false }), bottom);
+});
+
+test("pickObject skips hidden and unsupported objects", () => {
+  const scene = new Scene();
+  const unsupported = new Object2D({ x: 0, y: 0 });
+  const hidden = new Rect({ x: 0, y: 0, width: 100, height: 100, visible: false });
+  const visible = new Rect({ x: 0, y: 0, width: 80, height: 80 });
+
+  scene.add(unsupported);
+  scene.add(hidden);
+  scene.add(visible);
+
+  assert.equal(pickObject({ scene, x: 20, y: 20 }), visible);
+  assert.equal(pickObject({ scene, x: 120, y: 120 }), null);
+});
+
+test("pickObject supports line tolerance and filters", () => {
+  const scene = new Scene();
+  const line = new Line({ name: "line", startX: 0, startY: 0, endX: 100, endY: 0 });
+
+  scene.add(line);
+
+  assert.equal(pickObject({ scene, x: 50, y: 5, tolerance: 6 }), line);
+  assert.equal(
+    pickObject({
+      scene,
+      x: 50,
+      y: 5,
+      tolerance: 6,
+      filter: (object) => object.name !== "line"
+    }),
+    null
+  );
 });
 
 function roundPoint(point) {
