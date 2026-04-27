@@ -45,7 +45,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 ## CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.1/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.2/dist/raw2d.umd.cjs"></script>
 ```
 
 The UMD build exposes `Raw2D` on `window`.
