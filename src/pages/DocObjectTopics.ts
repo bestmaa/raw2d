@@ -17,6 +17,7 @@ export const objectTopics: readonly DocTopic[] = [
       {
         title: "Create A Rect",
         body: "Rect stores transform and size data.",
+        liveDemoId: "rect",
         code: `const rect = new Rect({
   x: 100,
   y: 80,
@@ -28,6 +29,7 @@ export const objectTopics: readonly DocTopic[] = [
       {
         title: "Rect Parameters",
         body: "Fields accepted by Rect.",
+        liveDemoId: "rect",
         code: `x: number
 y: number
 width: number
@@ -42,6 +44,7 @@ material?: BasicMaterial`
       {
         title: "Rect Material",
         body: "Rect uses BasicMaterial fill color.",
+        liveDemoId: "rect",
         code: `material: new BasicMaterial({
   fillColor: "#f45b69"
 })`
@@ -49,6 +52,7 @@ material?: BasicMaterial`
       {
         title: "Full Rect Code",
         body: "Complete setup from canvas element to rendered Rect.",
+        liveDemoId: "rect",
         code: fullRectExample
       }
     ]
@@ -62,6 +66,7 @@ material?: BasicMaterial`
       {
         title: "Create A Circle",
         body: "Circle stores transform and radius data.",
+        liveDemoId: "circle",
         code: `const circle = new Circle({
   x: 260,
   y: 130,
@@ -72,6 +77,7 @@ material?: BasicMaterial`
       {
         title: "Circle Parameters",
         body: "Fields accepted by Circle.",
+        liveDemoId: "circle",
         code: `x: number
 y: number
 radius: number
@@ -85,6 +91,7 @@ material?: BasicMaterial`
       {
         title: "Circle Material",
         body: "Circle uses BasicMaterial fill color.",
+        liveDemoId: "circle",
         code: `material: new BasicMaterial({
   fillColor: "#35c2ff"
 })`
@@ -92,6 +99,7 @@ material?: BasicMaterial`
       {
         title: "Full Circle Code",
         body: "Complete setup from canvas element to rendered Circle.",
+        liveDemoId: "circle",
         code: fullCircleExample
       }
     ]
@@ -105,6 +113,7 @@ material?: BasicMaterial`
       {
         title: "Create Text2D",
         body: "Text2D stores content, font, alignment, transform, and material data.",
+        liveDemoId: "text2d",
         code: `const text = new Text2D({
   x: 80,
   y: 135,
@@ -116,6 +125,7 @@ material?: BasicMaterial`
       {
         title: "Text2D Parameters",
         body: "Fields accepted by Text2D.",
+        liveDemoId: "text2d",
         code: `x: number
 y: number
 text: string
@@ -129,6 +139,7 @@ material?: BasicMaterial`
       {
         title: "Text2D Material",
         body: "Text2D uses BasicMaterial fill color.",
+        liveDemoId: "text2d",
         code: `material: new BasicMaterial({
   fillColor: "#f5f7fb"
 })`
@@ -136,6 +147,7 @@ material?: BasicMaterial`
       {
         title: "Full Text2D Code",
         body: "Complete setup from canvas element to rendered text.",
+        liveDemoId: "text2d",
         code: fullText2DExample
       }
     ]
@@ -149,6 +161,7 @@ material?: BasicMaterial`
       {
         title: "Create A Line",
         body: "Line stores transform and local start/end point data.",
+        liveDemoId: "line",
         code: `const line = new Line({
   x: 100,
   y: 120,
@@ -162,6 +175,7 @@ material?: BasicMaterial`
       {
         title: "Line Parameters",
         body: "Fields accepted by Line.",
+        liveDemoId: "line",
         code: `x: number
 y: number
 startX?: number
@@ -178,6 +192,7 @@ material?: BasicMaterial`
       {
         title: "Line Material",
         body: "Line uses BasicMaterial stroke color and line width.",
+        liveDemoId: "line",
         code: `material: new BasicMaterial({
   strokeColor: "#facc15",
   lineWidth: 6
@@ -186,6 +201,7 @@ material?: BasicMaterial`
       {
         title: "Full Line Code",
         body: "Complete setup from canvas element to rendered Line.",
+        liveDemoId: "line",
         code: fullLineExample
       }
     ]

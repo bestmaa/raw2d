@@ -47,12 +47,13 @@ function createSidebar(onSelect: (topic: DocTopic) => void): HTMLElement {
 }
 
 function createTopicContent(topic: DocTopic): HTMLElement {
-  const demo = createDemoForTopic(topic.id);
+  const initialDemoId = getInitialDemoId(topic);
   const wrapper = document.createElement("div");
   const content = document.createElement("div");
   const header = document.createElement("header");
+  let demoPanel: HTMLElement | null = null;
 
-  wrapper.className = demo ? "doc-topic-layout" : "";
+  wrapper.className = initialDemoId ? "doc-topic-layout" : "";
   content.className = "doc-topic-main";
   header.className = "doc-header";
 
@@ -65,49 +66,71 @@ function createTopicContent(topic: DocTopic): HTMLElement {
   header.append(title, description);
   content.append(header);
 
+  function showLiveDemo(demoId: string): void {
+    const nextDemo = createDemoForId(demoId);
+
+    if (nextDemo && demoPanel) {
+      demoPanel.replaceChildren(nextDemo);
+    }
+  }
+
   for (const section of topic.sections) {
-    content.append(createSection(section));
+    content.append(createSection(section, showLiveDemo));
   }
 
   wrapper.append(content);
 
-  if (demo) {
-    wrapper.append(demo);
+  if (initialDemoId) {
+    const initialDemo = createDemoForId(initialDemoId);
+
+    if (initialDemo) {
+      demoPanel = createDemoPanel(initialDemo);
+      wrapper.append(demoPanel);
+    }
   }
 
   return wrapper;
 }
 
-function createDemoForTopic(topicId: string): HTMLElement | null {
-  if (topicId === "rect") {
-    return createDemoPanel(createRectDemo());
+function createDemoForId(demoId: string): HTMLElement | null {
+  if (demoId === "rect") {
+    return createRectDemo();
   }
 
-  if (topicId === "circle") {
-    return createDemoPanel(createCircleDemo());
+  if (demoId === "circle") {
+    return createCircleDemo();
   }
 
-  if (topicId === "line") {
-    return createDemoPanel(createLineDemo());
+  if (demoId === "line") {
+    return createLineDemo();
   }
 
-  if (topicId === "text2d") {
-    return createDemoPanel(createText2DDemo());
+  if (demoId === "text2d") {
+    return createText2DDemo();
   }
 
-  if (topicId === "sprite") {
-    return createDemoPanel(createSpriteDemo());
+  if (demoId === "sprite") {
+    return createSpriteDemo();
   }
 
-  if (topicId === "origin") {
-    return createDemoPanel(createOriginDemo());
+  if (demoId === "origin") {
+    return createOriginDemo();
   }
 
-  if (topicId === "bounds") {
-    return createDemoPanel(createBoundsDemo());
+  if (demoId === "bounds") {
+    return createBoundsDemo();
   }
 
   return null;
+}
+
+function getInitialDemoId(topic: DocTopic): string | null {
+  const sectionDemoId = topic.sections.find((section) => section.liveDemoId)?.liveDemoId;
+  return sectionDemoId ?? (hasDemoId(topic.id) ? topic.id : null);
+}
+
+function hasDemoId(demoId: string): boolean {
+  return ["rect", "circle", "line", "text2d", "sprite", "origin", "bounds"].includes(demoId);
 }
 
 function createDemoPanel(demo: HTMLElement): HTMLElement {
@@ -117,7 +140,7 @@ function createDemoPanel(demo: HTMLElement): HTMLElement {
   return panel;
 }
 
-function createSection(section: DocSection): HTMLElement {
+function createSection(section: DocSection, onLiveCheck: (demoId: string) => void): HTMLElement {
   const article = document.createElement("article");
   article.className = "doc-section";
 
@@ -131,6 +154,10 @@ function createSection(section: DocSection): HTMLElement {
 
   if (section.code) {
     article.append(createCodeBlock(section.code));
+  }
+
+  if (section.liveDemoId) {
+    article.append(createLiveCheckButton(section.liveDemoId, onLiveCheck));
   }
 
   return article;
@@ -148,6 +175,15 @@ function createCodeBlock(code: string): HTMLElement {
   pre.append(codeElement);
   details.append(summary, pre);
   return details;
+}
+
+function createLiveCheckButton(demoId: string, onLiveCheck: (demoId: string) => void): HTMLElement {
+  const button = document.createElement("button");
+  button.className = "doc-live-check";
+  button.type = "button";
+  button.textContent = "Live Check";
+  button.addEventListener("click", () => onLiveCheck(demoId));
+  return button;
 }
 
 function getInitialTopic(): DocTopic {

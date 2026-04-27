@@ -10,6 +10,7 @@ export const boundsTopics: readonly DocTopic[] = [
       {
         title: "Rectangle",
         body: "Rectangle is the basic bounds data type.",
+        liveDemoId: "bounds",
         code: `const bounds = new Rectangle({
   x: 20,
   y: 40,
@@ -23,6 +24,7 @@ bounds.intersects(otherBounds);`
       {
         title: "Local Bounds",
         body: "Local bounds describe object size before x/y, scale, rotation, and origin are applied.",
+        liveDemoId: "bounds",
         code: `const rect = new Rect({ x: 100, y: 80, width: 120, height: 80 });
 const localBounds = getRectLocalBounds(rect);
 
@@ -31,6 +33,7 @@ const localBounds = getRectLocalBounds(rect);
       {
         title: "World Bounds",
         body: "World bounds apply transform and origin, then return an axis-aligned Rectangle.",
+        liveDemoId: "bounds",
         code: `rect.setOrigin("center");
 rect.rotation = Math.PI / 4;
 
@@ -42,12 +45,14 @@ const worldBounds = getWorldBounds({
       {
         title: "Sprite Bounds",
         body: "Sprite has its own package-level bounds helpers.",
+        liveDemoId: "bounds",
         code: `const localBounds = getSpriteLocalBounds(sprite);
 const worldBounds = getSpriteWorldBounds(sprite);`
       },
       {
         title: "Text2D Bounds",
         body: "Text measurement needs a CanvasRenderingContext2D because browser text metrics come from canvas.",
+        liveDemoId: "bounds",
         code: `const localBounds = measureText2DLocalBounds({ context, text });
 const worldBounds = measureText2DWorldBounds({ context, text });`
       }

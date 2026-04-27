@@ -10,6 +10,7 @@ export const transformTopics: readonly DocTopic[] = [
       {
         title: "Origin Keywords",
         body: "Use readable keywords for common object anchors.",
+        liveDemoId: "origin",
         code: `origin: "top-left"
 origin: "top"
 origin: "top-right"
@@ -23,6 +24,7 @@ origin: "bottom-right"`
       {
         title: "Use With Rect Or Sprite",
         body: "Center origin means x/y points at the middle of the object.",
+        liveDemoId: "origin",
         code: `const rect = new Rect({
   x: 300,
   y: 180,
@@ -36,6 +38,7 @@ rect.rotation = Math.PI / 4;`
       {
         title: "Custom Origin",
         body: "Use normalized x/y values when a keyword is not enough.",
+        liveDemoId: "origin",
         code: `sprite.setOrigin({ x: 0.25, y: 0.75 });
 
 // x: 0 is left, 0.5 is center, 1 is right.
@@ -44,6 +47,7 @@ rect.rotation = Math.PI / 4;`
       {
         title: "Defaults",
         body: "Rect, Sprite, Line, and Text2D default to top-left. Circle defaults to center.",
+        liveDemoId: "origin",
         code: `new Rect({ x: 20, y: 20, width: 80, height: 40 });
 new Circle({ x: 120, y: 80, radius: 40 });`
       }

@@ -11,11 +11,13 @@ export const spriteTopics: readonly DocTopic[] = [
       {
         title: "Load Texture",
         body: "TextureLoader loads an image URL and returns a Texture promise.",
+        liveDemoId: "sprite",
         code: `const texture = await new TextureLoader().load("/sprite.png");`
       },
       {
         title: "Texture Parameters",
         body: "Texture can also wrap an existing image-like browser source.",
+        liveDemoId: "sprite",
         code: `source: CanvasImageSource
 width?: number
 height?: number`
@@ -23,6 +25,7 @@ height?: number`
       {
         title: "Full Texture Code",
         body: "Complete texture loading example.",
+        liveDemoId: "sprite",
         code: fullTextureExample
       }
     ]
@@ -36,6 +39,7 @@ height?: number`
       {
         title: "Create Sprite",
         body: "Load a Texture, create a Sprite, add it to the Scene, then render with Canvas.",
+        liveDemoId: "sprite",
         code: `const texture = await new TextureLoader().load("/sprite.png");
 
 const sprite = new Sprite({
@@ -53,6 +57,7 @@ rawCanvas.render(scene, camera);`
       {
         title: "Sprite Parameters",
         body: "Fields accepted by Sprite.",
+        liveDemoId: "sprite",
         code: `x: number
 y: number
 texture: Texture
@@ -68,6 +73,7 @@ visible?: boolean`
       {
         title: "Full Sprite Code",
         body: "Complete setup from canvas element to rendered Sprite.",
+        liveDemoId: "sprite",
         code: fullSpriteExample
       }
     ]

@@ -2,6 +2,7 @@ export interface DocSection {
   readonly title: string;
   readonly body: string;
   readonly code?: string;
+  readonly liveDemoId?: string;
 }
 
 export interface DocTopic {
