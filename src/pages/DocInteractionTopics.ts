@@ -56,6 +56,61 @@ if (bounds) {
     ]
   },
   {
+    id: "resize-handles",
+    label: "Resize Handles",
+    title: "Resize Handles",
+    description: "Create and pick editor handles around selected bounds.",
+    sections: [
+      {
+        title: "Create Handles",
+        body: "Use getResizeHandles with selection bounds to create eight small handle rectangles.",
+        liveDemoId: "selection",
+        code: `const bounds = getSelectionBounds({
+  objects: [rect, circle]
+});
+
+const handles = bounds
+  ? getResizeHandles({ bounds, size: 8 })
+  : [];`
+      },
+      {
+        title: "Handle Names",
+        body: "Raw2D returns corners and edges in clockwise order.",
+        liveDemoId: "selection",
+        code: `top-left
+top
+top-right
+right
+bottom-right
+bottom
+bottom-left
+left`
+      },
+      {
+        title: "Pick Handle",
+        body: "Use pickResizeHandle to detect which handle the pointer is over.",
+        liveDemoId: "selection",
+        code: `const handle = pickResizeHandle({
+  handles,
+  x: pointerX,
+  y: pointerY
+});
+
+if (handle) {
+  canvasElement.style.cursor = handle.cursor;
+}`
+      },
+      {
+        title: "Foundation Only",
+        body: "This does not resize objects yet. It gives the geometry needed for a resize interaction tool.",
+        liveDemoId: "selection",
+        code: `// next layer:
+// startResize({ object, handle, pointerX, pointerY })
+// updateResize({ state, pointerX, pointerY })`
+      }
+    ]
+  },
+  {
     id: "dragging",
     label: "Dragging",
     title: "Dragging Objects",

@@ -4,6 +4,7 @@ import type { SelectionManager } from "raw2d";
 export interface SelectionDemoState {
   readonly selection: SelectionManager;
   selectedName: string;
+  hoveredHandleName: string;
 }
 
 export interface SelectionDemoObjects {

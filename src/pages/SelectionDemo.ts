@@ -6,16 +6,19 @@ import {
   Rect,
   Scene,
   SelectionManager,
+  getResizeHandles,
   getSelectionBounds,
+  pickResizeHandle,
   pickObject
 } from "raw2d";
+import type { Rectangle } from "raw2d";
 import type { SelectionBoundsObject, SelectionDemoState } from "./SelectionDemo.type";
 
 const demoCanvasWidth = 520;
 const demoCanvasHeight = 260;
 
 export function createSelectionDemo(): HTMLElement {
-  const state: SelectionDemoState = { selection: new SelectionManager(), selectedName: "none" };
+  const state: SelectionDemoState = { selection: new SelectionManager(), selectedName: "none", hoveredHandleName: "none" };
   const section = document.createElement("article");
   section.className = "doc-section shape-demo";
 
@@ -85,6 +88,16 @@ function bindPointerEvents(options: {
     options.state.selectedName = getSelectionName(options.state.selection.getSelected());
     renderDemo(options.raw2dCanvas, options.scene, options.camera, options.state, options.code);
   });
+
+  options.canvasElement.addEventListener("pointermove", (event) => {
+    const point = getCanvasPoint(options.canvasElement, event);
+    const bounds = getSelectionBounds({ objects: getBoundsObjects(options.state) });
+    const handles = bounds ? getResizeHandles({ bounds, size: 10 }) : [];
+    const handle = pickResizeHandle({ handles, x: point.x, y: point.y });
+    options.state.hoveredHandleName = handle?.name ?? "none";
+    options.canvasElement.style.cursor = handle?.cursor ?? "default";
+    renderDemo(options.raw2dCanvas, options.scene, options.camera, options.state, options.code);
+  });
 }
 
 function getCanvasPoint(canvasElement: HTMLCanvasElement, event: PointerEvent): { readonly x: number; readonly y: number } {
@@ -114,10 +127,23 @@ function drawSelectionBounds(context: CanvasRenderingContext2D, state: Selection
   context.lineWidth = 2;
   context.setLineDash([7, 5]);
   context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+  drawResizeHandles(context, bounds);
   context.fillStyle = "#facc15";
   context.font = "14px monospace";
-  context.fillText(`selected: ${state.selectedName}`, bounds.x, Math.max(18, bounds.y - 8));
+  context.fillText(`selected: ${state.selectedName} | handle: ${state.hoveredHandleName}`, bounds.x, Math.max(18, bounds.y - 8));
   context.restore();
+}
+
+function drawResizeHandles(context: CanvasRenderingContext2D, bounds: Rectangle): void {
+  const handles = getResizeHandles({ bounds, size: 10 });
+  context.setLineDash([]);
+  context.fillStyle = "#10141c";
+  context.strokeStyle = "#facc15";
+
+  for (const handle of handles) {
+    context.fillRect(handle.x, handle.y, handle.width, handle.height);
+    context.strokeRect(handle.x, handle.y, handle.width, handle.height);
+  }
 }
 
 function getBoundsObjects(state: SelectionDemoState): readonly SelectionBoundsObject[] {
@@ -148,5 +174,9 @@ const bounds = getSelectionBounds({
   objects: [card, badge]
 });
 
-// Selected: ${state.selectedName}`;
+const handles = bounds ? getResizeHandles({ bounds, size: 8 }) : [];
+const handle = pickResizeHandle({ handles, x: pointerX, y: pointerY });
+
+// Selected: ${state.selectedName}
+// Hovered handle: ${state.hoveredHandleName}`;
 }
