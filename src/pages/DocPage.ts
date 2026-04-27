@@ -1,7 +1,9 @@
 import type { DocSection, DocTopic } from "./DocPage.type";
 import { topics } from "./DocTopics";
+import { createBoundsDemo } from "./BoundsDemo";
 import { createCircleDemo } from "./CircleDemo";
 import { createLineDemo } from "./LineDemo";
+import { createOriginDemo } from "./OriginDemo";
 import { createRectDemo } from "./RectDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
@@ -95,6 +97,14 @@ function createDemoForTopic(topicId: string): HTMLElement | null {
 
   if (topicId === "sprite") {
     return createDemoPanel(createSpriteDemo());
+  }
+
+  if (topicId === "origin") {
+    return createDemoPanel(createOriginDemo());
+  }
+
+  if (topicId === "bounds") {
+    return createDemoPanel(createBoundsDemo());
   }
 
   return null;
