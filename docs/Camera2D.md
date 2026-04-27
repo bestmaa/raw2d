@@ -20,21 +20,21 @@ const camera = new Camera2D({
   zoom: 1
 });
 
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Pan
 
 ```ts
 camera.setPosition(100, 80);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Zoom
 
 ```ts
 camera.setZoom(2);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Why Camera Exists

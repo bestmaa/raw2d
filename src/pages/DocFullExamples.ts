@@ -6,7 +6,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -19,7 +19,7 @@ const rect = new Rect({
 });
 
 scene.add(rect);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullCircleExample = `import { BasicMaterial, Camera2D, Canvas, Circle, Scene } from "raw2d";
 
@@ -29,7 +29,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -41,7 +41,7 @@ const circle = new Circle({
 });
 
 scene.add(circle);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullEllipseExample = `import { BasicMaterial, Camera2D, Canvas, Ellipse, Scene } from "raw2d";
 
@@ -51,7 +51,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -64,7 +64,7 @@ const ellipse = new Ellipse({
 });
 
 scene.add(ellipse);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullArcExample = `import { Arc, BasicMaterial, Camera2D, Canvas, Scene } from "raw2d";
 
@@ -74,7 +74,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -89,7 +89,7 @@ const arc = new Arc({
 });
 
 scene.add(arc);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullLineExample = `import { BasicMaterial, Camera2D, Canvas, Line, Scene } from "raw2d";
 
@@ -99,7 +99,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -114,7 +114,7 @@ const line = new Line({
 });
 
 scene.add(line);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullPolylineExample = `import { BasicMaterial, Camera2D, Canvas, Polyline, Scene } from "raw2d";
 
@@ -124,7 +124,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -140,7 +140,7 @@ const polyline = new Polyline({
 });
 
 scene.add(polyline);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullPolygonExample = `import { BasicMaterial, Camera2D, Canvas, Polygon, Scene } from "raw2d";
 
@@ -150,7 +150,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -170,7 +170,7 @@ const polygon = new Polygon({
 });
 
 scene.add(polygon);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullText2DExample = `import { BasicMaterial, Camera2D, Canvas, Scene, Text2D } from "raw2d";
 
@@ -180,7 +180,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -193,7 +193,7 @@ const text = new Text2D({
 });
 
 scene.add(text);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 
 export const fullTextureExample = `import { TextureLoader } from "raw2d";
 
@@ -210,7 +210,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 const texture = await new TextureLoader().load("/sprite.png");
@@ -225,4 +225,4 @@ const sprite = new Sprite({
 });
 
 scene.add(sprite);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;

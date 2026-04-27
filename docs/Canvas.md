@@ -51,15 +51,15 @@ if (!canvasElement) {
 ```ts
 import { Canvas } from "raw2d";
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   width: 800,
   height: 600
 });
 
-const context = rawCanvas.getContext();
+const context = raw2dCanvas.getContext();
 
-rawCanvas.clear("#10141c");
+raw2dCanvas.clear("#10141c");
 context.fillStyle = "#f5f7fb";
 context.fillText("Raw2D canvas ready", 24, 32);
 ```
@@ -67,12 +67,12 @@ context.fillText("Raw2D canvas ready", 24, 32);
 ## Fullscreen Usage
 
 ```ts
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement
 });
 
 function resizeCanvas(): void {
-  rawCanvas.setSize(window.innerWidth, window.innerHeight, window.devicePixelRatio);
+  raw2dCanvas.setSize(window.innerWidth, window.innerHeight, window.devicePixelRatio);
 }
 
 window.addEventListener("resize", resizeCanvas);

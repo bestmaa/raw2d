@@ -42,7 +42,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -55,7 +55,7 @@ const rect = new Rect({
 });
 
 scene.add(rect);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 Load and render a sprite:
@@ -63,13 +63,13 @@ Load and render a sprite:
 ```ts
 import { Camera2D, Canvas, Scene, Sprite, TextureLoader } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 const texture = await new TextureLoader().load("/sprite.png");
 
 scene.add(new Sprite({ x: 120, y: 80, texture, origin: "center", width: 128, height: 128 }));
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 Use `origin` to control where x/y and rotation attach to an object:

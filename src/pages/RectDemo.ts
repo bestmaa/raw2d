@@ -29,7 +29,7 @@ export function createRectDemo(): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({
+  const raw2dCanvas = new Canvas({
     canvas: canvasElement,
     width: demoCanvasWidth,
     height: demoCanvasHeight,
@@ -53,28 +53,28 @@ export function createRectDemo(): HTMLElement {
   controls.append(
     createRangeControl("X", 0, 420, state.x, (value) => {
       state.x = value;
-      updateDemo(rawCanvas, scene, camera, rect, state, code);
+      updateDemo(raw2dCanvas, scene, camera, rect, state, code);
     }),
     createRangeControl("Y", 0, 220, state.y, (value) => {
       state.y = value;
-      updateDemo(rawCanvas, scene, camera, rect, state, code);
+      updateDemo(raw2dCanvas, scene, camera, rect, state, code);
     }),
     createRangeControl("Width", 40, 360, state.width, (value) => {
       state.width = value;
-      updateDemo(rawCanvas, scene, camera, rect, state, code);
+      updateDemo(raw2dCanvas, scene, camera, rect, state, code);
     }),
     createRangeControl("Height", 30, 180, state.height, (value) => {
       state.height = value;
-      updateDemo(rawCanvas, scene, camera, rect, state, code);
+      updateDemo(raw2dCanvas, scene, camera, rect, state, code);
     }),
     createColorControl("Fill Color", state.fillColor, (value) => {
       state.fillColor = value;
-      updateDemo(rawCanvas, scene, camera, rect, state, code);
+      updateDemo(raw2dCanvas, scene, camera, rect, state, code);
     })
   );
 
   section.append(title, body, canvasElement, controls, pre);
-  updateDemo(rawCanvas, scene, camera, rect, state, code);
+  updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   return section;
 }
 
@@ -137,7 +137,7 @@ function createColorControl(
 }
 
 function updateDemo(
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -147,7 +147,7 @@ function updateDemo(
   rect.setSize(state.width, state.height);
   rect.setPosition(state.x, state.y);
   rect.material.setFillColor(state.fillColor);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -160,7 +160,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -174,5 +174,5 @@ const rect = new Rect({
 
 rect.setSize(${state.width}, ${state.height});
 scene.add(rect);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

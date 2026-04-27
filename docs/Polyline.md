@@ -5,7 +5,7 @@ Polyline stores an ordered list of local points. The Canvas renderer connects th
 ```ts
 import { BasicMaterial, Camera2D, Canvas, Polyline, Scene } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -21,7 +21,7 @@ const polyline = new Polyline({
 });
 
 scene.add(polyline);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Parameters

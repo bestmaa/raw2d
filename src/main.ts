@@ -27,10 +27,10 @@ function renderCanvasPreview(root: HTMLElement): void {
     throw new Error("Canvas element not found.");
   }
 
-  const rawCanvas = new Canvas({ canvas, backgroundColor: "#10141c" });
+  const raw2dCanvas = new Canvas({ canvas, backgroundColor: "#10141c" });
   const scene = new Scene();
   const camera = new Camera2D();
-  const { width, height } = rawCanvas.getSize();
+  const { width, height } = raw2dCanvas.getSize();
   const rect = new Rect({
     x: width / 2 - 50,
     y: height / 2 - 35,
@@ -40,5 +40,5 @@ function renderCanvasPreview(root: HTMLElement): void {
   });
 
   scene.add(rect);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
 }

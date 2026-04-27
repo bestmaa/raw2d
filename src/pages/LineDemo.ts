@@ -24,7 +24,7 @@ export function createLineDemo(): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({
+  const raw2dCanvas = new Canvas({
     canvas: canvasElement,
     width: demoCanvasWidth,
     height: demoCanvasHeight,
@@ -53,40 +53,40 @@ export function createLineDemo(): HTMLElement {
   controls.append(
     createRangeControl("X", 0, 420, state.x, (value) => {
       state.x = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createRangeControl("Y", 0, 220, state.y, (value) => {
       state.y = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createRangeControl("Start X", -160, 160, state.startX, (value) => {
       state.startX = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createRangeControl("Start Y", -120, 120, state.startY, (value) => {
       state.startY = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createRangeControl("End X", 40, 360, state.endX, (value) => {
       state.endX = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createRangeControl("End Y", -80, 120, state.endY, (value) => {
       state.endY = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createRangeControl("Line Width", 1, 24, state.lineWidth, (value) => {
       state.lineWidth = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     }),
     createColorControl("Stroke Color", state.strokeColor, (value) => {
       state.strokeColor = value;
-      updateDemo(rawCanvas, scene, camera, line, state, code);
+      updateDemo(raw2dCanvas, scene, camera, line, state, code);
     })
   );
 
   section.append(createTitle(), canvasElement, controls, pre);
-  updateDemo(rawCanvas, scene, camera, line, state, code);
+  updateDemo(raw2dCanvas, scene, camera, line, state, code);
   return section;
 }
 
@@ -157,7 +157,7 @@ function createColorControl(
 }
 
 function updateDemo(
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   line: Line,
@@ -168,7 +168,7 @@ function updateDemo(
   line.setPoints(state.startX, state.startY, state.endX, state.endY);
   line.material.setStrokeColor(state.strokeColor);
   line.material.setLineWidth(state.lineWidth);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -181,7 +181,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -200,5 +200,5 @@ const line = new Line({
 
 line.setPoints(${state.startX}, ${state.startY}, ${state.endX}, ${state.endY});
 scene.add(line);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

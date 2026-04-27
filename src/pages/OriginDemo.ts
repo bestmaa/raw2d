@@ -27,7 +27,7 @@ export function createOriginDemo(options: OriginDemoOptions = {}): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
+  const raw2dCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
   const scene = new Scene();
   const camera = new Camera2D();
   const rect = new Rect({
@@ -41,8 +41,8 @@ export function createOriginDemo(options: OriginDemoOptions = {}): HTMLElement {
   });
 
   scene.add(rect);
-  section.append(createTitle(variant), canvasElement, createControls(state, rawCanvas, scene, camera, rect, code), pre);
-  updateDemo(rawCanvas, scene, camera, rect, state, code);
+  section.append(createTitle(variant), canvasElement, createControls(state, raw2dCanvas, scene, camera, rect, code), pre);
+  updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   return section;
 }
 
@@ -58,7 +58,7 @@ function createTitle(variant: OriginDemoVariant): DocumentFragment {
 
 function createControls(
   state: OriginDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -68,9 +68,9 @@ function createControls(
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
   if (state.variant !== "custom") {
-    controls.append(createOriginSelect(state, rawCanvas, scene, camera, rect, code));
+    controls.append(createOriginSelect(state, raw2dCanvas, scene, camera, rect, code));
   }
-  controls.append(createRotationInput(state, rawCanvas, scene, camera, rect, code));
+  controls.append(createRotationInput(state, raw2dCanvas, scene, camera, rect, code));
   return controls;
 }
 
@@ -83,7 +83,7 @@ function createControlsTitle(): HTMLElement {
 
 function createOriginSelect(
   state: OriginDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -105,7 +105,7 @@ function createOriginSelect(
 
   select.addEventListener("change", () => {
     state.origin = select.value as Object2DOriginKeyword;
-    updateDemo(rawCanvas, scene, camera, rect, state, code);
+    updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   });
   label.append(span, select);
   return label;
@@ -113,7 +113,7 @@ function createOriginSelect(
 
 function createRotationInput(
   state: OriginDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -131,21 +131,21 @@ function createRotationInput(
   input.addEventListener("input", () => {
     state.rotation = Number(input.value) / 100;
     span.textContent = `Rotation: ${state.rotation.toFixed(2)}`;
-    updateDemo(rawCanvas, scene, camera, rect, state, code);
+    updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   });
   label.append(span, input);
   return label;
 }
 
-function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, rect: Rect, state: OriginDemoState, code: HTMLElement): void {
+function updateDemo(raw2dCanvas: Canvas, scene: Scene, camera: Camera2D, rect: Rect, state: OriginDemoState, code: HTMLElement): void {
   if (state.variant === "custom") {
     rect.setOrigin({ x: 0.25, y: 0.75 });
   } else {
     rect.setOrigin(state.origin);
   }
   rect.rotation = state.rotation;
-  rawCanvas.render(scene, camera);
-  drawAnchor(rawCanvas.getContext(), rect.x, rect.y);
+  raw2dCanvas.render(scene, camera);
+  drawAnchor(raw2dCanvas.getContext(), rect.x, rect.y);
   code.textContent = createCode(state);
 }
 
@@ -167,7 +167,7 @@ function createCode(state: OriginDemoState): string {
     return `rect.setOrigin({ x: 0.25, y: 0.75 });
 rect.rotation = ${state.rotation.toFixed(2)};
 
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
   }
 
   return `const rect = new Rect({
@@ -180,7 +180,7 @@ rawCanvas.render(scene, camera);`;
 });
 
 scene.add(rect);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }
 
 function getInitialOrigin(variant: OriginDemoVariant): Object2DOriginKeyword {

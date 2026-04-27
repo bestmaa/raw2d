@@ -19,7 +19,7 @@ const scene = new Scene();
 scene.add(rect);
 scene.add(circle);
 
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Methods

@@ -5,7 +5,7 @@ Polygon stores an ordered list of local points. The Canvas renderer closes the p
 ```ts
 import { BasicMaterial, Camera2D, Canvas, Polygon, Scene } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -25,7 +25,7 @@ const polygon = new Polygon({
 });
 
 scene.add(polygon);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Parameters

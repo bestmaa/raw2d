@@ -52,7 +52,7 @@ const sprite = new Sprite({
 });
 
 scene.add(sprite);
-rawCanvas.render(scene, camera);`
+raw2dCanvas.render(scene, camera);`
       },
       {
         title: "Sprite Parameters",

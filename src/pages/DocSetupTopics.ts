@@ -17,7 +17,7 @@ export const setupTopics: readonly DocTopic[] = [
         body: "Import the renderer, scene, camera, objects, and materials from raw2d.",
         code: `import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement });
+const raw2dCanvas = new Canvas({ canvas: canvasElement });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -29,7 +29,7 @@ scene.add(new Rect({
   material: new BasicMaterial({ fillColor: "#f45b69" })
 }));
 
-rawCanvas.render(scene, camera);`
+raw2dCanvas.render(scene, camera);`
       },
       {
         title: "Focused Package Install",

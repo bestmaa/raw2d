@@ -27,7 +27,7 @@ export function createPolygonDemo(): HTMLElement {
   canvasElement.className = "shape-demo-canvas";
   pre.append(code);
 
-  const rawCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
+  const raw2dCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
   const scene = new Scene();
   const camera = new Camera2D();
   const polygon = new Polygon({
@@ -42,29 +42,29 @@ export function createPolygonDemo(): HTMLElement {
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
   controls.append(
-    createRangeControl("X", 0, 220, state.x, (value) => updateNumber(state, "x", value, rawCanvas, scene, camera, polygon, code)),
-    createRangeControl("Y", 0, 140, state.y, (value) => updateNumber(state, "y", value, rawCanvas, scene, camera, polygon, code)),
+    createRangeControl("X", 0, 220, state.x, (value) => updateNumber(state, "x", value, raw2dCanvas, scene, camera, polygon, code)),
+    createRangeControl("Y", 0, 140, state.y, (value) => updateNumber(state, "y", value, raw2dCanvas, scene, camera, polygon, code)),
     createRangeControl("Point B X", 120, 360, state.pointBX, (value) =>
-      updateNumber(state, "pointBX", value, rawCanvas, scene, camera, polygon, code)
+      updateNumber(state, "pointBX", value, raw2dCanvas, scene, camera, polygon, code)
     ),
     createRangeControl("Point C Y", 80, 220, state.pointCY, (value) =>
-      updateNumber(state, "pointCY", value, rawCanvas, scene, camera, polygon, code)
+      updateNumber(state, "pointCY", value, raw2dCanvas, scene, camera, polygon, code)
     ),
     createRangeControl("Line Width", 0, 18, state.lineWidth, (value) =>
-      updateNumber(state, "lineWidth", value, rawCanvas, scene, camera, polygon, code)
+      updateNumber(state, "lineWidth", value, raw2dCanvas, scene, camera, polygon, code)
     ),
     createColorControl("Fill Color", state.fillColor, (value) => {
       state.fillColor = value;
-      updateDemo(rawCanvas, scene, camera, polygon, state, code);
+      updateDemo(raw2dCanvas, scene, camera, polygon, state, code);
     }),
     createColorControl("Stroke Color", state.strokeColor, (value) => {
       state.strokeColor = value;
-      updateDemo(rawCanvas, scene, camera, polygon, state, code);
+      updateDemo(raw2dCanvas, scene, camera, polygon, state, code);
     })
   );
 
   section.append(createTitle(), canvasElement, controls, pre);
-  updateDemo(rawCanvas, scene, camera, polygon, state, code);
+  updateDemo(raw2dCanvas, scene, camera, polygon, state, code);
   return section;
 }
 
@@ -124,23 +124,23 @@ function updateNumber(
   state: PolygonDemoState,
   key: "x" | "y" | "pointBX" | "pointCY" | "lineWidth",
   value: number,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   polygon: Polygon,
   codeElement: HTMLElement
 ): void {
   state[key] = value;
-  updateDemo(rawCanvas, scene, camera, polygon, state, codeElement);
+  updateDemo(raw2dCanvas, scene, camera, polygon, state, codeElement);
 }
 
-function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, polygon: Polygon, state: PolygonDemoState, codeElement: HTMLElement): void {
+function updateDemo(raw2dCanvas: Canvas, scene: Scene, camera: Camera2D, polygon: Polygon, state: PolygonDemoState, codeElement: HTMLElement): void {
   polygon.setPosition(state.x, state.y);
   polygon.setPoints(createPoints(state));
   polygon.material.setFillColor(state.fillColor);
   polygon.material.setStrokeColor(state.strokeColor);
   polygon.material.setLineWidth(state.lineWidth);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -155,7 +155,7 @@ function createPoints(state: PolygonDemoState): readonly PolygonPoint[] {
 function createCode(state: PolygonDemoState): string {
   return `import { BasicMaterial, Camera2D, Canvas, Polygon, Scene } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -175,5 +175,5 @@ const polygon = new Polygon({
 });
 
 scene.add(polygon);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

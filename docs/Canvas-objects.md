@@ -17,9 +17,9 @@ public add(object: CanvasObject): this
 Adds a supported object to the canvas object list.
 
 ```ts
-rawCanvas.add(rect);
-rawCanvas.add(circle);
-rawCanvas.add(line);
+raw2dCanvas.add(rect);
+raw2dCanvas.add(circle);
+raw2dCanvas.add(line);
 ```
 
 Preferred scene flow:
@@ -27,13 +27,13 @@ Preferred scene flow:
 ```ts
 scene.add(rect);
 scene.add(circle);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 `add()` returns the same `Canvas` instance, so chaining is possible.
 
 ```ts
-rawCanvas.add(rect).add(circle).add(line);
+raw2dCanvas.add(rect).add(circle).add(line);
 ```
 
 ## `remove()`
@@ -45,7 +45,7 @@ public remove(object: CanvasObject): this
 Removes an object from the canvas object list.
 
 ```ts
-rawCanvas.remove(rect);
+raw2dCanvas.remove(rect);
 ```
 
 If the object is not present, nothing happens.
@@ -59,7 +59,7 @@ public getObjects(): readonly CanvasObject[]
 Returns the objects currently added to the canvas.
 
 ```ts
-const objects = rawCanvas.getObjects();
+const objects = raw2dCanvas.getObjects();
 ```
 
 The returned list is readonly from the public API.
@@ -69,9 +69,9 @@ The returned list is readonly from the public API.
 Objects are rendered in the same order they were added.
 
 ```ts
-rawCanvas.add(rect);
-rawCanvas.add(circle);
-rawCanvas.render();
+raw2dCanvas.add(rect);
+raw2dCanvas.add(circle);
+raw2dCanvas.render();
 ```
 
 In this example, `rect` renders first, then `circle`.
@@ -82,7 +82,7 @@ Invisible objects are skipped.
 
 ```ts
 rect.visible = false;
-rawCanvas.render();
+raw2dCanvas.render();
 ```
 
 ## Important

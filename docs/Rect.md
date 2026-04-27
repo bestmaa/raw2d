@@ -148,7 +148,7 @@ Returns:
 
 ## Canvas Example
 
-Use `rawCanvas.add(rect)` and `rawCanvas.render()` to show the rect.
+Use `raw2dCanvas.add(rect)` and `raw2dCanvas.render()` to show the rect.
 
 The live docs page also includes width and height controls:
 
@@ -160,7 +160,7 @@ http://localhost:5174/doc#rect
 import { Canvas } from "raw2d";
 import { Rect } from "raw2d";
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   backgroundColor: "#10141c"
 });
@@ -175,7 +175,7 @@ const rect = new Rect({
 });
 
 scene.add(rect);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 This is the current MVP API. Later, `CanvasRenderer` can take over drawing.

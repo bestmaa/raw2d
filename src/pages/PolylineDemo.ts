@@ -26,7 +26,7 @@ export function createPolylineDemo(): HTMLElement {
   canvasElement.className = "shape-demo-canvas";
   pre.append(code);
 
-  const rawCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
+  const raw2dCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
   const scene = new Scene();
   const camera = new Camera2D();
   const polyline = new Polyline({
@@ -41,25 +41,25 @@ export function createPolylineDemo(): HTMLElement {
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
   controls.append(
-    createRangeControl("X", 0, 220, state.x, (value) => updateNumber(state, "x", value, rawCanvas, scene, camera, polyline, code)),
-    createRangeControl("Y", 0, 160, state.y, (value) => updateNumber(state, "y", value, rawCanvas, scene, camera, polyline, code)),
+    createRangeControl("X", 0, 220, state.x, (value) => updateNumber(state, "x", value, raw2dCanvas, scene, camera, polyline, code)),
+    createRangeControl("Y", 0, 160, state.y, (value) => updateNumber(state, "y", value, raw2dCanvas, scene, camera, polyline, code)),
     createRangeControl("Point B Y", 0, 180, state.pointBY, (value) =>
-      updateNumber(state, "pointBY", value, rawCanvas, scene, camera, polyline, code)
+      updateNumber(state, "pointBY", value, raw2dCanvas, scene, camera, polyline, code)
     ),
     createRangeControl("Point C X", 180, 420, state.pointCX, (value) =>
-      updateNumber(state, "pointCX", value, rawCanvas, scene, camera, polyline, code)
+      updateNumber(state, "pointCX", value, raw2dCanvas, scene, camera, polyline, code)
     ),
     createRangeControl("Line Width", 1, 24, state.lineWidth, (value) =>
-      updateNumber(state, "lineWidth", value, rawCanvas, scene, camera, polyline, code)
+      updateNumber(state, "lineWidth", value, raw2dCanvas, scene, camera, polyline, code)
     ),
     createColorControl("Stroke Color", state.strokeColor, (value) => {
       state.strokeColor = value;
-      updateDemo(rawCanvas, scene, camera, polyline, state, code);
+      updateDemo(raw2dCanvas, scene, camera, polyline, state, code);
     })
   );
 
   section.append(createTitle(), canvasElement, controls, pre);
-  updateDemo(rawCanvas, scene, camera, polyline, state, code);
+  updateDemo(raw2dCanvas, scene, camera, polyline, state, code);
   return section;
 }
 
@@ -119,18 +119,18 @@ function updateNumber(
   state: PolylineDemoState,
   key: "x" | "y" | "pointBY" | "pointCX" | "lineWidth",
   value: number,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   polyline: Polyline,
   codeElement: HTMLElement
 ): void {
   state[key] = value;
-  updateDemo(rawCanvas, scene, camera, polyline, state, codeElement);
+  updateDemo(raw2dCanvas, scene, camera, polyline, state, codeElement);
 }
 
 function updateDemo(
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   polyline: Polyline,
@@ -141,7 +141,7 @@ function updateDemo(
   polyline.setPoints(createPoints(state));
   polyline.material.setStrokeColor(state.strokeColor);
   polyline.material.setLineWidth(state.lineWidth);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -156,7 +156,7 @@ function createPoints(state: PolylineDemoState): readonly PolylinePoint[] {
 function createCode(state: PolylineDemoState): string {
   return `import { BasicMaterial, Camera2D, Canvas, Polyline, Scene } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -175,5 +175,5 @@ const polyline = new Polyline({
 });
 
 scene.add(polyline);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

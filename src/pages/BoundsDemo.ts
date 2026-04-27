@@ -27,7 +27,7 @@ export function createBoundsDemo(options: BoundsDemoOptions = {}): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
+  const raw2dCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
   const scene = new Scene();
   const camera = new Camera2D();
   const rect = new Rect({
@@ -41,8 +41,8 @@ export function createBoundsDemo(options: BoundsDemoOptions = {}): HTMLElement {
   });
 
   scene.add(rect);
-  section.append(createTitle(variant), canvasElement, createControls(state, rawCanvas, scene, camera, rect, code), pre);
-  updateDemo(rawCanvas, scene, camera, rect, state, code);
+  section.append(createTitle(variant), canvasElement, createControls(state, raw2dCanvas, scene, camera, rect, code), pre);
+  updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   return section;
 }
 
@@ -58,7 +58,7 @@ function createTitle(variant: BoundsDemoVariant): DocumentFragment {
 
 function createControls(
   state: BoundsDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -67,8 +67,8 @@ function createControls(
   const controls = document.createElement("div");
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
-  controls.append(createOriginSelect(state, rawCanvas, scene, camera, rect, code));
-  controls.append(createRotationInput(state, rawCanvas, scene, camera, rect, code));
+  controls.append(createOriginSelect(state, raw2dCanvas, scene, camera, rect, code));
+  controls.append(createRotationInput(state, raw2dCanvas, scene, camera, rect, code));
   return controls;
 }
 
@@ -81,7 +81,7 @@ function createControlsTitle(): HTMLElement {
 
 function createOriginSelect(
   state: BoundsDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -103,7 +103,7 @@ function createOriginSelect(
 
   select.addEventListener("change", () => {
     state.origin = select.value as Object2DOriginKeyword;
-    updateDemo(rawCanvas, scene, camera, rect, state, code);
+    updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   });
   label.append(span, select);
   return label;
@@ -111,7 +111,7 @@ function createOriginSelect(
 
 function createRotationInput(
   state: BoundsDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   rect: Rect,
@@ -129,19 +129,19 @@ function createRotationInput(
   input.addEventListener("input", () => {
     state.rotation = Number(input.value) / 100;
     span.textContent = `Rotation: ${state.rotation.toFixed(2)}`;
-    updateDemo(rawCanvas, scene, camera, rect, state, code);
+    updateDemo(raw2dCanvas, scene, camera, rect, state, code);
   });
   label.append(span, input);
   return label;
 }
 
-function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, rect: Rect, state: BoundsDemoState, code: HTMLElement): void {
+function updateDemo(raw2dCanvas: Canvas, scene: Scene, camera: Camera2D, rect: Rect, state: BoundsDemoState, code: HTMLElement): void {
   rect.setOrigin(state.origin);
   rect.rotation = state.rotation;
   const localBounds = getRectLocalBounds(rect);
   const bounds = state.variant === "local" ? localBounds : getWorldBounds({ object: rect, localBounds });
-  rawCanvas.render(scene, camera);
-  drawBounds(rawCanvas.getContext(), bounds, state.variant);
+  raw2dCanvas.render(scene, camera);
+  drawBounds(raw2dCanvas.getContext(), bounds, state.variant);
   code.textContent = createCode(state, bounds);
 }
 

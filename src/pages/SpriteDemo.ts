@@ -35,7 +35,7 @@ export function createSpriteDemo(): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({
+  const raw2dCanvas = new Canvas({
     canvas: canvasElement,
     width: demoCanvasWidth,
     height: demoCanvasHeight,
@@ -45,7 +45,7 @@ export function createSpriteDemo(): HTMLElement {
   const camera = new Camera2D();
 
   section.append(createTitle(), canvasElement, createLoadingText(), pre);
-  void setupSpriteDemo(section, rawCanvas, scene, camera, state, code);
+  void setupSpriteDemo(section, raw2dCanvas, scene, camera, state, code);
   return section;
 }
 
@@ -68,7 +68,7 @@ function createLoadingText(): HTMLElement {
 
 async function setupSpriteDemo(
   section: HTMLElement,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   state: SpriteDemoState,
@@ -86,13 +86,13 @@ async function setupSpriteDemo(
 
   scene.add(sprite);
   section.querySelector(".shape-demo-loading")?.remove();
-  section.insertBefore(createControls(state, rawCanvas, scene, camera, sprite, code), code.parentElement);
-  updateDemo(rawCanvas, scene, camera, sprite, state, code);
+  section.insertBefore(createControls(state, raw2dCanvas, scene, camera, sprite, code), code.parentElement);
+  updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
 }
 
 function createControls(
   state: SpriteDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   sprite: Sprite,
@@ -103,25 +103,25 @@ function createControls(
   controls.append(createControlsTitle());
   controls.append(createRangeInput("X", 0, 420, state.x, (value) => {
     state.x = value;
-    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+    updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
   }));
   controls.append(createRangeInput("Y", 0, 180, state.y, (value) => {
     state.y = value;
-    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+    updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
   }));
   controls.append(createRangeInput("Size", 48, 180, state.size, (value) => {
     state.size = value;
-    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+    updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
   }));
   controls.append(createRangeInput("Opacity", 10, 100, state.opacity * 100, (value) => {
     state.opacity = value / 100;
-    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+    updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
   }));
   controls.append(createRangeInput("Rotation", 0, 628, state.rotation * 100, (value) => {
     state.rotation = value / 100;
-    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+    updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
   }));
-  controls.append(createOriginSelect(state, rawCanvas, scene, camera, sprite, code));
+  controls.append(createOriginSelect(state, raw2dCanvas, scene, camera, sprite, code));
   return controls;
 }
 
@@ -159,7 +159,7 @@ function createRangeInput(
 
 function createOriginSelect(
   state: SpriteDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   sprite: Sprite,
@@ -181,14 +181,14 @@ function createOriginSelect(
 
   select.addEventListener("change", () => {
     state.origin = select.value as SpriteDemoState["origin"];
-    updateDemo(rawCanvas, scene, camera, sprite, state, code);
+    updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
   });
   label.append(span, select);
   return label;
 }
 
 function updateDemo(
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   sprite: Sprite,
@@ -200,7 +200,7 @@ function updateDemo(
   sprite.setOpacity(state.opacity);
   sprite.setOrigin(state.origin);
   sprite.rotation = state.rotation;
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -223,7 +223,7 @@ const sprite = new Sprite({
 });
 
 scene.add(sprite);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }
 
 function formatValue(label: string, value: number): string {

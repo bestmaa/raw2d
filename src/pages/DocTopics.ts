@@ -28,7 +28,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   width: 800,
   height: 600,
@@ -48,14 +48,14 @@ const rawCanvas = new Canvas({
         body: "Use Canvas first. It is the stable renderer path and supports the current object set.",
         code: `import { Canvas } from "raw2d";
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   width: 800,
   height: 600,
   backgroundColor: "#10141c"
 });
 
-rawCanvas.render(scene, camera);`
+raw2dCanvas.render(scene, camera);`
       },
       {
         title: "Focused Canvas Package",
@@ -88,7 +88,7 @@ const camera = new Camera2D();
 scene.add(rect);
 
 // Canvas path works now.
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 
 // WebGL path will later use:
 // Scene -> Batcher -> Buffer -> Shader -> DrawCall`
@@ -109,7 +109,7 @@ rawCanvas.render(scene, camera);
 scene.add(rect);
 scene.add(circle);
 
-rawCanvas.render(scene, camera);`
+raw2dCanvas.render(scene, camera);`
       }
     ]
   },
@@ -192,7 +192,7 @@ lineWidth?: number    // stroke width for Line`
 material.setStrokeColor("#111111");
 material.setLineWidth(2);
 
-rawCanvas.render(scene, camera);`
+raw2dCanvas.render(scene, camera);`
       }
     ]
   }

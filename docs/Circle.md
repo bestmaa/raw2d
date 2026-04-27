@@ -93,13 +93,13 @@ The docs page has a radius control and live canvas preview.
 
 ## Canvas Example
 
-Use `rawCanvas.add(circle)` and `rawCanvas.render()` to show the circle.
+Use `raw2dCanvas.add(circle)` and `raw2dCanvas.render()` to show the circle.
 
 ```ts
 import { Canvas } from "raw2d";
 import { Circle } from "raw2d";
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   backgroundColor: "#10141c"
 });
@@ -113,7 +113,7 @@ const circle = new Circle({
 });
 
 scene.add(circle);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Rule

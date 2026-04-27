@@ -25,7 +25,7 @@ export function createArcDemo(): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
+  const raw2dCanvas = new Canvas({ canvas: canvasElement, width: demoCanvasWidth, height: demoCanvasHeight, backgroundColor: "#10141c" });
   const scene = new Scene();
   const camera = new Camera2D();
   const arc = new Arc({
@@ -44,35 +44,35 @@ export function createArcDemo(): HTMLElement {
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
   controls.append(
-    createRangeControl("X", 0, 520, state.x, (value) => updateNumber(state, "x", value, rawCanvas, scene, camera, arc, code)),
-    createRangeControl("Y", 0, 260, state.y, (value) => updateNumber(state, "y", value, rawCanvas, scene, camera, arc, code)),
+    createRangeControl("X", 0, 520, state.x, (value) => updateNumber(state, "x", value, raw2dCanvas, scene, camera, arc, code)),
+    createRangeControl("Y", 0, 260, state.y, (value) => updateNumber(state, "y", value, raw2dCanvas, scene, camera, arc, code)),
     createRangeControl("Radius X", 10, 180, state.radiusX, (value) =>
-      updateNumber(state, "radiusX", value, rawCanvas, scene, camera, arc, code)
+      updateNumber(state, "radiusX", value, raw2dCanvas, scene, camera, arc, code)
     ),
     createRangeControl("Radius Y", 10, 120, state.radiusY, (value) =>
-      updateNumber(state, "radiusY", value, rawCanvas, scene, camera, arc, code)
+      updateNumber(state, "radiusY", value, raw2dCanvas, scene, camera, arc, code)
     ),
     createAngleControl("Start Angle", 0, Math.PI * 2, state.startAngle, (value) =>
-      updateNumber(state, "startAngle", value, rawCanvas, scene, camera, arc, code)
+      updateNumber(state, "startAngle", value, raw2dCanvas, scene, camera, arc, code)
     ),
     createAngleControl("End Angle", 0, Math.PI * 2, state.endAngle, (value) =>
-      updateNumber(state, "endAngle", value, rawCanvas, scene, camera, arc, code)
+      updateNumber(state, "endAngle", value, raw2dCanvas, scene, camera, arc, code)
     ),
     createRangeControl("Line Width", 1, 24, state.lineWidth, (value) =>
-      updateNumber(state, "lineWidth", value, rawCanvas, scene, camera, arc, code)
+      updateNumber(state, "lineWidth", value, raw2dCanvas, scene, camera, arc, code)
     ),
     createColorControl("Stroke Color", state.strokeColor, (value) => {
       state.strokeColor = value;
-      updateDemo(rawCanvas, scene, camera, arc, state, code);
+      updateDemo(raw2dCanvas, scene, camera, arc, state, code);
     }),
     createCheckboxControl("Closed", state.closed, (value) => {
       state.closed = value;
-      updateDemo(rawCanvas, scene, camera, arc, state, code);
+      updateDemo(raw2dCanvas, scene, camera, arc, state, code);
     })
   );
 
   section.append(createTitle(), canvasElement, controls, pre);
-  updateDemo(rawCanvas, scene, camera, arc, state, code);
+  updateDemo(raw2dCanvas, scene, camera, arc, state, code);
   return section;
 }
 
@@ -165,17 +165,17 @@ function updateNumber(
   state: ArcDemoState,
   key: "x" | "y" | "radiusX" | "radiusY" | "startAngle" | "endAngle" | "lineWidth",
   value: number,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   arc: Arc,
   codeElement: HTMLElement
 ): void {
   state[key] = value;
-  updateDemo(rawCanvas, scene, camera, arc, state, codeElement);
+  updateDemo(raw2dCanvas, scene, camera, arc, state, codeElement);
 }
 
-function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, arc: Arc, state: ArcDemoState, codeElement: HTMLElement): void {
+function updateDemo(raw2dCanvas: Canvas, scene: Scene, camera: Camera2D, arc: Arc, state: ArcDemoState, codeElement: HTMLElement): void {
   arc.setPosition(state.x, state.y);
   arc.setRadii(state.radiusX, state.radiusY);
   arc.setAngles(state.startAngle, state.endAngle);
@@ -183,14 +183,14 @@ function updateDemo(rawCanvas: Canvas, scene: Scene, camera: Camera2D, arc: Arc,
   arc.material.setStrokeColor(state.strokeColor);
   arc.material.setFillColor(state.strokeColor);
   arc.material.setLineWidth(state.lineWidth);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
 function createCode(state: ArcDemoState): string {
   return `import { Arc, BasicMaterial, Camera2D, Canvas, Scene } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -210,5 +210,5 @@ const arc = new Arc({
 });
 
 scene.add(arc);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

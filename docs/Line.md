@@ -106,13 +106,13 @@ The docs page has end point controls and live canvas preview.
 
 ## Canvas Example
 
-Use `rawCanvas.add(line)` and `rawCanvas.render()` to show the line.
+Use `raw2dCanvas.add(line)` and `raw2dCanvas.render()` to show the line.
 
 ```ts
 import { Canvas } from "raw2d";
 import { Line } from "raw2d";
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   backgroundColor: "#10141c"
 });
@@ -129,7 +129,7 @@ const line = new Line({
 });
 
 scene.add(line);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Rule

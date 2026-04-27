@@ -5,7 +5,7 @@ This document lists the current `Canvas` constructor options, properties, and me
 ## Constructor
 
 ```ts
-const rawCanvas = new Canvas(options);
+const raw2dCanvas = new Canvas(options);
 ```
 
 `Canvas` requires a `CanvasOptions` object.
@@ -32,7 +32,7 @@ HTMLCanvasElement
 Required. This is the real DOM canvas element that Raw2D will control.
 
 ```ts
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement
 });
 ```
@@ -46,7 +46,7 @@ number | undefined
 Optional. Logical canvas width in CSS pixels. If not provided, `Canvas` uses `canvas.clientWidth`.
 
 ```ts
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   width: 800
 });
@@ -61,7 +61,7 @@ number | undefined
 Optional. Logical canvas height in CSS pixels. If not provided, `Canvas` uses `canvas.clientHeight`.
 
 ```ts
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   height: 600
 });
@@ -76,7 +76,7 @@ number | undefined
 Optional. Controls high-DPI rendering. If not provided, `Canvas` uses `window.devicePixelRatio`.
 
 ```ts
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   pixelRatio: window.devicePixelRatio
 });
@@ -91,7 +91,7 @@ boolean | undefined
 Optional. Passed to `canvas.getContext("2d", { alpha })`. It defaults to `false`.
 
 ```ts
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   alpha: true
 });
@@ -108,7 +108,7 @@ public readonly element: HTMLCanvasElement;
 The original DOM canvas element.
 
 ```ts
-rawCanvas.element.classList.add("is-ready");
+raw2dCanvas.element.classList.add("is-ready");
 ```
 
 ## Public Methods
@@ -122,7 +122,7 @@ public getContext(): CanvasRenderingContext2D
 Returns the internal `CanvasRenderingContext2D`.
 
 ```ts
-const context = rawCanvas.getContext();
+const context = raw2dCanvas.getContext();
 context.fillStyle = "#ff0000";
 ```
 
@@ -135,7 +135,7 @@ public getSize(): CanvasSize
 Returns the current logical size and pixel ratio.
 
 ```ts
-const size = rawCanvas.getSize();
+const size = raw2dCanvas.getSize();
 
 console.log(size.width);
 console.log(size.height);
@@ -167,8 +167,8 @@ public setSize(width: number, height: number, pixelRatio?: number): void
 Updates logical size, backing buffer size, CSS size, and context transform.
 
 ```ts
-rawCanvas.setSize(1280, 720);
-rawCanvas.setSize(1280, 720, 2);
+raw2dCanvas.setSize(1280, 720);
+raw2dCanvas.setSize(1280, 720, 2);
 ```
 
 What it does:
@@ -191,8 +191,8 @@ public clear(color?: string): void
 Fills the full backing canvas with a color. Default color is black.
 
 ```ts
-rawCanvas.clear();
-rawCanvas.clear("#10141c");
+raw2dCanvas.clear();
+raw2dCanvas.clear("#10141c");
 ```
 
 `clear()` temporarily resets the transform to identity, fills the full backing buffer, then restores the previous context state.
@@ -206,7 +206,7 @@ public setBackgroundColor(color: string): void
 Updates the color used by `render()`.
 
 ```ts
-rawCanvas.setBackgroundColor("#10141c");
+raw2dCanvas.setBackgroundColor("#10141c");
 ```
 
 ### `render()`
@@ -218,5 +218,5 @@ public render(): void
 Clears the canvas and draws every visible object added with `add()`.
 
 ```ts
-rawCanvas.render();
+raw2dCanvas.render();
 ```

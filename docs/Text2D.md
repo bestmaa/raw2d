@@ -42,7 +42,7 @@ const scene = new Scene();
 const camera = new Camera2D();
 
 scene.add(text);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Update Text
@@ -50,7 +50,7 @@ rawCanvas.render(scene, camera);
 ```ts
 text.setText("Updated text");
 text.setFont("48px sans-serif");
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Live Example

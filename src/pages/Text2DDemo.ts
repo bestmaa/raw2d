@@ -20,7 +20,7 @@ export function createText2DDemo(): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({
+  const raw2dCanvas = new Canvas({
     canvas: canvasElement,
     width: demoCanvasWidth,
     height: demoCanvasHeight,
@@ -38,8 +38,8 @@ export function createText2DDemo(): HTMLElement {
 
   scene.add(text);
   section.append(createTitle(), canvasElement);
-  section.append(createControls(state, rawCanvas, scene, camera, text, code), pre);
-  updateDemo(rawCanvas, scene, camera, text, state, code);
+  section.append(createControls(state, raw2dCanvas, scene, camera, text, code), pre);
+  updateDemo(raw2dCanvas, scene, camera, text, state, code);
   return section;
 }
 
@@ -55,7 +55,7 @@ function createTitle(): DocumentFragment {
 
 function createControls(
   state: Text2DDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   text: Text2D,
@@ -66,17 +66,17 @@ function createControls(
   controls.append(createControlsTitle());
   controls.append(createRangeInput("X", 0, 420, state.x, (value) => {
     state.x = value;
-    updateDemo(rawCanvas, scene, camera, text, state, code);
+    updateDemo(raw2dCanvas, scene, camera, text, state, code);
   }));
   controls.append(createRangeInput("Y", 20, 240, state.y, (value) => {
     state.y = value;
-    updateDemo(rawCanvas, scene, camera, text, state, code);
+    updateDemo(raw2dCanvas, scene, camera, text, state, code);
   }));
-  controls.append(createTextInput(state, rawCanvas, scene, camera, text, code));
-  controls.append(createFontInput(state, rawCanvas, scene, camera, text, code));
+  controls.append(createTextInput(state, raw2dCanvas, scene, camera, text, code));
+  controls.append(createFontInput(state, raw2dCanvas, scene, camera, text, code));
   controls.append(createColorInput("Fill Color", state.fillColor, (value) => {
     state.fillColor = value;
-    updateDemo(rawCanvas, scene, camera, text, state, code);
+    updateDemo(raw2dCanvas, scene, camera, text, state, code);
   }));
   return controls;
 }
@@ -90,7 +90,7 @@ function createControlsTitle(): HTMLElement {
 
 function createTextInput(
   state: Text2DDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   text: Text2D,
@@ -104,7 +104,7 @@ function createTextInput(
   input.value = state.text;
   input.addEventListener("input", () => {
     state.text = input.value;
-    updateDemo(rawCanvas, scene, camera, text, state, code);
+    updateDemo(raw2dCanvas, scene, camera, text, state, code);
   });
   label.append(input);
   return label;
@@ -137,7 +137,7 @@ function createRangeInput(
 
 function createFontInput(
   state: Text2DDemoState,
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   text: Text2D,
@@ -155,7 +155,7 @@ function createFontInput(
   input.addEventListener("input", () => {
     state.fontSize = Number(input.value);
     span.textContent = `Font Size: ${state.fontSize}`;
-    updateDemo(rawCanvas, scene, camera, text, state, code);
+    updateDemo(raw2dCanvas, scene, camera, text, state, code);
   });
   label.append(span, input);
   return label;
@@ -182,7 +182,7 @@ function createColorInput(
 }
 
 function updateDemo(
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   text: Text2D,
@@ -193,7 +193,7 @@ function updateDemo(
   text.setText(state.text);
   text.setFont(`${state.fontSize}px sans-serif`);
   text.material.setFillColor(state.fillColor);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -206,7 +206,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -219,5 +219,5 @@ const text = new Text2D({
 });
 
 scene.add(text);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

@@ -15,7 +15,7 @@ export function createCircleDemo(): HTMLElement {
   const pre = document.createElement("pre");
   pre.append(code);
 
-  const rawCanvas = new Canvas({
+  const raw2dCanvas = new Canvas({
     canvas: canvasElement,
     width: demoCanvasWidth,
     height: demoCanvasHeight,
@@ -38,24 +38,24 @@ export function createCircleDemo(): HTMLElement {
   controls.append(
     createRangeControl("X", 0, 520, state.x, (value) => {
       state.x = value;
-      updateDemo(rawCanvas, scene, camera, circle, state, code);
+      updateDemo(raw2dCanvas, scene, camera, circle, state, code);
     }),
     createRangeControl("Y", 0, 260, state.y, (value) => {
       state.y = value;
-      updateDemo(rawCanvas, scene, camera, circle, state, code);
+      updateDemo(raw2dCanvas, scene, camera, circle, state, code);
     }),
     createRangeControl("Radius", 20, 120, state.radius, (value) => {
       state.radius = value;
-      updateDemo(rawCanvas, scene, camera, circle, state, code);
+      updateDemo(raw2dCanvas, scene, camera, circle, state, code);
     }),
     createColorControl("Fill Color", state.fillColor, (value) => {
       state.fillColor = value;
-      updateDemo(rawCanvas, scene, camera, circle, state, code);
+      updateDemo(raw2dCanvas, scene, camera, circle, state, code);
     })
   );
 
   section.append(createTitle(), canvasElement, controls, pre);
-  updateDemo(rawCanvas, scene, camera, circle, state, code);
+  updateDemo(raw2dCanvas, scene, camera, circle, state, code);
   return section;
 }
 
@@ -126,7 +126,7 @@ function createColorControl(
 }
 
 function updateDemo(
-  rawCanvas: Canvas,
+  raw2dCanvas: Canvas,
   scene: Scene,
   camera: Camera2D,
   circle: Circle,
@@ -136,7 +136,7 @@ function updateDemo(
   circle.setPosition(state.x, state.y);
   circle.setRadius(state.radius);
   circle.material.setFillColor(state.fillColor);
-  rawCanvas.render(scene, camera);
+  raw2dCanvas.render(scene, camera);
   codeElement.textContent = createCode(state);
 }
 
@@ -149,7 +149,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 
@@ -162,5 +162,5 @@ const circle = new Circle({
 
 circle.setRadius(${state.radius});
 scene.add(circle);
-rawCanvas.render(scene, camera);`;
+raw2dCanvas.render(scene, camera);`;
 }

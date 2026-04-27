@@ -67,7 +67,7 @@ if (!canvasElement) {
   throw new Error("Canvas element not found.");
 }
 
-const rawCanvas = new Canvas({
+const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   width: 800,
   height: 600,
@@ -85,7 +85,7 @@ const rect = new Rect({
 });
 
 scene.add(rect);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 ## Texture And Sprite
@@ -95,7 +95,7 @@ Use `TextureLoader` to load an image, then pass the texture into `Sprite`:
 ```ts
 import { Camera2D, Canvas, Scene, Sprite, TextureLoader } from "raw2d";
 
-const rawCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
 const scene = new Scene();
 const camera = new Camera2D();
 const texture = await new TextureLoader().load("/sprite.png");
@@ -110,7 +110,7 @@ const sprite = new Sprite({
 });
 
 scene.add(sprite);
-rawCanvas.render(scene, camera);
+raw2dCanvas.render(scene, camera);
 ```
 
 Objects support origin keywords for placement, rotation, and scaling:
