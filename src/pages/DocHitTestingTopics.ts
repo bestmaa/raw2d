@@ -9,7 +9,8 @@ export const hitTestingTopics: readonly DocTopic[] = [
     sections: [
       {
         title: "containsPoint",
-        body: "Use containsPoint for click selection, hover, drag tools, and future resize handles.",
+        body: "Use containsPoint for click selection, hover states, drag tools, and future resize handles.",
+        liveDemoId: "hit-testing",
         code: `import { containsPoint } from "raw2d";
 
 const hit = containsPoint({
@@ -19,8 +20,23 @@ const hit = containsPoint({
 });`
       },
       {
-        title: "World To Local",
-        body: "Raw2D converts world coordinates into object-local coordinates using x/y, rotation, scale, and origin.",
+        title: "Click Selection",
+        body: "Convert the browser pointer into canvas coordinates, then test each object. The objects do not draw or select themselves.",
+        liveDemoId: "hit-testing",
+        code: `canvasElement.addEventListener("pointerdown", (event) => {
+  const bounds = canvasElement.getBoundingClientRect();
+  const pointerX = event.clientX - bounds.left;
+  const pointerY = event.clientY - bounds.top;
+
+  const selected = scene.children.find((object) =>
+    containsPoint({ object, x: pointerX, y: pointerY })
+  );
+});`
+      },
+      {
+        title: "World Coordinates",
+        body: "Raw2D expects world coordinates. It converts that point into object-local coordinates using x/y, rotation, scale, and origin.",
+        liveDemoId: "hit-testing",
         code: `const rect = new Rect({
   x: 100,
   y: 80,
@@ -36,6 +52,7 @@ containsPoint({ object: rect, x: pointerX, y: pointerY });`
       {
         title: "Line Tolerance",
         body: "Lines and polylines use tolerance because they are stroke geometry.",
+        liveDemoId: "hit-testing",
         code: `const hitLine = containsPoint({
   object: line,
   x: pointerX,
@@ -46,6 +63,7 @@ containsPoint({ object: rect, x: pointerX, y: pointerY });`
       {
         title: "Supported Objects",
         body: "Curve-heavy objects use conservative bounds first; precise curve hit testing can be added later.",
+        liveDemoId: "hit-testing",
         code: `Rect       // exact local rectangle
 Circle     // radius distance
 Ellipse    // normalized radius

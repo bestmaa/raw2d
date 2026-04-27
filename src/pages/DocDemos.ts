@@ -2,6 +2,7 @@ import { createBoundsDemo } from "./BoundsDemo";
 import { createArcDemo } from "./ArcDemo";
 import { createCircleDemo } from "./CircleDemo";
 import { createEllipseDemo } from "./EllipseDemo";
+import { createHitTestingDemo } from "./HitTestingDemo";
 import { createLineDemo } from "./LineDemo";
 import { createOriginDemo } from "./OriginDemo";
 import { createPolygonDemo } from "./PolygonDemo";
@@ -32,7 +33,8 @@ const demoIds = [
   "bounds-local",
   "bounds-world",
   "bounds-sprite",
-  "bounds-text2d"
+  "bounds-text2d",
+  "hit-testing"
 ] as const;
 
 export function hasDemoId(demoId: string): boolean {
@@ -106,6 +108,10 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "bounds-local") {
     return createBoundsDemo({ variant: "local" });
+  }
+
+  if (demoId === "hit-testing") {
+    return createHitTestingDemo();
   }
 
   return null;
