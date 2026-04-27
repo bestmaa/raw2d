@@ -51,4 +51,34 @@ export interface InteractionControllerFeatureFlags {
   resize: boolean;
 }
 
+export interface InteractionAttachOptions {
+  readonly select?: boolean;
+  readonly drag?: boolean;
+  readonly resize?: boolean;
+}
+
+export interface InteractionObjectFeatures {
+  readonly selection: boolean;
+  readonly drag: boolean;
+  readonly resize: boolean;
+}
+
+export type InteractionFeatureName = keyof InteractionControllerFeatureFlags;
+
 export type ResizableInteractionObject = Rect;
+
+export interface StartControllerResizeOptions {
+  readonly state: InteractionControllerState;
+  readonly object: ResizableInteractionObject | null;
+  readonly handle: ResizeHandle;
+  readonly pointerX: number;
+  readonly pointerY: number;
+  readonly minWidth?: number;
+  readonly minHeight?: number;
+  readonly updateCursor: () => void;
+}
+
+export interface EndControllerInteractionOptions {
+  readonly state: InteractionControllerState;
+  readonly updateCursor: () => void;
+}

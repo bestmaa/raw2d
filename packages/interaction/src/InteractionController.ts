@@ -1,18 +1,18 @@
 import { Rect, getRectLocalBounds, getWorldBounds, pickObject } from "raw2d-core";
-import type { Rectangle } from "raw2d-core";
-import { endObjectDrag } from "./endObjectDrag.js";
-import { endObjectResize } from "./endObjectResize.js";
+import type { Object2D, Rectangle } from "raw2d-core";
+import { endControllerInteraction, startControllerResize } from "./InteractionControllerActions.js";
 import { getInteractionPoint } from "./getInteractionPoint.js";
 import { getResizeHandles } from "./getResizeHandles.js";
+import { canUseAnyObjectFeature, canUseObjectFeature, hasSelectionFeature, normalizeAttachOptions } from "./InteractionScope.js";
 import { pickResizeHandle } from "./pickResizeHandle.js";
 import { capturePointer, releasePointer } from "./pointerCapture.js";
 import { SelectionManager } from "./SelectionManager.js";
 import { startObjectDrag } from "./startObjectDrag.js";
-import { startObjectResize } from "./startObjectResize.js";
 import { updateObjectDrag } from "./updateObjectDrag.js";
 import { updateObjectResize } from "./updateObjectResize.js";
 import type {
   InteractionControllerFeatureFlags,
+  InteractionAttachOptions,
   InteractionControllerOptions,
   InteractionControllerPointerEvent,
   InteractionControllerSnapshot,
@@ -27,6 +27,7 @@ const defaultHandleSize = 10;
 export class InteractionController {
   private readonly options: InteractionControllerOptions;
   private readonly selection: SelectionManager;
+  private readonly attachedObjects = new Map<Object2D, InteractionControllerFeatureFlags>();
   private readonly features: InteractionControllerFeatureFlags = { selection: false, drag: false, resize: false };
   private readonly state: InteractionControllerState = {
     mode: "idle",
@@ -45,41 +46,45 @@ export class InteractionController {
     options.canvas.addEventListener("pointercancel", this.boundPointerCancel);
   }
 
-  public enableSelection(): void {
-    this.features.selection = true;
+  public enableSelection(): void { this.features.selection = true; }
+  public enableDrag(): void { this.features.drag = true; }
+
+  public enableResize(): void { this.features.resize = true; }
+
+  public disableSelection(): void { this.features.selection = false; }
+
+  public disableDrag(): void { this.features.drag = false; }
+
+  public disableResize(): void { this.features.resize = false; }
+
+  public attach(object: Object2D, options: InteractionAttachOptions = {}): this {
+    this.attachedObjects.set(object, normalizeAttachOptions(options));
+    return this;
   }
 
-  public enableDrag(): void {
-    this.features.drag = true;
+  public attachMany(objects: readonly Object2D[], options: InteractionAttachOptions = {}): this {
+    for (const object of objects) {
+      this.attach(object, options);
+    }
+
+    return this;
   }
 
-  public enableResize(): void {
-    this.features.resize = true;
+  public attachSelection(options: InteractionAttachOptions = {}): this {
+    return this.attachMany(this.selection.getSelected(), options);
   }
 
-  public disableSelection(): void {
-    this.features.selection = false;
-  }
+  public detach(object: Object2D): this { this.attachedObjects.delete(object); return this; }
 
-  public disableDrag(): void {
-    this.features.drag = false;
-  }
+  public clearAttachments(): void { this.attachedObjects.clear(); }
 
-  public disableResize(): void {
-    this.features.resize = false;
-  }
+  public getAttachedObjects(): readonly Object2D[] { return [...this.attachedObjects.keys()]; }
 
-  public getSelection(): SelectionManager {
-    return this.selection;
-  }
+  public getSelection(): SelectionManager { return this.selection; }
 
-  public getMode(): InteractionMode {
-    return this.state.mode;
-  }
+  public getMode(): InteractionMode { return this.state.mode; }
 
-  public getHoveredResizeHandle(): ResizeHandle | null {
-    return this.state.hoveredHandle;
-  }
+  public getHoveredResizeHandle(): ResizeHandle | null { return this.state.hoveredHandle; }
 
   public getResizeHandles(): readonly ResizeHandle[] {
     const rect = this.getPrimaryResizableObject();
@@ -93,7 +98,7 @@ export class InteractionController {
 
   public handlePointerDown(event: InteractionControllerPointerEvent): void {
     const point = this.updatePoint(event);
-    const resizeHandle = this.features.resize ? pickResizeHandle({ handles: this.getResizeHandles(), x: point.x, y: point.y }) : null;
+    const resizeHandle = pickResizeHandle({ handles: this.getResizeHandles(), x: point.x, y: point.y });
 
     if (resizeHandle) {
       this.startResize(resizeHandle, point.x, point.y);
@@ -107,16 +112,16 @@ export class InteractionController {
       x: point.x,
       y: point.y,
       tolerance: this.options.pickTolerance,
-      filter: this.options.filter
+      filter: (object) => this.canPickObject(object)
     });
 
-    if (picked && this.features.selection) {
+    if (picked && this.canUseObjectFeature(picked, "selection")) {
       this.selection.select(picked, { append: event.shiftKey, toggle: event.shiftKey });
-    } else if (!picked && this.features.selection && !event.shiftKey) {
+    } else if (!picked && this.canClearSelection() && !event.shiftKey) {
       this.selection.clear();
     }
 
-    if (picked && this.features.drag) {
+    if (picked && this.canUseObjectFeature(picked, "drag")) {
       this.state.dragState = startObjectDrag({ object: picked, pointerX: point.x, pointerY: point.y });
       this.state.mode = "dragging";
       this.updateCursor();
@@ -141,13 +146,13 @@ export class InteractionController {
       return;
     }
 
-    this.state.hoveredHandle = this.features.resize ? pickResizeHandle({ handles: this.getResizeHandles(), x: point.x, y: point.y }) : null;
+    this.state.hoveredHandle = pickResizeHandle({ handles: this.getResizeHandles(), x: point.x, y: point.y });
     this.updateCursor();
     this.emitChange();
   }
 
   public handlePointerUp(event: InteractionControllerPointerEvent): void {
-    this.endActiveInteraction();
+    endControllerInteraction({ state: this.state, updateCursor: () => this.updateCursor() });
     releasePointer(this.options.canvas, event);
     this.emitChange();
   }
@@ -188,48 +193,24 @@ export class InteractionController {
   }
 
   private startResize(handle: ResizeHandle, pointerX: number, pointerY: number): void {
-    const rect = this.getPrimaryResizableObject();
-
-    if (!rect) {
-      return;
-    }
-
-    this.state.resizeState = startObjectResize({
-      object: rect,
-      handleName: handle.name,
+    startControllerResize({
+      state: this.state,
+      object: this.getPrimaryResizableObject(),
+      handle,
       pointerX,
       pointerY,
       minWidth: this.options.minResizeWidth,
-      minHeight: this.options.minResizeHeight
+      minHeight: this.options.minResizeHeight,
+      updateCursor: () => this.updateCursor()
     });
-    this.state.hoveredHandle = handle;
-    this.state.mode = "resizing";
-    this.updateCursor();
-  }
-
-  private endActiveInteraction(): void {
-    if (this.state.dragState) {
-      endObjectDrag({ state: this.state.dragState });
-    }
-
-    if (this.state.resizeState) {
-      endObjectResize({ state: this.state.resizeState });
-    }
-
-    this.state.dragState = null;
-    this.state.resizeState = null;
-    this.state.mode = "idle";
-    this.updateCursor();
   }
 
   private getPrimaryResizableObject(): ResizableInteractionObject | null {
     const primary = this.selection.getPrimary();
-    return primary instanceof Rect ? primary : null;
+    return primary instanceof Rect && this.canUseObjectFeature(primary, "resize") ? primary : null;
   }
 
-  private getRectBounds(rect: Rect): Rectangle {
-    return getWorldBounds({ object: rect, localBounds: getRectLocalBounds(rect) });
-  }
+  private getRectBounds(rect: Rect): Rectangle { return getWorldBounds({ object: rect, localBounds: getRectLocalBounds(rect) }); }
 
   private updateCursor(): void {
     if (this.options.updateCursor === false) {
@@ -237,6 +218,30 @@ export class InteractionController {
     }
 
     this.options.canvas.style.cursor = this.state.hoveredHandle?.cursor ?? (this.state.mode === "dragging" ? "grabbing" : "default");
+  }
+
+  private canPickObject(object: Object2D): boolean {
+    return (this.options.filter?.(object) ?? true) && canUseAnyObjectFeature({
+      attachedObjects: this.attachedObjects,
+      globalFeatures: this.features,
+      object
+    });
+  }
+
+  private canUseObjectFeature(object: Object2D, feature: keyof InteractionControllerFeatureFlags): boolean {
+    return canUseObjectFeature({
+      attachedObjects: this.attachedObjects,
+      globalFeatures: this.features,
+      object,
+      feature
+    });
+  }
+
+  private canClearSelection(): boolean {
+    return hasSelectionFeature({
+      attachedObjects: this.attachedObjects,
+      globalFeatures: this.features
+    });
   }
 
   private emitChange(): void {

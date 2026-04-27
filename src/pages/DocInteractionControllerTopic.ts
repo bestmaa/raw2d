@@ -20,12 +20,59 @@ export const interactionControllerTopic: DocTopic = {
 });`
     },
     {
-      title: "Enable Features",
-      body: "Features are explicit so tools can choose only the behavior they need.",
+      title: "Global Scene Mode",
+      body: "Use global mode when every eligible object in the scene should respond to the same interaction features.",
       liveDemoId: "interaction-controller",
       code: `interaction.enableSelection();
 interaction.enableDrag();
 interaction.enableResize();`
+    },
+    {
+      title: "Single Object",
+      body: "Use attach when only one object should be interactive. attach(object) enables select, drag, and supported resize by default.",
+      liveDemoId: "interaction-controller",
+      code: `interaction.attach(rect);
+
+// Only rect is interactive.
+// Other scene objects are ignored.`
+    },
+    {
+      title: "Single Object Custom",
+      body: "Pass options when one object should only support specific behavior.",
+      liveDemoId: "interaction-controller",
+      code: `interaction.attach(rect, {
+  select: true,
+  drag: true,
+  resize: false
+});`
+    },
+    {
+      title: "Many Objects",
+      body: "Use attachMany when a known list of objects should share the same interaction behavior.",
+      liveDemoId: "interaction-controller",
+      code: `interaction.attachMany([rect, circle, line], {
+  select: true,
+  drag: true
+});`
+    },
+    {
+      title: "Current Selection",
+      body: "Use attachSelection when only the objects currently selected by SelectionManager should become interactive.",
+      liveDemoId: "interaction-controller",
+      code: `selection.select(rectA);
+selection.select(rectB, { append: true });
+
+interaction.attachSelection({
+  drag: true,
+  resize: true
+});`
+    },
+    {
+      title: "Detach Objects",
+      body: "Detach one object or clear all attached objects to return to global feature mode.",
+      liveDemoId: "interaction-controller",
+      code: `interaction.detach(rect);
+interaction.clearAttachments();`
     },
     {
       title: "Read State",
