@@ -64,7 +64,7 @@ function createTopicContent(topic: DocTopic): HTMLElement {
   content.append(header);
 
   function showLiveDemo(section: DocSection): void {
-    const nextDemo = section.liveDemoId ? createDemoForId(section.liveDemoId) : null;
+    const nextDemo = section.liveDemoId ? createDemoForId(section.liveDemoId, section) : null;
 
     if (nextDemo && demoPanel) {
       demoPanel.replaceChildren(createFocusedDemo(nextDemo, section));
@@ -78,7 +78,7 @@ function createTopicContent(topic: DocTopic): HTMLElement {
   wrapper.append(content);
 
   if (initialDemoSection?.liveDemoId) {
-    const initialDemo = createDemoForId(initialDemoSection.liveDemoId);
+    const initialDemo = createDemoForId(initialDemoSection.liveDemoId, initialDemoSection);
 
     if (initialDemo) {
       demoPanel = createDemoPanel(initialDemo, initialDemoSection);

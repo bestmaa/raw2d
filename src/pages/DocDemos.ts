@@ -15,6 +15,8 @@ import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
+import type { DocSection } from "./DocPage.type";
+import type { InteractionControllerDemoVariant } from "./InteractionControllerDemo.type";
 
 const demoIds = [
   "rect",
@@ -49,7 +51,7 @@ export function hasDemoId(demoId: string): boolean {
   return demoIds.includes(demoId as (typeof demoIds)[number]);
 }
 
-export function createDemoForId(demoId: string): HTMLElement | null {
+export function createDemoForId(demoId: string, section?: DocSection): HTMLElement | null {
   if (demoId === "rect") {
     return createRectDemo();
   }
@@ -123,7 +125,7 @@ export function createDemoForId(demoId: string): HTMLElement | null {
   }
 
   if (demoId === "interaction-controller") {
-    return createInteractionControllerDemo();
+    return createInteractionControllerDemo({ variant: getInteractionControllerVariant(section) });
   }
 
   if (demoId === "dragging") {
@@ -139,4 +141,42 @@ export function createDemoForId(demoId: string): HTMLElement | null {
   }
 
   return null;
+}
+
+function getInteractionControllerVariant(section?: DocSection): InteractionControllerDemoVariant {
+  const title = section?.title ?? "";
+
+  if (title === "Create Controller") {
+    return "create";
+  }
+
+  if (title === "Single Object") {
+    return "single";
+  }
+
+  if (title === "Single Object Custom") {
+    return "single-custom";
+  }
+
+  if (title === "Many Objects") {
+    return "many";
+  }
+
+  if (title === "Current Selection") {
+    return "selection";
+  }
+
+  if (title === "Detach Objects") {
+    return "detach";
+  }
+
+  if (title === "Read State") {
+    return "state";
+  }
+
+  if (title === "Renderer Independent") {
+    return "renderer";
+  }
+
+  return "global";
 }
