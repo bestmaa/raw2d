@@ -16,6 +16,8 @@ export * from "./drawPolygon.js";
 export * from "./drawPolygon.type.js";
 export * from "./drawPolyline.js";
 export * from "./drawPolyline.type.js";
+export * from "./drawShapePath.js";
+export * from "./drawShapePath.type.js";
 export * from "./drawSprite.js";
 export * from "./drawSprite.type.js";
 export * from "./drawText2D.js";

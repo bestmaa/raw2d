@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { BasicMaterial, Polygon, Polyline } from "raw2d-core";
-import { drawPolygon, drawPolyline } from "raw2d-canvas";
+import { BasicMaterial, Polygon, Polyline, ShapePath } from "raw2d-core";
+import { drawPolygon, drawPolyline, drawShapePath } from "raw2d-canvas";
 
 test("drawPolyline strokes an open multi-point path", () => {
   const context = createFakeContext();
@@ -48,6 +48,42 @@ test("drawPolygon closes, fills, and strokes a point path", () => {
   assert.ok(context.calls.includes("stroke:#bbf7d0:3"));
 });
 
+test("drawShapePath replays explicit path commands", () => {
+  const context = createFakeContext();
+  const shapePath = new ShapePath({
+    x: 5,
+    y: 8,
+    material: new BasicMaterial({ fillColor: "#38bdf8", strokeColor: "#f5f7fb", lineWidth: 3 })
+  });
+
+  shapePath
+    .moveTo(0, 95)
+    .quadraticCurveTo(260, 18, 300, 95)
+    .bezierCurveTo(255, 190, 45, 190, 0, 95)
+    .closePath();
+
+  drawShapePath({ context, shapePath });
+
+  assert.deepEqual(context.calls.slice(0, 4), ["save", "translate:5,8", "rotate:0", "scale:1,1"]);
+  assert.ok(context.calls.includes("moveTo:0,95"));
+  assert.ok(context.calls.includes("quadraticCurveTo:260,18,300,95"));
+  assert.ok(context.calls.includes("bezierCurveTo:255,190,45,190,0,95"));
+  assert.ok(context.calls.includes("closePath"));
+  assert.ok(context.calls.includes("fill:#38bdf8"));
+  assert.ok(context.calls.includes("stroke:#f5f7fb:3"));
+});
+
+test("drawShapePath can skip fill and stroke", () => {
+  const context = createFakeContext();
+  const shapePath = new ShapePath({ fill: false, stroke: false });
+  shapePath.moveTo(0, 0).lineTo(40, 0);
+
+  drawShapePath({ context, shapePath });
+
+  assert.equal(context.calls.includes("fill:#38bdf8"), false);
+  assert.equal(context.calls.some((call) => call.startsWith("stroke:")), false);
+});
+
 function createFakeContext() {
   const context = {
     calls: [],
@@ -77,6 +113,12 @@ function createFakeContext() {
     },
     lineTo(x, y) {
       this.calls.push(`lineTo:${x},${y}`);
+    },
+    quadraticCurveTo(cpx, cpy, x, y) {
+      this.calls.push(`quadraticCurveTo:${cpx},${cpy},${x},${y}`);
+    },
+    bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) {
+      this.calls.push(`bezierCurveTo:${cp1x},${cp1y},${cp2x},${cp2y},${x},${y}`);
     },
     closePath() {
       this.calls.push("closePath");

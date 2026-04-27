@@ -9,9 +9,10 @@ import {
   getEllipseLocalBounds,
   getPolygonLocalBounds,
   getPolylineLocalBounds,
+  getShapePathLocalBounds,
   getWorldBounds
 } from "raw2d-core";
-import { Polygon, Polyline } from "raw2d-core";
+import { Polygon, Polyline, ShapePath } from "raw2d-core";
 
 test("Ellipse stores radii, clamps negative values, and defaults to center origin", () => {
   const ellipse = new Ellipse({ radiusX: -20, radiusY: 14 });
@@ -104,6 +105,26 @@ test("Polygon stores a closed point list and computes local bounds", () => {
 
   polygon.setPoints([{ x: -10, y: -20 }, { x: 30, y: 40 }]);
   assert.deepEqual(rectangleSnapshot(getPolygonLocalBounds(polygon)), { x: -10, y: -20, width: 40, height: 60 });
+});
+
+test("ShapePath stores commands and computes conservative local bounds", () => {
+  const shapePath = new ShapePath({ fill: true, stroke: true });
+
+  shapePath
+    .moveTo(0, 95)
+    .quadraticCurveTo(260, 18, 300, 95)
+    .bezierCurveTo(255, 190, 45, 190, 0, 95)
+    .closePath();
+
+  assert.equal(shapePath.commands.length, 4);
+  assert.deepEqual(rectangleSnapshot(getShapePathLocalBounds(shapePath)), { x: 0, y: 18, width: 300, height: 172 });
+  assert.deepEqual(rectangleSnapshot(getCoreLocalBounds(shapePath)), { x: 0, y: 18, width: 300, height: 172 });
+
+  const commands = shapePath.getCommands();
+  shapePath.clear();
+  assert.equal(shapePath.commands.length, 0);
+  shapePath.setCommands(commands);
+  assert.equal(shapePath.commands.length, 4);
 });
 
 function rectangleSnapshot(rectangle) {

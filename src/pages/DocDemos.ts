@@ -7,6 +7,7 @@ import { createOriginDemo } from "./OriginDemo";
 import { createPolygonDemo } from "./PolygonDemo";
 import { createPolylineDemo } from "./PolylineDemo";
 import { createRectDemo } from "./RectDemo";
+import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
 
@@ -18,6 +19,7 @@ const demoIds = [
   "line",
   "polyline",
   "polygon",
+  "shape-path",
   "text2d",
   "sprite",
   "origin",
@@ -64,6 +66,10 @@ export function createDemoForId(demoId: string): HTMLElement | null {
 
   if (demoId === "polygon") {
     return createPolygonDemo();
+  }
+
+  if (demoId === "shape-path") {
+    return createShapePathDemo();
   }
 
   if (demoId === "text2d" || demoId === "bounds-text2d") {
