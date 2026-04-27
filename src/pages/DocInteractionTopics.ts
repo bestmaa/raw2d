@@ -2,6 +2,60 @@ import type { DocTopic } from "./DocPage.type";
 
 export const interactionTopics: readonly DocTopic[] = [
   {
+    id: "selection",
+    label: "Selection",
+    title: "Selection",
+    description: "Track selected objects separately from scene data and renderer drawing.",
+    sections: [
+      {
+        title: "SelectionManager",
+        body: "Use SelectionManager for editor-style selected object state.",
+        liveDemoId: "selection",
+        code: `import { SelectionManager } from "raw2d";
+
+const selection = new SelectionManager();
+
+selection.select(rect);
+selection.clear();`
+      },
+      {
+        title: "Pick And Select",
+        body: "Use pickObject to find an object, then pass it into the selection manager.",
+        liveDemoId: "selection",
+        code: `const picked = pickObject({
+  scene,
+  x: pointerX,
+  y: pointerY
+});
+
+if (picked) {
+  selection.select(picked);
+}`
+      },
+      {
+        title: "Multi Select",
+        body: "Use append or toggle for shift-click style behavior.",
+        liveDemoId: "selection",
+        code: `selection.select(picked, {
+  append: event.shiftKey,
+  toggle: event.shiftKey
+});`
+      },
+      {
+        title: "Selection Bounds",
+        body: "Use getSelectionBounds to draw an outline around selected core shape objects in your tool layer.",
+        liveDemoId: "selection",
+        code: `const bounds = getSelectionBounds({
+  objects: [rect, circle]
+});
+
+if (bounds) {
+  context.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+}`
+      }
+    ]
+  },
+  {
     id: "dragging",
     label: "Dragging",
     title: "Dragging Objects",
