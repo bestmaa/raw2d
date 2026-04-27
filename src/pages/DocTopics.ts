@@ -1,3 +1,4 @@
+import { boundsTopics } from "./DocBoundsTopics";
 import type { DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
 import { setupTopics } from "./DocSetupTopics";
@@ -191,4 +192,10 @@ rawCanvas.render(scene, camera);`
   }
 ];
 
-export const topics: readonly DocTopic[] = [...setupTopics, ...coreTopics, ...transformTopics, ...objectTopics];
+export const topics: readonly DocTopic[] = [
+  ...setupTopics,
+  ...coreTopics,
+  ...transformTopics,
+  ...boundsTopics,
+  ...objectTopics
+];

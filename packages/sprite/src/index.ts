@@ -4,3 +4,7 @@ export * from "./Texture.js";
 export * from "./Texture.type.js";
 export * from "./TextureLoader.js";
 export * from "./TextureLoader.type.js";
+export * from "./getSpriteLocalBounds.js";
+export * from "./getSpriteLocalBounds.type.js";
+export * from "./getSpriteWorldBounds.js";
+export * from "./getSpriteWorldBounds.type.js";

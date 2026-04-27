@@ -111,6 +111,17 @@ sprite.setOrigin("bottom-right");
 circle.setOrigin({ x: 0.5, y: 0.5 });
 ```
 
+Use bounds helpers for culling, hit testing, selection, and future transform tools:
+
+```ts
+import { getRectLocalBounds, getWorldBounds } from "raw2d";
+
+const worldBounds = getWorldBounds({
+  object: rect,
+  localBounds: getRectLocalBounds(rect)
+});
+```
+
 ## Architecture
 
 ```text

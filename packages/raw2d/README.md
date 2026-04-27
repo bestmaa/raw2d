@@ -72,6 +72,14 @@ Use `origin` to control where x/y and rotation attach to an object:
 sprite.setOrigin("center");
 ```
 
+Use bounds helpers for selection, hit testing, culling, and future resize controls:
+
+```ts
+import { getSpriteWorldBounds } from "raw2d";
+
+const bounds = getSpriteWorldBounds(sprite);
+```
+
 Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.
 
 Canvas and WebGL are public renderer packages:
