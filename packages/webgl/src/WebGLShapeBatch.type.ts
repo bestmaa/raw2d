@@ -1,4 +1,4 @@
-import type { Camera2D, Circle, Ellipse, Rect, RenderItem } from "raw2d-core";
+import type { Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderItem } from "raw2d-core";
 
 export interface WebGLShapeBatchOptions {
   readonly items: readonly RenderItem[];
@@ -13,8 +13,10 @@ export interface WebGLShapeBatch {
   readonly rects: number;
   readonly circles: number;
   readonly ellipses: number;
+  readonly lines: number;
+  readonly polylines: number;
+  readonly polygons: number;
   readonly unsupported: number;
 }
 
-export type WebGLShapeItem = RenderItem<Circle | Ellipse | Rect>;
-
+export type WebGLShapeItem = RenderItem<Circle | Ellipse | Line | Polygon | Polyline | Rect>;

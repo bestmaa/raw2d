@@ -5,11 +5,11 @@ export const webGLRendererTopics: readonly DocTopic[] = [
     id: "webgl-renderer",
     label: "WebGLRenderer2D",
     title: "WebGLRenderer2D",
-    description: "WebGLRenderer2D renders filled Rect, Circle, and Ellipse objects through WebGL2 using RenderPipeline and one dynamic shape batch.",
+    description: "WebGLRenderer2D renders filled and stroked 2D primitives through WebGL2 using RenderPipeline and one dynamic primitive batch.",
     sections: [
       {
         title: "First Working Scope",
-        body: "WebGLRenderer2D now renders filled Rect, Circle, and Ellipse objects. Other object types are counted as unsupported until their batches are implemented.",
+        body: "WebGLRenderer2D now renders Rect, Circle, Ellipse, Line, Polyline, and convex Polygon objects. Other object types are counted as unsupported until their batches are implemented.",
         liveDemoId: "webgl-renderer",
         code: `const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -21,8 +21,8 @@ export const webGLRendererTopics: readonly DocTopic[] = [
 renderer.render(scene, camera);`
       },
       {
-        title: "Shape Batch Stats",
-        body: "All visible filled shapes supported by WebGLRenderer2D are written into one vertex buffer. This gives one draw call for the current simple shape batch.",
+        title: "Primitive Batch Stats",
+        body: "All visible primitives supported by WebGLRenderer2D are written into one vertex buffer. This gives one draw call for the current simple primitive batch.",
         liveDemoId: "webgl-renderer",
         code: `renderer.render(scene, camera);
 
@@ -30,17 +30,20 @@ console.log(renderer.getStats());
 
 // {
 //   objects: 1000,
-//   rects: 334,
-//   circles: 333,
-//   ellipses: 333,
-//   vertices: 65934,
+//   rects: 167,
+//   circles: 167,
+//   ellipses: 167,
+//   lines: 167,
+//   polylines: 166,
+//   polygons: 166,
+//   vertices: 37056,
 //   drawCalls: 1,
 //   unsupported: 0
 // }`
       },
       {
         title: "Canvas Comparison",
-        body: "Canvas supports more objects today, but each shape is drawn through Canvas APIs. WebGL currently supports fewer objects but can batch filled Rect, Circle, and Ellipse geometry.",
+        body: "Canvas supports more object types today, but each primitive is drawn through Canvas APIs. WebGL currently supports fewer objects but can batch primitive geometry.",
         liveDemoId: "webgl-renderer",
         code: `canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
@@ -48,7 +51,20 @@ console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
-// { objects: 1000, rects: 334, circles: 333, ellipses: 333, vertices: 65934, drawCalls: 1, unsupported: 0 }`
+// { objects: 1000, rects: 167, circles: 167, ellipses: 167, lines: 167, polylines: 166, polygons: 166, vertices: 37056, drawCalls: 1, unsupported: 0 }`
+      },
+      {
+        title: "Current Limits",
+        body: "Polygon batching uses a simple triangle fan, so it is intended for convex polygons first. Line and Polyline batching writes each segment as a quad with simple joins.",
+        code: `// Good first WebGL polygon target: convex points.
+scene.add(new Polygon({
+  points: [
+    { x: 0, y: 0 },
+    { x: 80, y: 0 },
+    { x: 80, y: 50 },
+    { x: 0, y: 50 }
+  ]
+}));`
       },
       {
         title: "Use Culling",

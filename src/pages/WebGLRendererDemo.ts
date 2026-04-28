@@ -1,4 +1,4 @@
-import { BasicMaterial, Camera2D, Canvas, Circle, Ellipse, Rect, Scene, WebGLRenderer2D } from "raw2d";
+import { BasicMaterial, Camera2D, Canvas, Circle, Ellipse, Line, Polygon, Polyline, Rect, Scene, WebGLRenderer2D } from "raw2d";
 import type { WebGLRendererDemoRenderOptions, WebGLRendererDemoState, WebGLRendererScene } from "./WebGLRendererDemo.type";
 
 const demoCanvasWidth = 520;
@@ -21,7 +21,7 @@ export function createWebGLRendererDemo(): HTMLElement {
 
   section.className = "doc-section shape-demo";
   title.textContent = "Live Canvas vs WebGL";
-  body.textContent = "Both render the same Rect, Circle, and Ellipse scene. Canvas issues one shape draw per object. WebGL writes supported shapes to one buffer and draws once.";
+  body.textContent = "Both render the same primitive scene. Canvas issues one draw per object. WebGL writes supported primitives to one buffer and draws once.";
   canvasElement.className = "shape-demo-canvas";
   webglElement.className = "shape-demo-canvas";
   pre.append(code);
@@ -136,17 +136,47 @@ function createScene(objectCount: number): WebGLRendererScene {
   return { scene };
 }
 
-function createShape(index: number, column: number, row: number): Rect | Circle | Ellipse {
+function createShape(index: number, column: number, row: number): Rect | Circle | Ellipse | Line | Polyline | Polygon {
   const x = 14 + column * 24;
   const y = 16 + row * 18;
   const material = new BasicMaterial({ fillColor: createColor(index) });
 
-  if (index % 3 === 1) {
+  if (index % 6 === 1) {
     return new Circle({ x: x + 7, y: y + 5, radius: 7, material });
   }
 
-  if (index % 3 === 2) {
+  if (index % 6 === 2) {
     return new Ellipse({ x: x + 7, y: y + 5, radiusX: 8, radiusY: 5, material });
+  }
+
+  if (index % 6 === 3) {
+    return new Line({ x, y: y + 5, endX: 15, endY: 0, material: new BasicMaterial({ strokeColor: createColor(index), lineWidth: 3 }) });
+  }
+
+  if (index % 6 === 4) {
+    return new Polyline({
+      x,
+      y,
+      points: [
+        { x: 0, y: 10 },
+        { x: 7, y: 0 },
+        { x: 15, y: 10 }
+      ],
+      material: new BasicMaterial({ strokeColor: createColor(index), lineWidth: 3 })
+    });
+  }
+
+  if (index % 6 === 5) {
+    return new Polygon({
+      x,
+      y,
+      points: [
+        { x: 7, y: 0 },
+        { x: 15, y: 10 },
+        { x: 0, y: 10 }
+      ],
+      material
+    });
   }
 
   return new Rect({ x, y, width: 14, height: 10, material });
@@ -164,11 +194,11 @@ function formatCanvasStats(renderer: Canvas): string {
 
 function formatWebGLStats(renderer: WebGLRenderer2D): string {
   const stats = renderer.getStats();
-  return `objects: ${stats.objects} | rects: ${stats.rects} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | vertices: ${stats.vertices} | drawCalls: ${stats.drawCalls}`;
+  return `objects: ${stats.objects} | rects: ${stats.rects} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | lines: ${stats.lines} | polylines: ${stats.polylines} | polygons: ${stats.polygons} | vertices: ${stats.vertices} | drawCalls: ${stats.drawCalls}`;
 }
 
 function createCode(objectCount: number): string {
-  return `// Same scene: ${objectCount} Rect, Circle, and Ellipse objects
+  return `// Same scene: ${objectCount} Rect, Circle, Ellipse, Line, Polyline, and Polygon objects
 canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
 

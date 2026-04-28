@@ -169,10 +169,10 @@ const worldMatrix = rect.getWorldMatrix();
 
 RenderPipeline also stores matrix snapshots on each render item for WebGL batching.
 
-WebGLRenderer2D currently batches filled `Rect`, `Circle`, and `Ellipse` objects into one dynamic shape buffer:
+WebGLRenderer2D currently batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, and convex `Polygon` objects into one dynamic primitive buffer:
 
 ```ts
-import { Camera2D, Circle, Rect, Scene, WebGLRenderer2D } from "raw2d";
+import { Camera2D, Circle, Line, Rect, Scene, WebGLRenderer2D } from "raw2d";
 
 const raw2dWebGL = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -183,12 +183,13 @@ const camera = new Camera2D();
 
 scene.add(new Rect({ x: 40, y: 40, width: 80, height: 50 }));
 scene.add(new Circle({ x: 160, y: 65, radius: 28 }));
+scene.add(new Line({ x: 220, y: 65, startX: 0, startY: 0, endX: 80, endY: 0 }));
 
 raw2dWebGL.render(scene, camera);
 console.log(raw2dWebGL.getStats());
 ```
 
-Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats.
+Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 

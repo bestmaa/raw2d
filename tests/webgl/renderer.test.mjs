@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Rect, Scene } from "raw2d-core";
+import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, Scene, ShapePath } from "raw2d-core";
 import { WebGLRenderer2D } from "raw2d-webgl";
 
 test("WebGLRenderer2D batches Rect objects into one draw call", () => {
@@ -21,6 +21,9 @@ test("WebGLRenderer2D batches Rect objects into one draw call", () => {
     rects: 2,
     circles: 0,
     ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
     vertices: 12,
     drawCalls: 1,
     unsupported: 0
@@ -43,7 +46,56 @@ test("WebGLRenderer2D batches Rect, Circle, and Ellipse objects into one draw ca
     rects: 1,
     circles: 1,
     ellipses: 1,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
     vertices: 198,
+    drawCalls: 1,
+    unsupported: 0
+  });
+});
+
+test("WebGLRenderer2D batches Line, Polyline, and Polygon objects into one draw call", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+
+  scene.add(new Line({ x: 20, y: 20, startX: 0, startY: 0, endX: 50, endY: 0 }));
+  scene.add(
+    new Polyline({
+      x: 20,
+      y: 50,
+      points: [
+        { x: 0, y: 0 },
+        { x: 30, y: 12 },
+        { x: 60, y: 0 }
+      ]
+    })
+  );
+  scene.add(
+    new Polygon({
+      x: 100,
+      y: 30,
+      points: [
+        { x: 0, y: 0 },
+        { x: 40, y: 0 },
+        { x: 40, y: 30 },
+        { x: 0, y: 30 }
+      ]
+    })
+  );
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(gl.calls.includes("drawArrays:4,0,24"), true);
+  assert.deepEqual(renderer.getStats(), {
+    objects: 3,
+    rects: 0,
+    circles: 0,
+    ellipses: 0,
+    lines: 1,
+    polylines: 1,
+    polygons: 1,
+    vertices: 24,
     drawCalls: 1,
     unsupported: 0
   });
@@ -55,7 +107,7 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
   const scene = new Scene();
 
   scene.add(createRect(20, "#35c2ff"));
-  scene.add(new Line({ x: 80, y: 40, startX: 0, startY: 0, endX: 50, endY: 0 }));
+  scene.add(new ShapePath().moveTo(0, 0).lineTo(50, 0));
   renderer.render(scene, new Camera2D());
 
   assert.deepEqual(renderer.getStats(), {
@@ -63,6 +115,9 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
     rects: 1,
     circles: 0,
     ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
     vertices: 6,
     drawCalls: 1,
     unsupported: 1

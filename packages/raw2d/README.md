@@ -104,7 +104,7 @@ rect.updateMatrix();
 const localMatrix = rect.getLocalMatrix();
 ```
 
-Canvas works first. WebGL2 now batches filled `Rect`, `Circle`, and `Ellipse` objects.
+Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, and convex `Polygon` objects.
 
 Canvas and WebGL are public renderer packages:
 
@@ -113,7 +113,7 @@ import { Canvas } from "raw2d-canvas";
 import { WebGLRenderer2D } from "raw2d-webgl";
 ```
 
-Use `Canvas` for full object support today. Use `WebGLRenderer2D` for filled shape WebGL experiments:
+Use `Canvas` for full object support today. Use `WebGLRenderer2D` for primitive WebGL experiments:
 
 ```ts
 const webglRenderer = new WebGLRenderer2D({ canvas: canvasElement });
@@ -125,7 +125,7 @@ console.log(webglRenderer.getStats());
 The WebGL stats show how much work went into the current batch:
 
 ```ts
-// { objects, rects, circles, ellipses, vertices, drawCalls, unsupported }
+// { objects, rects, circles, ellipses, lines, polylines, polygons, vertices, drawCalls, unsupported }
 console.log(webglRenderer.getStats());
 ```
 

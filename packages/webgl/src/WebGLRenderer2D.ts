@@ -2,6 +2,9 @@ import {
   Camera2D,
   Circle,
   Ellipse,
+  Line,
+  Polygon,
+  Polyline,
   Rect,
   RenderPipeline,
   getCoreLocalBounds,
@@ -52,7 +55,18 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private width: number;
   private height: number;
   private backgroundColor: string;
-  private stats: WebGLRenderStats = { objects: 0, rects: 0, circles: 0, ellipses: 0, vertices: 0, drawCalls: 0, unsupported: 0 };
+  private stats: WebGLRenderStats = {
+    objects: 0,
+    rects: 0,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    vertices: 0,
+    drawCalls: 0,
+    unsupported: 0
+  };
 
   public constructor(options: WebGLRenderer2DOptions) {
     this.canvas = options.canvas;
@@ -113,7 +127,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 
   public render(scene: Scene, camera = this.defaultCamera, options: WebGLRenderer2DRenderOptions = {}): void {
-    // TODO: batch rendering beyond simple filled shapes.
+    // TODO: batch rendering beyond simple shapes and strokes.
     // TODO: shaders for sprites, paths, and text.
     // TODO: texture atlas
     // TODO: typed arrays reuse
@@ -142,6 +156,9 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       rects: batch.rects,
       circles: batch.circles,
       ellipses: batch.ellipses,
+      lines: batch.lines,
+      polylines: batch.polylines,
+      polygons: batch.polygons,
       vertices,
       drawCalls: vertices > 0 ? 1 : 0,
       unsupported: batch.unsupported
@@ -174,6 +191,13 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 }
 
-function isWebGLShape(object: Object2D): object is Rect | Circle | Ellipse {
-  return object instanceof Rect || object instanceof Circle || object instanceof Ellipse;
+function isWebGLShape(object: Object2D): object is Rect | Circle | Ellipse | Line | Polyline | Polygon {
+  return (
+    object instanceof Rect ||
+    object instanceof Circle ||
+    object instanceof Ellipse ||
+    object instanceof Line ||
+    object instanceof Polyline ||
+    object instanceof Polygon
+  );
 }

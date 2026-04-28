@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { BasicMaterial, Camera2D, Circle, Ellipse, Rect, RenderPipeline } from "raw2d-core";
+import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderPipeline } from "raw2d-core";
 import { createWebGLRectBatch, createWebGLShapeBatch, parseWebGLColor } from "raw2d-webgl";
 
 test("parseWebGLColor supports hex and rgba colors", () => {
@@ -68,6 +68,9 @@ test("createWebGLShapeBatch writes circle and ellipse triangle fans", () => {
   assert.equal(batch.rects, 0);
   assert.equal(batch.circles, 1);
   assert.equal(batch.ellipses, 1);
+  assert.equal(batch.lines, 0);
+  assert.equal(batch.polylines, 0);
+  assert.equal(batch.polygons, 0);
   assert.equal(batch.unsupported, 0);
   assert.equal(batch.vertices.length, 288);
   assert.ok(Math.abs(batch.vertices[0]) < 0.000001);
@@ -76,6 +79,51 @@ test("createWebGLShapeBatch writes circle and ellipse triangle fans", () => {
   assertAlmostEqual(batch.vertices[3], 194 / 255);
   assert.equal(batch.vertices[4], 1);
   assert.equal(batch.vertices[5], 1);
+});
+
+test("createWebGLShapeBatch writes line, polyline, and polygon geometry", () => {
+  const line = new Line({
+    x: 10,
+    y: 10,
+    endX: 40,
+    endY: 0,
+    material: new BasicMaterial({ strokeColor: "#facc15", lineWidth: 4 })
+  });
+  const polyline = new Polyline({
+    x: 10,
+    y: 30,
+    points: [
+      { x: 0, y: 0 },
+      { x: 20, y: 10 },
+      { x: 40, y: 0 }
+    ],
+    material: new BasicMaterial({ strokeColor: "#38bdf8", lineWidth: 4 })
+  });
+  const polygon = new Polygon({
+    x: 70,
+    y: 20,
+    points: [
+      { x: 0, y: 0 },
+      { x: 20, y: 0 },
+      { x: 10, y: 20 }
+    ],
+    material: new BasicMaterial({ fillColor: "#22c55e" })
+  });
+  const renderList = new RenderPipeline().build({ objects: [line, polyline, polygon] });
+  const batch = createWebGLShapeBatch({
+    items: renderList.getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100
+  });
+
+  assert.equal(batch.lines, 1);
+  assert.equal(batch.polylines, 1);
+  assert.equal(batch.polygons, 1);
+  assert.equal(batch.vertices.length, 126);
+  assertAlmostEqual(batch.vertices[2], 250 / 255);
+  assertAlmostEqual(batch.vertices[3], 204 / 255);
+  assertAlmostEqual(batch.vertices[4], 21 / 255);
 });
 
 function assertAlmostEqual(actual, expected) {

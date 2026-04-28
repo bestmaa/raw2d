@@ -1,8 +1,11 @@
-import { Circle, Ellipse, Rect } from "raw2d-core";
+import { Circle, Ellipse, Line, Polygon, Polyline, Rect, getLineLocalBounds, getPolygonLocalBounds, getPolylineLocalBounds } from "raw2d-core";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { toClipPoint, webGLFloatsPerVertex, writeWebGLVertex } from "./WebGLVertex.js";
 import type { WebGLColor } from "./WebGLColor.type.js";
+import type { WebGLLocalPoint } from "./WebGLPathGeometry.type.js";
 import type { WebGLShapeBatch, WebGLShapeBatchOptions, WebGLShapeItem } from "./WebGLShapeBatch.type.js";
+import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
+import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
 
 const verticesPerRect = 6;
 const minimumCurveSegments = 8;
@@ -12,7 +15,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
   const segments = getCurveSegments(options.curveSegments);
   const vertexCount = getVertexCount(shapeItems, segments);
   const vertices = new Float32Array(vertexCount * webGLFloatsPerVertex);
-  const counts = { rects: 0, circles: 0, ellipses: 0 };
+  const counts = { rects: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0 };
   let offset = 0;
 
   for (const item of shapeItems) {
@@ -23,6 +26,13 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
       offset = writeEllipseLike(vertices, offset, item, options, segments);
       counts.circles += item.object instanceof Circle ? 1 : 0;
       counts.ellipses += item.object instanceof Ellipse ? 1 : 0;
+    } else if (item.object instanceof Line || item.object instanceof Polyline) {
+      offset = writeStrokedPath(vertices, offset, item, options);
+      counts.lines += item.object instanceof Line ? 1 : 0;
+      counts.polylines += item.object instanceof Polyline ? 1 : 0;
+    } else if (item.object instanceof Polygon) {
+      offset = writeFilledPolygon(vertices, offset, item, options);
+      counts.polygons += 1;
     }
   }
 
@@ -31,12 +41,22 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     rects: counts.rects,
     circles: counts.circles,
     ellipses: counts.ellipses,
+    lines: counts.lines,
+    polylines: counts.polylines,
+    polygons: counts.polygons,
     unsupported: options.items.length - shapeItems.length
   };
 }
 
 function isShapeItem(item: WebGLShapeBatchOptions["items"][number]): item is WebGLShapeItem {
-  return item.object instanceof Rect || item.object instanceof Circle || item.object instanceof Ellipse;
+  return (
+    item.object instanceof Rect ||
+    item.object instanceof Circle ||
+    item.object instanceof Ellipse ||
+    item.object instanceof Line ||
+    item.object instanceof Polyline ||
+    item.object instanceof Polygon
+  );
 }
 
 function getCurveSegments(segments = 32): number {
@@ -44,7 +64,23 @@ function getCurveSegments(segments = 32): number {
 }
 
 function getVertexCount(items: readonly WebGLShapeItem[], segments: number): number {
-  return items.reduce((count, item) => count + (item.object instanceof Rect ? verticesPerRect : segments * 3), 0);
+  return items.reduce((count, item) => count + getItemVertexCount(item, segments), 0);
+}
+
+function getItemVertexCount(item: WebGLShapeItem, segments: number): number {
+  if (item.object instanceof Rect) {
+    return verticesPerRect;
+  }
+
+  if (item.object instanceof Circle || item.object instanceof Ellipse) {
+    return segments * 3;
+  }
+
+  if (item.object instanceof Line || item.object instanceof Polyline) {
+    return getWebGLStrokeVertexCount(getPathPoints(item));
+  }
+
+  return item.object instanceof Polygon ? getWebGLPolygonFillVertexCount(getPathPoints(item)) : 0;
 }
 
 function writeRect(vertices: Float32Array, offset: number, item: WebGLShapeItem, options: WebGLShapeBatchOptions): number {
@@ -129,4 +165,62 @@ function writePoint(
 ): number {
   const point = toClipPoint(x, y, item.worldMatrix, options);
   return writeWebGLVertex(vertices, offset, point.x, point.y, color);
+}
+
+function writeStrokedPath(vertices: Float32Array, offset: number, item: WebGLShapeItem, options: WebGLShapeBatchOptions): number {
+  const object = item.object;
+
+  if (!(object instanceof Line || object instanceof Polyline)) {
+    return offset;
+  }
+
+  return writeWebGLStroke(vertices, offset, getPathPoints(item), {
+    ...options,
+    matrix: item.worldMatrix,
+    color: parseWebGLColor(object.material.strokeColor),
+    lineWidth: object.material.lineWidth
+  });
+}
+
+function writeFilledPolygon(vertices: Float32Array, offset: number, item: WebGLShapeItem, options: WebGLShapeBatchOptions): number {
+  if (!(item.object instanceof Polygon)) {
+    return offset;
+  }
+
+  return writeWebGLPolygonFill(vertices, offset, getPathPoints(item), {
+    ...options,
+    matrix: item.worldMatrix,
+    color: parseWebGLColor(item.object.material.fillColor)
+  });
+}
+
+function getPathPoints(item: WebGLShapeItem): readonly WebGLLocalPoint[] {
+  if (item.object instanceof Line) {
+    return offsetPoints(
+      [
+        { x: item.object.startX, y: item.object.startY },
+        { x: item.object.endX, y: item.object.endY }
+      ],
+      getLineLocalBounds(item.object),
+      item.object.originX,
+      item.object.originY
+    );
+  }
+
+  if (item.object instanceof Polyline) {
+    return offsetPoints(item.object.points, getPolylineLocalBounds(item.object), item.object.originX, item.object.originY);
+  }
+
+  return item.object instanceof Polygon ? offsetPoints(item.object.points, getPolygonLocalBounds(item.object), item.object.originX, item.object.originY) : [];
+}
+
+function offsetPoints(
+  points: readonly WebGLLocalPoint[],
+  bounds: { readonly x: number; readonly y: number; readonly width: number; readonly height: number },
+  originX: number,
+  originY: number
+): readonly WebGLLocalPoint[] {
+  const offsetX = bounds.x + bounds.width * originX;
+  const offsetY = bounds.y + bounds.height * originY;
+  return points.map((point) => ({ x: point.x - offsetX, y: point.y - offsetY }));
 }
