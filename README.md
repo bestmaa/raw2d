@@ -210,6 +210,17 @@ const animator = new SpriteAnimator({ sprite, clip });
 animator.update(deltaSeconds);
 ```
 
+Asset loading keeps the same explicit model:
+
+```ts
+const atlas = await new TextureAtlasLoader({ cache: true }).load("/sprites/player.atlas.json");
+const clip = createSpriteAnimationClip({
+  atlas,
+  frameNames: ["idle1", "idle2"],
+  fps: 12
+});
+```
+
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 
 ```ts

@@ -1,4 +1,5 @@
 import basicMaterial from "../../docs/BasicMaterial.md?raw";
+import assetLoading from "../../docs/AssetLoading.md?raw";
 import camera2d from "../../docs/Camera2D.md?raw";
 import cameraControls from "../../docs/CameraControls.md?raw";
 import cameraWorldBounds from "../../docs/CameraWorldBounds.md?raw";
@@ -35,6 +36,7 @@ import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "license", label: "License", filename: "License.md", content: license },
+  { id: "asset-loading", label: "Asset Loading", filename: "AssetLoading.md", content: assetLoading },
   { id: "canvas", label: "Canvas", filename: "Canvas.md", content: canvas },
   { id: "canvas-api", label: "Canvas API", filename: "Canvas-api.md", content: canvasApi },
   { id: "canvas-objects", label: "Canvas Objects", filename: "Canvas-objects.md", content: canvasObjects },

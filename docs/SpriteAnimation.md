@@ -25,6 +25,17 @@ const clip = new SpriteAnimationClip({
 
 The frames usually come from `TextureAtlas`.
 
+If your frames are named in an atlas, use the helper:
+
+```ts
+const clip = createSpriteAnimationClip({
+  atlas,
+  frameNames: ["idle1", "idle2", "idle3"],
+  fps: 12,
+  loop: true
+});
+```
+
 ## Create Animator
 
 ```ts

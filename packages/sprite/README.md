@@ -6,6 +6,7 @@ This package contains data objects only:
 
 - `Texture`
 - `TextureLoader`
+- `TextureAtlasLoader`
 - `TextureAtlas`
 - `SpriteAnimationClip`
 - `SpriteAnimator`
@@ -42,6 +43,34 @@ const sprite = new Sprite({
 ```
 
 The atlas is intentionally simple for now. It does not pack images automatically. It gives Canvas a source rectangle and gives WebGL frame UVs for future larger sprite batches.
+
+## Asset Loading
+
+```ts
+import { TextureAtlasLoader, createSpriteAnimationClip } from "raw2d-sprite";
+
+const atlas = await new TextureAtlasLoader({
+  cache: true
+}).load("/sprites/player.atlas.json");
+
+const idleClip = createSpriteAnimationClip({
+  atlas,
+  frameNames: ["idle1", "idle2"],
+  fps: 12,
+  loop: true
+});
+```
+
+Atlas JSON uses one image path and named frame rectangles:
+
+```json
+{
+  "image": "player.png",
+  "frames": {
+    "idle1": { "x": 0, "y": 0, "width": 32, "height": 32 }
+  }
+}
+```
 
 ## Sprite Animation
 

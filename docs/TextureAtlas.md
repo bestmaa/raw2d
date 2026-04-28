@@ -26,6 +26,12 @@ const atlas = new TextureAtlas({
 
 The current atlas is explicit. It does not pack images automatically yet.
 
+You can also load the same structure from JSON:
+
+```ts
+const atlas = await new TextureAtlasLoader({ cache: true }).load("/sprites/player.atlas.json");
+```
+
 ## Use Frame With Sprite
 
 ```ts

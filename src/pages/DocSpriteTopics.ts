@@ -3,6 +3,42 @@ import { fullSpriteExample, fullTextureExample } from "./DocFullExamples";
 
 export const spriteTopics: readonly DocTopic[] = [
   {
+    id: "asset-loading",
+    label: "Asset Loading",
+    title: "Asset Loading",
+    description: "TextureLoader, TextureAtlasLoader, and createSpriteAnimationClip keep asset setup explicit and reusable.",
+    sections: [
+      {
+        title: "Load Texture",
+        body: "TextureLoader loads an image into a Texture. Enable cache when the same URL may be requested more than once.",
+        liveDemoId: "texture-atlas",
+        code: `const texture = await new TextureLoader({
+  cache: true,
+  crossOrigin: "anonymous"
+}).load("/sprites/player.png");`
+      },
+      {
+        title: "Load Atlas JSON",
+        body: "TextureAtlasLoader fetches JSON, loads the image beside the JSON file, then returns a TextureAtlas.",
+        liveDemoId: "texture-atlas",
+        code: `const atlas = await new TextureAtlasLoader({
+  cache: true
+}).load("/sprites/player.atlas.json");`
+      },
+      {
+        title: "Clip From Names",
+        body: "Build animation clips from atlas frame names instead of copying rectangles into every clip.",
+        liveDemoId: "sprite-animation",
+        code: `const idleClip = createSpriteAnimationClip({
+  atlas,
+  frameNames: ["idle1", "idle2", "idle3"],
+  fps: 12,
+  loop: true
+});`
+      }
+    ]
+  },
+  {
     id: "texture",
     label: "Texture",
     title: "Texture",

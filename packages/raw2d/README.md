@@ -108,6 +108,8 @@ Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Pol
 
 `SpriteAnimationClip` and `SpriteAnimator` provide explicit atlas-frame animation. Your app calls `animator.update(deltaSeconds)`, then renders with Canvas or WebGL.
 
+`TextureAtlasLoader` can load simple atlas JSON files and `createSpriteAnimationClip` can build clips from frame names.
+
 Canvas and WebGL are public renderer packages:
 
 ```ts
