@@ -4,7 +4,7 @@ export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
   { kind: "Rect", canvas: "supported", webgl: "supported", note: "WebGL batches Rect as filled shape geometry." },
   { kind: "Circle", canvas: "supported", webgl: "supported", note: "WebGL approximates Circle with triangles." },
   { kind: "Ellipse", canvas: "supported", webgl: "supported", note: "WebGL approximates Ellipse with triangles." },
-  { kind: "Arc", canvas: "supported", webgl: "unsupported", note: "Arc is next WebGL curve parity target." },
+  { kind: "Arc", canvas: "supported", webgl: "supported", note: "WebGL approximates Arc with segmented stroke or fan geometry." },
   { kind: "Line", canvas: "supported", webgl: "supported", note: "WebGL writes stroked line geometry." },
   { kind: "Polyline", canvas: "supported", webgl: "supported", note: "WebGL writes each segment as stroke geometry." },
   { kind: "Polygon", canvas: "supported", webgl: "partial", note: "WebGL uses a simple fan, so convex polygons are the safe target." },

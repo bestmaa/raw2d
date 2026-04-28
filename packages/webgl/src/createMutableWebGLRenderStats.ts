@@ -4,6 +4,7 @@ export function createMutableWebGLRenderStats(objects: number): MutableWebGLRend
   return {
     objects,
     rects: 0,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,

@@ -18,3 +18,7 @@ export interface WebGLFillWriteOptions extends WebGLVertexWriterOptions {
   readonly color: WebGLColor;
 }
 
+export interface WebGLShapeWriteOptions extends WebGLFillWriteOptions {
+  readonly curveSegments: number;
+  readonly strokeColor: WebGLColor;
+}

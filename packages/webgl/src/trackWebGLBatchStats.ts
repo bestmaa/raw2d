@@ -10,6 +10,7 @@ export function trackWebGLShapeBatchStats(
   stats: MutableWebGLRenderStats
 ): void {
   stats.rects += batch.rects;
+  stats.arcs += batch.arcs;
   stats.circles += batch.circles;
   stats.ellipses += batch.ellipses;
   stats.lines += batch.lines;

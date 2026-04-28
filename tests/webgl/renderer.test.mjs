@@ -22,6 +22,7 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 2,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -63,6 +64,7 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
     rects: 1,
+    arcs: 0,
     circles: 1,
     ellipses: 1,
     lines: 0,
@@ -126,6 +128,7 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
     rects: 0,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 1,
@@ -164,6 +167,7 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 1,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -205,6 +209,7 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 0,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -255,6 +260,7 @@ test("WebGLRenderer2D renders Text2D through the texture batch path", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
     rects: 0,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -294,6 +300,7 @@ test("WebGLRenderer2D reuses GPU buffer capacity on later renders", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
     rects: 1,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -337,6 +344,7 @@ test("WebGLRenderer2D separates static and dynamic runs", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 2,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -377,6 +385,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
     rects: 1,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -408,6 +417,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
     rects: 1,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -449,6 +459,7 @@ test("WebGLRenderer2D reuses clean static Sprite buffers", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
     rects: 0,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,
@@ -497,6 +508,7 @@ test("WebGLRenderer2D invalidates static Sprite cache when frame changes", () =>
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
     rects: 0,
+    arcs: 0,
     circles: 0,
     ellipses: 0,
     lines: 0,

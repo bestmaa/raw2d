@@ -1,4 +1,4 @@
-import type { Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderItem } from "raw2d-core";
+import type { Arc, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderItem } from "raw2d-core";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 import type { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
 
@@ -15,6 +15,7 @@ export interface WebGLShapeBatch {
   readonly vertices: Float32Array;
   readonly drawBatches: readonly WebGLDrawBatch[];
   readonly rects: number;
+  readonly arcs: number;
   readonly circles: number;
   readonly ellipses: number;
   readonly lines: number;
@@ -23,4 +24,4 @@ export interface WebGLShapeBatch {
   readonly unsupported: number;
 }
 
-export type WebGLShapeItem = RenderItem<Circle | Ellipse | Line | Polygon | Polyline | Rect>;
+export type WebGLShapeItem = RenderItem<Arc | Circle | Ellipse | Line | Polygon | Polyline | Rect>;

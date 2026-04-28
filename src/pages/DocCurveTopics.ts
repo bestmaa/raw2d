@@ -177,6 +177,27 @@ origin?: Object2DOriginValue
 material?: BasicMaterial`
       },
       {
+        title: "Canvas And WebGL",
+        body: "Canvas draws Arc with native ellipse path commands. WebGL approximates open arcs with stroked segments and closed arcs with triangle fans.",
+        liveDemoId: "arc",
+        code: `const openArc = new Arc({
+  radiusX: 90,
+  radiusY: 50,
+  startAngle: 0,
+  endAngle: Math.PI,
+  material: new BasicMaterial({ strokeColor: "#f97316", lineWidth: 8 })
+});
+
+const closedArc = new Arc({
+  radiusX: 90,
+  radiusY: 50,
+  startAngle: 0,
+  endAngle: Math.PI,
+  closed: true,
+  material: new BasicMaterial({ fillColor: "#35c2ff" })
+});`
+      },
+      {
         title: "Full Arc Code",
         body: "Complete setup from canvas element to rendered Arc.",
         liveDemoId: "arc",

@@ -1,6 +1,7 @@
 export interface MutableWebGLRenderStats {
   objects: number;
   rects: number;
+  arcs: number;
   circles: number;
   ellipses: number;
   lines: number;

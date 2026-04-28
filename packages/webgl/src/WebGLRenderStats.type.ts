@@ -3,6 +3,7 @@ import type { Renderer2DStats } from "raw2d-core";
 export interface WebGLRenderStats extends Renderer2DStats {
   readonly objects: number;
   readonly rects: number;
+  readonly arcs: number;
   readonly circles: number;
   readonly ellipses: number;
   readonly lines: number;

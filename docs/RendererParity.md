@@ -51,7 +51,7 @@ const webglReady = getRendererSupportMatrix()
 console.log(webglReady);
 ```
 
-WebGL currently focuses on batched shapes, sprites, atlas textures, and cached static runs. Canvas remains the fallback for custom paths and exact curve behavior.
+WebGL currently focuses on batched shapes, arcs, sprites, atlas textures, and cached static runs. Canvas remains the fallback for custom paths and exact path behavior.
 
 ## Why This Exists
 
@@ -65,4 +65,3 @@ The matrix makes renderer differences explicit for:
 - future package splitting
 - future React Fiber integration
 - users choosing Canvas or WebGL intentionally
-

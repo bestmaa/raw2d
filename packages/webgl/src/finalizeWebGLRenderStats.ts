@@ -5,6 +5,7 @@ export function finalizeWebGLRenderStats(stats: MutableWebGLRenderStats): WebGLR
   return {
     objects: stats.objects,
     rects: stats.rects,
+    arcs: stats.arcs,
     circles: stats.circles,
     ellipses: stats.ellipses,
     lines: stats.lines,

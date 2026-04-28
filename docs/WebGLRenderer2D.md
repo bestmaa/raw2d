@@ -4,7 +4,7 @@
 
 Current scope:
 
-- renders `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, and convex `Polygon`
+- renders `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, and convex `Polygon`
 - renders `Sprite`
 - renders `Text2D` by rasterizing it to a canvas texture
 - uses cached world matrices from `RenderPipeline`
@@ -239,5 +239,6 @@ Browser timing is approximate. Use it for relative Canvas/WebGL comparisons.
 - no advanced texture atlas bin packing yet
 - no automatic static batch compaction yet
 - no glyph atlas or SDF text path yet
+- arc curves are approximated with line segments or triangle fans
 - polygon batching expects convex polygons
 - SVG texture sources should be rasterized to canvas before WebGL upload

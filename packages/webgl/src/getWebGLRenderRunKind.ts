@@ -1,4 +1,4 @@
-import { Circle, Ellipse, Line, Polygon, Polyline, Rect, getRendererSupportMatrix, type Object2D } from "raw2d-core";
+import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect, getRendererSupportMatrix, type Object2D } from "raw2d-core";
 import { Sprite } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import type { WebGLRenderRunKind } from "./WebGLRenderRun.type.js";
@@ -17,8 +17,9 @@ export function getWebGLRenderRunKind(object: Object2D): WebGLRenderRunKind {
   return "unsupported";
 }
 
-export function isWebGLShape(object: Object2D): object is Rect | Circle | Ellipse | Line | Polyline | Polygon {
+export function isWebGLShape(object: Object2D): object is Arc | Rect | Circle | Ellipse | Line | Polyline | Polygon {
   return (
+    (object instanceof Arc && webGLSupportedKinds.has("Arc")) ||
     (object instanceof Rect && webGLSupportedKinds.has("Rect")) ||
     (object instanceof Circle && webGLSupportedKinds.has("Circle")) ||
     (object instanceof Ellipse && webGLSupportedKinds.has("Ellipse")) ||
