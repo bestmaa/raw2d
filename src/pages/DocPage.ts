@@ -1,5 +1,6 @@
 import type { DocSection, DocTopic } from "./DocPage.type";
 import { createDemoForId, hasDemoId } from "./DocDemos";
+import { getLiveExampleCode } from "./DocLiveExampleCode";
 import { topics } from "./DocTopics";
 
 export function renderDocPage(): HTMLElement {
@@ -130,10 +131,10 @@ function createFocusedExample(section: DocSection): HTMLElement {
   body.textContent = section.body;
   wrapper.append(title, body);
 
-  if (section.code) {
+  if (section.liveDemoId || section.liveCode || section.code) {
     const pre = document.createElement("pre");
     const code = document.createElement("code");
-    code.textContent = section.code;
+    code.textContent = getLiveExampleCode(section);
     pre.append(code);
     wrapper.append(pre);
   }
@@ -182,7 +183,7 @@ function createLiveCheckButton(section: DocSection, onLiveCheck: (section: DocSe
   const button = document.createElement("button");
   button.className = "doc-live-check";
   button.type = "button";
-  button.textContent = "Live Check";
+  button.textContent = "Example";
   button.addEventListener("click", () => onLiveCheck(section));
   return button;
 }
