@@ -37,6 +37,34 @@ test("Object2D render mode defaults to dynamic and can become static", () => {
   assert.equal(rect.renderMode, "static");
 });
 
+test("Object2D tracks dirty state and version changes", () => {
+  const rect = new Rect({ width: 20, height: 10 });
+
+  assert.deepEqual(rect.getDirtyState(), { version: 0, dirty: true });
+
+  rect.markClean();
+  rect.setPosition(10, 20);
+
+  assert.deepEqual(rect.getDirtyState(), { version: 1, dirty: true });
+
+  rect.markClean();
+  rect.setSize(30, 40);
+
+  assert.deepEqual(rect.getDirtyState(), { version: 2, dirty: true });
+});
+
+test("BasicMaterial tracks dirty state and version changes", () => {
+  const material = new BasicMaterial({ fillColor: "#ffffff" });
+
+  assert.deepEqual(material.getDirtyState(), { version: 0, dirty: true });
+
+  material.markClean();
+  material.setFillColor("#35c2ff");
+
+  assert.equal(material.version, 1);
+  assert.deepEqual(material.getDirtyState(), { version: 1, dirty: true });
+});
+
 test("Arc stores radii, angles, closed state, and material", () => {
   const material = new BasicMaterial({ strokeColor: "#f97316", lineWidth: 8 });
   const arc = new Arc({

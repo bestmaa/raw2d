@@ -19,10 +19,12 @@ export class Text2D extends Object2D {
 
   public setText(text: string): void {
     this.text = text;
+    this.markDirty();
   }
 
   public setFont(font: string): void {
     this.font = font;
+    this.markDirty();
   }
 
   public getStyle(): Text2DStyle {

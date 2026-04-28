@@ -19,6 +19,7 @@ export class Group2D extends Object2D implements Group2DLike {
 
     if (!this.children.includes(child)) {
       this.children.push(child);
+      this.markDirty();
     }
 
     return this;
@@ -29,6 +30,7 @@ export class Group2D extends Object2D implements Group2DLike {
 
     if (index !== -1) {
       this.children.splice(index, 1);
+      this.markDirty();
     }
 
     return this;
@@ -36,6 +38,7 @@ export class Group2D extends Object2D implements Group2DLike {
 
   public clear(): void {
     this.children.length = 0;
+    this.markDirty();
   }
 
   public getChildren(): readonly Group2DChild[] {

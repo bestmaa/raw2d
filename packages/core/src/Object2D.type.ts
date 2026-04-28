@@ -45,3 +45,8 @@ export interface Object2DMatrixState {
   readonly localMatrixDirty: boolean;
   readonly worldMatrixDirty: boolean;
 }
+
+export interface Object2DDirtyState {
+  readonly version: number;
+  readonly dirty: boolean;
+}

@@ -12,10 +12,7 @@ export class Arc extends Object2D {
   public material: BasicMaterial;
 
   public constructor(options: ArcOptions) {
-    super(options);
-    if (options.origin === undefined) {
-      this.setOrigin("center");
-    }
+    super({ ...options, origin: options.origin ?? "center" });
     this.radiusX = Math.max(0, options.radiusX);
     this.radiusY = Math.max(0, options.radiusY);
     this.startAngle = options.startAngle;
@@ -28,12 +25,14 @@ export class Arc extends Object2D {
   public setRadii(radiusX: number, radiusY: number): void {
     this.radiusX = Math.max(0, radiusX);
     this.radiusY = Math.max(0, radiusY);
+    this.markDirty();
   }
 
   public setAngles(startAngle: number, endAngle: number, anticlockwise = this.anticlockwise): void {
     this.startAngle = startAngle;
     this.endAngle = endAngle;
     this.anticlockwise = anticlockwise;
+    this.markDirty();
   }
 
   public getAngles(): ArcAngles {

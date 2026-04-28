@@ -153,6 +153,17 @@ player.setRenderMode("dynamic");
 
 Static and dynamic WebGL runs are separated in stats today and will become the base for persistent cached batches later.
 
+Objects and materials track dirty versions for renderer caches:
+
+```ts
+rect.markClean();
+rect.setSize(240, 120);
+rect.material.setFillColor("#35c2ff");
+
+console.log(rect.getDirtyState());
+console.log(rect.material.getDirtyState());
+```
+
 Use `RenderPipeline` when tooling or custom renderers need to inspect prepared render work:
 
 ```ts

@@ -19,35 +19,42 @@ export class ShapePath extends Object2D {
 
   public moveTo(x: number, y: number): ShapePath {
     this.commands.push({ type: "moveTo", x, y });
+    this.markDirty();
     return this;
   }
 
   public lineTo(x: number, y: number): ShapePath {
     this.commands.push({ type: "lineTo", x, y });
+    this.markDirty();
     return this;
   }
 
   public quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): ShapePath {
     this.commands.push({ type: "quadraticCurveTo", cpx, cpy, x, y });
+    this.markDirty();
     return this;
   }
 
   public bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): ShapePath {
     this.commands.push({ type: "bezierCurveTo", cp1x, cp1y, cp2x, cp2y, x, y });
+    this.markDirty();
     return this;
   }
 
   public closePath(): ShapePath {
     this.commands.push({ type: "closePath" });
+    this.markDirty();
     return this;
   }
 
   public clear(): void {
     this.commands.splice(0, this.commands.length);
+    this.markDirty();
   }
 
   public setCommands(commands: readonly PathCommand[]): void {
     this.commands.splice(0, this.commands.length, ...commands.map(cloneCommand));
+    this.markDirty();
   }
 
   public getCommands(): readonly PathCommand[] {

@@ -23,21 +23,26 @@ export class Sprite extends Object2D {
     this.texture = texture;
 
     if (frame !== undefined) {
-      this.setFrame(frame);
+      this.frame = frame ? normalizeFrame(frame) : null;
     }
+
+    this.markDirty();
   }
 
   public setFrame(frame: TextureFrame | null): void {
     this.frame = frame ? normalizeFrame(frame) : null;
+    this.markDirty();
   }
 
   public setSize(width: number, height: number): void {
     this.width = Math.max(0, width);
     this.height = Math.max(0, height);
+    this.markDirty();
   }
 
   public setOpacity(opacity: number): void {
     this.opacity = clampOpacity(opacity);
+    this.markDirty();
   }
 
   public getSize(): SpriteSize {

@@ -111,6 +111,17 @@ background.setRenderMode("static");
 player.setRenderMode("dynamic");
 ```
 
+Objects and materials expose dirty versions for future renderer caches:
+
+```ts
+rect.markClean();
+rect.setSize(160, 100);
+rect.material.setFillColor("#35c2ff");
+
+console.log(rect.getDirtyState());
+console.log(rect.material.getDirtyState());
+```
+
 Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs.
 
 `SpriteAnimationClip` and `SpriteAnimator` provide explicit atlas-frame animation. Your app calls `animator.update(deltaSeconds)`, then renders with Canvas or WebGL.

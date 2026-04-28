@@ -14,10 +14,12 @@ export class Polyline extends Object2D {
 
   public setPoints(points: readonly PolylinePoint[]): void {
     this.points.splice(0, this.points.length, ...normalizePoints(points));
+    this.markDirty();
   }
 
   public addPoint(x: number, y: number): void {
     this.points.push({ x, y });
+    this.markDirty();
   }
 
   public getPoints(): readonly PolylinePoint[] {

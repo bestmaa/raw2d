@@ -87,3 +87,13 @@ animatedSprite.setRenderMode("dynamic");
 ## Important
 
 `static` is a performance hint, not a lock. You can still move a static object. Later dirty-batch work will decide when static batch buffers need to rebuild.
+
+Dirty versioning is the signal for that future rebuild:
+
+```ts
+background.markClean();
+background.setPosition(10, 20);
+
+console.log(background.getDirtyState());
+// { version: 1, dirty: true }
+```

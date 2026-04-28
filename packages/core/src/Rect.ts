@@ -17,6 +17,7 @@ export class Rect extends Object2D {
   public setSize(width: number, height: number): void {
     this.width = Math.max(0, width);
     this.height = Math.max(0, height);
+    this.markDirty();
   }
 
   public getSize(): RectSize {

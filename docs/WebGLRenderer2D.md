@@ -124,6 +124,17 @@ Scene -> RenderPipeline -> RenderRun(dynamic) -> Buffer -> DrawCall
 
 The current MVP still uploads static runs each render. The value now is explicit planning, stats, and a clean place for dirty static batch caching later.
 
+Object and material versions provide the future invalidation signal:
+
+```ts
+background.setRenderMode("static");
+background.markClean();
+background.setSize(900, 600);
+
+console.log(background.getDirtyState());
+// { version: 2, dirty: true }
+```
+
 ## Ordered Runs
 
 The renderer does not hide the pipeline too much:

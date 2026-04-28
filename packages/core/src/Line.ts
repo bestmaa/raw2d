@@ -23,6 +23,7 @@ export class Line extends Object2D {
     this.startY = startY;
     this.endX = endX;
     this.endY = endY;
+    this.markDirty();
   }
 
   public getPoints(): LinePoints {

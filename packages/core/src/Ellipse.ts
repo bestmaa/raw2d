@@ -8,10 +8,7 @@ export class Ellipse extends Object2D {
   public material: BasicMaterial;
 
   public constructor(options: EllipseOptions) {
-    super(options);
-    if (options.origin === undefined) {
-      this.setOrigin("center");
-    }
+    super({ ...options, origin: options.origin ?? "center" });
     this.radiusX = Math.max(0, options.radiusX);
     this.radiusY = Math.max(0, options.radiusY);
     this.material = options.material ?? new BasicMaterial({ fillColor: "#a78bfa" });
@@ -20,6 +17,7 @@ export class Ellipse extends Object2D {
   public setRadii(radiusX: number, radiusY: number): void {
     this.radiusX = Math.max(0, radiusX);
     this.radiusY = Math.max(0, radiusY);
+    this.markDirty();
   }
 
   public getSize(): EllipseSize {

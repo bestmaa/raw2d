@@ -113,6 +113,18 @@ material.setStrokeColor("#111111");
 material.setLineWidth(2);
 ```
 
+Material setters update `material.version` and mark the material dirty:
+
+```ts
+material.markClean();
+material.setFillColor("#35c2ff");
+
+console.log(material.getDirtyState());
+// { version: 1, dirty: true }
+```
+
+Renderers use this foundation to know when cached style data needs to rebuild.
+
 ## Use With Text2D
 
 ```ts

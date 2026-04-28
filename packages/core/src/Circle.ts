@@ -7,16 +7,14 @@ export class Circle extends Object2D {
   public material: BasicMaterial;
 
   public constructor(options: CircleOptions) {
-    super(options);
-    if (options.origin === undefined) {
-      this.setOrigin("center");
-    }
+    super({ ...options, origin: options.origin ?? "center" });
     this.radius = Math.max(0, options.radius);
     this.material = options.material ?? new BasicMaterial({ fillColor: "#35c2ff" });
   }
 
   public setRadius(radius: number): void {
     this.radius = Math.max(0, radius);
+    this.markDirty();
   }
 
   public getSize(): CircleSize {

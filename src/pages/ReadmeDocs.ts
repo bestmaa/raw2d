@@ -9,6 +9,7 @@ import canvasCulling from "../../docs/CanvasCulling.md?raw";
 import canvasObjects from "../../docs/Canvas-objects.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
+import dirtyVersioning from "../../docs/DirtyVersioning.md?raw";
 import group2d from "../../docs/Group2D.md?raw";
 import hitTesting from "../../docs/HitTesting.md?raw";
 import interactionController from "../../docs/InteractionController.md?raw";
@@ -48,6 +49,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "camera2d", label: "Camera2D", filename: "Camera2D.md", content: camera2d },
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
+  { id: "dirty-versioning", label: "Dirty Versioning", filename: "DirtyVersioning.md", content: dirtyVersioning },
   { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
   { id: "render-mode", label: "Render Mode", filename: "RenderMode.md", content: renderMode },
   { id: "render-pipeline", label: "Render Pipeline", filename: "RenderPipeline.md", content: renderPipeline },

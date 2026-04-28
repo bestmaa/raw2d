@@ -13,6 +13,7 @@ test("TextureAtlas stores named frames for one texture", () => {
   });
 
   assert.equal(atlas.texture, texture);
+  assert.equal(atlas.getVersion(), 0);
   assert.equal(atlas.hasFrame("idle"), true);
   assert.deepEqual(atlas.getFrame("run"), { x: 32, y: 0, width: 32, height: 32 });
   assert.deepEqual(atlas.getFrameNames(), ["idle", "run"]);
@@ -33,6 +34,15 @@ test("Sprite can use and replace a TextureAtlas frame", () => {
 
   sprite.setFrame({ x: 0, y: 0, width: 12, height: 14 });
   assert.deepEqual(sprite.frame, { x: 0, y: 0, width: 12, height: 14 });
+  assert.deepEqual(sprite.getDirtyState(), { version: 1, dirty: true });
+});
+
+test("TextureAtlas version changes when frames are updated", () => {
+  const atlas = new TextureAtlas({ texture: createTexture() });
+
+  atlas.setFrame({ name: "idle", x: 0, y: 0, width: 16, height: 16 });
+
+  assert.equal(atlas.getVersion(), 1);
 });
 
 function createTexture() {

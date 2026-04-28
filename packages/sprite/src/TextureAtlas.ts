@@ -4,17 +4,23 @@ import type { TextureAtlasFrameOptions, TextureAtlasOptions, TextureFrame } from
 export class TextureAtlas {
   public readonly texture: Texture;
   private readonly frames = new Map<string, TextureFrame>();
+  private version = 0;
 
   public constructor(options: TextureAtlasOptions) {
     this.texture = options.texture;
 
     for (const [name, frame] of Object.entries(options.frames ?? {})) {
-      this.setFrame({ name, ...frame });
+      this.frames.set(name, normalizeFrame(frame));
     }
   }
 
   public setFrame(options: TextureAtlasFrameOptions): void {
     this.frames.set(options.name, normalizeFrame(options));
+    this.version += 1;
+  }
+
+  public getVersion(): number {
+    return this.version;
   }
 
   public getFrame(name: string): TextureFrame {

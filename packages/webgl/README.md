@@ -56,6 +56,17 @@ Sprite batching uses the same `Texture` object as the texture key. Consecutive S
 
 Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, and `dynamicObjects`.
 
+Object and material versions are the invalidation foundation for future persistent static batches:
+
+```ts
+staticRect.markClean();
+staticRect.setSize(200, 120);
+
+if (staticRect.getDirtyState().dirty) {
+  // Rebuild cached WebGL batch data.
+}
+```
+
 SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing and static/dynamic batches are future steps.
 
 `WebGLRenderer2D` already uses `WebGLFloatBuffer` internally for shape and sprite batch data. Custom batch code can pass a `floatBuffer` option to `createWebGLShapeBatch` or `createWebGLSpriteBatch`.
