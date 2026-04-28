@@ -178,25 +178,35 @@ console.log(renderer.getStats().staticCacheMisses);
 
 The current WebGL vertex batches are already projected into clip space, so camera position, camera zoom, renderer width, and renderer height are part of the static cache key. Panning, zooming, or resizing the renderer rebuilds static batches correctly.
 
-## Ordered Runs
+## Static Sprites
 
-The renderer does not hide the pipeline too much:
+Use static mode for tile maps, background sprites, and decoration that rarely changes:
 
-```text
-Scene -> RenderPipeline -> RenderList -> RenderRun -> Buffer -> Shader -> DrawCall
+```ts
+tileSprite.setRenderMode("static");
+
+renderer.render(scene, camera);
+renderer.render(scene, camera);
+
+console.log(renderer.getStats().staticCacheHits);
+// 1
 ```
 
-Render runs are consecutive groups:
+Changing a static Sprite frame rebuilds that static run:
 
-- shape run: `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, `Polygon`
-- sprite run: `Sprite`
-- unsupported run: counted but skipped
+```ts
+tileSprite.setFrame(atlas.getFrame("grass-alt"));
+renderer.render(scene, camera);
 
-This makes WebGL behavior easy to debug and prepares Raw2D for future atlas and batch systems.
+console.log(renderer.getStats().staticCacheMisses);
+// 1
+```
 
-## Typed Array Reuse
+Animated sprites should stay dynamic because their frame changes often:
 
-`WebGLRenderer2D` keeps reusable float buffers for shape and sprite vertices. Dynamic frames can still upload vertex data, but the CPU-side `Float32Array` backing storage does not need to be recreated when capacity is already large enough.
+```ts
+playerSprite.setRenderMode("dynamic");
+```
 
 ## GPU Buffer Uploads
 

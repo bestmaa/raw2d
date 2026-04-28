@@ -58,6 +58,22 @@ console.log(webglRenderer.getStats().textureBinds);
 
 Without packing, separate images usually become separate textures and require more texture binds.
 
+## Static Atlas Sprites
+
+Static atlas sprites can reuse their WebGL vertex buffer:
+
+```ts
+tileSprite.setRenderMode("static");
+
+webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+
+console.log(webglRenderer.getStats().staticCacheHits);
+// 1
+```
+
+Keep animated sprites dynamic because their atlas frame changes often.
+
 ## Options
 
 ```ts

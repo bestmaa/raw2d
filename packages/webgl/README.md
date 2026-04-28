@@ -90,6 +90,20 @@ renderer.render(scene, camera);
 console.log(renderer.getStats().textureCacheHits);
 ```
 
+Static sprites can also reuse their vertex buffer:
+
+```ts
+tileSprite.setRenderMode("static");
+
+renderer.render(scene, camera);
+renderer.render(scene, camera);
+
+console.log(renderer.getStats().staticCacheHits);
+// 1
+```
+
+Keep animated sprites dynamic because changing `sprite.frame` invalidates static sprite cache data.
+
 Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, `dynamicObjects`, `staticCacheHits`, and `staticCacheMisses`.
 
 Object and material versions invalidate static cached batches:

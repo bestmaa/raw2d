@@ -175,6 +175,8 @@ Use `renderMode` to give WebGL a low-level performance hint:
 ```ts
 background.setRenderMode("static");
 player.setRenderMode("dynamic");
+tileSprite.setRenderMode("static");
+animatedSprite.setRenderMode("dynamic");
 ```
 
 Static and dynamic WebGL runs are separated in stats. Clean static WebGL runs are cached after the first upload and reported through `staticCacheHits` and `staticCacheMisses`.

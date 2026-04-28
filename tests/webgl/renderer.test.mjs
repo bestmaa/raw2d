@@ -383,6 +383,95 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
   });
 });
 
+test("WebGLRenderer2D reuses clean static Sprite buffers", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+  const texture = createTexture();
+  const sprite = new Sprite({ texture, x: 20, y: 20, width: 16, height: 16 });
+
+  sprite.setRenderMode("static");
+  scene.add(sprite);
+  renderer.render(scene, new Camera2D());
+  renderer.render(scene, new Camera2D());
+
+  assert.deepEqual(renderer.getStats(), {
+    objects: 1,
+    rects: 0,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 1,
+    textures: 1,
+    textureBinds: 1,
+    textureUploads: 0,
+    textureCacheHits: 1,
+    batches: 1,
+    staticBatches: 1,
+    dynamicBatches: 0,
+    staticObjects: 1,
+    dynamicObjects: 0,
+    staticCacheHits: 1,
+    staticCacheMisses: 0,
+    vertices: 6,
+    drawCalls: 1,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 0,
+    unsupported: 0
+  });
+});
+
+test("WebGLRenderer2D invalidates static Sprite cache when frame changes", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+  const texture = new Texture({ source: { width: 32, height: 16 }, width: 32, height: 16 });
+  const sprite = new Sprite({
+    texture,
+    frame: { x: 0, y: 0, width: 16, height: 16 },
+    x: 20,
+    y: 20
+  });
+
+  sprite.setRenderMode("static");
+  scene.add(sprite);
+  renderer.render(scene, new Camera2D());
+  renderer.render(scene, new Camera2D());
+  sprite.setFrame({ x: 16, y: 0, width: 16, height: 16 });
+  renderer.render(scene, new Camera2D());
+
+  assert.deepEqual(renderer.getStats(), {
+    objects: 1,
+    rects: 0,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 1,
+    textures: 1,
+    textureBinds: 1,
+    textureUploads: 0,
+    textureCacheHits: 1,
+    batches: 1,
+    staticBatches: 1,
+    dynamicBatches: 0,
+    staticObjects: 1,
+    dynamicObjects: 0,
+    staticCacheHits: 0,
+    staticCacheMisses: 1,
+    vertices: 6,
+    drawCalls: 1,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 1,
+    uploadedBytes: 120,
+    unsupported: 0
+  });
+});
+
 function createRect(x, fillColor) {
   return new Rect({
     x,

@@ -158,6 +158,32 @@ console.log(webglRenderer.getStats().staticCacheMisses);
 // 1`
       },
       {
+        title: "Static Sprites",
+        body: "Use static mode for tile maps, background sprites, and decoration. A clean static Sprite skips vertex upload on later renders, while texture cache stats still show texture reuse.",
+        liveDemoId: "webgl-renderer",
+        code: `tileSprite.setRenderMode("static");
+
+webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+
+console.log(webglRenderer.getStats().staticCacheHits);
+// 1
+
+console.log(webglRenderer.getStats().uploadBufferSubDataCalls);
+// 0`
+      },
+      {
+        title: "Animated Sprites Stay Dynamic",
+        body: "Sprite frame changes invalidate static cache. Keep frequently animated sprites dynamic so the renderer uses the normal update path.",
+        liveDemoId: "sprite-animation",
+        code: `tileSprite.setFrame(atlas.getFrame("grass-alt"));
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheMisses);
+// 1
+
+playerSprite.setRenderMode("dynamic");`
+      },
+      {
         title: "GPU Buffer Uploads",
         body: "WebGLRenderer2D reuses GPU buffer capacity. A larger frame uses bufferData to grow storage; later frames that fit use bufferSubData to update existing storage.",
         liveDemoId: "webgl-renderer",
@@ -183,23 +209,6 @@ scene.add(new Sprite({ texture }));
 scene.add(new Line({ material: yellowStroke }));`
       },
       {
-        title: "Current Limits",
-        body: "Sprite batching uploads individual Texture sources into a cache but does not pack them into an atlas yet. Polygon batching uses a simple triangle fan, so convex polygons are the safe target first.",
-        code: `// Good first WebGL polygon target: convex points.
-scene.add(new Polygon({
-  points: [
-    { x: 0, y: 0 },
-    { x: 80, y: 0 },
-    { x: 80, y: 50 },
-    { x: 0, y: 50 }
-  ]
-}));
-
-// Future WebGL work:
-// texture atlas
-// static batch compaction`
-      },
-      {
         title: "Use Culling",
         body: "WebGLRenderer2D uses the same RenderPipeline culling idea as Canvas.",
         code: `webglRenderer.render(scene, camera, {
@@ -214,36 +223,6 @@ scene.add(new Polygon({
 });
 
 webglRenderer.render(scene, camera, { renderList });`
-      },
-      {
-        title: "Typed Array Reuse",
-        body: "WebGLRenderer2D uses reusable float buffers internally. Batch helpers can also accept a WebGLFloatBuffer when you build custom WebGL tooling.",
-        code: `const floatBuffer = new WebGLFloatBuffer();
-
-const batch = createWebGLSpriteBatch({
-  items: renderList.getFlatItems(),
-  camera,
-  width,
-  height,
-  getTextureKey,
-  floatBuffer
-});
-
-console.log(floatBuffer.getSnapshot());`
-      },
-      {
-        title: "Buffer Uploader",
-        body: "WebGLBufferUploader is the GPU-side pair to WebGLFloatBuffer. It tracks capacity and reports whether the upload used bufferData or bufferSubData.",
-        code: `const uploader = new WebGLBufferUploader({
-  gl,
-  target: gl.ARRAY_BUFFER,
-  usage: gl.DYNAMIC_DRAW
-});
-
-const upload = uploader.upload(batch.vertices);
-
-console.log(upload);
-// { mode: "bufferSubData", byteLength: 288, capacity: 512 }`
       }
     ]
   }

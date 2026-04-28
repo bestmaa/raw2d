@@ -29,7 +29,8 @@ function createObjectKey(object: Object2D, options: WebGLStaticRunKeyOptions): s
     object.id,
     object.version,
     getMaterialVersion(object),
-    getSpriteTextureKey(object, options)
+    getSpriteTextureKey(object, options),
+    getSpriteFrameKey(object)
   ].join(":");
 }
 
@@ -47,6 +48,15 @@ function getSpriteTextureKey(object: Object2D, options: WebGLStaticRunKeyOptions
   }
 
   return `texture:${options.getTextureKey(object.texture)}`;
+}
+
+function getSpriteFrameKey(object: Object2D): string {
+  if (!(object instanceof Sprite) || !object.frame) {
+    return "frame:none";
+  }
+
+  const frame = object.frame;
+  return `frame:${frame.x},${frame.y},${frame.width},${frame.height}`;
 }
 
 function hasVersion(value: unknown): value is Versioned {
