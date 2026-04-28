@@ -17,6 +17,7 @@ export * from "./WebGLShapeBatch.type.js";
 export * from "./WebGLSpriteBatch.type.js";
 export * from "./WebGLSpriteUV.type.js";
 export * from "./WebGLTextureCache.js";
+export * from "./WebGLTextureCacheResult.type.js";
 export * from "./WebGLStaticBatchCache.js";
 export * from "./WebGLStaticBatchCache.type.js";
 export * from "./createWebGLRectBatch.js";

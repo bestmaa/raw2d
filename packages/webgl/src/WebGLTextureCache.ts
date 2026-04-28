@@ -1,4 +1,5 @@
 import type { Texture } from "raw2d-sprite";
+import type { WebGLTextureCacheResult } from "./WebGLTextureCacheResult.type.js";
 
 export class WebGLTextureCache {
   private readonly textures = new Map<Texture, WebGLTexture>();
@@ -11,15 +12,19 @@ export class WebGLTextureCache {
   }
 
   public get(texture: Texture): WebGLTexture {
+    return this.getWithResult(texture).texture;
+  }
+
+  public getWithResult(texture: Texture): WebGLTextureCacheResult {
     const cachedTexture = this.textures.get(texture);
 
     if (cachedTexture) {
-      return cachedTexture;
+      return { texture: cachedTexture, uploaded: false };
     }
 
     const webglTexture = this.createTexture(texture);
     this.textures.set(texture, webglTexture);
-    return webglTexture;
+    return { texture: webglTexture, uploaded: true };
   }
 
   public getKey(texture: Texture): string {

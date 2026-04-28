@@ -91,6 +91,9 @@ Example:
   polygons: 40,
   sprites: 40,
   textures: 1,
+  textureBinds: 40,
+  textureUploads: 1,
+  textureCacheHits: 39,
   batches: 240,
   staticBatches: 120,
   dynamicBatches: 120,
@@ -107,7 +110,20 @@ Example:
 }
 ```
 
-`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
+`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
+
+## Texture Stats
+
+Texture stats help prove whether atlas batching is reducing WebGL state changes:
+
+```ts
+// separate textures: { textures: 3, textureBinds: 3, textureUploads: 3 }
+// packed atlas: { textures: 1, textureBinds: 1, textureUploads: 1 }
+webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textureCacheHits);
+// 1
+```
 
 ## Static And Dynamic Runs
 
@@ -180,22 +196,7 @@ This makes WebGL behavior easy to debug and prepares Raw2D for future atlas and 
 
 ## Typed Array Reuse
 
-`WebGLRenderer2D` keeps reusable float buffers for shape and sprite vertices. A frame can still upload dynamic vertex data, but the CPU-side `Float32Array` backing storage does not need to be recreated every render when capacity is already large enough.
-
-```ts
-const floatBuffer = new WebGLFloatBuffer();
-
-const batch = createWebGLSpriteBatch({
-  items: renderList.getFlatItems(),
-  camera,
-  width,
-  height,
-  getTextureKey,
-  floatBuffer
-});
-```
-
-This is the base for future static and dynamic batches.
+`WebGLRenderer2D` keeps reusable float buffers for shape and sprite vertices. Dynamic frames can still upload vertex data, but the CPU-side `Float32Array` backing storage does not need to be recreated when capacity is already large enough.
 
 ## GPU Buffer Uploads
 
@@ -225,7 +226,7 @@ This keeps dynamic rendering simple while static runs can keep their own cached 
 
 ## Current Limitations
 
-- no automatic texture atlas packing yet
+- no advanced texture atlas bin packing yet
 - no automatic static batch compaction yet
 - no text WebGL path yet
 - polygon batching expects convex polygons

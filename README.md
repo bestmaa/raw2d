@@ -131,6 +131,14 @@ scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
 
 In WebGL, this helps consecutive sprites stay in one texture batch.
 
+WebGL texture stats make the difference visible:
+
+```ts
+raw2dWebGL.render(scene, camera);
+console.log(raw2dWebGL.getStats().textureBinds);
+console.log(raw2dWebGL.getStats().textureUploads);
+```
+
 Objects support origin keywords for placement, rotation, and scaling:
 
 ```ts

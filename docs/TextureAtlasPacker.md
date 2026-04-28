@@ -51,6 +51,9 @@ scene.add(new Sprite({
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textures);
 // 1
+
+console.log(webglRenderer.getStats().textureBinds);
+// 1
 ```
 
 Without packing, separate images usually become separate textures and require more texture binds.

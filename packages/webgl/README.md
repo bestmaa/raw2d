@@ -71,6 +71,25 @@ console.log(renderer.getStats().textures);
 // 1
 ```
 
+Texture stats make this visible:
+
+```ts
+// separate textures:
+// { textures: 2, textureBinds: 2, textureUploads: 2 }
+
+// packed atlas:
+// { textures: 1, textureBinds: 1, textureUploads: 1 }
+```
+
+When a texture has already been uploaded, later frames report cache reuse:
+
+```ts
+renderer.render(scene, camera);
+renderer.render(scene, camera);
+
+console.log(renderer.getStats().textureCacheHits);
+```
+
 Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, `dynamicObjects`, `staticCacheHits`, and `staticCacheMisses`.
 
 Object and material versions invalidate static cached batches:

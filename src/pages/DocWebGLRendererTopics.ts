@@ -61,6 +61,9 @@ console.log(renderer.getStats());
 //   polygons: 143,
 //   sprites: 142,
 //   textures: 1,
+//   textureBinds: 142,
+//   textureUploads: 1,
+//   textureCacheHits: 141,
 //   batches: 600,
 //   staticBatches: 300,
 //   dynamicBatches: 300,
@@ -75,6 +78,30 @@ console.log(renderer.getStats());
 //   staticCacheMisses: 300,
 //   unsupported: 0
 // }`
+      },
+      {
+        title: "Texture Stats",
+        body: "Texture stats show how much texture work happened this frame. Packed atlas sprites should use fewer texture binds and uploads than separate image textures.",
+        liveDemoId: "webgl-renderer",
+        code: `webglRenderer.render(sceneWithSeparateTextures, camera);
+console.log(webglRenderer.getStats());
+// { textures: 3, textureBinds: 3, textureUploads: 3 }
+
+webglRenderer.render(sceneWithPackedAtlas, camera);
+console.log(webglRenderer.getStats());
+// { textures: 1, textureBinds: 1, textureUploads: 1 }`
+      },
+      {
+        title: "Texture Cache Hits",
+        body: "After a texture is uploaded once, later frames reuse the cached WebGLTexture. This is reported separately from buffer upload stats.",
+        liveDemoId: "webgl-renderer",
+        code: `webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textureUploads);
+// 1
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textureCacheHits);
+// 1`
       },
       {
         title: "Canvas Comparison",

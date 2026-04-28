@@ -160,7 +160,7 @@ console.log(webglRenderer.getStats());
 The WebGL stats show how much work went into the current frame:
 
 ```ts
-// { objects, batches, staticBatches, dynamicBatches, staticCacheHits, staticCacheMisses, vertices, drawCalls, unsupported }
+// { objects, batches, textures, textureBinds, textureUploads, textureCacheHits, drawCalls }
 console.log(webglRenderer.getStats());
 ```
 

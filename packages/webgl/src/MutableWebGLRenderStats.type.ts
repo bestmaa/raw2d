@@ -8,6 +8,9 @@ export interface MutableWebGLRenderStats {
   polygons: number;
   sprites: number;
   textures: Set<string>;
+  textureBinds: number;
+  textureUploads: number;
+  textureCacheHits: number;
   batches: number;
   staticBatches: number;
   dynamicBatches: number;
