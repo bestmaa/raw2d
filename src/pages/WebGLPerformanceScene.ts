@@ -11,7 +11,8 @@ const rowGap = 18;
 
 export function createWebGLPerformanceScene(
   state: WebGLPerformanceState,
-  assets: WebGLPerformanceAssets
+  assets: WebGLPerformanceAssets,
+  timeSeconds = 0
 ): WebGLPerformanceScene {
   const scene = new Scene();
   const staticCount = Math.max(0, Math.floor(state.objectCount * 0.7));
@@ -22,7 +23,7 @@ export function createWebGLPerformanceScene(
   }
 
   for (let index = 0; index < dynamicCount; index += 1) {
-    scene.add(createDynamicRect(index));
+    scene.add(createDynamicRect(index, timeSeconds));
   }
 
   return { scene, staticCount, dynamicCount };
@@ -46,12 +47,14 @@ function createStaticSprite(index: number, state: WebGLPerformanceState, assets:
   return sprite;
 }
 
-function createDynamicRect(index: number): Rect {
+function createDynamicRect(index: number, timeSeconds: number): Rect {
   const column = index % columns;
   const row = Math.floor(index / columns);
+  const wave = Math.sin(timeSeconds * 2.4 + index * 0.31);
+  const drift = Math.cos(timeSeconds * 1.6 + index * 0.17);
   const rect = new Rect({
-    x: 12 + column * 18,
-    y: 120 + row * rowGap,
+    x: 12 + column * 18 + drift * 5,
+    y: 120 + row * rowGap + wave * 8,
     width: 14,
     height: 10,
     material: new BasicMaterial({ fillColor: getDynamicColor(index) })

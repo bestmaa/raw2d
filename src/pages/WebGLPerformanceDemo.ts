@@ -1,8 +1,17 @@
 import { Camera2D, Canvas, WebGLRenderer2D } from "raw2d";
 import { createWebGLPerformanceAssets } from "./WebGLPerformanceAssets";
 import { createWebGLPerformanceScene } from "./WebGLPerformanceScene";
+import { createFrameTimer } from "./WebGLPerformanceTiming";
+import {
+  createWebGLPerformanceCode,
+  formatCanvasStats,
+  formatWebGLPerformanceSummary,
+  formatWebGLStats,
+  formatWebGLUnavailable
+} from "./WebGLPerformanceText";
 import type {
   WebGLPerformanceRenderOptions,
+  WebGLPerformanceRuntime,
   WebGLPerformanceState,
   WebGLPerformanceTextureMode
 } from "./WebGLPerformanceDemo.type";
@@ -11,7 +20,8 @@ const width = 520;
 const height = 260;
 
 export function createWebGLPerformanceDemo(): HTMLElement {
-  const state: WebGLPerformanceState = { objectCount: 420, textureMode: "packed" };
+  const state: WebGLPerformanceState = { objectCount: 420, textureMode: "packed", running: true };
+  const runtime = createRuntime();
   const section = document.createElement("article");
   const canvasElement = document.createElement("canvas");
   const webglElement = document.createElement("canvas");
@@ -24,6 +34,18 @@ export function createWebGLPerformanceDemo(): HTMLElement {
   const webglRenderer = createWebGLRenderer(webglElement);
   const camera = new Camera2D();
   const assets = createWebGLPerformanceAssets();
+  const options: WebGLPerformanceRenderOptions = {
+    canvasRenderer,
+    webglRenderer,
+    camera,
+    assets,
+    state,
+    runtime,
+    canvasStats,
+    webglStats,
+    summary,
+    code
+  };
 
   section.className = "doc-section shape-demo";
   canvasElement.className = "shape-demo-canvas";
@@ -34,22 +56,35 @@ export function createWebGLPerformanceDemo(): HTMLElement {
     createRendererBlock("Canvas", canvasElement, canvasStats),
     createRendererBlock("WebGL2", webglElement, webglStats),
     createSummary(summary),
-    createControls(state, () => renderDemo({ canvasRenderer, webglRenderer, camera, assets, state, canvasStats, webglStats, summary, code })),
+    createControls(
+      state,
+      () => handleInputChange(options),
+      () => handleLoopToggle(options, section)
+    ),
     pre
   );
-  renderDemo({ canvasRenderer, webglRenderer, camera, assets, state, canvasStats, webglStats, summary, code });
+
+  renderDemo(options);
+  scheduleFrame(options, section);
   return section;
 }
 
+function createRuntime(): WebGLPerformanceRuntime {
+  return {
+    frameId: null,
+    timeSeconds: 0,
+    canvasTimer: createFrameTimer(),
+    webglTimer: createFrameTimer()
+  };
+}
+
 function createTitle(): HTMLElement {
-  const fragment = document.createDocumentFragment();
+  const wrapper = document.createElement("div");
   const title = document.createElement("h2");
   const body = document.createElement("p");
   title.textContent = "Live WebGL Performance";
-  body.textContent = "Static atlas sprites are rendered twice so the second WebGL frame shows cache hits. Switch texture mode to see texture bind changes.";
-  fragment.append(title, body);
-  const wrapper = document.createElement("div");
-  wrapper.append(fragment);
+  body.textContent = "Compare Canvas and WebGL frame timing. WebGL warms the static cache first, then times the cached render pass.";
+  wrapper.append(title, body);
   return wrapper;
 }
 
@@ -81,10 +116,19 @@ function createSummary(summary: HTMLElement): HTMLElement {
   return block;
 }
 
-function createControls(state: WebGLPerformanceState, onChange: () => void): HTMLElement {
+function createControls(state: WebGLPerformanceState, onChange: () => void, onToggle: () => void): HTMLElement {
   const controls = document.createElement("div");
+  const runButton = document.createElement("button");
   controls.className = "shape-demo-controls";
-  controls.append(createRangeControl(state, onChange), createModeControl(state, onChange));
+  runButton.type = "button";
+  runButton.className = "shape-demo-action";
+  runButton.textContent = "Pause loop";
+  runButton.addEventListener("click", () => {
+    state.running = !state.running;
+    runButton.textContent = state.running ? "Pause loop" : "Play loop";
+    onToggle();
+  });
+  controls.append(runButton, createRangeControl(state, onChange), createModeControl(state, onChange));
   return controls;
 }
 
@@ -131,37 +175,69 @@ function createOption(value: WebGLPerformanceTextureMode, label: string): HTMLOp
   return option;
 }
 
+function handleInputChange(options: WebGLPerformanceRenderOptions): void {
+  options.runtime.canvasTimer.reset();
+  options.runtime.webglTimer.reset();
+  renderDemo(options);
+}
+
+function handleLoopToggle(options: WebGLPerformanceRenderOptions, host: HTMLElement): void {
+  if (options.state.running) {
+    scheduleFrame(options, host);
+    return;
+  }
+
+  cancelFrame(options.runtime);
+  renderDemo(options);
+}
+
+function scheduleFrame(options: WebGLPerformanceRenderOptions, host: HTMLElement): void {
+  if (!options.state.running || options.runtime.frameId !== null) {
+    return;
+  }
+
+  options.runtime.frameId = requestAnimationFrame((timeMs: number) => {
+    options.runtime.frameId = null;
+
+    if (!host.isConnected) {
+      options.state.running = false;
+      return;
+    }
+
+    options.runtime.timeSeconds = timeMs / 1000;
+    renderDemo(options);
+    scheduleFrame(options, host);
+  });
+}
+
+function cancelFrame(runtime: WebGLPerformanceRuntime): void {
+  if (runtime.frameId === null) {
+    return;
+  }
+
+  cancelAnimationFrame(runtime.frameId);
+  runtime.frameId = null;
+}
+
 function renderDemo(options: WebGLPerformanceRenderOptions): void {
-  const prepared = createWebGLPerformanceScene(options.state, options.assets);
+  const prepared = createWebGLPerformanceScene(options.state, options.assets, options.runtime.timeSeconds);
+  const canvasStart = performance.now();
   options.canvasRenderer.render(prepared.scene, options.camera);
-  options.canvasStats.textContent = `objects: ${options.canvasRenderer.getStats().objects} | drawCalls: ${options.canvasRenderer.getStats().drawCalls}`;
+  const canvasTiming = options.runtime.canvasTimer.record(performance.now() - canvasStart);
+  options.canvasStats.textContent = formatCanvasStats(options.canvasRenderer, canvasTiming);
 
   if (!options.webglRenderer) {
-    options.webglStats.textContent = "WebGL2 unavailable.";
+    options.webglStats.textContent = formatWebGLUnavailable(options.runtime.webglTimer.getSnapshot());
+    options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);
+    options.code.textContent = createWebGLPerformanceCode(options.state);
     return;
   }
 
   options.webglRenderer.render(prepared.scene, options.camera);
+  const webglStart = performance.now();
   options.webglRenderer.render(prepared.scene, options.camera);
-  options.webglStats.textContent = formatWebGLStats(options.webglRenderer);
-  options.summary.textContent = `static: ${prepared.staticCount} | dynamic: ${prepared.dynamicCount} | mode: ${options.state.textureMode}`;
-  options.code.textContent = createCode(options.state);
-}
-
-function formatWebGLStats(renderer: WebGLRenderer2D): string {
-  const stats = renderer.getStats();
-  return `objects: ${stats.objects} | drawCalls: ${stats.drawCalls} | textureBinds: ${stats.textureBinds} | textureUploads: ${stats.textureUploads} | staticCacheHits: ${stats.staticCacheHits} | staticCacheMisses: ${stats.staticCacheMisses}`;
-}
-
-function createCode(state: WebGLPerformanceState): string {
-  return `const atlas = new TextureAtlasPacker({ padding: 2 }).pack(spriteSources);
-tileSprite.setRenderMode("static");
-movingObject.setRenderMode("dynamic");
-
-webglRenderer.render(scene, camera); // upload and cache miss
-webglRenderer.render(scene, camera); // cache hit
-
-console.log(webglRenderer.getStats());
-// objects: ${state.objectCount}
-// texture mode: ${state.textureMode}`;
+  const webglTiming = options.runtime.webglTimer.record(performance.now() - webglStart);
+  options.webglStats.textContent = formatWebGLStats(options.webglRenderer, webglTiming);
+  options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);
+  options.code.textContent = createWebGLPerformanceCode(options.state);
 }

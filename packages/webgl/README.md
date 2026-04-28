@@ -122,6 +122,19 @@ console.log(stats.uploadedBytes);
 
 Packed atlas sprites should reduce `textureBinds`. Clean static runs should increase `staticCacheHits` and reduce vertex upload bytes after the first frame.
 
+Measure frame timing around the render call when comparing Canvas and WebGL in a browser:
+
+```ts
+const start = performance.now();
+renderer.render(scene, camera);
+const frameMs = performance.now() - start;
+const fps = frameMs > 0 ? 1000 / frameMs : 0;
+
+console.log({ frameMs, fps, stats: renderer.getStats() });
+```
+
+For static cache timing, warm the cache first and time the second pass. Browser timing is approximate and should be used for relative checks before deeper profiling.
+
 Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, `dynamicObjects`, `staticCacheHits`, and `staticCacheMisses`.
 
 Object and material versions invalidate static cached batches:

@@ -4,6 +4,8 @@ Raw2D exposes WebGL performance numbers instead of hiding the pipeline.
 
 Use these stats to understand whether batching is helping:
 
+- `frameMs`: browser-side render timing for one measured render pass
+- `fps`: `1000 / frameMs`, usually averaged across recent frames
 - `drawCalls`: actual WebGL draw ranges
 - `textureBinds`: texture bind operations for sprite batches
 - `textureUploads`: new texture uploads this frame
@@ -45,6 +47,46 @@ renderer.render(scene, camera);
 console.log(renderer.getStats().staticCacheHits);
 // 1
 ```
+
+## Canvas vs WebGL Timing
+
+Use browser timing when you want a quick relative check between Canvas and WebGL. Keep app logic outside the measured section when you only want renderer cost:
+
+```ts
+const canvasStart = performance.now();
+canvasRenderer.render(scene, camera);
+const canvasFrameMs = performance.now() - canvasStart;
+
+renderer.render(scene, camera); // warm static cache
+const webglStart = performance.now();
+renderer.render(scene, camera);
+const webglFrameMs = performance.now() - webglStart;
+
+console.log({
+  canvasFrameMs,
+  canvasFps: 1000 / canvasFrameMs,
+  webglFrameMs,
+  webglFps: 1000 / webglFrameMs
+});
+```
+
+For smoother display numbers, keep a rolling average over the last 60 frames:
+
+```ts
+const samples: number[] = [];
+
+function recordFrame(frameMs: number): number {
+  samples.push(frameMs);
+
+  if (samples.length > 60) {
+    samples.shift();
+  }
+
+  return samples.reduce((sum, value) => sum + value, 0) / samples.length;
+}
+```
+
+These numbers are approximate. Browser timing changes with tab focus, display refresh rate, GPU driver, devtools, background tasks, and the rest of your app. Use this timing to compare approaches in the same page, then use browser performance tools for final profiling.
 
 ## Packed Atlas vs Separate Textures
 

@@ -149,6 +149,18 @@ console.log(raw2dWebGL.getStats().staticCacheHits);
 console.log(raw2dWebGL.getStats().uploadedBytes);
 ```
 
+For quick Canvas vs WebGL timing, measure only the render call and average several frames:
+
+```ts
+const start = performance.now();
+raw2dWebGL.render(scene, camera);
+const frameMs = performance.now() - start;
+
+console.log({ frameMs, fps: 1000 / frameMs });
+```
+
+Browser timing is approximate. Use it for same-page comparisons, then profile deeper with browser performance tools.
+
 Objects support origin keywords for placement, rotation, and scaling:
 
 ```ts

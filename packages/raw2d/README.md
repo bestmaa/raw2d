@@ -167,6 +167,18 @@ console.log(webglRenderer.getStats().textureBinds);
 console.log(webglRenderer.getStats().staticCacheHits);
 ```
 
+For quick frame timing, keep app logic outside the measured block:
+
+```ts
+const start = performance.now();
+webglRenderer.render(scene, camera);
+const frameMs = performance.now() - start;
+
+console.log({ frameMs, fps: 1000 / frameMs });
+```
+
+Treat browser timing as approximate. It is useful for relative Canvas/WebGL checks in one page, not as a final benchmark.
+
 The WebGL stats show how much work went into the current frame:
 
 ```ts

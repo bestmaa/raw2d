@@ -160,20 +160,13 @@ Static cache behavior is visible through renderer stats:
 
 ```ts
 background.setRenderMode("static");
-
 renderer.render(scene, camera);
-console.log(renderer.getStats().staticCacheMisses);
-// 1
-
+const miss = renderer.getStats().staticCacheMisses;
 renderer.render(scene, camera);
-console.log(renderer.getStats().staticCacheHits);
-// 1
-
+const hit = renderer.getStats().staticCacheHits;
 background.setSize(900, 600);
-
 renderer.render(scene, camera);
-console.log(renderer.getStats().staticCacheMisses);
-// 1
+const rebuilt = renderer.getStats().staticCacheMisses;
 ```
 
 The current WebGL vertex batches are already projected into clip space, so camera position, camera zoom, renderer width, and renderer height are part of the static cache key. Panning, zooming, or resizing the renderer rebuilds static batches correctly.
@@ -184,12 +177,9 @@ Use static mode for tile maps, background sprites, and decoration that rarely ch
 
 ```ts
 tileSprite.setRenderMode("static");
-
 renderer.render(scene, camera);
 renderer.render(scene, camera);
-
 console.log(renderer.getStats().staticCacheHits);
-// 1
 ```
 
 Changing a static Sprite frame rebuilds that static run:
@@ -197,9 +187,7 @@ Changing a static Sprite frame rebuilds that static run:
 ```ts
 tileSprite.setFrame(atlas.getFrame("grass-alt"));
 renderer.render(scene, camera);
-
 console.log(renderer.getStats().staticCacheMisses);
-// 1
 ```
 
 Animated sprites should stay dynamic because their frame changes often:
@@ -216,23 +204,40 @@ playerSprite.setRenderMode("dynamic");
 WebGLFloatBuffer -> Float32Array -> WebGLBufferUploader -> WebGLBuffer
 ```
 
-The first large frame usually uses `bufferData` because GPU capacity must be created:
+The first large frame usually uses `bufferData`; later frames that fit the same capacity use `bufferSubData`:
 
 ```ts
 renderer.render(scene, camera);
 console.log(renderer.getStats().uploadBufferDataCalls);
-// 1
-```
 
-Later frames that fit the same capacity use `bufferSubData`:
-
-```ts
 renderer.render(scene, camera);
 console.log(renderer.getStats().uploadBufferSubDataCalls);
-// 1
 ```
 
 This keeps dynamic rendering simple while static runs can keep their own cached uploaders.
+
+## Frame Timing
+
+Renderer stats explain what WebGL did. Browser timing estimates one render pass:
+
+```ts
+const start = performance.now();
+renderer.render(scene, camera);
+const frameMs = performance.now() - start;
+
+console.log({ frameMs, fps: 1000 / frameMs, stats: renderer.getStats() });
+```
+
+When checking static cache cost, warm the cache and time the second pass:
+
+```ts
+renderer.render(scene, camera);
+const start = performance.now();
+renderer.render(scene, camera);
+const cachedFrameMs = performance.now() - start;
+```
+
+Browser timing is approximate. Use it for relative Canvas/WebGL comparisons.
 
 ## Current Limitations
 
@@ -241,5 +246,3 @@ This keeps dynamic rendering simple while static runs can keep their own cached 
 - no text WebGL path yet
 - polygon batching expects convex polygons
 - SVG texture sources should be rasterized to canvas before WebGL upload
-
-Future work should keep the same transparent path while improving batching.
