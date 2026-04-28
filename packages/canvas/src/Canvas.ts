@@ -1,7 +1,7 @@
-import { Camera2D, RenderPipeline, type RenderList, type Scene } from "raw2d-core";
+import { Camera2D, Group2D, RenderPipeline, type RenderItem, type RenderList, type Scene } from "raw2d-core";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
 import { getCanvasObjectWorldBounds } from "./culling/index.js";
-import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasSize } from "./Canvas.type.js";
+import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasRenderStats, CanvasSize } from "./Canvas.type.js";
 
 export class Canvas {
   public readonly element: HTMLCanvasElement;
@@ -14,6 +14,7 @@ export class Canvas {
   private height: number;
   private pixelRatio: number;
   private backgroundColor: string;
+  private stats: CanvasRenderStats = { objects: 0, drawCalls: 0 };
 
   public constructor(options: CanvasOptions) {
     this.element = options.canvas;
@@ -73,6 +74,10 @@ export class Canvas {
     };
   }
 
+  public getStats(): CanvasRenderStats {
+    return this.stats;
+  }
+
   public setSize(width: number, height: number, pixelRatio = this.pixelRatio): void {
     this.width = Math.max(1, Math.floor(width));
     this.height = Math.max(1, Math.floor(height));
@@ -106,6 +111,7 @@ export class Canvas {
     this.applyCamera(camera);
     this.renderer.render(renderList);
     this.context.restore();
+    this.stats = createCanvasStats(renderList);
   }
 
   public createRenderList(
@@ -127,4 +133,16 @@ export class Canvas {
     this.context.scale(camera.zoom, camera.zoom);
     this.context.translate(-camera.x, -camera.y);
   }
+}
+
+function createCanvasStats(renderList: RenderList<CanvasObject>): CanvasRenderStats {
+  const flatItems = renderList.getFlatItems();
+  return {
+    objects: flatItems.length,
+    drawCalls: flatItems.filter(isDrawableItem).length
+  };
+}
+
+function isDrawableItem(item: RenderItem<CanvasObject>): boolean {
+  return !(item.object instanceof Group2D);
 }

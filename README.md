@@ -218,13 +218,34 @@ import { WebGLRenderer2D } from "raw2d-webgl";
 import { Canvas } from "raw2d";
 ```
 
-`WebGLRenderer2D` is also public, but it is a skeleton right now. It exists so Raw2D can grow a transparent, batch-first WebGL2 pipeline without mixing WebGL code into Canvas modules:
+`WebGLRenderer2D` is also public. It currently renders `Rect` through WebGL2 with one dynamic rect batch:
 
 ```ts
 import { WebGLRenderer2D } from "raw2d-webgl";
+
+const webglRenderer = new WebGLRenderer2D({ canvas: canvasElement });
+webglRenderer.render(scene, camera);
+
+console.log(webglRenderer.getStats());
 ```
 
-Use Canvas for real rendering today. Use WebGLRenderer2D only for early integration experiments until the batcher, buffers, shaders, and draw calls are implemented.
+Use Canvas for full object support today. Use WebGLRenderer2D for rect-heavy scenes and early WebGL integration while Circle, Line, Sprite, Text2D, and path batches are added.
+
+For 1,000 rects, Canvas reports about 1,000 shape draw calls:
+
+```ts
+canvasRenderer.render(scene, camera);
+console.log(canvasRenderer.getStats());
+// { objects: 1000, drawCalls: 1000 }
+```
+
+WebGLRenderer2D writes those rects into one buffer and draws once:
+
+```ts
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats());
+// { objects: 1000, rects: 1000, vertices: 6000, drawCalls: 1, unsupported: 0 }
+```
 
 ## Local Development
 

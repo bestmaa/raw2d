@@ -104,7 +104,7 @@ rect.updateMatrix();
 const localMatrix = rect.getLocalMatrix();
 ```
 
-Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.
+Canvas works first. WebGL2 now has the first Rect batch path.
 
 Canvas and WebGL are public renderer packages:
 
@@ -113,7 +113,14 @@ import { Canvas } from "raw2d-canvas";
 import { WebGLRenderer2D } from "raw2d-webgl";
 ```
 
-Use `Canvas` for production rendering today. `WebGLRenderer2D` is public but not render-ready yet.
+Use `Canvas` for full object support today. Use `WebGLRenderer2D` for Rect-only WebGL experiments:
+
+```ts
+const webglRenderer = new WebGLRenderer2D({ canvas: canvasElement });
+webglRenderer.render(scene, camera);
+
+console.log(webglRenderer.getStats());
+```
 
 Check the live docs after deployment:
 

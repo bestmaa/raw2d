@@ -22,3 +22,8 @@ export interface CanvasSize {
   readonly height: number;
   readonly pixelRatio: number;
 }
+
+export interface CanvasRenderStats {
+  readonly objects: number;
+  readonly drawCalls: number;
+}

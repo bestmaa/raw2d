@@ -28,6 +28,7 @@ import shapePath from "../../docs/ShapePath.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
 import transformMatrix from "../../docs/TransformMatrix.md?raw";
 import visibleObjects from "../../docs/VisibleObjects.md?raw";
+import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
 import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
@@ -42,6 +43,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
   { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
   { id: "render-pipeline", label: "Render Pipeline", filename: "RenderPipeline.md", content: renderPipeline },
+  { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "WebGLRenderer2D.md", content: webGLRenderer2D },
   { id: "transform-matrix", label: "Transform Matrix", filename: "TransformMatrix.md", content: transformMatrix },
   { id: "group2d", label: "Group2D", filename: "Group2D.md", content: group2d },
   { id: "camera-controls", label: "CameraControls", filename: "CameraControls.md", content: cameraControls },

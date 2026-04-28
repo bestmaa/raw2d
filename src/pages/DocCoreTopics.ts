@@ -62,7 +62,7 @@ import { Canvas } from "raw2d-canvas";`
       },
       {
         title: "WebGL Package",
-        body: "WebGLRenderer2D is public, but it is a skeleton right now. It is present so the future batch-first API has a stable place.",
+        body: "WebGLRenderer2D is public and can render Rect objects through the first WebGL2 batch path. Canvas is still the full-feature renderer while WebGL grows object support.",
         code: `npm install raw2d-core raw2d-webgl
 
 import { Camera2D, Scene } from "raw2d-core";
@@ -70,9 +70,9 @@ import { WebGLRenderer2D } from "raw2d-webgl";
 
 const renderer = new WebGLRenderer2D({ canvas: canvasElement });
 renderer.setSize(800, 600);
+renderer.render(scene, camera);
 
-// Not render-ready yet.
-// renderer.render(scene, camera);`
+console.log(renderer.getStats());`
       },
       {
         title: "Renderer Responsibility",
@@ -85,8 +85,8 @@ scene.add(rect);
 // Canvas path works now.
 raw2dCanvas.render(scene, camera);
 
-// WebGL path will later use:
-// Scene -> Batcher -> Buffer -> Shader -> DrawCall`
+// WebGL path:
+// Scene -> RenderPipeline -> RectBatch -> Buffer -> Shader -> DrawCall`
       }
     ]
   },
