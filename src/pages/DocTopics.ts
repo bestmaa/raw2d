@@ -16,6 +16,7 @@ import { setupTopics } from "./DocSetupTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 import { webGLPerformanceTopics } from "./DocWebGLPerformanceTopics";
+import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
 
 export const topics: readonly DocTopic[] = [
@@ -27,6 +28,7 @@ export const topics: readonly DocTopic[] = [
   ...renderOrderTopics,
   ...renderPipelineTopics,
   ...webGLRendererTopics,
+  ...webGLContextTopics,
   ...webGLPerformanceTopics,
   ...group2DTopics,
   ...transformTopics,

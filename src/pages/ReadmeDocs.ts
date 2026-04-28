@@ -37,6 +37,7 @@ import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
 import webGLPerformance from "../../docs/WebGLPerformance.md?raw";
 import webGLTextureLifecycle from "../../docs/WebGLTextureLifecycle.md?raw";
+import webGLContextLifecycle from "../../docs/WebGLContextLifecycle.md?raw";
 import webGLFloatBuffer from "../../docs/WebGLFloatBuffer.md?raw";
 import webGLBufferUploader from "../../docs/WebGLBufferUploader.md?raw";
 import webGLStaticBatchCache from "../../docs/WebGLStaticBatchCache.md?raw";
@@ -60,6 +61,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "WebGLRenderer2D.md", content: webGLRenderer2D },
   { id: "webgl-performance", label: "WebGL Performance", filename: "WebGLPerformance.md", content: webGLPerformance },
   { id: "webgl-texture-lifecycle", label: "WebGL Texture Lifecycle", filename: "WebGLTextureLifecycle.md", content: webGLTextureLifecycle },
+  { id: "webgl-context-lifecycle", label: "WebGL Context Lifecycle", filename: "WebGLContextLifecycle.md", content: webGLContextLifecycle },
   { id: "webgl-float-buffer", label: "WebGLFloatBuffer", filename: "WebGLFloatBuffer.md", content: webGLFloatBuffer },
   { id: "webgl-buffer-uploader", label: "WebGLBufferUploader", filename: "WebGLBufferUploader.md", content: webGLBufferUploader },
   { id: "webgl-static-batch-cache", label: "WebGL Static Cache", filename: "WebGLStaticBatchCache.md", content: webGLStaticBatchCache },

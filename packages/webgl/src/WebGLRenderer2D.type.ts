@@ -14,6 +14,7 @@ export interface WebGLRenderer2DLike {
   render(scene: Scene, camera: Camera2D, options?: WebGLRenderer2DRenderOptions): void;
   setSize(width: number, height: number): void;
   clearTextureCache(): void;
+  isContextLost(): boolean;
   dispose(): void;
 }
 

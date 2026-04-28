@@ -1,5 +1,7 @@
 export * from "./WebGLRenderer2D.js";
 export * from "./WebGLRenderer2D.type.js";
+export * from "./WebGLRenderer2DResources.js";
+export * from "./WebGLRenderer2DResources.type.js";
 export * from "./WebGLRenderStats.type.js";
 export * from "./WebGLRenderRun.type.js";
 export * from "./WebGLColor.type.js";

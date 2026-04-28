@@ -277,6 +277,14 @@ raw2dWebGL.dispose();
 
 Use `clearTextureCache()` when assets unload but the renderer stays alive. Use `dispose()` when the canvas is removed. This releases cached textures, rasterized text textures, buffers, and shader programs.
 
+Raw2D also listens for WebGL context loss. While the browser context is lost, `raw2dWebGL.render()` skips GPU work. After context restore, shader programs, buffers, static caches, and texture caches are recreated automatically:
+
+```ts
+if (!raw2dWebGL.isContextLost()) {
+  raw2dWebGL.render(scene, camera);
+}
+```
+
 Sprite animation is explicit and renderer-independent:
 
 ```ts

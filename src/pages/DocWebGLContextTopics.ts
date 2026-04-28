@@ -1,0 +1,49 @@
+import type { DocTopic } from "./DocPage.type";
+
+export const webGLContextTopics: readonly DocTopic[] = [
+  {
+    id: "webgl-context-lifecycle",
+    label: "WebGL Context",
+    title: "WebGL Context Lifecycle",
+    description: "WebGL contexts can be lost by the browser. Raw2D skips rendering while lost and recreates GPU resources after restore.",
+    sections: [
+      {
+        title: "Detect Context Loss",
+        body: "WebGLRenderer2D listens for browser context loss events. While lost, render does not upload buffers, bind textures, or draw.",
+        code: `renderer.render(scene, camera);
+
+if (renderer.isContextLost()) {
+  console.log("WebGL is waiting for restore");
+}`
+      },
+      {
+        title: "Restore Recreates Resources",
+        body: "After webglcontextrestored, Raw2D recreates shader programs, buffer uploaders, static caches, and texture caches. Scene objects are still your normal data objects.",
+        code: `// Browser fires webglcontextrestored.
+// Raw2D rebuilds GPU resources internally.
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().textureUploads);`
+      },
+      {
+        title: "Animation Loop",
+        body: "Keep your loop explicit. Skip app-specific drawing work while context is lost, then continue rendering after restore.",
+        code: `function frame(): void {
+  if (!renderer.isContextLost()) {
+    renderer.render(scene, camera);
+  }
+
+  requestAnimationFrame(frame);
+}
+
+frame();`
+      },
+      {
+        title: "Dispose Separately",
+        body: "Context restore handles browser GPU resets. Dispose is still for app lifecycle cleanup when the canvas or renderer is no longer used.",
+        code: `renderer.clearTextureCache();
+renderer.dispose();`
+      }
+    ]
+  }
+];

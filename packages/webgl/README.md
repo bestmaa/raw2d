@@ -110,6 +110,14 @@ renderer.dispose();
 
 `dispose()` releases cached textures, rasterized text textures, static batch buffers, dynamic upload buffers, and shader programs. Create a new renderer after disposal.
 
+WebGL context loss is handled by the renderer. While the browser context is lost, `render()` skips GPU work. After `webglcontextrestored`, Raw2D recreates programs, uploaders, static caches, and texture caches:
+
+```ts
+if (!renderer.isContextLost()) {
+  renderer.render(scene, camera);
+}
+```
+
 Static sprites can also reuse their vertex buffer:
 
 ```ts
