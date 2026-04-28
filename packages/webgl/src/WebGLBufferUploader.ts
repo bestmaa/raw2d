@@ -45,6 +45,11 @@ export class WebGLBufferUploader {
     };
   }
 
+  public dispose(): void {
+    this.gl.deleteBuffer(this.buffer);
+    this.capacity = 0;
+  }
+
   private createResult(mode: WebGLBufferUploadResult["mode"], byteLength: number): WebGLBufferUploadResult {
     return {
       mode,

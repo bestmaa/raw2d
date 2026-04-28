@@ -40,6 +40,37 @@ export class WebGLTextureCache {
     return `texture:${nextId}`;
   }
 
+  public delete(texture: Texture): boolean {
+    const webglTexture = this.textures.get(texture);
+    this.textureIds.delete(texture);
+
+    if (!webglTexture) {
+      return false;
+    }
+
+    this.gl.deleteTexture(webglTexture);
+    this.textures.delete(texture);
+    return true;
+  }
+
+  public clear(): void {
+    for (const webglTexture of this.textures.values()) {
+      this.gl.deleteTexture(webglTexture);
+    }
+
+    this.textures.clear();
+    this.textureIds.clear();
+    this.nextTextureId = 1;
+  }
+
+  public getSize(): number {
+    return this.textures.size;
+  }
+
+  public dispose(): void {
+    this.clear();
+  }
+
   private createTexture(texture: Texture): WebGLTexture {
     const webglTexture = this.gl.createTexture();
 

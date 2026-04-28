@@ -2,6 +2,7 @@ import type { Texture } from "raw2d-sprite";
 
 export interface WebGLTextTextureCacheOptions {
   readonly createCanvas?: WebGLTextCanvasFactory;
+  readonly maxEntries?: number;
   readonly padding?: number;
 }
 

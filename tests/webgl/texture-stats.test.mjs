@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Camera2D, Scene } from "raw2d-core";
+import { BasicMaterial, Camera2D, Scene } from "raw2d-core";
 import { Sprite, Texture, TextureAtlasPacker } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
 import { WebGLRenderer2D } from "raw2d-webgl";
 
 test("WebGLRenderer2D reports texture upload and cache hit stats", () => {
@@ -46,6 +47,68 @@ test("packed atlas reduces WebGL texture binds versus separate textures", () => 
   assert.equal(packedStats.textureUploads, 1);
 });
 
+test("WebGLRenderer2D can clear texture caches", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({
+    canvas: createFakeCanvas(gl),
+    width: 100,
+    height: 100,
+    createTextCanvas: createCanvas
+  });
+  const scene = new Scene();
+
+  scene.add(new Text2D({ x: 10, y: 20, text: "Raw2D" }));
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(renderer.getTextureCacheSize(), 1);
+  assert.equal(renderer.getTextTextureCacheSize(), 1);
+
+  renderer.clearTextureCache();
+
+  assert.equal(renderer.getTextureCacheSize(), 0);
+  assert.equal(renderer.getTextTextureCacheSize(), 0);
+  assert.equal(gl.calls.includes("deleteTexture"), true);
+});
+
+test("WebGLRenderer2D retires stale text textures when text changes", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({
+    canvas: createFakeCanvas(gl),
+    width: 100,
+    height: 100,
+    createTextCanvas: createCanvas
+  });
+  const scene = new Scene();
+  const text = new Text2D({
+    x: 10,
+    y: 20,
+    text: "Old",
+    material: new BasicMaterial({ fillColor: "#ffffff" })
+  });
+
+  scene.add(text);
+  renderer.render(scene, new Camera2D());
+  text.setText("New");
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(renderer.getTextTextureCacheSize(), 1);
+  assert.equal(gl.calls.filter((call) => call === "deleteTexture").length, 1);
+});
+
+test("WebGLRenderer2D dispose releases WebGL resources", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 100, height: 100 });
+  const scene = new Scene();
+
+  scene.add(new Sprite({ texture: createTexture(16, 16), x: 10, y: 10, width: 16, height: 16 }));
+  renderer.render(scene, new Camera2D());
+  renderer.dispose();
+
+  assert.equal(gl.calls.filter((call) => call === "deleteBuffer").length >= 4, true);
+  assert.equal(gl.calls.includes("deleteTexture"), true);
+  assert.equal(gl.calls.filter((call) => call === "deleteProgram").length, 2);
+});
+
 function renderSprites(sprites) {
   const renderer = new WebGLRenderer2D({
     canvas: createFakeCanvas(createFakeWebGL2Context()),
@@ -71,7 +134,29 @@ function createCanvas(width, height) {
     width,
     height,
     getContext(type) {
-      return type === "2d" ? { clearRect() {}, drawImage() {} } : null;
+      return type === "2d" ? createFake2DContext() : null;
+    }
+  };
+}
+
+function createFake2DContext() {
+  return {
+    font: "",
+    textAlign: "start",
+    textBaseline: "alphabetic",
+    fillStyle: "#ffffff",
+    clearRect() {},
+    drawImage() {},
+    fillText() {},
+    measureText(text) {
+      const width = text.length * 10;
+      return {
+        width,
+        actualBoundingBoxLeft: 0,
+        actualBoundingBoxRight: width,
+        actualBoundingBoxAscent: 16,
+        actualBoundingBoxDescent: 4
+      };
     }
   };
 }
@@ -113,6 +198,7 @@ function createFakeWebGL2Context() {
     TRIANGLES: 4,
     UNSIGNED_BYTE: 5121,
     VERTEX_SHADER: 35633,
+    calls: [],
     activeTexture() {},
     attachShader() {},
     bindBuffer() {},
@@ -127,8 +213,16 @@ function createFakeWebGL2Context() {
     createProgram() { return {}; },
     createShader() { return {}; },
     createTexture() { return {}; },
-    deleteProgram() {},
+    deleteBuffer() {
+      this.calls.push("deleteBuffer");
+    },
+    deleteProgram() {
+      this.calls.push("deleteProgram");
+    },
     deleteShader() {},
+    deleteTexture() {
+      this.calls.push("deleteTexture");
+    },
     drawArrays() {},
     enable() {},
     enableVertexAttribArray() {},

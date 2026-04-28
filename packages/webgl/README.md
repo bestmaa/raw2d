@@ -94,6 +94,22 @@ renderer.render(scene, camera);
 console.log(renderer.getStats().textureCacheHits);
 ```
 
+Clear texture caches when an asset pack or document is unloaded:
+
+```ts
+renderer.clearTextureCache();
+console.log(renderer.getTextureCacheSize());
+console.log(renderer.getTextTextureCacheSize());
+```
+
+Dispose the renderer when the canvas is removed:
+
+```ts
+renderer.dispose();
+```
+
+`dispose()` releases cached textures, rasterized text textures, static batch buffers, dynamic upload buffers, and shader programs. Create a new renderer after disposal.
+
 Static sprites can also reuse their vertex buffer:
 
 ```ts

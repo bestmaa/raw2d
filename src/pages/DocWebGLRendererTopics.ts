@@ -109,7 +109,7 @@ console.log(webglRenderer.getStats());
       },
       {
         title: "Texture Cache Hits",
-        body: "After a texture is uploaded once, later frames reuse the cached WebGLTexture. This is reported separately from buffer upload stats.",
+        body: "After upload, later frames reuse cached WebGLTexture objects. Clear caches when assets unload; dispose the renderer when the canvas is removed.",
         liveDemoId: "webgl-renderer",
         code: `webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textureUploads);
@@ -117,7 +117,11 @@ console.log(webglRenderer.getStats().textureUploads);
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textureCacheHits);
-// 1`
+// 1
+webglRenderer.clearTextureCache();
+console.log(webglRenderer.getTextureCacheSize());
+// 0
+webglRenderer.dispose();`
       },
       {
         title: "Canvas Comparison",

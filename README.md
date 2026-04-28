@@ -45,7 +45,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 ## CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.5/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.2.0/dist/raw2d.umd.cjs"></script>
 ```
 
 The UMD build exposes `Raw2D` on `window`.
@@ -268,6 +268,15 @@ console.log(raw2dWebGL.getStats());
 
 Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites or rasterized Text2D textures are merged into texture draw ranges. `TextureAtlas` lets Sprites use named frames from one Texture, which is the base for larger sprite batches. WebGL batches reuse CPU float buffers and GPU buffer capacity so later frames can upload with `bufferSubData` when capacity already fits. Static runs can skip vertex upload entirely when their cache key is unchanged. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
+For long-running apps, clear or dispose WebGL resources explicitly:
+
+```ts
+raw2dWebGL.clearTextureCache();
+raw2dWebGL.dispose();
+```
+
+Use `clearTextureCache()` when assets unload but the renderer stays alive. Use `dispose()` when the canvas is removed. This releases cached textures, rasterized text textures, buffers, and shader programs.
+
 Sprite animation is explicit and renderer-independent:
 
 ```ts
@@ -343,7 +352,7 @@ import { WebGLRenderer2D } from "raw2d-webgl";
 import { Canvas } from "raw2d";
 ```
 
-`WebGLRenderer2D` is also public. It currently renders `Rect` through WebGL2 with one dynamic rect batch:
+`WebGLRenderer2D` is also public. It batches supported primitives, Sprites, and rasterized Text2D through WebGL2:
 
 ```ts
 import { WebGLRenderer2D } from "raw2d-webgl";
@@ -354,7 +363,7 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
 ```
 
-Use Canvas for full object support today. Use WebGLRenderer2D for rect-heavy scenes and early WebGL integration while Circle, Line, Sprite, Text2D, and path batches are added.
+Use Canvas for full object support today. Use WebGLRenderer2D when supported objects can benefit from explicit batches, texture reuse, and static render runs.
 
 For 1,000 rects, Canvas reports about 1,000 shape draw calls:
 

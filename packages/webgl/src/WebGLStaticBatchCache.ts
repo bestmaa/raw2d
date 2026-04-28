@@ -48,8 +48,21 @@ export class WebGLStaticBatchCache<TBatch extends WebGLStaticBatchWithVertices> 
   public sweep(): void {
     for (const [runId, entry] of this.entries) {
       if (entry.lastFrame !== this.frame) {
+        entry.uploader.dispose();
         this.entries.delete(runId);
       }
     }
+  }
+
+  public clear(): void {
+    for (const entry of this.entries.values()) {
+      entry.uploader.dispose();
+    }
+
+    this.entries.clear();
+  }
+
+  public dispose(): void {
+    this.clear();
   }
 }

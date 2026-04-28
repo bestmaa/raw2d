@@ -1,10 +1,4 @@
-import {
-  Camera2D,
-  RenderPipeline,
-  type Object2D,
-  type RenderList,
-  type Scene
-} from "raw2d-core";
+import { Camera2D, RenderPipeline, type Object2D, type RenderList, type Scene } from "raw2d-core";
 import { createWebGLProgram } from "./createWebGLProgram.js";
 import { createWebGLRenderRuns } from "./createWebGLRenderRuns.js";
 import { createWebGLShapeBatch } from "./createWebGLShapeBatch.js";
@@ -32,12 +26,7 @@ import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 import type { WebGLShapeBatch } from "./WebGLShapeBatch.type.js";
 import type { WebGLSpriteBatch } from "./WebGLSpriteBatch.type.js";
-import type {
-  WebGLRenderer2DLike,
-  WebGLRenderer2DOptions,
-  WebGLRenderer2DRenderOptions,
-  WebGLRenderer2DSize
-} from "./WebGLRenderer2D.type.js";
+import type { WebGLRenderer2DLike, WebGLRenderer2DOptions, WebGLRenderer2DRenderOptions, WebGLRenderer2DSize } from "./WebGLRenderer2D.type.js";
 
 export class WebGLRenderer2D implements WebGLRenderer2DLike {
   public readonly canvas: HTMLCanvasElement;
@@ -81,7 +70,10 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.staticShapeCache = new WebGLStaticBatchCache(gl);
     this.staticSpriteCache = new WebGLStaticBatchCache(gl);
     this.textureCache = new WebGLTextureCache(gl);
-    this.textTextureCache = new WebGLTextTextureCache({ createCanvas: options.createTextCanvas });
+    this.textTextureCache = new WebGLTextTextureCache({
+      createCanvas: options.createTextCanvas,
+      maxEntries: options.textTextureCacheMaxEntries
+    });
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.setSize(this.width, this.height);
@@ -95,23 +87,32 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl.viewport(0, 0, this.width, this.height);
   }
 
-  public getSize(): WebGLRenderer2DSize {
-    return { width: this.width, height: this.height };
+  public getSize(): WebGLRenderer2DSize { return { width: this.width, height: this.height }; }
+  public getStats(): WebGLRenderStats { return this.stats; }
+  public getTextureCacheSize(): number { return this.textureCache.getSize(); }
+  public getTextTextureCacheSize(): number { return this.textTextureCache.getSize(); }
+
+  public setBackgroundColor(color: string): void { this.backgroundColor = color; }
+
+  public clearTextureCache(): void {
+    this.textTextureCache.clear();
+    this.releaseRetiredTextTextures();
+    this.textureCache.clear();
   }
 
-  public getStats(): WebGLRenderStats {
-    return this.stats;
+  public dispose(): void {
+    this.staticShapeCache.dispose();
+    this.staticSpriteCache.dispose();
+    for (const uploader of [this.shapeUploaders.dynamic, this.shapeUploaders.static, this.spriteUploaders.dynamic, this.spriteUploaders.static]) {
+      uploader.dispose();
+    }
+    this.textureCache.dispose();
+    this.textTextureCache.dispose();
+    this.gl.deleteProgram(this.shapeProgram);
+    this.gl.deleteProgram(this.spriteProgram);
   }
 
-  public setBackgroundColor(color: string): void {
-    this.backgroundColor = color;
-  }
-
-  public createRenderList(
-    scene?: Scene,
-    camera = this.defaultCamera,
-    options: WebGLRenderer2DRenderOptions = {}
-  ): RenderList<Object2D> {
+  public createRenderList(scene?: Scene, camera = this.defaultCamera, options: WebGLRenderer2DRenderOptions = {}): RenderList<Object2D> {
     return this.pipeline.build({
       scene,
       camera,
@@ -175,11 +176,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     return true;
   }
 
-  private cacheShapeBatch(
-    run: WebGLRenderRun,
-    camera: Camera2D,
-    batch: WebGLShapeBatch
-  ): ReturnType<WebGLStaticBatchCache<WebGLShapeBatch>["set"]> {
+  private cacheShapeBatch(run: WebGLRenderRun, camera: Camera2D, batch: WebGLShapeBatch): ReturnType<WebGLStaticBatchCache<WebGLShapeBatch>["set"]> {
     const identity = this.createStaticRunIdentity(run, camera);
     return this.staticShapeCache.set(identity.runId, identity.key, batch);
   }
@@ -199,6 +196,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       getTextTexture: (text) => this.textTextureCache.get(text)
     });
 
+    this.releaseRetiredTextTextures();
     const uploader = run.mode === "static" ? this.cacheSpriteBatch(run, camera, batch).uploader : this.spriteUploaders.dynamic;
     configureWebGLSpriteProgram(this.gl, this.spriteProgram, uploader);
     trackWebGLUploadStats(uploader.upload(batch.vertices), stats);
@@ -222,11 +220,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     return true;
   }
 
-  private cacheSpriteBatch(
-    run: WebGLRenderRun,
-    camera: Camera2D,
-    batch: WebGLSpriteBatch
-  ): ReturnType<WebGLStaticBatchCache<WebGLSpriteBatch>["set"]> {
+  private cacheSpriteBatch(run: WebGLRenderRun, camera: Camera2D, batch: WebGLSpriteBatch): ReturnType<WebGLStaticBatchCache<WebGLSpriteBatch>["set"]> {
     const identity = this.createStaticRunIdentity(run, camera);
     return this.staticSpriteCache.set(identity.runId, identity.key, batch);
   }
@@ -235,6 +229,12 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     const color = parseWebGLColor(this.backgroundColor);
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+  }
+
+  private releaseRetiredTextTextures(): void {
+    for (const texture of this.textTextureCache.drainRetiredTextures()) {
+      this.textureCache.delete(texture);
+    }
   }
 
   private createStaticRunIdentity(run: WebGLRenderRun, camera: Camera2D): ReturnType<typeof createWebGLStaticRunKey> {

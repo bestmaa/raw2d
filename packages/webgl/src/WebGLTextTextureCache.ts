@@ -11,10 +11,13 @@ export class WebGLTextTextureCache {
   private readonly cache = new Map<string, CachedTextTexture>();
   private readonly options: WebGLTextTextureCacheOptions;
   private readonly padding: number;
+  private readonly maxEntries: number;
+  private readonly retiredTextures: Texture[] = [];
 
   public constructor(options: WebGLTextTextureCacheOptions = {}) {
     this.options = options;
     this.padding = Math.max(0, options.padding ?? 2);
+    this.maxEntries = Math.max(1, Math.floor(options.maxEntries ?? 256));
   }
 
   public get(text: Text2D): WebGLTextTextureEntry {
@@ -22,12 +25,54 @@ export class WebGLTextTextureCache {
     const key = createTextTextureKey(text);
 
     if (existing && existing.key === key) {
+      this.cache.delete(text.id);
+      this.cache.set(text.id, existing);
       return existing.entry;
+    }
+
+    if (existing) {
+      this.retiredTextures.push(existing.entry.texture);
     }
 
     const entry = this.createEntry(text, key);
     this.cache.set(text.id, { key, entry });
+    this.evictOverflow();
     return entry;
+  }
+
+  public delete(text: Text2D): boolean {
+    const existing = this.cache.get(text.id);
+
+    if (!existing) {
+      return false;
+    }
+
+    this.retiredTextures.push(existing.entry.texture);
+    this.cache.delete(text.id);
+    return true;
+  }
+
+  public clear(): void {
+    for (const existing of this.cache.values()) {
+      this.retiredTextures.push(existing.entry.texture);
+    }
+
+    this.cache.clear();
+  }
+
+  public getSize(): number {
+    return this.cache.size;
+  }
+
+  public drainRetiredTextures(): readonly Texture[] {
+    const textures = this.retiredTextures.slice();
+    this.retiredTextures.length = 0;
+    return textures;
+  }
+
+  public dispose(): void {
+    this.clear();
+    this.retiredTextures.length = 0;
   }
 
   private createEntry(text: Text2D, key: string): WebGLTextTextureEntry {
@@ -68,6 +113,24 @@ export class WebGLTextTextureCache {
     canvas.width = width;
     canvas.height = height;
     return canvas;
+  }
+
+  private evictOverflow(): void {
+    while (this.cache.size > this.maxEntries) {
+      const oldestKey = this.cache.keys().next().value;
+
+      if (oldestKey === undefined) {
+        return;
+      }
+
+      const oldest = this.cache.get(oldestKey);
+
+      if (oldest) {
+        this.retiredTextures.push(oldest.entry.texture);
+      }
+
+      this.cache.delete(oldestKey);
+    }
   }
 }
 
