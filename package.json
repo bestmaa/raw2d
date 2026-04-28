@@ -1,7 +1,7 @@
 {
   "name": "raw2d-workspace",
   "private": true,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
   "type": "module",
   "workspaces": [
@@ -30,8 +30,8 @@
     "typescript",
     "graphics"
   ],
-  "author": "aditya",
-  "license": "MIT",
+  "author": "Aditya Nandlal",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/bestmaa/raw2d/issues"
   },

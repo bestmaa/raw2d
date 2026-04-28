@@ -45,7 +45,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 ## CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.2/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.5/dist/raw2d.umd.cjs"></script>
 ```
 
 The UMD build exposes `Raw2D` on `window`.
@@ -227,6 +227,18 @@ npm run typecheck
 npm run build
 npm run pack:check
 ```
+
+## License And Attribution
+
+Raw2D is licensed under the Apache License 2.0.
+
+```text
+Copyright 2026 Aditya Nandlal
+```
+
+If you redistribute Raw2D or a modified version, keep the `LICENSE` and `NOTICE` files with the distribution. Do not remove the original copyright or attribution notices.
+
+The Apache-2.0 license covers the source code. The Raw2D name and project identity are project marks; do not use them to imply that a fork, package, product, or service is the official Raw2D project unless you have permission.
 
 ## Performance Roadmap
 

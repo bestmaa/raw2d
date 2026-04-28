@@ -5,6 +5,7 @@ import { curveTopics } from "./DocCurveTopics";
 import { group2DTopics } from "./DocGroup2DTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
 import { interactionTopics } from "./DocInteractionTopics";
+import { licenseTopics } from "./DocLicenseTopics";
 import type { DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
@@ -16,6 +17,7 @@ import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 
 export const topics: readonly DocTopic[] = [
   ...setupTopics,
+  ...licenseTopics,
   ...coreTopics,
   ...canvasCullingTopics,
   ...visibleObjectsTopics,

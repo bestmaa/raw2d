@@ -1,6 +1,6 @@
 {
   "name": "raw2d-effects",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Effects package placeholder for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -9,7 +9,9 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "NOTICE"
   ],
   "exports": {
     ".": {
@@ -20,5 +22,6 @@
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
-  "license": "MIT"
+  "author": "Aditya Nandlal",
+  "license": "Apache-2.0"
 }

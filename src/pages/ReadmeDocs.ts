@@ -12,6 +12,7 @@ import group2d from "../../docs/Group2D.md?raw";
 import hitTesting from "../../docs/HitTesting.md?raw";
 import interactionController from "../../docs/InteractionController.md?raw";
 import keyboardController from "../../docs/KeyboardController.md?raw";
+import license from "../../docs/License.md?raw";
 import line from "../../docs/Line.md?raw";
 import objectResize from "../../docs/ObjectResize.md?raw";
 import picking from "../../docs/Picking.md?raw";
@@ -28,6 +29,7 @@ import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
+  { id: "license", label: "License", filename: "License.md", content: license },
   { id: "canvas", label: "Canvas", filename: "Canvas.md", content: canvas },
   { id: "canvas-api", label: "Canvas API", filename: "Canvas-api.md", content: canvasApi },
   { id: "canvas-objects", label: "Canvas Objects", filename: "Canvas-objects.md", content: canvasObjects },

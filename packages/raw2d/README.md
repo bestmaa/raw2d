@@ -30,7 +30,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 Use the CDN build without a bundler:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.2/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.5/dist/raw2d.umd.cjs"></script>
 ```
 
 ```ts
@@ -102,3 +102,13 @@ Check the live docs after deployment:
 ```text
 https://raw2d.com/doc
 ```
+
+## License
+
+Raw2D is licensed under Apache-2.0.
+
+```text
+Copyright 2026 Aditya Nandlal
+```
+
+Redistributions must keep the included `LICENSE` and `NOTICE` files.
