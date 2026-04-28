@@ -16,6 +16,8 @@ export interface Object2DOrigin {
 
 export type Object2DOriginValue = Object2DOriginKeyword | Object2DOrigin;
 
+export type Object2DRenderMode = "dynamic" | "static";
+
 export interface Object2DOptions {
   readonly name?: string;
   readonly x?: number;
@@ -26,6 +28,7 @@ export interface Object2DOptions {
   readonly scaleY?: number;
   readonly zIndex?: number;
   readonly visible?: boolean;
+  readonly renderMode?: Object2DRenderMode;
 }
 
 export interface Object2DTransform {

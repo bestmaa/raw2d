@@ -4,6 +4,7 @@ import {
   Arc,
   BasicMaterial,
   Ellipse,
+  Rect,
   getArcLocalBounds,
   getCoreLocalBounds,
   getEllipseLocalBounds,
@@ -25,6 +26,15 @@ test("Ellipse stores radii, clamps negative values, and defaults to center origi
 
   ellipse.setRadii(30, 12);
   assert.deepEqual(ellipse.getSize(), { radiusX: 30, radiusY: 12, width: 60, height: 24 });
+});
+
+test("Object2D render mode defaults to dynamic and can become static", () => {
+  const rect = new Rect({ width: 20, height: 10 });
+
+  assert.equal(rect.renderMode, "dynamic");
+
+  rect.setRenderMode("static");
+  assert.equal(rect.renderMode, "static");
 });
 
 test("Arc stores radii, angles, closed state, and material", () => {

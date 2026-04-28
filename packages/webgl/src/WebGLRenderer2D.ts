@@ -2,6 +2,7 @@ import {
   Camera2D,
   RenderPipeline,
   type Object2D,
+  type Object2DRenderMode,
   type RenderList,
   type Scene
 } from "raw2d-core";
@@ -15,10 +16,13 @@ import { getWebGLRenderRunKind } from "./getWebGLRenderRunKind.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { WebGLTextureCache } from "./WebGLTextureCache.js";
 import { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
-import { WebGLBufferUploader } from "./WebGLBufferUploader.js";
 import { finalizeWebGLRenderStats } from "./finalizeWebGLRenderStats.js";
+import { createWebGLBufferUploaders } from "./createWebGLBufferUploaders.js";
+import { trackWebGLRunModeStats } from "./trackWebGLRunModeStats.js";
+import { trackWebGLUploadStats } from "./trackWebGLUploadStats.js";
 import { shapeFragmentSource, shapeVertexSource, spriteFragmentSource, spriteVertexSource } from "./WebGLRenderer2DShaders.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
+import type { WebGLBufferUploaderMap } from "./WebGLBufferUploaderMap.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 import type {
@@ -36,8 +40,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   });
   private readonly shapeProgram: WebGLProgram;
   private readonly spriteProgram: WebGLProgram;
-  private readonly shapeUploader: WebGLBufferUploader;
-  private readonly spriteUploader: WebGLBufferUploader;
+  private readonly shapeUploaders: WebGLBufferUploaderMap;
+  private readonly spriteUploaders: WebGLBufferUploaderMap;
   private readonly textureCache: WebGLTextureCache;
   private readonly shapeFloatBuffer = new WebGLFloatBuffer();
   private readonly spriteFloatBuffer = new WebGLFloatBuffer();
@@ -56,6 +60,10 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     sprites: 0,
     textures: 0,
     batches: 0,
+    staticBatches: 0,
+    dynamicBatches: 0,
+    staticObjects: 0,
+    dynamicObjects: 0,
     vertices: 0,
     drawCalls: 0,
     uploadBufferDataCalls: 0,
@@ -79,8 +87,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl = gl;
     this.shapeProgram = createWebGLProgram(gl, shapeVertexSource, shapeFragmentSource);
     this.spriteProgram = createWebGLProgram(gl, spriteVertexSource, spriteFragmentSource);
-    this.shapeUploader = new WebGLBufferUploader({ gl, target: gl.ARRAY_BUFFER, usage: gl.DYNAMIC_DRAW });
-    this.spriteUploader = new WebGLBufferUploader({ gl, target: gl.ARRAY_BUFFER, usage: gl.DYNAMIC_DRAW });
+    this.shapeUploaders = createWebGLBufferUploaders(gl);
+    this.spriteUploaders = createWebGLBufferUploaders(gl);
     this.textureCache = new WebGLTextureCache(gl);
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
@@ -134,6 +142,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       } else if (run.kind === "sprite") {
         this.renderSpriteRun(run, camera, stats);
       } else {
+        trackWebGLRunModeStats(run, 0, stats);
         stats.unsupported += run.items.length;
       }
     }
@@ -143,8 +152,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
   private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
     const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height, floatBuffer: this.shapeFloatBuffer });
-    this.configureShapeProgram();
-    this.trackUpload(this.shapeUploader.upload(batch.vertices), stats);
+    this.configureShapeProgram(run.mode);
+    trackWebGLUploadStats(this.shapeUploaders[run.mode].upload(batch.vertices), stats);
 
     for (const drawBatch of batch.drawBatches) {
       this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
@@ -156,7 +165,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     stats.lines += batch.lines;
     stats.polylines += batch.polylines;
     stats.polygons += batch.polygons;
-    stats.batches += batch.drawBatches.length;
+    trackWebGLRunModeStats(run, batch.drawBatches.length, stats);
     stats.vertices += batch.vertices.length / 6;
     stats.drawCalls += batch.drawBatches.length;
     stats.unsupported += batch.unsupported;
@@ -172,8 +181,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       getTextureKey: (texture) => this.textureCache.getKey(texture)
     });
 
-    this.configureSpriteProgram();
-    this.trackUpload(this.spriteUploader.upload(batch.vertices), stats);
+    this.configureSpriteProgram(run.mode);
+    trackWebGLUploadStats(this.spriteUploaders[run.mode].upload(batch.vertices), stats);
 
     for (const drawBatch of batch.drawBatches) {
       this.gl.activeTexture(this.gl.TEXTURE0);
@@ -183,21 +192,21 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     }
 
     stats.sprites += batch.sprites;
-    stats.batches += batch.drawBatches.length;
+    trackWebGLRunModeStats(run, batch.drawBatches.length, stats);
     stats.vertices += batch.vertices.length / 5;
     stats.drawCalls += batch.drawBatches.length;
     stats.unsupported += batch.unsupported;
   }
 
-  private configureShapeProgram(): void {
+  private configureShapeProgram(mode: Object2DRenderMode): void {
     const stride = 6 * Float32Array.BYTES_PER_ELEMENT;
     this.gl.useProgram(this.shapeProgram);
-    this.shapeUploader.bind();
+    this.shapeUploaders[mode].bind();
     this.enableAttribute(this.shapeProgram, "a_position", 2, stride, 0);
     this.enableAttribute(this.shapeProgram, "a_color", 4, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
   }
 
-  private configureSpriteProgram(): void {
+  private configureSpriteProgram(mode: Object2DRenderMode): void {
     const stride = 5 * Float32Array.BYTES_PER_ELEMENT;
     const textureLocation = this.gl.getUniformLocation(this.spriteProgram, "u_texture");
 
@@ -206,7 +215,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     }
 
     this.gl.useProgram(this.spriteProgram);
-    this.spriteUploader.bind();
+    this.spriteUploaders[mode].bind();
     this.enableAttribute(this.spriteProgram, "a_position", 2, stride, 0);
     this.enableAttribute(this.spriteProgram, "a_uv", 2, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
     this.enableAttribute(this.spriteProgram, "a_alpha", 1, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
@@ -228,15 +237,5 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     const color = parseWebGLColor(this.backgroundColor);
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-  }
-
-  private trackUpload(upload: ReturnType<WebGLBufferUploader["upload"]>, stats: MutableWebGLRenderStats): void {
-    stats.uploadedBytes += upload.byteLength;
-
-    if (upload.mode === "bufferData") {
-      stats.uploadBufferDataCalls += 1;
-    } else {
-      stats.uploadBufferSubDataCalls += 1;
-    }
   }
 }

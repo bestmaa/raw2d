@@ -13,6 +13,7 @@ Current scope:
 - uploads textures through a small `WebGLTextureCache`
 - reuses CPU-side typed arrays through `WebGLFloatBuffer`
 - reuses GPU buffer capacity through `WebGLBufferUploader`
+- separates static and dynamic render runs
 - reports batch, texture, vertex, draw call, and upload stats
 
 Canvas is still the complete renderer. WebGL is the performance path being built out.
@@ -90,6 +91,10 @@ Example:
   sprites: 40,
   textures: 1,
   batches: 240,
+  staticBatches: 120,
+  dynamicBatches: 120,
+  staticObjects: 260,
+  dynamicObjects: 240,
   vertices: 18000,
   drawCalls: 240,
   uploadBufferDataCalls: 1,
@@ -100,6 +105,24 @@ Example:
 ```
 
 `batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`.
+
+## Static And Dynamic Runs
+
+Every `Object2D` has a `renderMode`:
+
+```ts
+background.setRenderMode("static");
+player.setRenderMode("dynamic");
+```
+
+WebGL render runs split when the mode changes. A static shape run and a dynamic shape run use separate upload channels:
+
+```text
+Scene -> RenderPipeline -> RenderRun(static) -> Buffer -> DrawCall
+Scene -> RenderPipeline -> RenderRun(dynamic) -> Buffer -> DrawCall
+```
+
+The current MVP still uploads static runs each render. The value now is explicit planning, stats, and a clean place for dirty static batch caching later.
 
 ## Ordered Runs
 
@@ -165,7 +188,7 @@ This keeps dynamic rendering simple now and gives Raw2D a clean place to add sta
 ## Current Limitations
 
 - no automatic texture atlas packing yet
-- no static/dynamic batch separation yet
+- no persistent static batch cache yet
 - no text WebGL path yet
 - polygon batching expects convex polygons
 - SVG texture sources should be rasterized to canvas before WebGL upload

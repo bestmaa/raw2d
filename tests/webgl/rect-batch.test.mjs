@@ -2,7 +2,16 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderPipeline } from "raw2d-core";
 import { Sprite, Texture } from "raw2d-sprite";
-import { WebGLBufferUploader, WebGLFloatBuffer, createWebGLRectBatch, createWebGLShapeBatch, createWebGLSpriteBatch, parseWebGLColor } from "raw2d-webgl";
+import {
+  WebGLBufferUploader,
+  WebGLFloatBuffer,
+  createWebGLRectBatch,
+  createWebGLRenderRuns,
+  createWebGLShapeBatch,
+  createWebGLSpriteBatch,
+  getWebGLRenderRunKind,
+  parseWebGLColor
+} from "raw2d-webgl";
 
 test("parseWebGLColor supports hex and rgba colors", () => {
   assert.deepEqual(parseWebGLColor("#35c2ff"), {
@@ -286,6 +295,19 @@ test("WebGLBufferUploader uses bufferData until GPU capacity is large enough", (
     "bufferData:34962,12,35048",
     "bindBuffer:34962",
     "bufferSubData:34962,0,6"
+  ]);
+});
+
+test("createWebGLRenderRuns splits supported objects by render mode", () => {
+  const staticRect = new Rect({ width: 10, height: 10 });
+  const dynamicRect = new Rect({ width: 10, height: 10 });
+  staticRect.setRenderMode("static");
+  const items = new RenderPipeline().build({ objects: [staticRect, dynamicRect] }).getFlatItems();
+  const runs = createWebGLRenderRuns(items, getWebGLRenderRunKind);
+
+  assert.deepEqual(runs.map((run) => ({ kind: run.kind, mode: run.mode, count: run.items.length })), [
+    { kind: "shape", mode: "static", count: 1 },
+    { kind: "shape", mode: "dynamic", count: 1 }
   ]);
 });
 

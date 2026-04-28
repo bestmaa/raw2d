@@ -5,6 +5,7 @@ import type {
   Object2DOptions,
   Object2DOrigin,
   Object2DOriginValue,
+  Object2DRenderMode,
   Object2DTransform
 } from "./Object2D.type.js";
 
@@ -13,6 +14,7 @@ export class Object2D {
   public name: string;
   public zIndex: number;
   public visible: boolean;
+  public renderMode: Object2DRenderMode;
   private readonly localMatrix = new Matrix3();
   private readonly worldMatrix = new Matrix3();
   private localMatrixDirty = true;
@@ -38,6 +40,7 @@ export class Object2D {
     this._scaleY = options.scaleY ?? 1;
     this.zIndex = options.zIndex ?? 0;
     this.visible = options.visible ?? true;
+    this.renderMode = options.renderMode ?? "dynamic";
   }
 
   public get x(): number {
@@ -124,6 +127,10 @@ export class Object2D {
 
   public setZIndex(zIndex: number): void {
     this.zIndex = zIndex;
+  }
+
+  public setRenderMode(renderMode: Object2DRenderMode): void {
+    this.renderMode = renderMode;
   }
 
   public getTransform(): Object2DTransform {

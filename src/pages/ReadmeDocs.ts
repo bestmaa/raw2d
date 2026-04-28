@@ -21,6 +21,7 @@ import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
+import renderMode from "../../docs/RenderMode.md?raw";
 import renderPipeline from "../../docs/RenderPipeline.md?raw";
 import resizeHandles from "../../docs/ResizeHandles.md?raw";
 import scene from "../../docs/Scene.md?raw";
@@ -48,6 +49,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
   { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
+  { id: "render-mode", label: "Render Mode", filename: "RenderMode.md", content: renderMode },
   { id: "render-pipeline", label: "Render Pipeline", filename: "RenderPipeline.md", content: renderPipeline },
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "WebGLRenderer2D.md", content: webGLRenderer2D },
   { id: "webgl-float-buffer", label: "WebGLFloatBuffer", filename: "WebGLFloatBuffer.md", content: webGLFloatBuffer },

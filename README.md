@@ -144,6 +144,15 @@ raw2dCanvas.render(scene, camera);
 
 Canvas draws lower `zIndex` first and higher `zIndex` later.
 
+Use `renderMode` to give WebGL a low-level performance hint:
+
+```ts
+background.setRenderMode("static");
+player.setRenderMode("dynamic");
+```
+
+Static and dynamic WebGL runs are separated in stats today and will become the base for persistent cached batches later.
+
 Use `RenderPipeline` when tooling or custom renderers need to inspect prepared render work:
 
 ```ts

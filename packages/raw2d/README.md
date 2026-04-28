@@ -104,6 +104,13 @@ rect.updateMatrix();
 const localMatrix = rect.getLocalMatrix();
 ```
 
+Use `renderMode` as a low-level WebGL performance hint:
+
+```ts
+background.setRenderMode("static");
+player.setRenderMode("dynamic");
+```
+
 Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs.
 
 `SpriteAnimationClip` and `SpriteAnimator` provide explicit atlas-frame animation. Your app calls `animator.update(deltaSeconds)`, then renders with Canvas or WebGL.
@@ -129,11 +136,11 @@ console.log(webglRenderer.getStats());
 The WebGL stats show how much work went into the current frame:
 
 ```ts
-// { objects, rects, circles, ellipses, lines, polylines, polygons, sprites, textures, batches, vertices, drawCalls, unsupported }
+// { objects, batches, staticBatches, dynamicBatches, vertices, drawCalls, unsupported }
 console.log(webglRenderer.getStats());
 ```
 
-WebGL keeps render order stable. It merges only consecutive shapes with the same material key and consecutive Sprites with the same Texture.
+WebGL keeps render order stable. It merges only consecutive shapes with the same material key and consecutive Sprites with the same Texture. Static and dynamic render runs are separated today so persistent cached static batches can be added later.
 
 Check the live docs after deployment:
 

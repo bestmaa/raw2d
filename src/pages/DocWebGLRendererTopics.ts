@@ -62,6 +62,10 @@ console.log(renderer.getStats());
 //   sprites: 142,
 //   textures: 1,
 //   batches: 600,
+//   staticBatches: 300,
+//   dynamicBatches: 300,
+//   staticObjects: 500,
+//   dynamicObjects: 500,
 //   vertices: 33000,
 //   drawCalls: 600,
 //   uploadBufferDataCalls: 1,
@@ -80,7 +84,19 @@ console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
-// { objects: 1000, batches: 600, drawCalls: 600, textures: 1, uploadedBytes: 792000, unsupported: 0 }`
+// { objects: 1000, batches: 600, staticBatches: 300, dynamicBatches: 300 }`
+      },
+      {
+        title: "Static / Dynamic Runs",
+        body: "Set renderMode when you know whether an object is stable or changing often. WebGL splits runs by mode so future dirty static batches can be added without changing object APIs.",
+        liveDemoId: "webgl-renderer",
+        code: `background.setRenderMode("static");
+player.setRenderMode("dynamic");
+
+webglRenderer.render(scene, camera);
+
+console.log(webglRenderer.getStats().staticBatches);
+console.log(webglRenderer.getStats().dynamicBatches);`
       },
       {
         title: "GPU Buffer Uploads",
@@ -122,7 +138,7 @@ scene.add(new Polygon({
 
 // Future WebGL work:
 // texture atlas
-// static/dynamic batches`
+// persistent static batch cache`
       },
       {
         title: "Use Culling",

@@ -9,6 +9,10 @@ export interface WebGLRenderStats {
   readonly sprites: number;
   readonly textures: number;
   readonly batches: number;
+  readonly staticBatches: number;
+  readonly dynamicBatches: number;
+  readonly staticObjects: number;
+  readonly dynamicObjects: number;
   readonly vertices: number;
   readonly drawCalls: number;
   readonly uploadBufferDataCalls: number;

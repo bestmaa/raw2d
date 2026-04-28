@@ -14,6 +14,7 @@ Current support:
 - `Sprite`
 - ordered shape material batches
 - ordered sprite texture batches
+- static and dynamic render run separation
 - sprite frame UVs from `TextureAtlas`
 - texture upload cache
 - reusable CPU-side float buffers
@@ -52,6 +53,8 @@ console.log(renderer.getStats());
 ## Notes
 
 Sprite batching uses the same `Texture` object as the texture key. Consecutive Sprites with the same Texture are merged into one draw call, even when they use different atlas frames. Raw2D does not reorder across unrelated objects, so scene order remains predictable.
+
+Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, and `dynamicObjects`.
 
 SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing and static/dynamic batches are future steps.
 
