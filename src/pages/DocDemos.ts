@@ -1,5 +1,6 @@
 import { createBoundsDemo } from "./BoundsDemo";
 import { createArcDemo } from "./ArcDemo";
+import { createCameraControlsDemo } from "./CameraControlsDemo";
 import { createCircleDemo } from "./CircleDemo";
 import { createDragDemo } from "./DragDemo";
 import { createEllipseDemo } from "./EllipseDemo";
@@ -43,6 +44,7 @@ const demoIds = [
   "bounds-text2d",
   "hit-testing",
   "interaction-controller",
+  "camera-controls",
   "keyboard",
   "dragging",
   "selection",
@@ -128,6 +130,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "interaction-controller") {
     return createInteractionControllerDemo({ variant: getInteractionControllerVariant(section) });
+  }
+
+  if (demoId === "camera-controls") {
+    return createCameraControlsDemo();
   }
 
   if (demoId === "keyboard") {

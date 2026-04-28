@@ -10,6 +10,7 @@ import {
   fullText2DExample,
   fullTextureExample
 } from "./DocFullExamples";
+import { createCameraControlsCode } from "./DocCameraControlsCode";
 import { fullShapePathExample } from "./DocPathExamples";
 import { getInteractionLiveCode } from "./DocInteractionLiveCode";
 import type { DocSection } from "./DocPage.type";
@@ -36,6 +37,10 @@ export function getLiveExampleCode(section: DocSection): string {
 
   if (section.liveDemoId === "interaction-controller") {
     return getInteractionLiveCode(section);
+  }
+
+  if (section.liveDemoId === "camera-controls") {
+    return createCameraControlsCode(section);
   }
 
   if (section.liveDemoId === "keyboard") {

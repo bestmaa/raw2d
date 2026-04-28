@@ -1,3 +1,5 @@
+export * from "./CameraControls.js";
+export * from "./CameraControls.type.js";
 export * from "./InteractionController.js";
 export * from "./InteractionController.type.js";
 export * from "./InteractionPoint.type.js";
