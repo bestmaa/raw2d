@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { BasicMaterial, Camera2D, Circle, Rect, Scene } from "raw2d-core";
+import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Rect, Scene } from "raw2d-core";
 import { WebGLRenderer2D } from "raw2d-webgl";
 
 test("WebGLRenderer2D batches Rect objects into one draw call", () => {
@@ -19,24 +19,50 @@ test("WebGLRenderer2D batches Rect objects into one draw call", () => {
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 2,
+    circles: 0,
+    ellipses: 0,
     vertices: 12,
     drawCalls: 1,
     unsupported: 0
   });
 });
 
-test("WebGLRenderer2D reports unsupported non-rect objects", () => {
+test("WebGLRenderer2D batches Rect, Circle, and Ellipse objects into one draw call", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
   const scene = new Scene();
 
   scene.add(createRect(20, "#35c2ff"));
   scene.add(new Circle({ x: 80, y: 40, radius: 20 }));
+  scene.add(new Ellipse({ x: 130, y: 50, radiusX: 22, radiusY: 12 }));
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(gl.calls.includes("drawArrays:4,0,198"), true);
+  assert.deepEqual(renderer.getStats(), {
+    objects: 3,
+    rects: 1,
+    circles: 1,
+    ellipses: 1,
+    vertices: 198,
+    drawCalls: 1,
+    unsupported: 0
+  });
+});
+
+test("WebGLRenderer2D reports unsupported objects outside the shape batch", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+
+  scene.add(createRect(20, "#35c2ff"));
+  scene.add(new Line({ x: 80, y: 40, startX: 0, startY: 0, endX: 50, endY: 0 }));
   renderer.render(scene, new Camera2D());
 
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 1,
+    circles: 0,
+    ellipses: 0,
     vertices: 6,
     drawCalls: 1,
     unsupported: 1
@@ -134,4 +160,3 @@ function createFakeWebGL2Context() {
     }
   };
 }
-

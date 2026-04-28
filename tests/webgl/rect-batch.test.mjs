@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { BasicMaterial, Camera2D, Rect, RenderPipeline } from "raw2d-core";
-import { createWebGLRectBatch, parseWebGLColor } from "raw2d-webgl";
+import { BasicMaterial, Camera2D, Circle, Ellipse, Rect, RenderPipeline } from "raw2d-core";
+import { createWebGLRectBatch, createWebGLShapeBatch, parseWebGLColor } from "raw2d-webgl";
 
 test("parseWebGLColor supports hex and rgba colors", () => {
   assert.deepEqual(parseWebGLColor("#35c2ff"), {
@@ -41,3 +41,43 @@ test("createWebGLRectBatch writes six vertices for one rect", () => {
   assert.ok(Math.abs(batch.vertices[1] - 0.6) < 0.000001);
   assert.deepEqual(Array.from(batch.vertices.slice(2, 6)), [1, 0, 0, 1]);
 });
+
+test("createWebGLShapeBatch writes circle and ellipse triangle fans", () => {
+  const circle = new Circle({
+    x: 50,
+    y: 50,
+    radius: 10,
+    material: new BasicMaterial({ fillColor: "#35c2ff" })
+  });
+  const ellipse = new Ellipse({
+    x: 20,
+    y: 30,
+    radiusX: 16,
+    radiusY: 8,
+    material: new BasicMaterial({ fillColor: "#f45b69" })
+  });
+  const renderList = new RenderPipeline().build({ objects: [circle, ellipse] });
+  const batch = createWebGLShapeBatch({
+    items: renderList.getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    curveSegments: 8
+  });
+
+  assert.equal(batch.rects, 0);
+  assert.equal(batch.circles, 1);
+  assert.equal(batch.ellipses, 1);
+  assert.equal(batch.unsupported, 0);
+  assert.equal(batch.vertices.length, 288);
+  assert.ok(Math.abs(batch.vertices[0]) < 0.000001);
+  assert.ok(Math.abs(batch.vertices[1]) < 0.000001);
+  assertAlmostEqual(batch.vertices[2], 53 / 255);
+  assertAlmostEqual(batch.vertices[3], 194 / 255);
+  assert.equal(batch.vertices[4], 1);
+  assert.equal(batch.vertices[5], 1);
+});
+
+function assertAlmostEqual(actual, expected) {
+  assert.ok(Math.abs(actual - expected) < 0.000001);
+}

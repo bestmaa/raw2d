@@ -1,11 +1,11 @@
-import { BasicMaterial, Camera2D, Canvas, Rect, Scene, WebGLRenderer2D } from "raw2d";
+import { BasicMaterial, Camera2D, Canvas, Circle, Ellipse, Rect, Scene, WebGLRenderer2D } from "raw2d";
 import type { WebGLRendererDemoRenderOptions, WebGLRendererDemoState, WebGLRendererScene } from "./WebGLRendererDemo.type";
 
 const demoCanvasWidth = 520;
 const demoCanvasHeight = 180;
 
 export function createWebGLRendererDemo(): HTMLElement {
-  const state: WebGLRendererDemoState = { rectCount: 120 };
+  const state: WebGLRendererDemoState = { objectCount: 120 };
   const section = document.createElement("article");
   const title = document.createElement("h2");
   const body = document.createElement("p");
@@ -21,7 +21,7 @@ export function createWebGLRendererDemo(): HTMLElement {
 
   section.className = "doc-section shape-demo";
   title.textContent = "Live Canvas vs WebGL";
-  body.textContent = "Both render the same Rect scene. Canvas issues one shape draw per rect. WebGL writes all rects to one buffer and draws once.";
+  body.textContent = "Both render the same Rect, Circle, and Ellipse scene. Canvas issues one shape draw per object. WebGL writes supported shapes to one buffer and draws once.";
   canvasElement.className = "shape-demo-canvas";
   webglElement.className = "shape-demo-canvas";
   pre.append(code);
@@ -73,8 +73,8 @@ function createControls(
   controls.className = "shape-demo-controls";
   controls.append(createControlsTitle());
   controls.append(
-    createRangeControl("Rects", 20, 500, state.rectCount, (value) => {
-      state.rectCount = value;
+    createRangeControl("Objects", 20, 500, state.objectCount, (value) => {
+      state.objectCount = value;
       renderDemo({ canvasRenderer, webglRenderer, camera, state, canvasStats, webglStats, code });
     })
   );
@@ -109,7 +109,7 @@ function createRangeControl(label: string, min: number, max: number, value: numb
 }
 
 function renderDemo(options: WebGLRendererDemoRenderOptions): void {
-  const { scene } = createScene(options.state.rectCount);
+  const { scene } = createScene(options.state.objectCount);
   options.canvasRenderer.render(scene, options.camera);
   options.canvasStats.textContent = formatCanvasStats(options.canvasRenderer);
 
@@ -120,28 +120,36 @@ function renderDemo(options: WebGLRendererDemoRenderOptions): void {
     options.webglStats.textContent = "WebGL2 unavailable in this browser.";
   }
 
-  options.code.textContent = createCode(options.state.rectCount);
+  options.code.textContent = createCode(options.state.objectCount);
 }
 
-function createScene(rectCount: number): WebGLRendererScene {
+function createScene(objectCount: number): WebGLRendererScene {
   const scene = new Scene();
   const columns = 20;
 
-  for (let index = 0; index < rectCount; index += 1) {
+  for (let index = 0; index < objectCount; index += 1) {
     const column = index % columns;
     const row = Math.floor(index / columns);
-    scene.add(
-      new Rect({
-        x: 14 + column * 24,
-        y: 16 + row * 18,
-        width: 14,
-        height: 10,
-        material: new BasicMaterial({ fillColor: createColor(index) })
-      })
-    );
+    scene.add(createShape(index, column, row));
   }
 
   return { scene };
+}
+
+function createShape(index: number, column: number, row: number): Rect | Circle | Ellipse {
+  const x = 14 + column * 24;
+  const y = 16 + row * 18;
+  const material = new BasicMaterial({ fillColor: createColor(index) });
+
+  if (index % 3 === 1) {
+    return new Circle({ x: x + 7, y: y + 5, radius: 7, material });
+  }
+
+  if (index % 3 === 2) {
+    return new Ellipse({ x: x + 7, y: y + 5, radiusX: 8, radiusY: 5, material });
+  }
+
+  return new Rect({ x, y, width: 14, height: 10, material });
 }
 
 function createColor(index: number): string {
@@ -156,15 +164,14 @@ function formatCanvasStats(renderer: Canvas): string {
 
 function formatWebGLStats(renderer: WebGLRenderer2D): string {
   const stats = renderer.getStats();
-  return `objects: ${stats.objects} | rects: ${stats.rects} | vertices: ${stats.vertices} | drawCalls: ${stats.drawCalls}`;
+  return `objects: ${stats.objects} | rects: ${stats.rects} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | vertices: ${stats.vertices} | drawCalls: ${stats.drawCalls}`;
 }
 
-function createCode(rectCount: number): string {
-  return `// Same scene: ${rectCount} Rect objects
+function createCode(objectCount: number): string {
+  return `// Same scene: ${objectCount} Rect, Circle, and Ellipse objects
 canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());`;
 }
-

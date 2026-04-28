@@ -5,11 +5,11 @@ export const webGLRendererTopics: readonly DocTopic[] = [
     id: "webgl-renderer",
     label: "WebGLRenderer2D",
     title: "WebGLRenderer2D",
-    description: "WebGLRenderer2D renders Rect objects through WebGL2 using RenderPipeline and one dynamic rect batch.",
+    description: "WebGLRenderer2D renders filled Rect, Circle, and Ellipse objects through WebGL2 using RenderPipeline and one dynamic shape batch.",
     sections: [
       {
         title: "First Working Scope",
-        body: "WebGLRenderer2D now renders Rect. Other object types are counted as unsupported until their batches are implemented.",
+        body: "WebGLRenderer2D now renders filled Rect, Circle, and Ellipse objects. Other object types are counted as unsupported until their batches are implemented.",
         liveDemoId: "webgl-renderer",
         code: `const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -21,8 +21,8 @@ export const webGLRendererTopics: readonly DocTopic[] = [
 renderer.render(scene, camera);`
       },
       {
-        title: "Rect Batch Stats",
-        body: "All visible rects are written into one vertex buffer. For rect-only scenes this gives one draw call.",
+        title: "Shape Batch Stats",
+        body: "All visible filled shapes supported by WebGLRenderer2D are written into one vertex buffer. This gives one draw call for the current simple shape batch.",
         liveDemoId: "webgl-renderer",
         code: `renderer.render(scene, camera);
 
@@ -30,15 +30,17 @@ console.log(renderer.getStats());
 
 // {
 //   objects: 1000,
-//   rects: 1000,
-//   vertices: 6000,
+//   rects: 334,
+//   circles: 333,
+//   ellipses: 333,
+//   vertices: 65934,
 //   drawCalls: 1,
 //   unsupported: 0
 // }`
       },
       {
         title: "Canvas Comparison",
-        body: "Canvas supports more objects today, but each shape is drawn through Canvas APIs. WebGL currently supports fewer objects but can batch Rect geometry.",
+        body: "Canvas supports more objects today, but each shape is drawn through Canvas APIs. WebGL currently supports fewer objects but can batch filled Rect, Circle, and Ellipse geometry.",
         liveDemoId: "webgl-renderer",
         code: `canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
@@ -46,7 +48,7 @@ console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
-// { objects: 1000, rects: 1000, vertices: 6000, drawCalls: 1, unsupported: 0 }`
+// { objects: 1000, rects: 334, circles: 333, ellipses: 333, vertices: 65934, drawCalls: 1, unsupported: 0 }`
       },
       {
         title: "Use Culling",

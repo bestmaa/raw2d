@@ -1,7 +1,7 @@
 import type { Camera2D, Canvas, Scene, WebGLRenderer2D } from "raw2d";
 
 export interface WebGLRendererDemoState {
-  rectCount: number;
+  objectCount: number;
 }
 
 export interface WebGLRendererDemoRenderOptions {
@@ -17,4 +17,3 @@ export interface WebGLRendererDemoRenderOptions {
 export interface WebGLRendererScene {
   readonly scene: Scene;
 }
-

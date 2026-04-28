@@ -1,5 +1,7 @@
 import {
   Camera2D,
+  Circle,
+  Ellipse,
   Rect,
   RenderPipeline,
   getCoreLocalBounds,
@@ -9,7 +11,7 @@ import {
   type Scene
 } from "raw2d-core";
 import { createWebGLProgram } from "./createWebGLProgram.js";
-import { createWebGLRectBatch } from "./createWebGLRectBatch.js";
+import { createWebGLShapeBatch } from "./createWebGLShapeBatch.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 import type {
@@ -42,7 +44,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   public readonly canvas: HTMLCanvasElement;
   public readonly gl: WebGL2RenderingContext;
   private readonly pipeline = new RenderPipeline<Object2D>({
-    boundsProvider: (object) => (object instanceof Rect ? getWorldBounds({ object, localBounds: getCoreLocalBounds(object) }) : null)
+    boundsProvider: (object) => (isWebGLShape(object) ? getWorldBounds({ object, localBounds: getCoreLocalBounds(object) }) : null)
   });
   private readonly program: WebGLProgram;
   private readonly buffer: WebGLBuffer;
@@ -50,7 +52,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private width: number;
   private height: number;
   private backgroundColor: string;
-  private stats: WebGLRenderStats = { objects: 0, rects: 0, vertices: 0, drawCalls: 0, unsupported: 0 };
+  private stats: WebGLRenderStats = { objects: 0, rects: 0, circles: 0, ellipses: 0, vertices: 0, drawCalls: 0, unsupported: 0 };
 
   public constructor(options: WebGLRenderer2DOptions) {
     this.canvas = options.canvas;
@@ -111,14 +113,14 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 
   public render(scene: Scene, camera = this.defaultCamera, options: WebGLRenderer2DRenderOptions = {}): void {
-    // TODO: batch rendering beyond Rect.
+    // TODO: batch rendering beyond simple filled shapes.
     // TODO: shaders for sprites, paths, and text.
     // TODO: texture atlas
     // TODO: typed arrays reuse
     // TODO: draw call reduction by material and texture
     // TODO: static/dynamic batches
     const renderList = options.renderList ?? this.createRenderList(scene, camera, options);
-    const batch = createWebGLRectBatch({
+    const batch = createWebGLShapeBatch({
       items: renderList.getFlatItems(),
       camera,
       width: this.width,
@@ -129,16 +131,19 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl.useProgram(this.program);
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
     this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
+    const vertices = batch.vertices.length / 6;
 
-    if (batch.rects > 0) {
-      this.gl.drawArrays(this.gl.TRIANGLES, 0, batch.rects * 6);
+    if (vertices > 0) {
+      this.gl.drawArrays(this.gl.TRIANGLES, 0, vertices);
     }
 
     this.stats = {
       objects: renderList.getFlatItems().length,
       rects: batch.rects,
-      vertices: batch.rects * 6,
-      drawCalls: batch.rects > 0 ? 1 : 0,
+      circles: batch.circles,
+      ellipses: batch.ellipses,
+      vertices,
+      drawCalls: vertices > 0 ? 1 : 0,
       unsupported: batch.unsupported
     };
   }
@@ -167,4 +172,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
+}
+
+function isWebGLShape(object: Object2D): object is Rect | Circle | Ellipse {
+  return object instanceof Rect || object instanceof Circle || object instanceof Ellipse;
 }

@@ -3,5 +3,7 @@ export * from "./WebGLRenderer2D.type.js";
 export * from "./WebGLRenderStats.type.js";
 export * from "./WebGLColor.type.js";
 export * from "./WebGLRectBatch.type.js";
+export * from "./WebGLShapeBatch.type.js";
 export * from "./createWebGLRectBatch.js";
+export * from "./createWebGLShapeBatch.js";
 export * from "./parseWebGLColor.js";
