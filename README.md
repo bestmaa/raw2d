@@ -195,7 +195,7 @@ raw2dWebGL.render(scene, camera);
 console.log(raw2dWebGL.getStats());
 ```
 
-Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites with the same Texture are merged into texture draw ranges. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
+Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites with the same Texture are merged into texture draw ranges. `TextureAtlas` lets Sprites use named frames from one Texture, which is the base for larger sprite batches. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 

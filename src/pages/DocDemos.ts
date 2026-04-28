@@ -21,6 +21,7 @@ import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
+import { createTextureAtlasDemo } from "./TextureAtlasDemo";
 import { createVisibleObjectsDemo } from "./VisibleObjectsDemo";
 import { createWebGLRendererDemo } from "./WebGLRendererDemo";
 import type { DocSection } from "./DocPage.type";
@@ -37,6 +38,7 @@ const demoIds = [
   "shape-path",
   "text2d",
   "sprite",
+  "texture-atlas",
   "group2d",
   "origin",
   "origin-keywords",
@@ -106,6 +108,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "sprite" || demoId === "bounds-sprite") {
     return createSpriteDemo();
+  }
+
+  if (demoId === "texture-atlas") {
+    return createTextureAtlasDemo();
   }
 
   if (demoId === "group2d") {

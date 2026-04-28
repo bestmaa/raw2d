@@ -166,6 +166,35 @@ test("createWebGLSpriteBatch writes textured quad vertices", () => {
   assert.equal(batch.vertices[4], 0.75);
 });
 
+test("createWebGLSpriteBatch writes atlas frame UVs", () => {
+  const texture = new Texture({
+    source: { width: 64, height: 64 },
+    width: 64,
+    height: 64
+  });
+  const sprite = new Sprite({
+    texture,
+    frame: { x: 16, y: 8, width: 32, height: 24 },
+    x: 0,
+    y: 0
+  });
+  const renderList = new RenderPipeline().build({ objects: [sprite] });
+  const batch = createWebGLSpriteBatch({
+    items: renderList.getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "texture:1"
+  });
+
+  assertAlmostEqual(batch.vertices[2], 0.25);
+  assertAlmostEqual(batch.vertices[3], 0.125);
+  assertAlmostEqual(batch.vertices[7], 0.75);
+  assertAlmostEqual(batch.vertices[8], 0.125);
+  assertAlmostEqual(batch.vertices[12], 0.75);
+  assertAlmostEqual(batch.vertices[13], 0.5);
+});
+
 function assertAlmostEqual(actual, expected) {
   assert.ok(Math.abs(actual - expected) < 0.000001);
 }

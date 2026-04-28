@@ -26,6 +26,7 @@ import scene from "../../docs/Scene.md?raw";
 import selection from "../../docs/Selection.md?raw";
 import shapePath from "../../docs/ShapePath.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
+import textureAtlas from "../../docs/TextureAtlas.md?raw";
 import transformMatrix from "../../docs/TransformMatrix.md?raw";
 import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
@@ -55,6 +56,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "polygon", label: "Polygon", filename: "Polygon.md", content: polygon },
   { id: "shape-path", label: "ShapePath", filename: "ShapePath.md", content: shapePath },
   { id: "text2d", label: "Text2D", filename: "Text2D.md", content: text2d },
+  { id: "texture-atlas", label: "TextureAtlas", filename: "TextureAtlas.md", content: textureAtlas },
   { id: "hit-testing", label: "Hit Testing", filename: "HitTesting.md", content: hitTesting },
   { id: "picking", label: "Picking", filename: "Picking.md", content: picking },
   { id: "selection", label: "Selection", filename: "Selection.md", content: selection },

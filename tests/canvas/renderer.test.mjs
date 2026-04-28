@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Rect } from "raw2d-core";
 import { CanvasObjectRenderer } from "raw2d-canvas";
+import { Sprite, Texture, TextureAtlas } from "raw2d-sprite";
 
 test("CanvasObjectRenderer dispatches through handlers and skips invisible objects", () => {
   const context = createFakeContext();
@@ -26,10 +27,28 @@ test("CanvasObjectRenderer dispatches through handlers and skips invisible objec
   assert.equal(context.calls.some((call) => call.includes("#ffffff")), false);
 });
 
+test("CanvasObjectRenderer draws Sprite atlas frames from source rects", () => {
+  const context = createFakeContext();
+  const renderer = new CanvasObjectRenderer({ context });
+  const texture = new Texture({ source: { width: 64, height: 64 }, width: 64, height: 64 });
+  const atlas = new TextureAtlas({
+    texture,
+    frames: {
+      icon: { x: 16, y: 8, width: 32, height: 24 }
+    }
+  });
+  const sprite = new Sprite({ texture: atlas.texture, frame: atlas.getFrame("icon"), width: 64, height: 48 });
+
+  renderer.render([sprite]);
+
+  assert.ok(context.calls.includes("drawImage:16,8,32,24,0,0,64,48"));
+});
+
 function createFakeContext() {
   const context = {
     calls: [],
     fillStyle: "",
+    globalAlpha: 1,
     save() {
       this.calls.push("save");
     },
@@ -47,6 +66,9 @@ function createFakeContext() {
     },
     fillRect(x, y, width, height) {
       this.calls.push(`fillRect:${x},${y},${width},${height}:${this.fillStyle}`);
+    },
+    drawImage(_source, sx, sy, sw, sh, dx, dy, dw, dh) {
+      this.calls.push(`drawImage:${sx},${sy},${sw},${sh},${dx},${dy},${dw},${dh}`);
     }
   };
 

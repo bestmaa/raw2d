@@ -1,4 +1,5 @@
 import { Sprite } from "raw2d-sprite";
+import { getWebGLSpriteUV } from "./getWebGLSpriteUV.js";
 import { toClipPoint } from "./WebGLVertex.js";
 import type { WebGLSpriteBatch, WebGLSpriteBatchOptions, WebGLSpriteDrawBatch, WebGLSpriteItem } from "./WebGLSpriteBatch.type.js";
 
@@ -42,14 +43,15 @@ function writeSprite(vertices: Float32Array, offset: number, item: WebGLSpriteIt
   const sprite = item.object;
   const originX = sprite.width * sprite.originX;
   const originY = sprite.height * sprite.originY;
+  const uv = getWebGLSpriteUV(sprite);
   const points = [
-    [-originX, -originY, 0, 0],
-    [sprite.width - originX, -originY, 1, 0],
-    [sprite.width - originX, sprite.height - originY, 1, 1],
-    [-originX, -originY, 0, 0],
-    [sprite.width - originX, sprite.height - originY, 1, 1],
-    [-originX, sprite.height - originY, 0, 1]
-  ];
+    [-originX, -originY, uv.u0, uv.v0],
+    [sprite.width - originX, -originY, uv.u1, uv.v0],
+    [sprite.width - originX, sprite.height - originY, uv.u1, uv.v1],
+    [-originX, -originY, uv.u0, uv.v0],
+    [sprite.width - originX, sprite.height - originY, uv.u1, uv.v1],
+    [-originX, sprite.height - originY, uv.u0, uv.v1]
+  ] as const;
 
   for (const point of points) {
     const clip = toClipPoint(point[0], point[1], item.worldMatrix, options);
@@ -78,4 +80,3 @@ function appendSpriteDrawBatch(batches: WebGLSpriteDrawBatch[], batch: WebGLSpri
 
   batches.push(batch);
 }
-

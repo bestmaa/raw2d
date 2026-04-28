@@ -9,6 +9,7 @@ Current scope:
 - uses cached world matrices from `RenderPipeline`
 - batches consecutive shape objects by material key
 - batches consecutive sprites by texture key
+- supports sprite frame UVs from `TextureAtlas`
 - uploads textures through a small `WebGLTextureCache`
 - reports batch, texture, vertex, and draw call stats
 
@@ -64,7 +65,7 @@ scene.add(sprite);
 renderer.render(scene, new Camera2D());
 ```
 
-Sprites with the same `Texture` object are grouped only when they are consecutive in render order. Raw2D keeps ordering predictable instead of silently reordering the scene.
+Sprites with the same `Texture` object are grouped only when they are consecutive in render order. They can use different atlas frames because each Sprite writes its own UV coordinates. Raw2D keeps ordering predictable instead of silently reordering the scene.
 
 ## Stats
 

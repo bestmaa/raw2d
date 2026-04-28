@@ -31,6 +31,48 @@ height?: number`
     ]
   },
   {
+    id: "texture-atlas",
+    label: "TextureAtlas",
+    title: "TextureAtlas",
+    description: "TextureAtlas maps names to source rectangles inside one Texture. Sprites can draw only one frame from the shared texture.",
+    sections: [
+      {
+        title: "Create Atlas",
+        body: "Use TextureAtlas when many sprites share one image sheet. The atlas does not pack images yet; it stores explicit frame rectangles.",
+        liveDemoId: "texture-atlas",
+        code: `const atlas = new TextureAtlas({
+  texture,
+  frames: {
+    idle: { x: 0, y: 0, width: 32, height: 32 },
+    run: { x: 32, y: 0, width: 32, height: 32 }
+  }
+});`
+      },
+      {
+        title: "Use Atlas Frame",
+        body: "Pass the atlas texture and one named frame to Sprite. Canvas draws that source rectangle, and WebGL converts it to UVs.",
+        liveDemoId: "texture-atlas",
+        code: `const sprite = new Sprite({
+  texture: atlas.texture,
+  frame: atlas.getFrame("idle"),
+  x: 120,
+  y: 80
+});
+
+scene.add(sprite);
+raw2dCanvas.render(scene, camera);`
+      },
+      {
+        title: "Why It Matters",
+        body: "Atlas frames let many sprites share one Texture object. In WebGL this is the base for fewer texture binds and larger sprite batches.",
+        liveDemoId: "texture-atlas",
+        code: `// Same atlas.texture means these can stay in one texture batch
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));`
+      }
+    ]
+  },
+  {
     id: "sprite",
     label: "Sprite",
     title: "Sprite",
