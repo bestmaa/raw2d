@@ -40,6 +40,8 @@ export * from "./Scene.js";
 export * from "./Scene.type.js";
 export * from "./ShapePath.js";
 export * from "./ShapePath.type.js";
+export * from "./flattenShapePath.js";
+export * from "./flattenShapePath.type.js";
 export * from "./sortRenderObjects.js";
 export * from "./sortRenderObjects.type.js";
 export * from "./Bounds.type.js";

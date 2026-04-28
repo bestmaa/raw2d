@@ -58,6 +58,34 @@ visible?: boolean
 material?: BasicMaterial`
       },
       {
+        title: "Flatten For Renderers",
+        body: "flattenShapePath converts move, line, quadratic, cubic, and close commands into sampled subpaths. This is the foundation for future WebGL ShapePath stroke and fill.",
+        liveDemoId: "shape-path",
+        code: `import { flattenShapePath } from "raw2d";
+
+const flattened = flattenShapePath(shapePath, {
+  curveSegments: 12
+});
+
+for (const subpath of flattened.subpaths) {
+  console.log(subpath.points);
+  console.log(subpath.closed);
+}`
+      },
+      {
+        title: "Flatten Commands Directly",
+        body: "Use flattenPathCommands when a tool already has command data and does not need to create a ShapePath object.",
+        liveDemoId: "shape-path",
+        code: `const flattened = flattenPathCommands([
+  { type: "moveTo", x: 0, y: 0 },
+  { type: "quadraticCurveTo", cpx: 80, cpy: 60, x: 160, y: 0 },
+  { type: "lineTo", x: 160, y: 80 },
+  { type: "closePath" }
+], {
+  curveSegments: 12
+});`
+      },
+      {
         title: "Full ShapePath Code",
         body: "Complete setup from canvas element to rendered ShapePath.",
         liveDemoId: "shape-path",

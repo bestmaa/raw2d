@@ -190,6 +190,13 @@ const worldBounds = getWorldBounds({
 });
 ```
 
+Use `flattenShapePath` when custom path commands need point geometry for tools or future WebGL rendering:
+
+```ts
+const flattened = flattenShapePath(shapePath, { curveSegments: 12 });
+console.log(flattened.subpaths[0].points);
+```
+
 Use `zIndex` when overlapping objects need predictable draw order:
 
 ```ts
