@@ -138,7 +138,7 @@ camera.setZoom(2);`
       },
       {
         title: "Culling Foundation",
-        body: "Compare object world bounds with camera bounds before drawing or processing large scenes.",
+        body: "Compare object world bounds with camera bounds before drawing or processing large scenes. Use the Visible Objects page for the full helper.",
         liveDemoId: "camera-bounds",
         code: `const cameraBounds = getCameraWorldBounds({
   camera,
@@ -147,29 +147,6 @@ camera.setZoom(2);`
 });
 
 const isVisible = objectBounds.intersects(cameraBounds);`
-      },
-      {
-        title: "Visible Objects",
-        body: "Use getVisibleObjects to return supported scene objects whose world bounds intersect the camera viewport.",
-        liveDemoId: "visible-objects",
-        code: `const visibleObjects = getVisibleObjects({
-  scene,
-  camera,
-  width: 800,
-  height: 600
-});`
-      },
-      {
-        title: "Visible Object Filter",
-        body: "Use filter when only part of the scene should participate in culling.",
-        liveDemoId: "visible-objects",
-        code: `const visibleEnemies = getVisibleObjects({
-  scene,
-  camera,
-  width,
-  height,
-  filter: (object) => object.name.startsWith("enemy")
-});`
       }
     ]
   },

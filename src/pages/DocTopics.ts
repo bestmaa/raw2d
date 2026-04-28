@@ -9,10 +9,12 @@ import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
 import { setupTopics } from "./DocSetupTopics";
 import { transformTopics } from "./DocTransformTopics";
+import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 
 export const topics: readonly DocTopic[] = [
   ...setupTopics,
   ...coreTopics,
+  ...visibleObjectsTopics,
   ...transformTopics,
   ...boundsTopics,
   ...hitTestingTopics,
