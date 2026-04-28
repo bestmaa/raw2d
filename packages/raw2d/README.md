@@ -125,9 +125,11 @@ console.log(webglRenderer.getStats());
 The WebGL stats show how much work went into the current batch:
 
 ```ts
-// { objects, rects, circles, ellipses, lines, polylines, polygons, vertices, drawCalls, unsupported }
+// { objects, rects, circles, ellipses, lines, polylines, polygons, batches, vertices, drawCalls, unsupported }
 console.log(webglRenderer.getStats());
 ```
+
+WebGL keeps render order stable and merges only consecutive primitives with the same material key.
 
 Check the live docs after deployment:
 

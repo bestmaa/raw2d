@@ -72,6 +72,10 @@ test("createWebGLShapeBatch writes circle and ellipse triangle fans", () => {
   assert.equal(batch.polylines, 0);
   assert.equal(batch.polygons, 0);
   assert.equal(batch.unsupported, 0);
+  assert.deepEqual(batch.drawBatches, [
+    { key: "fill:#35c2ff", firstVertex: 0, vertexCount: 24 },
+    { key: "fill:#f45b69", firstVertex: 24, vertexCount: 24 }
+  ]);
   assert.equal(batch.vertices.length, 288);
   assert.ok(Math.abs(batch.vertices[0]) < 0.000001);
   assert.ok(Math.abs(batch.vertices[1]) < 0.000001);
@@ -120,6 +124,11 @@ test("createWebGLShapeBatch writes line, polyline, and polygon geometry", () => 
   assert.equal(batch.lines, 1);
   assert.equal(batch.polylines, 1);
   assert.equal(batch.polygons, 1);
+  assert.deepEqual(batch.drawBatches, [
+    { key: "stroke:#facc15:4", firstVertex: 0, vertexCount: 6 },
+    { key: "stroke:#38bdf8:4", firstVertex: 6, vertexCount: 12 },
+    { key: "fill:#22c55e", firstVertex: 18, vertexCount: 3 }
+  ]);
   assert.equal(batch.vertices.length, 126);
   assertAlmostEqual(batch.vertices[2], 250 / 255);
   assertAlmostEqual(batch.vertices[3], 204 / 255);

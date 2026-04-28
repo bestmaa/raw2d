@@ -63,6 +63,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    batches: 0,
     vertices: 0,
     drawCalls: 0,
     unsupported: 0
@@ -147,8 +148,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
     const vertices = batch.vertices.length / 6;
 
-    if (vertices > 0) {
-      this.gl.drawArrays(this.gl.TRIANGLES, 0, vertices);
+    for (const drawBatch of batch.drawBatches) {
+      this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
     }
 
     this.stats = {
@@ -159,8 +160,9 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       lines: batch.lines,
       polylines: batch.polylines,
       polygons: batch.polygons,
+      batches: batch.drawBatches.length,
       vertices,
-      drawCalls: vertices > 0 ? 1 : 0,
+      drawCalls: batch.drawBatches.length,
       unsupported: batch.unsupported
     };
   }

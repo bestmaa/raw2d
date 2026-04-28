@@ -1,4 +1,6 @@
 import { Circle, Ellipse, Line, Polygon, Polyline, Rect, getLineLocalBounds, getPolygonLocalBounds, getPolylineLocalBounds } from "raw2d-core";
+import { appendWebGLDrawBatch } from "./appendWebGLDrawBatch.js";
+import { getWebGLMaterialKey } from "./getWebGLMaterialKey.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { toClipPoint, webGLFloatsPerVertex, writeWebGLVertex } from "./WebGLVertex.js";
 import type { WebGLColor } from "./WebGLColor.type.js";
@@ -6,6 +8,7 @@ import type { WebGLLocalPoint } from "./WebGLPathGeometry.type.js";
 import type { WebGLShapeBatch, WebGLShapeBatchOptions, WebGLShapeItem } from "./WebGLShapeBatch.type.js";
 import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
+import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 
 const verticesPerRect = 6;
 const minimumCurveSegments = 8;
@@ -15,10 +18,13 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
   const segments = getCurveSegments(options.curveSegments);
   const vertexCount = getVertexCount(shapeItems, segments);
   const vertices = new Float32Array(vertexCount * webGLFloatsPerVertex);
+  const drawBatches: WebGLDrawBatch[] = [];
   const counts = { rects: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0 };
   let offset = 0;
 
   for (const item of shapeItems) {
+    const firstVertex = offset / webGLFloatsPerVertex;
+
     if (item.object instanceof Rect) {
       offset = writeRect(vertices, offset, item, options);
       counts.rects += 1;
@@ -34,10 +40,17 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
       offset = writeFilledPolygon(vertices, offset, item, options);
       counts.polygons += 1;
     }
+
+    appendWebGLDrawBatch(drawBatches, {
+      key: getWebGLMaterialKey(item),
+      firstVertex,
+      vertexCount: offset / webGLFloatsPerVertex - firstVertex
+    });
   }
 
   return {
     vertices,
+    drawBatches,
     rects: counts.rects,
     circles: counts.circles,
     ellipses: counts.ellipses,

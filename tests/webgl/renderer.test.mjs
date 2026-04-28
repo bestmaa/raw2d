@@ -3,7 +3,7 @@ import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, Scene, ShapePath } from "raw2d-core";
 import { WebGLRenderer2D } from "raw2d-webgl";
 
-test("WebGLRenderer2D batches Rect objects into one draw call", () => {
+test("WebGLRenderer2D groups Rect draw calls by material key", () => {
   const gl = createFakeWebGL2Context();
   const canvas = createFakeCanvas(gl);
   const renderer = new WebGLRenderer2D({ canvas, width: 200, height: 120, backgroundColor: "#10141c" });
@@ -15,7 +15,8 @@ test("WebGLRenderer2D batches Rect objects into one draw call", () => {
   scene.add(rectB);
   renderer.render(scene, new Camera2D());
 
-  assert.equal(gl.calls.includes("drawArrays:4,0,12"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,0,6"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,6,6"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
     rects: 2,
@@ -24,13 +25,14 @@ test("WebGLRenderer2D batches Rect objects into one draw call", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    batches: 2,
     vertices: 12,
-    drawCalls: 1,
+    drawCalls: 2,
     unsupported: 0
   });
 });
 
-test("WebGLRenderer2D batches Rect, Circle, and Ellipse objects into one draw call", () => {
+test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
   const scene = new Scene();
@@ -40,7 +42,8 @@ test("WebGLRenderer2D batches Rect, Circle, and Ellipse objects into one draw ca
   scene.add(new Ellipse({ x: 130, y: 50, radiusX: 22, radiusY: 12 }));
   renderer.render(scene, new Camera2D());
 
-  assert.equal(gl.calls.includes("drawArrays:4,0,198"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,0,102"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,102,96"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
     rects: 1,
@@ -49,13 +52,14 @@ test("WebGLRenderer2D batches Rect, Circle, and Ellipse objects into one draw ca
     lines: 0,
     polylines: 0,
     polygons: 0,
+    batches: 2,
     vertices: 198,
-    drawCalls: 1,
+    drawCalls: 2,
     unsupported: 0
   });
 });
 
-test("WebGLRenderer2D batches Line, Polyline, and Polygon objects into one draw call", () => {
+test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
   const scene = new Scene();
@@ -86,7 +90,9 @@ test("WebGLRenderer2D batches Line, Polyline, and Polygon objects into one draw 
   );
   renderer.render(scene, new Camera2D());
 
-  assert.equal(gl.calls.includes("drawArrays:4,0,24"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,0,6"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,6,12"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,18,6"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
     rects: 0,
@@ -95,8 +101,9 @@ test("WebGLRenderer2D batches Line, Polyline, and Polygon objects into one draw 
     lines: 1,
     polylines: 1,
     polygons: 1,
+    batches: 3,
     vertices: 24,
-    drawCalls: 1,
+    drawCalls: 3,
     unsupported: 0
   });
 });
@@ -118,6 +125,7 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
     lines: 0,
     polylines: 0,
     polygons: 0,
+    batches: 1,
     vertices: 6,
     drawCalls: 1,
     unsupported: 1

@@ -189,7 +189,7 @@ raw2dWebGL.render(scene, camera);
 console.log(raw2dWebGL.getStats());
 ```
 
-Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
+Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive primitives with the same material key are merged into one draw range while preserving render order. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 

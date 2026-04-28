@@ -5,7 +5,7 @@ export const webGLRendererTopics: readonly DocTopic[] = [
     id: "webgl-renderer",
     label: "WebGLRenderer2D",
     title: "WebGLRenderer2D",
-    description: "WebGLRenderer2D renders filled and stroked 2D primitives through WebGL2 using RenderPipeline and one dynamic primitive batch.",
+    description: "WebGLRenderer2D renders filled and stroked 2D primitives through WebGL2 using RenderPipeline, one vertex buffer, and ordered material draw batches.",
     sections: [
       {
         title: "First Working Scope",
@@ -22,7 +22,7 @@ renderer.render(scene, camera);`
       },
       {
         title: "Primitive Batch Stats",
-        body: "All visible primitives supported by WebGLRenderer2D are written into one vertex buffer. This gives one draw call for the current simple primitive batch.",
+        body: "All visible supported primitives are written into one vertex buffer. Consecutive primitives with the same material key are merged into one draw batch.",
         liveDemoId: "webgl-renderer",
         code: `renderer.render(scene, camera);
 
@@ -36,14 +36,15 @@ console.log(renderer.getStats());
 //   lines: 167,
 //   polylines: 166,
 //   polygons: 166,
+//   batches: 500,
 //   vertices: 37056,
-//   drawCalls: 1,
+//   drawCalls: 500,
 //   unsupported: 0
 // }`
       },
       {
         title: "Canvas Comparison",
-        body: "Canvas supports more object types today, but each primitive is drawn through Canvas APIs. WebGL currently supports fewer objects but can batch primitive geometry.",
+        body: "Canvas supports more object types today, but each primitive is drawn through Canvas APIs. WebGL currently supports fewer objects but groups supported primitives into material draw ranges.",
         liveDemoId: "webgl-renderer",
         code: `canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
@@ -51,7 +52,18 @@ console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
-// { objects: 1000, rects: 167, circles: 167, ellipses: 167, lines: 167, polylines: 166, polygons: 166, vertices: 37056, drawCalls: 1, unsupported: 0 }`
+// { objects: 1000, batches: 500, drawCalls: 500, vertices: 37056, unsupported: 0 }`
+      },
+      {
+        title: "Material Grouping",
+        body: "Raw2D keeps render order stable. Material grouping only merges consecutive primitives with the same fill or stroke key. This is the foundation for future texture and blend-state batches.",
+        liveDemoId: "webgl-renderer",
+        code: `// Same consecutive material key means one draw range.
+scene.add(new Rect({ material: blue }));
+scene.add(new Circle({ material: blue }));
+
+// Different material key starts a new draw range.
+scene.add(new Line({ material: yellowStroke }));`
       },
       {
         title: "Current Limits",

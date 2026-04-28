@@ -21,7 +21,7 @@ export function createWebGLRendererDemo(): HTMLElement {
 
   section.className = "doc-section shape-demo";
   title.textContent = "Live Canvas vs WebGL";
-  body.textContent = "Both render the same primitive scene. Canvas issues one draw per object. WebGL writes supported primitives to one buffer and draws once.";
+  body.textContent = "Both render the same primitive scene. Canvas issues one draw per object. WebGL writes one buffer, then draws ordered material batches.";
   canvasElement.className = "shape-demo-canvas";
   webglElement.className = "shape-demo-canvas";
   pre.append(code);
@@ -184,7 +184,7 @@ function createShape(index: number, column: number, row: number): Rect | Circle 
 
 function createColor(index: number): string {
   const colors = ["#35c2ff", "#f45b69", "#facc15", "#4ade80"];
-  return colors[index % colors.length] ?? "#35c2ff";
+  return colors[Math.floor(index / 6) % colors.length] ?? "#35c2ff";
 }
 
 function formatCanvasStats(renderer: Canvas): string {
@@ -194,7 +194,7 @@ function formatCanvasStats(renderer: Canvas): string {
 
 function formatWebGLStats(renderer: WebGLRenderer2D): string {
   const stats = renderer.getStats();
-  return `objects: ${stats.objects} | rects: ${stats.rects} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | lines: ${stats.lines} | polylines: ${stats.polylines} | polygons: ${stats.polygons} | vertices: ${stats.vertices} | drawCalls: ${stats.drawCalls}`;
+  return `objects: ${stats.objects} | batches: ${stats.batches} | drawCalls: ${stats.drawCalls} | rects: ${stats.rects} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | lines: ${stats.lines} | polylines: ${stats.polylines} | polygons: ${stats.polygons} | vertices: ${stats.vertices}`;
 }
 
 function createCode(objectCount: number): string {

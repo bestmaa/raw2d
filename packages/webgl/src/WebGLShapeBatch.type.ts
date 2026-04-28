@@ -1,4 +1,5 @@
 import type { Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderItem } from "raw2d-core";
+import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 
 export interface WebGLShapeBatchOptions {
   readonly items: readonly RenderItem[];
@@ -10,6 +11,7 @@ export interface WebGLShapeBatchOptions {
 
 export interface WebGLShapeBatch {
   readonly vertices: Float32Array;
+  readonly drawBatches: readonly WebGLDrawBatch[];
   readonly rects: number;
   readonly circles: number;
   readonly ellipses: number;
