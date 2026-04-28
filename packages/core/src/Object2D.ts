@@ -11,6 +11,7 @@ export class Object2D {
   public rotation: number;
   public scaleX: number;
   public scaleY: number;
+  public zIndex: number;
   public visible: boolean;
 
   public constructor(options: Object2DOptions = {}) {
@@ -24,6 +25,7 @@ export class Object2D {
     this.rotation = options.rotation ?? 0;
     this.scaleX = options.scaleX ?? 1;
     this.scaleY = options.scaleY ?? 1;
+    this.zIndex = options.zIndex ?? 0;
     this.visible = options.visible ?? true;
   }
 
@@ -41,6 +43,10 @@ export class Object2D {
     const nextOrigin = resolveOrigin(origin);
     this.originX = nextOrigin.x;
     this.originY = nextOrigin.y;
+  }
+
+  public setZIndex(zIndex: number): void {
+    this.zIndex = zIndex;
   }
 
   public getTransform(): Object2DTransform {

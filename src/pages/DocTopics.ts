@@ -8,6 +8,7 @@ import type { DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
+import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { setupTopics } from "./DocSetupTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
@@ -17,6 +18,7 @@ export const topics: readonly DocTopic[] = [
   ...coreTopics,
   ...canvasCullingTopics,
   ...visibleObjectsTopics,
+  ...renderOrderTopics,
   ...transformTopics,
   ...boundsTopics,
   ...hitTestingTopics,

@@ -17,6 +17,7 @@ import picking from "../../docs/Picking.md?raw";
 import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
 import rect from "../../docs/Rect.md?raw";
+import renderOrder from "../../docs/RenderOrder.md?raw";
 import resizeHandles from "../../docs/ResizeHandles.md?raw";
 import scene from "../../docs/Scene.md?raw";
 import selection from "../../docs/Selection.md?raw";
@@ -34,6 +35,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "camera2d", label: "Camera2D", filename: "Camera2D.md", content: camera2d },
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
+  { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
   { id: "camera-controls", label: "CameraControls", filename: "CameraControls.md", content: cameraControls },
   { id: "basic-material", label: "BasicMaterial", filename: "BasicMaterial.md", content: basicMaterial },
   { id: "rect", label: "Rect", filename: "Rect.md", content: rect },

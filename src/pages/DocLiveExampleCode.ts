@@ -14,6 +14,7 @@ import { createCameraControlsCode } from "./DocCameraControlsCode";
 import { createCameraBoundsCode } from "./DocCameraBoundsCode";
 import { fullShapePathExample } from "./DocPathExamples";
 import { getInteractionLiveCode } from "./DocInteractionLiveCode";
+import { createRenderOrderCode } from "./DocRenderOrderCode";
 import { createVisibleObjectsCode } from "./DocVisibleObjectsCode";
 import type { DocSection } from "./DocPage.type";
 
@@ -47,6 +48,10 @@ export function getLiveExampleCode(section: DocSection): string {
 
   if (section.liveDemoId === "visible-objects") {
     return createVisibleObjectsCode(section);
+  }
+
+  if (section.liveDemoId === "render-order") {
+    return createRenderOrderCode(section);
   }
 
   if (section.liveDemoId === "camera-controls") {

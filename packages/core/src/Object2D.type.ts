@@ -24,6 +24,7 @@ export interface Object2DOptions {
   readonly rotation?: number;
   readonly scaleX?: number;
   readonly scaleY?: number;
+  readonly zIndex?: number;
   readonly visible?: boolean;
 }
 

@@ -132,6 +132,18 @@ const worldBounds = getWorldBounds({
 });
 ```
 
+Use `zIndex` when overlapping objects need predictable draw order:
+
+```ts
+background.setZIndex(-100);
+player.setZIndex(10);
+uiPanel.setZIndex(100);
+
+raw2dCanvas.render(scene, camera);
+```
+
+Canvas draws lower `zIndex` first and higher `zIndex` later.
+
 ## Architecture
 
 ```text

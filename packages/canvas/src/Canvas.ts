@@ -1,4 +1,4 @@
-import { Camera2D, type Scene } from "raw2d-core";
+import { Camera2D, sortRenderObjects, type Scene } from "raw2d-core";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
 import { getVisibleCanvasObjects } from "./culling/index.js";
 import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasSize } from "./Canvas.type.js";
@@ -96,7 +96,8 @@ export class Canvas {
 
   public render(scene?: Scene, camera = this.defaultCamera, options: CanvasRenderOptions = {}): void {
     const objects = scene?.getObjects() ?? this.objects;
-    const renderObjects = options.culling ? this.getVisibleObjects(objects, camera, options) : objects;
+    const visibleObjects = options.culling ? this.getVisibleObjects(objects, camera, options) : objects;
+    const renderObjects = sortRenderObjects({ objects: visibleObjects });
 
     this.clear(this.backgroundColor);
     this.context.save();

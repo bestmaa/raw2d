@@ -13,6 +13,7 @@ import { createOriginDemo } from "./OriginDemo";
 import { createPolygonDemo } from "./PolygonDemo";
 import { createPolylineDemo } from "./PolylineDemo";
 import { createRectDemo } from "./RectDemo";
+import { createRenderOrderDemo } from "./RenderOrderDemo";
 import { createResizeDemo } from "./ResizeDemo";
 import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
@@ -46,6 +47,7 @@ const demoIds = [
   "bounds-text2d",
   "camera-bounds",
   "visible-objects",
+  "render-order",
   "hit-testing",
   "interaction-controller",
   "camera-controls",
@@ -138,6 +140,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "visible-objects") {
     return createVisibleObjectsDemo();
+  }
+
+  if (demoId === "render-order") {
+    return createRenderOrderDemo();
   }
 
   if (demoId === "interaction-controller") {
