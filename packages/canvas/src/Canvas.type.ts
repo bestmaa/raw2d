@@ -1,4 +1,4 @@
-import type { Object2D, RenderList } from "raw2d-core";
+import type { Object2D, Renderer2DSize, Renderer2DStats, RenderList } from "raw2d-core";
 
 export type CanvasObject = Object2D;
 
@@ -17,13 +17,10 @@ export interface CanvasRenderOptions {
   readonly renderList?: RenderList<CanvasObject>;
 }
 
-export interface CanvasSize {
+export interface CanvasSize extends Renderer2DSize {
   readonly width: number;
   readonly height: number;
   readonly pixelRatio: number;
 }
 
-export interface CanvasRenderStats {
-  readonly objects: number;
-  readonly drawCalls: number;
-}
+export interface CanvasRenderStats extends Renderer2DStats {}

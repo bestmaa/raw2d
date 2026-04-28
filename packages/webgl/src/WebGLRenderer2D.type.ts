@@ -1,4 +1,4 @@
-import type { Camera2D, Object2D, RenderList, Scene } from "raw2d-core";
+import type { Object2D, Renderer2DLike, Renderer2DSize, RenderList } from "raw2d-core";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 
 export interface WebGLRenderer2DOptions {
@@ -10,12 +10,9 @@ export interface WebGLRenderer2DOptions {
   readonly textTextureCacheMaxEntries?: number;
 }
 
-export interface WebGLRenderer2DLike {
-  render(scene: Scene, camera: Camera2D, options?: WebGLRenderer2DRenderOptions): void;
-  setSize(width: number, height: number): void;
+export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRenderer2DRenderOptions, WebGLRenderStats, WebGLRenderer2DSize> {
   clearTextureCache(): void;
   isContextLost(): boolean;
-  dispose(): void;
 }
 
 export interface WebGLRenderer2DRenderOptions {
@@ -23,7 +20,7 @@ export interface WebGLRenderer2DRenderOptions {
   readonly renderList?: RenderList<Object2D>;
 }
 
-export interface WebGLRenderer2DSize {
+export interface WebGLRenderer2DSize extends Renderer2DSize {
   readonly width: number;
   readonly height: number;
 }

@@ -1,9 +1,9 @@
-import { Camera2D, Group2D, RenderPipeline, type RenderItem, type RenderList, type Scene } from "raw2d-core";
+import { Camera2D, Group2D, RenderPipeline, type Renderer2DLike, type RenderItem, type RenderList, type Scene } from "raw2d-core";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
 import { getCanvasObjectWorldBounds } from "./culling/index.js";
 import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasRenderStats, CanvasSize } from "./Canvas.type.js";
 
-export class Canvas {
+export class Canvas implements Renderer2DLike<CanvasObject, CanvasRenderOptions, CanvasRenderStats, CanvasSize> {
   public readonly element: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
   private readonly renderer: CanvasObjectRenderer;
@@ -102,6 +102,8 @@ export class Canvas {
   public setBackgroundColor(color: string): void {
     this.backgroundColor = color;
   }
+
+  public dispose(): void {}
 
   public render(scene?: Scene, camera = this.defaultCamera, options: CanvasRenderOptions = {}): void {
     const renderList = options.renderList ?? this.createRenderList(scene, camera, options);

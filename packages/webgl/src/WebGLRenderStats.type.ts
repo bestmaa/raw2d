@@ -1,4 +1,6 @@
-export interface WebGLRenderStats {
+import type { Renderer2DStats } from "raw2d-core";
+
+export interface WebGLRenderStats extends Renderer2DStats {
   readonly objects: number;
   readonly rects: number;
   readonly circles: number;

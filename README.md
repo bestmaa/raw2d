@@ -352,6 +352,18 @@ import { Canvas } from "raw2d-canvas";
 import { WebGLRenderer2D } from "raw2d-webgl";
 ```
 
+Canvas and WebGLRenderer2D both implement the shared `Renderer2DLike` contract from `raw2d-core`:
+
+```ts
+import type { Renderer2DLike } from "raw2d-core";
+
+function drawFrame(renderer: Renderer2DLike): void {
+  renderer.render(scene, camera);
+}
+```
+
+This keeps future tooling and React fiber-style integration independent from the concrete renderer.
+
 ## Canvas And WebGL
 
 `Canvas` is a public renderer API, not an internal-only class. It is the recommended renderer today:

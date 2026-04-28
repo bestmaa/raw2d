@@ -62,7 +62,7 @@ import { Canvas } from "raw2d-canvas";`
       },
       {
         title: "WebGL Package",
-        body: "WebGLRenderer2D is public and can render Rect objects through the first WebGL2 batch path. Canvas is still the full-feature renderer while WebGL grows object support.",
+        body: "WebGLRenderer2D is public and renders supported primitives, Sprites, and Text2D through the WebGL2 batch path. Canvas is still the broadest renderer.",
         code: `npm install raw2d-core raw2d-webgl
 
 import { Camera2D, Scene } from "raw2d-core";
@@ -73,6 +73,15 @@ renderer.setSize(800, 600);
 renderer.render(scene, camera);
 
 console.log(renderer.getStats());`
+      },
+      {
+        title: "Shared Renderer Contract",
+        body: "Canvas and WebGLRenderer2D both implement Renderer2DLike from raw2d-core. Use it when a tool should accept either renderer.",
+        code: `import type { Renderer2DLike } from "raw2d-core";
+
+function draw(renderer: Renderer2DLike): void {
+  renderer.render(scene, camera);
+}`
       },
       {
         title: "Renderer Responsibility",
