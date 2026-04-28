@@ -62,6 +62,6 @@ If a later frame needs more than capacity, the internal backing array grows. If 
 
 ## Renderer Usage
 
-`WebGLRenderer2D` uses internal `WebGLFloatBuffer` instances for shape and sprite batches. This is a foundation step for lower per-frame allocations before future static and dynamic batch systems.
+`WebGLRenderer2D` uses internal `WebGLFloatBuffer` instances for shape and sprite batches. Dynamic runs reuse these buffers per frame. Static runs use them when building a cache miss, then reuse the cached GPU upload on later hits.
 
 This does not change the public scene API. It only changes how WebGL batch data is prepared internally.

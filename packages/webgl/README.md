@@ -19,6 +19,7 @@ Current support:
 - texture upload cache
 - reusable CPU-side float buffers
 - reusable GPU buffer upload capacity
+- static batch cache for clean static runs
 - render stats for objects, sprites, textures, batches, vertices, draw calls, buffer uploads, and unsupported objects
 
 ## Usage
@@ -54,20 +55,29 @@ console.log(renderer.getStats());
 
 Sprite batching uses the same `Texture` object as the texture key. Consecutive Sprites with the same Texture are merged into one draw call, even when they use different atlas frames. Raw2D does not reorder across unrelated objects, so scene order remains predictable.
 
-Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, and `dynamicObjects`.
+Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, `dynamicObjects`, `staticCacheHits`, and `staticCacheMisses`.
 
-Object and material versions are the invalidation foundation for future persistent static batches:
+Object and material versions invalidate static cached batches:
 
 ```ts
-staticRect.markClean();
+staticRect.setRenderMode("static");
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().staticCacheMisses);
+// 1
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().staticCacheHits);
+// 1
+
 staticRect.setSize(200, 120);
 
-if (staticRect.getDirtyState().dirty) {
-  // Rebuild cached WebGL batch data.
-}
+renderer.render(scene, camera);
+console.log(renderer.getStats().staticCacheMisses);
+// 1
 ```
 
-SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing and static/dynamic batches are future steps.
+SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing and static batch compaction are future steps.
 
 `WebGLRenderer2D` already uses `WebGLFloatBuffer` internally for shape and sprite batch data. Custom batch code can pass a `floatBuffer` option to `createWebGLShapeBatch` or `createWebGLSpriteBatch`.
 

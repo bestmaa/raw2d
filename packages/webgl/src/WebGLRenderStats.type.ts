@@ -13,6 +13,8 @@ export interface WebGLRenderStats {
   readonly dynamicBatches: number;
   readonly staticObjects: number;
   readonly dynamicObjects: number;
+  readonly staticCacheHits: number;
+  readonly staticCacheMisses: number;
   readonly vertices: number;
   readonly drawCalls: number;
   readonly uploadBufferDataCalls: number;

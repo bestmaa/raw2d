@@ -33,6 +33,8 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
     dynamicBatches: 2,
     staticObjects: 0,
     dynamicObjects: 2,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 12,
     drawCalls: 2,
     uploadBufferDataCalls: 1,
@@ -69,6 +71,8 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
     dynamicBatches: 2,
     staticObjects: 0,
     dynamicObjects: 3,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 198,
     drawCalls: 2,
     uploadBufferDataCalls: 1,
@@ -127,6 +131,8 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
     dynamicBatches: 3,
     staticObjects: 0,
     dynamicObjects: 3,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 24,
     drawCalls: 3,
     uploadBufferDataCalls: 1,
@@ -160,6 +166,8 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
     dynamicBatches: 1,
     staticObjects: 0,
     dynamicObjects: 2,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 6,
     drawCalls: 1,
     uploadBufferDataCalls: 1,
@@ -196,6 +204,8 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
     dynamicBatches: 1,
     staticObjects: 0,
     dynamicObjects: 2,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 12,
     drawCalls: 1,
     uploadBufferDataCalls: 1,
@@ -230,6 +240,8 @@ test("WebGLRenderer2D reuses GPU buffer capacity on later renders", () => {
     dynamicBatches: 1,
     staticObjects: 0,
     dynamicObjects: 1,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 6,
     drawCalls: 1,
     uploadBufferDataCalls: 0,
@@ -268,11 +280,78 @@ test("WebGLRenderer2D separates static and dynamic runs", () => {
     dynamicBatches: 1,
     staticObjects: 1,
     dynamicObjects: 1,
+    staticCacheHits: 0,
+    staticCacheMisses: 1,
     vertices: 12,
     drawCalls: 2,
     uploadBufferDataCalls: 2,
     uploadBufferSubDataCalls: 0,
     uploadedBytes: 288,
+    unsupported: 0
+  });
+});
+
+test("WebGLRenderer2D reuses clean static run buffers", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+  const staticRect = createRect(20, "#35c2ff");
+
+  staticRect.setRenderMode("static");
+  scene.add(staticRect);
+  renderer.render(scene, new Camera2D());
+  renderer.render(scene, new Camera2D());
+
+  assert.deepEqual(renderer.getStats(), {
+    objects: 1,
+    rects: 1,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 0,
+    textures: 0,
+    batches: 1,
+    staticBatches: 1,
+    dynamicBatches: 0,
+    staticObjects: 1,
+    dynamicObjects: 0,
+    staticCacheHits: 1,
+    staticCacheMisses: 0,
+    vertices: 6,
+    drawCalls: 1,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 0,
+    unsupported: 0
+  });
+
+  staticRect.setSize(60, 30);
+  renderer.render(scene, new Camera2D());
+
+  assert.deepEqual(renderer.getStats(), {
+    objects: 1,
+    rects: 1,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 0,
+    textures: 0,
+    batches: 1,
+    staticBatches: 1,
+    dynamicBatches: 0,
+    staticObjects: 1,
+    dynamicObjects: 0,
+    staticCacheHits: 0,
+    staticCacheMisses: 1,
+    vertices: 6,
+    drawCalls: 1,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 1,
+    uploadedBytes: 144,
     unsupported: 0
   });
 });

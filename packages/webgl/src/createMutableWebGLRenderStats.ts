@@ -16,6 +16,8 @@ export function createMutableWebGLRenderStats(objects: number): MutableWebGLRend
     dynamicBatches: 0,
     staticObjects: 0,
     dynamicObjects: 0,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
     vertices: 0,
     drawCalls: 0,
     uploadBufferDataCalls: 0,

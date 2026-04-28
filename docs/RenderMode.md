@@ -53,7 +53,7 @@ static Sprites -> static sprite run
 dynamic Sprites -> dynamic sprite run
 ```
 
-This is the foundation for future cached static batches. In the current MVP, static and dynamic runs are still uploaded each render, but they use separate WebGL upload channels and stats.
+Static runs are cached by `WebGLRenderer2D` after the first upload. Dynamic runs keep using the dynamic upload path because they are expected to change often.
 
 ```ts
 webglRenderer.render(scene, camera);
@@ -63,8 +63,18 @@ console.log(webglRenderer.getStats());
 //   staticBatches: 1,
 //   dynamicBatches: 1,
 //   staticObjects: 20,
-//   dynamicObjects: 3
+//   dynamicObjects: 3,
+//   staticCacheHits: 0,
+//   staticCacheMisses: 1
 // }
+```
+
+On the next render, the same clean static run can become a cache hit:
+
+```ts
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheHits);
+// 1
 ```
 
 ## When To Use Static
@@ -86,9 +96,9 @@ animatedSprite.setRenderMode("dynamic");
 
 ## Important
 
-`static` is a performance hint, not a lock. You can still move a static object. Later dirty-batch work will decide when static batch buffers need to rebuild.
+`static` is a performance hint, not a lock. You can still move a static object. Dirty versioning decides when static batch buffers need to rebuild.
 
-Dirty versioning is the signal for that future rebuild:
+Dirty versioning is the signal for that rebuild:
 
 ```ts
 background.markClean();

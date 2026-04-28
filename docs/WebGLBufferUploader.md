@@ -17,7 +17,7 @@ Calling `gl.bufferData` every frame can force WebGL to recreate or reallocate GP
 - if new data is bigger than current capacity, it uses `bufferData`
 - if new data fits in current capacity, it uses `bufferSubData`
 
-This is a small foundation for future static and dynamic batches.
+This is the upload foundation for dynamic runs and cached static runs.
 
 ## Basic Usage
 
@@ -51,7 +51,7 @@ console.log(result.mode);
 
 ## Renderer Usage
 
-`WebGLRenderer2D` keeps one uploader for shape vertices and one uploader for sprite vertices.
+`WebGLRenderer2D` keeps dynamic uploaders for shape and sprite vertices. Static cache entries keep their own uploaders so clean static runs can skip upload on later frames.
 
 ```ts
 renderer.render(scene, camera);

@@ -14,7 +14,8 @@ Current scope:
 - reuses CPU-side typed arrays through `WebGLFloatBuffer`
 - reuses GPU buffer capacity through `WebGLBufferUploader`
 - separates static and dynamic render runs
-- reports batch, texture, vertex, draw call, and upload stats
+- caches clean static render runs
+- reports batch, cache, texture, vertex, draw call, and upload stats
 
 Canvas is still the complete renderer. WebGL is the performance path being built out.
 
@@ -100,11 +101,13 @@ Example:
   uploadBufferDataCalls: 1,
   uploadBufferSubDataCalls: 1,
   uploadedBytes: 432000,
+  staticCacheHits: 0,
+  staticCacheMisses: 120,
   unsupported: 0
 }
 ```
 
-`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`.
+`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
 
 ## Static And Dynamic Runs
 
@@ -122,9 +125,9 @@ Scene -> RenderPipeline -> RenderRun(static) -> Buffer -> DrawCall
 Scene -> RenderPipeline -> RenderRun(dynamic) -> Buffer -> DrawCall
 ```
 
-The current MVP still uploads static runs each render. The value now is explicit planning, stats, and a clean place for dirty static batch caching later.
+Static runs are cached after their first upload. If the objects, materials, camera, viewport, and sprite textures stay the same, the next render reuses the cached GPU buffer and skips vertex upload for that run.
 
-Object and material versions provide the future invalidation signal:
+Object and material versions provide the invalidation signal:
 
 ```ts
 background.setRenderMode("static");
@@ -134,6 +137,30 @@ background.setSize(900, 600);
 console.log(background.getDirtyState());
 // { version: 2, dirty: true }
 ```
+
+## Static Batch Cache
+
+Static cache behavior is visible through renderer stats:
+
+```ts
+background.setRenderMode("static");
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().staticCacheMisses);
+// 1
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().staticCacheHits);
+// 1
+
+background.setSize(900, 600);
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().staticCacheMisses);
+// 1
+```
+
+The current WebGL vertex batches are already projected into clip space, so camera position, camera zoom, renderer width, and renderer height are part of the static cache key. Panning, zooming, or resizing the renderer rebuilds static batches correctly.
 
 ## Ordered Runs
 
@@ -194,12 +221,12 @@ console.log(renderer.getStats().uploadBufferSubDataCalls);
 // 1
 ```
 
-This keeps dynamic rendering simple now and gives Raw2D a clean place to add static and dynamic batch policies later.
+This keeps dynamic rendering simple while static runs can keep their own cached uploaders.
 
 ## Current Limitations
 
 - no automatic texture atlas packing yet
-- no persistent static batch cache yet
+- no automatic static batch compaction yet
 - no text WebGL path yet
 - polygon batching expects convex polygons
 - SVG texture sources should be rasterized to canvas before WebGL upload

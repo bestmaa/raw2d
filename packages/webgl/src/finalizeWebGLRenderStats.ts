@@ -17,6 +17,8 @@ export function finalizeWebGLRenderStats(stats: MutableWebGLRenderStats): WebGLR
     dynamicBatches: stats.dynamicBatches,
     staticObjects: stats.staticObjects,
     dynamicObjects: stats.dynamicObjects,
+    staticCacheHits: stats.staticCacheHits,
+    staticCacheMisses: stats.staticCacheMisses,
     vertices: stats.vertices,
     drawCalls: stats.drawCalls,
     uploadBufferDataCalls: stats.uploadBufferDataCalls,

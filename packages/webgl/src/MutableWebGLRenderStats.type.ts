@@ -13,6 +13,8 @@ export interface MutableWebGLRenderStats {
   dynamicBatches: number;
   staticObjects: number;
   dynamicObjects: number;
+  staticCacheHits: number;
+  staticCacheMisses: number;
   vertices: number;
   drawCalls: number;
   uploadBufferDataCalls: number;

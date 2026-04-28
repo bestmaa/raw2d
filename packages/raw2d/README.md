@@ -111,7 +111,7 @@ background.setRenderMode("static");
 player.setRenderMode("dynamic");
 ```
 
-Objects and materials expose dirty versions for future renderer caches:
+Objects and materials expose dirty versions for renderer caches:
 
 ```ts
 rect.markClean();
@@ -147,11 +147,11 @@ console.log(webglRenderer.getStats());
 The WebGL stats show how much work went into the current frame:
 
 ```ts
-// { objects, batches, staticBatches, dynamicBatches, vertices, drawCalls, unsupported }
+// { objects, batches, staticBatches, dynamicBatches, staticCacheHits, staticCacheMisses, vertices, drawCalls, unsupported }
 console.log(webglRenderer.getStats());
 ```
 
-WebGL keeps render order stable. It merges only consecutive shapes with the same material key and consecutive Sprites with the same Texture. Static and dynamic render runs are separated today so persistent cached static batches can be added later.
+WebGL keeps render order stable. It merges only consecutive shapes with the same material key and consecutive Sprites with the same Texture. Clean static render runs are cached after their first upload, and dynamic runs keep using the dynamic upload path.
 
 Check the live docs after deployment:
 

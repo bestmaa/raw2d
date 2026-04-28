@@ -45,7 +45,7 @@ console.log(webglRenderer.getStats().textures);`
       },
       {
         title: "Batch Stats",
-        body: "Visible shapes are written into shape buffers. Visible Sprites are written into sprite buffers. Consecutive compatible items are merged by material key or texture key.",
+        body: "Visible shapes are written into shape buffers. Visible Sprites are written into sprite buffers. Consecutive compatible items are merged by material key or texture key. Static cache fields show whether static run uploads were reused.",
         liveDemoId: "webgl-renderer",
         code: `renderer.render(scene, camera);
 
@@ -71,6 +71,8 @@ console.log(renderer.getStats());
 //   uploadBufferDataCalls: 1,
 //   uploadBufferSubDataCalls: 1,
 //   uploadedBytes: 792000,
+//   staticCacheHits: 0,
+//   staticCacheMisses: 300,
 //   unsupported: 0
 // }`
       },
@@ -88,7 +90,7 @@ console.log(webglRenderer.getStats());
       },
       {
         title: "Static / Dynamic Runs",
-        body: "Set renderMode when you know whether an object is stable or changing often. WebGL splits runs by mode so future dirty static batches can be added without changing object APIs.",
+        body: "Set renderMode when you know whether an object is stable or changing often. WebGL splits runs by mode and caches clean static runs after their first upload.",
         liveDemoId: "webgl-renderer",
         code: `background.setRenderMode("static");
 player.setRenderMode("dynamic");
@@ -97,6 +99,36 @@ webglRenderer.render(scene, camera);
 
 console.log(webglRenderer.getStats().staticBatches);
 console.log(webglRenderer.getStats().dynamicBatches);`
+      },
+      {
+        title: "Static Cache Hits",
+        body: "The first static render run is a cache miss because the batch must be uploaded. Rendering the same clean static run again becomes a hit and skips vertex upload for that run.",
+        liveDemoId: "webgl-renderer",
+        code: `background.setRenderMode("static");
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheMisses);
+// 1
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheHits);
+// 1`
+      },
+      {
+        title: "Static Cache Invalidation",
+        body: "Object versions, material versions, sprite textures, camera state, and viewport size are part of the static cache key. A change rebuilds only the affected static run.",
+        code: `background.setRenderMode("static");
+
+webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheHits);
+// 1
+
+background.setSize(900, 600);
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheMisses);
+// 1`
       },
       {
         title: "GPU Buffer Uploads",
@@ -138,7 +170,7 @@ scene.add(new Polygon({
 
 // Future WebGL work:
 // texture atlas
-// persistent static batch cache`
+// static batch compaction`
       },
       {
         title: "Use Culling",

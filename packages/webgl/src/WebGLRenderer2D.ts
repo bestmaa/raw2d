@@ -2,7 +2,6 @@ import {
   Camera2D,
   RenderPipeline,
   type Object2D,
-  type Object2DRenderMode,
   type RenderList,
   type Scene
 } from "raw2d-core";
@@ -16,8 +15,13 @@ import { getWebGLRenderRunKind } from "./getWebGLRenderRunKind.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { WebGLTextureCache } from "./WebGLTextureCache.js";
 import { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
+import { WebGLStaticBatchCache } from "./WebGLStaticBatchCache.js";
 import { finalizeWebGLRenderStats } from "./finalizeWebGLRenderStats.js";
 import { createWebGLBufferUploaders } from "./createWebGLBufferUploaders.js";
+import { createWebGLStaticRunKey } from "./createWebGLStaticRunKey.js";
+import { configureWebGLShapeProgram, configureWebGLSpriteProgram } from "./configureWebGLPrograms.js";
+import { drawWebGLShapeBatch, drawWebGLSpriteBatch } from "./drawWebGLBatches.js";
+import { trackWebGLShapeBatchStats, trackWebGLSpriteBatchStats } from "./trackWebGLBatchStats.js";
 import { trackWebGLRunModeStats } from "./trackWebGLRunModeStats.js";
 import { trackWebGLUploadStats } from "./trackWebGLUploadStats.js";
 import { shapeFragmentSource, shapeVertexSource, spriteFragmentSource, spriteVertexSource } from "./WebGLRenderer2DShaders.js";
@@ -25,6 +29,8 @@ import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js"
 import type { WebGLBufferUploaderMap } from "./WebGLBufferUploaderMap.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
+import type { WebGLShapeBatch } from "./WebGLShapeBatch.type.js";
+import type { WebGLSpriteBatch } from "./WebGLSpriteBatch.type.js";
 import type {
   WebGLRenderer2DLike,
   WebGLRenderer2DOptions,
@@ -45,32 +51,13 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private readonly textureCache: WebGLTextureCache;
   private readonly shapeFloatBuffer = new WebGLFloatBuffer();
   private readonly spriteFloatBuffer = new WebGLFloatBuffer();
+  private readonly staticShapeCache: WebGLStaticBatchCache<WebGLShapeBatch>;
+  private readonly staticSpriteCache: WebGLStaticBatchCache<WebGLSpriteBatch>;
   private readonly defaultCamera = new Camera2D();
   private width: number;
   private height: number;
   private backgroundColor: string;
-  private stats: WebGLRenderStats = {
-    objects: 0,
-    rects: 0,
-    circles: 0,
-    ellipses: 0,
-    lines: 0,
-    polylines: 0,
-    polygons: 0,
-    sprites: 0,
-    textures: 0,
-    batches: 0,
-    staticBatches: 0,
-    dynamicBatches: 0,
-    staticObjects: 0,
-    dynamicObjects: 0,
-    vertices: 0,
-    drawCalls: 0,
-    uploadBufferDataCalls: 0,
-    uploadBufferSubDataCalls: 0,
-    uploadedBytes: 0,
-    unsupported: 0
-  };
+  private stats: WebGLRenderStats = finalizeWebGLRenderStats(createMutableWebGLRenderStats(0));
 
   public constructor(options: WebGLRenderer2DOptions) {
     this.canvas = options.canvas;
@@ -89,6 +76,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.spriteProgram = createWebGLProgram(gl, spriteVertexSource, spriteFragmentSource);
     this.shapeUploaders = createWebGLBufferUploaders(gl);
     this.spriteUploaders = createWebGLBufferUploaders(gl);
+    this.staticShapeCache = new WebGLStaticBatchCache(gl);
+    this.staticSpriteCache = new WebGLStaticBatchCache(gl);
     this.textureCache = new WebGLTextureCache(gl);
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
@@ -135,6 +124,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     const stats = createMutableWebGLRenderStats(items.length);
 
     this.clear();
+    this.staticShapeCache.beginFrame();
+    this.staticSpriteCache.beginFrame();
 
     for (const run of runs) {
       if (run.kind === "shape") {
@@ -147,31 +138,54 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       }
     }
 
+    this.staticShapeCache.sweep();
+    this.staticSpriteCache.sweep();
     this.stats = finalizeWebGLRenderStats(stats);
   }
 
   private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
-    const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height, floatBuffer: this.shapeFloatBuffer });
-    this.configureShapeProgram(run.mode);
-    trackWebGLUploadStats(this.shapeUploaders[run.mode].upload(batch.vertices), stats);
-
-    for (const drawBatch of batch.drawBatches) {
-      this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
+    if (run.mode === "static" && this.renderCachedShapeRun(run, camera, stats)) {
+      return;
     }
 
-    stats.rects += batch.rects;
-    stats.circles += batch.circles;
-    stats.ellipses += batch.ellipses;
-    stats.lines += batch.lines;
-    stats.polylines += batch.polylines;
-    stats.polygons += batch.polygons;
-    trackWebGLRunModeStats(run, batch.drawBatches.length, stats);
-    stats.vertices += batch.vertices.length / 6;
-    stats.drawCalls += batch.drawBatches.length;
-    stats.unsupported += batch.unsupported;
+    const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height, floatBuffer: this.shapeFloatBuffer });
+    const uploader = run.mode === "static" ? this.cacheShapeBatch(run, camera, batch).uploader : this.shapeUploaders.dynamic;
+    configureWebGLShapeProgram(this.gl, this.shapeProgram, uploader);
+    trackWebGLUploadStats(uploader.upload(batch.vertices), stats);
+    drawWebGLShapeBatch(this.gl, batch);
+    trackWebGLShapeBatchStats(batch, run, stats);
+  }
+
+  private renderCachedShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): boolean {
+    const identity = this.createStaticRunIdentity(run, camera);
+    const entry = this.staticShapeCache.get(identity.runId, identity.key);
+
+    if (!entry) {
+      stats.staticCacheMisses += 1;
+      return false;
+    }
+
+    stats.staticCacheHits += 1;
+    configureWebGLShapeProgram(this.gl, this.shapeProgram, entry.uploader);
+    drawWebGLShapeBatch(this.gl, entry.batch);
+    trackWebGLShapeBatchStats(entry.batch, run, stats);
+    return true;
+  }
+
+  private cacheShapeBatch(
+    run: WebGLRenderRun,
+    camera: Camera2D,
+    batch: WebGLShapeBatch
+  ): ReturnType<WebGLStaticBatchCache<WebGLShapeBatch>["set"]> {
+    const identity = this.createStaticRunIdentity(run, camera);
+    return this.staticShapeCache.set(identity.runId, identity.key, batch);
   }
 
   private renderSpriteRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
+    if (run.mode === "static" && this.renderCachedSpriteRun(run, camera, stats)) {
+      return;
+    }
+
     const batch = createWebGLSpriteBatch({
       items: run.items,
       camera,
@@ -181,61 +195,51 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       getTextureKey: (texture) => this.textureCache.getKey(texture)
     });
 
-    this.configureSpriteProgram(run.mode);
-    trackWebGLUploadStats(this.spriteUploaders[run.mode].upload(batch.vertices), stats);
-
-    for (const drawBatch of batch.drawBatches) {
-      this.gl.activeTexture(this.gl.TEXTURE0);
-      this.gl.bindTexture(this.gl.TEXTURE_2D, this.textureCache.get(drawBatch.texture));
-      this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
-      stats.textures.add(drawBatch.key);
-    }
-
-    stats.sprites += batch.sprites;
-    trackWebGLRunModeStats(run, batch.drawBatches.length, stats);
-    stats.vertices += batch.vertices.length / 5;
-    stats.drawCalls += batch.drawBatches.length;
-    stats.unsupported += batch.unsupported;
+    const uploader = run.mode === "static" ? this.cacheSpriteBatch(run, camera, batch).uploader : this.spriteUploaders.dynamic;
+    configureWebGLSpriteProgram(this.gl, this.spriteProgram, uploader);
+    trackWebGLUploadStats(uploader.upload(batch.vertices), stats);
+    drawWebGLSpriteBatch(this.gl, batch, this.textureCache, stats);
+    trackWebGLSpriteBatchStats(batch, run, stats);
   }
 
-  private configureShapeProgram(mode: Object2DRenderMode): void {
-    const stride = 6 * Float32Array.BYTES_PER_ELEMENT;
-    this.gl.useProgram(this.shapeProgram);
-    this.shapeUploaders[mode].bind();
-    this.enableAttribute(this.shapeProgram, "a_position", 2, stride, 0);
-    this.enableAttribute(this.shapeProgram, "a_color", 4, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
-  }
+  private renderCachedSpriteRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): boolean {
+    const identity = this.createStaticRunIdentity(run, camera);
+    const entry = this.staticSpriteCache.get(identity.runId, identity.key);
 
-  private configureSpriteProgram(mode: Object2DRenderMode): void {
-    const stride = 5 * Float32Array.BYTES_PER_ELEMENT;
-    const textureLocation = this.gl.getUniformLocation(this.spriteProgram, "u_texture");
-
-    if (!textureLocation) {
-      throw new Error("WebGL uniform not found: u_texture");
+    if (!entry) {
+      stats.staticCacheMisses += 1;
+      return false;
     }
 
-    this.gl.useProgram(this.spriteProgram);
-    this.spriteUploaders[mode].bind();
-    this.enableAttribute(this.spriteProgram, "a_position", 2, stride, 0);
-    this.enableAttribute(this.spriteProgram, "a_uv", 2, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
-    this.enableAttribute(this.spriteProgram, "a_alpha", 1, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
-    this.gl.uniform1i(textureLocation, 0);
+    stats.staticCacheHits += 1;
+    configureWebGLSpriteProgram(this.gl, this.spriteProgram, entry.uploader);
+    drawWebGLSpriteBatch(this.gl, entry.batch, this.textureCache, stats);
+    trackWebGLSpriteBatchStats(entry.batch, run, stats);
+    return true;
   }
 
-  private enableAttribute(program: WebGLProgram, name: string, size: number, stride: number, offset: number): void {
-    const location = this.gl.getAttribLocation(program, name);
-
-    if (location < 0) {
-      throw new Error(`WebGL attribute not found: ${name}`);
-    }
-
-    this.gl.enableVertexAttribArray(location);
-    this.gl.vertexAttribPointer(location, size, this.gl.FLOAT, false, stride, offset);
+  private cacheSpriteBatch(
+    run: WebGLRenderRun,
+    camera: Camera2D,
+    batch: WebGLSpriteBatch
+  ): ReturnType<WebGLStaticBatchCache<WebGLSpriteBatch>["set"]> {
+    const identity = this.createStaticRunIdentity(run, camera);
+    return this.staticSpriteCache.set(identity.runId, identity.key, batch);
   }
 
   private clear(): void {
     const color = parseWebGLColor(this.backgroundColor);
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+  }
+
+  private createStaticRunIdentity(run: WebGLRenderRun, camera: Camera2D): ReturnType<typeof createWebGLStaticRunKey> {
+    return createWebGLStaticRunKey({
+      run,
+      camera,
+      width: this.width,
+      height: this.height,
+      getTextureKey: (texture) => this.textureCache.getKey(texture)
+    });
   }
 }

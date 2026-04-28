@@ -8,7 +8,7 @@ It answers one simple renderer question:
 Did this object or material change since the last time I prepared render data?
 ```
 
-This is important for future WebGL static batch caching, texture batching, interaction tools, and React-style bindings.
+This is important for WebGL static batch caching, texture batching, interaction tools, and React-style bindings.
 
 ## Object Versions
 
@@ -80,21 +80,29 @@ console.log(material.getDirtyState());
 
 This matters because a static object can stay still while its material changes.
 
-## WebGL Cache Foundation
+## WebGL Static Cache
 
-Static WebGL batches will use object and material versions to decide whether cached buffers can be reused.
+Static WebGL batches use object and material versions to decide whether cached buffers can be reused.
 
 ```ts
-const before = rect.version;
+rect.setRenderMode("static");
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheMisses);
+// 1
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheHits);
+// 1
 
 rect.setSize(200, 120);
 
-if (rect.version !== before) {
-  // Rebuild static batch data.
-}
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().staticCacheMisses);
+// 1
 ```
 
-The current WebGL renderer exposes static and dynamic run stats. Dirty versioning is the next foundation under those stats.
+Changing the object increments its version, so the static cache key changes and the renderer rebuilds that run.
 
 ## React Fiber Later
 

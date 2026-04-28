@@ -151,7 +151,7 @@ background.setRenderMode("static");
 player.setRenderMode("dynamic");
 ```
 
-Static and dynamic WebGL runs are separated in stats today and will become the base for persistent cached batches later.
+Static and dynamic WebGL runs are separated in stats. Clean static WebGL runs are cached after the first upload and reported through `staticCacheHits` and `staticCacheMisses`.
 
 Objects and materials track dirty versions for renderer caches:
 
@@ -215,7 +215,7 @@ raw2dWebGL.render(scene, camera);
 console.log(raw2dWebGL.getStats());
 ```
 
-Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites with the same Texture are merged into texture draw ranges. `TextureAtlas` lets Sprites use named frames from one Texture, which is the base for larger sprite batches. WebGL batches reuse CPU float buffers and GPU buffer capacity so later frames can upload with `bufferSubData` when capacity already fits. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
+Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites with the same Texture are merged into texture draw ranges. `TextureAtlas` lets Sprites use named frames from one Texture, which is the base for larger sprite batches. WebGL batches reuse CPU float buffers and GPU buffer capacity so later frames can upload with `bufferSubData` when capacity already fits. Static runs can skip vertex upload entirely when their cache key is unchanged. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
 Sprite animation is explicit and renderer-independent:
 
