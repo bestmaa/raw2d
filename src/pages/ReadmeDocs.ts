@@ -20,6 +20,7 @@ import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
+import renderPipeline from "../../docs/RenderPipeline.md?raw";
 import resizeHandles from "../../docs/ResizeHandles.md?raw";
 import scene from "../../docs/Scene.md?raw";
 import selection from "../../docs/Selection.md?raw";
@@ -39,6 +40,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
   { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
+  { id: "render-pipeline", label: "Render Pipeline", filename: "RenderPipeline.md", content: renderPipeline },
   { id: "group2d", label: "Group2D", filename: "Group2D.md", content: group2d },
   { id: "camera-controls", label: "CameraControls", filename: "CameraControls.md", content: cameraControls },
   { id: "basic-material", label: "BasicMaterial", filename: "BasicMaterial.md", content: basicMaterial },

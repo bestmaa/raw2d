@@ -23,7 +23,7 @@ Raw2D focuses on a different identity: low-level, modular, transparent 2D render
 The long-term render pipeline should stay explicit:
 
 ```text
-Scene -> Batcher -> Buffer -> Shader -> DrawCall
+Scene -> RenderPipeline -> RenderList -> Batcher -> Buffer -> Shader -> DrawCall
 ```
 
 Performance matters, but Raw2D's main advantage should be control, modularity, and transparent internals.
@@ -143,6 +143,19 @@ raw2dCanvas.render(scene, camera);
 ```
 
 Canvas draws lower `zIndex` first and higher `zIndex` later.
+
+Use `RenderPipeline` when tooling or custom renderers need to inspect prepared render work:
+
+```ts
+const renderList = raw2dCanvas.createRenderList(scene, camera, {
+  culling: true
+});
+
+console.log(renderList.getStats());
+raw2dCanvas.render(scene, camera, { renderList });
+```
+
+The pipeline prepares visibility, culling, hierarchy, and render order before drawing.
 
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 

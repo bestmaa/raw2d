@@ -11,6 +11,7 @@ import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
+import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
@@ -22,6 +23,7 @@ export const topics: readonly DocTopic[] = [
   ...canvasCullingTopics,
   ...visibleObjectsTopics,
   ...renderOrderTopics,
+  ...renderPipelineTopics,
   ...group2DTopics,
   ...transformTopics,
   ...boundsTopics,

@@ -1,4 +1,4 @@
-import type { Object2D } from "raw2d-core";
+import type { Object2D, RenderList } from "raw2d-core";
 
 export type CanvasObject = Object2D;
 
@@ -14,6 +14,7 @@ export interface CanvasOptions {
 export interface CanvasRenderOptions {
   readonly culling?: boolean;
   readonly cullingFilter?: (object: CanvasObject) => boolean;
+  readonly renderList?: RenderList<CanvasObject>;
 }
 
 export interface CanvasSize {

@@ -1,3 +1,4 @@
+import type { RenderList } from "raw2d-core";
 import type { CanvasObject } from "./Canvas.type.js";
 
 export interface CanvasObjectRendererOptions {
@@ -5,5 +6,5 @@ export interface CanvasObjectRendererOptions {
 }
 
 export interface CanvasObjectRendererLike {
-  render(objects: readonly CanvasObject[]): void;
+  render(objects: readonly CanvasObject[] | RenderList<CanvasObject>): void;
 }

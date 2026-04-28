@@ -1,12 +1,13 @@
-import { Camera2D, sortRenderObjects, type Scene } from "raw2d-core";
+import { Camera2D, RenderPipeline, type RenderList, type Scene } from "raw2d-core";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
-import { getVisibleCanvasObjects } from "./culling/index.js";
+import { getCanvasObjectWorldBounds } from "./culling/index.js";
 import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasSize } from "./Canvas.type.js";
 
 export class Canvas {
   public readonly element: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
   private readonly renderer: CanvasObjectRenderer;
+  private readonly pipeline: RenderPipeline<CanvasObject>;
   private readonly objects: CanvasObject[] = [];
   private readonly defaultCamera: Camera2D;
   private width: number;
@@ -32,6 +33,9 @@ export class Canvas {
 
     this.context = context;
     this.renderer = new CanvasObjectRenderer({ context });
+    this.pipeline = new RenderPipeline({
+      boundsProvider: (object) => getCanvasObjectWorldBounds({ object, context })
+    });
     this.setSize(this.width, this.height, this.pixelRatio);
   }
 
@@ -95,29 +99,27 @@ export class Canvas {
   }
 
   public render(scene?: Scene, camera = this.defaultCamera, options: CanvasRenderOptions = {}): void {
-    const objects = scene?.getObjects() ?? this.objects;
-    const visibleObjects = options.culling ? this.getVisibleObjects(objects, camera, options) : objects;
-    const renderObjects = sortRenderObjects({ objects: visibleObjects });
+    const renderList = options.renderList ?? this.createRenderList(scene, camera, options);
 
     this.clear(this.backgroundColor);
     this.context.save();
     this.applyCamera(camera);
-    this.renderer.render(renderObjects);
+    this.renderer.render(renderList);
     this.context.restore();
   }
 
-  private getVisibleObjects(
-    objects: readonly CanvasObject[],
-    camera: Camera2D,
-    renderOptions: CanvasRenderOptions
-  ): readonly CanvasObject[] {
-    return getVisibleCanvasObjects({
-      objects,
+  public createRenderList(
+    scene?: Scene,
+    camera = this.defaultCamera,
+    renderOptions: CanvasRenderOptions = {}
+  ): RenderList<CanvasObject> {
+    return this.pipeline.build({
+      scene,
+      objects: scene ? undefined : this.objects,
       camera,
-      width: this.width,
-      height: this.height,
-      context: this.context,
-      renderOptions
+      viewport: { width: this.width, height: this.height },
+      culling: renderOptions.culling,
+      filter: renderOptions.cullingFilter
     });
   }
 

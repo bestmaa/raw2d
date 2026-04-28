@@ -15,6 +15,7 @@ import { createPolygonDemo } from "./PolygonDemo";
 import { createPolylineDemo } from "./PolylineDemo";
 import { createRectDemo } from "./RectDemo";
 import { createRenderOrderDemo } from "./RenderOrderDemo";
+import { createRenderPipelineDemo } from "./RenderPipelineDemo";
 import { createResizeDemo } from "./ResizeDemo";
 import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
@@ -50,6 +51,7 @@ const demoIds = [
   "camera-bounds",
   "visible-objects",
   "render-order",
+  "render-pipeline",
   "hit-testing",
   "interaction-controller",
   "camera-controls",
@@ -150,6 +152,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "render-order") {
     return createRenderOrderDemo();
+  }
+
+  if (demoId === "render-pipeline") {
+    return createRenderPipelineDemo();
   }
 
   if (demoId === "interaction-controller") {

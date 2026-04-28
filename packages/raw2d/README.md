@@ -86,6 +86,17 @@ import { getSpriteWorldBounds } from "raw2d";
 const bounds = getSpriteWorldBounds(sprite);
 ```
 
+Use the render pipeline when you want to inspect or reuse prepared draw work:
+
+```ts
+const renderList = raw2dCanvas.createRenderList(scene, camera, {
+  culling: true
+});
+
+console.log(renderList.getStats());
+raw2dCanvas.render(scene, camera, { renderList });
+```
+
 Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.
 
 Canvas and WebGL are public renderer packages:
