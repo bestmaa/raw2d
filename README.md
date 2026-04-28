@@ -113,6 +113,24 @@ scene.add(sprite);
 raw2dCanvas.render(scene, camera);
 ```
 
+Use `TextureAtlasPacker` when separate sprite sources should share one atlas texture:
+
+```ts
+const atlas = new TextureAtlasPacker({
+  padding: 2,
+  maxWidth: 1024,
+  powerOfTwo: true
+}).pack([
+  { name: "idle", source: idleImage },
+  { name: "run", source: runImage }
+]);
+
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
+```
+
+In WebGL, this helps consecutive sprites stay in one texture batch.
+
 Objects support origin keywords for placement, rotation, and scaling:
 
 ```ts

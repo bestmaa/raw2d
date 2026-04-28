@@ -105,6 +105,36 @@ raw2dCanvas.render(scene, camera);`
         code: `// Same atlas.texture means these can stay in one texture batch
 scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
 scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));`
+      },
+      {
+        title: "Pack Separate Sources",
+        body: "TextureAtlasPacker creates one canvas texture from separate image-like sources. This keeps the Sprite API the same while giving WebGL one shared texture.",
+        liveDemoId: "texture-atlas",
+        code: `const atlas = new TextureAtlasPacker({
+  padding: 2,
+  maxWidth: 1024,
+  powerOfTwo: true
+}).pack([
+  { name: "idle", source: idleImage },
+  { name: "run", source: runImage },
+  { name: "jump", source: jumpImage }
+]);
+
+scene.add(new Sprite({
+  texture: atlas.texture,
+  frame: atlas.getFrame("idle")
+}));`
+      },
+      {
+        title: "Packed Atlas In WebGL",
+        body: "Packed sprites share atlas.texture, so consecutive frames can render in one texture batch. The stats should show one texture when only this atlas is used.",
+        liveDemoId: "webgl-renderer",
+        code: `scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textures);
+// 1`
       }
     ]
   },

@@ -24,7 +24,7 @@ const atlas = new TextureAtlas({
 });
 ```
 
-The current atlas is explicit. It does not pack images automatically yet.
+Use `TextureAtlas` directly when you already know frame rectangles.
 
 You can also load the same structure from JSON:
 
@@ -72,4 +72,28 @@ context.drawImage(source, sx, sy, sw, sh, dx, dy, dw, dh);
 
 WebGL converts the same frame into UV coordinates. Sprites using the same `atlas.texture` can be grouped into the same texture batch when they are consecutive in render order.
 
-This is the foundation for a future automatic texture atlas packer.
+## Pack Separate Sources
+
+Use `TextureAtlasPacker` when several separate images should become one atlas texture:
+
+```ts
+const atlas = new TextureAtlasPacker({
+  padding: 2,
+  maxWidth: 1024,
+  powerOfTwo: true
+}).pack([
+  { name: "idle", source: idleImage },
+  { name: "run", source: runImage }
+]);
+```
+
+Packed atlas sprites still use the same Sprite API:
+
+```ts
+scene.add(new Sprite({
+  texture: atlas.texture,
+  frame: atlas.getFrame("idle")
+}));
+```
+
+In WebGL, this helps consecutive sprites stay in one texture batch.

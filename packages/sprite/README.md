@@ -8,6 +8,7 @@ This package contains data objects only:
 - `TextureLoader`
 - `TextureAtlasLoader`
 - `TextureAtlas`
+- `TextureAtlasPacker`
 - `SpriteAnimationClip`
 - `SpriteAnimator`
 - `Sprite`
@@ -42,7 +43,31 @@ const sprite = new Sprite({
 });
 ```
 
-The atlas is intentionally simple for now. It does not pack images automatically. It gives Canvas a source rectangle and gives WebGL frame UVs for future larger sprite batches.
+The atlas is intentionally simple and explicit. It gives Canvas a source rectangle and gives WebGL frame UVs for larger sprite batches.
+
+## TextureAtlasPacker
+
+`TextureAtlasPacker` turns separate image-like sources into one generated canvas texture and a `TextureAtlas`.
+
+```ts
+import { Sprite, TextureAtlasPacker } from "raw2d-sprite";
+
+const atlas = new TextureAtlasPacker({
+  padding: 2,
+  maxWidth: 1024,
+  powerOfTwo: true
+}).pack([
+  { name: "idle", source: idleImage },
+  { name: "run", source: runImage }
+]);
+
+const sprite = new Sprite({
+  texture: atlas.texture,
+  frame: atlas.getFrame("idle")
+});
+```
+
+Packed sprites share one `atlas.texture`, so consecutive WebGL Sprites can stay in one texture batch.
 
 ## Asset Loading
 

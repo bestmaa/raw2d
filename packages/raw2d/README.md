@@ -72,6 +72,19 @@ scene.add(new Sprite({ x: 120, y: 80, texture, origin: "center", width: 128, hei
 raw2dCanvas.render(scene, camera);
 ```
 
+Pack separate sprite sources into one atlas texture:
+
+```ts
+import { Sprite, TextureAtlasPacker } from "raw2d";
+
+const atlas = new TextureAtlasPacker({ padding: 2 }).pack([
+  { name: "idle", source: idleImage },
+  { name: "run", source: runImage }
+]);
+
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
+```
+
 Use `origin` to control where x/y and rotation attach to an object:
 
 ```ts
@@ -122,7 +135,7 @@ console.log(rect.getDirtyState());
 console.log(rect.material.getDirtyState());
 ```
 
-Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs.
+Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs. `TextureAtlasPacker` can build that atlas texture from separate sources.
 
 `SpriteAnimationClip` and `SpriteAnimator` provide explicit atlas-frame animation. Your app calls `animator.update(deltaSeconds)`, then renders with Canvas or WebGL.
 

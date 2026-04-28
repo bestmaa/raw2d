@@ -31,6 +31,7 @@ import shapePath from "../../docs/ShapePath.md?raw";
 import spriteAnimation from "../../docs/SpriteAnimation.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
 import textureAtlas from "../../docs/TextureAtlas.md?raw";
+import textureAtlasPacker from "../../docs/TextureAtlasPacker.md?raw";
 import transformMatrix from "../../docs/TransformMatrix.md?raw";
 import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
@@ -71,6 +72,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "sprite-animation", label: "Sprite Animation", filename: "SpriteAnimation.md", content: spriteAnimation },
   { id: "text2d", label: "Text2D", filename: "Text2D.md", content: text2d },
   { id: "texture-atlas", label: "TextureAtlas", filename: "TextureAtlas.md", content: textureAtlas },
+  { id: "texture-atlas-packer", label: "TextureAtlasPacker", filename: "TextureAtlasPacker.md", content: textureAtlasPacker },
   { id: "hit-testing", label: "Hit Testing", filename: "HitTesting.md", content: hitTesting },
   { id: "picking", label: "Picking", filename: "Picking.md", content: picking },
   { id: "selection", label: "Selection", filename: "Selection.md", content: selection },

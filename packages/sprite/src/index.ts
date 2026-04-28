@@ -4,6 +4,8 @@ export * from "./Texture.js";
 export * from "./Texture.type.js";
 export * from "./TextureAtlas.js";
 export * from "./TextureAtlas.type.js";
+export * from "./TextureAtlasPacker.js";
+export * from "./TextureAtlasPacker.type.js";
 export * from "./SpriteAnimationClip.js";
 export * from "./SpriteAnimationClip.type.js";
 export * from "./SpriteAnimator.js";

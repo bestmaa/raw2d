@@ -55,6 +55,22 @@ console.log(renderer.getStats());
 
 Sprite batching uses the same `Texture` object as the texture key. Consecutive Sprites with the same Texture are merged into one draw call, even when they use different atlas frames. Raw2D does not reorder across unrelated objects, so scene order remains predictable.
 
+Use `TextureAtlasPacker` from `raw2d-sprite` when separate sprite images should become one atlas texture:
+
+```ts
+const atlas = new TextureAtlasPacker().pack([
+  { name: "idle", source: idleImage },
+  { name: "run", source: runImage }
+]);
+
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
+scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
+
+renderer.render(scene, camera);
+console.log(renderer.getStats().textures);
+// 1
+```
+
 Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, `dynamicObjects`, `staticCacheHits`, and `staticCacheMisses`.
 
 Object and material versions invalidate static cached batches:
