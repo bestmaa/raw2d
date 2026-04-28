@@ -10,6 +10,7 @@ export const webGLRendererTopics: readonly DocTopic[] = [
       {
         title: "First Working Scope",
         body: "WebGLRenderer2D now renders Rect. Other object types are counted as unsupported until their batches are implemented.",
+        liveDemoId: "webgl-renderer",
         code: `const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
   width: 800,
@@ -22,6 +23,7 @@ renderer.render(scene, camera);`
       {
         title: "Rect Batch Stats",
         body: "All visible rects are written into one vertex buffer. For rect-only scenes this gives one draw call.",
+        liveDemoId: "webgl-renderer",
         code: `renderer.render(scene, camera);
 
 console.log(renderer.getStats());
@@ -37,6 +39,7 @@ console.log(renderer.getStats());
       {
         title: "Canvas Comparison",
         body: "Canvas supports more objects today, but each shape is drawn through Canvas APIs. WebGL currently supports fewer objects but can batch Rect geometry.",
+        liveDemoId: "webgl-renderer",
         code: `canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
 // { objects: 1000, drawCalls: 1000 }
@@ -64,4 +67,3 @@ webglRenderer.render(scene, camera, { renderList });`
     ]
   }
 ];
-

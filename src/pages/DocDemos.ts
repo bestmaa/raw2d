@@ -22,6 +22,7 @@ import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
 import { createVisibleObjectsDemo } from "./VisibleObjectsDemo";
+import { createWebGLRendererDemo } from "./WebGLRendererDemo";
 import type { DocSection } from "./DocPage.type";
 import type { InteractionControllerDemoVariant } from "./InteractionControllerDemo.type";
 
@@ -52,6 +53,7 @@ const demoIds = [
   "visible-objects",
   "render-order",
   "render-pipeline",
+  "webgl-renderer",
   "hit-testing",
   "interaction-controller",
   "camera-controls",
@@ -156,6 +158,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "render-pipeline") {
     return createRenderPipelineDemo();
+  }
+
+  if (demoId === "webgl-renderer") {
+    return createWebGLRendererDemo();
   }
 
   if (demoId === "interaction-controller") {
