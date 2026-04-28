@@ -11,6 +11,7 @@ import {
   fullTextureExample
 } from "./DocFullExamples";
 import { createCameraControlsCode } from "./DocCameraControlsCode";
+import { createCameraBoundsCode } from "./DocCameraBoundsCode";
 import { fullShapePathExample } from "./DocPathExamples";
 import { getInteractionLiveCode } from "./DocInteractionLiveCode";
 import type { DocSection } from "./DocPage.type";
@@ -37,6 +38,10 @@ export function getLiveExampleCode(section: DocSection): string {
 
   if (section.liveDemoId === "interaction-controller") {
     return getInteractionLiveCode(section);
+  }
+
+  if (section.liveDemoId === "camera-bounds") {
+    return createCameraBoundsCode(section);
   }
 
   if (section.liveDemoId === "camera-controls") {

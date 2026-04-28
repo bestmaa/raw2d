@@ -1,5 +1,6 @@
 import { createBoundsDemo } from "./BoundsDemo";
 import { createArcDemo } from "./ArcDemo";
+import { createCameraBoundsDemo } from "./CameraBoundsDemo";
 import { createCameraControlsDemo } from "./CameraControlsDemo";
 import { createCircleDemo } from "./CircleDemo";
 import { createDragDemo } from "./DragDemo";
@@ -42,6 +43,7 @@ const demoIds = [
   "bounds-world",
   "bounds-sprite",
   "bounds-text2d",
+  "camera-bounds",
   "hit-testing",
   "interaction-controller",
   "camera-controls",
@@ -126,6 +128,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "hit-testing") {
     return createHitTestingDemo();
+  }
+
+  if (demoId === "camera-bounds") {
+    return createCameraBoundsDemo();
   }
 
   if (demoId === "interaction-controller") {

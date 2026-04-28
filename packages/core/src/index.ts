@@ -44,6 +44,8 @@ export * from "./containsRectPoint.js";
 export * from "./containsRectPoint.type.js";
 export * from "./getArcLocalBounds.js";
 export * from "./getArcLocalBounds.type.js";
+export * from "./getCameraWorldBounds.js";
+export * from "./getCameraWorldBounds.type.js";
 export * from "./getCircleLocalBounds.js";
 export * from "./getCircleLocalBounds.type.js";
 export * from "./getCoreLocalBounds.js";

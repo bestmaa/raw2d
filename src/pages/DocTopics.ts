@@ -134,6 +134,28 @@ raw2dCanvas.render(scene, camera);`
 
 camera.setPosition(100, 80);
 camera.setZoom(2);`
+      },
+      {
+        title: "Camera World Bounds",
+        body: "Use getCameraWorldBounds to read the world-space rectangle currently visible through the camera.",
+        liveDemoId: "camera-bounds",
+        code: `const bounds = getCameraWorldBounds({
+  camera,
+  width: 800,
+  height: 600
+});`
+      },
+      {
+        title: "Culling Foundation",
+        body: "Compare object world bounds with camera bounds before drawing or processing large scenes.",
+        liveDemoId: "camera-bounds",
+        code: `const cameraBounds = getCameraWorldBounds({
+  camera,
+  width,
+  height
+});
+
+const isVisible = objectBounds.intersects(cameraBounds);`
       }
     ]
   },
