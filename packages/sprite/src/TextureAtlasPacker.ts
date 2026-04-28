@@ -3,6 +3,7 @@ import { TextureAtlas } from "./TextureAtlas.js";
 import type { TextureFrame } from "./TextureAtlas.type.js";
 import type {
   TextureAtlasPackerCanvas,
+  TextureAtlasPackerContext,
   TextureAtlasPackerItem,
   TextureAtlasPackerOptions
 } from "./TextureAtlasPacker.type.js";
@@ -15,13 +16,17 @@ interface Placement {
 
 export class TextureAtlasPacker {
   private readonly padding: number;
+  private readonly edgeBleed: number;
   private readonly maxWidth: number;
+  private readonly maxHeight: number;
   private readonly powerOfTwo: boolean;
   private readonly createCanvas: TextureAtlasPackerOptions["createCanvas"];
 
   public constructor(options: TextureAtlasPackerOptions = {}) {
     this.padding = Math.max(0, Math.floor(options.padding ?? 0));
+    this.edgeBleed = Math.max(0, Math.floor(options.edgeBleed ?? 0));
     this.maxWidth = Math.max(1, Math.floor(options.maxWidth ?? 2048));
+    this.maxHeight = Math.max(1, Math.floor(options.maxHeight ?? Number.POSITIVE_INFINITY));
     this.powerOfTwo = options.powerOfTwo ?? false;
     this.createCanvas = options.createCanvas;
   }
@@ -40,8 +45,7 @@ export class TextureAtlasPacker {
     context.clearRect(0, 0, width, height);
 
     for (const placement of placements) {
-      const frame = placement.frame;
-      context.drawImage(placement.item.source, 0, 0, frame.width, frame.height, frame.x, frame.y, frame.width, frame.height);
+      this.drawPlacement(context, placement);
     }
 
     return new TextureAtlas({
@@ -52,6 +56,7 @@ export class TextureAtlasPacker {
 
   private createPlacements(items: readonly TextureAtlasPackerItem[]): readonly Placement[] {
     const placements: Placement[] = [];
+    const names = new Set<string>();
     let x = this.padding;
     let y = this.padding;
     let rowHeight = 0;
@@ -60,8 +65,14 @@ export class TextureAtlasPacker {
       const width = getSourceWidth(item);
       const height = getSourceHeight(item);
 
+      this.validateItem(item, width, height, names);
+
       if (width + this.padding * 2 > this.maxWidth) {
         throw new Error(`TextureAtlasPacker item is wider than maxWidth: ${item.name}`);
+      }
+
+      if (height + this.padding * 2 > this.maxHeight) {
+        throw new Error(`TextureAtlasPacker item is taller than maxHeight: ${item.name}`);
       }
 
       if (x + width + this.padding > this.maxWidth && rowHeight > 0) {
@@ -70,12 +81,28 @@ export class TextureAtlasPacker {
         rowHeight = 0;
       }
 
+      if (y + height + this.padding > this.maxHeight) {
+        throw new Error(`TextureAtlasPacker atlas is full before placing item: ${item.name}`);
+      }
+
       placements.push({ item, frame: { x, y, width, height } });
       x += width + this.padding;
       rowHeight = Math.max(rowHeight, height);
     }
 
     return placements;
+  }
+
+  private validateItem(item: TextureAtlasPackerItem, width: number, height: number, names: Set<string>): void {
+    if (names.has(item.name)) {
+      throw new Error(`TextureAtlasPacker duplicate frame name: ${item.name}`);
+    }
+
+    if (width <= 0 || height <= 0) {
+      throw new Error(`TextureAtlasPacker item has invalid size: ${item.name}`);
+    }
+
+    names.add(item.name);
   }
 
   private getAtlasWidth(placements: readonly Placement[]): number {
@@ -105,6 +132,31 @@ export class TextureAtlasPacker {
     }
 
     throw new Error("TextureAtlasPacker needs createCanvas outside browser environments.");
+  }
+
+  private drawPlacement(context: TextureAtlasPackerContext, placement: Placement): void {
+    const frame = placement.frame;
+    const source = placement.item.source;
+
+    context.drawImage(source, 0, 0, frame.width, frame.height, frame.x, frame.y, frame.width, frame.height);
+    this.drawEdgeBleed(context, source, frame);
+  }
+
+  private drawEdgeBleed(context: TextureAtlasPackerContext, source: TextureSource, frame: TextureFrame): void {
+    const bleed = Math.min(this.edgeBleed, this.padding, frame.width, frame.height);
+
+    if (bleed <= 0) {
+      return;
+    }
+
+    context.drawImage(source, 0, 0, 1, frame.height, frame.x - bleed, frame.y, bleed, frame.height);
+    context.drawImage(source, frame.width - 1, 0, 1, frame.height, frame.x + frame.width, frame.y, bleed, frame.height);
+    context.drawImage(source, 0, 0, frame.width, 1, frame.x, frame.y - bleed, frame.width, bleed);
+    context.drawImage(source, 0, frame.height - 1, frame.width, 1, frame.x, frame.y + frame.height, frame.width, bleed);
+    context.drawImage(source, 0, 0, 1, 1, frame.x - bleed, frame.y - bleed, bleed, bleed);
+    context.drawImage(source, frame.width - 1, 0, 1, 1, frame.x + frame.width, frame.y - bleed, bleed, bleed);
+    context.drawImage(source, 0, frame.height - 1, 1, 1, frame.x - bleed, frame.y + frame.height, bleed, bleed);
+    context.drawImage(source, frame.width - 1, frame.height - 1, 1, 1, frame.x + frame.width, frame.y + frame.height, bleed, bleed);
   }
 }
 

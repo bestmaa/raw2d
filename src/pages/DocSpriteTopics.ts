@@ -112,7 +112,9 @@ scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
         liveDemoId: "texture-atlas",
         code: `const atlas = new TextureAtlasPacker({
   padding: 2,
+  edgeBleed: 1,
   maxWidth: 1024,
+  maxHeight: 1024,
   powerOfTwo: true
 }).pack([
   { name: "idle", source: idleImage },
@@ -135,6 +137,17 @@ scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textures);
 // 1`
+      },
+      {
+        title: "Packer Validation",
+        body: "TextureAtlasPacker rejects duplicate frame names, invalid sizes, items larger than maxWidth/maxHeight, and rows that overflow maxHeight.",
+        liveDemoId: "texture-atlas",
+        code: `const atlas = new TextureAtlasPacker({
+  padding: 2,
+  edgeBleed: 1,
+  maxWidth: 1024,
+  maxHeight: 1024
+}).pack(items);`
       }
     ]
   },

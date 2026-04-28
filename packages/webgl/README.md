@@ -62,7 +62,12 @@ Sprite batching uses the same `Texture` object as the texture key. Consecutive S
 Use `TextureAtlasPacker` from `raw2d-sprite` when separate sprite images should become one atlas texture:
 
 ```ts
-const atlas = new TextureAtlasPacker().pack([
+const atlas = new TextureAtlasPacker({
+  padding: 2,
+  edgeBleed: 1,
+  maxWidth: 1024,
+  maxHeight: 1024
+}).pack([
   { name: "idle", source: idleImage },
   { name: "run", source: runImage }
 ]);
@@ -84,6 +89,8 @@ Texture stats make this visible:
 // packed atlas:
 // { textures: 1, textureBinds: 1, textureUploads: 1 }
 ```
+
+`edgeBleed` copies source edge pixels into atlas padding, which helps reduce thin filtering seams between packed frames.
 
 When a texture has already been uploaded, later frames report cache reuse:
 

@@ -33,6 +33,62 @@ test("packed atlas sprites stay in one WebGL sprite batch", () => {
   assertAlmostEqual(batch.vertices[33], atlas.getFrame("run").y / atlas.texture.height);
 });
 
+test("edge bleed does not change WebGL frame UVs", () => {
+  const atlas = new TextureAtlasPacker({
+    padding: 2,
+    edgeBleed: 1,
+    maxWidth: 64,
+    createCanvas: createCanvas
+  }).pack([{ name: "tile", source: { width: 16, height: 16 } }]);
+  const sprite = new Sprite({ texture: atlas.texture, frame: atlas.getFrame("tile"), width: 16, height: 16 });
+  const batch = createWebGLSpriteBatch({
+    items: [createRenderItem(sprite, 0)],
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "atlas"
+  });
+
+  assertAlmostEqual(batch.vertices[2], 2 / atlas.texture.width);
+  assertAlmostEqual(batch.vertices[3], 2 / atlas.texture.height);
+  assertAlmostEqual(batch.vertices[7], 18 / atlas.texture.width);
+  assertAlmostEqual(batch.vertices[8], 2 / atlas.texture.height);
+});
+
+test("packed atlas keeps draw calls low compared with separate textures", () => {
+  const separateTextureA = { width: 16, height: 16 };
+  const separateTextureB = { width: 20, height: 10 };
+  const atlas = new TextureAtlasPacker({ padding: 2, maxWidth: 64, createCanvas }).pack([
+    { name: "idle", source: separateTextureA },
+    { name: "run", source: separateTextureB }
+  ]);
+  const separateBatch = createWebGLSpriteBatch({
+    items: [
+      createRenderItem(new Sprite({ texture: { width: 16, height: 16, source: separateTextureA }, width: 16, height: 16 }), 0),
+      createRenderItem(new Sprite({ texture: { width: 20, height: 10, source: separateTextureB }, width: 20, height: 10 }), 1)
+    ],
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: (texture) => texture.source === separateTextureA ? "a" : "b"
+  });
+  const packedBatch = createWebGLSpriteBatch({
+    items: [
+      createRenderItem(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }), 0),
+      createRenderItem(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }), 1)
+    ],
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "atlas"
+  });
+
+  assert.equal(separateBatch.textures, 2);
+  assert.equal(separateBatch.drawBatches.length, 2);
+  assert.equal(packedBatch.textures, 1);
+  assert.equal(packedBatch.drawBatches.length, 1);
+});
+
 function assertAlmostEqual(actual, expected) {
   assert.equal(Math.abs(actual - expected) < 0.000001, true);
 }

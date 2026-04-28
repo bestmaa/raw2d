@@ -54,7 +54,9 @@ import { Sprite, TextureAtlasPacker } from "raw2d-sprite";
 
 const atlas = new TextureAtlasPacker({
   padding: 2,
+  edgeBleed: 1,
   maxWidth: 1024,
+  maxHeight: 1024,
   powerOfTwo: true
 }).pack([
   { name: "idle", source: idleImage },
@@ -68,6 +70,8 @@ const sprite = new Sprite({
 ```
 
 Packed sprites share one `atlas.texture`, so consecutive WebGL Sprites can stay in one texture batch.
+
+`edgeBleed` copies sprite edge pixels into the padding around each frame. This helps reduce WebGL filtering seams without changing frame UVs.
 
 ## Asset Loading
 

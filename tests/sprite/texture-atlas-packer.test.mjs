@@ -51,6 +51,76 @@ test("TextureAtlasPacker rejects items wider than maxWidth", () => {
   assert.throws(() => packer.pack([{ name: "wide", source: { width: 20, height: 8 } }]), /wider than maxWidth/);
 });
 
+test("TextureAtlasPacker rejects duplicate frame names", () => {
+  const packer = new TextureAtlasPacker({ createCanvas: createCanvasFactory([]) });
+
+  assert.throws(
+    () => packer.pack([
+      { name: "idle", source: { width: 8, height: 8 } },
+      { name: "idle", source: { width: 8, height: 8 } }
+    ]),
+    /duplicate frame name: idle/
+  );
+});
+
+test("TextureAtlasPacker rejects invalid item sizes", () => {
+  const packer = new TextureAtlasPacker({ createCanvas: createCanvasFactory([]) });
+
+  assert.throws(() => packer.pack([{ name: "empty", source: { width: 0, height: 8 } }]), /invalid size: empty/);
+});
+
+test("TextureAtlasPacker rejects items that exceed maxHeight", () => {
+  const packer = new TextureAtlasPacker({
+    padding: 1,
+    maxHeight: 10,
+    createCanvas: createCanvasFactory([])
+  });
+
+  assert.throws(() => packer.pack([{ name: "tall", source: { width: 8, height: 12 } }]), /taller than maxHeight/);
+});
+
+test("TextureAtlasPacker reports atlas full when rows exceed maxHeight", () => {
+  const packer = new TextureAtlasPacker({
+    padding: 1,
+    maxWidth: 12,
+    maxHeight: 12,
+    createCanvas: createCanvasFactory([])
+  });
+
+  assert.throws(
+    () => packer.pack([
+      { name: "a", source: { width: 8, height: 5 } },
+      { name: "b", source: { width: 8, height: 5 } }
+    ]),
+    /atlas is full before placing item: b/
+  );
+});
+
+test("TextureAtlasPacker can extrude edge pixels into padding", () => {
+  const drawCalls = [];
+  const packer = new TextureAtlasPacker({
+    padding: 2,
+    edgeBleed: 1,
+    maxWidth: 32,
+    createCanvas: createCanvasFactory(drawCalls)
+  });
+
+  packer.pack([{ name: "tile", source: { width: 8, height: 6 } }]);
+
+  assert.deepEqual(drawCalls, [
+    "clear:0,0,12,10",
+    "draw:8x6->2,2,8,6",
+    "draw:1x6->1,2,1,6",
+    "draw:1x6->10,2,1,6",
+    "draw:8x1->2,1,8,1",
+    "draw:8x1->2,8,8,1",
+    "draw:1x1->1,1,1,1",
+    "draw:1x1->10,1,1,1",
+    "draw:1x1->1,8,1,1",
+    "draw:1x1->10,8,1,1"
+  ]);
+});
+
 function createCanvasFactory(drawCalls) {
   return (width, height) => ({
     width,
@@ -65,9 +135,9 @@ function createCanvasFactory(drawCalls) {
           drawCalls.push(`clear:${x},${y},${clearWidth},${clearHeight}`);
         },
         drawImage(source, _sourceX, _sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight) {
-          drawCalls.push(`draw:${source.width}x${source.height}->${destinationX},${destinationY},${destinationWidth},${destinationHeight}`);
-          assert.equal(sourceWidth, source.width);
-          assert.equal(sourceHeight, source.height);
+          drawCalls.push(`draw:${sourceWidth}x${sourceHeight}->${destinationX},${destinationY},${destinationWidth},${destinationHeight}`);
+          assert.equal(source.width > 0, true);
+          assert.equal(source.height > 0, true);
         }
       };
     }

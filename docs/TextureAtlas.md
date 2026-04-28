@@ -79,7 +79,9 @@ Use `TextureAtlasPacker` when several separate images should become one atlas te
 ```ts
 const atlas = new TextureAtlasPacker({
   padding: 2,
+  edgeBleed: 1,
   maxWidth: 1024,
+  maxHeight: 1024,
   powerOfTwo: true
 }).pack([
   { name: "idle", source: idleImage },
@@ -97,3 +99,5 @@ scene.add(new Sprite({
 ```
 
 In WebGL, this helps consecutive sprites stay in one texture batch.
+
+Use `edgeBleed` with padding when atlas sprites show thin seams at frame edges. It copies source edge pixels into padding while keeping frame UVs unchanged.

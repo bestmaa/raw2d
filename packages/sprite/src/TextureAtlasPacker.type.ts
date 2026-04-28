@@ -9,7 +9,9 @@ export interface TextureAtlasPackerItem {
 
 export interface TextureAtlasPackerOptions {
   readonly padding?: number;
+  readonly edgeBleed?: number;
   readonly maxWidth?: number;
+  readonly maxHeight?: number;
   readonly powerOfTwo?: boolean;
   readonly createCanvas?: TextureAtlasPackerCanvasFactory;
 }

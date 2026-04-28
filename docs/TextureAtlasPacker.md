@@ -11,7 +11,9 @@ import { Sprite, TextureAtlasPacker } from "raw2d";
 
 const atlas = new TextureAtlasPacker({
   padding: 2,
+  edgeBleed: 1,
   maxWidth: 1024,
+  maxHeight: 1024,
   powerOfTwo: true
 }).pack([
   { name: "idle", source: idleImage },
@@ -28,6 +30,8 @@ const idleSprite = new Sprite({
 ```
 
 The returned atlas owns one generated canvas texture. Each frame points to a rectangle inside that canvas.
+
+`edgeBleed` copies frame edge pixels into padding. This helps WebGL linear filtering avoid sampling a neighboring frame at sprite edges.
 
 ## WebGL Batching
 
@@ -54,6 +58,8 @@ console.log(webglRenderer.getStats().textures);
 
 console.log(webglRenderer.getStats().textureBinds);
 // 1
+
+console.log(webglRenderer.getStats().drawCalls);
 ```
 
 Without packing, separate images usually become separate textures and require more texture binds.
@@ -79,15 +85,23 @@ Keep animated sprites dynamic because their atlas frame changes often.
 ```ts
 const packer = new TextureAtlasPacker({
   padding: 2,
+  edgeBleed: 1,
   maxWidth: 2048,
+  maxHeight: 2048,
   powerOfTwo: false
 });
 ```
 
 - `padding`: empty pixels between frames
+- `edgeBleed`: copy edge pixels into padding to reduce atlas seam artifacts
 - `maxWidth`: maximum atlas row width before starting a new row
+- `maxHeight`: maximum atlas height before throwing an atlas full error
 - `powerOfTwo`: grow the output canvas to power-of-two dimensions
 - `createCanvas`: custom canvas factory for tests or non-browser environments
+
+## Validation
+
+Packer input is validated before drawing. Duplicate frame names, zero-size items, items wider than `maxWidth`, items taller than `maxHeight`, and rows that overflow `maxHeight` throw explicit errors.
 
 ## Browser-First
 
@@ -114,4 +128,4 @@ const atlas = new TextureAtlasPacker({
 
 The packer uses a simple row layout. It is intentionally readable and deterministic.
 
-Future improvements can add smarter bin packing, duplicate detection, and exportable atlas JSON without changing the `Sprite` or renderer APIs.
+Future improvements can add smarter bin packing and exportable atlas JSON without changing the `Sprite` or renderer APIs.
