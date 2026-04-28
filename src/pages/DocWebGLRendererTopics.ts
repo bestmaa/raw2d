@@ -5,11 +5,11 @@ export const webGLRendererTopics: readonly DocTopic[] = [
     id: "webgl-renderer",
     label: "WebGLRenderer2D",
     title: "WebGLRenderer2D",
-    description: "WebGLRenderer2D renders filled and stroked 2D primitives through WebGL2 using RenderPipeline, one vertex buffer, and ordered material draw batches.",
+    description: "WebGLRenderer2D renders primitives and Sprites through WebGL2 using RenderPipeline, ordered render runs, material batches, and texture batches.",
     sections: [
       {
         title: "First Working Scope",
-        body: "WebGLRenderer2D now renders Rect, Circle, Ellipse, Line, Polyline, and convex Polygon objects. Other object types are counted as unsupported until their batches are implemented.",
+        body: "WebGLRenderer2D renders Rect, Circle, Ellipse, Line, Polyline, convex Polygon, and Sprite objects. Other object types are counted as unsupported until their batches are implemented.",
         liveDemoId: "webgl-renderer",
         code: `const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -21,8 +21,31 @@ export const webGLRendererTopics: readonly DocTopic[] = [
 renderer.render(scene, camera);`
       },
       {
-        title: "Primitive Batch Stats",
-        body: "All visible supported primitives are written into one vertex buffer. Consecutive primitives with the same material key are merged into one draw batch.",
+        title: "Sprite Texture Batch",
+        body: "Sprites use a separate textured shader path. Consecutive Sprites using the same Texture are merged into one texture draw batch while render order stays stable.",
+        liveDemoId: "webgl-renderer",
+        code: `import { Sprite, Texture, WebGLRenderer2D } from "raw2d";
+
+const texture = new Texture({
+  source: imageElement,
+  width: imageElement.naturalWidth,
+  height: imageElement.naturalHeight
+});
+
+scene.add(new Sprite({
+  texture,
+  x: 40,
+  y: 40,
+  width: 64,
+  height: 64
+}));
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textures);`
+      },
+      {
+        title: "Batch Stats",
+        body: "Visible shapes are written into shape buffers. Visible Sprites are written into sprite buffers. Consecutive compatible items are merged by material key or texture key.",
         liveDemoId: "webgl-renderer",
         code: `renderer.render(scene, camera);
 
@@ -30,21 +53,23 @@ console.log(renderer.getStats());
 
 // {
 //   objects: 1000,
-//   rects: 167,
-//   circles: 167,
-//   ellipses: 167,
-//   lines: 167,
-//   polylines: 166,
-//   polygons: 166,
-//   batches: 500,
-//   vertices: 37056,
-//   drawCalls: 500,
+//   rects: 143,
+//   circles: 143,
+//   ellipses: 143,
+//   lines: 143,
+//   polylines: 143,
+//   polygons: 143,
+//   sprites: 142,
+//   textures: 1,
+//   batches: 600,
+//   vertices: 33000,
+//   drawCalls: 600,
 //   unsupported: 0
 // }`
       },
       {
         title: "Canvas Comparison",
-        body: "Canvas supports more object types today, but each primitive is drawn through Canvas APIs. WebGL currently supports fewer objects but groups supported primitives into material draw ranges.",
+        body: "Canvas supports the full object set and draws through Canvas APIs. WebGL supports the high-volume path first and groups supported shapes and Sprites into ordered draw ranges.",
         liveDemoId: "webgl-renderer",
         code: `canvasRenderer.render(scene, camera);
 console.log(canvasRenderer.getStats());
@@ -52,22 +77,24 @@ console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
-// { objects: 1000, batches: 500, drawCalls: 500, vertices: 37056, unsupported: 0 }`
+// { objects: 1000, batches: 600, drawCalls: 600, textures: 1, unsupported: 0 }`
       },
       {
-        title: "Material Grouping",
-        body: "Raw2D keeps render order stable. Material grouping only merges consecutive primitives with the same fill or stroke key. This is the foundation for future texture and blend-state batches.",
+        title: "Ordered Runs",
+        body: "Raw2D keeps render order stable. Material and texture grouping only merge consecutive compatible objects. A Sprite between two shapes intentionally starts a new shape run.",
         liveDemoId: "webgl-renderer",
-        code: `// Same consecutive material key means one draw range.
-scene.add(new Rect({ material: blue }));
+        code: `scene.add(new Rect({ material: blue }));
 scene.add(new Circle({ material: blue }));
 
-// Different material key starts a new draw range.
+// Sprite uses the texture path, so it starts a texture run.
+scene.add(new Sprite({ texture }));
+
+// Shape drawing resumes as a new shape run.
 scene.add(new Line({ material: yellowStroke }));`
       },
       {
         title: "Current Limits",
-        body: "Polygon batching uses a simple triangle fan, so it is intended for convex polygons first. Line and Polyline batching writes each segment as a quad with simple joins.",
+        body: "Sprite batching uploads individual Texture sources into a cache but does not pack them into an atlas yet. Polygon batching uses a simple triangle fan, so convex polygons are the safe target first.",
         code: `// Good first WebGL polygon target: convex points.
 scene.add(new Polygon({
   points: [
@@ -76,7 +103,12 @@ scene.add(new Polygon({
     { x: 80, y: 50 },
     { x: 0, y: 50 }
   ]
-}));`
+}));
+
+// Future WebGL work:
+// texture atlas
+// typed array reuse
+// static/dynamic batches`
       },
       {
         title: "Use Culling",

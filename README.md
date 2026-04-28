@@ -169,10 +169,10 @@ const worldMatrix = rect.getWorldMatrix();
 
 RenderPipeline also stores matrix snapshots on each render item for WebGL batching.
 
-WebGLRenderer2D currently batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, and convex `Polygon` objects into one dynamic primitive buffer:
+WebGLRenderer2D currently batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects through ordered WebGL runs:
 
 ```ts
-import { Camera2D, Circle, Line, Rect, Scene, WebGLRenderer2D } from "raw2d";
+import { Camera2D, Circle, Line, Rect, Scene, Sprite, Texture, WebGLRenderer2D } from "raw2d";
 
 const raw2dWebGL = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -180,16 +180,22 @@ const raw2dWebGL = new WebGLRenderer2D({
 });
 const scene = new Scene();
 const camera = new Camera2D();
+const texture = new Texture({
+  source: imageElement,
+  width: imageElement.naturalWidth,
+  height: imageElement.naturalHeight
+});
 
 scene.add(new Rect({ x: 40, y: 40, width: 80, height: 50 }));
 scene.add(new Circle({ x: 160, y: 65, radius: 28 }));
 scene.add(new Line({ x: 220, y: 65, startX: 0, startY: 0, endX: 80, endY: 0 }));
+scene.add(new Sprite({ texture, x: 320, y: 40, width: 48, height: 48 }));
 
 raw2dWebGL.render(scene, camera);
 console.log(raw2dWebGL.getStats());
 ```
 
-Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive primitives with the same material key are merged into one draw range while preserving render order. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
+Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites with the same Texture are merged into texture draw ranges. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 

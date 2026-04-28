@@ -1,28 +1,23 @@
 # WebGLRenderer2D
 
-`WebGLRenderer2D` is the first WebGL2 renderer path for Raw2D.
+`WebGLRenderer2D` is Raw2D's WebGL2 renderer path. It is built to stay explicit: scene data enters `RenderPipeline`, the renderer creates ordered render runs, each run writes a buffer, and WebGL issues draw calls.
 
 Current scope:
 
-- renders `Rect`
-- uses `RenderPipeline`
-- uses cached world matrices
-- batches all visible rects into one dynamic vertex buffer
-- draws the rect batch with one WebGL draw call
-- reports render stats
+- renders `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, and convex `Polygon`
+- renders `Sprite`
+- uses cached world matrices from `RenderPipeline`
+- batches consecutive shape objects by material key
+- batches consecutive sprites by texture key
+- uploads textures through a small `WebGLTextureCache`
+- reports batch, texture, vertex, and draw call stats
 
-It does not render Circle, Line, Text2D, Sprite, or paths yet. Unsupported objects are counted in stats so tooling can see what WebGL skipped.
+Canvas is still the complete renderer. WebGL is the performance path being built out.
 
 ## Basic Usage
 
 ```ts
 import { BasicMaterial, Camera2D, Rect, Scene, WebGLRenderer2D } from "raw2d";
-
-const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
-
-if (!canvasElement) {
-  throw new Error("Canvas element not found.");
-}
 
 const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -45,11 +40,36 @@ scene.add(new Rect({
 renderer.render(scene, camera);
 ```
 
+## Sprite Usage
+
+```ts
+import { Camera2D, Scene, Sprite, Texture, WebGLRenderer2D } from "raw2d";
+
+const texture = new Texture({
+  source: imageElement,
+  width: imageElement.naturalWidth,
+  height: imageElement.naturalHeight
+});
+
+const sprite = new Sprite({
+  texture,
+  x: 80,
+  y: 60,
+  width: 64,
+  height: 64,
+  opacity: 0.9
+});
+
+scene.add(sprite);
+renderer.render(scene, new Camera2D());
+```
+
+Sprites with the same `Texture` object are grouped only when they are consecutive in render order. Raw2D keeps ordering predictable instead of silently reordering the scene.
+
 ## Stats
 
 ```ts
 renderer.render(scene, camera);
-
 console.log(renderer.getStats());
 ```
 
@@ -57,95 +77,47 @@ Example:
 
 ```ts
 {
-  objects: 1000,
-  rects: 1000,
-  vertices: 6000,
-  drawCalls: 1,
+  objects: 500,
+  rects: 100,
+  circles: 80,
+  ellipses: 80,
+  lines: 80,
+  polylines: 80,
+  polygons: 40,
+  sprites: 40,
+  textures: 1,
+  batches: 240,
+  vertices: 18000,
+  drawCalls: 240,
   unsupported: 0
 }
 ```
 
-`drawCalls: 1` means all rects were written into one buffer and drawn together.
+`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work.
 
-## Canvas Vs WebGL
+## Ordered Runs
 
-Canvas is simpler and supports more Raw2D objects today:
+The renderer does not hide the pipeline too much:
 
-```ts
-import { Canvas } from "raw2d";
-
-const canvasRenderer = new Canvas({ canvas: canvasElement });
-canvasRenderer.render(scene, camera);
-
-console.log(canvasRenderer.getStats());
+```text
+Scene -> RenderPipeline -> RenderList -> RenderRun -> Buffer -> Shader -> DrawCall
 ```
 
-For 1,000 rects, Canvas stats are roughly:
+Render runs are consecutive groups:
 
-```ts
-{
-  objects: 1000,
-  drawCalls: 1000
-}
-```
+- shape run: `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, `Polygon`
+- sprite run: `Sprite`
+- unsupported run: counted but skipped
 
-WebGL currently supports fewer objects, but rects are batched:
-
-```ts
-const webglRenderer = new WebGLRenderer2D({ canvas: canvasElement });
-webglRenderer.render(scene, camera);
-
-console.log(webglRenderer.getStats());
-```
-
-For 1,000 rects:
-
-```ts
-{
-  objects: 1000,
-  rects: 1000,
-  vertices: 6000,
-  drawCalls: 1,
-  unsupported: 0
-}
-```
-
-This does not mean WebGL is always faster in every scene. It means Raw2D now has the correct path for reducing draw calls as WebGL support grows.
-
-## Culling
-
-Use the same culling option as Canvas:
-
-```ts
-webglRenderer.render(scene, camera, {
-  culling: true
-});
-```
-
-The renderer builds a `RenderList`, skips off-screen rects, writes visible rect vertices, then draws.
-
-## Shared RenderList
-
-You can build the list yourself:
-
-```ts
-const renderList = webglRenderer.createRenderList(scene, camera, {
-  culling: true
-});
-
-webglRenderer.render(scene, camera, { renderList });
-```
-
-This keeps the pipeline explicit and inspectable.
+This makes WebGL behavior easy to debug and prepares Raw2D for future atlas and batch systems.
 
 ## Current Limitations
 
-- Rect only.
-- Fill color only.
-- No texture upload yet.
-- No texture atlas yet.
-- No static/dynamic batch separation yet.
-- No Circle, Line, Sprite, Text2D, Polygon, or ShapePath rendering yet.
+- no texture atlas yet
+- no typed array pool yet
+- no static/dynamic batch separation yet
+- no text WebGL path yet
+- polygon batching expects convex polygons
+- SVG texture sources should be rasterized to canvas before WebGL upload
 
-Canvas is still the recommended full-feature renderer. WebGL is now the performance path being built out.
-
+Future work should keep the same transparent path while improving batching.

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, Scene, ShapePath } from "raw2d-core";
+import { Sprite, Texture } from "raw2d-sprite";
 import { WebGLRenderer2D } from "raw2d-webgl";
 
 test("WebGLRenderer2D groups Rect draw calls by material key", () => {
@@ -25,6 +26,8 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    sprites: 0,
+    textures: 0,
     batches: 2,
     vertices: 12,
     drawCalls: 2,
@@ -52,6 +55,8 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
     lines: 0,
     polylines: 0,
     polygons: 0,
+    sprites: 0,
+    textures: 0,
     batches: 2,
     vertices: 198,
     drawCalls: 2,
@@ -101,6 +106,8 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
     lines: 1,
     polylines: 1,
     polygons: 1,
+    sprites: 0,
+    textures: 0,
     batches: 3,
     vertices: 24,
     drawCalls: 3,
@@ -125,10 +132,41 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
     lines: 0,
     polylines: 0,
     polygons: 0,
+    sprites: 0,
+    textures: 0,
     batches: 1,
     vertices: 6,
     drawCalls: 1,
     unsupported: 1
+  });
+});
+
+test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+  const texture = createTexture();
+
+  scene.add(new Sprite({ texture, x: 20, y: 20, width: 16, height: 16 }));
+  scene.add(new Sprite({ texture, x: 44, y: 20, width: 16, height: 16 }));
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(gl.calls.includes("drawArrays:4,0,12"), true);
+  assert.equal(gl.calls.includes("texImage2D:3553"), true);
+  assert.deepEqual(renderer.getStats(), {
+    objects: 2,
+    rects: 0,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 2,
+    textures: 1,
+    batches: 1,
+    vertices: 12,
+    drawCalls: 1,
+    unsupported: 0
   });
 });
 
@@ -139,6 +177,17 @@ function createRect(x, fillColor) {
     width: 40,
     height: 30,
     material: new BasicMaterial({ fillColor })
+  });
+}
+
+function createTexture() {
+  return new Texture({
+    source: {
+      width: 16,
+      height: 16
+    },
+    width: 16,
+    height: 16
   });
 }
 
@@ -162,13 +211,35 @@ function createFakeWebGL2Context() {
     DYNAMIC_DRAW: 35048,
     FLOAT: 5126,
     FRAGMENT_SHADER: 35632,
+    BLEND: 3042,
+    CLAMP_TO_EDGE: 33071,
     LINK_STATUS: 35714,
+    LINEAR: 9729,
+    ONE_MINUS_SRC_ALPHA: 771,
+    RGBA: 6408,
+    SRC_ALPHA: 770,
+    TEXTURE0: 33984,
+    TEXTURE_2D: 3553,
+    TEXTURE_MAG_FILTER: 10240,
+    TEXTURE_MIN_FILTER: 10241,
+    TEXTURE_WRAP_S: 10242,
+    TEXTURE_WRAP_T: 10243,
     TRIANGLES: 4,
+    UNSIGNED_BYTE: 5121,
     VERTEX_SHADER: 35633,
     calls: [],
+    activeTexture(texture) {
+      this.calls.push(`activeTexture:${texture}`);
+    },
     attachShader() {},
     bindBuffer(target) {
       this.calls.push(`bindBuffer:${target}`);
+    },
+    bindTexture(target) {
+      this.calls.push(`bindTexture:${target}`);
+    },
+    blendFunc(source, destination) {
+      this.calls.push(`blendFunc:${source},${destination}`);
     },
     bufferData(target, data, usage) {
       this.calls.push(`bufferData:${target},${data.length},${usage}`);
@@ -189,16 +260,38 @@ function createFakeWebGL2Context() {
     createShader() {
       return {};
     },
+    createTexture() {
+      return {};
+    },
     deleteProgram() {},
     deleteShader() {},
     drawArrays(mode, first, count) {
       this.calls.push(`drawArrays:${mode},${first},${count}`);
     },
+    enable(capability) {
+      this.calls.push(`enable:${capability}`);
+    },
     enableVertexAttribArray(location) {
       this.calls.push(`enableVertexAttribArray:${location}`);
     },
     getAttribLocation(_program, name) {
-      return name === "a_position" ? 0 : 1;
+      if (name === "a_position") {
+        return 0;
+      }
+
+      if (name === "a_color") {
+        return 1;
+      }
+
+      if (name === "a_uv") {
+        return 2;
+      }
+
+      if (name === "a_alpha") {
+        return 3;
+      }
+
+      return -1;
     },
     getProgramInfoLog() {
       return "";
@@ -212,8 +305,20 @@ function createFakeWebGL2Context() {
     getShaderParameter() {
       return true;
     },
+    getUniformLocation() {
+      return {};
+    },
     linkProgram() {},
     shaderSource() {},
+    texImage2D(target) {
+      this.calls.push(`texImage2D:${target}`);
+    },
+    texParameteri(target, name, value) {
+      this.calls.push(`texParameteri:${target},${name},${value}`);
+    },
+    uniform1i(_location, value) {
+      this.calls.push(`uniform1i:${value}`);
+    },
     useProgram() {},
     vertexAttribPointer(location, size, type, normalized, stride, offset) {
       this.calls.push(`vertexAttribPointer:${location},${size},${type},${normalized},${stride},${offset}`);

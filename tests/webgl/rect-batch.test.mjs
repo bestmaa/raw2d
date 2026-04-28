@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderPipeline } from "raw2d-core";
-import { createWebGLRectBatch, createWebGLShapeBatch, parseWebGLColor } from "raw2d-webgl";
+import { Sprite, Texture } from "raw2d-sprite";
+import { createWebGLRectBatch, createWebGLShapeBatch, createWebGLSpriteBatch, parseWebGLColor } from "raw2d-webgl";
 
 test("parseWebGLColor supports hex and rgba colors", () => {
   assert.deepEqual(parseWebGLColor("#35c2ff"), {
@@ -133,6 +134,36 @@ test("createWebGLShapeBatch writes line, polyline, and polygon geometry", () => 
   assertAlmostEqual(batch.vertices[2], 250 / 255);
   assertAlmostEqual(batch.vertices[3], 204 / 255);
   assertAlmostEqual(batch.vertices[4], 21 / 255);
+});
+
+test("createWebGLSpriteBatch writes textured quad vertices", () => {
+  const texture = new Texture({
+    source: { width: 16, height: 16 },
+    width: 16,
+    height: 16
+  });
+  const sprite = new Sprite({ texture, x: 10, y: 20, width: 16, height: 8, opacity: 0.75 });
+  const renderList = new RenderPipeline().build({ objects: [sprite] });
+  const batch = createWebGLSpriteBatch({
+    items: renderList.getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "texture:1"
+  });
+
+  assert.equal(batch.sprites, 1);
+  assert.equal(batch.textures, 1);
+  assert.equal(batch.unsupported, 0);
+  assert.deepEqual(batch.drawBatches, [
+    { key: "texture:1", texture, firstVertex: 0, vertexCount: 6 }
+  ]);
+  assert.equal(batch.vertices.length, 30);
+  assertAlmostEqual(batch.vertices[0], -0.8);
+  assertAlmostEqual(batch.vertices[1], 0.6);
+  assert.equal(batch.vertices[2], 0);
+  assert.equal(batch.vertices[3], 0);
+  assert.equal(batch.vertices[4], 0.75);
 });
 
 function assertAlmostEqual(actual, expected) {

@@ -6,6 +6,8 @@ export interface WebGLRenderStats {
   readonly lines: number;
   readonly polylines: number;
   readonly polygons: number;
+  readonly sprites: number;
+  readonly textures: number;
   readonly batches: number;
   readonly vertices: number;
   readonly drawCalls: number;

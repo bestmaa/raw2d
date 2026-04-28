@@ -1,21 +1,22 @@
 import {
   Camera2D,
-  Circle,
-  Ellipse,
-  Line,
-  Polygon,
-  Polyline,
-  Rect,
   RenderPipeline,
-  getCoreLocalBounds,
-  getWorldBounds,
   type Object2D,
   type RenderList,
   type Scene
 } from "raw2d-core";
 import { createWebGLProgram } from "./createWebGLProgram.js";
+import { createWebGLRenderRuns } from "./createWebGLRenderRuns.js";
 import { createWebGLShapeBatch } from "./createWebGLShapeBatch.js";
+import { createWebGLSpriteBatch } from "./createWebGLSpriteBatch.js";
+import { createMutableWebGLRenderStats } from "./createMutableWebGLRenderStats.js";
+import { getWebGLBounds } from "./getWebGLBounds.js";
+import { getWebGLRenderRunKind } from "./getWebGLRenderRunKind.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
+import { WebGLTextureCache } from "./WebGLTextureCache.js";
+import { shapeFragmentSource, shapeVertexSource, spriteFragmentSource, spriteVertexSource } from "./WebGLRenderer2DShaders.js";
+import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
+import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 import type {
   WebGLRenderer2DLike,
@@ -24,33 +25,17 @@ import type {
   WebGLRenderer2DSize
 } from "./WebGLRenderer2D.type.js";
 
-const vertexSource = `#version 300 es
-in vec2 a_position;
-in vec4 a_color;
-out vec4 v_color;
-
-void main() {
-  gl_Position = vec4(a_position, 0.0, 1.0);
-  v_color = a_color;
-}`;
-
-const fragmentSource = `#version 300 es
-precision mediump float;
-in vec4 v_color;
-out vec4 outColor;
-
-void main() {
-  outColor = v_color;
-}`;
-
 export class WebGLRenderer2D implements WebGLRenderer2DLike {
   public readonly canvas: HTMLCanvasElement;
   public readonly gl: WebGL2RenderingContext;
   private readonly pipeline = new RenderPipeline<Object2D>({
-    boundsProvider: (object) => (isWebGLShape(object) ? getWorldBounds({ object, localBounds: getCoreLocalBounds(object) }) : null)
+    boundsProvider: (object) => getWebGLBounds(object)
   });
-  private readonly program: WebGLProgram;
-  private readonly buffer: WebGLBuffer;
+  private readonly shapeProgram: WebGLProgram;
+  private readonly spriteProgram: WebGLProgram;
+  private readonly shapeBuffer: WebGLBuffer;
+  private readonly spriteBuffer: WebGLBuffer;
+  private readonly textureCache: WebGLTextureCache;
   private readonly defaultCamera = new Camera2D();
   private width: number;
   private height: number;
@@ -63,6 +48,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    sprites: 0,
+    textures: 0,
     batches: 0,
     vertices: 0,
     drawCalls: 0,
@@ -82,15 +69,20 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     }
 
     this.gl = gl;
-    this.program = createWebGLProgram(gl, vertexSource, fragmentSource);
-    const buffer = gl.createBuffer();
+    this.shapeProgram = createWebGLProgram(gl, shapeVertexSource, shapeFragmentSource);
+    this.spriteProgram = createWebGLProgram(gl, spriteVertexSource, spriteFragmentSource);
+    const shapeBuffer = gl.createBuffer();
+    const spriteBuffer = gl.createBuffer();
 
-    if (!buffer) {
+    if (!shapeBuffer || !spriteBuffer) {
       throw new Error("Unable to create WebGL buffer.");
     }
 
-    this.buffer = buffer;
-    this.configureProgram();
+    this.shapeBuffer = shapeBuffer;
+    this.spriteBuffer = spriteBuffer;
+    this.textureCache = new WebGLTextureCache(gl);
+    this.gl.enable(this.gl.BLEND);
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.setSize(this.width, this.height);
   }
 
@@ -128,55 +120,113 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 
   public render(scene: Scene, camera = this.defaultCamera, options: WebGLRenderer2DRenderOptions = {}): void {
-    // TODO: batch rendering beyond simple shapes and strokes.
-    // TODO: shaders for sprites, paths, and text.
-    // TODO: texture atlas
-    // TODO: typed arrays reuse
-    // TODO: draw call reduction by material and texture
-    // TODO: static/dynamic batches
     const renderList = options.renderList ?? this.createRenderList(scene, camera, options);
-    const batch = createWebGLShapeBatch({
-      items: renderList.getFlatItems(),
-      camera,
-      width: this.width,
-      height: this.height
-    });
+    const items = renderList.getFlatItems();
+    const runs = createWebGLRenderRuns(items, getWebGLRenderRunKind);
+    const stats = createMutableWebGLRenderStats(items.length);
 
     this.clear();
-    this.gl.useProgram(this.program);
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
+
+    for (const run of runs) {
+      if (run.kind === "shape") {
+        this.renderShapeRun(run, camera, stats);
+      } else if (run.kind === "sprite") {
+        this.renderSpriteRun(run, camera, stats);
+      } else {
+        stats.unsupported += run.items.length;
+      }
+    }
+
+    this.stats = {
+      objects: stats.objects,
+      rects: stats.rects,
+      circles: stats.circles,
+      ellipses: stats.ellipses,
+      lines: stats.lines,
+      polylines: stats.polylines,
+      polygons: stats.polygons,
+      sprites: stats.sprites,
+      textures: stats.textures.size,
+      batches: stats.batches,
+      vertices: stats.vertices,
+      drawCalls: stats.drawCalls,
+      unsupported: stats.unsupported
+    };
+  }
+
+  private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
+    const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height });
+    this.configureShapeProgram();
     this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
-    const vertices = batch.vertices.length / 6;
 
     for (const drawBatch of batch.drawBatches) {
       this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
     }
 
-    this.stats = {
-      objects: renderList.getFlatItems().length,
-      rects: batch.rects,
-      circles: batch.circles,
-      ellipses: batch.ellipses,
-      lines: batch.lines,
-      polylines: batch.polylines,
-      polygons: batch.polygons,
-      batches: batch.drawBatches.length,
-      vertices,
-      drawCalls: batch.drawBatches.length,
-      unsupported: batch.unsupported
-    };
+    stats.rects += batch.rects;
+    stats.circles += batch.circles;
+    stats.ellipses += batch.ellipses;
+    stats.lines += batch.lines;
+    stats.polylines += batch.polylines;
+    stats.polygons += batch.polygons;
+    stats.batches += batch.drawBatches.length;
+    stats.vertices += batch.vertices.length / 6;
+    stats.drawCalls += batch.drawBatches.length;
+    stats.unsupported += batch.unsupported;
   }
 
-  private configureProgram(): void {
+  private renderSpriteRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
+    const batch = createWebGLSpriteBatch({
+      items: run.items,
+      camera,
+      width: this.width,
+      height: this.height,
+      getTextureKey: (texture) => this.textureCache.getKey(texture)
+    });
+
+    this.configureSpriteProgram();
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
+
+    for (const drawBatch of batch.drawBatches) {
+      this.gl.activeTexture(this.gl.TEXTURE0);
+      this.gl.bindTexture(this.gl.TEXTURE_2D, this.textureCache.get(drawBatch.texture));
+      this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
+      stats.textures.add(drawBatch.key);
+    }
+
+    stats.sprites += batch.sprites;
+    stats.batches += batch.drawBatches.length;
+    stats.vertices += batch.vertices.length / 5;
+    stats.drawCalls += batch.drawBatches.length;
+    stats.unsupported += batch.unsupported;
+  }
+
+  private configureShapeProgram(): void {
     const stride = 6 * Float32Array.BYTES_PER_ELEMENT;
-    this.gl.useProgram(this.program);
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
-    this.enableAttribute("a_position", 2, stride, 0);
-    this.enableAttribute("a_color", 4, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
+    this.gl.useProgram(this.shapeProgram);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.shapeBuffer);
+    this.enableAttribute(this.shapeProgram, "a_position", 2, stride, 0);
+    this.enableAttribute(this.shapeProgram, "a_color", 4, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
   }
 
-  private enableAttribute(name: string, size: number, stride: number, offset: number): void {
-    const location = this.gl.getAttribLocation(this.program, name);
+  private configureSpriteProgram(): void {
+    const stride = 5 * Float32Array.BYTES_PER_ELEMENT;
+    const textureLocation = this.gl.getUniformLocation(this.spriteProgram, "u_texture");
+
+    if (!textureLocation) {
+      throw new Error("WebGL uniform not found: u_texture");
+    }
+
+    this.gl.useProgram(this.spriteProgram);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.spriteBuffer);
+    this.enableAttribute(this.spriteProgram, "a_position", 2, stride, 0);
+    this.enableAttribute(this.spriteProgram, "a_uv", 2, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
+    this.enableAttribute(this.spriteProgram, "a_alpha", 1, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
+    this.gl.uniform1i(textureLocation, 0);
+  }
+
+  private enableAttribute(program: WebGLProgram, name: string, size: number, stride: number, offset: number): void {
+    const location = this.gl.getAttribLocation(program, name);
 
     if (location < 0) {
       throw new Error(`WebGL attribute not found: ${name}`);
@@ -191,15 +241,4 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
-}
-
-function isWebGLShape(object: Object2D): object is Rect | Circle | Ellipse | Line | Polyline | Polygon {
-  return (
-    object instanceof Rect ||
-    object instanceof Circle ||
-    object instanceof Ellipse ||
-    object instanceof Line ||
-    object instanceof Polyline ||
-    object instanceof Polygon
-  );
 }
