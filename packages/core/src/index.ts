@@ -33,6 +33,8 @@ export * from "./RenderList.type.js";
 export * from "./RenderPipeline.js";
 export * from "./RenderPipeline.type.js";
 export * from "./Renderer2D.type.js";
+export * from "./RendererSupport.js";
+export * from "./RendererSupport.type.js";
 export * from "./resolveObject2DOrigin.js";
 export * from "./Scene.js";
 export * from "./Scene.type.js";

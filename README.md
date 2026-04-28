@@ -161,6 +161,16 @@ console.log({ frameMs, fps: 1000 / frameMs });
 
 Browser timing is approximate. Use it for same-page comparisons, then profile deeper with browser performance tools.
 
+Check renderer support before building WebGL-only demos or tools:
+
+```ts
+import { getRendererSupportMatrix } from "raw2d";
+
+console.table(getRendererSupportMatrix());
+```
+
+Canvas is the complete reference renderer. WebGL is batch-first, so a few object kinds are partial or pending while the pipeline matures.
+
 Objects support origin keywords for placement, rotation, and scaling:
 
 ```ts
