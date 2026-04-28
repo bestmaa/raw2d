@@ -11,7 +11,7 @@ test("renderer support matrix exposes current object coverage", () => {
   assert.equal(byKind.get("Arc").canvas, "supported");
   assert.equal(byKind.get("Arc").webgl, "supported");
   assert.equal(byKind.get("ShapePath").webgl, "unsupported");
-  assert.equal(byKind.get("Polygon").webgl, "partial");
+  assert.equal(byKind.get("Polygon").webgl, "supported");
   assert.equal(byKind.get("Text2D").webgl, "partial");
 });
 

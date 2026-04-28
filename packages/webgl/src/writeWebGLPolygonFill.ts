@@ -1,10 +1,11 @@
 import { toClipPoint, writeWebGLVertex } from "./WebGLVertex.js";
 import type { WebGLLocalPoint, WebGLFillWriteOptions } from "./WebGLPathGeometry.type.js";
+import { triangulateWebGLPolygon } from "./triangulateWebGLPolygon.js";
 
 const verticesPerTriangle = 3;
 
 export function getWebGLPolygonFillVertexCount(points: readonly WebGLLocalPoint[]): number {
-  return Math.max(0, points.length - 2) * verticesPerTriangle;
+  return triangulateWebGLPolygon(points).length;
 }
 
 export function writeWebGLPolygonFill(
@@ -13,14 +14,14 @@ export function writeWebGLPolygonFill(
   points: readonly WebGLLocalPoint[],
   options: WebGLFillWriteOptions
 ): number {
-  if (points.length < 3) {
+  const trianglePoints = triangulateWebGLPolygon(points);
+
+  if (trianglePoints.length < verticesPerTriangle) {
     return offset;
   }
 
-  for (let index = 1; index < points.length - 1; index += 1) {
-    offset = writePoint(vertices, offset, points[0], options);
-    offset = writePoint(vertices, offset, points[index], options);
-    offset = writePoint(vertices, offset, points[index + 1], options);
+  for (const point of trianglePoints) {
+    offset = writePoint(vertices, offset, point, options);
   }
 
   return offset;
@@ -35,4 +36,3 @@ function writePoint(
   const clip = toClipPoint(point.x, point.y, options.matrix, options);
   return writeWebGLVertex(vertices, offset, clip.x, clip.y, options.color);
 }
-

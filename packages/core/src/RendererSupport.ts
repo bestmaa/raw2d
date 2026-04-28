@@ -7,7 +7,7 @@ export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
   { kind: "Arc", canvas: "supported", webgl: "supported", note: "WebGL approximates Arc with segmented stroke or fan geometry." },
   { kind: "Line", canvas: "supported", webgl: "supported", note: "WebGL writes stroked line geometry." },
   { kind: "Polyline", canvas: "supported", webgl: "supported", note: "WebGL writes each segment as stroke geometry." },
-  { kind: "Polygon", canvas: "supported", webgl: "partial", note: "WebGL uses a simple fan, so convex polygons are the safe target." },
+  { kind: "Polygon", canvas: "supported", webgl: "supported", note: "WebGL triangulates simple polygons with ear clipping." },
   { kind: "ShapePath", canvas: "supported", webgl: "unsupported", note: "Custom paths remain Canvas-only for now." },
   { kind: "Text2D", canvas: "supported", webgl: "partial", note: "WebGL rasterizes Text2D to texture; no glyph atlas yet." },
   { kind: "Sprite", canvas: "supported", webgl: "supported", note: "WebGL batches consecutive Sprites by texture." },

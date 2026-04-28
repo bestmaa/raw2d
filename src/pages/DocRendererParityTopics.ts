@@ -36,13 +36,13 @@ const renderer = canUseWebGL
       },
       {
         title: "Partial Support",
-        body: "Partial support is still useful, but the limitation should be visible to users. Polygon WebGL support currently targets convex fan geometry.",
-        code: `const polygonSupport = getRendererSupportMatrix().find((entry) => {
-  return entry.kind === "Polygon";
+        body: "Partial support is still useful, but the limitation should be visible to users. Text2D is partial because WebGL currently rasterizes it to texture instead of using a glyph atlas.",
+        code: `const textSupport = getRendererSupportMatrix().find((entry) => {
+  return entry.kind === "Text2D";
 });
 
-console.log(polygonSupport?.webgl);
-console.log(polygonSupport?.note);`
+console.log(textSupport?.webgl);
+console.log(textSupport?.note);`
       }
     ]
   }

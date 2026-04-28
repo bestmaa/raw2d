@@ -133,6 +133,23 @@ material.strokeColor?: string
 material.lineWidth?: number`
       },
       {
+        title: "WebGL Concave Fill",
+        body: "WebGL triangulates simple polygons with ear clipping. Concave shapes are supported, while holes and self-intersections are still outside Polygon scope.",
+        liveDemoId: "polygon",
+        code: `const polygon = new Polygon({
+  x: 80,
+  y: 60,
+  points: [
+    { x: 0, y: 0 },
+    { x: 120, y: 0 },
+    { x: 120, y: 100 },
+    { x: 60, y: 48 },
+    { x: 0, y: 100 }
+  ],
+  material: new BasicMaterial({ fillColor: "#22c55e" })
+});`
+      },
+      {
         title: "Full Polygon Code",
         body: "Complete setup from canvas element to rendered Polygon.",
         liveDemoId: "polygon",

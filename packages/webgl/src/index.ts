@@ -41,3 +41,4 @@ export * from "./getWebGLRenderRunKind.js";
 export * from "./getWebGLMaterialKey.js";
 export * from "./getWebGLSpriteUV.js";
 export * from "./parseWebGLColor.js";
+export * from "./triangulateWebGLPolygon.js";
