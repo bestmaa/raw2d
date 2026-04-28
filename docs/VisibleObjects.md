@@ -2,7 +2,13 @@
 
 `getVisibleObjects` returns scene objects whose world bounds intersect the camera viewport.
 
-It is the first culling foundation helper in Raw2D. Renderers do not use it automatically yet, so engine builders can decide where culling belongs in their own pipeline.
+It is the low-level culling foundation helper in Raw2D. Use it when you need the visible object list yourself, such as for debugging, editor overlays, minimaps, selection tools, or a custom render pipeline.
+
+If you only want Canvas to skip off-screen objects while drawing, use Canvas culling:
+
+```ts
+raw2dCanvas.render(scene, camera, { culling: true });
+```
 
 ## Basic Usage
 

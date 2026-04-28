@@ -4,6 +4,7 @@ import cameraControls from "../../docs/CameraControls.md?raw";
 import cameraWorldBounds from "../../docs/CameraWorldBounds.md?raw";
 import canvas from "../../docs/Canvas.md?raw";
 import canvasApi from "../../docs/Canvas-api.md?raw";
+import canvasCulling from "../../docs/CanvasCulling.md?raw";
 import canvasObjects from "../../docs/Canvas-objects.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
@@ -28,6 +29,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "canvas", label: "Canvas", filename: "Canvas.md", content: canvas },
   { id: "canvas-api", label: "Canvas API", filename: "Canvas-api.md", content: canvasApi },
   { id: "canvas-objects", label: "Canvas Objects", filename: "Canvas-objects.md", content: canvasObjects },
+  { id: "canvas-culling", label: "Canvas Culling", filename: "CanvasCulling.md", content: canvasCulling },
   { id: "scene", label: "Scene", filename: "Scene.md", content: scene },
   { id: "camera2d", label: "Camera2D", filename: "Camera2D.md", content: camera2d },
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },

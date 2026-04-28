@@ -5,8 +5,30 @@ export const canvasCullingTopics: readonly DocTopic[] = [
     id: "canvas-culling",
     label: "Canvas Culling",
     title: "Canvas Culling",
-    description: "Let Canvas skip objects whose world bounds are outside the camera viewport.",
+    description: "Let Canvas skip objects whose world bounds are outside the camera viewport. This is useful when the world is larger than the screen.",
     sections: [
+      {
+        title: "What It Does",
+        body: "Canvas culling checks object bounds against camera bounds before drawing. Objects outside the viewport are skipped for that render call.",
+        liveDemoId: "visible-objects",
+        code: `// Normal render draws every visible scene object.
+raw2dCanvas.render(scene, camera);
+
+// Culling render skips off-screen objects first.
+raw2dCanvas.render(scene, camera, { culling: true });`
+      },
+      {
+        title: "Why It Exists",
+        body: "It gives Canvas a simple performance path for bigger worlds while keeping Raw2D transparent. The object data stays unchanged; only the renderer decides what to draw.",
+        liveDemoId: "visible-objects",
+        code: `// Scene still stores all objects.
+scene.add(player);
+scene.add(enemy);
+scene.add(backgroundTile);
+
+// Renderer decides what is visible this frame.
+raw2dCanvas.render(scene, camera, { culling: true });`
+      },
       {
         title: "Enable Culling",
         body: "Pass culling: true to Canvas.render. Raw2D clears the canvas, applies the camera, then draws only visible objects.",
@@ -66,7 +88,7 @@ raw2dCanvas.render(scene, camera, { culling: true });`
       },
       {
         title: "When To Use It",
-        body: "Use Canvas culling for large scenes where many objects are outside the camera. For tiny scenes, leaving it off is also fine.",
+        body: "Use Canvas culling for large scenes where many objects are outside the camera. For tiny scenes, leaving it off is also fine because culling also has a small bounds-check cost.",
         liveDemoId: "visible-objects",
         code: `// Small scene: normal render is fine.
 raw2dCanvas.render(scene, camera);
