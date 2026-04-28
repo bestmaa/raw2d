@@ -197,6 +197,8 @@ const flattened = flattenShapePath(shapePath, { curveSegments: 12 });
 console.log(flattened.subpaths[0].points);
 ```
 
+WebGL uses flattened ShapePath data for stroke rendering. ShapePath fill still belongs to the Canvas path until fill triangulation is added.
+
 Use `zIndex` when overlapping objects need predictable draw order:
 
 ```ts

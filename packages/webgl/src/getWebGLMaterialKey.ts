@@ -1,11 +1,11 @@
-import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect } from "raw2d-core";
+import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect, ShapePath } from "raw2d-core";
 import type { WebGLMaterialKeyParts } from "./WebGLMaterialKey.type.js";
 import type { WebGLShapeItem } from "./WebGLShapeBatch.type.js";
 
 export function getWebGLMaterialKey(item: WebGLShapeItem): string {
   const object = item.object;
 
-  if ((object instanceof Arc && !object.closed) || object instanceof Line || object instanceof Polyline) {
+  if ((object instanceof Arc && !object.closed) || object instanceof Line || object instanceof Polyline || object instanceof ShapePath) {
     return serializeMaterialKey({
       pass: "stroke",
       color: object.material.strokeColor,

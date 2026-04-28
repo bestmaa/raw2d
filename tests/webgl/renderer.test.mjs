@@ -28,6 +28,7 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -70,6 +71,7 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -134,6 +136,7 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
     lines: 1,
     polylines: 1,
     polygons: 1,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -155,7 +158,7 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
   });
 });
 
-test("WebGLRenderer2D reports unsupported objects outside the shape batch", () => {
+test("WebGLRenderer2D renders ShapePath stroke through the shape batch", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
   const scene = new Scene();
@@ -173,24 +176,25 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 1,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
     textureUploads: 0,
     textureCacheHits: 0,
-    batches: 1,
+    batches: 2,
     staticBatches: 0,
-    dynamicBatches: 1,
+    dynamicBatches: 2,
     staticObjects: 0,
     dynamicObjects: 2,
     staticCacheHits: 0,
     staticCacheMisses: 0,
-    vertices: 6,
-    drawCalls: 1,
+    vertices: 12,
+    drawCalls: 2,
     uploadBufferDataCalls: 1,
     uploadBufferSubDataCalls: 0,
-    uploadedBytes: 144,
-    unsupported: 1
+    uploadedBytes: 288,
+    unsupported: 0
   });
 });
 
@@ -215,6 +219,7 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 2,
     textures: 1,
     textureBinds: 1,
@@ -266,6 +271,7 @@ test("WebGLRenderer2D renders Text2D through the texture batch path", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 1,
     textureBinds: 1,
@@ -306,6 +312,7 @@ test("WebGLRenderer2D reuses GPU buffer capacity on later renders", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -350,6 +357,7 @@ test("WebGLRenderer2D separates static and dynamic runs", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -391,6 +399,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -423,6 +432,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -465,6 +475,7 @@ test("WebGLRenderer2D reuses clean static Sprite buffers", () => {
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 1,
     textures: 1,
     textureBinds: 1,
@@ -514,6 +525,7 @@ test("WebGLRenderer2D invalidates static Sprite cache when frame changes", () =>
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 1,
     textures: 1,
     textureBinds: 1,

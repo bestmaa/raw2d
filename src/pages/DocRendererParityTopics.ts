@@ -36,13 +36,13 @@ const renderer = canUseWebGL
       },
       {
         title: "Partial Support",
-        body: "Partial support is still useful, but the limitation should be visible to users. Text2D is partial because WebGL currently rasterizes it to texture instead of using a glyph atlas.",
-        code: `const textSupport = getRendererSupportMatrix().find((entry) => {
-  return entry.kind === "Text2D";
+        body: "Partial support is still useful, but the limitation should be visible to users. ShapePath is partial because WebGL renders stroke but not fill yet.",
+        code: `const pathSupport = getRendererSupportMatrix().find((entry) => {
+  return entry.kind === "ShapePath";
 });
 
-console.log(textSupport?.webgl);
-console.log(textSupport?.note);`
+console.log(pathSupport?.webgl);
+console.log(pathSupport?.note);`
       }
     ]
   }

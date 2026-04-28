@@ -9,6 +9,7 @@ export interface WebGLRenderStats extends Renderer2DStats {
   readonly lines: number;
   readonly polylines: number;
   readonly polygons: number;
+  readonly shapePaths: number;
   readonly sprites: number;
   readonly textures: number;
   readonly textureBinds: number;

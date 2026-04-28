@@ -217,7 +217,7 @@ function formatCanvasStats(renderer: Canvas): string {
 
 function formatWebGLStats(renderer: WebGLRenderer2D): string {
   const stats = renderer.getStats();
-  return `objects: ${stats.objects} | batches: ${stats.batches} | drawCalls: ${stats.drawCalls} | sprites: ${stats.sprites} | textures: ${stats.textures} | rects: ${stats.rects} | arcs: ${stats.arcs} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | lines: ${stats.lines} | polylines: ${stats.polylines} | polygons: ${stats.polygons} | vertices: ${stats.vertices}`;
+  return `objects: ${stats.objects} | batches: ${stats.batches} | drawCalls: ${stats.drawCalls} | sprites: ${stats.sprites} | textures: ${stats.textures} | rects: ${stats.rects} | arcs: ${stats.arcs} | circles: ${stats.circles} | ellipses: ${stats.ellipses} | lines: ${stats.lines} | polylines: ${stats.polylines} | polygons: ${stats.polygons} | paths: ${stats.shapePaths} | vertices: ${stats.vertices}`;
 }
 
 function createCode(objectCount: number): string {

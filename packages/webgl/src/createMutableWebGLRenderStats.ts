@@ -10,6 +10,7 @@ export function createMutableWebGLRenderStats(objects: number): MutableWebGLRend
     lines: 0,
     polylines: 0,
     polygons: 0,
+    shapePaths: 0,
     sprites: 0,
     textures: new Set<string>(),
     textureBinds: 0,

@@ -1,17 +1,18 @@
-import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect } from "raw2d-core";
+import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect, ShapePath } from "raw2d-core";
 import { appendWebGLDrawBatch } from "./appendWebGLDrawBatch.js";
 import { getWebGLMaterialKey } from "./getWebGLMaterialKey.js";
 import { getWebGLPathPoints } from "./getWebGLPathPoints.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
-import { toClipPoint, webGLFloatsPerVertex, writeWebGLVertex } from "./WebGLVertex.js";
-import type { WebGLColor } from "./WebGLColor.type.js";
+import { webGLFloatsPerVertex } from "./WebGLVertex.js";
 import type { WebGLShapeBatch, WebGLShapeBatchOptions, WebGLShapeItem } from "./WebGLShapeBatch.type.js";
+import { getWebGLEllipseLikeVertexCount, writeWebGLEllipseLike } from "./writeWebGLEllipseLike.js";
 import { getWebGLArcVertexCount, writeWebGLArc } from "./writeWebGLArc.js";
 import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
+import { webGLRectVertexCount, writeWebGLRect } from "./writeWebGLRect.js";
+import { getWebGLShapePathVertexCount, writeWebGLShapePath } from "./writeWebGLShapePath.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 
-const verticesPerRect = 6;
 const minimumCurveSegments = 8;
 
 export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLShapeBatch {
@@ -21,7 +22,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
   const floatCount = vertexCount * webGLFloatsPerVertex;
   const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
   const drawBatches: WebGLDrawBatch[] = [];
-  const counts = { rects: 0, arcs: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0 };
+  const counts = { rects: 0, arcs: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0, shapePaths: 0 };
   let offset = 0;
 
   for (const item of shapeItems) {
@@ -31,10 +32,10 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
       offset = writeArc(vertices, offset, item, options, segments);
       counts.arcs += 1;
     } else if (item.object instanceof Rect) {
-      offset = writeRect(vertices, offset, item, options);
+      offset = writeWebGLRect(vertices, offset, item, options);
       counts.rects += 1;
     } else if (item.object instanceof Circle || item.object instanceof Ellipse) {
-      offset = writeEllipseLike(vertices, offset, item, options, segments);
+      offset = writeWebGLEllipseLike(vertices, offset, item, options, segments);
       counts.circles += item.object instanceof Circle ? 1 : 0;
       counts.ellipses += item.object instanceof Ellipse ? 1 : 0;
     } else if (item.object instanceof Line || item.object instanceof Polyline) {
@@ -44,6 +45,9 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     } else if (item.object instanceof Polygon) {
       offset = writeFilledPolygon(vertices, offset, item, options);
       counts.polygons += 1;
+    } else if (item.object instanceof ShapePath) {
+      offset = writeShapePath(vertices, offset, item, options, segments);
+      counts.shapePaths += 1;
     }
 
     appendWebGLDrawBatch(drawBatches, {
@@ -63,6 +67,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     lines: counts.lines,
     polylines: counts.polylines,
     polygons: counts.polygons,
+    shapePaths: counts.shapePaths,
     unsupported: options.items.length - shapeItems.length
   };
 }
@@ -75,7 +80,8 @@ function isShapeItem(item: WebGLShapeBatchOptions["items"][number]): item is Web
     item.object instanceof Ellipse ||
     item.object instanceof Line ||
     item.object instanceof Polyline ||
-    item.object instanceof Polygon
+    item.object instanceof Polygon ||
+    item.object instanceof ShapePath
   );
 }
 
@@ -89,7 +95,7 @@ function getVertexCount(items: readonly WebGLShapeItem[], segments: number): num
 
 function getItemVertexCount(item: WebGLShapeItem, segments: number): number {
   if (item.object instanceof Rect) {
-    return verticesPerRect;
+    return webGLRectVertexCount;
   }
 
   if (item.object instanceof Arc) {
@@ -97,39 +103,18 @@ function getItemVertexCount(item: WebGLShapeItem, segments: number): number {
   }
 
   if (item.object instanceof Circle || item.object instanceof Ellipse) {
-    return segments * 3;
+    return getWebGLEllipseLikeVertexCount(segments);
   }
 
   if (item.object instanceof Line || item.object instanceof Polyline) {
     return getWebGLStrokeVertexCount(getWebGLPathPoints(item));
   }
 
+  if (item.object instanceof ShapePath) {
+    return getWebGLShapePathVertexCount(item.object, segments);
+  }
+
   return item.object instanceof Polygon ? getWebGLPolygonFillVertexCount(getWebGLPathPoints(item)) : 0;
-}
-
-function writeRect(vertices: Float32Array, offset: number, item: WebGLShapeItem, options: WebGLShapeBatchOptions): number {
-  if (!(item.object instanceof Rect)) {
-    return offset;
-  }
-
-  const rect = item.object;
-  const color = parseWebGLColor(rect.material.fillColor);
-  const originX = rect.width * rect.originX;
-  const originY = rect.height * rect.originY;
-  const points: readonly (readonly [number, number])[] = [
-    [-originX, -originY],
-    [rect.width - originX, -originY],
-    [rect.width - originX, rect.height - originY],
-    [-originX, -originY],
-    [rect.width - originX, rect.height - originY],
-    [-originX, rect.height - originY]
-  ];
-
-  for (const point of points) {
-    offset = writePoint(vertices, offset, point[0], point[1], item, options, color);
-  }
-
-  return offset;
 }
 
 function writeArc(
@@ -150,65 +135,6 @@ function writeArc(
     strokeColor: parseWebGLColor(item.object.material.strokeColor),
     curveSegments: segments
   });
-}
-
-function writeEllipseLike(
-  vertices: Float32Array,
-  offset: number,
-  item: WebGLShapeItem,
-  options: WebGLShapeBatchOptions,
-  segments: number
-): number {
-  const shape = item.object;
-
-  if (!(shape instanceof Circle || shape instanceof Ellipse)) {
-    return offset;
-  }
-
-  const radiusX = shape instanceof Circle ? shape.radius : shape.radiusX;
-  const radiusY = shape instanceof Circle ? shape.radius : shape.radiusY;
-  const color = parseWebGLColor(shape.material.fillColor);
-  const centerX = radiusX - radiusX * 2 * shape.originX;
-  const centerY = radiusY - radiusY * 2 * shape.originY;
-
-  for (let index = 0; index < segments; index += 1) {
-    const startAngle = (index / segments) * Math.PI * 2;
-    const endAngle = ((index + 1) / segments) * Math.PI * 2;
-    offset = writePoint(vertices, offset, centerX, centerY, item, options, color);
-    offset = writePoint(
-      vertices,
-      offset,
-      centerX + Math.cos(startAngle) * radiusX,
-      centerY + Math.sin(startAngle) * radiusY,
-      item,
-      options,
-      color
-    );
-    offset = writePoint(
-      vertices,
-      offset,
-      centerX + Math.cos(endAngle) * radiusX,
-      centerY + Math.sin(endAngle) * radiusY,
-      item,
-      options,
-      color
-    );
-  }
-
-  return offset;
-}
-
-function writePoint(
-  vertices: Float32Array,
-  offset: number,
-  x: number,
-  y: number,
-  item: WebGLShapeItem,
-  options: WebGLShapeBatchOptions,
-  color: WebGLColor
-): number {
-  const point = toClipPoint(x, y, item.worldMatrix, options);
-  return writeWebGLVertex(vertices, offset, point.x, point.y, color);
 }
 
 function writeStrokedPath(vertices: Float32Array, offset: number, item: WebGLShapeItem, options: WebGLShapeBatchOptions): number {
@@ -235,5 +161,25 @@ function writeFilledPolygon(vertices: Float32Array, offset: number, item: WebGLS
     ...options,
     matrix: item.worldMatrix,
     color: parseWebGLColor(item.object.material.fillColor)
+  });
+}
+
+function writeShapePath(
+  vertices: Float32Array,
+  offset: number,
+  item: WebGLShapeItem,
+  options: WebGLShapeBatchOptions,
+  segments: number
+): number {
+  if (!(item.object instanceof ShapePath)) {
+    return offset;
+  }
+
+  return writeWebGLShapePath(vertices, offset, item, {
+    ...options,
+    matrix: item.worldMatrix,
+    color: parseWebGLColor(item.object.material.strokeColor),
+    lineWidth: item.object.material.lineWidth,
+    curveSegments: segments
   });
 }

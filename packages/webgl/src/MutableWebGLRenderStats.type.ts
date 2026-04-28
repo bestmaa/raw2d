@@ -7,6 +7,7 @@ export interface MutableWebGLRenderStats {
   lines: number;
   polylines: number;
   polygons: number;
+  shapePaths: number;
   sprites: number;
   textures: Set<string>;
   textureBinds: number;

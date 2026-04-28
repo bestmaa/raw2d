@@ -59,7 +59,7 @@ material?: BasicMaterial`
       },
       {
         title: "Flatten For Renderers",
-        body: "flattenShapePath converts move, line, quadratic, cubic, and close commands into sampled subpaths. This is the foundation for future WebGL ShapePath stroke and fill.",
+        body: "flattenShapePath converts move, line, quadratic, cubic, and close commands into sampled subpaths. WebGL uses this for ShapePath stroke geometry.",
         liveDemoId: "shape-path",
         code: `import { flattenShapePath } from "raw2d";
 
@@ -84,6 +84,23 @@ for (const subpath of flattened.subpaths) {
 ], {
   curveSegments: 12
 });`
+      },
+      {
+        title: "WebGL Stroke",
+        body: "WebGL supports ShapePath stroke by flattening curves into line segments. ShapePath fill still uses Canvas until fill triangulation is added.",
+        liveDemoId: "shape-path",
+        code: `const shapePath = new ShapePath({
+  stroke: true,
+  fill: false,
+  material: new BasicMaterial({
+    strokeColor: "#f5f7fb",
+    lineWidth: 4
+  })
+})
+  .moveTo(0, 0)
+  .quadraticCurveTo(80, 60, 160, 0);
+
+webglRenderer.render(scene, camera);`
       },
       {
         title: "Full ShapePath Code",
