@@ -7,6 +7,8 @@ This package contains data objects only:
 - `Texture`
 - `TextureLoader`
 - `TextureAtlas`
+- `SpriteAnimationClip`
+- `SpriteAnimator`
 - `Sprite`
 - Sprite bounds helpers
 
@@ -40,3 +42,23 @@ const sprite = new Sprite({
 ```
 
 The atlas is intentionally simple for now. It does not pack images automatically. It gives Canvas a source rectangle and gives WebGL frame UVs for future larger sprite batches.
+
+## Sprite Animation
+
+Animation is explicit. The animator changes `sprite.frame` only when you call `update(deltaSeconds)`.
+
+```ts
+import { SpriteAnimationClip, SpriteAnimator } from "raw2d-sprite";
+
+const clip = new SpriteAnimationClip({
+  frames: [atlas.getFrame("idle1"), atlas.getFrame("idle2")],
+  fps: 12,
+  loop: true
+});
+
+const animator = new SpriteAnimator({ sprite, clip });
+
+animator.update(deltaSeconds);
+```
+
+The renderer is not involved in animation state. Canvas and WebGL draw whichever frame the Sprite currently stores.

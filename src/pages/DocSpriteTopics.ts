@@ -119,5 +119,49 @@ visible?: boolean`
         code: fullSpriteExample
       }
     ]
+  },
+  {
+    id: "sprite-animation",
+    label: "SpriteAnimation",
+    title: "SpriteAnimation",
+    description: "SpriteAnimationClip and SpriteAnimator provide low-level frame animation for atlas sprites.",
+    sections: [
+      {
+        title: "Create Clip",
+        body: "A clip stores ordered TextureAtlas frames plus timing. It does not start a loop by itself.",
+        liveDemoId: "sprite-animation",
+        code: `const clip = new SpriteAnimationClip({
+  frames: [
+    atlas.getFrame("idle1"),
+    atlas.getFrame("idle2"),
+    atlas.getFrame("idle3")
+  ],
+  fps: 12,
+  loop: true
+});`
+      },
+      {
+        title: "Update Animator",
+        body: "SpriteAnimator mutates only sprite.frame. Your app owns the clock and calls update(deltaSeconds).",
+        liveDemoId: "sprite-animation",
+        code: `const animator = new SpriteAnimator({ sprite, clip });
+
+function animate(time: number): void {
+  const deltaSeconds = getDelta(time);
+  animator.update(deltaSeconds);
+  raw2dCanvas.render(scene, camera);
+  requestAnimationFrame(animate);
+}`
+      },
+      {
+        title: "Control Playback",
+        body: "Playback is explicit. You can pause, play, stop, reset, or replace the current clip.",
+        liveDemoId: "sprite-animation",
+        code: `animator.pause();
+animator.play();
+animator.stop();
+animator.setClip(runClip);`
+      }
+    ]
   }
 ];

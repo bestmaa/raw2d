@@ -20,6 +20,7 @@ import { createResizeDemo } from "./ResizeDemo";
 import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
+import { createSpriteAnimationDemo } from "./SpriteAnimationDemo";
 import { createText2DDemo } from "./Text2DDemo";
 import { createTextureAtlasDemo } from "./TextureAtlasDemo";
 import { createVisibleObjectsDemo } from "./VisibleObjectsDemo";
@@ -39,6 +40,7 @@ const demoIds = [
   "text2d",
   "sprite",
   "texture-atlas",
+  "sprite-animation",
   "group2d",
   "origin",
   "origin-keywords",
@@ -112,6 +114,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "texture-atlas") {
     return createTextureAtlasDemo();
+  }
+
+  if (demoId === "sprite-animation") {
+    return createSpriteAnimationDemo();
   }
 
   if (demoId === "group2d") {

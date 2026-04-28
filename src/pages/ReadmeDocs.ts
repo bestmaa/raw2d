@@ -25,6 +25,7 @@ import resizeHandles from "../../docs/ResizeHandles.md?raw";
 import scene from "../../docs/Scene.md?raw";
 import selection from "../../docs/Selection.md?raw";
 import shapePath from "../../docs/ShapePath.md?raw";
+import spriteAnimation from "../../docs/SpriteAnimation.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
 import textureAtlas from "../../docs/TextureAtlas.md?raw";
 import transformMatrix from "../../docs/TransformMatrix.md?raw";
@@ -55,6 +56,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "polyline", label: "Polyline", filename: "Polyline.md", content: polyline },
   { id: "polygon", label: "Polygon", filename: "Polygon.md", content: polygon },
   { id: "shape-path", label: "ShapePath", filename: "ShapePath.md", content: shapePath },
+  { id: "sprite-animation", label: "Sprite Animation", filename: "SpriteAnimation.md", content: spriteAnimation },
   { id: "text2d", label: "Text2D", filename: "Text2D.md", content: text2d },
   { id: "texture-atlas", label: "TextureAtlas", filename: "TextureAtlas.md", content: textureAtlas },
   { id: "hit-testing", label: "Hit Testing", filename: "HitTesting.md", content: hitTesting },

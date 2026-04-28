@@ -106,6 +106,8 @@ const localMatrix = rect.getLocalMatrix();
 
 Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs.
 
+`SpriteAnimationClip` and `SpriteAnimator` provide explicit atlas-frame animation. Your app calls `animator.update(deltaSeconds)`, then renders with Canvas or WebGL.
+
 Canvas and WebGL are public renderer packages:
 
 ```ts
