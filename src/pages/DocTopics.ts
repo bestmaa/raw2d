@@ -2,6 +2,7 @@ import { boundsTopics } from "./DocBoundsTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { curveTopics } from "./DocCurveTopics";
+import { group2DTopics } from "./DocGroup2DTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import type { DocTopic } from "./DocPage.type";
@@ -19,6 +20,7 @@ export const topics: readonly DocTopic[] = [
   ...canvasCullingTopics,
   ...visibleObjectsTopics,
   ...renderOrderTopics,
+  ...group2DTopics,
   ...transformTopics,
   ...boundsTopics,
   ...hitTestingTopics,

@@ -8,6 +8,8 @@ export * from "./Circle.js";
 export * from "./Circle.type.js";
 export * from "./Ellipse.js";
 export * from "./Ellipse.type.js";
+export * from "./Group2D.js";
+export * from "./Group2D.type.js";
 export * from "./Line.js";
 export * from "./Line.type.js";
 export * from "./Object2D.js";

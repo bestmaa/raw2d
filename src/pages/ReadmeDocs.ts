@@ -8,6 +8,7 @@ import canvasCulling from "../../docs/CanvasCulling.md?raw";
 import canvasObjects from "../../docs/Canvas-objects.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
+import group2d from "../../docs/Group2D.md?raw";
 import hitTesting from "../../docs/HitTesting.md?raw";
 import interactionController from "../../docs/InteractionController.md?raw";
 import keyboardController from "../../docs/KeyboardController.md?raw";
@@ -36,6 +37,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
   { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
+  { id: "group2d", label: "Group2D", filename: "Group2D.md", content: group2d },
   { id: "camera-controls", label: "CameraControls", filename: "CameraControls.md", content: cameraControls },
   { id: "basic-material", label: "BasicMaterial", filename: "BasicMaterial.md", content: basicMaterial },
   { id: "rect", label: "Rect", filename: "Rect.md", content: rect },

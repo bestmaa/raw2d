@@ -13,6 +13,7 @@ import {
 import { createCameraControlsCode } from "./DocCameraControlsCode";
 import { createCameraBoundsCode } from "./DocCameraBoundsCode";
 import { fullShapePathExample } from "./DocPathExamples";
+import { createGroup2DCode } from "./DocGroup2DCode";
 import { getInteractionLiveCode } from "./DocInteractionLiveCode";
 import { createRenderOrderCode } from "./DocRenderOrderCode";
 import { createVisibleObjectsCode } from "./DocVisibleObjectsCode";
@@ -52,6 +53,10 @@ export function getLiveExampleCode(section: DocSection): string {
 
   if (section.liveDemoId === "render-order") {
     return createRenderOrderCode(section);
+  }
+
+  if (section.liveDemoId === "group2d") {
+    return createGroup2DCode(section);
   }
 
   if (section.liveDemoId === "camera-controls") {

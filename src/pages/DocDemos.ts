@@ -5,6 +5,7 @@ import { createCameraControlsDemo } from "./CameraControlsDemo";
 import { createCircleDemo } from "./CircleDemo";
 import { createDragDemo } from "./DragDemo";
 import { createEllipseDemo } from "./EllipseDemo";
+import { createGroup2DDemo } from "./Group2DDemo";
 import { createHitTestingDemo } from "./HitTestingDemo";
 import { createInteractionControllerDemo } from "./InteractionControllerDemo";
 import { createKeyboardDemo } from "./KeyboardDemo";
@@ -34,6 +35,7 @@ const demoIds = [
   "shape-path",
   "text2d",
   "sprite",
+  "group2d",
   "origin",
   "origin-keywords",
   "origin-rect",
@@ -100,6 +102,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "sprite" || demoId === "bounds-sprite") {
     return createSpriteDemo();
+  }
+
+  if (demoId === "group2d") {
+    return createGroup2DDemo();
   }
 
   if (demoId === "origin" || demoId === "origin-keywords") {

@@ -144,6 +144,18 @@ raw2dCanvas.render(scene, camera);
 
 Canvas draws lower `zIndex` first and higher `zIndex` later.
 
+Use `Group2D` when several objects should move, rotate, scale, and render together:
+
+```ts
+const group = new Group2D({ x: 220, y: 140 });
+
+group.add(rect);
+group.add(circle);
+scene.add(group);
+
+raw2dCanvas.render(scene, camera);
+```
+
 ## Architecture
 
 ```text
