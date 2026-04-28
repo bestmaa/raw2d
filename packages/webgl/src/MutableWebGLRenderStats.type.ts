@@ -11,5 +11,8 @@ export interface MutableWebGLRenderStats {
   batches: number;
   vertices: number;
   drawCalls: number;
+  uploadBufferDataCalls: number;
+  uploadBufferSubDataCalls: number;
+  uploadedBytes: number;
   unsupported: number;
 }

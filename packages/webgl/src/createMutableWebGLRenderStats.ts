@@ -14,6 +14,9 @@ export function createMutableWebGLRenderStats(objects: number): MutableWebGLRend
     batches: 0,
     vertices: 0,
     drawCalls: 0,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 0,
     unsupported: 0
   };
 }

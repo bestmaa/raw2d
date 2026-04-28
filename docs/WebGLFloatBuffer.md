@@ -35,6 +35,15 @@ The returned `batch.vertices` is still a `Float32Array`, so existing WebGL uploa
 gl.bufferData(gl.ARRAY_BUFFER, batch.vertices, gl.DYNAMIC_DRAW);
 ```
 
+For production renderer code, pair it with `WebGLBufferUploader` so GPU buffer capacity can be reused too:
+
+```ts
+const upload = uploader.upload(batch.vertices);
+
+console.log(upload.mode);
+// "bufferData" or "bufferSubData"
+```
+
 ## Capacity
 
 ```ts

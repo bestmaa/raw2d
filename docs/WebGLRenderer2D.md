@@ -12,7 +12,8 @@ Current scope:
 - supports sprite frame UVs from `TextureAtlas`
 - uploads textures through a small `WebGLTextureCache`
 - reuses CPU-side typed arrays through `WebGLFloatBuffer`
-- reports batch, texture, vertex, and draw call stats
+- reuses GPU buffer capacity through `WebGLBufferUploader`
+- reports batch, texture, vertex, draw call, and upload stats
 
 Canvas is still the complete renderer. WebGL is the performance path being built out.
 
@@ -91,11 +92,14 @@ Example:
   batches: 240,
   vertices: 18000,
   drawCalls: 240,
+  uploadBufferDataCalls: 1,
+  uploadBufferSubDataCalls: 1,
+  uploadedBytes: 432000,
   unsupported: 0
 }
 ```
 
-`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work.
+`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`.
 
 ## Ordered Runs
 
@@ -132,10 +136,35 @@ const batch = createWebGLSpriteBatch({
 
 This is the base for future static and dynamic batches.
 
+## GPU Buffer Uploads
+
+`WebGLRenderer2D` also keeps reusable GPU upload helpers:
+
+```text
+WebGLFloatBuffer -> Float32Array -> WebGLBufferUploader -> WebGLBuffer
+```
+
+The first large frame usually uses `bufferData` because GPU capacity must be created:
+
+```ts
+renderer.render(scene, camera);
+console.log(renderer.getStats().uploadBufferDataCalls);
+// 1
+```
+
+Later frames that fit the same capacity use `bufferSubData`:
+
+```ts
+renderer.render(scene, camera);
+console.log(renderer.getStats().uploadBufferSubDataCalls);
+// 1
+```
+
+This keeps dynamic rendering simple now and gives Raw2D a clean place to add static and dynamic batch policies later.
+
 ## Current Limitations
 
-- no texture atlas yet
-- no typed array pool yet
+- no automatic texture atlas packing yet
 - no static/dynamic batch separation yet
 - no text WebGL path yet
 - polygon batching expects convex polygons

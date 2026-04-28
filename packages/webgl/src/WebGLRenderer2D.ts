@@ -15,6 +15,8 @@ import { getWebGLRenderRunKind } from "./getWebGLRenderRunKind.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { WebGLTextureCache } from "./WebGLTextureCache.js";
 import { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
+import { WebGLBufferUploader } from "./WebGLBufferUploader.js";
+import { finalizeWebGLRenderStats } from "./finalizeWebGLRenderStats.js";
 import { shapeFragmentSource, shapeVertexSource, spriteFragmentSource, spriteVertexSource } from "./WebGLRenderer2DShaders.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
@@ -34,8 +36,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   });
   private readonly shapeProgram: WebGLProgram;
   private readonly spriteProgram: WebGLProgram;
-  private readonly shapeBuffer: WebGLBuffer;
-  private readonly spriteBuffer: WebGLBuffer;
+  private readonly shapeUploader: WebGLBufferUploader;
+  private readonly spriteUploader: WebGLBufferUploader;
   private readonly textureCache: WebGLTextureCache;
   private readonly shapeFloatBuffer = new WebGLFloatBuffer();
   private readonly spriteFloatBuffer = new WebGLFloatBuffer();
@@ -56,6 +58,9 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     batches: 0,
     vertices: 0,
     drawCalls: 0,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 0,
     unsupported: 0
   };
 
@@ -74,15 +79,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.gl = gl;
     this.shapeProgram = createWebGLProgram(gl, shapeVertexSource, shapeFragmentSource);
     this.spriteProgram = createWebGLProgram(gl, spriteVertexSource, spriteFragmentSource);
-    const shapeBuffer = gl.createBuffer();
-    const spriteBuffer = gl.createBuffer();
-
-    if (!shapeBuffer || !spriteBuffer) {
-      throw new Error("Unable to create WebGL buffer.");
-    }
-
-    this.shapeBuffer = shapeBuffer;
-    this.spriteBuffer = spriteBuffer;
+    this.shapeUploader = new WebGLBufferUploader({ gl, target: gl.ARRAY_BUFFER, usage: gl.DYNAMIC_DRAW });
+    this.spriteUploader = new WebGLBufferUploader({ gl, target: gl.ARRAY_BUFFER, usage: gl.DYNAMIC_DRAW });
     this.textureCache = new WebGLTextureCache(gl);
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
@@ -140,27 +138,13 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       }
     }
 
-    this.stats = {
-      objects: stats.objects,
-      rects: stats.rects,
-      circles: stats.circles,
-      ellipses: stats.ellipses,
-      lines: stats.lines,
-      polylines: stats.polylines,
-      polygons: stats.polygons,
-      sprites: stats.sprites,
-      textures: stats.textures.size,
-      batches: stats.batches,
-      vertices: stats.vertices,
-      drawCalls: stats.drawCalls,
-      unsupported: stats.unsupported
-    };
+    this.stats = finalizeWebGLRenderStats(stats);
   }
 
   private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
     const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height, floatBuffer: this.shapeFloatBuffer });
     this.configureShapeProgram();
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
+    this.trackUpload(this.shapeUploader.upload(batch.vertices), stats);
 
     for (const drawBatch of batch.drawBatches) {
       this.gl.drawArrays(this.gl.TRIANGLES, drawBatch.firstVertex, drawBatch.vertexCount);
@@ -189,7 +173,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     });
 
     this.configureSpriteProgram();
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
+    this.trackUpload(this.spriteUploader.upload(batch.vertices), stats);
 
     for (const drawBatch of batch.drawBatches) {
       this.gl.activeTexture(this.gl.TEXTURE0);
@@ -208,7 +192,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private configureShapeProgram(): void {
     const stride = 6 * Float32Array.BYTES_PER_ELEMENT;
     this.gl.useProgram(this.shapeProgram);
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.shapeBuffer);
+    this.shapeUploader.bind();
     this.enableAttribute(this.shapeProgram, "a_position", 2, stride, 0);
     this.enableAttribute(this.shapeProgram, "a_color", 4, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
   }
@@ -222,7 +206,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     }
 
     this.gl.useProgram(this.spriteProgram);
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.spriteBuffer);
+    this.spriteUploader.bind();
     this.enableAttribute(this.spriteProgram, "a_position", 2, stride, 0);
     this.enableAttribute(this.spriteProgram, "a_uv", 2, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
     this.enableAttribute(this.spriteProgram, "a_alpha", 1, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
@@ -244,5 +228,15 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     const color = parseWebGLColor(this.backgroundColor);
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+  }
+
+  private trackUpload(upload: ReturnType<WebGLBufferUploader["upload"]>, stats: MutableWebGLRenderStats): void {
+    stats.uploadedBytes += upload.byteLength;
+
+    if (upload.mode === "bufferData") {
+      stats.uploadBufferDataCalls += 1;
+    } else {
+      stats.uploadBufferSubDataCalls += 1;
+    }
   }
 }

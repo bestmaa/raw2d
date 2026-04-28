@@ -31,6 +31,9 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
     batches: 2,
     vertices: 12,
     drawCalls: 2,
+    uploadBufferDataCalls: 1,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 288,
     unsupported: 0
   });
 });
@@ -60,6 +63,9 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
     batches: 2,
     vertices: 198,
     drawCalls: 2,
+    uploadBufferDataCalls: 1,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 4752,
     unsupported: 0
   });
 });
@@ -111,6 +117,9 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
     batches: 3,
     vertices: 24,
     drawCalls: 3,
+    uploadBufferDataCalls: 1,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 576,
     unsupported: 0
   });
 });
@@ -137,6 +146,9 @@ test("WebGLRenderer2D reports unsupported objects outside the shape batch", () =
     batches: 1,
     vertices: 6,
     drawCalls: 1,
+    uploadBufferDataCalls: 1,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 144,
     unsupported: 1
   });
 });
@@ -166,6 +178,39 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
     batches: 1,
     vertices: 12,
     drawCalls: 1,
+    uploadBufferDataCalls: 1,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 240,
+    unsupported: 0
+  });
+});
+
+test("WebGLRenderer2D reuses GPU buffer capacity on later renders", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+
+  scene.add(createRect(20, "#35c2ff"));
+  renderer.render(scene, new Camera2D());
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(gl.calls.includes("bufferSubData:34962,0,36"), true);
+  assert.deepEqual(renderer.getStats(), {
+    objects: 1,
+    rects: 1,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 0,
+    textures: 0,
+    batches: 1,
+    vertices: 6,
+    drawCalls: 1,
+    uploadBufferDataCalls: 0,
+    uploadBufferSubDataCalls: 1,
+    uploadedBytes: 144,
     unsupported: 0
   });
 });
@@ -243,6 +288,9 @@ function createFakeWebGL2Context() {
     },
     bufferData(target, data, usage) {
       this.calls.push(`bufferData:${target},${data.length},${usage}`);
+    },
+    bufferSubData(target, offset, data) {
+      this.calls.push(`bufferSubData:${target},${offset},${data.length}`);
     },
     clear(mask) {
       this.calls.push(`clear:${mask}`);

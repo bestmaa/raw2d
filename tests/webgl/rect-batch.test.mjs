@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderPipeline } from "raw2d-core";
 import { Sprite, Texture } from "raw2d-sprite";
-import { WebGLFloatBuffer, createWebGLRectBatch, createWebGLShapeBatch, createWebGLSpriteBatch, parseWebGLColor } from "raw2d-webgl";
+import { WebGLBufferUploader, WebGLFloatBuffer, createWebGLRectBatch, createWebGLShapeBatch, createWebGLSpriteBatch, parseWebGLColor } from "raw2d-webgl";
 
 test("parseWebGLColor supports hex and rgba colors", () => {
   assert.deepEqual(parseWebGLColor("#35c2ff"), {
@@ -260,6 +260,56 @@ test("createWebGLSpriteBatch can write into a reusable float buffer", () => {
   assert.equal(floatBuffer.getUsed(), 30);
 });
 
+test("WebGLBufferUploader uses bufferData until GPU capacity is large enough", () => {
+  const gl = createUploadFakeWebGL2Context();
+  const uploader = new WebGLBufferUploader({
+    gl,
+    target: gl.ARRAY_BUFFER,
+    usage: gl.DYNAMIC_DRAW
+  });
+  const first = uploader.upload(new Float32Array(12));
+  const second = uploader.upload(new Float32Array(6));
+
+  assert.deepEqual(first, {
+    mode: "bufferData",
+    byteLength: 48,
+    capacity: 48
+  });
+  assert.deepEqual(second, {
+    mode: "bufferSubData",
+    byteLength: 24,
+    capacity: 48
+  });
+  assert.deepEqual(gl.calls, [
+    "createBuffer",
+    "bindBuffer:34962",
+    "bufferData:34962,12,35048",
+    "bindBuffer:34962",
+    "bufferSubData:34962,0,6"
+  ]);
+});
+
 function assertAlmostEqual(actual, expected) {
   assert.ok(Math.abs(actual - expected) < 0.000001);
+}
+
+function createUploadFakeWebGL2Context() {
+  return {
+    ARRAY_BUFFER: 34962,
+    DYNAMIC_DRAW: 35048,
+    calls: [],
+    bindBuffer(target) {
+      this.calls.push(`bindBuffer:${target}`);
+    },
+    bufferData(target, data, usage) {
+      this.calls.push(`bufferData:${target},${data.length},${usage}`);
+    },
+    bufferSubData(target, offset, data) {
+      this.calls.push(`bufferSubData:${target},${offset},${data.length}`);
+    },
+    createBuffer() {
+      this.calls.push("createBuffer");
+      return {};
+    }
+  };
 }

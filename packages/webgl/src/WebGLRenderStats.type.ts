@@ -11,5 +11,8 @@ export interface WebGLRenderStats {
   readonly batches: number;
   readonly vertices: number;
   readonly drawCalls: number;
+  readonly uploadBufferDataCalls: number;
+  readonly uploadBufferSubDataCalls: number;
+  readonly uploadedBytes: number;
   readonly unsupported: number;
 }

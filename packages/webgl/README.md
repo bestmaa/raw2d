@@ -17,7 +17,8 @@ Current support:
 - sprite frame UVs from `TextureAtlas`
 - texture upload cache
 - reusable CPU-side float buffers
-- render stats for objects, sprites, textures, batches, vertices, draw calls, and unsupported objects
+- reusable GPU buffer upload capacity
+- render stats for objects, sprites, textures, batches, vertices, draw calls, buffer uploads, and unsupported objects
 
 ## Usage
 
@@ -52,6 +53,8 @@ console.log(renderer.getStats());
 
 Sprite batching uses the same `Texture` object as the texture key. Consecutive Sprites with the same Texture are merged into one draw call, even when they use different atlas frames. Raw2D does not reorder across unrelated objects, so scene order remains predictable.
 
-SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing, typed array reuse, and static/dynamic batches are future steps.
+SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing and static/dynamic batches are future steps.
 
 `WebGLRenderer2D` already uses `WebGLFloatBuffer` internally for shape and sprite batch data. Custom batch code can pass a `floatBuffer` option to `createWebGLShapeBatch` or `createWebGLSpriteBatch`.
+
+It also uses `WebGLBufferUploader` internally. The first frame that needs more GPU capacity uses `bufferData`; later frames that fit the same capacity use `bufferSubData`.

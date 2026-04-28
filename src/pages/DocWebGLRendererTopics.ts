@@ -64,6 +64,9 @@ console.log(renderer.getStats());
 //   batches: 600,
 //   vertices: 33000,
 //   drawCalls: 600,
+//   uploadBufferDataCalls: 1,
+//   uploadBufferSubDataCalls: 1,
+//   uploadedBytes: 792000,
 //   unsupported: 0
 // }`
       },
@@ -77,7 +80,19 @@ console.log(canvasRenderer.getStats());
 
 webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
-// { objects: 1000, batches: 600, drawCalls: 600, textures: 1, unsupported: 0 }`
+// { objects: 1000, batches: 600, drawCalls: 600, textures: 1, uploadedBytes: 792000, unsupported: 0 }`
+      },
+      {
+        title: "GPU Buffer Uploads",
+        body: "WebGLRenderer2D reuses GPU buffer capacity. A larger frame uses bufferData to grow storage; later frames that fit use bufferSubData to update existing storage.",
+        liveDemoId: "webgl-renderer",
+        code: `webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().uploadBufferDataCalls);
+// 1
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().uploadBufferSubDataCalls);
+// 1`
       },
       {
         title: "Ordered Runs",
@@ -107,7 +122,6 @@ scene.add(new Polygon({
 
 // Future WebGL work:
 // texture atlas
-// typed array reuse
 // static/dynamic batches`
       },
       {
@@ -141,6 +155,20 @@ const batch = createWebGLSpriteBatch({
 });
 
 console.log(floatBuffer.getSnapshot());`
+      },
+      {
+        title: "Buffer Uploader",
+        body: "WebGLBufferUploader is the GPU-side pair to WebGLFloatBuffer. It tracks capacity and reports whether the upload used bufferData or bufferSubData.",
+        code: `const uploader = new WebGLBufferUploader({
+  gl,
+  target: gl.ARRAY_BUFFER,
+  usage: gl.DYNAMIC_DRAW
+});
+
+const upload = uploader.upload(batch.vertices);
+
+console.log(upload);
+// { mode: "bufferSubData", byteLength: 288, capacity: 512 }`
       }
     ]
   }
