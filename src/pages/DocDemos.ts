@@ -18,6 +18,7 @@ import { createSelectionDemo } from "./SelectionDemo";
 import { createShapePathDemo } from "./ShapePathDemo";
 import { createSpriteDemo } from "./SpriteDemo";
 import { createText2DDemo } from "./Text2DDemo";
+import { createVisibleObjectsDemo } from "./VisibleObjectsDemo";
 import type { DocSection } from "./DocPage.type";
 import type { InteractionControllerDemoVariant } from "./InteractionControllerDemo.type";
 
@@ -44,6 +45,7 @@ const demoIds = [
   "bounds-sprite",
   "bounds-text2d",
   "camera-bounds",
+  "visible-objects",
   "hit-testing",
   "interaction-controller",
   "camera-controls",
@@ -132,6 +134,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "camera-bounds") {
     return createCameraBoundsDemo();
+  }
+
+  if (demoId === "visible-objects") {
+    return createVisibleObjectsDemo();
   }
 
   if (demoId === "interaction-controller") {

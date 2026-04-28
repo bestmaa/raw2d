@@ -14,6 +14,7 @@ import { createCameraControlsCode } from "./DocCameraControlsCode";
 import { createCameraBoundsCode } from "./DocCameraBoundsCode";
 import { fullShapePathExample } from "./DocPathExamples";
 import { getInteractionLiveCode } from "./DocInteractionLiveCode";
+import { createVisibleObjectsCode } from "./DocVisibleObjectsCode";
 import type { DocSection } from "./DocPage.type";
 
 const fullExamples: Readonly<Record<string, string>> = {
@@ -42,6 +43,10 @@ export function getLiveExampleCode(section: DocSection): string {
 
   if (section.liveDemoId === "camera-bounds") {
     return createCameraBoundsCode(section);
+  }
+
+  if (section.liveDemoId === "visible-objects") {
+    return createVisibleObjectsCode(section);
   }
 
   if (section.liveDemoId === "camera-controls") {

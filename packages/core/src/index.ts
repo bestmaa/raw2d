@@ -62,6 +62,8 @@ export * from "./getRectLocalBounds.js";
 export * from "./getRectLocalBounds.type.js";
 export * from "./getShapePathLocalBounds.js";
 export * from "./getShapePathLocalBounds.type.js";
+export * from "./getVisibleObjects.js";
+export * from "./getVisibleObjects.type.js";
 export * from "./getWorldBounds.js";
 export * from "./getWorldBounds.type.js";
 export * from "./worldToLocalPoint.js";

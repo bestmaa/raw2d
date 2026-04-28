@@ -21,6 +21,7 @@ import scene from "../../docs/Scene.md?raw";
 import selection from "../../docs/Selection.md?raw";
 import shapePath from "../../docs/ShapePath.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
+import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
@@ -30,6 +31,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "scene", label: "Scene", filename: "Scene.md", content: scene },
   { id: "camera2d", label: "Camera2D", filename: "Camera2D.md", content: camera2d },
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
+  { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
   { id: "camera-controls", label: "CameraControls", filename: "CameraControls.md", content: cameraControls },
   { id: "basic-material", label: "BasicMaterial", filename: "BasicMaterial.md", content: basicMaterial },
   { id: "rect", label: "Rect", filename: "Rect.md", content: rect },
