@@ -1,4 +1,5 @@
 import { Group2D } from "./Group2D.js";
+import type { Matrix3 } from "./Matrix3.js";
 import type { Object2D } from "./Object2D.js";
 import type { Rectangle } from "./Rectangle.js";
 import { RenderList } from "./RenderList.js";
@@ -42,7 +43,7 @@ export class RenderPipeline<TObject extends Object2D = Object2D> {
   public build(options: RenderPipelineBuildOptions<TObject>): RenderList<TObject> {
     const context = this.createContext(options);
     const roots = this.getRootObjects(options);
-    const rootItems = this.collectSortedObjects(roots, null, 0, context);
+    const rootItems = this.collectSortedObjects(roots, null, 0, null, context);
     const flatItems = flattenRenderItems(rootItems);
 
     return new RenderList({
@@ -75,13 +76,14 @@ export class RenderPipeline<TObject extends Object2D = Object2D> {
     objects: readonly TObject[],
     parentId: string | null,
     depth: number,
+    parentMatrix: Matrix3 | null,
     context: BuildContext<TObject>
   ): readonly RenderItem<TObject>[] {
     const sortedObjects = sortRenderObjects({ objects });
     const items: RenderItem<TObject>[] = [];
 
     for (const object of sortedObjects) {
-      const item = this.createItem(object, parentId, depth, context);
+      const item = this.createItem(object, parentId, depth, parentMatrix, context);
 
       if (item) {
         items.push(item);
@@ -95,9 +97,11 @@ export class RenderPipeline<TObject extends Object2D = Object2D> {
     object: TObject,
     parentId: string | null,
     depth: number,
+    parentMatrix: Matrix3 | null,
     context: BuildContext<TObject>
   ): RenderItem<TObject> | null {
     context.stats.total += 1;
+    object.updateWorldMatrix(parentMatrix ?? undefined);
 
     if (!context.options.includeInvisible && !object.visible) {
       context.stats.hidden += 1;
@@ -128,6 +132,8 @@ export class RenderPipeline<TObject extends Object2D = Object2D> {
       visible: object.visible,
       culled: false,
       bounds,
+      localMatrix: object.getLocalMatrix().clone(),
+      worldMatrix: object.getWorldMatrix().clone(),
       children: this.collectChildren(object, depth, context)
     };
   }
@@ -141,7 +147,13 @@ export class RenderPipeline<TObject extends Object2D = Object2D> {
       return [];
     }
 
-    return this.collectSortedObjects(object.getChildren() as readonly TObject[], object.id, depth + 1, context);
+    return this.collectSortedObjects(
+      object.getChildren() as readonly TObject[],
+      object.id,
+      depth + 1,
+      object.getWorldMatrix(),
+      context
+    );
   }
 
   private isCulled(

@@ -157,6 +157,18 @@ raw2dCanvas.render(scene, camera, { renderList });
 
 The pipeline prepares visibility, culling, hierarchy, and render order before drawing.
 
+Object transforms use cached matrices internally. You can inspect them when building tools or custom render paths:
+
+```ts
+rect.setPosition(100, 80);
+rect.rotation = 0.4;
+
+const localMatrix = rect.getLocalMatrix();
+const worldMatrix = rect.getWorldMatrix();
+```
+
+RenderPipeline also stores matrix snapshots on each render item for future WebGL batching.
+
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 
 ```ts

@@ -25,14 +25,5 @@ export function getWorldBounds(options: GetWorldBoundsOptions): Rectangle {
 }
 
 function transformPoint(localX: number, localY: number, options: GetWorldBoundsOptions): BoundsPoint {
-  const { object } = options;
-  const scaledX = localX * object.scaleX;
-  const scaledY = localY * object.scaleY;
-  const cos = Math.cos(object.rotation);
-  const sin = Math.sin(object.rotation);
-
-  return {
-    x: object.x + scaledX * cos - scaledY * sin,
-    y: object.y + scaledX * sin + scaledY * cos
-  };
+  return options.object.getWorldMatrix().transformPoint({ x: localX, y: localY });
 }

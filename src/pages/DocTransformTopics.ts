@@ -52,5 +52,53 @@ rect.rotation = Math.PI / 4;`
 new Circle({ x: 120, y: 80, radius: 40 });`
       }
     ]
+  },
+  {
+    id: "transform-matrix",
+    label: "Transform Matrix",
+    title: "Transform Matrix",
+    description: "Object2D stores cached local and world matrices so renderers, bounds, hit testing, and future WebGL share the same transform data.",
+    sections: [
+      {
+        title: "Why It Matters",
+        body: "Matrix caching keeps transform math centralized. When x, y, rotation, scale, or origin changes, Object2D marks its matrix dirty and recalculates only when needed.",
+        code: `rect.x = 120;
+rect.rotation = 0.4;
+
+rect.updateMatrix();
+const localMatrix = rect.getLocalMatrix();`
+      },
+      {
+        title: "World Matrix",
+        body: "Use updateWorldMatrix with a parent matrix when an object is inside a Group2D. RenderPipeline does this automatically while building render items.",
+        code: `group.updateWorldMatrix();
+rect.updateWorldMatrix(group.getWorldMatrix());
+
+const worldMatrix = rect.getWorldMatrix();`
+      },
+      {
+        title: "Dirty State",
+        body: "Dirty state is useful for debugging and future performance tools. It shows whether local or world matrix data must be recalculated.",
+        code: `console.log(rect.getMatrixState());
+
+rect.setPosition(200, 140);
+console.log(rect.getMatrixState());`
+      },
+      {
+        title: "Render Pipeline",
+        body: "Each RenderItem stores localMatrix and worldMatrix snapshots. Canvas can draw with local matrices today; WebGL can use world matrices later for buffers and shaders.",
+        code: `const renderList = raw2dCanvas.createRenderList(scene, camera);
+const item = renderList.getFlatItems()[0];
+
+console.log(item.localMatrix);
+console.log(item.worldMatrix);`
+      },
+      {
+        title: "Direct Matrix Use",
+        body: "Matrix3 is public for engine builders who need custom transforms, custom bounds, or future renderer experiments.",
+        code: `const matrix = new Matrix3().compose(100, 80, 0.5, 2, 2);
+const point = matrix.transformPoint({ x: 10, y: 20 });`
+      }
+    ]
   }
 ];

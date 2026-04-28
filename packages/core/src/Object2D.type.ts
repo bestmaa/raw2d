@@ -37,3 +37,8 @@ export interface Object2DTransform {
   readonly originX: number;
   readonly originY: number;
 }
+
+export interface Object2DMatrixState {
+  readonly localMatrixDirty: boolean;
+  readonly worldMatrixDirty: boolean;
+}

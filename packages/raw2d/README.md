@@ -97,6 +97,13 @@ console.log(renderList.getStats());
 raw2dCanvas.render(scene, camera, { renderList });
 ```
 
+Object transforms use cached matrices internally:
+
+```ts
+rect.updateMatrix();
+const localMatrix = rect.getLocalMatrix();
+```
+
 Canvas works first. WebGL2 is intentionally a skeleton while the batch-first pipeline is designed.
 
 Canvas and WebGL are public renderer packages:
