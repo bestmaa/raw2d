@@ -157,6 +157,16 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());
 ```
 
+For performance checks, render static scenes twice and compare atlas stats:
+
+```ts
+webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+
+console.log(webglRenderer.getStats().textureBinds);
+console.log(webglRenderer.getStats().staticCacheHits);
+```
+
 The WebGL stats show how much work went into the current frame:
 
 ```ts

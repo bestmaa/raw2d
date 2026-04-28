@@ -104,6 +104,24 @@ console.log(renderer.getStats().staticCacheHits);
 
 Keep animated sprites dynamic because changing `sprite.frame` invalidates static sprite cache data.
 
+## Performance Reading
+
+Render twice when measuring static cache:
+
+```ts
+renderer.render(scene, camera);
+renderer.render(scene, camera);
+
+const stats = renderer.getStats();
+
+console.log(stats.drawCalls);
+console.log(stats.textureBinds);
+console.log(stats.staticCacheHits);
+console.log(stats.uploadedBytes);
+```
+
+Packed atlas sprites should reduce `textureBinds`. Clean static runs should increase `staticCacheHits` and reduce vertex upload bytes after the first frame.
+
 Use `object.setRenderMode("static")` for rarely changing objects and `object.setRenderMode("dynamic")` for animated or frequently changing objects. WebGL splits render runs by mode and reports `staticBatches`, `dynamicBatches`, `staticObjects`, `dynamicObjects`, `staticCacheHits`, and `staticCacheMisses`.
 
 Object and material versions invalidate static cached batches:

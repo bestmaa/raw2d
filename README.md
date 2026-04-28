@@ -139,6 +139,16 @@ console.log(raw2dWebGL.getStats().textureBinds);
 console.log(raw2dWebGL.getStats().textureUploads);
 ```
 
+For performance checks, render a static scene twice and inspect WebGL stats:
+
+```ts
+raw2dWebGL.render(scene, camera);
+raw2dWebGL.render(scene, camera);
+
+console.log(raw2dWebGL.getStats().staticCacheHits);
+console.log(raw2dWebGL.getStats().uploadedBytes);
+```
+
 Objects support origin keywords for placement, rotation, and scaling:
 
 ```ts

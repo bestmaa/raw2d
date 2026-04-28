@@ -24,6 +24,7 @@ import { createSpriteAnimationDemo } from "./SpriteAnimationDemo";
 import { createText2DDemo } from "./Text2DDemo";
 import { createTextureAtlasDemo } from "./TextureAtlasDemo";
 import { createVisibleObjectsDemo } from "./VisibleObjectsDemo";
+import { createWebGLPerformanceDemo } from "./WebGLPerformanceDemo";
 import { createWebGLRendererDemo } from "./WebGLRendererDemo";
 import type { DocSection } from "./DocPage.type";
 import type { InteractionControllerDemoVariant } from "./InteractionControllerDemo.type";
@@ -58,6 +59,7 @@ const demoIds = [
   "render-order",
   "render-pipeline",
   "webgl-renderer",
+  "webgl-performance",
   "hit-testing",
   "interaction-controller",
   "camera-controls",
@@ -174,6 +176,10 @@ export function createDemoForId(demoId: string, section?: DocSection): HTMLEleme
 
   if (demoId === "webgl-renderer") {
     return createWebGLRendererDemo();
+  }
+
+  if (demoId === "webgl-performance") {
+    return createWebGLPerformanceDemo();
   }
 
   if (demoId === "interaction-controller") {
