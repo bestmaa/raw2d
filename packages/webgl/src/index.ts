@@ -4,6 +4,8 @@ export * from "./WebGLRenderStats.type.js";
 export * from "./WebGLRenderRun.type.js";
 export * from "./WebGLColor.type.js";
 export * from "./WebGLDrawBatch.type.js";
+export * from "./WebGLFloatBuffer.js";
+export * from "./WebGLFloatBuffer.type.js";
 export * from "./WebGLMaterialKey.type.js";
 export * from "./MutableWebGLRenderStats.type.js";
 export * from "./WebGLPathGeometry.type.js";

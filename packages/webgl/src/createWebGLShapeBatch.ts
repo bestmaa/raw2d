@@ -17,7 +17,8 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
   const shapeItems = options.items.filter(isShapeItem);
   const segments = getCurveSegments(options.curveSegments);
   const vertexCount = getVertexCount(shapeItems, segments);
-  const vertices = new Float32Array(vertexCount * webGLFloatsPerVertex);
+  const floatCount = vertexCount * webGLFloatsPerVertex;
+  const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
   const drawBatches: WebGLDrawBatch[] = [];
   const counts = { rects: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0 };
   let offset = 0;

@@ -8,7 +8,8 @@ const verticesPerSprite = 6;
 
 export function createWebGLSpriteBatch(options: WebGLSpriteBatchOptions): WebGLSpriteBatch {
   const spriteItems = options.items.filter(isSpriteItem);
-  const vertices = new Float32Array(spriteItems.length * verticesPerSprite * floatsPerSpriteVertex);
+  const floatCount = spriteItems.length * verticesPerSprite * floatsPerSpriteVertex;
+  const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
   const drawBatches: WebGLSpriteDrawBatch[] = [];
   const textureKeys = new Set<string>();
   let offset = 0;

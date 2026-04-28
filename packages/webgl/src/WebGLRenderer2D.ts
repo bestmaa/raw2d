@@ -14,6 +14,7 @@ import { getWebGLBounds } from "./getWebGLBounds.js";
 import { getWebGLRenderRunKind } from "./getWebGLRenderRunKind.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { WebGLTextureCache } from "./WebGLTextureCache.js";
+import { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
 import { shapeFragmentSource, shapeVertexSource, spriteFragmentSource, spriteVertexSource } from "./WebGLRenderer2DShaders.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
@@ -36,6 +37,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private readonly shapeBuffer: WebGLBuffer;
   private readonly spriteBuffer: WebGLBuffer;
   private readonly textureCache: WebGLTextureCache;
+  private readonly shapeFloatBuffer = new WebGLFloatBuffer();
+  private readonly spriteFloatBuffer = new WebGLFloatBuffer();
   private readonly defaultCamera = new Camera2D();
   private width: number;
   private height: number;
@@ -155,7 +158,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 
   private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
-    const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height });
+    const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height, floatBuffer: this.shapeFloatBuffer });
     this.configureShapeProgram();
     this.gl.bufferData(this.gl.ARRAY_BUFFER, batch.vertices, this.gl.DYNAMIC_DRAW);
 
@@ -181,6 +184,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       camera,
       width: this.width,
       height: this.height,
+      floatBuffer: this.spriteFloatBuffer,
       getTextureKey: (texture) => this.textureCache.getKey(texture)
     });
 

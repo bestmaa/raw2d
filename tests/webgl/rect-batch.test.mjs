@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderPipeline } from "raw2d-core";
 import { Sprite, Texture } from "raw2d-sprite";
-import { createWebGLRectBatch, createWebGLShapeBatch, createWebGLSpriteBatch, parseWebGLColor } from "raw2d-webgl";
+import { WebGLFloatBuffer, createWebGLRectBatch, createWebGLShapeBatch, createWebGLSpriteBatch, parseWebGLColor } from "raw2d-webgl";
 
 test("parseWebGLColor supports hex and rgba colors", () => {
   assert.deepEqual(parseWebGLColor("#35c2ff"), {
@@ -193,6 +193,71 @@ test("createWebGLSpriteBatch writes atlas frame UVs", () => {
   assertAlmostEqual(batch.vertices[8], 0.125);
   assertAlmostEqual(batch.vertices[12], 0.75);
   assertAlmostEqual(batch.vertices[13], 0.5);
+});
+
+test("WebGLFloatBuffer reuses backing storage until capacity grows", () => {
+  const floatBuffer = new WebGLFloatBuffer({ initialCapacity: 12 });
+  const first = floatBuffer.acquire(12);
+  const firstBacking = first.buffer;
+  const second = floatBuffer.acquire(6);
+
+  assert.equal(second.buffer, firstBacking);
+  assert.equal(floatBuffer.getUsed(), 6);
+  assert.equal(floatBuffer.getCapacity(), 12);
+
+  const third = floatBuffer.acquire(40);
+
+  assert.notEqual(third.buffer, firstBacking);
+  assert.equal(floatBuffer.getUsed(), 40);
+  assert.ok(floatBuffer.getCapacity() >= 40);
+});
+
+test("createWebGLShapeBatch can write into a reusable float buffer", () => {
+  const floatBuffer = new WebGLFloatBuffer();
+  const firstBatch = createWebGLShapeBatch({
+    items: new RenderPipeline().build({ objects: [new Rect({ width: 10, height: 10 })] }).getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    floatBuffer
+  });
+  const firstBacking = firstBatch.vertices.buffer;
+  const secondBatch = createWebGLShapeBatch({
+    items: new RenderPipeline().build({ objects: [new Rect({ width: 8, height: 8 })] }).getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    floatBuffer
+  });
+
+  assert.equal(secondBatch.vertices.buffer, firstBacking);
+  assert.equal(floatBuffer.getUsed(), 36);
+});
+
+test("createWebGLSpriteBatch can write into a reusable float buffer", () => {
+  const floatBuffer = new WebGLFloatBuffer();
+  const texture = new Texture({ source: { width: 16, height: 16 }, width: 16, height: 16 });
+  const sprite = new Sprite({ texture, width: 16, height: 16 });
+  const firstBatch = createWebGLSpriteBatch({
+    items: new RenderPipeline().build({ objects: [sprite] }).getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "texture:1",
+    floatBuffer
+  });
+  const firstBacking = firstBatch.vertices.buffer;
+  const secondBatch = createWebGLSpriteBatch({
+    items: new RenderPipeline().build({ objects: [sprite] }).getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "texture:1",
+    floatBuffer
+  });
+
+  assert.equal(secondBatch.vertices.buffer, firstBacking);
+  assert.equal(floatBuffer.getUsed(), 30);
 });
 
 function assertAlmostEqual(actual, expected) {

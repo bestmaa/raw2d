@@ -1,5 +1,6 @@
 import type { Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderItem } from "raw2d-core";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
+import type { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
 
 export interface WebGLShapeBatchOptions {
   readonly items: readonly RenderItem[];
@@ -7,6 +8,7 @@ export interface WebGLShapeBatchOptions {
   readonly width: number;
   readonly height: number;
   readonly curveSegments?: number;
+  readonly floatBuffer?: WebGLFloatBuffer;
 }
 
 export interface WebGLShapeBatch {

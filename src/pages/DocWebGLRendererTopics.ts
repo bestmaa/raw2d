@@ -125,6 +125,22 @@ scene.add(new Polygon({
 });
 
 webglRenderer.render(scene, camera, { renderList });`
+      },
+      {
+        title: "Typed Array Reuse",
+        body: "WebGLRenderer2D uses reusable float buffers internally. Batch helpers can also accept a WebGLFloatBuffer when you build custom WebGL tooling.",
+        code: `const floatBuffer = new WebGLFloatBuffer();
+
+const batch = createWebGLSpriteBatch({
+  items: renderList.getFlatItems(),
+  camera,
+  width,
+  height,
+  getTextureKey,
+  floatBuffer
+});
+
+console.log(floatBuffer.getSnapshot());`
       }
     ]
   }

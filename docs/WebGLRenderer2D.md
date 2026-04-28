@@ -11,6 +11,7 @@ Current scope:
 - batches consecutive sprites by texture key
 - supports sprite frame UVs from `TextureAtlas`
 - uploads textures through a small `WebGLTextureCache`
+- reuses CPU-side typed arrays through `WebGLFloatBuffer`
 - reports batch, texture, vertex, and draw call stats
 
 Canvas is still the complete renderer. WebGL is the performance path being built out.
@@ -111,6 +112,25 @@ Render runs are consecutive groups:
 - unsupported run: counted but skipped
 
 This makes WebGL behavior easy to debug and prepares Raw2D for future atlas and batch systems.
+
+## Typed Array Reuse
+
+`WebGLRenderer2D` keeps reusable float buffers for shape and sprite vertices. A frame can still upload dynamic vertex data, but the CPU-side `Float32Array` backing storage does not need to be recreated every render when capacity is already large enough.
+
+```ts
+const floatBuffer = new WebGLFloatBuffer();
+
+const batch = createWebGLSpriteBatch({
+  items: renderList.getFlatItems(),
+  camera,
+  width,
+  height,
+  getTextureKey,
+  floatBuffer
+});
+```
+
+This is the base for future static and dynamic batches.
 
 ## Current Limitations
 

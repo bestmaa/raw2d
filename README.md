@@ -221,6 +221,8 @@ const clip = createSpriteAnimationClip({
 });
 ```
 
+WebGL batch writers can reuse typed arrays through `WebGLFloatBuffer`, and `WebGLRenderer2D` uses that internally to reduce per-frame allocation pressure.
+
 Use `Group2D` when several objects should move, rotate, scale, and render together:
 
 ```ts
