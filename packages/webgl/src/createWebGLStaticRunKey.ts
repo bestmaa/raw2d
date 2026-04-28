@@ -1,4 +1,5 @@
 import { Sprite } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
 import type { Object2D } from "raw2d-core";
 import type {
   WebGLStaticRunIdentity,
@@ -30,7 +31,8 @@ function createObjectKey(object: Object2D, options: WebGLStaticRunKeyOptions): s
     object.version,
     getMaterialVersion(object),
     getSpriteTextureKey(object, options),
-    getSpriteFrameKey(object)
+    getSpriteFrameKey(object),
+    getTextKey(object)
   ].join(":");
 }
 
@@ -57,6 +59,14 @@ function getSpriteFrameKey(object: Object2D): string {
 
   const frame = object.frame;
   return `frame:${frame.x},${frame.y},${frame.width},${frame.height}`;
+}
+
+function getTextKey(object: Object2D): string {
+  if (!(object instanceof Text2D)) {
+    return "text:none";
+  }
+
+  return `text:${object.text}:${object.font}:${object.align}:${object.baseline}:${object.material.fillColor}`;
 }
 
 function hasVersion(value: unknown): value is Versioned {

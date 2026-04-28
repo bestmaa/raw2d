@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, Scene, ShapePath } from "raw2d-core";
 import { Sprite, Texture } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
 import { WebGLRenderer2D } from "raw2d-webgl";
 
 test("WebGLRenderer2D groups Rect draw calls by material key", () => {
@@ -226,6 +227,56 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
     uploadBufferDataCalls: 1,
     uploadBufferSubDataCalls: 0,
     uploadedBytes: 240,
+    unsupported: 0
+  });
+});
+
+test("WebGLRenderer2D renders Text2D through the texture batch path", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({
+    canvas: createFakeCanvas(gl),
+    width: 200,
+    height: 120,
+    createTextCanvas: createFakeTextCanvas
+  });
+  const scene = new Scene();
+
+  scene.add(new Text2D({
+    x: 20,
+    y: 40,
+    text: "Raw2D",
+    font: "20px sans-serif",
+    material: new BasicMaterial({ fillColor: "#f5f7fb" })
+  }));
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(gl.calls.includes("texImage2D:3553"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,0,6"), true);
+  assert.deepEqual(renderer.getStats(), {
+    objects: 1,
+    rects: 0,
+    circles: 0,
+    ellipses: 0,
+    lines: 0,
+    polylines: 0,
+    polygons: 0,
+    sprites: 0,
+    textures: 1,
+    textureBinds: 1,
+    textureUploads: 1,
+    textureCacheHits: 0,
+    batches: 1,
+    staticBatches: 0,
+    dynamicBatches: 1,
+    staticObjects: 0,
+    dynamicObjects: 1,
+    staticCacheHits: 0,
+    staticCacheMisses: 0,
+    vertices: 6,
+    drawCalls: 1,
+    uploadBufferDataCalls: 1,
+    uploadBufferSubDataCalls: 0,
+    uploadedBytes: 120,
     unsupported: 0
   });
 });
@@ -501,6 +552,37 @@ function createFakeCanvas(gl) {
     height: 0,
     getContext(type) {
       return type === "webgl2" ? gl : null;
+    }
+  };
+}
+
+function createFakeTextCanvas(width, height) {
+  return {
+    width,
+    height,
+    getContext(type) {
+      if (type !== "2d") {
+        return null;
+      }
+
+      return {
+        font: "",
+        textAlign: "start",
+        textBaseline: "alphabetic",
+        fillStyle: "#ffffff",
+        clearRect() {},
+        fillText() {},
+        measureText(text) {
+          const width = text.length * 10;
+          return {
+            width,
+            actualBoundingBoxLeft: 0,
+            actualBoundingBoxRight: width,
+            actualBoundingBoxAscent: 16,
+            actualBoundingBoxDescent: 4
+          };
+        }
+      };
     }
   };
 }

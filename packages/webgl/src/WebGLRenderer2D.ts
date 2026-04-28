@@ -14,6 +14,7 @@ import { getWebGLBounds } from "./getWebGLBounds.js";
 import { getWebGLRenderRunKind } from "./getWebGLRenderRunKind.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { WebGLTextureCache } from "./WebGLTextureCache.js";
+import { WebGLTextTextureCache } from "./WebGLTextTextureCache.js";
 import { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
 import { WebGLStaticBatchCache } from "./WebGLStaticBatchCache.js";
 import { finalizeWebGLRenderStats } from "./finalizeWebGLRenderStats.js";
@@ -49,6 +50,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private readonly shapeUploaders: WebGLBufferUploaderMap;
   private readonly spriteUploaders: WebGLBufferUploaderMap;
   private readonly textureCache: WebGLTextureCache;
+  private readonly textTextureCache: WebGLTextTextureCache;
   private readonly shapeFloatBuffer = new WebGLFloatBuffer();
   private readonly spriteFloatBuffer = new WebGLFloatBuffer();
   private readonly staticShapeCache: WebGLStaticBatchCache<WebGLShapeBatch>;
@@ -79,6 +81,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.staticShapeCache = new WebGLStaticBatchCache(gl);
     this.staticSpriteCache = new WebGLStaticBatchCache(gl);
     this.textureCache = new WebGLTextureCache(gl);
+    this.textTextureCache = new WebGLTextTextureCache({ createCanvas: options.createTextCanvas });
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.setSize(this.width, this.height);
@@ -192,7 +195,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       width: this.width,
       height: this.height,
       floatBuffer: this.spriteFloatBuffer,
-      getTextureKey: (texture) => this.textureCache.getKey(texture)
+      getTextureKey: (texture) => this.textureCache.getKey(texture),
+      getTextTexture: (text) => this.textTextureCache.get(text)
     });
 
     const uploader = run.mode === "static" ? this.cacheSpriteBatch(run, camera, batch).uploader : this.spriteUploaders.dynamic;

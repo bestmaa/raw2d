@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderPipeline } from "raw2d-core";
 import { Sprite, Texture } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
 import {
   WebGLBufferUploader,
   WebGLFloatBuffer,
@@ -202,6 +203,39 @@ test("createWebGLSpriteBatch writes atlas frame UVs", () => {
   assertAlmostEqual(batch.vertices[8], 0.125);
   assertAlmostEqual(batch.vertices[12], 0.75);
   assertAlmostEqual(batch.vertices[13], 0.5);
+});
+
+test("createWebGLSpriteBatch writes Text2D as a texture quad", () => {
+  const texture = new Texture({ source: { width: 48, height: 20 }, width: 48, height: 20 });
+  const text = new Text2D({ x: 10, y: 20, text: "Raw2D", font: "16px sans-serif" });
+  const renderList = new RenderPipeline().build({ objects: [text] });
+  const batch = createWebGLSpriteBatch({
+    items: renderList.getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100,
+    getTextureKey: () => "text:1",
+    getTextTexture: () => ({
+      texture,
+      key: "text",
+      localX: 0,
+      localY: -14,
+      width: 48,
+      height: 20
+    })
+  });
+
+  assert.equal(batch.sprites, 0);
+  assert.equal(batch.textures, 1);
+  assert.equal(batch.unsupported, 0);
+  assert.deepEqual(batch.drawBatches, [
+    { key: "text:1", texture, firstVertex: 0, vertexCount: 6 }
+  ]);
+  assert.equal(batch.vertices.length, 30);
+  assertAlmostEqual(batch.vertices[2], 0);
+  assertAlmostEqual(batch.vertices[3], 0);
+  assertAlmostEqual(batch.vertices[7], 1);
+  assertAlmostEqual(batch.vertices[8], 0);
 });
 
 test("WebGLFloatBuffer reuses backing storage until capacity grows", () => {

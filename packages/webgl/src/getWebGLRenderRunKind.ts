@@ -1,5 +1,6 @@
 import { Circle, Ellipse, Line, Polygon, Polyline, Rect, type Object2D } from "raw2d-core";
 import { Sprite } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
 import type { WebGLRenderRunKind } from "./WebGLRenderRun.type.js";
 
 export function getWebGLRenderRunKind(object: Object2D): WebGLRenderRunKind {
@@ -7,7 +8,7 @@ export function getWebGLRenderRunKind(object: Object2D): WebGLRenderRunKind {
     return "shape";
   }
 
-  if (object instanceof Sprite) {
+  if (object instanceof Sprite || object instanceof Text2D) {
     return "sprite";
   }
 

@@ -239,10 +239,10 @@ const worldMatrix = rect.getWorldMatrix();
 
 RenderPipeline also stores matrix snapshots on each render item for WebGL batching.
 
-WebGLRenderer2D currently batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects through ordered WebGL runs:
+WebGLRenderer2D currently batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, `Sprite`, and rasterized `Text2D` objects through ordered WebGL runs:
 
 ```ts
-import { Camera2D, Circle, Line, Rect, Scene, Sprite, Texture, WebGLRenderer2D } from "raw2d";
+import { Camera2D, Circle, Line, Rect, Scene, Sprite, Text2D, Texture, WebGLRenderer2D } from "raw2d";
 
 const raw2dWebGL = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -260,12 +260,13 @@ scene.add(new Rect({ x: 40, y: 40, width: 80, height: 50 }));
 scene.add(new Circle({ x: 160, y: 65, radius: 28 }));
 scene.add(new Line({ x: 220, y: 65, startX: 0, startY: 0, endX: 80, endY: 0 }));
 scene.add(new Sprite({ texture, x: 320, y: 40, width: 48, height: 48 }));
+scene.add(new Text2D({ x: 40, y: 130, text: "Raw2D", font: "28px sans-serif" }));
 
 raw2dWebGL.render(scene, camera);
 console.log(raw2dWebGL.getStats());
 ```
 
-Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites with the same Texture are merged into texture draw ranges. `TextureAtlas` lets Sprites use named frames from one Texture, which is the base for larger sprite batches. WebGL batches reuse CPU float buffers and GPU buffer capacity so later frames can upload with `bufferSubData` when capacity already fits. Static runs can skip vertex upload entirely when their cache key is unchanged. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
+Canvas is still the complete renderer. WebGL is the performance path being built around explicit batches and stats. Consecutive shapes with the same material key are merged into shape draw ranges, and consecutive Sprites or rasterized Text2D textures are merged into texture draw ranges. `TextureAtlas` lets Sprites use named frames from one Texture, which is the base for larger sprite batches. WebGL batches reuse CPU float buffers and GPU buffer capacity so later frames can upload with `bufferSubData` when capacity already fits. Static runs can skip vertex upload entirely when their cache key is unchanged. Polygon batching uses a simple triangle fan first, so convex polygons are the safe target.
 
 Sprite animation is explicit and renderer-independent:
 

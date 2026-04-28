@@ -6,9 +6,11 @@ Current scope:
 
 - renders `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, and convex `Polygon`
 - renders `Sprite`
+- renders `Text2D` by rasterizing it to a canvas texture
 - uses cached world matrices from `RenderPipeline`
 - batches consecutive shape objects by material key
 - batches consecutive sprites by texture key
+- batches rasterized text through the texture path
 - supports sprite frame UVs from `TextureAtlas`
 - uploads textures through a small `WebGLTextureCache`
 - reuses CPU-side typed arrays through `WebGLFloatBuffer`
@@ -71,43 +73,36 @@ renderer.render(scene, new Camera2D());
 
 Sprites with the same `Texture` object are grouped only when they are consecutive in render order. They can use different atlas frames because each Sprite writes its own UV coordinates. Raw2D keeps ordering predictable instead of silently reordering the scene.
 
+## Text2D Usage
+
+```ts
+import { BasicMaterial, Camera2D, Scene, Text2D, WebGLRenderer2D } from "raw2d";
+
+const label = new Text2D({
+  x: 80,
+  y: 90,
+  text: "GPU label",
+  font: "28px sans-serif",
+  material: new BasicMaterial({ fillColor: "#f5f7fb" })
+});
+
+scene.add(label);
+renderer.render(scene, new Camera2D());
+```
+
+Text2D is rasterized to a small canvas texture, then drawn through the texture batch path. Changing text, font, or fill color rebuilds the text texture.
+
 ## Stats
 
 ```ts
 renderer.render(scene, camera);
-console.log(renderer.getStats());
-```
+const stats = renderer.getStats();
 
-Example:
-
-```ts
-{
-  objects: 500,
-  rects: 100,
-  circles: 80,
-  ellipses: 80,
-  lines: 80,
-  polylines: 80,
-  polygons: 40,
-  sprites: 40,
-  textures: 1,
-  textureBinds: 40,
-  textureUploads: 1,
-  textureCacheHits: 39,
-  batches: 240,
-  staticBatches: 120,
-  dynamicBatches: 120,
-  staticObjects: 260,
-  dynamicObjects: 240,
-  vertices: 18000,
-  drawCalls: 240,
-  uploadBufferDataCalls: 1,
-  uploadBufferSubDataCalls: 1,
-  uploadedBytes: 432000,
-  staticCacheHits: 0,
-  staticCacheMisses: 120,
-  unsupported: 0
-}
+console.log(stats.objects);
+console.log(stats.drawCalls);
+console.log(stats.textureBinds);
+console.log(stats.staticCacheHits);
+console.log(stats.uploadedBytes);
 ```
 
 `batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
@@ -243,6 +238,6 @@ Browser timing is approximate. Use it for relative Canvas/WebGL comparisons.
 
 - no advanced texture atlas bin packing yet
 - no automatic static batch compaction yet
-- no text WebGL path yet
+- no glyph atlas or SDF text path yet
 - polygon batching expects convex polygons
 - SVG texture sources should be rasterized to canvas before WebGL upload

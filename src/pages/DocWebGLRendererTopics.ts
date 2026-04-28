@@ -5,11 +5,11 @@ export const webGLRendererTopics: readonly DocTopic[] = [
     id: "webgl-renderer",
     label: "WebGLRenderer2D",
     title: "WebGLRenderer2D",
-    description: "WebGLRenderer2D renders primitives and Sprites through WebGL2 using RenderPipeline, ordered render runs, material batches, and texture batches.",
+    description: "WebGLRenderer2D renders primitives, Sprites, and rasterized Text2D through WebGL2 using explicit ordered batches.",
     sections: [
       {
         title: "First Working Scope",
-        body: "WebGLRenderer2D renders Rect, Circle, Ellipse, Line, Polyline, convex Polygon, and Sprite objects. Other object types are counted as unsupported until their batches are implemented.",
+        body: "WebGLRenderer2D renders Rect, Circle, Ellipse, Line, Polyline, convex Polygon, Sprite, and Text2D objects. Text2D is rasterized to a texture first.",
         liveDemoId: "webgl-renderer",
         code: `const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
@@ -19,6 +19,22 @@ export const webGLRendererTopics: readonly DocTopic[] = [
 });
 
 renderer.render(scene, camera);`
+      },
+      {
+        title: "Text2D Texture Path",
+        body: "Text2D stays an object-data class. WebGLRenderer2D rasterizes it to a small canvas texture, then draws that texture through the same ordered texture batch path as Sprites.",
+        code: `import { BasicMaterial, Camera2D, Scene, Text2D, WebGLRenderer2D } from "raw2d";
+
+const label = new Text2D({
+  x: 80,
+  y: 90,
+  text: "GPU label",
+  font: "28px sans-serif",
+  material: new BasicMaterial({ fillColor: "#f5f7fb" })
+});
+
+scene.add(label);
+webglRenderer.render(scene, new Camera2D());`
       },
       {
         title: "Sprite Texture Batch",

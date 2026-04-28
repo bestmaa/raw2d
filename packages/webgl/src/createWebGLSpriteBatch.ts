@@ -1,27 +1,42 @@
+import type { RenderItem } from "raw2d-core";
 import { Sprite } from "raw2d-sprite";
+import type { Texture } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
 import { getWebGLSpriteUV } from "./getWebGLSpriteUV.js";
 import { toClipPoint } from "./WebGLVertex.js";
-import type { WebGLSpriteBatch, WebGLSpriteBatchOptions, WebGLSpriteDrawBatch, WebGLSpriteItem } from "./WebGLSpriteBatch.type.js";
+import type {
+  WebGLSpriteBatch,
+  WebGLSpriteBatchOptions,
+  WebGLSpriteDrawBatch,
+  WebGLSpriteItem,
+  WebGLTextureItem
+} from "./WebGLSpriteBatch.type.js";
+import type { WebGLTextTextureEntry } from "./WebGLTextTextureCache.type.js";
 
 const floatsPerSpriteVertex = 5;
 const verticesPerSprite = 6;
 
 export function createWebGLSpriteBatch(options: WebGLSpriteBatchOptions): WebGLSpriteBatch {
-  const spriteItems = options.items.filter(isSpriteItem);
-  const floatCount = spriteItems.length * verticesPerSprite * floatsPerSpriteVertex;
+  const textureItems = options.items.filter((item): item is WebGLTextureItem => isTextureItem(item, options));
+  const floatCount = textureItems.length * verticesPerSprite * floatsPerSpriteVertex;
   const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
   const drawBatches: WebGLSpriteDrawBatch[] = [];
   const textureKeys = new Set<string>();
   let offset = 0;
 
-  for (const item of spriteItems) {
+  for (const item of textureItems) {
     const firstVertex = offset / floatsPerSpriteVertex;
-    const textureKey = options.getTextureKey(item.object.texture);
+    const texture = getItemTexture(item, options);
+    const textureKey = options.getTextureKey(texture);
     textureKeys.add(textureKey);
-    offset = writeSprite(vertices, offset, item, options);
+    if (isSpriteItem(item)) {
+      offset = writeSprite(vertices, offset, item, options);
+    } else if (isTextItem(item)) {
+      offset = writeText(vertices, offset, item, getTextTexture(item.object, options), options);
+    }
     appendSpriteDrawBatch(drawBatches, {
       key: textureKey,
-      texture: item.object.texture,
+      texture,
       firstVertex,
       vertexCount: verticesPerSprite
     });
@@ -30,14 +45,41 @@ export function createWebGLSpriteBatch(options: WebGLSpriteBatchOptions): WebGLS
   return {
     vertices,
     drawBatches,
-    sprites: spriteItems.length,
+    sprites: textureItems.filter((item) => item.object instanceof Sprite).length,
     textures: textureKeys.size,
-    unsupported: options.items.length - spriteItems.length
+    unsupported: options.items.length - textureItems.length
   };
 }
 
-function isSpriteItem(item: WebGLSpriteBatchOptions["items"][number]): item is WebGLSpriteItem {
+function isTextureItem(item: WebGLSpriteBatchOptions["items"][number], options: WebGLSpriteBatchOptions): boolean {
+  return item.object instanceof Sprite || (item.object instanceof Text2D && options.getTextTexture !== undefined);
+}
+
+function isSpriteItem(item: WebGLTextureItem): item is WebGLSpriteItem {
   return item.object instanceof Sprite;
+}
+
+function isTextItem(item: WebGLTextureItem): item is RenderItem<Text2D> {
+  return item.object instanceof Text2D;
+}
+
+function getItemTexture(item: WebGLTextureItem, options: WebGLSpriteBatchOptions): Texture {
+  if (item.object instanceof Sprite) {
+    return item.object.texture;
+  }
+
+  const textTexture = getTextTexture(item.object, options);
+  return textTexture.texture;
+}
+
+function getTextTexture(text: Text2D, options: WebGLSpriteBatchOptions): WebGLTextTextureEntry {
+  const textTexture = options.getTextTexture?.(text);
+
+  if (!textTexture) {
+    throw new Error("Text2D texture provider is required for WebGL text batching.");
+  }
+
+  return textTexture;
 }
 
 function writeSprite(vertices: Float32Array, offset: number, item: WebGLSpriteItem, options: WebGLSpriteBatchOptions): number {
@@ -57,6 +99,33 @@ function writeSprite(vertices: Float32Array, offset: number, item: WebGLSpriteIt
   for (const point of points) {
     const clip = toClipPoint(point[0], point[1], item.worldMatrix, options);
     offset = writeSpriteVertex(vertices, offset, clip.x, clip.y, point[2], point[3], sprite.opacity);
+  }
+
+  return offset;
+}
+
+function writeText(
+  vertices: Float32Array,
+  offset: number,
+  item: RenderItem<Text2D>,
+  entry: WebGLTextTextureEntry,
+  options: WebGLSpriteBatchOptions
+): number {
+  const text = item.object;
+  const originX = entry.localX + entry.width * text.originX;
+  const originY = entry.localY + entry.height * text.originY;
+  const points = [
+    [entry.localX - originX, entry.localY - originY, 0, 0],
+    [entry.localX + entry.width - originX, entry.localY - originY, 1, 0],
+    [entry.localX + entry.width - originX, entry.localY + entry.height - originY, 1, 1],
+    [entry.localX - originX, entry.localY - originY, 0, 0],
+    [entry.localX + entry.width - originX, entry.localY + entry.height - originY, 1, 1],
+    [entry.localX - originX, entry.localY + entry.height - originY, 0, 1]
+  ] as const;
+
+  for (const point of points) {
+    const clip = toClipPoint(point[0], point[1], item.worldMatrix, options);
+    offset = writeSpriteVertex(vertices, offset, clip.x, clip.y, point[2], point[3], 1);
   }
 
   return offset;

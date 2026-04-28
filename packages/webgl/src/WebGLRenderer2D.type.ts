@@ -6,6 +6,7 @@ export interface WebGLRenderer2DOptions {
   readonly width?: number;
   readonly height?: number;
   readonly backgroundColor?: string;
+  readonly createTextCanvas?: (width: number, height: number) => HTMLCanvasElement;
 }
 
 export interface WebGLRenderer2DLike {

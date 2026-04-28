@@ -1,7 +1,9 @@
 import type { Camera2D, RenderItem } from "raw2d-core";
 import type { Sprite, Texture } from "raw2d-sprite";
+import type { Text2D } from "raw2d-text";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 import type { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
+import type { WebGLTextTextureEntry } from "./WebGLTextTextureCache.type.js";
 
 export interface WebGLSpriteBatchOptions {
   readonly items: readonly RenderItem[];
@@ -9,6 +11,7 @@ export interface WebGLSpriteBatchOptions {
   readonly width: number;
   readonly height: number;
   readonly getTextureKey: (texture: Texture) => string;
+  readonly getTextTexture?: (text: Text2D) => WebGLTextTextureEntry;
   readonly floatBuffer?: WebGLFloatBuffer;
 }
 
@@ -25,3 +28,4 @@ export interface WebGLSpriteBatch {
 }
 
 export type WebGLSpriteItem = RenderItem<Sprite>;
+export type WebGLTextureItem = RenderItem<Sprite | Text2D>;

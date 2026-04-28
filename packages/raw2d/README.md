@@ -148,7 +148,7 @@ import { Canvas } from "raw2d-canvas";
 import { WebGLRenderer2D } from "raw2d-webgl";
 ```
 
-Use `Canvas` for full object support today. Use `WebGLRenderer2D` for shape and Sprite WebGL experiments:
+Use `Canvas` for full object support today. Use `WebGLRenderer2D` for shape, Sprite, and rasterized Text2D WebGL experiments:
 
 ```ts
 const webglRenderer = new WebGLRenderer2D({ canvas: canvasElement });
@@ -187,6 +187,8 @@ console.log(webglRenderer.getStats());
 ```
 
 WebGL keeps render order stable. It merges only consecutive shapes with the same material key and consecutive Sprites with the same Texture. Clean static render runs are cached after their first upload, and dynamic runs keep using the dynamic upload path.
+
+`Text2D` works in WebGL by rasterizing text into a small texture. Updating text, font, or fill color rebuilds that texture, then the renderer draws it through the same ordered texture path as Sprites.
 
 Check the live docs after deployment:
 

@@ -2,7 +2,7 @@
 
 `Text2D` stores text object data.
 
-It does not draw itself. Canvas renderer modules read `Text2D` data and draw it.
+It does not draw itself. Canvas renderer modules read `Text2D` data and draw it. WebGLRenderer2D rasterizes `Text2D` to a texture and then draws that texture through the same ordered texture batch path as Sprites.
 
 ## Source Files
 
@@ -45,6 +45,22 @@ scene.add(text);
 raw2dCanvas.render(scene, camera);
 ```
 
+## Render With WebGL
+
+```ts
+const webglRenderer = new WebGLRenderer2D({ canvas: canvasElement });
+
+scene.add(text);
+webglRenderer.render(scene, camera);
+```
+
+WebGL text is intentionally simple for now:
+
+- text is rasterized to a small canvas texture
+- changing text, font, or material color rebuilds that texture
+- the resulting texture is drawn through the texture batch path
+- future work can replace this with glyph atlas or SDF text
+
 ## Update Text
 
 ```ts
@@ -52,6 +68,8 @@ text.setText("Updated text");
 text.setFont("48px sans-serif");
 raw2dCanvas.render(scene, camera);
 ```
+
+For WebGL, render again after updating. The renderer cache will rebuild the text texture when the `Text2D` data changes.
 
 ## Live Example
 
