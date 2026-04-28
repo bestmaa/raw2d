@@ -1,4 +1,5 @@
 import { boundsTopics } from "./DocBoundsTopics";
+import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { curveTopics } from "./DocCurveTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
@@ -14,6 +15,7 @@ import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 export const topics: readonly DocTopic[] = [
   ...setupTopics,
   ...coreTopics,
+  ...canvasCullingTopics,
   ...visibleObjectsTopics,
   ...transformTopics,
   ...boundsTopics,

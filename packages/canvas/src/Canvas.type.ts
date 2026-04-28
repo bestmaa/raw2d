@@ -11,6 +11,11 @@ export interface CanvasOptions {
   readonly backgroundColor?: string;
 }
 
+export interface CanvasRenderOptions {
+  readonly culling?: boolean;
+  readonly cullingFilter?: (object: CanvasObject) => boolean;
+}
+
 export interface CanvasSize {
   readonly width: number;
   readonly height: number;

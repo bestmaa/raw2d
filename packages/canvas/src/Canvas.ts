@@ -1,6 +1,7 @@
 import { Camera2D, type Scene } from "raw2d-core";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
-import type { CanvasObject, CanvasOptions, CanvasSize } from "./Canvas.type.js";
+import { getVisibleCanvasObjects } from "./culling/index.js";
+import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasSize } from "./Canvas.type.js";
 
 export class Canvas {
   public readonly element: HTMLCanvasElement;
@@ -93,14 +94,30 @@ export class Canvas {
     this.backgroundColor = color;
   }
 
-  public render(scene?: Scene, camera = this.defaultCamera): void {
+  public render(scene?: Scene, camera = this.defaultCamera, options: CanvasRenderOptions = {}): void {
     const objects = scene?.getObjects() ?? this.objects;
+    const renderObjects = options.culling ? this.getVisibleObjects(objects, camera, options) : objects;
 
     this.clear(this.backgroundColor);
     this.context.save();
     this.applyCamera(camera);
-    this.renderer.render(objects);
+    this.renderer.render(renderObjects);
     this.context.restore();
+  }
+
+  private getVisibleObjects(
+    objects: readonly CanvasObject[],
+    camera: Camera2D,
+    renderOptions: CanvasRenderOptions
+  ): readonly CanvasObject[] {
+    return getVisibleCanvasObjects({
+      objects,
+      camera,
+      width: this.width,
+      height: this.height,
+      context: this.context,
+      renderOptions
+    });
   }
 
   private applyCamera(camera: Camera2D): void {
