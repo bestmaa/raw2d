@@ -2,6 +2,7 @@ import "./style.css";
 import "./docs.css";
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 import { renderDocPage } from "./pages/DocPage";
+import { renderReadmePage } from "./pages/ReadmePage";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 
@@ -11,13 +12,18 @@ if (!app) {
 
 if (window.location.pathname === "/doc") {
   app.replaceChildren(renderDocPage());
+} else if (window.location.pathname === "/readme") {
+  app.replaceChildren(renderReadmePage());
 } else {
   renderCanvasPreview(app);
 }
 
 function renderCanvasPreview(root: HTMLElement): void {
   root.innerHTML = `
-    <a class="doc-link" href="/doc">Docs</a>
+    <nav class="home-links" aria-label="Raw2D links">
+      <a href="/doc">Docs</a>
+      <a href="/readme">Readme</a>
+    </nav>
     <canvas id="raw2d-canvas" aria-label="Raw2D canvas preview"></canvas>
   `;
 

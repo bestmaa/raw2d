@@ -26,6 +26,7 @@ function createSidebar(onSelect: (topic: DocTopic) => void): HTMLElement {
   sidebar.className = "doc-sidebar";
   sidebar.innerHTML = `
     <a href="/" class="doc-back">Canvas Preview</a>
+    <a href="/readme" class="doc-back">Readme Docs</a>
     <h1>Raw2D Docs</h1>
   `;
   nav.className = "doc-nav";
