@@ -80,6 +80,25 @@ test("camera controls pan with configured pointer button", () => {
   assert.equal(controls.getSnapshot().mode, "idle");
 });
 
+test("camera controls keep zoom stable after panning", () => {
+  const target = createTarget();
+  const camera = new Camera2D({ x: 10, y: 20, zoom: 2 });
+  const controls = new CameraControls({ target, camera, width: 400, height: 300, zoomSpeed: 0.01 });
+
+  controls.enablePan(1);
+  controls.enableZoom();
+  controls.handlePointerDown({ clientX: 100, clientY: 100, button: 1, pointerId: 7 });
+  controls.handlePointerMove({ clientX: 140, clientY: 120, pointerId: 7 });
+  controls.handlePointerUp({ clientX: 140, clientY: 120, pointerId: 7 });
+
+  const before = getWorldPoint(camera, 200, 150);
+  controls.handleWheel({ clientX: 200, clientY: 150, deltaY: -80 });
+  const after = getWorldPoint(camera, 200, 150);
+
+  assert.equal(Math.round(before.x * 1000), Math.round(after.x * 1000));
+  assert.equal(Math.round(before.y * 1000), Math.round(after.y * 1000));
+});
+
 test("camera controls dispose removes listeners", () => {
   const target = createTarget();
   const camera = new Camera2D();
@@ -93,3 +112,10 @@ test("camera controls dispose removes listeners", () => {
   assert.equal(target.getListener("wheel"), null);
   assert.equal(target.getListener("pointerdown"), null);
 });
+
+function getWorldPoint(camera, canvasX, canvasY) {
+  return {
+    x: canvasX / camera.zoom + camera.x,
+    y: canvasY / camera.zoom + camera.y
+  };
+}

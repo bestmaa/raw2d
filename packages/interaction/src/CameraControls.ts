@@ -122,6 +122,7 @@ export class CameraControls {
     return getInteractionPoint({
       canvas: this.options.target,
       event,
+      camera: this.options.camera,
       width: this.options.width,
       height: this.options.height
     });
