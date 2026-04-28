@@ -38,6 +38,10 @@ export function getLiveExampleCode(section: DocSection): string {
     return getInteractionLiveCode(section);
   }
 
+  if (section.liveDemoId === "keyboard") {
+    return createKeyboardCode(section);
+  }
+
   if (section.title.includes("Texture")) {
     return withFocusComment(fullTextureExample, section);
   }
@@ -171,6 +175,44 @@ const selection = new SelectionManager();
 
 scene.add(rect);
 selection.select(rect);
+raw2dCanvas.render(scene, camera);`, section);
+}
+
+function createKeyboardCode(section: DocSection): string {
+  return withFocusComment(`import { BasicMaterial, Camera2D, Canvas, KeyboardController, Rect, Scene, SelectionManager } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const raw2dCanvas = new Canvas({ canvas: canvasElement, backgroundColor: "#10141c" });
+const scene = new Scene();
+const camera = new Camera2D();
+const rect = new Rect({
+  name: "card",
+  x: 178,
+  y: 86,
+  width: 164,
+  height: 96,
+  material: new BasicMaterial({ fillColor: "#f45b69" })
+});
+const selection = new SelectionManager({ objects: [rect] });
+const keyboard = new KeyboardController({
+  target: window,
+  selection,
+  scene,
+  moveStep: 4,
+  fastMoveStep: 20,
+  onChange: () => raw2dCanvas.render(scene, camera)
+});
+
+keyboard.enableMove();
+keyboard.enableDelete();
+keyboard.enableClear();
+
+scene.add(rect);
 raw2dCanvas.render(scene, camera);`, section);
 }
 

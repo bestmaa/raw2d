@@ -1,8 +1,10 @@
 import type { DocTopic } from "./DocPage.type";
 import { interactionControllerTopic } from "./DocInteractionControllerTopic";
+import { keyboardTopic } from "./DocKeyboardTopic";
 
 export const interactionTopics: readonly DocTopic[] = [
   interactionControllerTopic,
+  keyboardTopic,
   {
     id: "selection",
     label: "Selection",
