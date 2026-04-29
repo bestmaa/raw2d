@@ -60,6 +60,18 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats());`
       },
       {
+        title: "Safe WebGL Fallback",
+        body: "Use isWebGL2Available when WebGL should be preferred but Canvas must still work on devices without WebGL2.",
+        code: `import { Canvas, WebGLRenderer2D, isWebGL2Available } from "raw2d";
+import type { Renderer2DLike } from "raw2d";
+
+const renderer: Renderer2DLike = isWebGL2Available({ canvas: canvasElement })
+  ? new WebGLRenderer2D({ canvas: canvasElement })
+  : new Canvas({ canvas: canvasElement });
+
+renderer.render(scene, camera);`
+      },
+      {
         title: "Focused Package Install",
         body: "Advanced users can install only the modules they need.",
         code: `npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-interaction

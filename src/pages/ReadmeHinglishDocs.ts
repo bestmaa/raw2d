@@ -15,6 +15,7 @@ import renderer2d from "../../docs/hi/Renderer2D.md?raw";
 import rendererParity from "../../docs/hi/RendererParity.md?raw";
 import renderMode from "../../docs/hi/RenderMode.md?raw";
 import renderPipeline from "../../docs/hi/RenderPipeline.md?raw";
+import webglAvailability from "../../docs/hi/WebGLAvailability.md?raw";
 import webglRenderer from "../../docs/hi/WebGLRenderer2D.md?raw";
 import webglPerformance from "../../docs/hi/WebGLPerformance.md?raw";
 import webglTextureLifecycle from "../../docs/hi/WebGLTextureLifecycle.md?raw";
@@ -64,6 +65,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "renderer-parity", label: "Renderer Parity", filename: "hi/RendererParity.md", content: rendererParity },
   { id: "render-mode", label: "Render Mode", filename: "hi/RenderMode.md", content: renderMode },
   { id: "render-pipeline", label: "Render Pipeline", filename: "hi/RenderPipeline.md", content: renderPipeline },
+  { id: "webgl-availability", label: "WebGL Availability", filename: "hi/WebGLAvailability.md", content: webglAvailability },
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "hi/WebGLRenderer2D.md", content: webglRenderer },
   { id: "webgl-performance", label: "WebGL Performance", filename: "hi/WebGLPerformance.md", content: webglPerformance },
   { id: "webgl-texture-lifecycle", label: "WebGL Texture Lifecycle", filename: "hi/WebGLTextureLifecycle.md", content: webglTextureLifecycle },

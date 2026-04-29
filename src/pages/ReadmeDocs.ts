@@ -37,6 +37,7 @@ import textureAtlas from "../../docs/TextureAtlas.md?raw";
 import textureAtlasPacker from "../../docs/TextureAtlasPacker.md?raw";
 import transformMatrix from "../../docs/TransformMatrix.md?raw";
 import visibleObjects from "../../docs/VisibleObjects.md?raw";
+import webGLAvailability from "../../docs/WebGLAvailability.md?raw";
 import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
 import webGLPerformance from "../../docs/WebGLPerformance.md?raw";
 import webGLTextureLifecycle from "../../docs/WebGLTextureLifecycle.md?raw";
@@ -64,6 +65,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "renderer-parity", label: "Renderer Parity", filename: "RendererParity.md", content: rendererParity },
   { id: "render-mode", label: "Render Mode", filename: "RenderMode.md", content: renderMode },
   { id: "render-pipeline", label: "Render Pipeline", filename: "RenderPipeline.md", content: renderPipeline },
+  { id: "webgl-availability", label: "WebGL Availability", filename: "WebGLAvailability.md", content: webGLAvailability },
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "WebGLRenderer2D.md", content: webGLRenderer2D },
   { id: "webgl-performance", label: "WebGL Performance", filename: "WebGLPerformance.md", content: webGLPerformance },
   { id: "webgl-texture-lifecycle", label: "WebGL Texture Lifecycle", filename: "WebGLTextureLifecycle.md", content: webGLTextureLifecycle },

@@ -29,7 +29,11 @@ Current support:
 ```ts
 import { Camera2D, Rect, Scene } from "raw2d-core";
 import { Sprite, Texture } from "raw2d-sprite";
-import { WebGLRenderer2D } from "raw2d-webgl";
+import { WebGLRenderer2D, isWebGL2Available } from "raw2d-webgl";
+
+if (!isWebGL2Available({ canvas: canvasElement })) {
+  throw new Error("WebGL2 is not available.");
+}
 
 const renderer = new WebGLRenderer2D({
   canvas: canvasElement,
