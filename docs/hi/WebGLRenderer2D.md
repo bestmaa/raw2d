@@ -1,21 +1,92 @@
 # WebGLRenderer2D
 
-Ye WebGLRenderer2D ka Hinglish readme hai. Iska focus WebGL2 renderer hai, aur yahan usko simple practical language me samjhaya gaya hai.
+WebGLRenderer2D Raw2D ka performance renderer hai. Iska target ye hai ki scene ko explicit pipeline se draw kiya jaye:
 
-## Iska Kaam
+```text
+Scene -> RenderPipeline -> Batches -> Buffers -> DrawCalls
+```
 
-WebGLRenderer2D Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+Canvas renderer simple aur reference path hai. WebGL renderer batch-first path hai, jahan many objects ko kam draw calls me draw karne ki koshish hoti hai.
 
-## Kab Use Karein
+## Basic Usage
 
-Jab aap Raw2D project me WebGL2 renderer se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+```ts
+import { BasicMaterial, Camera2D, Rect, Scene, WebGLRenderer2D } from "raw2d";
+
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  width: 800,
+  height: 600,
+  backgroundColor: "#10141c"
+});
+
+const scene = new Scene();
+const camera = new Camera2D();
+
+scene.add(new Rect({
+  x: 100,
+  y: 100,
+  width: 120,
+  height: 80,
+  material: new BasicMaterial({ fillColor: "#35c2ff" })
+}));
+
+renderer.render(scene, camera);
+```
+
+## Stats Dekhna
+
+```ts
+renderer.render(scene, camera);
+
+const stats = renderer.getStats();
+
+console.log(stats.objects);
+console.log(stats.drawCalls);
+console.log(stats.batches);
+console.log(stats.textureBinds);
+```
+
+Stats se pata chalta hai ki WebGL batching sach me kaam kar rahi hai ya nahi.
+
+## Sprite Aur Texture
+
+Same texture wale consecutive sprites ek texture batch me aa sakte hain.
+
+```ts
+const sprite = new Sprite({
+  texture,
+  x: 80,
+  y: 60,
+  width: 64,
+  height: 64
+});
+
+scene.add(sprite);
+renderer.render(scene, camera);
+```
+
+Raw2D scene order ko silently reorder nahi karta. Predictable render order performance se zyada important hai.
+
+## Static Render Mode
+
+Static objects baar-baar change nahi hote, to WebGL unke buffers cache kar sakta hai.
+
+```ts
+background.setRenderMode("static");
+
+renderer.render(scene, camera);
+renderer.render(scene, camera);
+
+console.log(renderer.getStats().staticCacheHits);
+```
 
 ## Important Notes
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+- WebGLRenderer2D Canvas ka replacement nahi, performance path hai.
+- Shapes, sprites, text, atlas, static cache, aur buffer reuse gradually improve ho rahe hain.
+- Raw2D ka goal pipeline ko hidden magic nahi banana hai.
+- Debugging ke liye stats public rakhe gaye hain.
 
 ## English Reference
 

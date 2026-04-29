@@ -1,21 +1,66 @@
 # TextureAtlas
 
-Ye TextureAtlas ka Hinglish readme hai. Iska focus atlas frames hai, aur yahan usko simple practical language me samjhaya gaya hai.
+TextureAtlas ek hi image ke andar multiple sprite frames ka map hota hai. Ye game sprites, icons, UI pieces, aur animation frames ke liye useful hai.
 
-## Iska Kaam
+Simple language me: ek badi image, uske andar named rectangles.
 
-TextureAtlas Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+## Create Atlas
 
-## Kab Use Karein
+```ts
+import { Texture, TextureAtlas } from "raw2d";
 
-Jab aap Raw2D project me atlas frames se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+const texture = new Texture({
+  source: imageElement,
+  width: imageElement.naturalWidth,
+  height: imageElement.naturalHeight
+});
 
-## Important Notes
+const atlas = new TextureAtlas({
+  texture,
+  frames: {
+    idle: { x: 0, y: 0, width: 32, height: 32 },
+    run: { x: 32, y: 0, width: 32, height: 32 }
+  }
+});
+```
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+## Sprite Me Frame Use Karna
+
+```ts
+import { Camera2D, Canvas, Scene, Sprite } from "raw2d";
+
+const scene = new Scene();
+const camera = new Camera2D();
+const raw2dCanvas = new Canvas({ canvas: canvasElement });
+
+const sprite = new Sprite({
+  texture: atlas.texture,
+  frame: atlas.getFrame("idle"),
+  x: 120,
+  y: 80
+});
+
+scene.add(sprite);
+raw2dCanvas.render(scene, camera);
+```
+
+## Frame Change
+
+```ts
+sprite.setFrame(atlas.getFrame("run"));
+raw2dCanvas.render(scene, camera);
+```
+
+Frame change karne se new texture nahi banta. Sirf source rectangle change hota hai.
+
+## WebGL Me Kyu Useful Hai
+
+WebGL me texture bind expensive ho sakta hai. Agar sprites same atlas texture use karte hain, to renderer unhe ek texture batch me rakh sakta hai.
+
+```text
+many images -> many texture binds
+one atlas   -> fewer texture binds
+```
 
 ## English Reference
 

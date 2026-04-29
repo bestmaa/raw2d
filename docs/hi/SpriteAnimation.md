@@ -1,21 +1,75 @@
 # Sprite Animation
 
-Ye Sprite Animation ka Hinglish readme hai. Iska focus atlas frame animation hai, aur yahan usko simple practical language me samjhaya gaya hai.
+Sprite animation Raw2D me explicit hai. Engine hidden game loop nahi chalata. Aap `deltaSeconds` dete ho, animator sprite ka frame update karta hai, phir renderer draw karta hai.
 
-## Iska Kaam
+## Animation Clip
 
-Sprite Animation Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+```ts
+import { SpriteAnimationClip } from "raw2d";
 
-## Kab Use Karein
+const idleClip = new SpriteAnimationClip({
+  name: "idle",
+  frames: [
+    atlas.getFrame("idle1"),
+    atlas.getFrame("idle2"),
+    atlas.getFrame("idle3")
+  ],
+  fps: 12,
+  loop: true
+});
+```
 
-Jab aap Raw2D project me atlas frame animation se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+## Animator
+
+```ts
+import { Sprite, SpriteAnimator } from "raw2d";
+
+const sprite = new Sprite({
+  texture: atlas.texture,
+  frame: atlas.getFrame("idle1"),
+  x: 120,
+  y: 100
+});
+
+const animator = new SpriteAnimator({
+  sprite,
+  clip: idleClip
+});
+```
+
+## Manual Update Loop
+
+```ts
+let lastTime = performance.now();
+
+function animate(time: number): void {
+  const deltaSeconds = (time - lastTime) / 1000;
+  lastTime = time;
+
+  animator.update(deltaSeconds);
+  raw2dCanvas.render(scene, camera);
+
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+```
+
+## Playback Control
+
+```ts
+animator.pause();
+animator.play();
+animator.stop();
+animator.reset();
+```
 
 ## Important Notes
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+- Clip frames normally `TextureAtlas` se aate hain.
+- Animator sirf `sprite.frame` update karta hai.
+- Canvas aur WebGL dono same Sprite data ko render karte hain.
+- Timing app ke control me rehti hai.
 
 ## English Reference
 

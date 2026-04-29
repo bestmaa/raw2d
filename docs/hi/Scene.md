@@ -1,21 +1,55 @@
 # Scene
 
-Ye Scene ka Hinglish readme hai. Iska focus objects ko scene me rakhna hai, aur yahan usko simple practical language me samjhaya gaya hai.
+Scene Raw2D ka object container hai. Isme aap `Rect`, `Circle`, `Line`, `Sprite`, `Text2D`, group, ya future objects add karte ho.
 
-## Iska Kaam
+Scene draw nahi karta. Scene sirf batata hai ki render ke waqt kaun se objects available hain.
 
-Scene Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+## Basic Usage
+
+```ts
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
+
+const scene = new Scene();
+const camera = new Camera2D();
+const raw2dCanvas = new Canvas({ canvas: canvasElement });
+
+const rect = new Rect({
+  x: 100,
+  y: 80,
+  width: 160,
+  height: 90,
+  material: new BasicMaterial({ fillColor: "#35c2ff" })
+});
+
+scene.add(rect);
+raw2dCanvas.render(scene, camera);
+```
+
+## Add Aur Remove
+
+```ts
+scene.add(rect);
+scene.remove(rect);
+scene.clear();
+```
+
+`scene.clear()` scene ke objects hata deta hai. Canvas ya camera delete nahi hota.
+
+## Scene Ka Role
+
+Raw2D ka normal render flow ye hai:
+
+```text
+Scene -> Renderer -> Canvas/WebGL output
+```
+
+Scene object order preserve karta hai. Isse draw order predictable rehta hai.
 
 ## Kab Use Karein
 
-Jab aap Raw2D project me objects ko scene me rakhna se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
-
-## Important Notes
-
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+- jab ek hi canvas me multiple objects draw karne hon
+- jab object add/remove runtime me karna ho
+- jab future me picking, culling, batching, ya editor tools chahiye hon
 
 ## English Reference
 

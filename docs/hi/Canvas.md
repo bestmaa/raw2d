@@ -1,21 +1,76 @@
 # Canvas
 
-Ye Canvas ka Hinglish readme hai. Iska focus Canvas renderer initialize karna hai, aur yahan usko simple practical language me samjhaya gaya hai.
+Canvas Raw2D ka stable reference renderer hai. Iska kaam browser ke real `HTMLCanvasElement` ko manage karna, size set karna, clear karna, aur `Scene + Camera2D` ko draw karna hai.
 
-## Iska Kaam
+Raw2D me object khud draw nahi karta. `Rect`, `Circle`, `Line`, `Sprite`, ya `Text2D` sirf apna data rakhte hain. Drawing renderer karta hai.
 
-Canvas Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+## Basic Setup
 
-## Kab Use Karein
+```html
+<canvas id="raw2d-canvas"></canvas>
+```
 
-Jab aap Raw2D project me Canvas renderer initialize karna se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+```ts
+import { Camera2D, Canvas, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const raw2dCanvas = new Canvas({
+  canvas: canvasElement,
+  width: 800,
+  height: 600,
+  backgroundColor: "#10141c"
+});
+
+const scene = new Scene();
+const camera = new Camera2D();
+
+raw2dCanvas.render(scene, camera);
+```
+
+## Render Ka Flow
+
+`render(scene, camera)` pehle canvas clear karta hai, phir scene ke visible objects ko camera ke hisab se draw karta hai.
+
+```ts
+raw2dCanvas.render(scene, camera);
+```
+
+Har frame me render call kar sakte ho:
+
+```ts
+function animate(): void {
+  raw2dCanvas.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+
+animate();
+```
+
+## Resize
+
+Fullscreen ya responsive editor ke liye canvas ka logical size update karo.
+
+```ts
+function resize(): void {
+  raw2dCanvas.setSize(window.innerWidth, window.innerHeight);
+  raw2dCanvas.render(scene, camera);
+}
+
+window.addEventListener("resize", resize);
+resize();
+```
 
 ## Important Notes
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+- Canvas path sabse pehle complete hona chahiye, kyunki ye simple aur debug-friendly renderer hai.
+- WebGL fast path hai, lekin Canvas behavior ko reference maana jata hai.
+- Canvas object ke andar rendering pipeline hide nahi honi chahiye.
+- Object data aur renderer drawing logic separate rehna chahiye.
 
 ## English Reference
 

@@ -1,21 +1,49 @@
 # Circle
 
-Ye Circle ka Hinglish readme hai. Iska focus circle primitive hai, aur yahan usko simple practical language me samjhaya gaya hai.
+Circle ek radius-based 2D object hai. Iska center object transform se control hota hai aur size `radius` se.
 
-## Iska Kaam
+Circle bhi Rect ki tarah sirf data rakhta hai. Renderer usko draw karta hai.
 
-Circle Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+## Basic Usage
 
-## Kab Use Karein
+```ts
+import { BasicMaterial, Camera2D, Canvas, Circle, Scene } from "raw2d";
 
-Jab aap Raw2D project me circle primitive se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+const scene = new Scene();
+const camera = new Camera2D();
+const raw2dCanvas = new Canvas({ canvas: canvasElement });
 
-## Important Notes
+const circle = new Circle({
+  x: 220,
+  y: 140,
+  radius: 48,
+  material: new BasicMaterial({
+    fillColor: "#35c2ff",
+    strokeColor: "#facc15",
+    lineWidth: 3
+  })
+});
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+scene.add(circle);
+raw2dCanvas.render(scene, camera);
+```
+
+## Update Circle
+
+```ts
+circle.setRadius(72);
+circle.x += 20;
+raw2dCanvas.render(scene, camera);
+```
+
+## Important Parameters
+
+- `x`, `y`: world position
+- `radius`: circle size
+- `material.fillColor`: andar ka color
+- `material.strokeColor`: outline color
+- `material.lineWidth`: outline thickness
+- `visible`: false karne par render skip hota hai
 
 ## English Reference
 

@@ -1,21 +1,50 @@
 # Line
 
-Ye Line ka Hinglish readme hai. Iska focus line primitive hai, aur yahan usko simple practical language me samjhaya gaya hai.
+Line ek stroke-based object hai. Isme start point aur end point local coordinates me hote hain, aur object ka `x`, `y`, rotation, scale world transform deta hai.
 
-## Iska Kaam
+Line ke liye `strokeColor` aur `lineWidth` important hote hain. `fillColor` ka use line drawing me nahi hota.
 
-Line Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+## Basic Usage
 
-## Kab Use Karein
+```ts
+import { BasicMaterial, Camera2D, Canvas, Line, Scene } from "raw2d";
 
-Jab aap Raw2D project me line primitive se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+const scene = new Scene();
+const camera = new Camera2D();
+const raw2dCanvas = new Canvas({ canvas: canvasElement });
 
-## Important Notes
+const line = new Line({
+  x: 100,
+  y: 120,
+  startX: 0,
+  startY: 0,
+  endX: 360,
+  endY: 7,
+  material: new BasicMaterial({
+    strokeColor: "#facc15",
+    lineWidth: 6
+  })
+});
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+scene.add(line);
+raw2dCanvas.render(scene, camera);
+```
+
+## Update Points
+
+```ts
+line.setPoints(0, 0, 260, 80);
+raw2dCanvas.render(scene, camera);
+```
+
+## Important Parameters
+
+- `x`, `y`: line object ki world position
+- `startX`, `startY`: local start point
+- `endX`, `endY`: local end point
+- `material.strokeColor`: line color
+- `material.lineWidth`: line thickness
+- `pickTolerance`: hit testing ke waqt line ko select karna easy banata hai
 
 ## English Reference
 
