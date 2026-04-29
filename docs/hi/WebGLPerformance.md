@@ -81,6 +81,7 @@ console.log(stats.uploadedBytes);
 ## Practical Notes
 
 - Packed atlas use karne se `textureBinds` kam hone chahiye.
+- Safe sprite layers me `sortWebGLSpritesForBatching()` se texture order group kar sakte hain.
 - Static objects repeat render me `staticCacheHits` badhate hain.
 - Moving objects ko `dynamic` rakhein.
 - Browser timing approximate hota hai; same page me relative comparison ke liye use karein.

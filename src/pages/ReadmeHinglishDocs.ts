@@ -19,6 +19,7 @@ import renderPipeline from "../../docs/hi/RenderPipeline.md?raw";
 import webglAvailability from "../../docs/hi/WebGLAvailability.md?raw";
 import webglRenderer from "../../docs/hi/WebGLRenderer2D.md?raw";
 import webglPerformance from "../../docs/hi/WebGLPerformance.md?raw";
+import webglSpriteBatching from "../../docs/hi/WebGLSpriteBatching.md?raw";
 import webglTextureLifecycle from "../../docs/hi/WebGLTextureLifecycle.md?raw";
 import webglContextLifecycle from "../../docs/hi/WebGLContextLifecycle.md?raw";
 import webglFloatBuffer from "../../docs/hi/WebGLFloatBuffer.md?raw";
@@ -70,6 +71,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "webgl-availability", label: "WebGL Availability", filename: "hi/WebGLAvailability.md", content: webglAvailability },
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "hi/WebGLRenderer2D.md", content: webglRenderer },
   { id: "webgl-performance", label: "WebGL Performance", filename: "hi/WebGLPerformance.md", content: webglPerformance },
+  { id: "webgl-sprite-batching", label: "WebGL Sprite Batching", filename: "hi/WebGLSpriteBatching.md", content: webglSpriteBatching },
   { id: "webgl-texture-lifecycle", label: "WebGL Texture Lifecycle", filename: "hi/WebGLTextureLifecycle.md", content: webglTextureLifecycle },
   { id: "webgl-context-lifecycle", label: "WebGL Context Lifecycle", filename: "hi/WebGLContextLifecycle.md", content: webglContextLifecycle },
   { id: "webgl-float-buffer", label: "WebGLFloatBuffer", filename: "hi/WebGLFloatBuffer.md", content: webglFloatBuffer },

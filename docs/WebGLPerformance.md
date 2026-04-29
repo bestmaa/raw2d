@@ -164,6 +164,20 @@ console.log(renderer.getStats().textureBinds);
 // 2
 ```
 
+## Batch-Friendly Sprite Order
+
+Raw2D does not reorder the scene automatically. For safe sprite layers, compare and sort explicitly:
+
+```ts
+const before = estimateWebGLSpriteTextureBinds({ sprites });
+const sortedSprites = sortWebGLSpritesForBatching({ sprites });
+const after = estimateWebGLSpriteTextureBinds({ sprites: sortedSprites });
+
+console.log({ before, after });
+```
+
+Use this for tile maps, particles, or background layers where reordering does not break visual stacking. For overlapping gameplay sprites, keep explicit `zIndex` and scene order.
+
 ## Static And Dynamic Split
 
 Use static mode for stable objects:

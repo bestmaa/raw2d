@@ -49,6 +49,20 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textureBinds);`
       },
       {
+        title: "Batch-Friendly Sprite Order",
+        body: "Raw2D does not reorder the scene automatically. For safe sprite layers, sort by zIndex, renderMode, and texture key before adding sprites to the scene.",
+        liveDemoId: "webgl-performance",
+        code: `const before = estimateWebGLSpriteTextureBinds({ sprites });
+const sortedSprites = sortWebGLSpritesForBatching({ sprites });
+const after = estimateWebGLSpriteTextureBinds({ sprites: sortedSprites });
+
+console.log({ before, after });
+
+for (const sprite of sortedSprites) {
+  scene.add(sprite);
+}`
+      },
+      {
         title: "Read The Numbers",
         body: "objects is accepted render-list items after visibility, filters, and culling. renderList.total is the scene candidate count. culled shows camera-culling wins.",
         liveDemoId: "webgl-performance",
