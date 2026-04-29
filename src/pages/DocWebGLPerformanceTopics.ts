@@ -38,6 +38,24 @@ scene.add(new Sprite({
 }));`
       },
       {
+        title: "Asset Pipeline To Stats",
+        body: "Load files with AssetGroupLoader, pack them into one atlas, create Sprites from frame names, then confirm WebGL texture binds from renderer stats.",
+        liveDemoId: "webgl-performance",
+        code: `const assets = await new AssetGroupLoader().load({
+  idle: "/sprites/idle.png",
+  run: "/sprites/run.png"
+}, {
+  packAtlas: { atlasName: "tiles", padding: 2, edgeBleed: 1 }
+});
+
+const atlas = assets.getAtlas("tiles");
+scene.add(createSpriteFromAtlas({ atlas, frame: "idle" }));
+scene.add(createSpriteFromAtlas({ atlas, frame: "run", x: 32 }));
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textureBinds);`
+      },
+      {
         title: "Separate Texture Mode",
         body: "Separate texture mode intentionally alternates texture objects. This makes textureBinds rise so the atlas benefit is visible.",
         liveDemoId: "webgl-performance",

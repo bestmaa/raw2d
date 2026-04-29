@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Scene } from "raw2d-core";
-import { Sprite, TextureAtlasPacker } from "raw2d-sprite";
+import { AssetGroupLoader, Sprite, TextureAtlasPacker, createSpriteFromAtlas } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import { WebGLRenderer2D } from "raw2d-webgl";
 import {
@@ -52,6 +52,41 @@ test("packed atlas reduces WebGL texture binds versus separate textures", () => 
   assert.equal(packedStats.textures, 1);
   assert.equal(packedStats.textureBinds, 1);
   assert.equal(packedStats.textureUploads, 1);
+});
+
+test("asset group packed atlas feeds WebGL sprite batching stats", async () => {
+  const loader = new AssetGroupLoader({
+    textureLoader: {
+      async load(url) {
+        return url.includes("run") ? createTexture(20, 10) : createTexture(16, 16);
+      }
+    }
+  });
+  const assets = await loader.load({
+    idle: "/sprites/idle.png",
+    run: "/sprites/run.png"
+  }, {
+    packAtlas: {
+      atlasName: "tiles",
+      padding: 2,
+      createCanvas
+    }
+  });
+  const atlas = assets.getAtlas("tiles");
+  const separateStats = renderSprites([
+    new Sprite({ texture: assets.getTexture("idle"), x: 10, y: 10, width: 16, height: 16 }),
+    new Sprite({ texture: assets.getTexture("run"), x: 32, y: 10, width: 20, height: 10 })
+  ]);
+  const packedStats = renderSprites([
+    createSpriteFromAtlas({ atlas, frame: "idle", x: 10, y: 10 }),
+    createSpriteFromAtlas({ atlas, frame: "run", x: 32, y: 10 })
+  ]);
+
+  assert.equal(separateStats.textureBinds, 2);
+  assert.equal(separateStats.textureUploads, 2);
+  assert.equal(packedStats.textureBinds, 1);
+  assert.equal(packedStats.textureUploads, 1);
+  assert.equal(packedStats.spriteTextureBinds, 1);
 });
 
 test("WebGLRenderer2D reports sprite batch reduction diagnostics", () => {

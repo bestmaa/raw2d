@@ -35,6 +35,29 @@ const stone = new Sprite({ texture: atlas.texture, frame: atlas.getFrame("stone"
 
 Both sprites now share one `Texture`, so consecutive atlas sprites can stay in one texture batch.
 
+## Asset Pipeline To Stats
+
+Use `AssetGroupLoader` when files should load first, then become a packed atlas:
+
+```ts
+const assets = await new AssetGroupLoader().load({
+  grass: "/sprites/grass.png",
+  stone: "/sprites/stone.png"
+}, {
+  packAtlas: { atlasName: "tiles", padding: 2, edgeBleed: 1 }
+});
+
+const atlas = assets.getAtlas("tiles");
+scene.add(createSpriteFromAtlas({ atlas, frame: "grass", x: 0, y: 0 }));
+scene.add(createSpriteFromAtlas({ atlas, frame: "stone", x: 32, y: 0 }));
+
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textureBinds);
+// 1 when only this packed atlas texture is used
+```
+
+This keeps the pipeline explicit: load files, pack atlas, create Sprites, render, then read stats.
+
 ## Sort A Safe Sprite Layer
 
 Use `sortWebGLSpritesForBatching()` when the layer can be reordered:
