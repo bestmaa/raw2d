@@ -40,9 +40,10 @@ export function formatWebGLPerformanceSummary(
   const mode = state.running ? "running" : "paused";
   const culling = state.culling ? "on" : "off";
   const cache = state.staticMode ? "on" : "off";
+  const sorting = state.spriteSorting ? "texture" : "none";
   const staticCount = state.staticMode ? scene.staticCount : 0;
   const dynamicCount = state.staticMode ? scene.dynamicCount : scene.staticCount + scene.dynamicCount;
-  return `static: ${staticCount} | dynamic: ${dynamicCount} | textures: ${state.textureMode} | culling: ${culling} | static cache: ${cache} | loop: ${mode}`;
+  return `static: ${staticCount} | dynamic: ${dynamicCount} | textures: ${state.textureMode} | sprite sorting: ${sorting} | culling: ${culling} | static cache: ${cache} | loop: ${mode}`;
 }
 
 export function createWebGLPerformanceCode(state: WebGLPerformanceState): string {
@@ -51,7 +52,10 @@ tileSprite.setRenderMode("static");
 movingObject.setRenderMode("dynamic");
 
 const start = performance.now();
-webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera, {
+  culling: ${state.culling},
+  spriteSorting: "${state.spriteSorting ? "texture" : "none"}"
+});
 const frameMs = performance.now() - start;
 
 console.log({
@@ -63,6 +67,7 @@ console.log({
 // objects: ${state.objectCount}
 // texture mode: ${state.textureMode}
 // culling: ${state.culling ? "on" : "off"}
+// sprite sorting: ${state.spriteSorting ? "texture" : "none"}
 // static cache: ${state.staticMode ? "on" : "off"}`;
 }
 

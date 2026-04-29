@@ -1,5 +1,6 @@
 import { Camera2D, RenderPipeline, getRendererSupport, type Object2D, type RendererSupportProfile, type RenderList, type Scene } from "raw2d-core";
 import { createWebGLRenderRuns } from "./createWebGLRenderRuns.js";
+import { applyWebGLSpriteSorting } from "./applyWebGLSpriteSorting.js";
 import { createWebGLShapeBatch } from "./createWebGLShapeBatch.js";
 import { createWebGLSpriteBatch } from "./createWebGLSpriteBatch.js";
 import { createMutableWebGLRenderStats } from "./createMutableWebGLRenderStats.js";
@@ -51,9 +52,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.height = options.height ?? this.canvas.clientHeight;
     this.backgroundColor = options.backgroundColor ?? "#000000";
     this.resourceOptions = options;
-
     const gl = this.canvas.getContext("webgl2");
-
     if (!gl) {
       throw new Error("WebGL2 context is not available.");
     }
@@ -83,7 +82,6 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 
   public setBackgroundColor(color: string): void { this.backgroundColor = color; }
-
   public clearTextureCache(): void { this.resources.clearTextureCache(); }
 
   public dispose(): void {
@@ -110,7 +108,11 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
     const renderList = options.renderList ?? this.createRenderList(scene, camera, options);
     const items = renderList.getFlatItems();
-    const runs = createWebGLRenderRuns(items, getWebGLRenderRunKind);
+    const runs = applyWebGLSpriteSorting({
+      runs: createWebGLRenderRuns(items, getWebGLRenderRunKind),
+      mode: options.spriteSorting,
+      getTextureKey: (texture) => this.resources.textureCache.getKey(texture)
+    });
     const stats = createMutableWebGLRenderStats(renderList.getStats());
 
     this.clear();

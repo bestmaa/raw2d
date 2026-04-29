@@ -27,6 +27,10 @@ export function createWebGLPerformanceControls(
     createToggleControl("Static cache", state.staticMode, (checked) => {
       state.staticMode = checked;
       onChange();
+    }),
+    createToggleControl("Sprite sorting", state.spriteSorting, (checked) => {
+      state.spriteSorting = checked;
+      onChange();
     })
   );
   return controls;

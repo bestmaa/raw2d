@@ -8,6 +8,7 @@ export interface WebGLPerformanceState {
   running: boolean;
   culling: boolean;
   staticMode: boolean;
+  spriteSorting: boolean;
 }
 
 export interface WebGLPerformanceAssets {

@@ -1,9 +1,16 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { BasicMaterial, Camera2D, Scene } from "raw2d-core";
-import { Sprite, Texture, TextureAtlasPacker } from "raw2d-sprite";
+import { Sprite, TextureAtlasPacker } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import { WebGLRenderer2D } from "raw2d-webgl";
+import {
+  createCanvas,
+  createFakeCanvas,
+  createFakeWebGL2Context,
+  createTexture,
+  renderSprites
+} from "./texture-stats-utils.mjs";
 
 test("WebGLRenderer2D reports texture upload and cache hit stats", () => {
   const gl = createFakeWebGL2Context();
@@ -61,6 +68,24 @@ test("WebGLRenderer2D reports sprite batch reduction diagnostics", () => {
   assert.equal(stats.spriteTextureBinds, 3);
   assert.equal(stats.sortedSpriteTextureBinds, 2);
   assert.equal(stats.spriteTextureBindReduction, 1);
+});
+
+test("WebGLRenderer2D can explicitly sort safe Sprite runs by texture", () => {
+  const textureA = createTexture(16, 16);
+  const textureB = createTexture(16, 16);
+  const sprites = [
+    new Sprite({ texture: textureA, x: 10, y: 10, width: 16, height: 16 }),
+    new Sprite({ texture: textureB, x: 32, y: 10, width: 16, height: 16 }),
+    new Sprite({ texture: textureA, x: 54, y: 10, width: 16, height: 16 })
+  ];
+  const unsortedStats = renderSprites(sprites);
+  const sortedStats = renderSprites(sprites, { spriteSorting: "texture" });
+
+  assert.equal(unsortedStats.spriteTextureBinds, 3);
+  assert.equal(unsortedStats.drawCalls, 3);
+  assert.equal(sortedStats.spriteTextureBinds, 2);
+  assert.equal(sortedStats.drawCalls, 2);
+  assert.equal(sortedStats.spriteTextureBindReduction, 0);
 });
 
 test("WebGLRenderer2D can clear texture caches", () => {
@@ -124,139 +149,3 @@ test("WebGLRenderer2D dispose releases WebGL resources", () => {
   assert.equal(gl.calls.includes("deleteTexture"), true);
   assert.equal(gl.calls.filter((call) => call === "deleteProgram").length, 2);
 });
-
-function renderSprites(sprites) {
-  const renderer = new WebGLRenderer2D({
-    canvas: createFakeCanvas(createFakeWebGL2Context()),
-    width: 100,
-    height: 100
-  });
-  const scene = new Scene();
-
-  for (const sprite of sprites) {
-    scene.add(sprite);
-  }
-
-  renderer.render(scene, new Camera2D());
-  return renderer.getStats();
-}
-
-function createTexture(width, height) {
-  return new Texture({ source: { width, height }, width, height });
-}
-
-function createCanvas(width, height) {
-  return {
-    width,
-    height,
-    getContext(type) {
-      return type === "2d" ? createFake2DContext() : null;
-    }
-  };
-}
-
-function createFake2DContext() {
-  return {
-    font: "",
-    textAlign: "start",
-    textBaseline: "alphabetic",
-    fillStyle: "#ffffff",
-    clearRect() {},
-    drawImage() {},
-    fillText() {},
-    measureText(text) {
-      const width = text.length * 10;
-      return {
-        width,
-        actualBoundingBoxLeft: 0,
-        actualBoundingBoxRight: width,
-        actualBoundingBoxAscent: 16,
-        actualBoundingBoxDescent: 4
-      };
-    }
-  };
-}
-
-function createFakeCanvas(gl) {
-  return {
-    clientWidth: 100,
-    clientHeight: 100,
-    width: 0,
-    height: 0,
-    getContext(type) {
-      return type === "webgl2" ? gl : null;
-    }
-  };
-}
-
-function createFakeWebGL2Context() {
-  return {
-    ARRAY_BUFFER: 34962,
-    COLOR_BUFFER_BIT: 16384,
-    COMPILE_STATUS: 35713,
-    DYNAMIC_DRAW: 35048,
-    STATIC_DRAW: 35044,
-    FLOAT: 5126,
-    FRAGMENT_SHADER: 35632,
-    BLEND: 3042,
-    CLAMP_TO_EDGE: 33071,
-    LINK_STATUS: 35714,
-    LINEAR: 9729,
-    ONE_MINUS_SRC_ALPHA: 771,
-    RGBA: 6408,
-    SRC_ALPHA: 770,
-    TEXTURE0: 33984,
-    TEXTURE_2D: 3553,
-    TEXTURE_MAG_FILTER: 10240,
-    TEXTURE_MIN_FILTER: 10241,
-    TEXTURE_WRAP_S: 10242,
-    TEXTURE_WRAP_T: 10243,
-    TRIANGLES: 4,
-    UNSIGNED_BYTE: 5121,
-    VERTEX_SHADER: 35633,
-    calls: [],
-    activeTexture() {},
-    attachShader() {},
-    bindBuffer() {},
-    bindTexture() {},
-    blendFunc() {},
-    bufferData() {},
-    bufferSubData() {},
-    clear() {},
-    clearColor() {},
-    compileShader() {},
-    createBuffer() { return {}; },
-    createProgram() { return {}; },
-    createShader() { return {}; },
-    createTexture() { return {}; },
-    deleteBuffer() {
-      this.calls.push("deleteBuffer");
-    },
-    deleteProgram() {
-      this.calls.push("deleteProgram");
-    },
-    deleteShader() {},
-    deleteTexture() {
-      this.calls.push("deleteTexture");
-    },
-    drawArrays() {},
-    enable() {},
-    enableVertexAttribArray() {},
-    getAttribLocation(_program, name) {
-      return { a_position: 0, a_color: 1, a_uv: 2, a_alpha: 3 }[name] ?? -1;
-    },
-    getProgramInfoLog() { return ""; },
-    getProgramParameter() { return true; },
-    getShaderInfoLog() { return ""; },
-    getShaderParameter() { return true; },
-    getUniformLocation() { return {}; },
-    linkProgram() {},
-    shaderSource() {},
-    texImage2D() {},
-    texParameteri() {},
-    uniform1i() {},
-    useProgram() {},
-    vertexAttribPointer() {},
-    viewport() {}
-  };
-}

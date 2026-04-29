@@ -89,6 +89,8 @@ console.log(stats.uploadedBytes);
 - Safe sprite layers me `sortWebGLSpritesForBatching()` se texture order group kar sakte hain.
 - `analyzeWebGLSpriteBatching()` se sort karne se pehle potential bind reduction dekh sakte hain.
 - Real render ke baad `renderer.getStats().spriteTextureBindReduction` se same signal milta hai.
+- Safe layer ho to `renderer.render(scene, camera, { spriteSorting: "texture" })` use karke renderer ko explicit sorting bol sakte hain.
+- Default `"none"` hai, kyunki overlapping sprites me order badalne se visual output badal sakta hai.
 - Static objects repeat render me `staticCacheHits` badhate hain.
 - Moving objects ko `dynamic` rakhein.
 - Browser timing approximate hota hai; same page me relative comparison ke liye use karein.

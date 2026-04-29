@@ -26,7 +26,8 @@ export function createWebGLPerformanceDemo(): HTMLElement {
     textureMode: "packed",
     running: true,
     culling: true,
-    staticMode: true
+    staticMode: true,
+    spriteSorting: false
   };
   const runtime = createRuntime();
   const section = document.createElement("article");
@@ -176,6 +177,10 @@ function cancelFrame(runtime: WebGLPerformanceRuntime): void {
 
 function renderDemo(options: WebGLPerformanceRenderOptions): void {
   const prepared = createWebGLPerformanceScene(options.state, options.assets, options.runtime.timeSeconds);
+  const renderOptions = {
+    culling: options.state.culling,
+    spriteSorting: options.state.spriteSorting ? "texture" : "none"
+  } as const;
   const canvasStart = performance.now();
   options.canvasRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
   const canvasTiming = options.runtime.canvasTimer.record(performance.now() - canvasStart);
@@ -189,9 +194,9 @@ function renderDemo(options: WebGLPerformanceRenderOptions): void {
     return;
   }
 
-  options.webglRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
+  options.webglRenderer.render(prepared.scene, options.camera, renderOptions);
   const webglStart = performance.now();
-  options.webglRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
+  options.webglRenderer.render(prepared.scene, options.camera, renderOptions);
   const webglTiming = options.runtime.webglTimer.record(performance.now() - webglStart);
   options.webglStats.textContent = formatWebGLStats(options.webglRenderer, webglTiming);
   options.spriteStats.textContent = formatWebGLSpriteDiagnostics(options.webglRenderer);

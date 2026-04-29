@@ -24,6 +24,8 @@ export * from "./WebGLShapePathFillSupport.type.js";
 export * from "./WebGLShapePathFillFallback.type.js";
 export * from "./WebGLSpriteBatchingStrategy.js";
 export * from "./WebGLSpriteBatchingStrategy.type.js";
+export * from "./applyWebGLSpriteSorting.js";
+export * from "./applyWebGLSpriteSorting.type.js";
 export * from "./WebGLTextureCache.js";
 export * from "./WebGLTextureCacheResult.type.js";
 export * from "./WebGLTextTextureCache.js";

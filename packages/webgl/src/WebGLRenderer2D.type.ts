@@ -2,6 +2,8 @@ import type { Object2D, Renderer2DLike, Renderer2DRenderOptions, Renderer2DSize 
 import type { WebGLShapePathFillFallbackMode, WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 
+export type WebGLSpriteSortingMode = "none" | "texture";
+
 export interface WebGLRenderer2DOptions {
   readonly canvas: HTMLCanvasElement;
   readonly width?: number;
@@ -18,7 +20,9 @@ export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRende
   isContextLost(): boolean;
 }
 
-export interface WebGLRenderer2DRenderOptions extends Renderer2DRenderOptions<Object2D> {}
+export interface WebGLRenderer2DRenderOptions extends Renderer2DRenderOptions<Object2D> {
+  readonly spriteSorting?: WebGLSpriteSortingMode;
+}
 
 export interface WebGLRenderer2DSize extends Renderer2DSize {
   readonly width: number;

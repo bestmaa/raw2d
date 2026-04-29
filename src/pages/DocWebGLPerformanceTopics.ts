@@ -87,6 +87,17 @@ console.log(stats.spriteTextureBindReduction);
 console.log(stats.skippedSpriteTextures);`
       },
       {
+        title: "Enable Safe Sprite Sorting",
+        body: "Use spriteSorting only on layers where reordering by texture cannot break visual stacking. The default is none so Raw2D keeps scene order predictable.",
+        liveDemoId: "webgl-performance",
+        code: `webglRenderer.render(scene, camera, {
+  culling: true,
+  spriteSorting: "texture"
+});
+
+console.log(webglRenderer.getStats().spriteTextureBinds);`
+      },
+      {
         title: "Read The Numbers",
         body: "objects is accepted render-list items after visibility, filters, and culling. renderList.total is the scene candidate count. culled shows camera-culling wins.",
         liveDemoId: "webgl-performance",

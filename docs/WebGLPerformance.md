@@ -206,6 +206,17 @@ console.log(stats.spriteTextureBindReduction);
 console.log(stats.skippedSpriteTextures);
 ```
 
+When the layer is safe to reorder, enable explicit texture sorting:
+
+```ts
+renderer.render(scene, camera, {
+  culling: true,
+  spriteSorting: "texture"
+});
+```
+
+The default is `"none"` because texture sorting can change visual stacking for overlapping sprites.
+
 ## Static And Dynamic Split
 
 Use static mode for stable objects:
