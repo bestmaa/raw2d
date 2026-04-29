@@ -1,8 +1,6 @@
 import "./style.css";
 import "./docs.css";
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
-import { renderDocPage } from "./pages/DocPage";
-import { renderReadmePage } from "./pages/ReadmePage";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 
@@ -10,12 +8,22 @@ if (!app) {
   throw new Error("App root not found.");
 }
 
-if (window.location.pathname === "/doc") {
-  app.replaceChildren(renderDocPage());
-} else if (window.location.pathname === "/readme") {
-  app.replaceChildren(renderReadmePage());
-} else {
-  renderCanvasPreview(app);
+void renderRoute(app);
+
+async function renderRoute(root: HTMLElement): Promise<void> {
+  if (window.location.pathname === "/doc") {
+    const { renderDocPage } = await import("./pages/DocPage");
+    root.replaceChildren(renderDocPage());
+    return;
+  }
+
+  if (window.location.pathname === "/readme") {
+    const { renderReadmePage } = await import("./pages/ReadmePage");
+    root.replaceChildren(renderReadmePage());
+    return;
+  }
+
+  renderCanvasPreview(root);
 }
 
 function renderCanvasPreview(root: HTMLElement): void {
