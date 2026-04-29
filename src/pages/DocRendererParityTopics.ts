@@ -17,6 +17,18 @@ const matrix = getRendererSupportMatrix();
 console.table(matrix);`
       },
       {
+        title: "Current Checklist",
+        body: "Canvas is the correctness baseline. WebGL is mostly aligned now; the visible partial areas are ShapePath complex fills and large dynamic Text2D workloads.",
+        code: `for (const entry of getRendererSupportMatrix()) {
+  console.log({
+    object: entry.kind,
+    canvas: entry.canvas,
+    webgl: entry.webgl,
+    priority: entry.priority ?? "done"
+  });
+}`
+      },
+      {
         title: "Support Levels",
         body: "supported means the renderer should draw it normally. partial means it works with a known limitation. unsupported means the renderer intentionally skips it for now.",
         code: `for (const entry of getRendererSupportMatrix()) {
@@ -53,6 +65,20 @@ console.log(support.notes.ShapePath);`
 
 console.log(pathSupport?.webgl);
 console.log(pathSupport?.note);`
+      },
+      {
+        title: "Missing Support Plan",
+        body: "The next WebGL parity work should stay ordered: complex ShapePath fallback first, stronger Text2D cache second, stroke polish third, then performance proof updates.",
+        code: `const planned = getRendererSupportMatrix()
+  .filter((entry) => entry.webgl === "partial" || entry.webgl === "unsupported")
+  .map((entry) => ({
+    kind: entry.kind,
+    priority: entry.priority,
+    limitation: entry.limitation,
+    nextStep: entry.nextStep
+  }));
+
+console.table(planned);`
       }
     ]
   }

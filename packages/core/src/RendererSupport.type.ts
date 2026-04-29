@@ -20,6 +20,9 @@ export interface RendererSupportEntry {
   readonly canvas: RendererSupportLevel;
   readonly webgl: RendererSupportLevel;
   readonly note: string;
+  readonly limitation?: string;
+  readonly nextStep?: string;
+  readonly priority?: "done" | "high" | "medium" | "low";
 }
 
 export type RendererSupportObjectMap = Readonly<Record<RendererSupportObjectKind, RendererSupportLevel>>;

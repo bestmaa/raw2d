@@ -6,6 +6,22 @@ Canvas is still the complete reference renderer. WebGL is batch-first and grows 
 
 ## Support Matrix
 
+Current checklist:
+
+| Object | Canvas | WebGL | Priority | Note |
+| --- | --- | --- | --- | --- |
+| Rect | supported | supported | done | Filled shape geometry is batched. |
+| Circle | supported | supported | done | WebGL uses triangle approximation. |
+| Ellipse | supported | supported | done | WebGL uses triangle approximation. |
+| Arc | supported | supported | done | Open arcs become stroke geometry; closed arcs become fan geometry. |
+| Line | supported | supported | done | WebGL writes stroked line geometry. |
+| Polyline | supported | supported | done | Segments are expanded into stroke geometry. |
+| Polygon | supported | supported | done | Simple polygons are triangulated with ear clipping. |
+| ShapePath | supported | partial | high | Strokes and simple closed fills work; complex fills are skipped. |
+| Text2D | supported | partial | medium | Text is rasterized to texture; glyph atlas is not built yet. |
+| Sprite | supported | supported | done | Consecutive same-texture sprites can batch. |
+| Group2D | supported | supported | done | Groups are flattened by `RenderPipeline`. |
+
 ```ts
 import { getRendererSupportMatrix } from "raw2d";
 
@@ -20,6 +36,9 @@ Each row has:
 - `canvas`: Canvas support level
 - `webgl`: WebGL support level
 - `note`: short implementation detail
+- `limitation`: optional known limitation for partial support
+- `nextStep`: optional planned implementation direction
+- `priority`: `done`, `high`, `medium`, or `low`
 
 Support levels are:
 
@@ -67,6 +86,15 @@ console.log(webglReady);
 ```
 
 WebGL currently focuses on batched shapes, simple ShapePath fill/stroke, sprites, atlas textures, and cached static runs. Canvas remains the fallback for exact path behavior. WebGL reports skipped complex ShapePath fills through `shapePathUnsupportedFills` instead of drawing them incorrectly.
+
+## Missing Support Plan
+
+1. ShapePath complex fill fallback: keep current simple fill path, then add a clear fallback for holes, multiple subpaths, and self-intersections.
+2. Text2D cache maturity: keep the current canvas-texture cache, then add glyph atlas or stronger pooling for large dynamic text scenes.
+3. Stroke polish: improve joins, caps, and curve sampling controls after the two partial WebGL areas are stable.
+4. Performance proof: keep Canvas/WebGL comparison demos and stats updated as each WebGL feature lands.
+
+Canvas remains the correctness baseline. WebGL should only draw a feature when the output is predictable; otherwise it should skip, warn, or fallback explicitly.
 
 ## Why This Exists
 
