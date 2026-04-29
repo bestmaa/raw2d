@@ -13,3 +13,12 @@ export interface DocTopic {
   readonly description: string;
   readonly sections: readonly DocSection[];
 }
+
+export type DocLanguage = "en" | "hi";
+
+export interface DocGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly hiLabel: string;
+  readonly topics: readonly DocTopic[];
+}
