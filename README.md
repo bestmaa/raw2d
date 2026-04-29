@@ -207,6 +207,8 @@ Docs run locally at:
 http://localhost:5174/doc
 ```
 
+Examples run at `http://localhost:5174/examples/canvas-basic/` and the other `examples/*/` paths.
+
 Quality checks:
 
 ```bash

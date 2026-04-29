@@ -4,6 +4,7 @@ import canvas from "../../docs/hi/Canvas.md?raw";
 import canvasApi from "../../docs/hi/Canvas-api.md?raw";
 import canvasObjects from "../../docs/hi/Canvas-objects.md?raw";
 import canvasCulling from "../../docs/hi/CanvasCulling.md?raw";
+import examples from "../../docs/hi/Examples.md?raw";
 import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
 import scene from "../../docs/hi/Scene.md?raw";
 import camera2d from "../../docs/hi/Camera2D.md?raw";
@@ -51,6 +52,7 @@ import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "hi/GettingStarted.md", content: gettingStarted },
+  { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },
   { id: "canvas", label: "Canvas", filename: "hi/Canvas.md", content: canvas },

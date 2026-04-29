@@ -86,6 +86,16 @@ const atlas = result.atlas;
 scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
 ```
 
+Run repository examples when checking package usage:
+
+```text
+examples/canvas-basic/
+examples/webgl-basic/
+examples/sprite-atlas/
+examples/interaction-basic/
+examples/text-basic/
+```
+
 Use `origin` to control where x/y and rotation attach to an object:
 
 ```ts

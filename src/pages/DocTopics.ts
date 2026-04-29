@@ -2,6 +2,7 @@ import { boundsTopics } from "./DocBoundsTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { curveTopics } from "./DocCurveTopics";
+import { exampleTopics } from "./DocExamplesTopics";
 import { group2DTopics } from "./DocGroup2DTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
 import { interactionTopics } from "./DocInteractionTopics";
@@ -22,7 +23,7 @@ import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
 
 export const docGroups: readonly DocGroup[] = [
-  { id: "start", label: "Start", hiLabel: "Start", topics: [...setupTopics, ...licenseTopics] },
+  { id: "start", label: "Start", hiLabel: "Start", topics: [...setupTopics, ...exampleTopics, ...licenseTopics] },
   { id: "core", label: "Core", hiLabel: "Core", topics: coreTopics },
   {
     id: "rendering",
