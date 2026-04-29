@@ -41,6 +41,47 @@ test("TextureAtlasPacker can grow output to power-of-two size", () => {
   assert.deepEqual(atlas.getFrame("b"), { x: 19, y: 1, width: 8, height: 8 });
 });
 
+test("TextureAtlasPacker reports packing diagnostics", () => {
+  const packer = new TextureAtlasPacker({
+    padding: 2,
+    maxWidth: 40,
+    createCanvas: createCanvasFactory([])
+  });
+  const result = packer.packWithStats([
+    { name: "idle", source: { width: 16, height: 16 } },
+    { name: "run", source: { width: 20, height: 10 } }
+  ]);
+
+  assert.deepEqual(result.stats, {
+    width: 24,
+    height: 32,
+    totalArea: 768,
+    usedArea: 456,
+    wastedArea: 312,
+    occupancy: 0.59375,
+    frameCount: 2
+  });
+  assert.deepEqual(result.atlas.getFrame("run"), { x: 2, y: 20, width: 20, height: 10 });
+});
+
+test("TextureAtlasPacker can sort by area before packing", () => {
+  const packer = new TextureAtlasPacker({
+    padding: 1,
+    maxWidth: 64,
+    sort: "area",
+    createCanvas: createCanvasFactory([])
+  });
+  const atlas = packer.pack([
+    { name: "small", source: { width: 8, height: 8 } },
+    { name: "large", source: { width: 20, height: 20 } },
+    { name: "wide", source: { width: 22, height: 6 } }
+  ]);
+
+  assert.deepEqual(atlas.getFrame("large"), { x: 1, y: 1, width: 20, height: 20 });
+  assert.deepEqual(atlas.getFrame("wide"), { x: 22, y: 1, width: 22, height: 6 });
+  assert.deepEqual(atlas.getFrame("small"), { x: 45, y: 1, width: 8, height: 8 });
+});
+
 test("TextureAtlasPacker rejects items wider than maxWidth", () => {
   const packer = new TextureAtlasPacker({
     padding: 1,

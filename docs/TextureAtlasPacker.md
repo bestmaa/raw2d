@@ -14,7 +14,8 @@ const atlas = new TextureAtlasPacker({
   edgeBleed: 1,
   maxWidth: 1024,
   maxHeight: 1024,
-  powerOfTwo: true
+  powerOfTwo: true,
+  sort: "area"
 }).pack([
   { name: "idle", source: idleImage },
   { name: "run", source: runImage },
@@ -32,6 +33,28 @@ const idleSprite = new Sprite({
 The returned atlas owns one generated canvas texture. Each frame points to a rectangle inside that canvas.
 
 `edgeBleed` copies frame edge pixels into padding. This helps WebGL linear filtering avoid sampling a neighboring frame at sprite edges.
+
+## Packing Stats
+
+Use `packWithStats()` when you want the atlas plus diagnostics:
+
+```ts
+const result = new TextureAtlasPacker({
+  padding: 2,
+  maxWidth: 1024,
+  sort: "area"
+}).packWithStats(items);
+
+console.log(result.stats.frameCount);
+console.log(result.stats.width, result.stats.height);
+console.log(result.stats.usedArea);
+console.log(result.stats.wastedArea);
+console.log(result.stats.occupancy);
+
+const atlas = result.atlas;
+```
+
+`occupancy` is `usedArea / totalArea`. Higher occupancy means less empty atlas space.
 
 ## WebGL Batching
 
@@ -88,7 +111,8 @@ const packer = new TextureAtlasPacker({
   edgeBleed: 1,
   maxWidth: 2048,
   maxHeight: 2048,
-  powerOfTwo: false
+  powerOfTwo: false,
+  sort: "area"
 });
 ```
 
@@ -97,6 +121,7 @@ const packer = new TextureAtlasPacker({
 - `maxWidth`: maximum atlas row width before starting a new row
 - `maxHeight`: maximum atlas height before throwing an atlas full error
 - `powerOfTwo`: grow the output canvas to power-of-two dimensions
+- `sort`: `none`, `height`, or `area` before row packing
 - `createCanvas`: custom canvas factory for tests or non-browser environments
 
 ## Validation
@@ -126,6 +151,6 @@ const atlas = new TextureAtlasPacker({
 
 ## Current Scope
 
-The packer uses a simple row layout. It is intentionally readable and deterministic.
+The packer uses a readable row layout with optional item sorting. `sort: "area"` is a good default for many mixed-size sprites.
 
 Future improvements can add smarter bin packing and exportable atlas JSON without changing the `Sprite` or renderer APIs.

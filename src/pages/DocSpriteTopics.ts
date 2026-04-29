@@ -87,19 +87,23 @@ scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
       },
       {
         title: "Pack Separate Sources",
-        body: "TextureAtlasPacker creates one canvas texture from separate image-like sources. This keeps the Sprite API the same while giving WebGL one shared texture.",
+        body: "TextureAtlasPacker creates one canvas texture from separate image-like sources. Use packWithStats when you also need atlas usage diagnostics.",
         liveDemoId: "texture-atlas",
-        code: `const atlas = new TextureAtlasPacker({
+        code: `const result = new TextureAtlasPacker({
   padding: 2,
   edgeBleed: 1,
   maxWidth: 1024,
   maxHeight: 1024,
-  powerOfTwo: true
-}).pack([
+  powerOfTwo: true,
+  sort: "area"
+}).packWithStats([
   { name: "idle", source: idleImage },
   { name: "run", source: runImage },
   { name: "jump", source: jumpImage }
 ]);
+
+const atlas = result.atlas;
+console.log(result.stats.occupancy);
 
 scene.add(new Sprite({
   texture: atlas.texture,

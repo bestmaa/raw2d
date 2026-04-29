@@ -57,7 +57,8 @@ const atlas = new TextureAtlasPacker({
   edgeBleed: 1,
   maxWidth: 1024,
   maxHeight: 1024,
-  powerOfTwo: true
+  powerOfTwo: true,
+  sort: "area"
 }).pack([
   { name: "idle", source: idleImage },
   { name: "run", source: runImage }
@@ -72,6 +73,15 @@ const sprite = new Sprite({
 Packed sprites share one `atlas.texture`, so consecutive WebGL Sprites can stay in one texture batch.
 
 `edgeBleed` copies sprite edge pixels into the padding around each frame. This helps reduce WebGL filtering seams without changing frame UVs.
+
+Use `packWithStats()` when you need atlas usage diagnostics:
+
+```ts
+const result = new TextureAtlasPacker({ sort: "area" }).packWithStats(items);
+
+console.log(result.stats.occupancy);
+console.log(result.stats.wastedArea);
+```
 
 ## Asset Loading
 

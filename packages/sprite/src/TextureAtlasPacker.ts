@@ -1,11 +1,15 @@
 import { Texture } from "./Texture.js";
 import { TextureAtlas } from "./TextureAtlas.js";
 import type { TextureFrame } from "./TextureAtlas.type.js";
+import { createTextureAtlasPackerStats } from "./createTextureAtlasPackerStats.js";
+import { sortTextureAtlasPackerItems } from "./sortTextureAtlasPackerItems.js";
 import type {
   TextureAtlasPackerCanvas,
   TextureAtlasPackerContext,
   TextureAtlasPackerItem,
-  TextureAtlasPackerOptions
+  TextureAtlasPackerOptions,
+  TextureAtlasPackerResult,
+  TextureAtlasPackerSort
 } from "./TextureAtlasPacker.type.js";
 import type { TextureSource } from "./Texture.type.js";
 
@@ -20,6 +24,7 @@ export class TextureAtlasPacker {
   private readonly maxWidth: number;
   private readonly maxHeight: number;
   private readonly powerOfTwo: boolean;
+  private readonly sort: TextureAtlasPackerSort;
   private readonly createCanvas: TextureAtlasPackerOptions["createCanvas"];
 
   public constructor(options: TextureAtlasPackerOptions = {}) {
@@ -28,13 +33,25 @@ export class TextureAtlasPacker {
     this.maxWidth = Math.max(1, Math.floor(options.maxWidth ?? 2048));
     this.maxHeight = Math.max(1, Math.floor(options.maxHeight ?? Number.POSITIVE_INFINITY));
     this.powerOfTwo = options.powerOfTwo ?? false;
+    this.sort = options.sort ?? "none";
     this.createCanvas = options.createCanvas;
   }
 
   public pack(items: readonly TextureAtlasPackerItem[]): TextureAtlas {
+    return this.packWithStats(items).atlas;
+  }
+
+  public packWithStats(items: readonly TextureAtlasPackerItem[]): TextureAtlasPackerResult {
     const placements = this.createPlacements(items);
     const width = this.getAtlasWidth(placements);
     const height = this.getAtlasHeight(placements);
+    const atlas = this.createAtlas(placements, width, height);
+    const stats = createTextureAtlasPackerStats(width, height, placements.map((placement) => placement.frame));
+
+    return { atlas, stats };
+  }
+
+  private createAtlas(placements: readonly Placement[], width: number, height: number): TextureAtlas {
     const canvas = this.createAtlasCanvas(width, height);
     const context = canvas.getContext("2d");
 
@@ -57,11 +74,12 @@ export class TextureAtlasPacker {
   private createPlacements(items: readonly TextureAtlasPackerItem[]): readonly Placement[] {
     const placements: Placement[] = [];
     const names = new Set<string>();
+    const sortedItems = sortTextureAtlasPackerItems(items, this.sort, getItemSize);
     let x = this.padding;
     let y = this.padding;
     let rowHeight = 0;
 
-    for (const item of items) {
+    for (const item of sortedItems) {
       const width = getSourceWidth(item);
       const height = getSourceHeight(item);
 
@@ -166,6 +184,13 @@ function getSourceWidth(item: TextureAtlasPackerItem): number {
 
 function getSourceHeight(item: TextureAtlasPackerItem): number {
   return Math.max(0, Math.floor(item.height ?? getIntrinsicHeight(item.source)));
+}
+
+function getItemSize(item: TextureAtlasPackerItem): { readonly width: number; readonly height: number } {
+  return {
+    width: getSourceWidth(item),
+    height: getSourceHeight(item)
+  };
 }
 
 function getIntrinsicWidth(source: TextureSource): number {
