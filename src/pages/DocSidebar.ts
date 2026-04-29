@@ -1,5 +1,6 @@
 import type { DocGroup, DocLanguage, DocTopic } from "./DocPage.type";
 import { getDocUiText, translateTopic } from "./DocI18n";
+import { matchesDocSearch } from "./DocSearch";
 import { docGroups } from "./DocTopics";
 
 export interface DocSidebarOptions {
@@ -117,7 +118,7 @@ function createGroup(
   section.append(title);
 
   for (const topic of group.topics) {
-    if (!matchesSearch(topic, options.language, searchTerm)) {
+    if (!matchesDocSearch({ topic, group, language: options.language, searchTerm })) {
       continue;
     }
 
@@ -136,20 +137,4 @@ function createNavButton(topic: DocTopic, language: DocLanguage, onSelect: (topi
   button.textContent = translateTopic(topic, language).label;
   button.addEventListener("click", () => onSelect(topic));
   return button;
-}
-
-function matchesSearch(topic: DocTopic, language: DocLanguage, searchTerm: string): boolean {
-  if (!searchTerm) {
-    return true;
-  }
-
-  const translatedTopic = translateTopic(topic, language);
-  const haystack = [
-    topic.id,
-    translatedTopic.label,
-    translatedTopic.title,
-    translatedTopic.description,
-    ...translatedTopic.sections.flatMap((section) => [section.title, section.body])
-  ];
-  return haystack.some((value) => value.toLowerCase().includes(searchTerm));
 }

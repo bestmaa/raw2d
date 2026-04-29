@@ -3,8 +3,10 @@ import { createDemoForId, hasDemoId } from "./DocDemos";
 import { getDocUiText, translateTopic } from "./DocI18n";
 import { getLiveExampleCode } from "./DocLiveExampleCode";
 import { createDocPager } from "./DocPager";
+import { findFirstDocSearchMatch } from "./DocSearch";
+import { restoreSidebarSearchFocus, shouldRestoreSearchFocus } from "./DocSearchFocus";
 import { createDocSidebarChildren } from "./DocSidebar";
-import { topics } from "./DocTopics";
+import { docGroups, topics } from "./DocTopics";
 
 export function renderDocPage(): HTMLElement {
   const page = document.createElement("main");
@@ -20,9 +22,11 @@ export function renderDocPage(): HTMLElement {
 
   function render(): void {
     const translatedTopic = translateTopic(currentTopic, language);
+    const restoreSearchFocus = shouldRestoreSearchFocus(sidebar);
     window.history.replaceState(null, "", getDocUrl(currentTopic.id, language));
     content.replaceChildren(createTopicContent(translatedTopic, currentTopic, language, selectTopic));
     sidebar.replaceChildren(...createDocSidebarChildren({ language, searchTerm, onSelect: selectTopic, onSearch: setSearchTerm, onLanguage: setLanguage }));
+    restoreSidebarSearchFocus(sidebar, restoreSearchFocus, searchTerm);
     updateActiveNav(page, currentTopic.id);
   }
 
@@ -33,6 +37,7 @@ export function renderDocPage(): HTMLElement {
 
   function setSearchTerm(nextSearchTerm: string): void {
     searchTerm = nextSearchTerm;
+    currentTopic = findFirstDocSearchMatch({ groups: docGroups, currentTopic, language, searchTerm }) ?? currentTopic;
     render();
   }
 
