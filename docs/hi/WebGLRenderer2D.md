@@ -52,6 +52,34 @@ Stats se pata chalta hai ki WebGL batching sach me kaam kar rahi hai ya nahi.
 
 `shapePathUnsupportedFills` batata hai ki kitne ShapePath fills WebGL ne intentionally skip kiye. Agar path me multiple subpaths, hole-style fill, degenerate polygon, ya self-intersection hai to WebGL galat draw karne ke bajay is count ko badhata hai. Stroke enabled ho to stroke phir bhi render ho sakta hai.
 
+## ShapePath Fill Fallback
+
+Default mode `"skip"` hai. Matlab unsupported ShapePath fill skip hoga aur stats me count badhega.
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "skip"
+});
+```
+
+Development me warning chahiye ho to `"warn"` use karo:
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "warn",
+  onShapePathFillFallback: (fallback) => {
+    console.warn(fallback.objectId, fallback.reason);
+  }
+});
+```
+
+Abhi modes:
+
+- `skip`: fill skip karo aur stats me count do
+- `warn`: fill skip karo, saath me callback ya console warning do
+
 ## Sprite Aur Texture
 
 Same texture wale consecutive sprites ek texture batch me aa sakte hain.

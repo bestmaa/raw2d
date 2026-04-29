@@ -22,6 +22,18 @@ console.log(webglRenderer.getStats().shapePathUnsupportedFills);
 
 Ye count badhta hai jab ShapePath fill me multiple subpaths, hole-style path, degenerate polygon, ya self-intersection ho. Aise case me WebGL fill skip karta hai, lekin stroke enabled ho to stroke render ho sakta hai.
 
+Development me ye skip visibly pakadna ho to fallback warning mode use karo:
+
+```ts
+const webglRenderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "warn",
+  onShapePathFillFallback: (fallback) => {
+    console.warn(fallback.reason);
+  }
+});
+```
+
 ## Important Notes
 
 - Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.

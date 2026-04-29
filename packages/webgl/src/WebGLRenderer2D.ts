@@ -15,6 +15,7 @@ import { trackWebGLShapeBatchStats, trackWebGLSpriteBatchStats } from "./trackWe
 import { trackWebGLRunModeStats } from "./trackWebGLRunModeStats.js";
 import { trackWebGLUploadStats } from "./trackWebGLUploadStats.js";
 import { WebGLRenderer2DResources } from "./WebGLRenderer2DResources.js";
+import { emitWebGLShapePathFillFallbacks } from "./emitWebGLShapePathFillFallbacks.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
@@ -139,6 +140,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     trackWebGLUploadStats(uploader.upload(batch.vertices), stats);
     drawWebGLShapeBatch(this.gl, batch);
     trackWebGLShapeBatchStats(batch, run, stats);
+    emitWebGLShapePathFillFallbacks(batch, this.resourceOptions);
   }
 
   private renderCachedShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): boolean {
@@ -154,6 +156,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     configureWebGLShapeProgram(this.gl, this.resources.shapeProgram, entry.uploader);
     drawWebGLShapeBatch(this.gl, entry.batch);
     trackWebGLShapeBatchStats(entry.batch, run, stats);
+    emitWebGLShapePathFillFallbacks(entry.batch, this.resourceOptions);
     return true;
   }
 

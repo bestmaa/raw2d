@@ -75,6 +75,18 @@ console.log(stats.shapePathUnsupportedFills);
 
 If this count is greater than zero, WebGL skipped at least one ShapePath fill because it had an open subpath, multiple subpaths, a hole-style path, a degenerate polygon, or a self-intersection. Stroke can still render for the same ShapePath.
 
+Use `shapePathFillFallback: "warn"` while developing tools that should surface skipped fills:
+
+```ts
+const webglRenderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "warn",
+  onShapePathFillFallback: (fallback) => {
+    console.warn(fallback.reason);
+  }
+});
+```
+
 Multiple `moveTo` commands create multiple subpaths:
 
 ```ts

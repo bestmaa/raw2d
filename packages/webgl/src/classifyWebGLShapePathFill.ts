@@ -22,12 +22,16 @@ export function classifyWebGLShapePathFill(subpaths: readonly WebGLShapePathFill
 
   const points = normalizePoints(subpaths[0].points);
 
-  if (points.length < 3 || Math.abs(getSignedArea(points)) <= epsilon) {
+  if (points.length < 3) {
     return createResult(false, "degenerate");
   }
 
   if (hasSelfIntersection(points)) {
     return createResult(false, "self-intersection");
+  }
+
+  if (Math.abs(getSignedArea(points)) <= epsilon) {
+    return createResult(false, "degenerate");
   }
 
   return { supported: true, reason: "simple", points };

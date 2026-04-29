@@ -110,18 +110,35 @@ console.log(stats.uploadedBytes);
 
 `shapePathUnsupportedFills` reports ShapePath fills that WebGL intentionally skipped because the fill is not a single simple closed subpath. This keeps WebGL from silently drawing holes, multiple subpaths, or self-intersections incorrectly. ShapePath stroke can still render when stroke is enabled.
 
-## Texture Stats
+## ShapePath Fill Fallback Policy
 
-Texture stats help prove whether atlas batching is reducing WebGL state changes:
+The default ShapePath fill fallback mode is `skip`. Unsupported WebGL fills are skipped and counted in `shapePathUnsupportedFills`.
 
 ```ts
-// separate textures: { textures: 3, textureBinds: 3, textureUploads: 3 }
-// packed atlas: { textures: 1, textureBinds: 1, textureUploads: 1 }
-webglRenderer.render(scene, camera);
-webglRenderer.render(scene, camera);
-console.log(webglRenderer.getStats().textureCacheHits);
-// 1
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "skip"
+});
 ```
+
+Use `warn` when an app or editor should surface skipped fills during development:
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "warn",
+  onShapePathFillFallback: (fallback) => {
+    console.warn(fallback.objectId, fallback.objectName, fallback.reason);
+  }
+});
+```
+
+Current fallback modes:
+
+- `skip`: silently skip unsupported ShapePath fills and report the count in stats
+- `warn`: skip the fill and emit a callback, or `console.warn` when no callback is provided
+
+Future modes can add Canvas-to-texture fallback without changing ShapePath object data.
 
 ## Static And Dynamic Runs
 
@@ -213,29 +230,6 @@ console.log(renderer.getStats().uploadBufferSubDataCalls);
 ```
 
 This keeps dynamic rendering simple while static runs can keep their own cached uploaders.
-
-## Frame Timing
-
-Renderer stats explain what WebGL did. Browser timing estimates one render pass:
-
-```ts
-const start = performance.now();
-renderer.render(scene, camera);
-const frameMs = performance.now() - start;
-
-console.log({ frameMs, fps: 1000 / frameMs, stats: renderer.getStats() });
-```
-
-When checking static cache cost, warm the cache and time the second pass:
-
-```ts
-renderer.render(scene, camera);
-const start = performance.now();
-renderer.render(scene, camera);
-const cachedFrameMs = performance.now() - start;
-```
-
-Browser timing is approximate. Use it for relative Canvas/WebGL comparisons.
 
 ## Current Limitations
 

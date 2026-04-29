@@ -9,9 +9,10 @@ import { getWebGLEllipseLikeVertexCount, writeWebGLEllipseLike } from "./writeWe
 import { getWebGLArcVertexCount, writeWebGLArc } from "./writeWebGLArc.js";
 import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
 import { webGLRectVertexCount, writeWebGLRect } from "./writeWebGLRect.js";
-import { getWebGLShapePathUnsupportedFillCount, getWebGLShapePathVertexCount, writeWebGLShapePathFill, writeWebGLShapePathStroke } from "./writeWebGLShapePath.js";
+import { getWebGLShapePathFillSupport, getWebGLShapePathVertexCount, writeWebGLShapePathFill, writeWebGLShapePathStroke } from "./writeWebGLShapePath.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
+import type { WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
 
 const minimumCurveSegments = 8;
 
@@ -22,6 +23,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
   const floatCount = vertexCount * webGLFloatsPerVertex;
   const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
   const drawBatches: WebGLDrawBatch[] = [];
+  const shapePathFillFallbacks: WebGLShapePathFillFallbackReport[] = [];
   const counts = { rects: 0, arcs: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0, shapePaths: 0, shapePathUnsupportedFills: 0 };
   let offset = 0;
 
@@ -48,7 +50,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     } else if (item.object instanceof ShapePath) {
       offset = writeShapePath(vertices, offset, item, options, segments, drawBatches);
       counts.shapePaths += 1;
-      counts.shapePathUnsupportedFills += getWebGLShapePathUnsupportedFillCount(item.object, segments);
+      counts.shapePathUnsupportedFills += pushUnsupportedShapePathFill(item, segments, shapePathFillFallbacks);
       continue;
     }
 
@@ -71,8 +73,24 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     polygons: counts.polygons,
     shapePaths: counts.shapePaths,
     shapePathUnsupportedFills: counts.shapePathUnsupportedFills,
+    shapePathFillFallbacks,
     unsupported: options.items.length - shapeItems.length
   };
+}
+
+function pushUnsupportedShapePathFill(item: WebGLShapeItem, segments: number, fallbacks: WebGLShapePathFillFallbackReport[]): number {
+  if (!(item.object instanceof ShapePath)) {
+    return 0;
+  }
+
+  const support = getWebGLShapePathFillSupport(item.object, segments);
+
+  if (!item.object.fill || support.supported || support.reason === "disabled" || support.reason === "empty") {
+    return 0;
+  }
+
+  fallbacks.push({ objectId: item.object.id, objectName: item.object.name, reason: support.reason });
+  return 1;
 }
 
 function isShapeItem(item: WebGLShapeBatchOptions["items"][number]): item is WebGLShapeItem {

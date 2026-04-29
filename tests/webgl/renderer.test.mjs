@@ -223,6 +223,32 @@ test("WebGLRenderer2D reports unsupported ShapePath fills without counting the o
   assert.equal(renderer.getStats().drawCalls, 0);
 });
 
+test("WebGLRenderer2D can warn through a callback for skipped ShapePath fills", () => {
+  const gl = createFakeWebGL2Context();
+  const fallbacks = [];
+  const renderer = new WebGLRenderer2D({
+    canvas: createFakeCanvas(gl),
+    width: 200,
+    height: 120,
+    shapePathFillFallback: "warn",
+    onShapePathFillFallback: (fallback) => fallbacks.push(fallback)
+  });
+  const scene = new Scene();
+  const shapePath = new ShapePath({ name: "broken-fill", fill: true, stroke: false })
+    .moveTo(0, 0)
+    .lineTo(30, 30)
+    .lineTo(0, 30)
+    .lineTo(30, 0)
+    .closePath();
+
+  scene.add(shapePath);
+  renderer.render(scene, new Camera2D());
+
+  assert.deepEqual(fallbacks, [
+    { objectId: shapePath.id, objectName: "broken-fill", reason: "self-intersection" }
+  ]);
+});
+
 test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });

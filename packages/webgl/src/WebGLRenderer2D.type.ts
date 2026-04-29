@@ -1,4 +1,5 @@
 import type { Object2D, Renderer2DLike, Renderer2DSize, RenderList } from "raw2d-core";
+import type { WebGLShapePathFillFallbackMode, WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 
 export interface WebGLRenderer2DOptions {
@@ -8,6 +9,8 @@ export interface WebGLRenderer2DOptions {
   readonly backgroundColor?: string;
   readonly createTextCanvas?: (width: number, height: number) => HTMLCanvasElement;
   readonly textTextureCacheMaxEntries?: number;
+  readonly shapePathFillFallback?: WebGLShapePathFillFallbackMode;
+  readonly onShapePathFillFallback?: (fallback: WebGLShapePathFillFallbackReport) => void;
 }
 
 export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRenderer2DRenderOptions, WebGLRenderStats, WebGLRenderer2DSize> {

@@ -30,8 +30,12 @@ export function getWebGLShapePathStrokeVertexCount(shapePath: ShapePath, subpath
 }
 
 export function getWebGLShapePathUnsupportedFillCount(shapePath: ShapePath, curveSegments: number): number {
-  const support = getFillSupport(shapePath, getOffsetSubpaths(shapePath, curveSegments));
+  const support = getWebGLShapePathFillSupport(shapePath, curveSegments);
   return shapePath.fill && support.reason !== "disabled" && support.reason !== "empty" && !support.supported ? 1 : 0;
+}
+
+export function getWebGLShapePathFillSupport(shapePath: ShapePath, curveSegments: number): WebGLShapePathFillSupport {
+  return getFillSupport(shapePath, getOffsetSubpaths(shapePath, curveSegments));
 }
 
 export function writeWebGLShapePathFill(

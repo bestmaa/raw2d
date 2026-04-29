@@ -16,6 +16,7 @@ test("createWebGLShapeBatch writes ShapePath stroke geometry from flattened curv
 
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 0);
+  assert.deepEqual(batch.shapePathFillFallbacks, []);
   assert.equal(batch.unsupported, 0);
   assert.deepEqual(batch.drawBatches, [{ key: "stroke:#f5f7fb:4", firstVertex: 0, vertexCount: 48 }]);
   assert.equal(batch.vertices.length, 288);
@@ -35,6 +36,7 @@ test("createWebGLShapeBatch includes closing ShapePath stroke segments", () => {
 
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 0);
+  assert.deepEqual(batch.shapePathFillFallbacks, []);
   assert.deepEqual(batch.drawBatches, [{ key: "stroke:#38bdf8:2", firstVertex: 0, vertexCount: 18 }]);
   assert.equal(batch.vertices.length, 108);
 });
@@ -53,6 +55,7 @@ test("createWebGLShapeBatch writes simple closed ShapePath fill geometry", () =>
 
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 0);
+  assert.deepEqual(batch.shapePathFillFallbacks, []);
   assert.deepEqual(batch.drawBatches, [{ key: "fill:#38bdf8", firstVertex: 0, vertexCount: 3 }]);
   assert.equal(batch.vertices.length, 18);
 });
@@ -71,6 +74,7 @@ test("createWebGLShapeBatch keeps ShapePath fill and stroke as separate draw bat
 
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 0);
+  assert.deepEqual(batch.shapePathFillFallbacks, []);
   assert.deepEqual(batch.drawBatches, [
     { key: "fill:#38bdf8", firstVertex: 0, vertexCount: 3 },
     { key: "stroke:#f5f7fb:2", firstVertex: 3, vertexCount: 18 }
@@ -96,6 +100,9 @@ test("createWebGLShapeBatch skips ShapePath fill with multiple closed subpaths",
 
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 1);
+  assert.deepEqual(batch.shapePathFillFallbacks, [
+    { objectId: shapePath.id, objectName: "", reason: "multiple-subpaths" }
+  ]);
   assert.equal(batch.unsupported, 0);
   assert.deepEqual(batch.drawBatches, []);
   assert.equal(batch.vertices.length, 0);
@@ -116,6 +123,9 @@ test("createWebGLShapeBatch skips self-intersecting ShapePath fill", () => {
 
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 1);
+  assert.deepEqual(batch.shapePathFillFallbacks, [
+    { objectId: shapePath.id, objectName: "", reason: "self-intersection" }
+  ]);
   assert.equal(batch.unsupported, 0);
   assert.deepEqual(batch.drawBatches, []);
   assert.equal(batch.vertices.length, 0);

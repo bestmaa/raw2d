@@ -1,6 +1,7 @@
 import type { Arc, Camera2D, Circle, Ellipse, Line, Polygon, Polyline, Rect, RenderItem, ShapePath } from "raw2d-core";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 import type { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
+import type { WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
 
 export interface WebGLShapeBatchOptions {
   readonly items: readonly RenderItem[];
@@ -23,6 +24,7 @@ export interface WebGLShapeBatch {
   readonly polygons: number;
   readonly shapePaths: number;
   readonly shapePathUnsupportedFills: number;
+  readonly shapePathFillFallbacks: readonly WebGLShapePathFillFallbackReport[];
   readonly unsupported: number;
 }
 
