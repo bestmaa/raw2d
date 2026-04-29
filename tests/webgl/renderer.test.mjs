@@ -29,6 +29,7 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -72,6 +73,7 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -137,6 +139,7 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
     polylines: 1,
     polygons: 1,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -164,7 +167,7 @@ test("WebGLRenderer2D renders ShapePath stroke through the shape batch", () => {
   const scene = new Scene();
 
   scene.add(createRect(20, "#35c2ff"));
-  scene.add(new ShapePath().moveTo(0, 0).lineTo(50, 0));
+  scene.add(new ShapePath({ fill: false }).moveTo(0, 0).lineTo(50, 0));
   renderer.render(scene, new Camera2D());
 
   assert.deepEqual(renderer.getStats(), {
@@ -177,6 +180,7 @@ test("WebGLRenderer2D renders ShapePath stroke through the shape batch", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 1,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -196,6 +200,27 @@ test("WebGLRenderer2D renders ShapePath stroke through the shape batch", () => {
     uploadedBytes: 288,
     unsupported: 0
   });
+});
+
+test("WebGLRenderer2D reports unsupported ShapePath fills without counting the object unsupported", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+
+  scene.add(
+    new ShapePath({ fill: true, stroke: false })
+      .moveTo(0, 0)
+      .lineTo(30, 30)
+      .lineTo(0, 30)
+      .lineTo(30, 0)
+      .closePath()
+  );
+  renderer.render(scene, new Camera2D());
+
+  assert.equal(renderer.getStats().shapePaths, 1);
+  assert.equal(renderer.getStats().shapePathUnsupportedFills, 1);
+  assert.equal(renderer.getStats().unsupported, 0);
+  assert.equal(renderer.getStats().drawCalls, 0);
 });
 
 test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
@@ -220,6 +245,7 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 2,
     textures: 1,
     textureBinds: 1,
@@ -272,6 +298,7 @@ test("WebGLRenderer2D renders Text2D through the texture batch path", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 1,
     textureBinds: 1,
@@ -313,6 +340,7 @@ test("WebGLRenderer2D reuses GPU buffer capacity on later renders", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -358,6 +386,7 @@ test("WebGLRenderer2D separates static and dynamic runs", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -400,6 +429,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -433,6 +463,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 0,
     textures: 0,
     textureBinds: 0,
@@ -476,6 +507,7 @@ test("WebGLRenderer2D reuses clean static Sprite buffers", () => {
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 1,
     textures: 1,
     textureBinds: 1,
@@ -526,6 +558,7 @@ test("WebGLRenderer2D invalidates static Sprite cache when frame changes", () =>
     polylines: 0,
     polygons: 0,
     shapePaths: 0,
+    shapePathUnsupportedFills: 0,
     sprites: 1,
     textures: 1,
     textureBinds: 1,

@@ -2,7 +2,7 @@
 
 ShapePath stores explicit path commands. It is useful for custom 2D shapes that do not fit Rect, Circle, Line, Polyline, or Polygon.
 
-Canvas renders ShapePath fill and stroke with native path commands. WebGL supports flattened ShapePath stroke and simple closed ShapePath fill. Complex fill rules, holes, and self-intersections are still future work.
+Canvas renders ShapePath fill and stroke with native path commands. WebGL supports flattened ShapePath stroke and one simple closed ShapePath fill. Complex fill rules, holes, multiple filled subpaths, and self-intersections are intentionally skipped in WebGL for now.
 
 ```ts
 import { BasicMaterial, Camera2D, Canvas, Scene, ShapePath } from "raw2d";
@@ -62,6 +62,18 @@ console.log(flattened.subpaths[0].closed);
 ```
 
 Flattening keeps `ShapePath` as data. It does not draw by itself. Canvas can still use native path commands, while WebGL uses these points for stroke geometry and simple closed fills.
+
+## WebGL Fill Safety
+
+WebGL cannot use browser path fill rules directly. Raw2D only fills a ShapePath in WebGL when it is a single simple closed subpath.
+
+```ts
+const stats = webglRenderer.getStats();
+
+console.log(stats.shapePathUnsupportedFills);
+```
+
+If this count is greater than zero, WebGL skipped at least one ShapePath fill because it had an open subpath, multiple subpaths, a hole-style path, a degenerate polygon, or a self-intersection. Stroke can still render for the same ShapePath.
 
 Multiple `moveTo` commands create multiple subpaths:
 

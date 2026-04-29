@@ -45,9 +45,12 @@ console.log(stats.objects);
 console.log(stats.drawCalls);
 console.log(stats.batches);
 console.log(stats.textureBinds);
+console.log(stats.shapePathUnsupportedFills);
 ```
 
 Stats se pata chalta hai ki WebGL batching sach me kaam kar rahi hai ya nahi.
+
+`shapePathUnsupportedFills` batata hai ki kitne ShapePath fills WebGL ne intentionally skip kiye. Agar path me multiple subpaths, hole-style fill, degenerate polygon, ya self-intersection hai to WebGL galat draw karne ke bajay is count ko badhata hai. Stroke enabled ho to stroke phir bhi render ho sakta hai.
 
 ## Sprite Aur Texture
 
@@ -84,7 +87,7 @@ console.log(renderer.getStats().staticCacheHits);
 ## Important Notes
 
 - WebGLRenderer2D Canvas ka replacement nahi, performance path hai.
-- Shapes, sprites, text, atlas, static cache, aur buffer reuse gradually improve ho rahe hain.
+- Shapes, sprites, text, atlas, static cache, ShapePath fill safety, aur buffer reuse gradually improve ho rahe hain.
 - Raw2D ka goal pipeline ko hidden magic nahi banana hai.
 - Debugging ke liye stats public rakhe gaye hain.
 

@@ -1,27 +1,37 @@
 import { ShapePath, flattenShapePath, getShapePathLocalBounds } from "raw2d-core";
+import { classifyWebGLShapePathFill } from "./classifyWebGLShapePathFill.js";
 import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
 import type { WebGLLocalPoint, WebGLFillWriteOptions, WebGLStrokeWriteOptions } from "./WebGLPathGeometry.type.js";
 import type { WebGLShapeItem } from "./WebGLShapeBatch.type.js";
+import type { WebGLShapePathFillSubpath, WebGLShapePathFillSupport } from "./WebGLShapePathFillSupport.type.js";
 
 export function getWebGLShapePathVertexCount(shapePath: ShapePath, curveSegments: number): number {
-  return getWebGLShapePathFillVertexCount(shapePath, curveSegments) + getWebGLShapePathStrokeVertexCount(shapePath, curveSegments);
+  const subpaths = getOffsetSubpaths(shapePath, curveSegments);
+  return getWebGLShapePathFillVertexCount(shapePath, subpaths) + getWebGLShapePathStrokeVertexCount(shapePath, subpaths);
 }
 
-export function getWebGLShapePathFillVertexCount(shapePath: ShapePath, curveSegments: number): number {
-  if (!canFillShapePath(shapePath)) {
+export function getWebGLShapePathFillVertexCount(shapePath: ShapePath, subpaths: readonly WebGLShapePathFillSubpath[]): number {
+  const support = getFillSupport(shapePath, subpaths);
+
+  if (!support.supported) {
     return 0;
   }
 
-  return getFillSubpaths(shapePath, curveSegments).reduce((count, points) => count + getWebGLPolygonFillVertexCount(points), 0);
+  return getWebGLPolygonFillVertexCount(support.points);
 }
 
-export function getWebGLShapePathStrokeVertexCount(shapePath: ShapePath, curveSegments: number): number {
+export function getWebGLShapePathStrokeVertexCount(shapePath: ShapePath, subpaths: readonly WebGLShapePathFillSubpath[]): number {
   if (!canStrokeShapePath(shapePath)) {
     return 0;
   }
 
-  return getStrokeSubpaths(shapePath, curveSegments).reduce((count, points) => count + getWebGLStrokeVertexCount(points), 0);
+  return getStrokeSubpaths(subpaths).reduce((count, points) => count + getWebGLStrokeVertexCount(points), 0);
+}
+
+export function getWebGLShapePathUnsupportedFillCount(shapePath: ShapePath, curveSegments: number): number {
+  const support = getFillSupport(shapePath, getOffsetSubpaths(shapePath, curveSegments));
+  return shapePath.fill && support.reason !== "disabled" && support.reason !== "empty" && !support.supported ? 1 : 0;
 }
 
 export function writeWebGLShapePathFill(
@@ -30,15 +40,17 @@ export function writeWebGLShapePathFill(
   item: WebGLShapeItem,
   options: WebGLFillWriteOptions & { readonly curveSegments: number }
 ): number {
-  if (!(item.object instanceof ShapePath) || !canFillShapePath(item.object)) {
+  if (!(item.object instanceof ShapePath)) {
     return offset;
   }
 
-  for (const points of getFillSubpaths(item.object, options.curveSegments)) {
-    offset = writeWebGLPolygonFill(vertices, offset, points, options);
+  const support = getFillSupport(item.object, getOffsetSubpaths(item.object, options.curveSegments));
+
+  if (!support.supported) {
+    return offset;
   }
 
-  return offset;
+  return writeWebGLPolygonFill(vertices, offset, support.points, options);
 }
 
 export function writeWebGLShapePathStroke(
@@ -51,7 +63,7 @@ export function writeWebGLShapePathStroke(
     return offset;
   }
 
-  for (const points of getStrokeSubpaths(item.object, options.curveSegments)) {
+  for (const points of getStrokeSubpaths(getOffsetSubpaths(item.object, options.curveSegments))) {
     offset = writeWebGLStroke(vertices, offset, points, options);
   }
 
@@ -62,19 +74,15 @@ function canStrokeShapePath(shapePath: ShapePath): boolean {
   return shapePath.stroke && shapePath.material.lineWidth > 0 && shapePath.commands.length > 0;
 }
 
-function canFillShapePath(shapePath: ShapePath): boolean {
-  return shapePath.fill && shapePath.commands.length > 0;
+function getFillSupport(shapePath: ShapePath, subpaths: readonly WebGLShapePathFillSubpath[]): WebGLShapePathFillSupport {
+  return classifyWebGLShapePathFill(shapePath.commands.length > 0 ? subpaths : [], shapePath.fill);
 }
 
-function getFillSubpaths(shapePath: ShapePath, curveSegments: number): readonly (readonly WebGLLocalPoint[])[] {
-  return getOffsetSubpaths(shapePath, curveSegments).filter((subpath) => subpath.closed).map((subpath) => subpath.points);
+function getStrokeSubpaths(subpaths: readonly WebGLShapePathFillSubpath[]): readonly (readonly WebGLLocalPoint[])[] {
+  return subpaths.map((subpath) => closePointsIfNeeded(subpath.points, subpath.closed));
 }
 
-function getStrokeSubpaths(shapePath: ShapePath, curveSegments: number): readonly (readonly WebGLLocalPoint[])[] {
-  return getOffsetSubpaths(shapePath, curveSegments).map((subpath) => closePointsIfNeeded(subpath.points, subpath.closed));
-}
-
-function getOffsetSubpaths(shapePath: ShapePath, curveSegments: number): readonly OffsetSubpath[] {
+function getOffsetSubpaths(shapePath: ShapePath, curveSegments: number): readonly WebGLShapePathFillSubpath[] {
   const bounds = getShapePathLocalBounds(shapePath);
   const offsetX = bounds.x + bounds.width * shapePath.originX;
   const offsetY = bounds.y + bounds.height * shapePath.originY;
@@ -98,9 +106,4 @@ function closePointsIfNeeded(points: readonly WebGLLocalPoint[], closed: boolean
   }
 
   return [...points, first];
-}
-
-interface OffsetSubpath {
-  readonly points: readonly WebGLLocalPoint[];
-  readonly closed: boolean;
 }

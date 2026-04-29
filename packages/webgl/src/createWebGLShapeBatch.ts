@@ -9,7 +9,7 @@ import { getWebGLEllipseLikeVertexCount, writeWebGLEllipseLike } from "./writeWe
 import { getWebGLArcVertexCount, writeWebGLArc } from "./writeWebGLArc.js";
 import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
 import { webGLRectVertexCount, writeWebGLRect } from "./writeWebGLRect.js";
-import { getWebGLShapePathVertexCount, writeWebGLShapePathFill, writeWebGLShapePathStroke } from "./writeWebGLShapePath.js";
+import { getWebGLShapePathUnsupportedFillCount, getWebGLShapePathVertexCount, writeWebGLShapePathFill, writeWebGLShapePathStroke } from "./writeWebGLShapePath.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 
@@ -22,7 +22,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
   const floatCount = vertexCount * webGLFloatsPerVertex;
   const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
   const drawBatches: WebGLDrawBatch[] = [];
-  const counts = { rects: 0, arcs: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0, shapePaths: 0 };
+  const counts = { rects: 0, arcs: 0, circles: 0, ellipses: 0, lines: 0, polylines: 0, polygons: 0, shapePaths: 0, shapePathUnsupportedFills: 0 };
   let offset = 0;
 
   for (const item of shapeItems) {
@@ -48,6 +48,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     } else if (item.object instanceof ShapePath) {
       offset = writeShapePath(vertices, offset, item, options, segments, drawBatches);
       counts.shapePaths += 1;
+      counts.shapePathUnsupportedFills += getWebGLShapePathUnsupportedFillCount(item.object, segments);
       continue;
     }
 
@@ -69,6 +70,7 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
     polylines: counts.polylines,
     polygons: counts.polygons,
     shapePaths: counts.shapePaths,
+    shapePathUnsupportedFills: counts.shapePathUnsupportedFills,
     unsupported: options.items.length - shapeItems.length
   };
 }

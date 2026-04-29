@@ -22,6 +22,7 @@ export interface WebGLShapeBatch {
   readonly polylines: number;
   readonly polygons: number;
   readonly shapePaths: number;
+  readonly shapePathUnsupportedFills: number;
   readonly unsupported: number;
 }
 

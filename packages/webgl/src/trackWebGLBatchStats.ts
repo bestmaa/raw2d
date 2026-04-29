@@ -17,6 +17,7 @@ export function trackWebGLShapeBatchStats(
   stats.polylines += batch.polylines;
   stats.polygons += batch.polygons;
   stats.shapePaths += batch.shapePaths;
+  stats.shapePathUnsupportedFills += batch.shapePathUnsupportedFills;
   trackWebGLRunModeStats(run, batch.drawBatches.length, stats);
   stats.vertices += batch.vertices.length / 6;
   stats.drawCalls += batch.drawBatches.length;

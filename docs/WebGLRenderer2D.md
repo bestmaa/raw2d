@@ -102,10 +102,13 @@ console.log(stats.objects);
 console.log(stats.drawCalls);
 console.log(stats.textureBinds);
 console.log(stats.staticCacheHits);
+console.log(stats.shapePathUnsupportedFills);
 console.log(stats.uploadedBytes);
 ```
 
 `batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
+
+`shapePathUnsupportedFills` reports ShapePath fills that WebGL intentionally skipped because the fill is not a single simple closed subpath. This keeps WebGL from silently drawing holes, multiple subpaths, or self-intersections incorrectly. ShapePath stroke can still render when stroke is enabled.
 
 ## Texture Stats
 
@@ -239,7 +242,7 @@ Browser timing is approximate. Use it for relative Canvas/WebGL comparisons.
 - no advanced texture atlas bin packing yet
 - no automatic static batch compaction yet
 - no glyph atlas or SDF text path yet
-- ShapePath fill supports simple closed subpaths only; no holes, self-intersections, or fill rules yet
+- ShapePath fill supports one simple closed subpath only; holes, multiple subpaths, self-intersections, and fill rules are reported through `shapePathUnsupportedFills`
 - arc curves are approximated with line segments or triangle fans
 - polygon batching supports simple polygons, but not holes or self-intersections
 - SVG texture sources should be rasterized to canvas before WebGL upload

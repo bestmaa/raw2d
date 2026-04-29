@@ -12,6 +12,7 @@ export function finalizeWebGLRenderStats(stats: MutableWebGLRenderStats): WebGLR
     polylines: stats.polylines,
     polygons: stats.polygons,
     shapePaths: stats.shapePaths,
+    shapePathUnsupportedFills: stats.shapePathUnsupportedFills,
     sprites: stats.sprites,
     textures: stats.textures.size,
     textureBinds: stats.textureBinds,
