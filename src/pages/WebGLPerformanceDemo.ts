@@ -7,6 +7,7 @@ import {
   createWebGLPerformanceCode,
   formatCanvasStats,
   formatWebGLPerformanceSummary,
+  formatWebGLSpriteDiagnostics,
   formatWebGLStats,
   formatWebGLUnavailable
 } from "./WebGLPerformanceText";
@@ -33,6 +34,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
   const webglElement = document.createElement("canvas");
   const canvasStats = document.createElement("code");
   const webglStats = document.createElement("code");
+  const spriteStats = document.createElement("code");
   const summary = document.createElement("code");
   const code = document.createElement("code");
   const pre = document.createElement("pre");
@@ -49,6 +51,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
     runtime,
     canvasStats,
     webglStats,
+    spriteStats,
     summary,
     code
   };
@@ -61,6 +64,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
     createTitle(),
     createRendererBlock("Canvas", canvasElement, canvasStats),
     createRendererBlock("WebGL2", webglElement, webglStats),
+    createInfoBlock("Sprite Diagnostics", spriteStats),
     createSummary(summary),
     createWebGLPerformanceControls(
       state,
@@ -113,12 +117,16 @@ function createRendererBlock(label: string, canvas: HTMLCanvasElement, stats: HT
 }
 
 function createSummary(summary: HTMLElement): HTMLElement {
+  return createInfoBlock("Result", summary);
+}
+
+function createInfoBlock(label: string, content: HTMLElement): HTMLElement {
   const block = document.createElement("div");
   const title = document.createElement("h3");
   title.className = "shape-demo-controls-title";
-  title.textContent = "Result";
-  summary.className = "shape-demo-loading";
-  block.append(title, summary);
+  title.textContent = label;
+  content.className = "shape-demo-loading";
+  block.append(title, content);
   return block;
 }
 
@@ -175,6 +183,7 @@ function renderDemo(options: WebGLPerformanceRenderOptions): void {
 
   if (!options.webglRenderer) {
     options.webglStats.textContent = formatWebGLUnavailable(options.runtime.webglTimer.getSnapshot());
+    options.spriteStats.textContent = "WebGL2 unavailable.";
     options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);
     options.code.textContent = createWebGLPerformanceCode(options.state);
     return;
@@ -185,6 +194,7 @@ function renderDemo(options: WebGLPerformanceRenderOptions): void {
   options.webglRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
   const webglTiming = options.runtime.webglTimer.record(performance.now() - webglStart);
   options.webglStats.textContent = formatWebGLStats(options.webglRenderer, webglTiming);
+  options.spriteStats.textContent = formatWebGLSpriteDiagnostics(options.webglRenderer);
   options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);
   options.code.textContent = createWebGLPerformanceCode(options.state);
 }

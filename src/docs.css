@@ -102,9 +102,13 @@
 }
 
 .shape-demo-loading {
+  display: block;
   margin: 0 0 18px;
   color: #dce4f2;
   font: 14px ui-monospace, SFMono-Regular, Consolas, monospace;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .shape-demo-control {

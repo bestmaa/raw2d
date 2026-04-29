@@ -15,6 +15,20 @@ export function formatWebGLStats(renderer: WebGLRenderer2D, timing: WebGLPerform
   return `${formatTiming(timing)} | objects: ${stats.objects}/${stats.renderList.total} | culled: ${stats.renderList.culled} | drawCalls: ${stats.drawCalls} | batches: ${stats.batches} | textureBinds: ${stats.textureBinds} | staticCacheHits: ${stats.staticCacheHits} | uploadedBytes: ${stats.uploadedBytes}`;
 }
 
+export function formatWebGLSpriteDiagnostics(renderer: WebGLRenderer2D): string {
+  const stats = renderer.getStats();
+  return [
+    `spriteBatches: ${stats.spriteBatches}`,
+    `staticSprites: ${stats.staticSprites}`,
+    `dynamicSprites: ${stats.dynamicSprites}`,
+    `spriteTextureGroups: ${stats.spriteTextureGroups}`,
+    `spriteTextureBinds: ${stats.spriteTextureBinds}`,
+    `sortedSpriteTextureBinds: ${stats.sortedSpriteTextureBinds}`,
+    `spriteTextureBindReduction: ${stats.spriteTextureBindReduction}`,
+    `skippedSpriteTextures: ${stats.skippedSpriteTextures}`
+  ].join("\n");
+}
+
 export function formatWebGLUnavailable(timing: WebGLPerformanceFrameTiming): string {
   return `${formatTiming(timing)} | WebGL2 unavailable.`;
 }
