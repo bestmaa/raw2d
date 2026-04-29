@@ -26,14 +26,11 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Build
-        run: npm run build
+      - name: Test
+        run: npm test
 
       - name: Pack check
-        run: npm run pack:check
+        run: npm run pack:check -- --silent
 
       - name: Publish
         run: |
