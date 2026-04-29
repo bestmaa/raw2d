@@ -159,8 +159,8 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
   renderer.render(scene, new Camera2D());
 
   assert.equal(gl.calls.includes("drawArrays:4,0,6"), true);
-  assert.equal(gl.calls.includes("drawArrays:4,6,12"), true);
-  assert.equal(gl.calls.includes("drawArrays:4,18,6"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,6,15"), true);
+  assert.equal(gl.calls.includes("drawArrays:4,21,6"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
     renderList: { total: 3, accepted: 3, hidden: 0, filtered: 0, culled: 0 },
@@ -200,11 +200,11 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
     dynamicObjects: 3,
     staticCacheHits: 0,
     staticCacheMisses: 0,
-    vertices: 24,
+    vertices: 27,
     drawCalls: 3,
     uploadBufferDataCalls: 1,
     uploadBufferSubDataCalls: 0,
-    uploadedBytes: 576,
+    uploadedBytes: 648,
     unsupported: 0
   });
 });

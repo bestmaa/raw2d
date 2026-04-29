@@ -152,6 +152,22 @@ console.log(renderer.getStats().textTextureCacheHits);
 
 Stroke tab draw hota hai jab `strokeColor` aur `fillColor` alag ho.
 
+## Stroke Cap Aur Join
+
+WebGL stroke geometry `BasicMaterial` ke stroke style ko read karta hai:
+
+```ts
+const material = new BasicMaterial({
+  strokeColor: "#facc15",
+  lineWidth: 6,
+  strokeCap: "round",
+  strokeJoin: "round",
+  miterLimit: 8
+});
+```
+
+`strokeCap` ke options `butt`, `round`, aur `square` hain. `strokeJoin` ke options `miter`, `round`, aur `bevel` hain. Ye values WebGL material key ka part hain, isliye alag stroke style wale objects ek hi draw batch me merge nahi hote.
+
 ## Static Render Mode
 
 Static objects baar-baar change nahi hote, to WebGL unke buffers cache kar sakta hai.

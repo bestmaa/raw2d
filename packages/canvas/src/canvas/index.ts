@@ -2,6 +2,8 @@ export * from "./applyObjectTransform.js";
 export * from "./applyObjectTransform.type.js";
 export * from "./applyOriginOffset.js";
 export * from "./applyOriginOffset.type.js";
+export * from "./applyStrokeStyle.js";
+export * from "./applyStrokeStyle.type.js";
 export * from "./drawRect.js";
 export * from "./drawRect.type.js";
 export * from "./drawCircle.js";

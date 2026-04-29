@@ -15,6 +15,7 @@ Current support:
 - `Text2D` fill and optional stroke through rasterized canvas textures
 - complex `ShapePath` fill fallback through opt-in rasterized textures
 - ordered shape material batches
+- material-driven stroke caps and joins
 - ordered sprite texture batches
 - rasterized text texture batches
 - static and dynamic render run separation
@@ -74,6 +75,20 @@ const renderer = new WebGLRenderer2D({
 ```
 
 The fallback rasterizes unsupported fills to a cached canvas texture. Direct WebGL geometry is still used for simple closed fills and strokes.
+
+Stroke style comes from `BasicMaterial`:
+
+```ts
+const material = new BasicMaterial({
+  strokeColor: "#facc15",
+  lineWidth: 6,
+  strokeCap: "round",
+  strokeJoin: "round",
+  miterLimit: 8
+});
+```
+
+The stroke cap, join, and miter limit are included in the material batch key.
 
 Use `TextureAtlasPacker` from `raw2d-sprite` when separate sprite images should become one atlas texture:
 

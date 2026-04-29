@@ -128,7 +128,7 @@ function getItemVertexCount(item: WebGLShapeItem, segments: number): number {
   }
 
   if (item.object instanceof Line || item.object instanceof Polyline) {
-    return getWebGLStrokeVertexCount(getWebGLPathPoints(item));
+    return getWebGLStrokeVertexCount(getWebGLPathPoints(item), getStrokeOptions(item.object.material));
   }
 
   if (item.object instanceof ShapePath) {
@@ -169,7 +169,7 @@ function writeStrokedPath(vertices: Float32Array, offset: number, item: WebGLSha
     ...options,
     matrix: item.worldMatrix,
     color: parseWebGLColor(object.material.strokeColor),
-    lineWidth: object.material.lineWidth
+    ...getStrokeOptions(object.material)
   });
 }
 
@@ -215,7 +215,7 @@ function writeShapePath(
     ...options,
     matrix: item.worldMatrix,
     color: parseWebGLColor(item.object.material.strokeColor),
-    lineWidth: item.object.material.lineWidth,
+    ...getStrokeOptions(item.object.material),
     curveSegments: segments
   });
   appendWebGLDrawBatch(drawBatches, {
@@ -225,4 +225,18 @@ function writeShapePath(
   });
 
   return offset;
+}
+
+function getStrokeOptions(material: WebGLShapeItem["object"]["material"]): {
+  readonly lineWidth: number;
+  readonly strokeCap: typeof material.strokeCap;
+  readonly strokeJoin: typeof material.strokeJoin;
+  readonly miterLimit: number;
+} {
+  return {
+    lineWidth: material.lineWidth,
+    strokeCap: material.strokeCap,
+    strokeJoin: material.strokeJoin,
+    miterLimit: material.miterLimit
+  };
 }

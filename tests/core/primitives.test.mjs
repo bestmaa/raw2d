@@ -54,15 +54,24 @@ test("Object2D tracks dirty state and version changes", () => {
 });
 
 test("BasicMaterial tracks dirty state and version changes", () => {
-  const material = new BasicMaterial({ fillColor: "#ffffff" });
+  const material = new BasicMaterial({
+    fillColor: "#ffffff",
+    strokeCap: "round",
+    strokeJoin: "bevel",
+    miterLimit: 4
+  });
 
   assert.deepEqual(material.getDirtyState(), { version: 0, dirty: true });
+  assert.equal(material.strokeCap, "round");
+  assert.equal(material.strokeJoin, "bevel");
+  assert.equal(material.miterLimit, 4);
 
   material.markClean();
   material.setFillColor("#35c2ff");
+  material.setStrokeJoin("round");
 
-  assert.equal(material.version, 1);
-  assert.deepEqual(material.getDirtyState(), { version: 1, dirty: true });
+  assert.equal(material.version, 2);
+  assert.deepEqual(material.getDirtyState(), { version: 2, dirty: true });
 });
 
 test("Arc stores radii, angles, closed state, and material", () => {

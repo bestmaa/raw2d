@@ -1,5 +1,6 @@
 import { applyObjectTransform } from "./applyObjectTransform.js";
 import { applyOriginOffset } from "./applyOriginOffset.js";
+import { applyStrokeStyle } from "./applyStrokeStyle.js";
 import type { DrawArcOptions } from "./drawArc.type.js";
 
 export function drawArc(options: DrawArcOptions): void {
@@ -24,8 +25,7 @@ export function drawArc(options: DrawArcOptions): void {
     context.fillStyle = arc.material.fillColor;
     context.fill();
   } else {
-    context.strokeStyle = arc.material.strokeColor;
-    context.lineWidth = arc.material.lineWidth;
+    applyStrokeStyle({ context, material: arc.material });
     context.stroke();
   }
 

@@ -36,7 +36,10 @@ import { BasicMaterial } from "raw2d";
 const material = new BasicMaterial({
   fillColor: "#f45b69",
   strokeColor: "#facc15",
-  lineWidth: 6
+  lineWidth: 6,
+  strokeCap: "round",
+  strokeJoin: "round",
+  miterLimit: 8
 });
 ```
 
@@ -47,6 +50,9 @@ interface BasicMaterialOptions {
   readonly fillColor?: string;
   readonly strokeColor?: string;
   readonly lineWidth?: number;
+  readonly strokeCap?: "butt" | "round" | "square";
+  readonly strokeJoin?: "bevel" | "miter" | "round";
+  readonly miterLimit?: number;
 }
 ```
 
@@ -69,6 +75,24 @@ lineWidth?: number
 ```
 
 Stroke width used by `Line`.
+
+```text
+strokeCap?: "butt" | "round" | "square"
+```
+
+Stroke endpoint style used by `Line`, `Polyline`, open `Arc`, and `ShapePath` stroke.
+
+```text
+strokeJoin?: "bevel" | "miter" | "round"
+```
+
+Corner style used by multi-segment strokes.
+
+```text
+miterLimit?: number
+```
+
+Maximum miter length before WebGL falls back to a bevel join.
 
 ## Use With Rect
 
@@ -101,7 +125,12 @@ const line = new Line({
   y: 120,
   endX: 260,
   endY: 80,
-  material: new BasicMaterial({ strokeColor: "#facc15", lineWidth: 6 })
+  material: new BasicMaterial({
+    strokeColor: "#facc15",
+    lineWidth: 6,
+    strokeCap: "round",
+    strokeJoin: "round"
+  })
 });
 ```
 
@@ -111,6 +140,9 @@ const line = new Line({
 material.setFillColor("#ffffff");
 material.setStrokeColor("#111111");
 material.setLineWidth(2);
+material.setStrokeCap("square");
+material.setStrokeJoin("bevel");
+material.setMiterLimit(6);
 ```
 
 Material setters update `material.version` and mark the material dirty:

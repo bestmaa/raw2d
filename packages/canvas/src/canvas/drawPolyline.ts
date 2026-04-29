@@ -1,6 +1,7 @@
 import { getPolylineLocalBounds } from "raw2d-core";
 import { applyObjectTransform } from "./applyObjectTransform.js";
 import { applyOriginOffset } from "./applyOriginOffset.js";
+import { applyStrokeStyle } from "./applyStrokeStyle.js";
 import type { DrawPolylineOptions } from "./drawPolyline.type.js";
 
 export function drawPolyline(options: DrawPolylineOptions): void {
@@ -30,8 +31,7 @@ export function drawPolyline(options: DrawPolylineOptions): void {
     context.lineTo(point.x, point.y);
   }
 
-  context.strokeStyle = polyline.material.strokeColor;
-  context.lineWidth = polyline.material.lineWidth;
+  applyStrokeStyle({ context, material: polyline.material });
   context.stroke();
   context.restore();
 }

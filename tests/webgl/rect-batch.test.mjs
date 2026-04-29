@@ -136,14 +136,40 @@ test("createWebGLShapeBatch writes line, polyline, and polygon geometry", () => 
   assert.equal(batch.polylines, 1);
   assert.equal(batch.polygons, 1);
   assert.deepEqual(batch.drawBatches, [
-    { key: "stroke:#facc15:4", firstVertex: 0, vertexCount: 6 },
-    { key: "stroke:#38bdf8:4", firstVertex: 6, vertexCount: 12 },
-    { key: "fill:#22c55e", firstVertex: 18, vertexCount: 3 }
+    { key: "stroke:#facc15:4:butt:miter:10", firstVertex: 0, vertexCount: 6 },
+    { key: "stroke:#38bdf8:4:butt:miter:10", firstVertex: 6, vertexCount: 15 },
+    { key: "fill:#22c55e", firstVertex: 21, vertexCount: 3 }
   ]);
-  assert.equal(batch.vertices.length, 126);
+  assert.equal(batch.vertices.length, 144);
   assertAlmostEqual(batch.vertices[2], 250 / 255);
   assertAlmostEqual(batch.vertices[3], 204 / 255);
   assertAlmostEqual(batch.vertices[4], 21 / 255);
+});
+
+test("createWebGLShapeBatch writes round caps and joins", () => {
+  const polyline = new Polyline({
+    points: [
+      { x: 0, y: 0 },
+      { x: 30, y: 0 },
+      { x: 30, y: 30 }
+    ],
+    material: new BasicMaterial({
+      strokeColor: "#ffffff",
+      lineWidth: 4,
+      strokeCap: "round",
+      strokeJoin: "round"
+    })
+  });
+  const renderList = new RenderPipeline().build({ objects: [polyline] });
+  const batch = createWebGLShapeBatch({
+    items: renderList.getFlatItems(),
+    camera: new Camera2D(),
+    width: 100,
+    height: 100
+  });
+
+  assert.equal(batch.drawBatches[0].key, "stroke:#ffffff:4:round:round:10");
+  assert.equal(batch.drawBatches[0].vertexCount > 12, true);
 });
 
 test("createWebGLSpriteBatch writes textured quad vertices", () => {

@@ -13,7 +13,10 @@ export function getWebGLMaterialKey(item: WebGLShapeItem): string {
     return serializeMaterialKey({
       pass: "stroke",
       color: object.material.strokeColor,
-      lineWidth: object.material.lineWidth
+      lineWidth: object.material.lineWidth,
+      strokeCap: object.material.strokeCap,
+      strokeJoin: object.material.strokeJoin,
+      miterLimit: object.material.miterLimit
     });
   }
 
@@ -38,10 +41,17 @@ export function getWebGLShapePathStrokeMaterialKey(shapePath: ShapePath): string
   return serializeMaterialKey({
     pass: "stroke",
     color: shapePath.material.strokeColor,
-    lineWidth: shapePath.material.lineWidth
+    lineWidth: shapePath.material.lineWidth,
+    strokeCap: shapePath.material.strokeCap,
+    strokeJoin: shapePath.material.strokeJoin,
+    miterLimit: shapePath.material.miterLimit
   });
 }
 
 function serializeMaterialKey(parts: WebGLMaterialKeyParts): string {
-  return parts.lineWidth === undefined ? `${parts.pass}:${parts.color}` : `${parts.pass}:${parts.color}:${parts.lineWidth}`;
+  if (parts.lineWidth === undefined) {
+    return `${parts.pass}:${parts.color}`;
+  }
+
+  return `${parts.pass}:${parts.color}:${parts.lineWidth}:${parts.strokeCap ?? "butt"}:${parts.strokeJoin ?? "miter"}:${parts.miterLimit ?? 10}`;
 }

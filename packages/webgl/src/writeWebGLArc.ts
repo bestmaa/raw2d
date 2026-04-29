@@ -7,7 +7,12 @@ const fullCircle = Math.PI * 2;
 
 export function getWebGLArcVertexCount(arc: Arc, curveSegments: number): number {
   const points = getArcPoints(arc, curveSegments);
-  return arc.closed ? Math.max(0, points.length - 1) * 3 : getWebGLStrokeVertexCount(points);
+  return arc.closed ? Math.max(0, points.length - 1) * 3 : getWebGLStrokeVertexCount(points, {
+    lineWidth: arc.material.lineWidth,
+    strokeCap: arc.material.strokeCap,
+    strokeJoin: arc.material.strokeJoin,
+    miterLimit: arc.material.miterLimit
+  });
 }
 
 export function writeWebGLArc(vertices: Float32Array, offset: number, arc: Arc, options: WebGLShapeWriteOptions): number {
@@ -20,7 +25,10 @@ export function writeWebGLArc(vertices: Float32Array, offset: number, arc: Arc, 
   return writeWebGLStroke(vertices, offset, points, {
     ...options,
     color: options.strokeColor,
-    lineWidth: arc.material.lineWidth
+    lineWidth: arc.material.lineWidth,
+    strokeCap: arc.material.strokeCap,
+    strokeJoin: arc.material.strokeJoin,
+    miterLimit: arc.material.miterLimit
   });
 }
 
@@ -91,4 +99,3 @@ function writePoint(vertices: Float32Array, offset: number, point: WebGLLocalPoi
   const clip = toClipPoint(point.x, point.y, options.matrix, options);
   return writeWebGLVertex(vertices, offset, clip.x, clip.y, options.color);
 }
-

@@ -17,8 +17,8 @@ test("createWebGLShapeBatch writes open Arc stroke geometry", () => {
 
   assert.equal(batch.arcs, 1);
   assert.equal(batch.unsupported, 0);
-  assert.deepEqual(batch.drawBatches, [{ key: "stroke:#f97316:4", firstVertex: 0, vertexCount: 12 }]);
-  assert.equal(batch.vertices.length, 72);
+  assert.deepEqual(batch.drawBatches, [{ key: "stroke:#f97316:4:butt:miter:10", firstVertex: 0, vertexCount: 15 }]);
+  assert.equal(batch.vertices.length, 90);
   assertAlmostEqual(batch.vertices[2], 249 / 255);
   assertAlmostEqual(batch.vertices[3], 115 / 255);
   assertAlmostEqual(batch.vertices[4], 22 / 255);
@@ -58,4 +58,3 @@ function createBatch(objects) {
 function assertAlmostEqual(actual, expected) {
   assert.ok(Math.abs(actual - expected) < 0.000001, `${actual} !== ${expected}`);
 }
-

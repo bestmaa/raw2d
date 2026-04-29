@@ -172,7 +172,10 @@ const isVisible = objectBounds.intersects(cameraBounds);`
         code: `const material = new BasicMaterial({
   fillColor: "#f45b69",
   strokeColor: "#facc15",
-  lineWidth: 6
+  lineWidth: 6,
+  strokeCap: "round",
+  strokeJoin: "round",
+  miterLimit: 8
 });`
       },
       {
@@ -181,7 +184,10 @@ const isVisible = objectBounds.intersects(cameraBounds);`
         liveDemoId: "rect",
         code: `fillColor?: string    // fill color for Rect, Circle, Text2D
 strokeColor?: string  // stroke color for Line
-lineWidth?: number    // stroke width for Line`
+lineWidth?: number    // stroke width for Line
+strokeCap?: "butt" | "round" | "square"
+strokeJoin?: "bevel" | "miter" | "round"
+miterLimit?: number`
       },
       {
         title: "Use With Rect",
@@ -206,7 +212,9 @@ lineWidth?: number    // stroke width for Line`
   endY: 80,
   material: new BasicMaterial({
     strokeColor: "#facc15",
-    lineWidth: 6
+    lineWidth: 6,
+    strokeCap: "round",
+    strokeJoin: "round"
   })
 });`
       },
@@ -217,6 +225,9 @@ lineWidth?: number    // stroke width for Line`
         code: `material.setFillColor("#ffffff");
 material.setStrokeColor("#111111");
 material.setLineWidth(2);
+material.setStrokeCap("square");
+material.setStrokeJoin("bevel");
+material.setMiterLimit(6);
 
 raw2dCanvas.render(scene, camera);`
       }

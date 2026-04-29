@@ -9,6 +9,7 @@ Current scope:
 - renders `Text2D` fill and optional stroke by rasterizing it to a canvas texture
 - uses cached world matrices from `RenderPipeline`
 - batches consecutive shape objects by material key
+- supports WebGL stroke caps and joins for stroked paths
 - batches consecutive sprites by texture key
 - batches rasterized text through the texture path
 - supports sprite frame UVs from `TextureAtlas`
@@ -177,6 +178,22 @@ const renderer = new WebGLRenderer2D({
 
 The fallback is explicit because it trades pure GPU geometry for visual compatibility. It can increase texture uploads when complex paths change often. Moving, rotating, or scaling the ShapePath reuses the cached fallback texture.
 
+## Stroke Caps And Joins
+
+WebGL stroke geometry reads `BasicMaterial` stroke style:
+
+```ts
+const material = new BasicMaterial({
+  strokeColor: "#facc15",
+  lineWidth: 6,
+  strokeCap: "round",
+  strokeJoin: "round",
+  miterLimit: 8
+});
+```
+
+`strokeCap` supports `butt`, `round`, and `square`. `strokeJoin` supports `miter`, `round`, and `bevel`. These values are part of the WebGL material key, so incompatible stroke styles do not merge into the same draw batch.
+
 ## Static And Dynamic Runs
 
 Every `Object2D` has a `renderMode`:
@@ -215,26 +232,6 @@ const rebuilt = renderer.getStats().staticCacheMisses;
 ```
 
 The current WebGL vertex batches are already projected into clip space, so camera position, camera zoom, renderer width, and renderer height are part of the static cache key. Panning, zooming, or resizing the renderer rebuilds static batches correctly.
-
-## GPU Buffer Uploads
-
-`WebGLRenderer2D` also keeps reusable GPU upload helpers:
-
-```text
-WebGLFloatBuffer -> Float32Array -> WebGLBufferUploader -> WebGLBuffer
-```
-
-The first large frame usually uses `bufferData`; later frames that fit the same capacity use `bufferSubData`:
-
-```ts
-renderer.render(scene, camera);
-console.log(renderer.getStats().uploadBufferDataCalls);
-
-renderer.render(scene, camera);
-console.log(renderer.getStats().uploadBufferSubDataCalls);
-```
-
-This keeps dynamic rendering simple while static runs can keep their own cached uploaders.
 
 ## Current Limitations
 

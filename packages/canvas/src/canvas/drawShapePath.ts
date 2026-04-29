@@ -1,6 +1,7 @@
 import { getShapePathLocalBounds } from "raw2d-core";
 import { applyObjectTransform } from "./applyObjectTransform.js";
 import { applyOriginOffset } from "./applyOriginOffset.js";
+import { applyStrokeStyle } from "./applyStrokeStyle.js";
 import type { DrawShapePathOptions } from "./drawShapePath.type.js";
 
 export function drawShapePath(options: DrawShapePathOptions): void {
@@ -44,8 +45,7 @@ export function drawShapePath(options: DrawShapePathOptions): void {
   }
 
   if (shapePath.stroke && shapePath.material.lineWidth > 0) {
-    context.strokeStyle = shapePath.material.strokeColor;
-    context.lineWidth = shapePath.material.lineWidth;
+    applyStrokeStyle({ context, material: shapePath.material });
     context.stroke();
   }
 

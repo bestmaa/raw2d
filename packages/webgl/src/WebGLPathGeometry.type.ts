@@ -1,4 +1,4 @@
-import type { Matrix3 } from "raw2d-core";
+import type { BasicMaterialStrokeCap, BasicMaterialStrokeJoin, Matrix3 } from "raw2d-core";
 import type { WebGLColor } from "./WebGLColor.type.js";
 import type { WebGLVertexWriterOptions } from "./WebGLVertex.type.js";
 
@@ -7,10 +7,20 @@ export interface WebGLLocalPoint {
   readonly y: number;
 }
 
+export interface WebGLStrokeGeometryOptions {
+  readonly lineWidth: number;
+  readonly strokeCap?: BasicMaterialStrokeCap;
+  readonly strokeJoin?: BasicMaterialStrokeJoin;
+  readonly miterLimit?: number;
+}
+
 export interface WebGLStrokeWriteOptions extends WebGLVertexWriterOptions {
   readonly matrix: Matrix3;
   readonly color: WebGLColor;
   readonly lineWidth: number;
+  readonly strokeCap?: BasicMaterialStrokeCap;
+  readonly strokeJoin?: BasicMaterialStrokeJoin;
+  readonly miterLimit?: number;
 }
 
 export interface WebGLFillWriteOptions extends WebGLVertexWriterOptions {

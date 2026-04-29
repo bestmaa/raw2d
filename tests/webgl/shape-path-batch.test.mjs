@@ -18,8 +18,8 @@ test("createWebGLShapeBatch writes ShapePath stroke geometry from flattened curv
   assert.equal(batch.shapePathUnsupportedFills, 0);
   assert.deepEqual(batch.shapePathFillFallbacks, []);
   assert.equal(batch.unsupported, 0);
-  assert.deepEqual(batch.drawBatches, [{ key: "stroke:#f5f7fb:4", firstVertex: 0, vertexCount: 48 }]);
-  assert.equal(batch.vertices.length, 288);
+  assert.deepEqual(batch.drawBatches, [{ key: "stroke:#f5f7fb:4:butt:miter:10", firstVertex: 0, vertexCount: 69 }]);
+  assert.equal(batch.vertices.length, 414);
 });
 
 test("createWebGLShapeBatch includes closing ShapePath stroke segments", () => {
@@ -37,8 +37,8 @@ test("createWebGLShapeBatch includes closing ShapePath stroke segments", () => {
   assert.equal(batch.shapePaths, 1);
   assert.equal(batch.shapePathUnsupportedFills, 0);
   assert.deepEqual(batch.shapePathFillFallbacks, []);
-  assert.deepEqual(batch.drawBatches, [{ key: "stroke:#38bdf8:2", firstVertex: 0, vertexCount: 18 }]);
-  assert.equal(batch.vertices.length, 108);
+  assert.deepEqual(batch.drawBatches, [{ key: "stroke:#38bdf8:2:butt:miter:10", firstVertex: 0, vertexCount: 27 }]);
+  assert.equal(batch.vertices.length, 162);
 });
 
 test("createWebGLShapeBatch writes simple closed ShapePath fill geometry", () => {
@@ -77,9 +77,9 @@ test("createWebGLShapeBatch keeps ShapePath fill and stroke as separate draw bat
   assert.deepEqual(batch.shapePathFillFallbacks, []);
   assert.deepEqual(batch.drawBatches, [
     { key: "fill:#38bdf8", firstVertex: 0, vertexCount: 3 },
-    { key: "stroke:#f5f7fb:2", firstVertex: 3, vertexCount: 18 }
+    { key: "stroke:#f5f7fb:2:butt:miter:10", firstVertex: 3, vertexCount: 27 }
   ]);
-  assert.equal(batch.vertices.length, 126);
+  assert.equal(batch.vertices.length, 180);
 });
 
 test("createWebGLShapeBatch skips ShapePath fill with multiple closed subpaths", () => {

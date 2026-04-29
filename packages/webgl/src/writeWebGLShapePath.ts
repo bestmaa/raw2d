@@ -26,7 +26,12 @@ export function getWebGLShapePathStrokeVertexCount(shapePath: ShapePath, subpath
     return 0;
   }
 
-  return getStrokeSubpaths(subpaths).reduce((count, points) => count + getWebGLStrokeVertexCount(points), 0);
+  return getStrokeSubpaths(subpaths).reduce((count, points) => count + getWebGLStrokeVertexCount(points, {
+    lineWidth: shapePath.material.lineWidth,
+    strokeCap: shapePath.material.strokeCap,
+    strokeJoin: shapePath.material.strokeJoin,
+    miterLimit: shapePath.material.miterLimit
+  }), 0);
 }
 
 export function getWebGLShapePathUnsupportedFillCount(shapePath: ShapePath, curveSegments: number): number {

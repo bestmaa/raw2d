@@ -1,5 +1,6 @@
 import { applyObjectTransform } from "./applyObjectTransform.js";
 import { applyOriginOffset } from "./applyOriginOffset.js";
+import { applyStrokeStyle } from "./applyStrokeStyle.js";
 import type { DrawLineOptions } from "./drawLine.type.js";
 
 export function drawLine(options: DrawLineOptions): void {
@@ -18,8 +19,7 @@ export function drawLine(options: DrawLineOptions): void {
   context.beginPath();
   context.moveTo(line.startX, line.startY);
   context.lineTo(line.endX, line.endY);
-  context.strokeStyle = line.material.strokeColor;
-  context.lineWidth = line.material.lineWidth;
+  applyStrokeStyle({ context, material: line.material });
   context.stroke();
   context.restore();
 }
