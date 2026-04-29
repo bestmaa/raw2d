@@ -84,6 +84,31 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textureBinds);
 ```
 
+## Diagnose A Layer
+
+Use `analyzeWebGLSpriteBatching()` when you want one report before touching scene order:
+
+```ts
+import { analyzeWebGLSpriteBatching } from "raw2d";
+
+const report = analyzeWebGLSpriteBatching({ sprites });
+
+console.log(report.spriteCount);
+console.log(report.currentTextureBinds);
+console.log(report.sortedTextureBinds);
+console.log(report.potentialReduction);
+console.log(report.textureGroups);
+```
+
+Important fields:
+
+- `currentTextureBinds`: estimated texture switches in the current order
+- `sortedTextureBinds`: estimated texture switches after batch-friendly sorting
+- `potentialReduction`: how many binds sorting could remove
+- `textureGroups`: each texture key and how many sprites use it
+
+Use the report to decide whether sorting is worth it. If `potentialReduction` is `0`, the layer is already batch-friendly.
+
 ## Custom Texture Keys
 
 Pass a custom key when a layer uses generated or external texture-like objects:
@@ -100,4 +125,3 @@ const sorted = sortWebGLSpritesForBatching({
 Do not sort overlapping gameplay sprites unless the visual order is allowed to change.
 
 For strict draw order, keep scene order explicit with `zIndex` and insertion order. For performance-heavy background layers, sort within that layer before adding it to the scene.
-

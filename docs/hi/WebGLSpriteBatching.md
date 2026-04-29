@@ -84,9 +84,33 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textureBinds);
 ```
 
+## Layer Diagnose Karein
+
+Scene order change karne se pehle ek report chahiye ho to `analyzeWebGLSpriteBatching()` use karein:
+
+```ts
+import { analyzeWebGLSpriteBatching } from "raw2d";
+
+const report = analyzeWebGLSpriteBatching({ sprites });
+
+console.log(report.spriteCount);
+console.log(report.currentTextureBinds);
+console.log(report.sortedTextureBinds);
+console.log(report.potentialReduction);
+console.log(report.textureGroups);
+```
+
+Important fields:
+
+- `currentTextureBinds`: current order me estimated texture switches
+- `sortedTextureBinds`: batch-friendly sorting ke baad estimated switches
+- `potentialReduction`: sorting se kitne binds kam ho sakte hain
+- `textureGroups`: har texture key aur usse use karne wale sprite count
+
+`potentialReduction` agar `0` hai, to layer pehle se batch-friendly hai.
+
 ## Visual Order Warning
 
 Overlapping gameplay sprites ko sort na karein jab tak visual order change hona allowed na ho.
 
 Strict draw order ke liye `zIndex` aur insertion order use karein. Performance-heavy background layers me sprites ko scene me add karne se pehle sort karna better hai.
-

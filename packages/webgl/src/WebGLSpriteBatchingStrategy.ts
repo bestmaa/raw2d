@@ -1,8 +1,11 @@
 import type { Sprite } from "raw2d-sprite";
 import type {
+  AnalyzeWebGLSpriteBatchingOptions,
   EstimateWebGLSpriteTextureBindsOptions,
   SortWebGLSpritesForBatchingOptions,
-  WebGLSpriteBatchTextureKey
+  WebGLSpriteBatchingReport,
+  WebGLSpriteBatchTextureKey,
+  WebGLSpriteTextureGroup
 } from "./WebGLSpriteBatchingStrategy.type.js";
 
 interface IndexedSprite<TSprite extends Sprite> {
@@ -40,6 +43,35 @@ export function estimateWebGLSpriteTextureBinds<TSprite extends Sprite>(
   return binds;
 }
 
+export function analyzeWebGLSpriteBatching<TSprite extends Sprite>(
+  options: AnalyzeWebGLSpriteBatchingOptions<TSprite>
+): WebGLSpriteBatchingReport {
+  const getTextureKey = options.getTextureKey ?? getDefaultTextureKey;
+  const sortedSprites = sortWebGLSpritesForBatching({
+    sprites: options.sprites,
+    getTextureKey
+  });
+  const currentTextureBinds = estimateWebGLSpriteTextureBinds({
+    sprites: options.sprites,
+    getTextureKey
+  });
+  const sortedTextureBinds = estimateWebGLSpriteTextureBinds({
+    sprites: sortedSprites,
+    getTextureKey
+  });
+
+  return {
+    spriteCount: options.sprites.length,
+    textureGroupCount: countTextureGroups(options.sprites, getTextureKey).length,
+    currentTextureBinds,
+    sortedTextureBinds,
+    potentialReduction: Math.max(0, currentTextureBinds - sortedTextureBinds),
+    averageSpritesPerCurrentBind: divide(options.sprites.length, currentTextureBinds),
+    averageSpritesPerSortedBind: divide(options.sprites.length, sortedTextureBinds),
+    textureGroups: countTextureGroups(options.sprites, getTextureKey)
+  };
+}
+
 function compareSprites<TSprite extends Sprite>(
   first: IndexedSprite<TSprite>,
   second: IndexedSprite<TSprite>,
@@ -57,6 +89,24 @@ function createBatchKey<TSprite extends Sprite>(sprite: TSprite, getTextureKey: 
   return `${sprite.zIndex}:${sprite.renderMode}:${getTextureKey(sprite)}`;
 }
 
+function countTextureGroups<TSprite extends Sprite>(
+  sprites: readonly TSprite[],
+  getTextureKey: WebGLSpriteBatchTextureKey<TSprite>
+): readonly WebGLSpriteTextureGroup[] {
+  const groups = new Map<string, number>();
+
+  for (const sprite of sprites) {
+    const key = getTextureKey(sprite);
+    groups.set(key, (groups.get(key) ?? 0) + 1);
+  }
+
+  return [...groups.entries()].map(([key, count]) => ({ key, count }));
+}
+
+function divide(value: number, divisor: number): number {
+  return divisor === 0 ? 0 : value / divisor;
+}
+
 function getDefaultTextureKey(sprite: Sprite): string {
   return sprite.texture.id;
 }
@@ -64,4 +114,3 @@ function getDefaultTextureKey(sprite: Sprite): string {
 function compareStrings(first: string, second: string): number {
   return first < second ? -1 : first > second ? 1 : 0;
 }
-

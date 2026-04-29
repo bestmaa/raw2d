@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { Sprite, Texture } from "raw2d-sprite";
 import {
+  analyzeWebGLSpriteBatching,
   estimateWebGLSpriteTextureBinds,
   sortWebGLSpritesForBatching
 } from "raw2d-webgl";
@@ -48,6 +49,31 @@ test("estimateWebGLSpriteTextureBinds counts consecutive compatible texture grou
   assert.equal(estimateWebGLSpriteTextureBinds({ sprites: sorted }), 2);
 });
 
+test("analyzeWebGLSpriteBatching reports bind reduction and texture groups", () => {
+  const textureA = createTexture("a");
+  const textureB = createTexture("b");
+  const sprites = [
+    new Sprite({ texture: textureA }),
+    new Sprite({ texture: textureB }),
+    new Sprite({ texture: textureA }),
+    new Sprite({ texture: textureB })
+  ];
+
+  assert.deepEqual(analyzeWebGLSpriteBatching({ sprites }), {
+    spriteCount: 4,
+    textureGroupCount: 2,
+    currentTextureBinds: 4,
+    sortedTextureBinds: 2,
+    potentialReduction: 2,
+    averageSpritesPerCurrentBind: 1,
+    averageSpritesPerSortedBind: 2,
+    textureGroups: [
+      { key: "a", count: 2 },
+      { key: "b", count: 2 }
+    ]
+  });
+});
+
 function createTexture(id) {
   return new Texture({
     id,
@@ -56,4 +82,3 @@ function createTexture(id) {
     height: 16
   });
 }
-

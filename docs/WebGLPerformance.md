@@ -176,6 +176,16 @@ const after = estimateWebGLSpriteTextureBinds({ sprites: sortedSprites });
 console.log({ before, after });
 ```
 
+For a fuller pre-render report:
+
+```ts
+const report = analyzeWebGLSpriteBatching({ sprites });
+
+console.log(report.currentTextureBinds);
+console.log(report.sortedTextureBinds);
+console.log(report.potentialReduction);
+```
+
 Use this for tile maps, particles, or background layers where reordering does not break visual stacking. For overlapping gameplay sprites, keep explicit `zIndex` and scene order.
 
 ## Static And Dynamic Split

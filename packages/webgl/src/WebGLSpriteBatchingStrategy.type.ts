@@ -12,3 +12,23 @@ export interface EstimateWebGLSpriteTextureBindsOptions<TSprite extends Sprite =
   readonly getTextureKey?: WebGLSpriteBatchTextureKey<TSprite>;
 }
 
+export interface AnalyzeWebGLSpriteBatchingOptions<TSprite extends Sprite = Sprite> {
+  readonly sprites: readonly TSprite[];
+  readonly getTextureKey?: WebGLSpriteBatchTextureKey<TSprite>;
+}
+
+export interface WebGLSpriteTextureGroup {
+  readonly key: string;
+  readonly count: number;
+}
+
+export interface WebGLSpriteBatchingReport {
+  readonly spriteCount: number;
+  readonly textureGroupCount: number;
+  readonly currentTextureBinds: number;
+  readonly sortedTextureBinds: number;
+  readonly potentialReduction: number;
+  readonly averageSpritesPerCurrentBind: number;
+  readonly averageSpritesPerSortedBind: number;
+  readonly textureGroups: readonly WebGLSpriteTextureGroup[];
+}

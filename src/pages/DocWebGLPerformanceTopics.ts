@@ -63,6 +63,17 @@ for (const sprite of sortedSprites) {
 }`
       },
       {
+        title: "Sprite Batch Report",
+        body: "Use analyzeWebGLSpriteBatching before changing order. It shows current binds, sorted binds, potential reduction, and per-texture group counts.",
+        liveDemoId: "webgl-performance",
+        code: `const report = analyzeWebGLSpriteBatching({ sprites });
+
+console.log(report.currentTextureBinds);
+console.log(report.sortedTextureBinds);
+console.log(report.potentialReduction);
+console.log(report.textureGroups);`
+      },
+      {
         title: "Read The Numbers",
         body: "objects is accepted render-list items after visibility, filters, and culling. renderList.total is the scene candidate count. culled shows camera-culling wins.",
         liveDemoId: "webgl-performance",
