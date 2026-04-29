@@ -87,6 +87,17 @@ const webglRenderer = new WebGLRenderer2D({
 });
 ```
 
+Use `shapePathFillFallback: "rasterize"` when complex fills should appear in WebGL:
+
+```ts
+const webglRenderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "rasterize"
+});
+```
+
+This draws unsupported fills into a cached canvas texture, then renders that texture in WebGL. Transforms reuse the texture. Changing path commands or fill color rebuilds it.
+
 Multiple `moveTo` commands create multiple subpaths:
 
 ```ts

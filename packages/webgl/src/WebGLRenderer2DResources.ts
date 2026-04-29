@@ -1,6 +1,7 @@
 import { createWebGLBufferUploaders } from "./createWebGLBufferUploaders.js";
 import { createWebGLProgram } from "./createWebGLProgram.js";
 import { WebGLStaticBatchCache } from "./WebGLStaticBatchCache.js";
+import { WebGLShapePathTextureCache } from "./WebGLShapePathTextureCache.js";
 import { WebGLTextTextureCache } from "./WebGLTextTextureCache.js";
 import { WebGLTextureCache } from "./WebGLTextureCache.js";
 import { shapeFragmentSource, shapeVertexSource, spriteFragmentSource, spriteVertexSource } from "./WebGLRenderer2DShaders.js";
@@ -16,6 +17,7 @@ export class WebGLRenderer2DResources {
   public readonly spriteUploaders: WebGLBufferUploaderMap;
   public readonly textureCache: WebGLTextureCache;
   public readonly textTextureCache: WebGLTextTextureCache;
+  public readonly shapePathTextureCache: WebGLShapePathTextureCache;
   public readonly staticShapeCache: WebGLStaticBatchCache<WebGLShapeBatch>;
   public readonly staticSpriteCache: WebGLStaticBatchCache<WebGLSpriteBatch>;
   private readonly gl: WebGL2RenderingContext;
@@ -33,18 +35,30 @@ export class WebGLRenderer2DResources {
       createCanvas: options.createTextCanvas,
       maxEntries: options.textTextureCacheMaxEntries
     });
+    this.shapePathTextureCache = new WebGLShapePathTextureCache({
+      createCanvas: options.createShapePathCanvas,
+      maxEntries: options.shapePathTextureCacheMaxEntries
+    });
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
   }
 
   public clearTextureCache(): void {
     this.textTextureCache.clear();
+    this.shapePathTextureCache.clear();
     this.releaseRetiredTextTextures();
+    this.releaseRetiredShapePathTextures();
     this.textureCache.clear();
   }
 
   public releaseRetiredTextTextures(): void {
     for (const texture of this.textTextureCache.drainRetiredTextures()) {
+      this.textureCache.delete(texture);
+    }
+  }
+
+  public releaseRetiredShapePathTextures(): void {
+    for (const texture of this.shapePathTextureCache.drainRetiredTextures()) {
       this.textureCache.delete(texture);
     }
   }
@@ -57,6 +71,7 @@ export class WebGLRenderer2DResources {
     }
     this.textureCache.dispose();
     this.textTextureCache.dispose();
+    this.shapePathTextureCache.dispose();
     this.gl.deleteProgram(this.shapeProgram);
     this.gl.deleteProgram(this.spriteProgram);
   }

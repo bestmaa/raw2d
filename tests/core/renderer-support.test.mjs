@@ -11,9 +11,9 @@ test("renderer support matrix exposes current object coverage", () => {
   assert.equal(byKind.get("Arc").canvas, "supported");
   assert.equal(byKind.get("Arc").webgl, "supported");
   assert.equal(byKind.get("ShapePath").webgl, "partial");
-  assert.equal(byKind.get("ShapePath").priority, "high");
-  assert.match(byKind.get("ShapePath").limitation, /Multiple subpaths/);
-  assert.match(byKind.get("ShapePath").nextStep, /fallback/);
+  assert.equal(byKind.get("ShapePath").priority, "medium");
+  assert.match(byKind.get("ShapePath").limitation, /rasterize fallback/);
+  assert.match(byKind.get("ShapePath").nextStep, /GPU fill/);
   assert.equal(byKind.get("Polygon").webgl, "supported");
   assert.equal(byKind.get("Text2D").webgl, "partial");
   assert.equal(byKind.get("Text2D").priority, "medium");

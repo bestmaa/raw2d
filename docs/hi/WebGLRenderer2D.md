@@ -54,7 +54,7 @@ Stats se pata chalta hai ki WebGL batching sach me kaam kar rahi hai ya nahi.
 
 Text stats se pata chalta hai ki `Text2D` raster texture reuse ho raha hai ya new texture ban raha hai.
 
-`shapePathUnsupportedFills` batata hai ki kitne ShapePath fills WebGL ne intentionally skip kiye. Agar path me multiple subpaths, hole-style fill, degenerate polygon, ya self-intersection hai to WebGL galat draw karne ke bajay is count ko badhata hai. Stroke enabled ho to stroke phir bhi render ho sakta hai.
+`shapePathUnsupportedFills` batata hai ki kitne ShapePath fills direct WebGL geometry se draw nahi ho sakte. `skip` aur `warn` mode me ye fills skip hote hain. `rasterize` mode me fill offscreen canvas texture me draw hota hai, phir WebGL us texture ko render karta hai. Stroke enabled ho to stroke phir bhi WebGL geometry se render ho sakta hai.
 
 `objects` accepted render-list item count hai. `stats.renderList.total`, `accepted`, aur `culled` se pata chalta hai ki batching se pehle pipeline ne kya skip kiya.
 
@@ -105,6 +105,18 @@ Abhi modes:
 
 - `skip`: fill skip karo aur stats me count do
 - `warn`: fill skip karo, saath me callback ya console warning do
+- `rasterize`: unsupported fill ko offscreen canvas texture me draw karke WebGL me render karo
+
+Complex fills dikhane ke liye:
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "rasterize"
+});
+```
+
+Ye fallback explicit hai kyunki pure GPU geometry ke bajay texture upload path use hota hai. ShapePath move/rotate/scale karne par cached texture reuse hota hai.
 
 ## Sprite Aur Texture
 

@@ -177,5 +177,5 @@ console.log(stats.unsupported);
 ```
 
 - shape counters batate hain har type ke kitne objects process hue
-- `shapePathUnsupportedFills` closed path fills track karta hai jo WebGL batch nahi kar paya
+- `shapePathUnsupportedFills` un fills ko track karta hai jo direct WebGL geometry batch nahi kar paya; `rasterize` fallback unhe texture ke roop me draw kar sakta hai
 - `unsupported` un objects ko track karta hai jo renderer draw nahi kar paya

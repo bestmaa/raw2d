@@ -34,6 +34,17 @@ const webglRenderer = new WebGLRenderer2D({
 });
 ```
 
+Complex fills WebGL me dikhane ho to rasterize fallback use karo:
+
+```ts
+const webglRenderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "rasterize"
+});
+```
+
+Isme unsupported fill cached canvas texture me draw hota hai, phir WebGL us texture ko render karta hai. Move, rotate, scale par texture reuse hota hai. Path commands ya fill color badalne par texture rebuild hota hai.
+
 ## Important Notes
 
 - Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.

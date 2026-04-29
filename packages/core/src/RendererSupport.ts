@@ -18,10 +18,10 @@ export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
     kind: "ShapePath",
     canvas: "supported",
     webgl: "partial",
-    note: "WebGL renders flattened strokes and simple closed fills.",
-    limitation: "Multiple subpaths, holes, and self-intersecting fills are skipped instead of drawn incorrectly.",
-    nextStep: "Add a documented fallback path for complex fills before expanding fill rules.",
-    priority: "high"
+    note: "WebGL renders flattened strokes, simple closed fills, and optional rasterized complex fills.",
+    limitation: "Complex fills need the opt-in rasterize fallback because they are not pure WebGL geometry yet.",
+    nextStep: "Improve direct GPU fill rules after Text2D cache maturity and stroke polish.",
+    priority: "medium"
   },
   {
     kind: "Text2D",

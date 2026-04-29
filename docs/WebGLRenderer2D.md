@@ -17,6 +17,7 @@ Current scope:
 - reuses GPU buffer capacity through `WebGLBufferUploader`
 - separates static and dynamic render runs
 - caches clean static render runs
+- supports opt-in rasterized fallback for complex ShapePath fills
 - reports batch, cache, texture, vertex, draw call, and upload stats
 
 Canvas is still the complete renderer. WebGL is the performance path being built out.
@@ -110,7 +111,7 @@ console.log(stats.uploadedBytes);
 
 `batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Text texture stats show rasterized text cache hits, misses, evictions, and retired textures. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
 
-`shapePathUnsupportedFills` reports ShapePath fills that WebGL intentionally skipped because the fill is not a single simple closed subpath. This keeps WebGL from silently drawing holes, multiple subpaths, or self-intersections incorrectly. ShapePath stroke can still render when stroke is enabled.
+`shapePathUnsupportedFills` reports ShapePath fills that direct WebGL geometry could not draw because the fill is not a single simple closed subpath. In `skip` and `warn` mode those fills are skipped. In `rasterize` mode the fill is drawn through a cached canvas texture fallback. ShapePath stroke can still render as WebGL geometry.
 
 `objects` is the accepted render-list item count. Use `renderList.total`, `renderList.accepted`, and `renderList.culled` to inspect what the pipeline did before batching.
 
@@ -162,8 +163,18 @@ Current fallback modes:
 
 - `skip`: silently skip unsupported ShapePath fills and report the count in stats
 - `warn`: skip the fill and emit a callback, or `console.warn` when no callback is provided
+- `rasterize`: draw unsupported fills to an offscreen canvas texture, then render that texture in WebGL
 
-Future modes can add Canvas-to-texture fallback without changing ShapePath object data.
+Use `rasterize` when a WebGL scene needs holes, multiple subpaths, or self-intersecting fills to appear:
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  shapePathFillFallback: "rasterize"
+});
+```
+
+The fallback is explicit because it trades pure GPU geometry for visual compatibility. It can increase texture uploads when complex paths change often. Moving, rotating, or scaling the ShapePath reuses the cached fallback texture.
 
 ## Static And Dynamic Runs
 
@@ -174,14 +185,7 @@ background.setRenderMode("static");
 player.setRenderMode("dynamic");
 ```
 
-WebGL render runs split when the mode changes. A static shape run and a dynamic shape run use separate upload channels:
-
-```text
-Scene -> RenderPipeline -> RenderRun(static) -> Buffer -> DrawCall
-Scene -> RenderPipeline -> RenderRun(dynamic) -> Buffer -> DrawCall
-```
-
-Static runs are cached after their first upload. If the objects, materials, camera, viewport, and sprite textures stay the same, the next render reuses the cached GPU buffer and skips vertex upload for that run.
+WebGL render runs split when the mode changes. Static runs are cached after their first upload. If the objects, materials, camera, viewport, and sprite textures stay the same, the next render reuses the cached GPU buffer and skips vertex upload for that run.
 
 Object and material versions provide the invalidation signal:
 
@@ -236,7 +240,7 @@ This keeps dynamic rendering simple while static runs can keep their own cached 
 - no advanced texture atlas bin packing yet
 - no automatic static batch compaction yet
 - no glyph atlas or SDF text path yet
-- ShapePath fill supports one simple closed subpath only; holes, multiple subpaths, self-intersections, and fill rules are reported through `shapePathUnsupportedFills`
+- direct ShapePath fill supports one simple closed subpath only; complex fills need `shapePathFillFallback: "rasterize"` for texture fallback
 - arc curves are approximated with line segments or triangle fans
 - polygon batching supports simple polygons, but not holes or self-intersections
 - SVG texture sources should be rasterized to canvas before WebGL upload

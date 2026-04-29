@@ -177,5 +177,5 @@ console.log(stats.unsupported);
 ```
 
 - shape counters show how many objects of each type were processed
-- `shapePathUnsupportedFills` tracks closed path fills WebGL could not batch
+- `shapePathUnsupportedFills` tracks fills direct WebGL geometry could not batch; `rasterize` fallback can still draw them as textures
 - `unsupported` tracks objects this renderer could not draw

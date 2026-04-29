@@ -8,7 +8,9 @@ import { Sprite, Texture, TextureAtlasPacker } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import {
   WebGLRenderer2D,
+  WebGLShapePathTextureCache,
   analyzeWebGLSpriteBatching,
+  createWebGLShapePathFallbackBatch,
   estimateWebGLSpriteTextureBinds,
   isWebGL2Available,
   sortWebGLSpritesForBatching
@@ -28,7 +30,9 @@ test("umbrella package keeps renderer internals out of runtime API", () => {
   assert.equal(Raw2D.CanvasObjectRenderer, undefined);
   assert.equal(Raw2D.WebGLFloatBuffer, undefined);
   assert.equal(Raw2D.WebGLTextTextureCache, undefined);
+  assert.equal(Raw2D.WebGLShapePathTextureCache, undefined);
   assert.equal(Raw2D.createWebGLShapeBatch, undefined);
+  assert.equal(Raw2D.createWebGLShapePathFallbackBatch, undefined);
   assert.equal(Raw2D.sortWebGLSpritesForBatching, undefined);
   assert.equal(Raw2D.drawRect, undefined);
   assert.equal(Raw2D.uid, undefined);
@@ -43,6 +47,8 @@ test("focused packages expose installable entry points", () => {
   assert.equal(typeof sortWebGLSpritesForBatching, "function");
   assert.equal(typeof estimateWebGLSpriteTextureBinds, "function");
   assert.equal(typeof analyzeWebGLSpriteBatching, "function");
+  assert.equal(typeof WebGLShapePathTextureCache, "function");
+  assert.equal(typeof createWebGLShapePathFallbackBatch, "function");
 });
 
 test("package imports can build a small scene without browser globals", () => {

@@ -18,7 +18,7 @@ console.table(matrix);`
       },
       {
         title: "Current Checklist",
-        body: "Canvas is the correctness baseline. WebGL is mostly aligned now; the visible partial areas are ShapePath complex fills and large dynamic Text2D workloads.",
+        body: "Canvas is the correctness baseline. WebGL is mostly aligned now; ShapePath has an opt-in rasterize fallback, while large dynamic Text2D workloads still need stronger cache work.",
         code: `for (const entry of getRendererSupportMatrix()) {
   console.log({
     object: entry.kind,
@@ -58,7 +58,7 @@ console.log(support.notes.ShapePath);`
       },
       {
         title: "Partial Support",
-        body: "Partial support is still useful, but the limitation should be visible to users. ShapePath is partial because WebGL supports simple fill/stroke, while complex fill rules still need Canvas.",
+        body: "Partial support is still useful, but the limitation should be visible to users. ShapePath is partial because complex fills need the opt-in rasterize fallback instead of direct GPU geometry.",
         code: `const pathSupport = getRendererSupportMatrix().find((entry) => {
   return entry.kind === "ShapePath";
 });
@@ -68,7 +68,7 @@ console.log(pathSupport?.note);`
       },
       {
         title: "Missing Support Plan",
-        body: "The next WebGL parity work should stay ordered: complex ShapePath fallback first, stronger Text2D cache second, stroke polish third, then performance proof updates.",
+        body: "The next WebGL parity work should stay ordered: stronger Text2D cache first, stroke polish second, direct ShapePath GPU fill third, then performance proof updates.",
         code: `const planned = getRendererSupportMatrix()
   .filter((entry) => entry.webgl === "partial" || entry.webgl === "unsupported")
   .map((entry) => ({

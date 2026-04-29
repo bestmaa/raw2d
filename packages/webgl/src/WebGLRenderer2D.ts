@@ -1,7 +1,6 @@
 import { Camera2D, RenderPipeline, getRendererSupport, type Object2D, type RendererSupportProfile, type RenderList, type Scene } from "raw2d-core";
 import { createWebGLRenderRuns } from "./createWebGLRenderRuns.js";
 import { applyWebGLSpriteSorting } from "./applyWebGLSpriteSorting.js";
-import { createWebGLShapeBatch } from "./createWebGLShapeBatch.js";
 import { createWebGLSpriteBatch } from "./createWebGLSpriteBatch.js";
 import { createMutableWebGLRenderStats } from "./createMutableWebGLRenderStats.js";
 import { getWebGLBounds } from "./getWebGLBounds.js";
@@ -10,20 +9,19 @@ import { parseWebGLColor } from "./parseWebGLColor.js";
 import { WebGLFloatBuffer } from "./WebGLFloatBuffer.js";
 import { finalizeWebGLRenderStats } from "./finalizeWebGLRenderStats.js";
 import { createWebGLStaticRunKey } from "./createWebGLStaticRunKey.js";
-import { configureWebGLShapeProgram, configureWebGLSpriteProgram } from "./configureWebGLPrograms.js";
-import { drawWebGLShapeBatch, drawWebGLSpriteBatch } from "./drawWebGLBatches.js";
-import { trackWebGLShapeBatchStats, trackWebGLSpriteBatchStats } from "./trackWebGLBatchStats.js";
+import { configureWebGLSpriteProgram } from "./configureWebGLPrograms.js";
+import { drawWebGLSpriteBatch } from "./drawWebGLBatches.js";
+import { trackWebGLSpriteBatchStats } from "./trackWebGLBatchStats.js";
 import { trackWebGLRunModeStats } from "./trackWebGLRunModeStats.js";
 import { trackWebGLUploadStats } from "./trackWebGLUploadStats.js";
 import { trackWebGLTextTextureStats } from "./trackWebGLTextTextureStats.js";
 import { trackWebGLSpriteRunDiagnostics } from "./trackWebGLSpriteRunDiagnostics.js";
 import { WebGLRenderer2DResources } from "./WebGLRenderer2DResources.js";
-import { emitWebGLShapePathFillFallbacks } from "./emitWebGLShapePathFillFallbacks.js";
+import { renderWebGLShapeRun } from "./renderWebGLShapeRun.js";
 import { releaseDisposedWebGLSpriteTextures } from "./releaseDisposedWebGLSpriteTextures.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
-import type { WebGLShapeBatch } from "./WebGLShapeBatch.type.js";
 import type { WebGLSpriteBatch } from "./WebGLSpriteBatch.type.js";
 import type { WebGLRenderer2DLike, WebGLRenderer2DOptions, WebGLRenderer2DRenderOptions, WebGLRenderer2DSize } from "./WebGLRenderer2D.type.js";
 
@@ -119,6 +117,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.resources.staticShapeCache.beginFrame();
     this.resources.staticSpriteCache.beginFrame();
     this.resources.textTextureCache.beginFrame();
+    this.resources.shapePathTextureCache.beginFrame();
 
     for (const run of runs) {
       if (run.kind === "shape") {
@@ -133,44 +132,24 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
     this.resources.staticShapeCache.sweep();
     this.resources.staticSpriteCache.sweep();
+    this.resources.releaseRetiredShapePathTextures();
     trackWebGLTextTextureStats(this.resources.textTextureCache, stats);
     this.stats = finalizeWebGLRenderStats(stats);
   }
 
   private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
-    if (run.mode === "static" && this.renderCachedShapeRun(run, camera, stats)) {
-      return;
-    }
-
-    const batch = createWebGLShapeBatch({ items: run.items, camera, width: this.width, height: this.height, floatBuffer: this.shapeFloatBuffer });
-    const uploader = run.mode === "static" ? this.cacheShapeBatch(run, camera, batch).uploader : this.resources.shapeUploaders.dynamic;
-    configureWebGLShapeProgram(this.gl, this.resources.shapeProgram, uploader);
-    trackWebGLUploadStats(uploader.upload(batch.vertices), stats);
-    drawWebGLShapeBatch(this.gl, batch);
-    trackWebGLShapeBatchStats(batch, run, stats);
-    emitWebGLShapePathFillFallbacks(batch, this.resourceOptions);
-  }
-
-  private renderCachedShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): boolean {
-    const identity = this.createStaticRunIdentity(run, camera);
-    const entry = this.resources.staticShapeCache.get(identity.runId, identity.key);
-
-    if (!entry) {
-      stats.staticCacheMisses += 1;
-      return false;
-    }
-
-    stats.staticCacheHits += 1;
-    configureWebGLShapeProgram(this.gl, this.resources.shapeProgram, entry.uploader);
-    drawWebGLShapeBatch(this.gl, entry.batch);
-    trackWebGLShapeBatchStats(entry.batch, run, stats);
-    emitWebGLShapePathFillFallbacks(entry.batch, this.resourceOptions);
-    return true;
-  }
-
-  private cacheShapeBatch(run: WebGLRenderRun, camera: Camera2D, batch: WebGLShapeBatch): ReturnType<WebGLRenderer2DResources["staticShapeCache"]["set"]> {
-    const identity = this.createStaticRunIdentity(run, camera);
-    return this.resources.staticShapeCache.set(identity.runId, identity.key, batch);
+    renderWebGLShapeRun({
+      gl: this.gl,
+      run,
+      camera,
+      width: this.width,
+      height: this.height,
+      resources: this.resources,
+      resourceOptions: this.resourceOptions,
+      shapeFloatBuffer: this.shapeFloatBuffer,
+      spriteFloatBuffer: this.spriteFloatBuffer,
+      stats
+    });
   }
 
   private renderSpriteRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {

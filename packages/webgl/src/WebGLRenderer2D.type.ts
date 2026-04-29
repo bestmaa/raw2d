@@ -10,7 +10,9 @@ export interface WebGLRenderer2DOptions {
   readonly height?: number;
   readonly backgroundColor?: string;
   readonly createTextCanvas?: (width: number, height: number) => HTMLCanvasElement;
+  readonly createShapePathCanvas?: (width: number, height: number) => HTMLCanvasElement;
   readonly textTextureCacheMaxEntries?: number;
+  readonly shapePathTextureCacheMaxEntries?: number;
   readonly shapePathFillFallback?: WebGLShapePathFillFallbackMode;
   readonly onShapePathFillFallback?: (fallback: WebGLShapePathFillFallbackReport) => void;
 }
