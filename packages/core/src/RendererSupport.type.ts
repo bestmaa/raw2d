@@ -21,3 +21,14 @@ export interface RendererSupportEntry {
   readonly webgl: RendererSupportLevel;
   readonly note: string;
 }
+
+export type RendererSupportObjectMap = Readonly<Record<RendererSupportObjectKind, RendererSupportLevel>>;
+
+export type RendererSupportNoteMap = Readonly<Record<RendererSupportObjectKind, string>>;
+
+export interface RendererSupportProfile {
+  readonly renderer: RendererSupportName;
+  readonly objects: RendererSupportObjectMap;
+  readonly notes: RendererSupportNoteMap;
+  readonly matrix: readonly RendererSupportEntry[];
+}

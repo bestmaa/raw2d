@@ -1,4 +1,4 @@
-import { Camera2D, RenderPipeline, type Object2D, type RenderList, type Scene } from "raw2d-core";
+import { Camera2D, RenderPipeline, getRendererSupport, type Object2D, type RendererSupportProfile, type RenderList, type Scene } from "raw2d-core";
 import { createWebGLRenderRuns } from "./createWebGLRenderRuns.js";
 import { createWebGLShapeBatch } from "./createWebGLShapeBatch.js";
 import { createWebGLSpriteBatch } from "./createWebGLSpriteBatch.js";
@@ -72,6 +72,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
   public getSize(): WebGLRenderer2DSize { return { width: this.width, height: this.height }; }
   public getStats(): WebGLRenderStats { return this.stats; }
+  public getSupport(): RendererSupportProfile { return getRendererSupport("webgl"); }
   public getTextureCacheSize(): number { return this.resources.textureCache.getSize(); }
   public getTextTextureCacheSize(): number { return this.resources.textTextureCache.getSize(); }
   public isContextLost(): boolean {

@@ -2,6 +2,7 @@ import type { Camera2D } from "./Camera2D.js";
 import type { Object2D } from "./Object2D.js";
 import type { RenderList } from "./RenderList.js";
 import type { RenderListStats } from "./RenderList.type.js";
+import type { RendererSupportProfile } from "./RendererSupport.type.js";
 import type { Scene } from "./Scene.js";
 
 export interface Renderer2DStats {
@@ -32,6 +33,7 @@ export interface Renderer2DLike<
   setSize(width: number, height: number): void;
   getSize(): TSize;
   getStats(): TStats;
+  getSupport(): RendererSupportProfile;
   setBackgroundColor(color: string): void;
   dispose(): void;
 }

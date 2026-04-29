@@ -18,6 +18,8 @@ test("WebGLRenderer2D exposes the shared renderer lifecycle surface", () => {
   assert.deepEqual(renderer.getSize(), { width: 100, height: 80 });
   assert.equal(renderer.getStats().objects, 1);
   assert.equal(renderer.getStats().drawCalls, 1);
+  assert.equal(renderer.getSupport().renderer, "webgl");
+  assert.equal(renderer.getSupport().objects.ShapePath, "partial");
   assert.deepEqual(renderer.getStats().renderList, { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 });
   assert.equal(gl.calls.includes("viewport:0,0,100,80"), true);
   assert.equal(gl.calls.includes("clearColor:1,1,1,1"), true);

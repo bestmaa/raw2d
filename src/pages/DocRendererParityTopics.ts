@@ -35,6 +35,16 @@ const renderer = canUseWebGL
   : new Canvas({ canvas });`
       },
       {
+        title: "Active Renderer Support",
+        body: "When a renderer instance already exists, call getSupport to read that renderer's object support directly.",
+        code: `const support = renderer.getSupport();
+
+console.log(support.renderer);
+console.log(support.objects.Rect);
+console.log(support.objects.ShapePath);
+console.log(support.notes.ShapePath);`
+      },
+      {
         title: "Partial Support",
         body: "Partial support is still useful, but the limitation should be visible to users. ShapePath is partial because WebGL supports simple fill/stroke, while complex fill rules still need Canvas.",
         code: `const pathSupport = getRendererSupportMatrix().find((entry) => {

@@ -1,21 +1,44 @@
 # Renderer Parity
 
-Ye Renderer Parity ka Hinglish readme hai. Iska focus Canvas/WebGL support matrix hai, aur yahan usko simple practical language me samjhaya gaya hai.
+Renderer parity batata hai ki Canvas aur WebGL renderer abhi kaun se Raw2D objects support karte hain.
 
-## Iska Kaam
+Canvas complete reference renderer hai. WebGL batch-first performance renderer hai, isliye kuch features partial ho sakte hain.
 
-Renderer Parity Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+## Global Matrix
 
-## Kab Use Karein
+```ts
+import { getRendererSupportMatrix } from "raw2d";
 
-Jab aap Raw2D project me Canvas/WebGL support matrix se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+console.table(getRendererSupportMatrix());
+```
 
-## Important Notes
+Har row me ye fields hote hain:
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+- `kind`: object name
+- `canvas`: Canvas support level
+- `webgl`: WebGL support level
+- `note`: short implementation detail
+
+## Active Renderer Support
+
+Renderer instance se direct support profile read kar sakte ho:
+
+```ts
+const support = renderer.getSupport();
+
+console.log(support.renderer);
+console.log(support.objects.Rect);
+console.log(support.objects.ShapePath);
+console.log(support.notes.ShapePath);
+```
+
+Ye editor UI, docs, debug tools, aur future React wrapper ke liye useful hai.
+
+## Support Levels
+
+- `supported`: normal render expected hai
+- `partial`: feature kaam karta hai, par known limitation hai
+- `unsupported`: renderer intentionally skip karta hai
 
 ## English Reference
 

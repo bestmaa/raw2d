@@ -22,6 +22,7 @@ The shared surface is intentionally small:
 - `setSize(width, height)`
 - `getSize()`
 - `getStats()`
+- `getSupport()`
 - `setBackgroundColor(color)`
 - `dispose()`
 
@@ -75,6 +76,18 @@ console.log(stats.renderList.culled);
 ```
 
 WebGL returns more stats on top, including batches, texture binds, upload bytes, and cache hits.
+
+## Support Profile
+
+```ts
+const support = renderer.getSupport();
+
+console.log(support.renderer);
+console.log(support.objects.Text2D);
+console.log(support.notes.Text2D);
+```
+
+Use this in docs, tools, and future integrations when you need renderer capability checks from the active renderer instance.
 
 ## Why It Exists
 

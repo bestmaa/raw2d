@@ -22,6 +22,7 @@ Dono public renderers ye common methods dete hain:
 - `setSize(width, height)`
 - `getSize()`
 - `getStats()`
+- `getSupport()`
 - `setBackgroundColor(color)`
 - `dispose()`
 
@@ -50,6 +51,18 @@ console.log(stats.renderList.culled);
 ```
 
 WebGL iske upar extra stats deta hai, jaise `batches`, `textureBinds`, `uploadedBytes`, aur `staticCacheHits`.
+
+## Support Profile
+
+```ts
+const support = renderer.getSupport();
+
+console.log(support.renderer);
+console.log(support.objects.Text2D);
+console.log(support.notes.Text2D);
+```
+
+Iska use editor UI, docs, ya future React wrapper me kar sakte ho jab active renderer ki capability check karni ho.
 
 ## Kyu Important Hai
 

@@ -1,4 +1,10 @@
-import type { RendererSupportEntry } from "./RendererSupport.type.js";
+import type {
+  RendererSupportEntry,
+  RendererSupportName,
+  RendererSupportNoteMap,
+  RendererSupportObjectMap,
+  RendererSupportProfile
+} from "./RendererSupport.type.js";
 
 export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
   { kind: "Rect", canvas: "supported", webgl: "supported", note: "WebGL batches Rect as filled shape geometry." },
@@ -16,4 +22,21 @@ export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
 
 export function getRendererSupportMatrix(): readonly RendererSupportEntry[] {
   return rendererSupportMatrix;
+}
+
+export function getRendererSupport(renderer: RendererSupportName): RendererSupportProfile {
+  const objects: Partial<Record<keyof RendererSupportObjectMap, RendererSupportObjectMap[keyof RendererSupportObjectMap]>> = {};
+  const notes: Partial<Record<keyof RendererSupportNoteMap, string>> = {};
+
+  for (const entry of rendererSupportMatrix) {
+    objects[entry.kind] = entry[renderer];
+    notes[entry.kind] = entry.note;
+  }
+
+  return {
+    renderer,
+    objects: objects as RendererSupportObjectMap,
+    notes: notes as RendererSupportNoteMap,
+    matrix: rendererSupportMatrix
+  };
 }

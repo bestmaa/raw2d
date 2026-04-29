@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getRendererSupportMatrix } from "raw2d-core";
+import { getRendererSupport, getRendererSupportMatrix } from "raw2d-core";
 
 test("renderer support matrix exposes current object coverage", () => {
   const matrix = getRendererSupportMatrix();
@@ -33,4 +33,16 @@ test("renderer support matrix uses stable unique object kinds", () => {
     "Sprite",
     "Text2D"
   ]);
+});
+
+test("renderer support profile exposes object support by renderer", () => {
+  const canvas = getRendererSupport("canvas");
+  const webgl = getRendererSupport("webgl");
+
+  assert.equal(canvas.renderer, "canvas");
+  assert.equal(canvas.objects.ShapePath, "supported");
+  assert.equal(webgl.renderer, "webgl");
+  assert.equal(webgl.objects.ShapePath, "partial");
+  assert.equal(webgl.objects.Text2D, "partial");
+  assert.match(webgl.notes.Text2D, /rasterizes/);
 });

@@ -41,6 +41,21 @@ if (rectSupport?.webgl === "supported") {
 
 Use this when docs, demos, or tools need to show the correct renderer choice.
 
+## Check The Active Renderer
+
+Every public renderer exposes the same support profile:
+
+```ts
+const support = renderer.getSupport();
+
+console.log(support.renderer);
+console.log(support.objects.Rect);
+console.log(support.objects.ShapePath);
+console.log(support.notes.ShapePath);
+```
+
+Use this when your app already has a renderer instance and wants to show UI hints or warnings.
+
 ## Current Direction
 
 ```ts
