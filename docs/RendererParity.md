@@ -18,7 +18,7 @@ Current checklist:
 | Polyline | supported | supported | done | Segments are expanded into stroke geometry. |
 | Polygon | supported | supported | done | Simple polygons are triangulated with ear clipping. |
 | ShapePath | supported | partial | medium | Strokes and simple closed fills work; complex fills can use rasterize fallback. |
-| Text2D | supported | partial | medium | Text is rasterized to texture; glyph atlas is not built yet. |
+| Text2D | supported | partial | medium | Fill and optional stroke text are rasterized to cached textures; glyph atlas is not built yet. |
 | Sprite | supported | supported | done | Consecutive same-texture sprites can batch. |
 | Group2D | supported | supported | done | Groups are flattened by `RenderPipeline`. |
 
@@ -89,7 +89,7 @@ WebGL currently focuses on batched shapes, simple ShapePath fill/stroke, opt-in 
 
 ## Missing Support Plan
 
-1. Text2D cache maturity: keep the current canvas-texture cache, then add glyph atlas or stronger pooling for large dynamic text scenes.
+1. Text2D cache maturity: current cache handles fill/stroke text textures; next step is glyph atlas or stronger pooling for large dynamic text scenes.
 2. Stroke polish: improve joins, caps, and curve sampling controls after the two partial WebGL areas are stable.
 3. ShapePath direct GPU fill: expand direct fill rules after the rasterized fallback has proven useful.
 4. Performance proof: keep Canvas/WebGL comparison demos and stats updated as each WebGL feature lands.

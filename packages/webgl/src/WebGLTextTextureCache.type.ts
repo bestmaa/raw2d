@@ -17,6 +17,7 @@ export interface WebGLTextTextureEntry {
 
 export interface WebGLTextTextureCacheStats {
   readonly size: number;
+  readonly used: number;
   readonly hits: number;
   readonly misses: number;
   readonly evictions: number;

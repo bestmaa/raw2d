@@ -6,7 +6,7 @@ Current scope:
 
 - renders `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, simple `Polygon`, and simple ShapePath fill/stroke
 - renders `Sprite`
-- renders `Text2D` by rasterizing it to a canvas texture
+- renders `Text2D` fill and optional stroke by rasterizing it to a canvas texture
 - uses cached world matrices from `RenderPipeline`
 - batches consecutive shape objects by material key
 - batches consecutive sprites by texture key
@@ -92,6 +92,7 @@ renderer.render(scene, new Camera2D());
 ```
 
 Text2D is rasterized to a small canvas texture, then drawn through the texture batch path. Moving text reuses the raster texture. Changing text, font, alignment, baseline, or fill color rebuilds it.
+If `strokeColor` differs from `fillColor`, WebGL also rasterizes the text stroke with `lineWidth`.
 
 ## Stats
 
@@ -109,7 +110,7 @@ console.log(stats.renderList.culled);
 console.log(stats.uploadedBytes);
 ```
 
-`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Text texture stats show rasterized text cache hits, misses, evictions, and retired textures. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
+`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Text texture stats show frame-used raster text textures, cache hits, misses, evictions, and retired textures. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
 
 `shapePathUnsupportedFills` reports ShapePath fills that direct WebGL geometry could not draw because the fill is not a single simple closed subpath. In `skip` and `warn` mode those fills are skipped. In `rasterize` mode the fill is drawn through a cached canvas texture fallback. ShapePath stroke can still render as WebGL geometry.
 

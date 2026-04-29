@@ -18,7 +18,7 @@ Current checklist:
 | Polyline | supported | supported | done | Segments stroke geometry me expand hote hain. |
 | Polygon | supported | supported | done | Simple polygons ear clipping se triangulate hote hain. |
 | ShapePath | supported | partial | medium | Stroke aur simple closed fill work karta hai; complex fill rasterize fallback use kar sakta hai. |
-| Text2D | supported | partial | medium | Text texture me rasterize hota hai; glyph atlas abhi nahi hai. |
+| Text2D | supported | partial | medium | Fill aur optional stroke text cached texture me rasterize hota hai; glyph atlas abhi nahi hai. |
 | Sprite | supported | supported | done | Same-texture consecutive sprites batch ho sakte hain. |
 | Group2D | supported | supported | done | Groups `RenderPipeline` se flatten hote hain. |
 
@@ -58,7 +58,7 @@ Ye editor UI, docs, debug tools, aur future React wrapper ke liye useful hai.
 
 ## Missing Support Plan
 
-1. Text2D cache maturity: current canvas-texture cache ke baad glyph atlas ya better pooling add karna.
+1. Text2D cache maturity: current cache fill/stroke text textures handle karta hai; next step glyph atlas ya better pooling hai.
 2. Stroke polish: joins, caps, aur curve sampling controls improve karna.
 3. ShapePath direct GPU fill: rasterized fallback stable hone ke baad direct fill rules expand karna.
 4. Performance proof: Canvas/WebGL comparison demos aur stats ko updated rakhna.

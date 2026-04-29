@@ -104,9 +104,9 @@ console.log(stats.textTextureEvictions);
 console.log(stats.retiredTextTextures);
 ```
 
-- `textTextures`: text texture records used this frame
+- `textTextures`: rasterized text texture records used this frame
 - `textTextureCacheHits`: reused text texture entries
-- `textTextureCacheMisses`: text/style changes that needed new texture entries
+- `textTextureCacheMisses`: text/material style changes that needed new texture entries
 - `textTextureEvictions`: old entries removed from the text texture cache
 - `retiredTextTextures`: old GPU text textures waiting for cleanup
 

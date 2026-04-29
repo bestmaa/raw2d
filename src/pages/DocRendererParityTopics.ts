@@ -18,7 +18,7 @@ console.table(matrix);`
       },
       {
         title: "Current Checklist",
-        body: "Canvas is the correctness baseline. WebGL is mostly aligned now; ShapePath has an opt-in rasterize fallback, while large dynamic Text2D workloads still need stronger cache work.",
+        body: "Canvas is the correctness baseline. WebGL is mostly aligned now; ShapePath has an opt-in rasterize fallback, and Text2D has fill/stroke texture caching while large dynamic text still needs glyph-atlas work.",
         code: `for (const entry of getRendererSupportMatrix()) {
   console.log({
     object: entry.kind,
@@ -68,7 +68,7 @@ console.log(pathSupport?.note);`
       },
       {
         title: "Missing Support Plan",
-        body: "The next WebGL parity work should stay ordered: stronger Text2D cache first, stroke polish second, direct ShapePath GPU fill third, then performance proof updates.",
+        body: "The next WebGL parity work should stay ordered: glyph atlas or stronger text pooling first, stroke geometry polish second, direct ShapePath GPU fill third, then performance proof updates.",
         code: `const planned = getRendererSupportMatrix()
   .filter((entry) => entry.webgl === "partial" || entry.webgl === "unsupported")
   .map((entry) => ({

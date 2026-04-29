@@ -67,7 +67,7 @@ function getTextKey(object: Object2D): string {
     return "text:none";
   }
 
-  return `text:${object.text}:${object.font}:${object.align}:${object.baseline}:${object.material.fillColor}`;
+  return `text:${object.text}:${object.font}:${object.align}:${object.baseline}:${object.material.version}:${object.material.fillColor}:${object.material.strokeColor}:${object.material.lineWidth}`;
 }
 
 function hasVersion(value: unknown): value is Versioned {

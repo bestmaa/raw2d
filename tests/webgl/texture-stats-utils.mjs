@@ -38,9 +38,12 @@ function createFake2DContext() {
     textAlign: "start",
     textBaseline: "alphabetic",
     fillStyle: "#ffffff",
+    strokeStyle: "#10141c",
+    lineWidth: 1,
     clearRect() {},
     drawImage() {},
     fillText() {},
+    strokeText() {},
     measureText(text) {
       const width = text.length * 10;
       return {

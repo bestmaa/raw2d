@@ -1,14 +1,28 @@
 # Text2D
 
-Ye Text2D ka Hinglish readme hai. Iska focus text rendering hai, aur yahan usko simple practical language me samjhaya gaya hai.
+`Text2D` text object ka data rakhta hai. Object khud draw nahi karta; Canvas ya WebGL renderer is data ko read karke draw karta hai.
 
 ## Iska Kaam
 
-Text2D Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+Canvas renderer text ko directly Canvas API se draw karta hai. WebGLRenderer2D text ko pehle chhote canvas texture me rasterize karta hai, fir Sprite jaisa texture quad draw karta hai.
 
 ## Kab Use Karein
 
-Jab aap Raw2D project me text rendering se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+```ts
+const label = new Text2D({
+  x: 80,
+  y: 135,
+  text: "Hello Raw2D",
+  font: "32px sans-serif",
+  material: new BasicMaterial({
+    fillColor: "#f5f7fb",
+    strokeColor: "#10141c",
+    lineWidth: 3
+  })
+});
+```
+
+`strokeColor` agar `fillColor` se alag hai to stroke draw hota hai. Text, font, fill color, stroke color, ya line width change karne par WebGL text texture rebuild hota hai. Position, rotation, ya scale change karne par same texture reuse hota hai.
 
 ## Important Notes
 

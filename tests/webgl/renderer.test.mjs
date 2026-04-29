@@ -890,8 +890,11 @@ function createFakeTextCanvas(width, height) {
         textAlign: "start",
         textBaseline: "alphabetic",
         fillStyle: "#ffffff",
+        strokeStyle: "#10141c",
+        lineWidth: 1,
         clearRect() {},
         fillText() {},
+        strokeText() {},
         measureText(text) {
           const width = text.length * 10;
           return {

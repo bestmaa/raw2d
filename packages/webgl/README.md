@@ -12,7 +12,7 @@ Current support:
 
 - `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`
 - `Sprite`
-- `Text2D` through rasterized canvas textures
+- `Text2D` fill and optional stroke through rasterized canvas textures
 - complex `ShapePath` fill fallback through opt-in rasterized textures
 - ordered shape material batches
 - ordered sprite texture batches
@@ -62,7 +62,7 @@ console.log(renderer.getStats());
 
 Sprite batching uses the same `Texture` object as the texture key. Consecutive Sprites with the same Texture are merged into one draw call, even when they use different atlas frames. Raw2D does not reorder across unrelated objects, so scene order remains predictable.
 
-`Text2D` is rendered by rasterizing text to a small canvas texture, then drawing that texture through the same ordered texture batch path. This is the simple MVP path; glyph atlas and SDF text can come later without changing `Text2D` object data.
+`Text2D` is rendered by rasterizing fill and optional stroke text to a small canvas texture, then drawing that texture through the same ordered texture batch path. Moving text reuses the texture; changing text or material style rebuilds it. Glyph atlas and SDF text can come later without changing `Text2D` object data.
 
 Complex `ShapePath` fills can use an explicit texture fallback:
 

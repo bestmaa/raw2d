@@ -22,7 +22,7 @@ renderer.render(scene, camera);`
       },
       {
         title: "Text2D Texture Path",
-        body: "Text2D stays an object-data class. WebGLRenderer2D rasterizes it to a small canvas texture, then draws that texture through the same ordered texture batch path as Sprites.",
+        body: "Text2D stays an object-data class. WebGLRenderer2D rasterizes fill and optional stroke text to a small canvas texture, then draws that texture through the same ordered texture batch path as Sprites.",
         code: `import { BasicMaterial, Camera2D, Scene, Text2D, WebGLRenderer2D } from "raw2d";
 
 const label = new Text2D({
@@ -30,7 +30,11 @@ const label = new Text2D({
   y: 90,
   text: "GPU label",
   font: "28px sans-serif",
-  material: new BasicMaterial({ fillColor: "#f5f7fb" })
+  material: new BasicMaterial({
+    fillColor: "#f5f7fb",
+    strokeColor: "#10141c",
+    lineWidth: 3
+  })
 });
 
 scene.add(label);
@@ -38,7 +42,7 @@ webglRenderer.render(scene, new Camera2D());`
       },
       {
         title: "Text Texture Cache",
-        body: "Text texture cache keys use visual text data only. Moving, rotating, or scaling Text2D reuses the raster texture; changing text, font, alignment, baseline, or fill color rebuilds it.",
+        body: "Text texture cache keys use visual text and material data. Moving, rotating, or scaling Text2D reuses the raster texture; changing text, font, alignment, baseline, fill color, stroke color, or line width rebuilds it.",
         code: `webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textTextureCacheMisses);
 

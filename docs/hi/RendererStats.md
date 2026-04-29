@@ -104,9 +104,9 @@ console.log(stats.textTextureEvictions);
 console.log(stats.retiredTextTextures);
 ```
 
-- `textTextures`: is frame me use hue text texture records
+- `textTextures`: is frame me use hue raster text texture records
 - `textTextureCacheHits`: reused text texture entries
-- `textTextureCacheMisses`: text/style change ki wajah se naye entries
+- `textTextureCacheMisses`: text/material style change ki wajah se naye entries
 - `textTextureEvictions`: cache se remove hue old entries
 - `retiredTextTextures`: cleanup ke wait me old GPU text textures
 

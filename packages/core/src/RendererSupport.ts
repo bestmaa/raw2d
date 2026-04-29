@@ -27,8 +27,8 @@ export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
     kind: "Text2D",
     canvas: "supported",
     webgl: "partial",
-    note: "WebGL rasterizes Text2D to texture; no glyph atlas yet.",
-    limitation: "Large dynamic text scenes can create many canvas textures.",
+    note: "WebGL rasterizes fill and optional stroke Text2D to cached textures; no glyph atlas yet.",
+    limitation: "Large dynamic text scenes can still create many canvas textures.",
     nextStep: "Add glyph atlas or stronger text texture pooling after renderer parity is stable.",
     priority: "medium"
   },

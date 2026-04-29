@@ -54,10 +54,11 @@ scene.add(text);
 webglRenderer.render(scene, camera);
 ```
 
-WebGL text is intentionally simple for now:
+WebGL text is intentionally explicit for now:
 
 - text is rasterized to a small canvas texture
-- changing text, font, or material color rebuilds that texture
+- changing text, font, fill color, stroke color, or line width rebuilds that texture
+- stroke is drawn when `strokeColor` differs from `fillColor`
 - the resulting texture is drawn through the texture batch path
 - future work can replace this with glyph atlas or SDF text
 

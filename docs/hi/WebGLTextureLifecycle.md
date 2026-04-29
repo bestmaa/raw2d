@@ -16,7 +16,7 @@ console.log(renderer.getStats().textureCacheHits);
 
 ## Text Texture Cache
 
-`Text2D` WebGL me direct text draw nahi karta. Pehle text ek chhote canvas texture me rasterize hota hai, fir sprite-like texture batch me draw hota hai.
+`Text2D` WebGL me direct text draw nahi karta. Pehle text ek chhote canvas texture me rasterize hota hai, fir sprite-like texture batch me draw hota hai. Fill ke saath optional stroke bhi isi texture me aata hai.
 
 Cache key sirf visual text data par based hai:
 
@@ -36,6 +36,8 @@ label.x += 20;
 renderer.render(scene, camera);
 console.log(renderer.getStats().textTextureCacheHits);
 ```
+
+Text, font, fill color, stroke color, ya line width badalne par old text texture retire hota hai aur next render par new texture banta hai.
 
 Text, font, align, baseline, ya fill color change karne par old text texture retire hota hai aur new texture banta hai.
 
