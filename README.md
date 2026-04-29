@@ -118,7 +118,7 @@ console.log(stats.spriteTextureBindReduction);
 Both renderers implement the shared `Renderer2DLike` contract:
 
 ```ts
-import type { Renderer2DLike } from "raw2d-core";
+import type { Renderer2DLike } from "raw2d";
 
 function drawFrame(renderer: Renderer2DLike): void {
   renderer.render(scene, camera);

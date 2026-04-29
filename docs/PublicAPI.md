@@ -44,6 +44,7 @@ Examples of internals that stay out of `raw2d` runtime exports:
 ```ts
 // Use focused packages for these advanced helpers.
 import { createWebGLShapeBatch, WebGLFloatBuffer } from "raw2d-webgl";
+import { sortWebGLSpritesForBatching } from "raw2d-webgl";
 import { CanvasObjectRenderer } from "raw2d-canvas";
 ```
 

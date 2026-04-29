@@ -127,23 +127,7 @@ console.log(stats.uploadedBytes);
 - texture stats explain GPU texture work
 - upload stats explain buffer churn
 
-For smoother display numbers, keep a rolling average over the last 60 frames:
-
-```ts
-const samples: number[] = [];
-
-function recordFrame(frameMs: number): number {
-  samples.push(frameMs);
-
-  if (samples.length > 60) {
-    samples.shift();
-  }
-
-  return samples.reduce((sum, value) => sum + value, 0) / samples.length;
-}
-```
-
-These numbers are approximate. Browser timing changes with tab focus, display refresh rate, GPU driver, devtools, background tasks, and the rest of your app. Use this timing to compare approaches in the same page, then use browser performance tools for final profiling.
+For smoother display numbers, keep a rolling average over recent frames. Browser timing changes with tab focus, display refresh rate, GPU driver, devtools, background tasks, and the rest of your app.
 
 ## Packed Atlas vs Separate Textures
 
@@ -174,6 +158,11 @@ console.log(renderer.getStats().textureBinds);
 Raw2D does not reorder the scene automatically. For safe sprite layers, compare and sort explicitly:
 
 ```ts
+import {
+  estimateWebGLSpriteTextureBinds,
+  sortWebGLSpritesForBatching
+} from "raw2d-webgl";
+
 const before = estimateWebGLSpriteTextureBinds({ sprites });
 const sortedSprites = sortWebGLSpritesForBatching({ sprites });
 const after = estimateWebGLSpriteTextureBinds({ sprites: sortedSprites });
@@ -184,6 +173,8 @@ console.log({ before, after });
 For a fuller pre-render report:
 
 ```ts
+import { analyzeWebGLSpriteBatching } from "raw2d-webgl";
+
 const report = analyzeWebGLSpriteBatching({ sprites });
 
 console.log(report.currentTextureBinds);

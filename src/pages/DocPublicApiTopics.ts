@@ -36,7 +36,10 @@ WebGLRenderer2D;
 TextureAtlasPacker;
 
 // Advanced helpers stay in focused packages:
-// import { createWebGLShapeBatch } from "raw2d-webgl";`
+// import {
+//   createWebGLShapeBatch,
+//   sortWebGLSpritesForBatching
+// } from "raw2d-webgl";`
       },
       {
         title: "Type Exports",

@@ -63,7 +63,7 @@ This keeps the pipeline explicit: load files, pack atlas, create Sprites, render
 Use `sortWebGLSpritesForBatching()` when the layer can be reordered:
 
 ```ts
-import { sortWebGLSpritesForBatching } from "raw2d";
+import { sortWebGLSpritesForBatching } from "raw2d-webgl";
 
 const sortedSprites = sortWebGLSpritesForBatching({
   sprites
@@ -91,7 +91,7 @@ Use `estimateWebGLSpriteTextureBinds()` to compare order before rendering:
 import {
   estimateWebGLSpriteTextureBinds,
   sortWebGLSpritesForBatching
-} from "raw2d";
+} from "raw2d-webgl";
 
 const before = estimateWebGLSpriteTextureBinds({ sprites });
 const sorted = sortWebGLSpritesForBatching({ sprites });
@@ -112,7 +112,7 @@ console.log(webglRenderer.getStats().textureBinds);
 Use `analyzeWebGLSpriteBatching()` when you want one report before touching scene order:
 
 ```ts
-import { analyzeWebGLSpriteBatching } from "raw2d";
+import { analyzeWebGLSpriteBatching } from "raw2d-webgl";
 
 const report = analyzeWebGLSpriteBatching({ sprites });
 

@@ -44,6 +44,7 @@ Ye helpers `raw2d` runtime surface me nahi aate:
 ```ts
 // Advanced helpers ke liye focused packages use karein.
 import { createWebGLShapeBatch, WebGLFloatBuffer } from "raw2d-webgl";
+import { sortWebGLSpritesForBatching } from "raw2d-webgl";
 import { CanvasObjectRenderer } from "raw2d-canvas";
 ```
 

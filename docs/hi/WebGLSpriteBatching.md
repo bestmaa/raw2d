@@ -63,7 +63,7 @@ Flow clear rehta hai: files load, atlas pack, Sprites create, render, phir stats
 Jab layer reorder karna safe ho, tab `sortWebGLSpritesForBatching()` use karein:
 
 ```ts
-import { sortWebGLSpritesForBatching } from "raw2d";
+import { sortWebGLSpritesForBatching } from "raw2d-webgl";
 
 const sortedSprites = sortWebGLSpritesForBatching({
   sprites
@@ -91,7 +91,7 @@ Render se pehle order compare karne ke liye `estimateWebGLSpriteTextureBinds()` 
 import {
   estimateWebGLSpriteTextureBinds,
   sortWebGLSpritesForBatching
-} from "raw2d";
+} from "raw2d-webgl";
 
 const before = estimateWebGLSpriteTextureBinds({ sprites });
 const sorted = sortWebGLSpritesForBatching({ sprites });
@@ -112,7 +112,7 @@ console.log(webglRenderer.getStats().textureBinds);
 Scene order change karne se pehle ek report chahiye ho to `analyzeWebGLSpriteBatching()` use karein:
 
 ```ts
-import { analyzeWebGLSpriteBatching } from "raw2d";
+import { analyzeWebGLSpriteBatching } from "raw2d-webgl";
 
 const report = analyzeWebGLSpriteBatching({ sprites });
 

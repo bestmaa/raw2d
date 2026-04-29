@@ -67,7 +67,12 @@ function getMainSource() {
   WebGLRenderer2D,
   isWebGL2Available
 } from "raw2d";
-import { createWebGLShapeBatch } from "raw2d-webgl";
+import {
+  analyzeWebGLSpriteBatching,
+  createWebGLShapeBatch,
+  estimateWebGLSpriteTextureBinds,
+  sortWebGLSpritesForBatching
+} from "raw2d-webgl";
 import { TextureAtlasPacker as FocusedPacker } from "raw2d-sprite";
 import type { Renderer2DLike, WebGLRenderStats } from "raw2d";
 
@@ -95,6 +100,11 @@ renderer.render(scene, camera);
 
 new InteractionController({ canvas: canvasElement, scene, camera });
 console.log(atlasPacker, focusedPacker, typeof createWebGLShapeBatch);
+console.log(
+  sortWebGLSpritesForBatching({ sprites: [sprite] }).length,
+  estimateWebGLSpriteTextureBinds({ sprites: [sprite] }),
+  analyzeWebGLSpriteBatching({ sprites: [sprite] }).spriteCount
+);
 console.log((renderer.getStats() as WebGLRenderStats | ReturnType<typeof renderer.getStats>).objects);
 `;
 }

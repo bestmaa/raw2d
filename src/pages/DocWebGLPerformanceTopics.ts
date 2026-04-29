@@ -70,7 +70,12 @@ console.log(webglRenderer.getStats().textureBinds);`
         title: "Batch-Friendly Sprite Order",
         body: "Raw2D does not reorder the scene automatically. For safe sprite layers, sort by zIndex, renderMode, and texture key before adding sprites to the scene.",
         liveDemoId: "webgl-performance",
-        code: `const before = estimateWebGLSpriteTextureBinds({ sprites });
+        code: `import {
+  estimateWebGLSpriteTextureBinds,
+  sortWebGLSpritesForBatching
+} from "raw2d-webgl";
+
+const before = estimateWebGLSpriteTextureBinds({ sprites });
 const sortedSprites = sortWebGLSpritesForBatching({ sprites });
 const after = estimateWebGLSpriteTextureBinds({ sprites: sortedSprites });
 
@@ -84,7 +89,9 @@ for (const sprite of sortedSprites) {
         title: "Sprite Batch Report",
         body: "Use analyzeWebGLSpriteBatching before changing order. It shows current binds, sorted binds, potential reduction, and per-texture group counts.",
         liveDemoId: "webgl-performance",
-        code: `const report = analyzeWebGLSpriteBatching({ sprites });
+        code: `import { analyzeWebGLSpriteBatching } from "raw2d-webgl";
+
+const report = analyzeWebGLSpriteBatching({ sprites });
 
 console.log(report.currentTextureBinds);
 console.log(report.sortedTextureBinds);

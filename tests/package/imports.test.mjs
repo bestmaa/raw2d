@@ -6,7 +6,13 @@ import { BasicMaterial, Camera2D, Rect, Scene } from "raw2d-core";
 import { InteractionController, SelectionManager } from "raw2d-interaction";
 import { Sprite, Texture, TextureAtlasPacker } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
-import { WebGLRenderer2D, isWebGL2Available } from "raw2d-webgl";
+import {
+  WebGLRenderer2D,
+  analyzeWebGLSpriteBatching,
+  estimateWebGLSpriteTextureBinds,
+  isWebGL2Available,
+  sortWebGLSpritesForBatching
+} from "raw2d-webgl";
 
 test("umbrella package exports common public API", () => {
   assert.equal(typeof Raw2D.Canvas, "function");
@@ -23,6 +29,7 @@ test("umbrella package keeps renderer internals out of runtime API", () => {
   assert.equal(Raw2D.WebGLFloatBuffer, undefined);
   assert.equal(Raw2D.WebGLTextTextureCache, undefined);
   assert.equal(Raw2D.createWebGLShapeBatch, undefined);
+  assert.equal(Raw2D.sortWebGLSpritesForBatching, undefined);
   assert.equal(Raw2D.drawRect, undefined);
   assert.equal(Raw2D.uid, undefined);
 });
@@ -33,6 +40,9 @@ test("focused packages expose installable entry points", () => {
   assert.equal(typeof InteractionController, "function");
   assert.equal(typeof TextureAtlasPacker, "function");
   assert.equal(typeof isWebGL2Available, "function");
+  assert.equal(typeof sortWebGLSpritesForBatching, "function");
+  assert.equal(typeof estimateWebGLSpriteTextureBinds, "function");
+  assert.equal(typeof analyzeWebGLSpriteBatching, "function");
 });
 
 test("package imports can build a small scene without browser globals", () => {
