@@ -147,7 +147,7 @@ scene.add(new Sprite({
 renderer.render(scene, camera);
 ```
 
-Use `TextureAtlas` or `TextureAtlasPacker` when many sprites should share one texture. In WebGL this helps reduce texture binds.
+Use `TextureAtlas`, `TextureAtlasPacker`, or `AssetGroupLoader` `packAtlas` when many sprites should share one texture. In WebGL this helps reduce texture binds.
 
 ## Interaction Tools
 

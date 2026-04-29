@@ -117,9 +117,12 @@ const assets = await new AssetGroupLoader().load({
   player: "/sprites/player.png",
   enemy: { type: "texture", url: "/sprites/enemy.png" },
   playerAtlas: { type: "atlas", url: "/sprites/player.atlas.json" }
+}, {
+  packAtlas: { atlasName: "sprites", padding: 2, edgeBleed: 1 }
 });
 
 const playerTexture = assets.getTexture("player");
+const packedSprites = assets.getAtlas("sprites");
 
 assets.dispose();
 ```

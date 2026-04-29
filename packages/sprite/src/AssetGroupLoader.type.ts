@@ -1,6 +1,7 @@
 import type { Texture } from "./Texture.js";
 import type { TextureAtlas } from "./TextureAtlas.js";
 import type { TextureAtlasLoaderLoadOptions } from "./TextureAtlasLoader.type.js";
+import type { TextureAtlasPackerOptions } from "./TextureAtlasPacker.type.js";
 import type { TextureLoaderLoadOptions } from "./TextureLoader.type.js";
 
 export type AssetGroupAssetKind = "texture" | "atlas";
@@ -38,6 +39,11 @@ export interface AssetGroupLoaderOptions {
 export interface AssetGroupLoadOptions {
   readonly onProgress?: (event: AssetGroupProgressEvent) => void;
   readonly failFast?: boolean;
+  readonly packAtlas?: boolean | AssetGroupAtlasPackingOptions;
+}
+
+export interface AssetGroupAtlasPackingOptions extends TextureAtlasPackerOptions {
+  readonly atlasName?: string;
 }
 
 export interface AssetGroupTextureLoader {
@@ -57,4 +63,3 @@ export interface AssetGroupLoadedEntry {
   readonly atlas?: TextureAtlas;
   readonly error?: Error;
 }
-

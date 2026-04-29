@@ -68,6 +68,37 @@ test("AssetGroupLoader can collect failed assets without rejecting", async () =>
   assert.match(group.getError("missing")?.message ?? "", /missing texture/);
 });
 
+test("AssetGroupLoader can pack loaded textures into an atlas", async () => {
+  const playerTexture = createTexture("player", 16, 20);
+  const enemyTexture = createTexture("enemy", 10, 12);
+  const loader = new AssetGroupLoader({
+    textureLoader: {
+      async load(url) {
+        return url.includes("enemy") ? enemyTexture : playerTexture;
+      }
+    }
+  });
+
+  const group = await loader.load({
+    player: "/player.png",
+    enemy: "/enemy.png"
+  }, {
+    packAtlas: {
+      atlasName: "sprites",
+      padding: 1,
+      createCanvas
+    }
+  });
+
+  const atlas = group.getAtlas("sprites");
+
+  assert.equal(group.getTexture("player"), playerTexture);
+  assert.equal(group.getTexture("enemy"), enemyTexture);
+  assert.equal(group.hasAtlas("sprites"), true);
+  assert.deepEqual(atlas?.getFrame("player"), { x: 1, y: 1, width: 16, height: 20 });
+  assert.deepEqual(atlas?.getFrame("enemy"), { x: 18, y: 1, width: 10, height: 12 });
+});
+
 test("AssetGroupLoader rejects failed assets by default", async () => {
   const loader = new AssetGroupLoader({
     textureLoader: {
@@ -110,12 +141,28 @@ test("AssetGroup dispose disposes unique texture sources", async () => {
   assert.equal(closeCount, 1);
 });
 
-function createTexture(id) {
+function createTexture(id, width = 16, height = 16) {
   return new Texture({
     id,
-    source: { width: 16, height: 16 },
-    width: 16,
-    height: 16
+    source: { width, height },
+    width,
+    height
   });
 }
 
+function createCanvas(width, height) {
+  return {
+    width,
+    height,
+    getContext(contextId) {
+      if (contextId !== "2d") {
+        return null;
+      }
+
+      return {
+        clearRect() {},
+        drawImage() {}
+      };
+    }
+  };
+}

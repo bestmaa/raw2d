@@ -1,5 +1,6 @@
 import { AssetGroup } from "./AssetGroup.js";
 import type {
+  AssetGroupAtlasPackingOptions,
   AssetGroupAtlasEntry,
   AssetGroupAtlasLoader,
   AssetGroupAssetKind,
@@ -15,7 +16,11 @@ import type {
 import type { Texture } from "./Texture.js";
 import type { TextureAtlas } from "./TextureAtlas.js";
 import { TextureAtlasLoader } from "./TextureAtlasLoader.js";
+import { TextureAtlasPacker } from "./TextureAtlasPacker.js";
+import type { TextureAtlasPackerItem } from "./TextureAtlasPacker.type.js";
 import { TextureLoader } from "./TextureLoader.js";
+
+const DEFAULT_PACKED_ATLAS_NAME = "packed";
 
 export class AssetGroupLoader {
   private readonly textureLoader: AssetGroupTextureLoader;
@@ -59,7 +64,7 @@ export class AssetGroupLoader {
       }
     }));
 
-    return createGroup(results);
+    return createGroup(results, options);
   }
 
   public clearCache(): void {
@@ -104,7 +109,7 @@ function normalizeEntry(entry: AssetGroupManifestEntry): AssetGroupTextureEntry 
   return entry;
 }
 
-function createGroup(results: readonly AssetGroupLoadedEntry[]): AssetGroup {
+function createGroup(results: readonly AssetGroupLoadedEntry[], options: AssetGroupLoadOptions): AssetGroup {
   const textures = new Map<string, Texture>();
   const atlases = new Map<string, TextureAtlas>();
   const errors = new Map<string, Error>();
@@ -119,7 +124,55 @@ function createGroup(results: readonly AssetGroupLoadedEntry[]): AssetGroup {
     }
   }
 
+  const packedAtlas = createPackedAtlas(results, options);
+
+  if (packedAtlas) {
+    atlases.set(packedAtlas.name, packedAtlas.atlas);
+  }
+
   return new AssetGroup({ textures, atlases, errors });
+}
+
+function createPackedAtlas(
+  results: readonly AssetGroupLoadedEntry[],
+  options: AssetGroupLoadOptions
+): { readonly name: string; readonly atlas: TextureAtlas } | null {
+  const packingOptions = getAtlasPackingOptions(options);
+
+  if (!packingOptions) {
+    return null;
+  }
+
+  const items = results.flatMap<TextureAtlasPackerItem>((result) => {
+    if (!result.texture) {
+      return [];
+    }
+
+    return [{
+      name: result.name,
+      source: result.texture.source,
+      width: result.texture.width,
+      height: result.texture.height
+    }];
+  });
+
+  if (items.length === 0) {
+    return null;
+  }
+
+  const { atlasName = DEFAULT_PACKED_ATLAS_NAME, ...packerOptions } = packingOptions;
+  return {
+    name: atlasName,
+    atlas: new TextureAtlasPacker(packerOptions).pack(items)
+  };
+}
+
+function getAtlasPackingOptions(options: AssetGroupLoadOptions): AssetGroupAtlasPackingOptions | null {
+  if (!options.packAtlas) {
+    return null;
+  }
+
+  return options.packAtlas === true ? {} : options.packAtlas;
 }
 
 function toError(cause: unknown): Error {
