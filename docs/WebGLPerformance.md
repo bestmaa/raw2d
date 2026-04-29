@@ -6,6 +6,10 @@ Use these stats to understand whether batching is helping:
 
 - `frameMs`: browser-side render timing for one measured render pass
 - `fps`: `1000 / frameMs`, usually averaged across recent frames
+- `objects`: render-list items accepted after visibility, filters, and culling
+- `renderList.total`: scene candidates checked by the renderer
+- `renderList.culled`: candidates skipped because they are outside the camera view
+- `batches`: compatible object groups sent through the batcher
 - `drawCalls`: actual WebGL draw ranges
 - `textureBinds`: texture bind operations for sprite batches
 - `textureUploads`: new texture uploads this frame
@@ -48,18 +52,38 @@ console.log(renderer.getStats().staticCacheHits);
 // 1
 ```
 
+## Culling
+
+Culling removes off-camera objects before the batcher works. This is useful for large maps and editor scenes:
+
+```ts
+renderer.render(scene, camera, { culling: true });
+
+const stats = renderer.getStats();
+
+console.log(stats.renderList.total);
+console.log(stats.renderList.culled);
+console.log(stats.objects);
+```
+
+Turn culling off when debugging visibility:
+
+```ts
+renderer.render(scene, camera, { culling: false });
+```
+
 ## Canvas vs WebGL Timing
 
 Use browser timing when you want a quick relative check between Canvas and WebGL. Keep app logic outside the measured section when you only want renderer cost:
 
 ```ts
 const canvasStart = performance.now();
-canvasRenderer.render(scene, camera);
+canvasRenderer.render(scene, camera, { culling: true });
 const canvasFrameMs = performance.now() - canvasStart;
 
-renderer.render(scene, camera); // warm static cache
+renderer.render(scene, camera, { culling: true }); // warm static cache
 const webglStart = performance.now();
-renderer.render(scene, camera);
+renderer.render(scene, camera, { culling: true });
 const webglFrameMs = performance.now() - webglStart;
 
 console.log({
@@ -137,6 +161,7 @@ Good signs:
 - packed atlas has lower `textureBinds`
 - second render has higher `staticCacheHits`
 - unchanged static runs have `uploadedBytes` near zero
+- culling makes `renderList.culled` rise when objects leave the camera view
 - `drawCalls` is lower than total object count
 
 If `drawCalls` is close to `objects`, check scene order. Raw2D only batches consecutive compatible objects so render order stays predictable.

@@ -5,20 +5,20 @@ export const webGLPerformanceTopics: readonly DocTopic[] = [
     id: "webgl-performance",
     label: "WebGL Performance",
     title: "WebGL Performance",
-    description: "Use WebGL stats and browser timing to compare draw calls, texture binds, texture uploads, cache reuse, frameMs, and fps.",
+    description: "Use WebGL stats and browser timing to compare culling, draw calls, texture binds, cache reuse, frameMs, and fps.",
     sections: [
       {
         title: "Live Performance Demo",
-        body: "The demo builds mostly static atlas sprites plus moving dynamic objects. Canvas is timed once. WebGL warms static cache first, then times the cached render pass.",
+        body: "The demo builds mostly static atlas sprites plus moving dynamic objects. Toggle culling and static cache to see how the render list, uploads, and draw calls change.",
         liveDemoId: "webgl-performance",
         code: `const atlas = new TextureAtlasPacker({ padding: 2 }).pack(spriteSources);
 
 tileSprite.setRenderMode("static");
 movingObject.setRenderMode("dynamic");
 
-webglRenderer.render(scene, camera); // warm static cache
+webglRenderer.render(scene, camera, { culling: true }); // warm static cache
 const start = performance.now();
-webglRenderer.render(scene, camera);
+webglRenderer.render(scene, camera, { culling: true });
 const frameMs = performance.now() - start;
 
 console.log({ frameMs, stats: webglRenderer.getStats() });`
@@ -50,20 +50,29 @@ console.log(webglRenderer.getStats().textureBinds);`
       },
       {
         title: "Read The Numbers",
-        body: "drawCalls counts actual WebGL draw ranges. textureBinds counts texture switches. staticCacheHits shows static runs that skipped vertex upload. frameMs and fps are rolling browser timing estimates.",
+        body: "objects is accepted render-list items after visibility, filters, and culling. renderList.total is the scene candidate count. culled shows camera-culling wins.",
         liveDemoId: "webgl-performance",
-        code: `const start = performance.now();
-webglRenderer.render(scene, camera);
-const frameMs = performance.now() - start;
-const fps = frameMs > 0 ? 1000 / frameMs : 0;
+        code: `webglRenderer.render(scene, camera, { culling: true });
 const stats = webglRenderer.getStats();
 
-console.log(frameMs);
-console.log(fps);
+console.log(stats.renderList.total);
+console.log(stats.renderList.culled);
+console.log(stats.objects);
 console.log(stats.drawCalls);
+console.log(stats.batches);
 console.log(stats.textureBinds);
 console.log(stats.staticCacheHits);
 console.log(stats.uploadedBytes);`
+      },
+      {
+        title: "Culling Toggle",
+        body: "Culling skips objects outside the camera world bounds before batching. Turn it off when debugging missing objects, then turn it on for large scenes.",
+        liveDemoId: "webgl-performance",
+        code: `renderer.render(scene, camera, { culling: true });
+console.log(renderer.getStats().renderList);
+
+renderer.render(scene, camera, { culling: false });
+console.log(renderer.getStats().renderList);`
       },
       {
         title: "Timing Is Approximate",

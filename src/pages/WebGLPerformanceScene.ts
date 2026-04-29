@@ -43,7 +43,7 @@ function createStaticSprite(index: number, state: WebGLPerformanceState, assets:
     opacity: 0.95
   });
 
-  sprite.setRenderMode("static");
+  sprite.setRenderMode(state.staticMode ? "static" : "dynamic");
   return sprite;
 }
 

@@ -6,6 +6,8 @@ export interface WebGLPerformanceState {
   objectCount: number;
   textureMode: WebGLPerformanceTextureMode;
   running: boolean;
+  culling: boolean;
+  staticMode: boolean;
 }
 
 export interface WebGLPerformanceAssets {

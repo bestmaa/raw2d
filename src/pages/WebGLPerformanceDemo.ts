@@ -1,5 +1,6 @@
 import { Camera2D, Canvas, WebGLRenderer2D } from "raw2d";
 import { createWebGLPerformanceAssets } from "./WebGLPerformanceAssets";
+import { createWebGLPerformanceControls } from "./WebGLPerformanceControls";
 import { createWebGLPerformanceScene } from "./WebGLPerformanceScene";
 import { createFrameTimer } from "./WebGLPerformanceTiming";
 import {
@@ -12,15 +13,20 @@ import {
 import type {
   WebGLPerformanceRenderOptions,
   WebGLPerformanceRuntime,
-  WebGLPerformanceState,
-  WebGLPerformanceTextureMode
+  WebGLPerformanceState
 } from "./WebGLPerformanceDemo.type";
 
 const width = 520;
 const height = 260;
 
 export function createWebGLPerformanceDemo(): HTMLElement {
-  const state: WebGLPerformanceState = { objectCount: 420, textureMode: "packed", running: true };
+  const state: WebGLPerformanceState = {
+    objectCount: 420,
+    textureMode: "packed",
+    running: true,
+    culling: true,
+    staticMode: true
+  };
   const runtime = createRuntime();
   const section = document.createElement("article");
   const canvasElement = document.createElement("canvas");
@@ -56,7 +62,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
     createRendererBlock("Canvas", canvasElement, canvasStats),
     createRendererBlock("WebGL2", webglElement, webglStats),
     createSummary(summary),
-    createControls(
+    createWebGLPerformanceControls(
       state,
       () => handleInputChange(options),
       () => handleLoopToggle(options, section)
@@ -116,65 +122,6 @@ function createSummary(summary: HTMLElement): HTMLElement {
   return block;
 }
 
-function createControls(state: WebGLPerformanceState, onChange: () => void, onToggle: () => void): HTMLElement {
-  const controls = document.createElement("div");
-  const runButton = document.createElement("button");
-  controls.className = "shape-demo-controls";
-  runButton.type = "button";
-  runButton.className = "shape-demo-action";
-  runButton.textContent = "Pause loop";
-  runButton.addEventListener("click", () => {
-    state.running = !state.running;
-    runButton.textContent = state.running ? "Pause loop" : "Play loop";
-    onToggle();
-  });
-  controls.append(runButton, createRangeControl(state, onChange), createModeControl(state, onChange));
-  return controls;
-}
-
-function createRangeControl(state: WebGLPerformanceState, onChange: () => void): HTMLElement {
-  const wrapper = document.createElement("label");
-  const text = document.createElement("span");
-  const input = document.createElement("input");
-  wrapper.className = "shape-demo-control";
-  text.textContent = `Objects: ${state.objectCount}`;
-  input.type = "range";
-  input.min = "100";
-  input.max = "1000";
-  input.step = "20";
-  input.value = String(state.objectCount);
-  input.addEventListener("input", () => {
-    state.objectCount = Number(input.value);
-    text.textContent = `Objects: ${state.objectCount}`;
-    onChange();
-  });
-  wrapper.append(text, input);
-  return wrapper;
-}
-
-function createModeControl(state: WebGLPerformanceState, onChange: () => void): HTMLElement {
-  const wrapper = document.createElement("label");
-  const text = document.createElement("span");
-  const select = document.createElement("select");
-  wrapper.className = "shape-demo-control";
-  text.textContent = "Textures";
-  select.append(createOption("packed", "Packed atlas"), createOption("separate", "Separate"));
-  select.value = state.textureMode;
-  select.addEventListener("change", () => {
-    state.textureMode = select.value as WebGLPerformanceTextureMode;
-    onChange();
-  });
-  wrapper.append(text, select);
-  return wrapper;
-}
-
-function createOption(value: WebGLPerformanceTextureMode, label: string): HTMLOptionElement {
-  const option = document.createElement("option");
-  option.value = value;
-  option.textContent = label;
-  return option;
-}
-
 function handleInputChange(options: WebGLPerformanceRenderOptions): void {
   options.runtime.canvasTimer.reset();
   options.runtime.webglTimer.reset();
@@ -222,7 +169,7 @@ function cancelFrame(runtime: WebGLPerformanceRuntime): void {
 function renderDemo(options: WebGLPerformanceRenderOptions): void {
   const prepared = createWebGLPerformanceScene(options.state, options.assets, options.runtime.timeSeconds);
   const canvasStart = performance.now();
-  options.canvasRenderer.render(prepared.scene, options.camera);
+  options.canvasRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
   const canvasTiming = options.runtime.canvasTimer.record(performance.now() - canvasStart);
   options.canvasStats.textContent = formatCanvasStats(options.canvasRenderer, canvasTiming);
 
@@ -233,9 +180,9 @@ function renderDemo(options: WebGLPerformanceRenderOptions): void {
     return;
   }
 
-  options.webglRenderer.render(prepared.scene, options.camera);
+  options.webglRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
   const webglStart = performance.now();
-  options.webglRenderer.render(prepared.scene, options.camera);
+  options.webglRenderer.render(prepared.scene, options.camera, { culling: options.state.culling });
   const webglTiming = options.runtime.webglTimer.record(performance.now() - webglStart);
   options.webglStats.textContent = formatWebGLStats(options.webglRenderer, webglTiming);
   options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);

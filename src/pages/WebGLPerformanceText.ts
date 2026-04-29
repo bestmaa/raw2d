@@ -12,7 +12,7 @@ export function formatCanvasStats(renderer: Canvas, timing: WebGLPerformanceFram
 
 export function formatWebGLStats(renderer: WebGLRenderer2D, timing: WebGLPerformanceFrameTiming): string {
   const stats = renderer.getStats();
-  return `${formatTiming(timing)} | objects: ${stats.objects} | drawCalls: ${stats.drawCalls} | textureBinds: ${stats.textureBinds} | textureUploads: ${stats.textureUploads} | staticCacheHits: ${stats.staticCacheHits} | staticCacheMisses: ${stats.staticCacheMisses}`;
+  return `${formatTiming(timing)} | objects: ${stats.objects}/${stats.renderList.total} | culled: ${stats.renderList.culled} | drawCalls: ${stats.drawCalls} | batches: ${stats.batches} | textureBinds: ${stats.textureBinds} | staticCacheHits: ${stats.staticCacheHits} | uploadedBytes: ${stats.uploadedBytes}`;
 }
 
 export function formatWebGLUnavailable(timing: WebGLPerformanceFrameTiming): string {
@@ -24,7 +24,11 @@ export function formatWebGLPerformanceSummary(
   state: WebGLPerformanceState
 ): string {
   const mode = state.running ? "running" : "paused";
-  return `static: ${scene.staticCount} | dynamic: ${scene.dynamicCount} | textures: ${state.textureMode} | loop: ${mode}`;
+  const culling = state.culling ? "on" : "off";
+  const cache = state.staticMode ? "on" : "off";
+  const staticCount = state.staticMode ? scene.staticCount : 0;
+  const dynamicCount = state.staticMode ? scene.dynamicCount : scene.staticCount + scene.dynamicCount;
+  return `static: ${staticCount} | dynamic: ${dynamicCount} | textures: ${state.textureMode} | culling: ${culling} | static cache: ${cache} | loop: ${mode}`;
 }
 
 export function createWebGLPerformanceCode(state: WebGLPerformanceState): string {
@@ -43,7 +47,9 @@ console.log({
 });
 
 // objects: ${state.objectCount}
-// texture mode: ${state.textureMode}`;
+// texture mode: ${state.textureMode}
+// culling: ${state.culling ? "on" : "off"}
+// static cache: ${state.staticMode ? "on" : "off"}`;
 }
 
 function formatTiming(timing: WebGLPerformanceFrameTiming): string {
