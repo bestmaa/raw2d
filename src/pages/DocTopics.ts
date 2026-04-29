@@ -11,6 +11,7 @@ import type { DocGroup, DocTopic } from "./DocPage.type";
 import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
+import { publicApiTopics } from "./DocPublicApiTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { rendererTopics } from "./DocRendererTopics";
 import { rendererParityTopics } from "./DocRendererParityTopics";
@@ -23,7 +24,7 @@ import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
 
 export const docGroups: readonly DocGroup[] = [
-  { id: "start", label: "Start", hiLabel: "Start", topics: [...setupTopics, ...exampleTopics, ...licenseTopics] },
+  { id: "start", label: "Start", hiLabel: "Start", topics: [...setupTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics] },
   { id: "core", label: "Core", hiLabel: "Core", topics: coreTopics },
   {
     id: "rendering",

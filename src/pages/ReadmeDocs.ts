@@ -22,6 +22,7 @@ import objectResize from "../../docs/ObjectResize.md?raw";
 import picking from "../../docs/Picking.md?raw";
 import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
+import publicApi from "../../docs/PublicAPI.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
 import renderer2d from "../../docs/Renderer2D.md?raw";
@@ -52,6 +53,7 @@ import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "GettingStarted.md", content: gettingStarted },
+  { id: "public-api", label: "Public API", filename: "PublicAPI.md", content: publicApi },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "license", label: "License", filename: "License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "AssetLoading.md", content: assetLoading },

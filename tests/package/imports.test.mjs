@@ -18,6 +18,15 @@ test("umbrella package exports common public API", () => {
   assert.equal(typeof Raw2D.InteractionController, "function");
 });
 
+test("umbrella package keeps renderer internals out of runtime API", () => {
+  assert.equal(Raw2D.CanvasObjectRenderer, undefined);
+  assert.equal(Raw2D.WebGLFloatBuffer, undefined);
+  assert.equal(Raw2D.WebGLTextTextureCache, undefined);
+  assert.equal(Raw2D.createWebGLShapeBatch, undefined);
+  assert.equal(Raw2D.drawRect, undefined);
+  assert.equal(Raw2D.uid, undefined);
+});
+
 test("focused packages expose installable entry points", () => {
   assert.equal(typeof Canvas, "function");
   assert.equal(typeof WebGLRenderer2D, "function");

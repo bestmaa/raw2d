@@ -43,6 +43,7 @@ import textureAtlasPacker from "../../docs/hi/TextureAtlasPacker.md?raw";
 import hitTesting from "../../docs/hi/HitTesting.md?raw";
 import picking from "../../docs/hi/Picking.md?raw";
 import selection from "../../docs/hi/Selection.md?raw";
+import publicApi from "../../docs/hi/PublicAPI.md?raw";
 import dragging from "../../docs/hi/Dragging.md?raw";
 import resizeHandles from "../../docs/hi/ResizeHandles.md?raw";
 import objectResize from "../../docs/hi/ObjectResize.md?raw";
@@ -52,6 +53,7 @@ import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "hi/GettingStarted.md", content: gettingStarted },
+  { id: "public-api", label: "Public API", filename: "hi/PublicAPI.md", content: publicApi },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },

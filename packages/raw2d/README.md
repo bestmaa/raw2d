@@ -15,6 +15,8 @@ It is designed around explicit control and readable internals:
 - `raw2d-webgl` for the batch-first WebGL2 renderer.
 - `raw2d-text`, `raw2d-sprite`, and `raw2d-effects` for focused feature packages.
 
+The umbrella `raw2d` package keeps a stable app-level runtime API. Lower-level renderer helpers stay available from focused packages such as `raw2d-webgl` and `raw2d-canvas`.
+
 Install the umbrella package when you want the stable public API:
 
 ```sh
