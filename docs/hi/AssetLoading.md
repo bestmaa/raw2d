@@ -135,6 +135,66 @@ function unloadLevelAssets(): void {
 
 Is pattern me app asset lifetime own karta hai, aur renderer GPU resource lifetime own karta hai.
 
+## AssetGroupLoader
+
+Jab ek screen, level, ya document ko start hone se pehle kai textures aur atlases chahiye, tab `AssetGroupLoader` use karein:
+
+```ts
+import { AssetGroupLoader } from "raw2d";
+
+const assets = await new AssetGroupLoader().load({
+  player: "/sprites/player.png",
+  enemy: { type: "texture", url: "/sprites/enemy.png" },
+  playerAtlas: { type: "atlas", url: "/sprites/player.atlas.json" }
+});
+
+const playerTexture = assets.getTexture("player");
+const playerAtlas = assets.getAtlas("playerAtlas");
+```
+
+String entry `{ type: "texture", url }` ka shorthand hai. Atlas entry internally `TextureAtlasLoader` use karti hai.
+
+## Loading Progress
+
+```ts
+const assets = await new AssetGroupLoader().load(manifest, {
+  onProgress: (event) => {
+    const percent = Math.round((event.loaded / event.total) * 100);
+    console.log(percent, event.name, event.status);
+  }
+});
+```
+
+Progress event me asset name, kind, loaded count, total count, aur loaded/failed status milta hai.
+
+## Failed Assets
+
+Default behavior me koi asset fail ho to group loader reject karta hai. Agar app ko baaki assets load karke missing assets baad me inspect karne hain, to `failFast: false` use karein:
+
+```ts
+const assets = await new AssetGroupLoader({
+  failFast: false
+}).load(manifest);
+
+if (assets.hasError("player")) {
+  console.error(assets.getError("player"));
+}
+```
+
+Ye editor aur tools me useful hai, jahan ek optional image missing hone se pura document block nahi hona chahiye.
+
+## AssetGroup Unload
+
+`AssetGroup.dispose()` group ke sabhi unique textures dispose karta hai, atlas textures ke saath:
+
+```ts
+assets.dispose();
+loader.clearCache();
+webglRenderer.clearTextureCache();
+```
+
+Isse level, document, ya asset pack unload karne ke liye ek clear place milta hai.
+
 ## TextureAtlasLoader
 
 Atlas JSON format:

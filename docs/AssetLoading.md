@@ -135,6 +135,66 @@ function unloadLevelAssets(): void {
 
 This pattern keeps Raw2D low-level: the app owns asset lifetime, and the renderer owns GPU resource lifetime.
 
+## AssetGroupLoader
+
+Use `AssetGroupLoader` when a screen, level, or document needs several textures and atlases before it starts:
+
+```ts
+import { AssetGroupLoader } from "raw2d";
+
+const assets = await new AssetGroupLoader().load({
+  player: "/sprites/player.png",
+  enemy: { type: "texture", url: "/sprites/enemy.png" },
+  playerAtlas: { type: "atlas", url: "/sprites/player.atlas.json" }
+});
+
+const playerTexture = assets.getTexture("player");
+const playerAtlas = assets.getAtlas("playerAtlas");
+```
+
+String entries are shorthand for `{ type: "texture", url }`. Atlas entries use `TextureAtlasLoader` internally.
+
+## Loading Progress
+
+```ts
+const assets = await new AssetGroupLoader().load(manifest, {
+  onProgress: (event) => {
+    const percent = Math.round((event.loaded / event.total) * 100);
+    console.log(percent, event.name, event.status);
+  }
+});
+```
+
+The progress event reports the asset name, kind, loaded count, total count, and whether that asset loaded or failed.
+
+## Failed Assets
+
+By default, the group loader rejects when any asset fails. Use `failFast: false` when the app should continue and inspect missing assets later:
+
+```ts
+const assets = await new AssetGroupLoader({
+  failFast: false
+}).load(manifest);
+
+if (assets.hasError("player")) {
+  console.error(assets.getError("player"));
+}
+```
+
+This is useful for editors and tools where one missing optional image should not block the whole document.
+
+## AssetGroup Unload
+
+`AssetGroup.dispose()` disposes all unique textures owned by the group, including atlas textures:
+
+```ts
+assets.dispose();
+loader.clearCache();
+webglRenderer.clearTextureCache();
+```
+
+This gives one clear place to unload a level, document, or asset pack.
+
 ## TextureAtlasLoader
 
 Atlas JSON format:
@@ -177,28 +237,4 @@ const idleClip = createSpriteAnimationClip({
 
 This keeps docs and app code readable because animation clips can reference frame names instead of copying rectangles.
 
-## Full Flow
-
-```ts
-const atlas = await new TextureAtlasLoader({ cache: true }).load("/sprites/player.atlas.json");
-
-const sprite = new Sprite({
-  texture: atlas.texture,
-  frame: atlas.getFrame("idle1")
-});
-
-const clip = createSpriteAnimationClip({
-  atlas,
-  frameNames: ["idle1", "idle2"],
-  fps: 12
-});
-
-const animator = new SpriteAnimator({ sprite, clip });
-
-function animate(deltaSeconds: number): void {
-  animator.update(deltaSeconds);
-  raw2dCanvas.render(scene, camera);
-}
-```
-
-This is still low-level. Raw2D loads assets and updates frames, but the app owns the render loop.
+Raw2D loads assets and updates frames, but the app still owns the render loop.

@@ -108,6 +108,22 @@ webglRenderer.clearTextureCache();
 
 Disposed Sprite textures are skipped by Canvas and WebGL renderers. Do not dispose a texture while a Sprite still needs to render it.
 
+Load a whole pack with `AssetGroupLoader`:
+
+```ts
+import { AssetGroupLoader } from "raw2d-sprite";
+
+const assets = await new AssetGroupLoader().load({
+  player: "/sprites/player.png",
+  enemy: { type: "texture", url: "/sprites/enemy.png" },
+  playerAtlas: { type: "atlas", url: "/sprites/player.atlas.json" }
+});
+
+const playerTexture = assets.getTexture("player");
+
+assets.dispose();
+```
+
 ```ts
 import { TextureAtlasLoader, createSpriteAnimationClip } from "raw2d-sprite";
 

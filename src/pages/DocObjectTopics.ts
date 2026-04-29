@@ -5,6 +5,7 @@ import {
   fullRectExample,
   fullText2DExample
 } from "./DocFullExamples";
+import { assetLoadingTopic } from "./DocAssetLoadingTopic";
 import { spriteTopics } from "./DocSpriteTopics";
 
 export const objectTopics: readonly DocTopic[] = [
@@ -206,5 +207,6 @@ material?: BasicMaterial`
       }
     ]
   },
+  assetLoadingTopic,
   ...spriteTopics
 ];

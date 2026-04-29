@@ -1,3 +1,7 @@
+export * from "./AssetGroup.js";
+export * from "./AssetGroup.type.js";
+export * from "./AssetGroupLoader.js";
+export * from "./AssetGroupLoader.type.js";
 export * from "./Sprite.js";
 export * from "./Sprite.type.js";
 export * from "./Texture.js";
