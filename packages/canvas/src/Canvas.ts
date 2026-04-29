@@ -1,4 +1,4 @@
-import { Camera2D, Group2D, RenderPipeline, type Renderer2DLike, type RenderItem, type RenderList, type Scene } from "raw2d-core";
+import { Camera2D, Group2D, RenderPipeline, type Renderer2DLike, type RenderItem, type RenderList, type RenderListStats, type Scene } from "raw2d-core";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
 import { getCanvasObjectWorldBounds } from "./culling/index.js";
 import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasRenderStats, CanvasSize } from "./Canvas.type.js";
@@ -14,7 +14,7 @@ export class Canvas implements Renderer2DLike<CanvasObject, CanvasRenderOptions,
   private height: number;
   private pixelRatio: number;
   private backgroundColor: string;
-  private stats: CanvasRenderStats = { objects: 0, drawCalls: 0 };
+  private stats: CanvasRenderStats = { objects: 0, drawCalls: 0, renderList: createEmptyRenderListStats() };
 
   public constructor(options: CanvasOptions) {
     this.element = options.canvas;
@@ -91,7 +91,7 @@ export class Canvas implements Renderer2DLike<CanvasObject, CanvasRenderOptions,
     this.context.setTransform(this.pixelRatio, 0, 0, this.pixelRatio, 0, 0);
   }
 
-  public clear(color = "#000000"): void {
+  public clear(color = this.backgroundColor): void {
     this.context.save();
     this.context.setTransform(1, 0, 0, 1, 0, 0);
     this.context.fillStyle = color;
@@ -141,10 +141,21 @@ function createCanvasStats(renderList: RenderList<CanvasObject>): CanvasRenderSt
   const flatItems = renderList.getFlatItems();
   return {
     objects: flatItems.length,
-    drawCalls: flatItems.filter(isDrawableItem).length
+    drawCalls: flatItems.filter(isDrawableItem).length,
+    renderList: renderList.getStats()
   };
 }
 
 function isDrawableItem(item: RenderItem<CanvasObject>): boolean {
   return !(item.object instanceof Group2D);
+}
+
+function createEmptyRenderListStats(): RenderListStats {
+  return {
+    total: 0,
+    accepted: 0,
+    hidden: 0,
+    filtered: 0,
+    culled: 0
+  };
 }

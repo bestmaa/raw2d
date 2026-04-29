@@ -1,4 +1,4 @@
-import type { Object2D, Renderer2DLike, Renderer2DSize, RenderList } from "raw2d-core";
+import type { Object2D, Renderer2DLike, Renderer2DRenderOptions, Renderer2DSize } from "raw2d-core";
 import type { WebGLShapePathFillFallbackMode, WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 
@@ -18,10 +18,7 @@ export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRende
   isContextLost(): boolean;
 }
 
-export interface WebGLRenderer2DRenderOptions {
-  readonly culling?: boolean;
-  readonly renderList?: RenderList<Object2D>;
-}
+export interface WebGLRenderer2DRenderOptions extends Renderer2DRenderOptions<Object2D> {}
 
 export interface WebGLRenderer2DSize extends Renderer2DSize {
   readonly width: number;

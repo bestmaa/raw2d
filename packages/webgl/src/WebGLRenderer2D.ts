@@ -209,8 +209,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     return this.resources.staticSpriteCache.set(identity.runId, identity.key, batch);
   }
 
-  private clear(): void {
-    const color = parseWebGLColor(this.backgroundColor);
+  public clear(colorValue = this.backgroundColor): void {
+    const color = parseWebGLColor(colorValue);
     this.gl.clearColor(color.r, color.g, color.b, color.a);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
