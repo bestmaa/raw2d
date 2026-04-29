@@ -4,6 +4,7 @@ import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 export function finalizeWebGLRenderStats(stats: MutableWebGLRenderStats): WebGLRenderStats {
   return {
     objects: stats.objects,
+    renderList: stats.renderList,
     rects: stats.rects,
     arcs: stats.arcs,
     circles: stats.circles,

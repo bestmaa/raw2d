@@ -103,12 +103,36 @@ console.log(stats.drawCalls);
 console.log(stats.textureBinds);
 console.log(stats.staticCacheHits);
 console.log(stats.shapePathUnsupportedFills);
+console.log(stats.renderList.culled);
 console.log(stats.uploadedBytes);
 ```
 
 `batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
 
 `shapePathUnsupportedFills` reports ShapePath fills that WebGL intentionally skipped because the fill is not a single simple closed subpath. This keeps WebGL from silently drawing holes, multiple subpaths, or self-intersections incorrectly. ShapePath stroke can still render when stroke is enabled.
+
+`objects` is the accepted render-list item count. Use `renderList.total`, `renderList.accepted`, and `renderList.culled` to inspect what the pipeline did before batching.
+
+## Culling And Render Lists
+
+Use culling when objects outside the camera viewport should be skipped before WebGL batch writing:
+
+```ts
+renderer.render(scene, camera, { culling: true });
+console.log(renderer.getStats().renderList);
+```
+
+You can also prebuild a render list and reuse it for the same frame:
+
+```ts
+const renderList = renderer.createRenderList(scene, camera, {
+  culling: true
+});
+
+renderer.render(scene, camera, { renderList });
+```
+
+This keeps the pipeline explicit: `Scene -> RenderPipeline -> RenderList -> WebGL batches`.
 
 ## ShapePath Fill Fallback Policy
 
@@ -185,31 +209,6 @@ const rebuilt = renderer.getStats().staticCacheMisses;
 ```
 
 The current WebGL vertex batches are already projected into clip space, so camera position, camera zoom, renderer width, and renderer height are part of the static cache key. Panning, zooming, or resizing the renderer rebuilds static batches correctly.
-
-## Static Sprites
-
-Use static mode for tile maps, background sprites, and decoration that rarely changes:
-
-```ts
-tileSprite.setRenderMode("static");
-renderer.render(scene, camera);
-renderer.render(scene, camera);
-console.log(renderer.getStats().staticCacheHits);
-```
-
-Changing a static Sprite frame rebuilds that static run:
-
-```ts
-tileSprite.setFrame(atlas.getFrame("grass-alt"));
-renderer.render(scene, camera);
-console.log(renderer.getStats().staticCacheMisses);
-```
-
-Animated sprites should stay dynamic because their frame changes often:
-
-```ts
-playerSprite.setRenderMode("dynamic");
-```
 
 ## GPU Buffer Uploads
 

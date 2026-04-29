@@ -1,8 +1,18 @@
+import type { RenderListStats } from "raw2d-core";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 
-export function createMutableWebGLRenderStats(objects: number): MutableWebGLRenderStats {
+const emptyRenderListStats: RenderListStats = {
+  total: 0,
+  accepted: 0,
+  hidden: 0,
+  filtered: 0,
+  culled: 0
+};
+
+export function createMutableWebGLRenderStats(renderList: RenderListStats = emptyRenderListStats): MutableWebGLRenderStats {
   return {
-    objects,
+    objects: renderList.accepted,
+    renderList,
     rects: 0,
     arcs: 0,
     circles: 0,

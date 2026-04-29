@@ -21,6 +21,7 @@ test("WebGLRenderer2D groups Rect draw calls by material key", () => {
   assert.equal(gl.calls.includes("drawArrays:4,6,6"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
+    renderList: { total: 2, accepted: 2, hidden: 0, filtered: 0, culled: 0 },
     rects: 2,
     arcs: 0,
     circles: 0,
@@ -65,6 +66,7 @@ test("WebGLRenderer2D keeps same-material filled shapes in one draw range", () =
   assert.equal(gl.calls.includes("drawArrays:4,102,96"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
+    renderList: { total: 3, accepted: 3, hidden: 0, filtered: 0, culled: 0 },
     rects: 1,
     arcs: 0,
     circles: 1,
@@ -131,6 +133,7 @@ test("WebGLRenderer2D groups Line, Polyline, and Polygon material ranges", () =>
   assert.equal(gl.calls.includes("drawArrays:4,18,6"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 3,
+    renderList: { total: 3, accepted: 3, hidden: 0, filtered: 0, culled: 0 },
     rects: 0,
     arcs: 0,
     circles: 0,
@@ -172,6 +175,7 @@ test("WebGLRenderer2D renders ShapePath stroke through the shape batch", () => {
 
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
+    renderList: { total: 2, accepted: 2, hidden: 0, filtered: 0, culled: 0 },
     rects: 1,
     arcs: 0,
     circles: 0,
@@ -249,6 +253,51 @@ test("WebGLRenderer2D can warn through a callback for skipped ShapePath fills", 
   ]);
 });
 
+test("WebGLRenderer2D culls offscreen objects before batching", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+
+  scene.add(createRect(20, "#35c2ff"));
+  scene.add(createRect(500, "#f45b69"));
+  renderer.render(scene, new Camera2D(), { culling: true });
+
+  assert.equal(gl.calls.includes("drawArrays:4,0,6"), true);
+  assert.equal(gl.calls.some((call) => call === "drawArrays:4,6,6"), false);
+  assert.equal(renderer.getStats().objects, 1);
+  assert.deepEqual(renderer.getStats().renderList, {
+    total: 2,
+    accepted: 1,
+    hidden: 0,
+    filtered: 0,
+    culled: 1
+  });
+  assert.equal(renderer.getStats().drawCalls, 1);
+});
+
+test("WebGLRenderer2D can render a prebuilt culled render list", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+  const camera = new Camera2D();
+
+  scene.add(createRect(20, "#35c2ff"));
+  scene.add(createRect(500, "#f45b69"));
+  const renderList = renderer.createRenderList(scene, camera, { culling: true });
+  renderer.render(scene, camera, { renderList });
+
+  assert.deepEqual(renderList.getStats(), {
+    total: 2,
+    accepted: 1,
+    hidden: 0,
+    filtered: 0,
+    culled: 1
+  });
+  assert.equal(renderer.getStats().objects, 1);
+  assert.equal(renderer.getStats().rects, 1);
+  assert.equal(renderer.getStats().drawCalls, 1);
+});
+
 test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
@@ -263,6 +312,7 @@ test("WebGLRenderer2D batches consecutive Sprites by texture", () => {
   assert.equal(gl.calls.includes("texImage2D:3553"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
+    renderList: { total: 2, accepted: 2, hidden: 0, filtered: 0, culled: 0 },
     rects: 0,
     arcs: 0,
     circles: 0,
@@ -316,6 +366,7 @@ test("WebGLRenderer2D renders Text2D through the texture batch path", () => {
   assert.equal(gl.calls.includes("drawArrays:4,0,6"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
+    renderList: { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 },
     rects: 0,
     arcs: 0,
     circles: 0,
@@ -358,6 +409,7 @@ test("WebGLRenderer2D reuses GPU buffer capacity on later renders", () => {
   assert.equal(gl.calls.includes("bufferSubData:34962,0,36"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
+    renderList: { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 },
     rects: 1,
     arcs: 0,
     circles: 0,
@@ -404,6 +456,7 @@ test("WebGLRenderer2D separates static and dynamic runs", () => {
   assert.equal(gl.calls.includes("bufferData:34962,36,35048"), true);
   assert.deepEqual(renderer.getStats(), {
     objects: 2,
+    renderList: { total: 2, accepted: 2, hidden: 0, filtered: 0, culled: 0 },
     rects: 2,
     arcs: 0,
     circles: 0,
@@ -447,6 +500,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
 
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
+    renderList: { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 },
     rects: 1,
     arcs: 0,
     circles: 0,
@@ -481,6 +535,7 @@ test("WebGLRenderer2D reuses clean static run buffers", () => {
 
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
+    renderList: { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 },
     rects: 1,
     arcs: 0,
     circles: 0,
@@ -525,6 +580,7 @@ test("WebGLRenderer2D reuses clean static Sprite buffers", () => {
 
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
+    renderList: { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 },
     rects: 0,
     arcs: 0,
     circles: 0,
@@ -576,6 +632,7 @@ test("WebGLRenderer2D invalidates static Sprite cache when frame changes", () =>
 
   assert.deepEqual(renderer.getStats(), {
     objects: 1,
+    renderList: { total: 1, accepted: 1, hidden: 0, filtered: 0, culled: 0 },
     rects: 0,
     arcs: 0,
     circles: 0,

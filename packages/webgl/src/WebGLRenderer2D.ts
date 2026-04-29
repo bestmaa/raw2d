@@ -40,7 +40,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   private height: number;
   private backgroundColor: string;
   private contextLost = false;
-  private stats: WebGLRenderStats = finalizeWebGLRenderStats(createMutableWebGLRenderStats(0));
+  private stats: WebGLRenderStats = finalizeWebGLRenderStats(createMutableWebGLRenderStats());
 
   public constructor(options: WebGLRenderer2DOptions) {
     this.canvas = options.canvas;
@@ -100,14 +100,14 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   public render(scene: Scene, camera = this.defaultCamera, options: WebGLRenderer2DRenderOptions = {}): void {
     if (this.isContextLost()) {
       this.contextLost = true;
-      this.stats = finalizeWebGLRenderStats(createMutableWebGLRenderStats(0));
+      this.stats = finalizeWebGLRenderStats(createMutableWebGLRenderStats());
       return;
     }
 
     const renderList = options.renderList ?? this.createRenderList(scene, camera, options);
     const items = renderList.getFlatItems();
     const runs = createWebGLRenderRuns(items, getWebGLRenderRunKind);
-    const stats = createMutableWebGLRenderStats(items.length);
+    const stats = createMutableWebGLRenderStats(renderList.getStats());
 
     this.clear();
     this.resources.staticShapeCache.beginFrame();

@@ -1,21 +1,50 @@
 # Render Pipeline
 
-Ye Render Pipeline ka Hinglish readme hai. Iska focus Scene se render runs hai, aur yahan usko simple practical language me samjhaya gaya hai.
+RenderPipeline scene ko renderer-ready list me badalta hai. Isme visibility, culling, hierarchy, zIndex order, aur matrix snapshots prepare hote hain.
 
 ## Iska Kaam
 
-Render Pipeline Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+Renderer direct scene ko blindly draw nahi karta. Pehle RenderPipeline scene ko `RenderList` me convert karta hai, phir Canvas ya WebGL us list ko draw/batch karta hai.
+
+```text
+Scene -> RenderPipeline -> RenderList -> Renderer
+```
 
 ## Kab Use Karein
 
-Jab aap Raw2D project me Scene se render runs se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+Jab aap culling, render order, custom renderer, editor tooling, ya WebGL batching debug kar rahe ho, tab RenderPipeline useful hota hai.
+
+## RenderList Reuse
+
+```ts
+const renderList = webglRenderer.createRenderList(scene, camera, {
+  culling: true
+});
+
+console.log(renderList.getStats());
+webglRenderer.render(scene, camera, { renderList });
+```
+
+Isse same prepared scene data inspect bhi hota hai aur renderer ko pass bhi hota hai.
+
+## Stats
+
+```ts
+const stats = renderList.getStats();
+
+console.log(stats.total);
+console.log(stats.accepted);
+console.log(stats.culled);
+```
+
+`total` scene me checked objects batata hai. `accepted` render ke liye ready objects batata hai. `culled` offscreen skipped objects batata hai.
 
 ## Important Notes
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+- Canvas aur WebGL dono RenderPipeline use kar sakte hain.
+- Culling batching se pehle hoti hai.
+- RenderList inspectable hai, isliye debugging easy hoti hai.
+- Group culling abhi conservative rakhi gayi hai.
 
 ## English Reference
 

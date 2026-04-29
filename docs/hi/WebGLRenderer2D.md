@@ -46,11 +46,34 @@ console.log(stats.drawCalls);
 console.log(stats.batches);
 console.log(stats.textureBinds);
 console.log(stats.shapePathUnsupportedFills);
+console.log(stats.renderList.culled);
 ```
 
 Stats se pata chalta hai ki WebGL batching sach me kaam kar rahi hai ya nahi.
 
 `shapePathUnsupportedFills` batata hai ki kitne ShapePath fills WebGL ne intentionally skip kiye. Agar path me multiple subpaths, hole-style fill, degenerate polygon, ya self-intersection hai to WebGL galat draw karne ke bajay is count ko badhata hai. Stroke enabled ho to stroke phir bhi render ho sakta hai.
+
+`objects` accepted render-list item count hai. `stats.renderList.total`, `accepted`, aur `culled` se pata chalta hai ki batching se pehle pipeline ne kya skip kiya.
+
+## Culling Aur Render List
+
+Offscreen objects ko WebGL batch me aane se pehle skip karna ho to culling on karo:
+
+```ts
+renderer.render(scene, camera, { culling: true });
+console.log(renderer.getStats().renderList.culled);
+```
+
+Same prepared list ko inspect aur render dono karna ho:
+
+```ts
+const renderList = renderer.createRenderList(scene, camera, {
+  culling: true
+});
+
+console.log(renderList.getStats());
+renderer.render(scene, camera, { renderList });
+```
 
 ## ShapePath Fill Fallback
 

@@ -48,6 +48,17 @@ console.log(renderList.getStats());
 raw2dCanvas.render(scene, camera, { renderList });
 ```
 
+The same pattern works for WebGL:
+
+```ts
+const renderList = webglRenderer.createRenderList(scene, camera, {
+  culling: true
+});
+
+console.log(renderList.getStats());
+webglRenderer.render(scene, camera, { renderList });
+```
+
 ## Inspect Items
 
 Use root items when you need hierarchy. Use flat items when you need a debug table or future batching input.
@@ -122,4 +133,3 @@ RenderPipeline does not batch yet. It prepares the data that a batcher can consu
 ## Current Scope
 
 Nested group culling is intentionally conservative for now. Canvas preserves group hierarchy, and deeper group-aware bounds can be added separately without changing the public pipeline shape.
-

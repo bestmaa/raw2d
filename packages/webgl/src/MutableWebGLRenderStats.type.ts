@@ -1,5 +1,8 @@
+import type { RenderListStats } from "raw2d-core";
+
 export interface MutableWebGLRenderStats {
   objects: number;
+  renderList: RenderListStats;
   rects: number;
   arcs: number;
   circles: number;
