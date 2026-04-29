@@ -52,15 +52,30 @@ height?: number`
         title: "Use Atlas Frame",
         body: "Pass the atlas texture and one named frame to Sprite. Canvas draws that source rectangle, and WebGL converts it to UVs.",
         liveDemoId: "texture-atlas",
-        code: `const sprite = new Sprite({
-  texture: atlas.texture,
-  frame: atlas.getFrame("idle"),
+        code: `const sprite = createSpriteFromAtlas({
+  atlas,
+  frame: "idle",
   x: 120,
   y: 80
 });
 
 scene.add(sprite);
 raw2dCanvas.render(scene, camera);`
+      },
+      {
+        title: "Create Many From Atlas",
+        body: "Use createSpritesFromAtlas when a packed atlas should produce a keyed set of Sprite objects.",
+        liveDemoId: "texture-atlas",
+        code: `const sprites = createSpritesFromAtlas({
+  atlas,
+  sprites: {
+    player: { frame: "idle", x: 80, y: 80 },
+    enemy: { frame: "run", x: 140, y: 80 }
+  }
+});
+
+scene.add(sprites.player);
+scene.add(sprites.enemy);`
       },
       {
         title: "Why It Matters",

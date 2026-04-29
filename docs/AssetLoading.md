@@ -140,7 +140,7 @@ This pattern keeps Raw2D low-level: the app owns asset lifetime, and the rendere
 Use `AssetGroupLoader` when a screen, level, or document needs several textures and atlases before it starts:
 
 ```ts
-import { AssetGroupLoader } from "raw2d";
+import { AssetGroupLoader, createSpriteFromAtlas } from "raw2d";
 
 const assets = await new AssetGroupLoader().load({
   player: "/sprites/player.png",
@@ -153,6 +153,12 @@ const assets = await new AssetGroupLoader().load({
 const playerTexture = assets.getTexture("player");
 const playerAtlas = assets.getAtlas("playerAtlas");
 const packedSprites = assets.getAtlas("sprites");
+
+const player = createSpriteFromAtlas({
+  atlas: packedSprites,
+  frame: "player",
+  origin: "center"
+});
 ```
 
 String entries are shorthand for `{ type: "texture", url }`. Atlas entries use `TextureAtlasLoader` internally. `packAtlas` packs loaded texture entries into a generated `TextureAtlas` while keeping the original textures available.

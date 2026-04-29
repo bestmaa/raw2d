@@ -22,6 +22,8 @@ export * from "./TextureAtlasLoader.js";
 export * from "./TextureAtlasLoader.type.js";
 export * from "./createSpriteAnimationClip.js";
 export * from "./createSpriteAnimationClip.type.js";
+export * from "./createSpriteFromAtlas.js";
+export * from "./createSpriteFromAtlas.type.js";
 export * from "./getSpriteLocalBounds.js";
 export * from "./getSpriteLocalBounds.type.js";
 export * from "./getSpriteWorldBounds.js";

@@ -111,7 +111,7 @@ Disposed Sprite textures are skipped by Canvas and WebGL renderers. Do not dispo
 Load a whole pack with `AssetGroupLoader`:
 
 ```ts
-import { AssetGroupLoader } from "raw2d-sprite";
+import { AssetGroupLoader, createSpriteFromAtlas } from "raw2d-sprite";
 
 const assets = await new AssetGroupLoader().load({
   player: "/sprites/player.png",
@@ -123,6 +123,7 @@ const assets = await new AssetGroupLoader().load({
 
 const playerTexture = assets.getTexture("player");
 const packedSprites = assets.getAtlas("sprites");
+const player = createSpriteFromAtlas({ atlas: packedSprites, frame: "player" });
 
 assets.dispose();
 ```

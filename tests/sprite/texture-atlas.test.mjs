@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Sprite, Texture, TextureAtlas } from "raw2d-sprite";
+import { Sprite, Texture, TextureAtlas, createSpriteFromAtlas, createSpritesFromAtlas } from "raw2d-sprite";
 
 test("TextureAtlas stores named frames for one texture", () => {
   const texture = createTexture();
@@ -44,6 +44,54 @@ test("TextureAtlas version changes when frames are updated", () => {
 
   assert.equal(atlas.getVersion(), 1);
 });
+
+test("createSpriteFromAtlas creates a Sprite from a named frame", () => {
+  const atlas = createAtlas();
+  const sprite = createSpriteFromAtlas({
+    atlas,
+    frame: "idle",
+    x: 20,
+    y: 30,
+    origin: "center",
+    opacity: 0.5,
+    renderMode: "static"
+  });
+
+  assert.equal(sprite.texture, atlas.texture);
+  assert.deepEqual(sprite.frame, { x: 0, y: 0, width: 16, height: 20 });
+  assert.deepEqual(sprite.getSize(), { width: 16, height: 20 });
+  assert.equal(sprite.x, 20);
+  assert.equal(sprite.y, 30);
+  assert.equal(sprite.opacity, 0.5);
+  assert.equal(sprite.renderMode, "static");
+});
+
+test("createSpritesFromAtlas creates a keyed sprite map", () => {
+  const atlas = createAtlas();
+  const sprites = createSpritesFromAtlas({
+    atlas,
+    sprites: {
+      player: { frame: "idle", x: 10 },
+      enemy: { frame: "run", width: 24, height: 24, name: "custom-enemy" }
+    }
+  });
+
+  assert.equal(sprites.player.name, "player");
+  assert.deepEqual(sprites.player.frame, { x: 0, y: 0, width: 16, height: 20 });
+  assert.equal(sprites.enemy.name, "custom-enemy");
+  assert.deepEqual(sprites.enemy.frame, { x: 16, y: 0, width: 12, height: 20 });
+  assert.deepEqual(sprites.enemy.getSize(), { width: 24, height: 24 });
+});
+
+function createAtlas() {
+  return new TextureAtlas({
+    texture: createTexture(),
+    frames: {
+      idle: { x: 0, y: 0, width: 16, height: 20 },
+      run: { x: 16, y: 0, width: 12, height: 20 }
+    }
+  });
+}
 
 function createTexture() {
   return new Texture({

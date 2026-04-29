@@ -140,7 +140,7 @@ Is pattern me app asset lifetime own karta hai, aur renderer GPU resource lifeti
 Jab ek screen, level, ya document ko start hone se pehle kai textures aur atlases chahiye, tab `AssetGroupLoader` use karein:
 
 ```ts
-import { AssetGroupLoader } from "raw2d";
+import { AssetGroupLoader, createSpriteFromAtlas } from "raw2d";
 
 const assets = await new AssetGroupLoader().load({
   player: "/sprites/player.png",
@@ -153,6 +153,12 @@ const assets = await new AssetGroupLoader().load({
 const playerTexture = assets.getTexture("player");
 const playerAtlas = assets.getAtlas("playerAtlas");
 const packedSprites = assets.getAtlas("sprites");
+
+const player = createSpriteFromAtlas({
+  atlas: packedSprites,
+  frame: "player",
+  origin: "center"
+});
 ```
 
 String entry `{ type: "texture", url }` ka shorthand hai. Atlas entry internally `TextureAtlasLoader` use karti hai. `packAtlas` loaded texture entries ko generated `TextureAtlas` me pack karta hai, aur original textures bhi available rehte hain.
@@ -239,7 +245,3 @@ const idleClip = createSpriteAnimationClip({
 ```
 
 Isse animation code readable rehta hai, kyunki clip frame names use karta hai, copied rectangles nahi.
-
-## English Reference
-
-Detailed English version: `docs/AssetLoading.md`
