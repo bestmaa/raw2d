@@ -1,21 +1,57 @@
 # WebGL Texture Lifecycle
 
-Ye WebGL Texture Lifecycle ka Hinglish readme hai. Iska focus texture cache lifecycle hai, aur yahan usko simple practical language me samjhaya gaya hai.
+WebGL texture GPU memory me rehti hai. JavaScript garbage collection turant GPU memory free nahi karta, isliye long-running editor ya game me cache clear aur renderer dispose ka control zaruri hai.
 
-## Iska Kaam
+## Texture Cache
 
-WebGL Texture Lifecycle Raw2D ke modular engine me ek clear responsibility rakhta hai. Isse code readable rehta hai, renderer pipeline transparent rehti hai, aur feature ko alag module ki tarah maintain karna easy hota hai.
+`WebGLRenderer2D` ek `Texture` object ko pehli baar upload karta hai, fir next frames me wahi `WebGLTexture` reuse karta hai:
 
-## Kab Use Karein
+```ts
+renderer.render(scene, camera);
+console.log(renderer.getStats().textureUploads);
 
-Jab aap Raw2D project me texture cache lifecycle se related kaam kar rahe ho, tab is doc ko reference ki tarah use karein. Agar exact API detail chahiye to English file bhi saath me available hai.
+renderer.render(scene, camera);
+console.log(renderer.getStats().textureCacheHits);
+```
 
-## Important Notes
+## Text Texture Cache
 
-- Objects data aur behavior rakhte hain; drawing renderer ka kaam hai.
-- Canvas stable reference renderer hai.
-- WebGL batch-first performance path hai.
-- Code examples me API names English me hi rakhe gaye hain.
+`Text2D` WebGL me direct text draw nahi karta. Pehle text ek chhote canvas texture me rasterize hota hai, fir sprite-like texture batch me draw hota hai.
+
+Cache key sirf visual text data par based hai:
+
+- text
+- font
+- align
+- baseline
+- fill color
+
+Iska matlab text ko move, rotate, ya scale karne par texture rebuild nahi hota:
+
+```ts
+renderer.render(scene, camera);
+console.log(renderer.getStats().textTextureCacheMisses);
+
+label.x += 20;
+renderer.render(scene, camera);
+console.log(renderer.getStats().textTextureCacheHits);
+```
+
+Text, font, align, baseline, ya fill color change karne par old text texture retire hota hai aur new texture banta hai.
+
+## Clear Aur Dispose
+
+Asset pack unload karte waqt cache clear kar sakte ho:
+
+```ts
+renderer.clearTextureCache();
+```
+
+Canvas ya renderer remove karte waqt dispose karo:
+
+```ts
+renderer.dispose();
+```
 
 ## English Reference
 

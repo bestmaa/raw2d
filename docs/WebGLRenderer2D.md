@@ -90,7 +90,7 @@ scene.add(label);
 renderer.render(scene, new Camera2D());
 ```
 
-Text2D is rasterized to a small canvas texture, then drawn through the texture batch path. Changing text, font, or fill color rebuilds the text texture.
+Text2D is rasterized to a small canvas texture, then drawn through the texture batch path. Moving text reuses the raster texture. Changing text, font, alignment, baseline, or fill color rebuilds it.
 
 ## Stats
 
@@ -101,13 +101,14 @@ const stats = renderer.getStats();
 console.log(stats.objects);
 console.log(stats.drawCalls);
 console.log(stats.textureBinds);
+console.log(stats.textTextureCacheHits);
 console.log(stats.staticCacheHits);
 console.log(stats.shapePathUnsupportedFills);
 console.log(stats.renderList.culled);
 console.log(stats.uploadedBytes);
 ```
 
-`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
+`batches` and `drawCalls` stay separate from `objects` so you can see whether WebGL is actually reducing work. Texture stats show texture binding, first upload, and cache reuse. Text texture stats show rasterized text cache hits, misses, evictions, and retired textures. Upload stats show whether a frame grew GPU storage with `bufferData` or reused existing storage with `bufferSubData`. Static cache stats show whether static runs reused already uploaded buffers.
 
 `shapePathUnsupportedFills` reports ShapePath fills that WebGL intentionally skipped because the fill is not a single simple closed subpath. This keeps WebGL from silently drawing holes, multiple subpaths, or self-intersections incorrectly. ShapePath stroke can still render when stroke is enabled.
 

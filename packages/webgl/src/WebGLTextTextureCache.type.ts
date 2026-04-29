@@ -15,4 +15,12 @@ export interface WebGLTextTextureEntry {
   readonly height: number;
 }
 
+export interface WebGLTextTextureCacheStats {
+  readonly size: number;
+  readonly hits: number;
+  readonly misses: number;
+  readonly evictions: number;
+  readonly retired: number;
+}
+
 export type WebGLTextCanvasFactory = (width: number, height: number) => HTMLCanvasElement;

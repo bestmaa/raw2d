@@ -112,6 +112,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.clear();
     this.resources.staticShapeCache.beginFrame();
     this.resources.staticSpriteCache.beginFrame();
+    this.resources.textTextureCache.beginFrame();
 
     for (const run of runs) {
       if (run.kind === "shape") {
@@ -126,6 +127,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
     this.resources.staticShapeCache.sweep();
     this.resources.staticSpriteCache.sweep();
+    this.trackTextTextureStats(stats);
     this.stats = finalizeWebGLRenderStats(stats);
   }
 
@@ -223,6 +225,15 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       height: this.height,
       getTextureKey: (texture) => this.resources.textureCache.getKey(texture)
     });
+  }
+
+  private trackTextTextureStats(stats: MutableWebGLRenderStats): void {
+    const textStats = this.resources.textTextureCache.getStats();
+    stats.textTextures = textStats.size;
+    stats.textTextureCacheHits = textStats.hits;
+    stats.textTextureCacheMisses = textStats.misses;
+    stats.textTextureEvictions = textStats.evictions;
+    stats.retiredTextTextures = textStats.retired;
   }
 
   private onContextLost(event: Event): void {

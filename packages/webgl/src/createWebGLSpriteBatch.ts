@@ -26,13 +26,14 @@ export function createWebGLSpriteBatch(options: WebGLSpriteBatchOptions): WebGLS
 
   for (const item of textureItems) {
     const firstVertex = offset / floatsPerSpriteVertex;
-    const texture = getItemTexture(item, options);
+    const textTexture = isTextItem(item) ? getTextTexture(item.object, options) : undefined;
+    const texture = getItemTexture(item, textTexture);
     const textureKey = options.getTextureKey(texture);
     textureKeys.add(textureKey);
     if (isSpriteItem(item)) {
       offset = writeSprite(vertices, offset, item, options);
     } else if (isTextItem(item)) {
-      offset = writeText(vertices, offset, item, getTextTexture(item.object, options), options);
+      offset = writeText(vertices, offset, item, getResolvedTextTexture(textTexture), options);
     }
     appendSpriteDrawBatch(drawBatches, {
       key: textureKey,
@@ -63,18 +64,25 @@ function isTextItem(item: WebGLTextureItem): item is RenderItem<Text2D> {
   return item.object instanceof Text2D;
 }
 
-function getItemTexture(item: WebGLTextureItem, options: WebGLSpriteBatchOptions): Texture {
+function getItemTexture(item: WebGLTextureItem, textTexture?: WebGLTextTextureEntry): Texture {
   if (item.object instanceof Sprite) {
     return item.object.texture;
   }
 
-  const textTexture = getTextTexture(item.object, options);
-  return textTexture.texture;
+  return getResolvedTextTexture(textTexture).texture;
 }
 
 function getTextTexture(text: Text2D, options: WebGLSpriteBatchOptions): WebGLTextTextureEntry {
   const textTexture = options.getTextTexture?.(text);
 
+  if (!textTexture) {
+    throw new Error("Text2D texture provider is required for WebGL text batching.");
+  }
+
+  return textTexture;
+}
+
+function getResolvedTextTexture(textTexture: WebGLTextTextureEntry | undefined): WebGLTextTextureEntry {
   if (!textTexture) {
     throw new Error("Text2D texture provider is required for WebGL text batching.");
   }

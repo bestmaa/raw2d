@@ -17,6 +17,11 @@ export interface MutableWebGLRenderStats {
   textureBinds: number;
   textureUploads: number;
   textureCacheHits: number;
+  textTextures: number;
+  textTextureCacheHits: number;
+  textTextureCacheMisses: number;
+  textTextureEvictions: number;
+  retiredTextTextures: number;
   batches: number;
   staticBatches: number;
   dynamicBatches: number;

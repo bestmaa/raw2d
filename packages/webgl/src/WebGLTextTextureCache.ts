@@ -1,6 +1,6 @@
 import { Texture } from "raw2d-sprite";
 import type { Text2D } from "raw2d-text";
-import type { WebGLTextTextureCacheOptions, WebGLTextTextureEntry } from "./WebGLTextTextureCache.type.js";
+import type { WebGLTextTextureCacheOptions, WebGLTextTextureCacheStats, WebGLTextTextureEntry } from "./WebGLTextTextureCache.type.js";
 
 interface CachedTextTexture {
   readonly key: string;
@@ -13,6 +13,7 @@ export class WebGLTextTextureCache {
   private readonly padding: number;
   private readonly maxEntries: number;
   private readonly retiredTextures: Texture[] = [];
+  private frameStats = createEmptyTextTextureCacheStats();
 
   public constructor(options: WebGLTextTextureCacheOptions = {}) {
     this.options = options;
@@ -27,15 +28,18 @@ export class WebGLTextTextureCache {
     if (existing && existing.key === key) {
       this.cache.delete(text.id);
       this.cache.set(text.id, existing);
+      this.frameStats.hits += 1;
       return existing.entry;
     }
 
     if (existing) {
       this.retiredTextures.push(existing.entry.texture);
+      this.frameStats.retired += 1;
     }
 
     const entry = this.createEntry(text, key);
     this.cache.set(text.id, { key, entry });
+    this.frameStats.misses += 1;
     this.evictOverflow();
     return entry;
   }
@@ -48,6 +52,7 @@ export class WebGLTextTextureCache {
     }
 
     this.retiredTextures.push(existing.entry.texture);
+    this.frameStats.retired += 1;
     this.cache.delete(text.id);
     return true;
   }
@@ -62,6 +67,20 @@ export class WebGLTextTextureCache {
 
   public getSize(): number {
     return this.cache.size;
+  }
+
+  public beginFrame(): void {
+    this.frameStats = createEmptyTextTextureCacheStats();
+  }
+
+  public getStats(): WebGLTextTextureCacheStats {
+    return {
+      size: this.cache.size,
+      hits: this.frameStats.hits,
+      misses: this.frameStats.misses,
+      evictions: this.frameStats.evictions,
+      retired: this.frameStats.retired
+    };
   }
 
   public drainRetiredTextures(): readonly Texture[] {
@@ -127,6 +146,8 @@ export class WebGLTextTextureCache {
 
       if (oldest) {
         this.retiredTextures.push(oldest.entry.texture);
+        this.frameStats.evictions += 1;
+        this.frameStats.retired += 1;
       }
 
       this.cache.delete(oldestKey);
@@ -168,9 +189,7 @@ function createTextTextureKey(text: Text2D): string {
     text.font,
     text.align,
     text.baseline,
-    text.material.fillColor,
-    text.version,
-    text.material.version
+    text.material.fillColor
   ].join("|");
 }
 
@@ -184,4 +203,20 @@ interface TextMetricsBox {
   readonly localY: number;
   readonly width: number;
   readonly height: number;
+}
+
+interface MutableTextTextureCacheStats {
+  hits: number;
+  misses: number;
+  evictions: number;
+  retired: number;
+}
+
+function createEmptyTextTextureCacheStats(): MutableTextTextureCacheStats {
+  return {
+    hits: 0,
+    misses: 0,
+    evictions: 0,
+    retired: 0
+  };
 }

@@ -17,6 +17,11 @@ export interface WebGLRenderStats extends Renderer2DStats {
   readonly textureBinds: number;
   readonly textureUploads: number;
   readonly textureCacheHits: number;
+  readonly textTextures: number;
+  readonly textTextureCacheHits: number;
+  readonly textTextureCacheMisses: number;
+  readonly textTextureEvictions: number;
+  readonly retiredTextTextures: number;
   readonly batches: number;
   readonly staticBatches: number;
   readonly dynamicBatches: number;

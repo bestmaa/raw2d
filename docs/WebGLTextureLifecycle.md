@@ -24,7 +24,7 @@ console.log(renderer.getTextureCacheSize());
 
 ## Text Texture Cache
 
-`Text2D` is rasterized to a small canvas texture before WebGL draws it. The cache key includes text, font, alignment, baseline, object version, and material version.
+`Text2D` is rasterized to a small canvas texture before WebGL draws it. The cache key includes only visual text data: text, font, alignment, baseline, and fill color. Moving, rotating, or scaling a text object reuses the same text texture.
 
 ```ts
 const renderer = new WebGLRenderer2D({
@@ -35,7 +35,16 @@ const renderer = new WebGLRenderer2D({
 console.log(renderer.getTextTextureCacheSize());
 ```
 
-Changing text, font, or fill color retires the old text texture so the matching GPU texture can be deleted.
+Changing text, font, alignment, baseline, or fill color retires the old text texture so the matching GPU texture can be deleted.
+
+```ts
+renderer.render(scene, camera);
+console.log(renderer.getStats().textTextureCacheMisses);
+
+label.x += 20;
+renderer.render(scene, camera);
+console.log(renderer.getStats().textTextureCacheHits);
+```
 
 ## Clear Caches
 

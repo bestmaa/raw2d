@@ -45,11 +45,14 @@ console.log(stats.objects);
 console.log(stats.drawCalls);
 console.log(stats.batches);
 console.log(stats.textureBinds);
+console.log(stats.textTextureCacheHits);
 console.log(stats.shapePathUnsupportedFills);
 console.log(stats.renderList.culled);
 ```
 
 Stats se pata chalta hai ki WebGL batching sach me kaam kar rahi hai ya nahi.
+
+Text stats se pata chalta hai ki `Text2D` raster texture reuse ho raha hai ya new texture ban raha hai.
 
 `shapePathUnsupportedFills` batata hai ki kitne ShapePath fills WebGL ne intentionally skip kiye. Agar path me multiple subpaths, hole-style fill, degenerate polygon, ya self-intersection hai to WebGL galat draw karne ke bajay is count ko badhata hai. Stroke enabled ho to stroke phir bhi render ho sakta hai.
 
@@ -121,6 +124,21 @@ renderer.render(scene, camera);
 ```
 
 Raw2D scene order ko silently reorder nahi karta. Predictable render order performance se zyada important hai.
+
+## Text2D Texture Cache
+
+`Text2D` pehle canvas texture me rasterize hota hai, fir sprite-like texture batch me draw hota hai. Move, rotate, ya scale karne par same texture reuse hota hai.
+
+```ts
+renderer.render(scene, camera);
+console.log(renderer.getStats().textTextureCacheMisses);
+
+label.x += 20;
+renderer.render(scene, camera);
+console.log(renderer.getStats().textTextureCacheHits);
+```
+
+Text, font, align, baseline, ya fill color change ho to texture rebuild hota hai.
 
 ## Static Render Mode
 

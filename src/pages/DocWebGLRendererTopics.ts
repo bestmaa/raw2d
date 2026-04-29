@@ -37,6 +37,16 @@ scene.add(label);
 webglRenderer.render(scene, new Camera2D());`
       },
       {
+        title: "Text Texture Cache",
+        body: "Text texture cache keys use visual text data only. Moving, rotating, or scaling Text2D reuses the raster texture; changing text, font, alignment, baseline, or fill color rebuilds it.",
+        code: `webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textTextureCacheMisses);
+
+label.x += 20;
+webglRenderer.render(scene, camera);
+console.log(webglRenderer.getStats().textTextureCacheHits);`
+      },
+      {
         title: "Sprite Texture Batch",
         body: "Sprites use a separate textured shader path. Consecutive Sprites using the same Texture are merged into one texture draw batch while render order stays stable.",
         liveDemoId: "webgl-renderer",
@@ -69,29 +79,13 @@ console.log(renderer.getStats());
 
 // {
 //   objects: 1000,
-//   rects: 143,
-//   circles: 143,
-//   ellipses: 143,
-//   lines: 143,
-//   polylines: 143,
-//   polygons: 143,
-//   sprites: 142,
-//   textures: 1,
-//   textureBinds: 142,
-//   textureUploads: 1,
-//   textureCacheHits: 141,
-//   batches: 600,
-//   staticBatches: 300,
-//   dynamicBatches: 300,
-//   staticObjects: 500,
-//   dynamicObjects: 500,
-//   vertices: 33000,
 //   drawCalls: 600,
-//   uploadBufferDataCalls: 1,
-//   uploadBufferSubDataCalls: 1,
+//   batches: 600,
+//   textureBinds: 142,
+//   textTextureCacheHits: 20,
+//   textTextureCacheMisses: 1,
 //   uploadedBytes: 792000,
 //   staticCacheHits: 0,
-//   staticCacheMisses: 300,
 //   unsupported: 0
 // }`
       },
