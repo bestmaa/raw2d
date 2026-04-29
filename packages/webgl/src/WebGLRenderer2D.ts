@@ -14,8 +14,10 @@ import { drawWebGLShapeBatch, drawWebGLSpriteBatch } from "./drawWebGLBatches.js
 import { trackWebGLShapeBatchStats, trackWebGLSpriteBatchStats } from "./trackWebGLBatchStats.js";
 import { trackWebGLRunModeStats } from "./trackWebGLRunModeStats.js";
 import { trackWebGLUploadStats } from "./trackWebGLUploadStats.js";
+import { trackWebGLTextTextureStats } from "./trackWebGLTextTextureStats.js";
 import { WebGLRenderer2DResources } from "./WebGLRenderer2DResources.js";
 import { emitWebGLShapePathFillFallbacks } from "./emitWebGLShapePathFillFallbacks.js";
+import { releaseDisposedWebGLSpriteTextures } from "./releaseDisposedWebGLSpriteTextures.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
@@ -128,7 +130,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
     this.resources.staticShapeCache.sweep();
     this.resources.staticSpriteCache.sweep();
-    this.trackTextTextureStats(stats);
+    trackWebGLTextTextureStats(this.resources.textTextureCache, stats);
     this.stats = finalizeWebGLRenderStats(stats);
   }
 
@@ -169,6 +171,8 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   }
 
   private renderSpriteRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
+    releaseDisposedWebGLSpriteTextures(run, this.resources.textureCache);
+
     if (run.mode === "static" && this.renderCachedSpriteRun(run, camera, stats)) {
       return;
     }
@@ -226,15 +230,6 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
       height: this.height,
       getTextureKey: (texture) => this.resources.textureCache.getKey(texture)
     });
-  }
-
-  private trackTextTextureStats(stats: MutableWebGLRenderStats): void {
-    const textStats = this.resources.textTextureCache.getStats();
-    stats.textTextures = textStats.size;
-    stats.textTextureCacheHits = textStats.hits;
-    stats.textTextureCacheMisses = textStats.misses;
-    stats.textTextureEvictions = textStats.evictions;
-    stats.retiredTextTextures = textStats.retired;
   }
 
   private onContextLost(event: Event): void {

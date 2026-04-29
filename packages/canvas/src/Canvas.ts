@@ -1,4 +1,5 @@
 import { Camera2D, Group2D, RenderPipeline, getRendererSupport, type Renderer2DLike, type RendererSupportProfile, type RenderItem, type RenderList, type RenderListStats, type Scene } from "raw2d-core";
+import { Sprite } from "raw2d-sprite";
 import { CanvasObjectRenderer } from "./CanvasObjectRenderer.js";
 import { getCanvasObjectWorldBounds } from "./culling/index.js";
 import type { CanvasObject, CanvasOptions, CanvasRenderOptions, CanvasRenderStats, CanvasSize } from "./Canvas.type.js";
@@ -151,6 +152,10 @@ function createCanvasStats(renderList: RenderList<CanvasObject>): CanvasRenderSt
 }
 
 function isDrawableItem(item: RenderItem<CanvasObject>): boolean {
+  if (item.object instanceof Sprite && item.object.texture.isDisposed()) {
+    return false;
+  }
+
   return !(item.object instanceof Group2D);
 }
 

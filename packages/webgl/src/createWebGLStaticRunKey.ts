@@ -1,6 +1,7 @@
 import { Sprite } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import type { Object2D } from "raw2d-core";
+import { isWebGLTextureDisposed } from "./isWebGLTextureDisposed.js";
 import type {
   WebGLStaticRunIdentity,
   WebGLStaticRunKeyOptions
@@ -49,7 +50,7 @@ function getSpriteTextureKey(object: Object2D, options: WebGLStaticRunKeyOptions
     return "texture:none";
   }
 
-  return `texture:${options.getTextureKey(object.texture)}`;
+  return `texture:${isWebGLTextureDisposed(object.texture) ? "disposed" : "ready"}:${options.getTextureKey(object.texture)}`;
 }
 
 function getSpriteFrameKey(object: Object2D): string {

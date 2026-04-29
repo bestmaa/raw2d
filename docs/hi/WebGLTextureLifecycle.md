@@ -47,6 +47,17 @@ Asset pack unload karte waqt cache clear kar sakte ho:
 renderer.clearTextureCache();
 ```
 
+## Disposed Textures
+
+`texture.dispose()` aur WebGL cache cleanup alag cheezein hain. Texture dispose karne par source close hota hai jab possible ho, aur texture unavailable mark hota hai. WebGL disposed texture wale Sprites ko skip karta hai.
+
+```ts
+texture.dispose();
+renderer.render(scene, camera);
+```
+
+Agar disposed Texture pehle upload ho chuka tha, to render ke time WebGL us cached GPU texture ko release kar deta hai. Pura asset pack unload karte waqt `clearTextureCache()` use karein.
+
 Canvas ya renderer remove karte waqt dispose karo:
 
 ```ts

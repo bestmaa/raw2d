@@ -1,4 +1,5 @@
 import type { Texture } from "raw2d-sprite";
+import { isWebGLTextureDisposed } from "./isWebGLTextureDisposed.js";
 import type { WebGLTextureCacheResult } from "./WebGLTextureCacheResult.type.js";
 
 export class WebGLTextureCache {
@@ -16,6 +17,11 @@ export class WebGLTextureCache {
   }
 
   public getWithResult(texture: Texture): WebGLTextureCacheResult {
+    if (isWebGLTextureDisposed(texture)) {
+      this.delete(texture);
+      throw new Error(`Cannot upload disposed texture: ${texture.id}`);
+    }
+
     const cachedTexture = this.textures.get(texture);
 
     if (cachedTexture) {

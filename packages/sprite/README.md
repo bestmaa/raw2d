@@ -101,6 +101,14 @@ const texture = new TextureLoader().fromSource(canvasSource, {
 Loader cache stores URL load promises. Use `clearCache()` for loader cache and renderer disposal APIs for GPU resources.
 
 ```ts
+texture.dispose();
+loader.clearCache();
+webglRenderer.clearTextureCache();
+```
+
+Disposed Sprite textures are skipped by Canvas and WebGL renderers. Do not dispose a texture while a Sprite still needs to render it.
+
+```ts
 import { TextureAtlasLoader, createSpriteAnimationClip } from "raw2d-sprite";
 
 const atlas = await new TextureAtlasLoader({

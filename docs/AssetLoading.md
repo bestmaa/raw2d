@@ -97,7 +97,43 @@ console.log(texture.getStatus());
 texture.dispose();
 ```
 
-`Texture.dispose()` marks the texture as disposed and calls `close()` on closeable sources such as `ImageBitmap`. Do not dispose a texture while a Sprite still needs it.
+`Texture.dispose()` marks the texture as disposed and calls `close()` on closeable sources such as `ImageBitmap`. Disposed Sprite textures are skipped by Canvas and WebGL renderers.
+
+Do not dispose a texture while a Sprite still needs it. Remove the Sprite, replace its texture, or accept that it will no longer render.
+
+## WebGL GPU Cleanup
+
+Texture source cleanup and GPU cleanup are separate:
+
+```ts
+texture.dispose();                 // source lifecycle
+webglRenderer.clearTextureCache(); // GPU texture lifecycle
+```
+
+WebGL also releases a cached GPU texture when a disposed Sprite texture is still found during render. Use `clearTextureCache()` when unloading a whole asset pack.
+
+## Asset Pack Cleanup Pattern
+
+Keep loaded textures in one small owner so unload is explicit:
+
+```ts
+const loader = new TextureLoader({ cache: true });
+const textures = [
+  await loader.load("/sprites/player.png"),
+  await loader.load("/sprites/enemy.png")
+];
+
+function unloadLevelAssets(): void {
+  for (const texture of textures) {
+    texture.dispose();
+  }
+
+  loader.clearCache();
+  webglRenderer.clearTextureCache();
+}
+```
+
+This pattern keeps Raw2D low-level: the app owns asset lifetime, and the renderer owns GPU resource lifetime.
 
 ## TextureAtlasLoader
 

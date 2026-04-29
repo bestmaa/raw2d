@@ -97,7 +97,43 @@ console.log(texture.getStatus());
 texture.dispose();
 ```
 
-`Texture.dispose()` texture ko disposed mark karta hai aur `ImageBitmap` jaise closeable source par `close()` call karta hai. Jab Sprite ko texture chahiye ho, tab us texture ko dispose na karein.
+`Texture.dispose()` texture ko disposed mark karta hai aur `ImageBitmap` jaise closeable source par `close()` call karta hai. Disposed Sprite textures ko Canvas aur WebGL renderer skip kar dete hain.
+
+Jab Sprite ko texture chahiye ho, tab us texture ko dispose na karein. Pehle Sprite remove karein, texture replace karein, ya accept karein ki Sprite render nahi hoga.
+
+## WebGL GPU Cleanup
+
+Texture source cleanup aur GPU cleanup alag cheezein hain:
+
+```ts
+texture.dispose();                 // source lifecycle
+webglRenderer.clearTextureCache(); // GPU texture lifecycle
+```
+
+Render ke time agar disposed Sprite texture milta hai to WebGL renderer uska cached GPU texture release karta hai. Pura asset pack unload karte waqt `clearTextureCache()` use karein.
+
+## Asset Pack Cleanup Pattern
+
+Loaded textures ko ek chhote owner me rakhein, taaki unload explicit rahe:
+
+```ts
+const loader = new TextureLoader({ cache: true });
+const textures = [
+  await loader.load("/sprites/player.png"),
+  await loader.load("/sprites/enemy.png")
+];
+
+function unloadLevelAssets(): void {
+  for (const texture of textures) {
+    texture.dispose();
+  }
+
+  loader.clearCache();
+  webglRenderer.clearTextureCache();
+}
+```
+
+Is pattern me app asset lifetime own karta hai, aur renderer GPU resource lifetime own karta hai.
 
 ## TextureAtlasLoader
 

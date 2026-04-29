@@ -44,6 +44,18 @@ test("CanvasObjectRenderer draws Sprite atlas frames from source rects", () => {
   assert.ok(context.calls.includes("drawImage:16,8,32,24,0,0,64,48"));
 });
 
+test("CanvasObjectRenderer skips disposed Sprite textures", () => {
+  const context = createFakeContext();
+  const renderer = new CanvasObjectRenderer({ context });
+  const texture = new Texture({ source: { width: 32, height: 32 }, width: 32, height: 32 });
+  const sprite = new Sprite({ texture, width: 32, height: 32 });
+
+  texture.dispose();
+  renderer.render([sprite]);
+
+  assert.equal(context.calls.some((call) => call.startsWith("drawImage")), false);
+});
+
 function createFakeContext() {
   const context = {
     calls: [],

@@ -3,6 +3,7 @@ import { Sprite } from "raw2d-sprite";
 import type { Texture } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
 import { getWebGLSpriteUV } from "./getWebGLSpriteUV.js";
+import { isWebGLTextureDisposed } from "./isWebGLTextureDisposed.js";
 import { toClipPoint } from "./WebGLVertex.js";
 import type {
   WebGLSpriteBatch,
@@ -53,7 +54,11 @@ export function createWebGLSpriteBatch(options: WebGLSpriteBatchOptions): WebGLS
 }
 
 function isTextureItem(item: WebGLSpriteBatchOptions["items"][number], options: WebGLSpriteBatchOptions): boolean {
-  return item.object instanceof Sprite || (item.object instanceof Text2D && options.getTextTexture !== undefined);
+  if (item.object instanceof Sprite) {
+    return !isWebGLTextureDisposed(item.object.texture);
+  }
+
+  return item.object instanceof Text2D && options.getTextTexture !== undefined;
 }
 
 function isSpriteItem(item: WebGLTextureItem): item is WebGLSpriteItem {

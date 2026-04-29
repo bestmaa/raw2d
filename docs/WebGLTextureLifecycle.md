@@ -59,6 +59,17 @@ console.log(renderer.getTextureCacheSize());
 
 This clears sprite texture uploads and rasterized text texture entries. The next render uploads only the textures that are still visible.
 
+## Disposed Textures
+
+`texture.dispose()` and WebGL cache cleanup are separate. Disposing a Texture closes the source when possible and marks it as unavailable. WebGL skips Sprites that reference disposed textures.
+
+```ts
+texture.dispose();
+renderer.render(scene, camera);
+```
+
+If the disposed Texture was already uploaded, WebGL releases that cached GPU texture when it sees the disposed Sprite texture during render. Use `clearTextureCache()` when unloading a whole asset pack.
+
 ## Dispose Renderer
 
 Use `dispose()` when the canvas or renderer is no longer needed:

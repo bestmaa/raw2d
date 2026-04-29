@@ -5,6 +5,10 @@ import type { DrawSpriteOptions } from "./drawSprite.type.js";
 export function drawSprite(options: DrawSpriteOptions): void {
   const { context, sprite } = options;
 
+  if (sprite.texture.isDisposed()) {
+    return;
+  }
+
   context.save();
   applyObjectTransform({ context, object: sprite });
   applyOriginOffset({ context, object: sprite, localX: 0, localY: 0, width: sprite.width, height: sprite.height });
