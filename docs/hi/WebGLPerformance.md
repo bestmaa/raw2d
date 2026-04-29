@@ -10,6 +10,9 @@ Ye doc batata hai ki Raw2D me WebGL renderer ko kaise measure karein. Goal ye ha
 - `batches`: compatible objects ke groups
 - `drawCalls`: WebGL ko bheje gaye actual draw ranges
 - `textureBinds`: texture switch kitni baar hua
+- `spriteTextureBinds`: current scene order me Sprite-only texture binds
+- `sortedSpriteTextureBinds`: batch-friendly sorting ke baad estimated Sprite binds
+- `spriteTextureBindReduction`: safe reorderable Sprite layer me possible reduction
 - `textTextureCacheHits`: cached `Text2D` texture reuse hua
 - `textTextureCacheMisses`: `Text2D` ke liye nayi texture entry bani
 - `staticCacheHits`: static geometry cache se reuse hui
@@ -68,6 +71,8 @@ const stats = renderer.getStats();
 console.log(stats.renderList);
 console.log(stats.drawCalls, stats.batches, stats.vertices);
 console.log(stats.textureBinds, stats.textureUploads);
+console.log(stats.spriteTextureBinds, stats.sortedSpriteTextureBinds);
+console.log(stats.spriteTextureBindReduction);
 console.log(stats.textTextureCacheHits, stats.textTextureCacheMisses);
 console.log(stats.uploadBufferDataCalls, stats.uploadBufferSubDataCalls);
 console.log(stats.uploadedBytes);
@@ -83,6 +88,7 @@ console.log(stats.uploadedBytes);
 - Packed atlas use karne se `textureBinds` kam hone chahiye.
 - Safe sprite layers me `sortWebGLSpritesForBatching()` se texture order group kar sakte hain.
 - `analyzeWebGLSpriteBatching()` se sort karne se pehle potential bind reduction dekh sakte hain.
+- Real render ke baad `renderer.getStats().spriteTextureBindReduction` se same signal milta hai.
 - Static objects repeat render me `staticCacheHits` badhate hain.
 - Moving objects ko `dynamic` rakhein.
 - Browser timing approximate hota hai; same page me relative comparison ke liye use karein.

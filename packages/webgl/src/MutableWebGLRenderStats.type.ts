@@ -13,6 +13,16 @@ export interface MutableWebGLRenderStats {
   shapePaths: number;
   shapePathUnsupportedFills: number;
   sprites: number;
+  staticSprites: number;
+  dynamicSprites: number;
+  spriteBatches: number;
+  staticSpriteBatches: number;
+  dynamicSpriteBatches: number;
+  spriteTextureGroups: number;
+  spriteTextureBinds: number;
+  sortedSpriteTextureBinds: number;
+  spriteTextureBindReduction: number;
+  skippedSpriteTextures: number;
   textures: Set<string>;
   textureBinds: number;
   textureUploads: number;

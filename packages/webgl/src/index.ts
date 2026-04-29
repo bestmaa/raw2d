@@ -44,6 +44,7 @@ export * from "./emitWebGLShapePathFillFallbacks.js";
 export * from "./trackWebGLRunModeStats.js";
 export * from "./trackWebGLUploadStats.js";
 export * from "./trackWebGLBatchStats.js";
+export * from "./trackWebGLSpriteRunDiagnostics.js";
 export * from "./getWebGLBounds.js";
 export * from "./getWebGLRenderRunKind.js";
 export * from "./getWebGLMaterialKey.js";

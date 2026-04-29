@@ -15,6 +15,7 @@ import { trackWebGLShapeBatchStats, trackWebGLSpriteBatchStats } from "./trackWe
 import { trackWebGLRunModeStats } from "./trackWebGLRunModeStats.js";
 import { trackWebGLUploadStats } from "./trackWebGLUploadStats.js";
 import { trackWebGLTextTextureStats } from "./trackWebGLTextTextureStats.js";
+import { trackWebGLSpriteRunDiagnostics } from "./trackWebGLSpriteRunDiagnostics.js";
 import { WebGLRenderer2DResources } from "./WebGLRenderer2DResources.js";
 import { emitWebGLShapePathFillFallbacks } from "./emitWebGLShapePathFillFallbacks.js";
 import { releaseDisposedWebGLSpriteTextures } from "./releaseDisposedWebGLSpriteTextures.js";
@@ -172,6 +173,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
   private renderSpriteRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
     releaseDisposedWebGLSpriteTextures(run, this.resources.textureCache);
+    trackWebGLSpriteRunDiagnostics(run, (texture) => this.resources.textureCache.getKey(texture), stats);
 
     if (run.mode === "static" && this.renderCachedSpriteRun(run, camera, stats)) {
       return;

@@ -47,6 +47,22 @@ test("packed atlas reduces WebGL texture binds versus separate textures", () => 
   assert.equal(packedStats.textureUploads, 1);
 });
 
+test("WebGLRenderer2D reports sprite batch reduction diagnostics", () => {
+  const textureA = createTexture(16, 16);
+  const textureB = createTexture(16, 16);
+  const stats = renderSprites([
+    new Sprite({ texture: textureA, x: 10, y: 10, width: 16, height: 16 }),
+    new Sprite({ texture: textureB, x: 32, y: 10, width: 16, height: 16 }),
+    new Sprite({ texture: textureA, x: 54, y: 10, width: 16, height: 16 })
+  ]);
+
+  assert.equal(stats.spriteBatches, 3);
+  assert.equal(stats.spriteTextureGroups, 2);
+  assert.equal(stats.spriteTextureBinds, 3);
+  assert.equal(stats.sortedSpriteTextureBinds, 2);
+  assert.equal(stats.spriteTextureBindReduction, 1);
+});
+
 test("WebGLRenderer2D can clear texture caches", () => {
   const gl = createFakeWebGL2Context();
   const renderer = new WebGLRenderer2D({

@@ -73,14 +73,22 @@ console.log(stats.textures);
 console.log(stats.textureBinds);
 console.log(stats.textureUploads);
 console.log(stats.textureCacheHits);
+console.log(stats.spriteTextureBindReduction);
 ```
 
 - `textures`: frame me use hui unique textures
 - `textureBinds`: drawing ke time texture switches
 - `textureUploads`: is frame me naye GPU texture uploads
 - `textureCacheHits`: reused GPU texture records
+- `spriteTextureGroups`: frame me unique Sprite texture groups
+- `spriteTextureBinds`: current scene order me Sprite-only texture binds
+- `sortedSpriteTextureBinds`: safe sorting ke baad estimated Sprite binds
+- `spriteTextureBindReduction`: safe reorderable Sprite layers me possible bind reduction
+- `skippedSpriteTextures`: disposed texture wale Sprites jo skip hue
 
 High `textureBinds` ka matlab usually sprites atlas ya same texture ke order me grouped nahi hain.
+
+`textureBinds` me `Text2D` texture draws bhi aa sakte hain. Sirf Sprite texture diagnosis ke liye `spriteTextureBinds` dekhein.
 
 ## Text Texture Stats
 
@@ -118,6 +126,8 @@ const stats = webglRenderer.getStats();
 
 console.log(stats.staticBatches);
 console.log(stats.dynamicBatches);
+console.log(stats.staticSpriteBatches);
+console.log(stats.dynamicSpriteBatches);
 console.log(stats.staticCacheHits);
 console.log(stats.staticCacheMisses);
 ```
@@ -126,6 +136,11 @@ console.log(stats.staticCacheMisses);
 - `dynamicBatches`: har frame rebuild hone wale dynamic groups
 - `staticObjects`: is frame ke static objects
 - `dynamicObjects`: is frame ke dynamic objects
+- `staticSprites`: is frame me rendered static Sprites
+- `dynamicSprites`: is frame me rendered dynamic Sprites
+- `spriteBatches`: Sprite/Text2D texture pipeline ke draw batches
+- `staticSpriteBatches`: static texture-pipeline batches
+- `dynamicSpriteBatches`: dynamic texture-pipeline batches
 - `staticCacheHits`: static runs jo rebuild ke bina reuse hue
 - `staticCacheMisses`: version change ki wajah se rebuild hue static runs
 
@@ -164,4 +179,3 @@ console.log(stats.unsupported);
 - shape counters batate hain har type ke kitne objects process hue
 - `shapePathUnsupportedFills` closed path fills track karta hai jo WebGL batch nahi kar paya
 - `unsupported` un objects ko track karta hai jo renderer draw nahi kar paya
-

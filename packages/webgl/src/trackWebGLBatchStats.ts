@@ -30,6 +30,16 @@ export function trackWebGLSpriteBatchStats(
   stats: MutableWebGLRenderStats
 ): void {
   stats.sprites += batch.sprites;
+  stats.spriteBatches += batch.drawBatches.length;
+
+  if (run.mode === "static") {
+    stats.staticSprites += batch.sprites;
+    stats.staticSpriteBatches += batch.drawBatches.length;
+  } else {
+    stats.dynamicSprites += batch.sprites;
+    stats.dynamicSpriteBatches += batch.drawBatches.length;
+  }
+
   trackWebGLRunModeStats(run, batch.drawBatches.length, stats);
   stats.vertices += batch.vertices.length / 5;
   stats.drawCalls += batch.drawBatches.length;

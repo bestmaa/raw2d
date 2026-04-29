@@ -13,6 +13,16 @@ export interface WebGLRenderStats extends Renderer2DStats {
   readonly shapePaths: number;
   readonly shapePathUnsupportedFills: number;
   readonly sprites: number;
+  readonly staticSprites: number;
+  readonly dynamicSprites: number;
+  readonly spriteBatches: number;
+  readonly staticSpriteBatches: number;
+  readonly dynamicSpriteBatches: number;
+  readonly spriteTextureGroups: number;
+  readonly spriteTextureBinds: number;
+  readonly sortedSpriteTextureBinds: number;
+  readonly spriteTextureBindReduction: number;
+  readonly skippedSpriteTextures: number;
   readonly textures: number;
   readonly textureBinds: number;
   readonly textureUploads: number;

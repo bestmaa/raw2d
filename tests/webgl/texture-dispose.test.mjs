@@ -27,6 +27,7 @@ test("WebGLRenderer2D releases and skips disposed Sprite textures", () => {
   assert.equal(renderer.getStats().sprites, 0);
   assert.equal(renderer.getStats().drawCalls, 0);
   assert.equal(renderer.getStats().textureBinds, 0);
+  assert.equal(renderer.getStats().skippedSpriteTextures, 1);
   assert.equal(renderer.getStats().unsupported, 1);
   assert.equal(gl.calls.includes("deleteTexture"), true);
 });
@@ -110,4 +111,3 @@ function createFakeWebGL2Context() {
     viewport() {}
   };
 }
-

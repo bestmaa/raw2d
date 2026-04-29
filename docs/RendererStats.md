@@ -73,14 +73,22 @@ console.log(stats.textures);
 console.log(stats.textureBinds);
 console.log(stats.textureUploads);
 console.log(stats.textureCacheHits);
+console.log(stats.spriteTextureBindReduction);
 ```
 
 - `textures`: unique textures used in the frame
 - `textureBinds`: texture switches during drawing
 - `textureUploads`: new texture uploads this frame
 - `textureCacheHits`: reused GPU texture records
+- `spriteTextureGroups`: unique Sprite texture groups in the frame
+- `spriteTextureBinds`: Sprite-only binds in current scene order
+- `sortedSpriteTextureBinds`: estimated Sprite binds after batch-friendly sorting
+- `spriteTextureBindReduction`: possible bind reduction for safe reorderable Sprite layers
+- `skippedSpriteTextures`: Sprites skipped because their texture is disposed
 
 High `textureBinds` usually means sprites are not grouped by atlas or texture.
+
+`textureBinds` includes all texture pipeline draws, including `Text2D`. Use `spriteTextureBinds` when you only want Sprite texture diagnostics.
 
 ## Text Texture Stats
 
@@ -118,6 +126,8 @@ const stats = webglRenderer.getStats();
 
 console.log(stats.staticBatches);
 console.log(stats.dynamicBatches);
+console.log(stats.staticSpriteBatches);
+console.log(stats.dynamicSpriteBatches);
 console.log(stats.staticCacheHits);
 console.log(stats.staticCacheMisses);
 ```
@@ -126,6 +136,11 @@ console.log(stats.staticCacheMisses);
 - `dynamicBatches`: rebuilt dynamic groups
 - `staticObjects`: static objects accepted this frame
 - `dynamicObjects`: dynamic objects accepted this frame
+- `staticSprites`: static Sprites rendered this frame
+- `dynamicSprites`: dynamic Sprites rendered this frame
+- `spriteBatches`: texture-pipeline draw batches for Sprite/Text2D rendering
+- `staticSpriteBatches`: static texture-pipeline batches
+- `dynamicSpriteBatches`: dynamic texture-pipeline batches
 - `staticCacheHits`: static runs reused without rebuilding
 - `staticCacheMisses`: static runs rebuilt because their version changed
 
@@ -164,4 +179,3 @@ console.log(stats.unsupported);
 - shape counters show how many objects of each type were processed
 - `shapePathUnsupportedFills` tracks closed path fills WebGL could not batch
 - `unsupported` tracks objects this renderer could not draw
-

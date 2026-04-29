@@ -74,6 +74,19 @@ console.log(report.potentialReduction);
 console.log(report.textureGroups);`
       },
       {
+        title: "Renderer Sprite Diagnostics",
+        body: "After a real render, WebGL stats expose Sprite texture grouping signals directly. Use these numbers to decide whether atlas packing or safe sprite sorting is worth it.",
+        liveDemoId: "webgl-performance",
+        code: `webglRenderer.render(scene, camera);
+const stats = webglRenderer.getStats();
+
+console.log(stats.spriteBatches);
+console.log(stats.spriteTextureBinds);
+console.log(stats.sortedSpriteTextureBinds);
+console.log(stats.spriteTextureBindReduction);
+console.log(stats.skippedSpriteTextures);`
+      },
+      {
         title: "Read The Numbers",
         body: "objects is accepted render-list items after visibility, filters, and culling. renderList.total is the scene candidate count. culled shows camera-culling wins.",
         liveDemoId: "webgl-performance",
@@ -86,6 +99,7 @@ console.log(stats.objects);
 console.log(stats.drawCalls);
 console.log(stats.batches);
 console.log(stats.textureBinds);
+console.log(stats.spriteTextureBindReduction);
 console.log(stats.staticCacheHits);
 console.log(stats.uploadedBytes);`
       },
@@ -99,6 +113,7 @@ const stats = webglRenderer.getStats();
 console.log(stats.renderList);
 console.log(stats.drawCalls, stats.batches, stats.vertices);
 console.log(stats.textureBinds, stats.textureUploads);
+console.log(stats.spriteTextureBinds, stats.sortedSpriteTextureBinds);
 console.log(stats.textTextureCacheHits, stats.textTextureCacheMisses);
 console.log(stats.uploadBufferDataCalls, stats.uploadBufferSubDataCalls);
 console.log(stats.uploadedBytes);`

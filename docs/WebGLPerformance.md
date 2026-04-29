@@ -12,6 +12,9 @@ Use these stats to understand whether batching is helping:
 - `batches`: compatible object groups sent through the batcher
 - `drawCalls`: actual WebGL draw ranges
 - `textureBinds`: texture bind operations for sprite batches
+- `spriteTextureBinds`: Sprite-only texture binds in current scene order
+- `sortedSpriteTextureBinds`: estimated Sprite binds after batch-friendly sorting
+- `spriteTextureBindReduction`: possible bind reduction for safe reorderable Sprite layers
 - `textureUploads`: new texture uploads this frame
 - `textureCacheHits`: reused WebGL textures
 - `textTextureCacheHits`: reused cached `Text2D` textures
@@ -112,6 +115,8 @@ const stats = renderer.getStats();
 console.log(stats.renderList);
 console.log(stats.drawCalls, stats.batches, stats.vertices);
 console.log(stats.textureBinds, stats.textureUploads);
+console.log(stats.spriteTextureBinds, stats.sortedSpriteTextureBinds);
+console.log(stats.spriteTextureBindReduction);
 console.log(stats.textTextureCacheHits, stats.textTextureCacheMisses);
 console.log(stats.uploadBufferDataCalls, stats.uploadBufferSubDataCalls);
 console.log(stats.uploadedBytes);
@@ -187,6 +192,19 @@ console.log(report.potentialReduction);
 ```
 
 Use this for tile maps, particles, or background layers where reordering does not break visual stacking. For overlapping gameplay sprites, keep explicit `zIndex` and scene order.
+
+After a real render, the renderer exposes the same idea through stats:
+
+```ts
+renderer.render(scene, camera);
+
+const stats = renderer.getStats();
+
+console.log(stats.spriteTextureBinds);
+console.log(stats.sortedSpriteTextureBinds);
+console.log(stats.spriteTextureBindReduction);
+console.log(stats.skippedSpriteTextures);
+```
 
 ## Static And Dynamic Split
 
