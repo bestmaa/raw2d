@@ -76,6 +76,31 @@ Packed sprites share one `atlas.texture`, so consecutive WebGL Sprites can stay 
 ## Asset Loading
 
 ```ts
+import { Sprite, TextureLoader } from "raw2d-sprite";
+
+const texture = await new TextureLoader({
+  cache: true,
+  crossOrigin: "anonymous"
+}).load("/sprites/player.png");
+
+const sprite = new Sprite({
+  texture,
+  origin: "center"
+});
+```
+
+Use `fromSource()` when a canvas, image, or bitmap already exists:
+
+```ts
+const texture = new TextureLoader().fromSource(canvasSource, {
+  id: "generated-minimap",
+  url: "memory://minimap"
+});
+```
+
+Loader cache stores URL load promises. Use `clearCache()` for loader cache and renderer disposal APIs for GPU resources.
+
+```ts
 import { TextureAtlasLoader, createSpriteAnimationClip } from "raw2d-sprite";
 
 const atlas = await new TextureAtlasLoader({

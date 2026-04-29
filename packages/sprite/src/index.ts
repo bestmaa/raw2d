@@ -2,6 +2,8 @@ export * from "./Sprite.js";
 export * from "./Sprite.type.js";
 export * from "./Texture.js";
 export * from "./Texture.type.js";
+export * from "./TextureSourceSize.js";
+export * from "./TextureSourceSize.type.js";
 export * from "./TextureAtlas.js";
 export * from "./TextureAtlas.type.js";
 export * from "./TextureAtlasPacker.js";

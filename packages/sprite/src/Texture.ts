@@ -1,14 +1,27 @@
-import type { TextureOptions, TextureSize, TextureSource } from "./Texture.type.js";
+import { uid } from "raw2d-core";
+import { getTextureSourceSize, normalizeTextureSize } from "./TextureSourceSize.js";
+import type { TextureOptions, TextureSize, TextureSnapshot, TextureSource, TextureStatus } from "./Texture.type.js";
 
 export class Texture {
+  public readonly id: string;
   public readonly source: TextureSource;
   public readonly width: number;
   public readonly height: number;
+  public readonly url: string | null;
+  private status: TextureStatus = "ready";
 
   public constructor(options: TextureOptions) {
+    const sourceSize = getTextureSourceSize(options.source);
+    const size = normalizeTextureSize({
+      width: options.width ?? sourceSize.width,
+      height: options.height ?? sourceSize.height
+    });
+
+    this.id = options.id ?? uid("texture");
     this.source = options.source;
-    this.width = Math.max(0, options.width ?? getSourceWidth(options.source));
-    this.height = Math.max(0, options.height ?? getSourceHeight(options.source));
+    this.width = size.width;
+    this.height = size.height;
+    this.url = options.url ?? null;
   }
 
   public getSize(): TextureSize {
@@ -17,44 +30,41 @@ export class Texture {
       height: this.height
     };
   }
+
+  public getStatus(): TextureStatus {
+    return this.status;
+  }
+
+  public isDisposed(): boolean {
+    return this.status === "disposed";
+  }
+
+  public getSnapshot(): TextureSnapshot {
+    return {
+      id: this.id,
+      url: this.url,
+      width: this.width,
+      height: this.height,
+      status: this.status
+    };
+  }
+
+  public dispose(): void {
+    if (this.status === "disposed") {
+      return;
+    }
+
+    closeSource(this.source);
+    this.status = "disposed";
+  }
 }
 
-function getSourceWidth(source: TextureSource): number {
-  if (source instanceof HTMLImageElement) {
-    return source.naturalWidth;
-  }
-
-  if (source instanceof SVGImageElement) {
-    return source.width.baseVal.value;
-  }
-
-  if ("videoWidth" in source) {
-    return source.videoWidth;
-  }
-
-  if ("displayWidth" in source) {
-    return source.displayWidth;
-  }
-
-  return source.width;
+interface CloseableSource {
+  close(): void;
 }
 
-function getSourceHeight(source: TextureSource): number {
-  if (source instanceof HTMLImageElement) {
-    return source.naturalHeight;
+function closeSource(source: TextureSource): void {
+  if ("close" in source && typeof source.close === "function") {
+    (source as TextureSource & CloseableSource).close();
   }
-
-  if (source instanceof SVGImageElement) {
-    return source.height.baseVal.value;
-  }
-
-  if ("videoHeight" in source) {
-    return source.videoHeight;
-  }
-
-  if ("displayHeight" in source) {
-    return source.displayHeight;
-  }
-
-  return source.height;
 }

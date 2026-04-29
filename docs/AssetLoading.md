@@ -1,14 +1,12 @@
 # Asset Loading
 
-Raw2D keeps asset loading small and explicit.
+Raw2D keeps image loading explicit. The sprite package loads browser image sources, wraps them in `Texture`, and leaves rendering to Canvas or WebGL.
 
-The sprite package provides:
-
-- `TextureLoader` for image files
-- `TextureAtlasLoader` for JSON atlas files
-- `createSpriteAnimationClip` for frame-name based clips
+Use this flow when a project needs images, sprites, atlases, or sprite animation.
 
 ## TextureLoader
+
+`TextureLoader` loads a URL into a `Texture`:
 
 ```ts
 import { TextureLoader } from "raw2d";
@@ -19,7 +17,87 @@ const texture = await new TextureLoader({
 }).load("/sprites/player.png");
 ```
 
-`cache: true` reuses the same loading promise for the same URL and cross-origin setting.
+`cache: true` reuses the same loading promise for the same URL and cross-origin setting. Failed loads are removed from cache so a later retry can work.
+
+## Load And Render A Sprite
+
+```ts
+import { Camera2D, Canvas, Scene, Sprite, TextureLoader } from "raw2d";
+
+const renderer = new Canvas({ canvas: canvasElement });
+const scene = new Scene();
+const camera = new Camera2D();
+
+const texture = await new TextureLoader({ cache: true }).load("/sprites/player.png");
+
+scene.add(new Sprite({
+  texture,
+  x: 120,
+  y: 80,
+  origin: "center"
+}));
+
+renderer.render(scene, camera);
+```
+
+The same `Texture` works in Canvas and WebGL. The renderer decides how to draw or upload it.
+
+## Existing Sources
+
+Use `fromSource()` when you already have a browser image-like source:
+
+```ts
+const texture = new TextureLoader().fromSource(canvasSource, {
+  id: "generated-minimap",
+  url: "memory://minimap"
+});
+```
+
+Supported sources are normal `CanvasImageSource` values such as `HTMLImageElement`, `HTMLCanvasElement`, `ImageBitmap`, `OffscreenCanvas`, and video-like sources.
+
+## ImageBitmap Mode
+
+Use `imageBitmap: true` when the browser should convert loaded images to `ImageBitmap` before the texture is created:
+
+```ts
+const texture = await new TextureLoader({
+  imageBitmap: true,
+  imageBitmapOptions: { premultiplyAlpha: "premultiply" }
+}).load("/sprites/player.png");
+```
+
+This can help image upload paths in some browsers. Keep it optional because support depends on the runtime.
+
+## Cache Lifecycle
+
+```ts
+const loader = new TextureLoader({ cache: true });
+
+const first = await loader.load("/sprites/player.png");
+const second = await loader.load("/sprites/player.png");
+
+console.log(first === second);
+// true
+
+loader.deleteFromCache("/sprites/player.png");
+loader.clearCache();
+loader.dispose();
+```
+
+TextureLoader cache stores load promises. It does not delete WebGL GPU textures. Use `webglRenderer.clearTextureCache()` or renderer `dispose()` for GPU cleanup.
+
+## Texture Lifecycle
+
+```ts
+const texture = await new TextureLoader().load("/sprites/player.png");
+
+console.log(texture.getSnapshot());
+console.log(texture.getStatus());
+
+texture.dispose();
+```
+
+`Texture.dispose()` marks the texture as disposed and calls `close()` on closeable sources such as `ImageBitmap`. Do not dispose a texture while a Sprite still needs it.
 
 ## TextureAtlasLoader
 
