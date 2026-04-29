@@ -66,15 +66,17 @@ Sprite batching uses the same `Texture` object as the texture key. Consecutive S
 Use `TextureAtlasPacker` from `raw2d-sprite` when separate sprite images should become one atlas texture:
 
 ```ts
-const atlas = new TextureAtlasPacker({
+const result = new TextureAtlasPacker({
   padding: 2,
   edgeBleed: 1,
   maxWidth: 1024,
-  maxHeight: 1024
-}).pack([
+  maxHeight: 1024,
+  sort: "area"
+}).packWithStats([
   { name: "idle", source: idleImage },
   { name: "run", source: runImage }
 ]);
+const atlas = result.atlas;
 
 scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
 scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
@@ -196,7 +198,7 @@ console.log(renderer.getStats().staticCacheMisses);
 // 1
 ```
 
-SVG texture sources should be rasterized to canvas before upload. Automatic atlas packing and static batch compaction are future steps.
+SVG texture sources should be rasterized to canvas before upload. Smarter atlas packing strategies and static batch compaction are future steps.
 
 `WebGLRenderer2D` already uses `WebGLFloatBuffer` internally for shape and sprite batch data. Custom batch code can pass a `floatBuffer` option to `createWebGLShapeBatch` or `createWebGLSpriteBatch`.
 

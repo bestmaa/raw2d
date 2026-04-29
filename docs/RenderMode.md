@@ -2,7 +2,7 @@
 
 `renderMode` is a low-level hint that tells renderers how often an object is expected to change.
 
-Raw2D keeps this explicit because future WebGL performance work needs to know which objects are stable and which objects are animated.
+Raw2D keeps this explicit because WebGL performance work needs to know which objects are stable and which objects are animated.
 
 ## Modes
 

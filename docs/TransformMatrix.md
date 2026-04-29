@@ -19,7 +19,7 @@ Canvas can draw directly from `x`, `y`, `rotation`, and `scale`, but a real engi
 Matrix caching helps:
 
 - Canvas rendering
-- future WebGL rendering
+- WebGL rendering
 - bounds
 - culling
 - hit testing
@@ -105,4 +105,3 @@ const world = new Matrix3().multiplyMatrices(parentMatrix, childMatrix);
 ## Current Scope
 
 This is the transform foundation. It does not add a full transform hierarchy object model yet. `Group2D` plus `RenderPipeline` provide parent matrix updates for rendering, and deeper editor tooling can build on top of this.
-

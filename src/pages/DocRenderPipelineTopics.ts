@@ -5,7 +5,7 @@ export const renderPipelineTopics: readonly DocTopic[] = [
     id: "render-pipeline",
     label: "Render Pipeline",
     title: "Render Pipeline",
-    description: "Build a transparent render list before drawing so Canvas and future WebGL can share the same scene preparation path.",
+    description: "Build a transparent render list before drawing so Canvas and WebGL share the same scene preparation path.",
     sections: [
       {
         title: "Why It Matters",
@@ -19,7 +19,7 @@ raw2dCanvas.render(scene, camera, { renderList });`
       },
       {
         title: "Inspect Render Items",
-        body: "A RenderList exposes root items for hierarchical rendering and flat items for debugging, tools, and future batching.",
+        body: "A RenderList exposes root items for hierarchical rendering and flat items for debugging, tools, and batching.",
         liveDemoId: "render-pipeline",
         code: `const rootItems = renderList.getRootItems();
 const flatItems = renderList.getFlatItems();
@@ -69,4 +69,3 @@ const renderList = pipeline.build({
     ]
   }
 ];
-

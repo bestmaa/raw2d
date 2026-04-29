@@ -57,7 +57,7 @@ new Circle({ x: 120, y: 80, radius: 40 });`
     id: "transform-matrix",
     label: "Transform Matrix",
     title: "Transform Matrix",
-    description: "Object2D stores cached local and world matrices so renderers, bounds, hit testing, and future WebGL share the same transform data.",
+    description: "Object2D stores cached local and world matrices so renderers, bounds, hit testing, and WebGL share the same transform data.",
     sections: [
       {
         title: "Why It Matters",
@@ -95,7 +95,7 @@ console.log(item.worldMatrix);`
       },
       {
         title: "Direct Matrix Use",
-        body: "Matrix3 is public for engine builders who need custom transforms, custom bounds, or future renderer experiments.",
+        body: "Matrix3 is public for engine builders who need custom transforms, custom bounds, or renderer experiments.",
         code: `const matrix = new Matrix3().compose(100, 80, 0.5, 2, 2);
 const point = matrix.transformPoint({ x: 10, y: 20 });`
       }

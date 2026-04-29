@@ -12,7 +12,7 @@ It is designed around explicit control and readable internals:
 
 - `raw2d-core` for scene graph, objects, camera, and materials.
 - `raw2d-canvas` for the working Canvas renderer.
-- `raw2d-webgl` for the future batch-first WebGL2 renderer.
+- `raw2d-webgl` for the batch-first WebGL2 renderer.
 - `raw2d-text`, `raw2d-sprite`, and `raw2d-effects` for focused feature packages.
 
 Install the umbrella package when you want the stable public API:
@@ -30,7 +30,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 Use the CDN build without a bundler:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.1.5/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.2.0/dist/raw2d.umd.cjs"></script>
 ```
 
 ```ts
@@ -77,10 +77,11 @@ Pack separate sprite sources into one atlas texture:
 ```ts
 import { Sprite, TextureAtlasPacker } from "raw2d";
 
-const atlas = new TextureAtlasPacker({ padding: 2 }).pack([
+const result = new TextureAtlasPacker({ padding: 2, sort: "area" }).packWithStats([
   { name: "idle", source: idleImage },
   { name: "run", source: runImage }
 ]);
+const atlas = result.atlas;
 
 scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("idle") }));
 ```
@@ -135,7 +136,7 @@ console.log(rect.getDirtyState());
 console.log(rect.material.getDirtyState());
 ```
 
-Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`, and `Sprite` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs. `TextureAtlasPacker` can build that atlas texture from separate sources.
+Canvas works first. WebGL2 now batches `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, simple `Polygon`, `Sprite`, and rasterized `Text2D` objects. `TextureAtlas` stores named Sprite frames inside one Texture for Canvas source rectangles and WebGL UVs. `TextureAtlasPacker` can build that atlas texture from separate sources and report packing occupancy.
 
 `SpriteAnimationClip` and `SpriteAnimator` provide explicit atlas-frame animation. Your app calls `animator.update(deltaSeconds)`, then renders with Canvas or WebGL.
 

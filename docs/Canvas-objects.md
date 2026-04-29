@@ -87,4 +87,4 @@ raw2dCanvas.render();
 
 ## Important
 
-This is the current MVP API. Drawing logic is handled by split canvas renderer modules, not by object classes.
+This is the current API. Drawing logic is handled by split renderer modules, not by object classes.

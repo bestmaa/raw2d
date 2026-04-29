@@ -84,7 +84,7 @@ const handles = interaction.getResizeHandles();`
     },
     {
       title: "Renderer Independent",
-      body: "The controller does not draw. CanvasRenderer or future WebGLRenderer2D can render the scene, while your tool layer draws overlays.",
+      body: "The controller does not draw. Canvas and WebGLRenderer2D render the scene, while your tool layer draws overlays.",
       liveDemoId: "interaction-controller",
       code: `// InteractionController:
 pointer -> pick -> select / drag / resize

@@ -230,7 +230,7 @@ dragState = null;`
         liveDemoId: "dragging",
         code: `raw2d-core         // object data, scene, picking
 raw2d-canvas       // drawing
-raw2d-webgl        // future WebGL drawing
+raw2d-webgl        // batch-first WebGL drawing
 raw2d-interaction  // optional pointer workflows`
       }
     ]

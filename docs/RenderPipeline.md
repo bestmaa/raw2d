@@ -61,7 +61,7 @@ webglRenderer.render(scene, camera, { renderList });
 
 ## Inspect Items
 
-Use root items when you need hierarchy. Use flat items when you need a debug table or future batching input.
+Use root items when you need hierarchy. Use flat items when you need a debug table or batching input.
 
 ```ts
 const rootItems = renderList.getRootItems();
@@ -122,13 +122,13 @@ const renderList = pipeline.build({
 
 ## WebGL Direction
 
-The future WebGL path should stay explicit:
+The WebGL path stays explicit:
 
 ```txt
 Scene -> RenderPipeline -> RenderList -> Batcher -> Buffer -> Shader -> DrawCall
 ```
 
-RenderPipeline does not batch yet. It prepares the data that a batcher can consume.
+RenderPipeline does not draw. It prepares the data that Canvas and WebGL renderers consume.
 
 ## Current Scope
 

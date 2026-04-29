@@ -9,7 +9,7 @@ export const webGLRendererTopics: readonly DocTopic[] = [
     sections: [
       {
         title: "First Working Scope",
-        body: "WebGLRenderer2D renders Rect, Circle, Ellipse, Line, Polyline, convex Polygon, Sprite, and Text2D objects. Text2D is rasterized to a texture first.",
+        body: "WebGLRenderer2D renders Rect, Circle, Ellipse, Line, Polyline, simple Polygon, Sprite, and Text2D objects. Text2D is rasterized to a texture first.",
         liveDemoId: "webgl-renderer",
         code: `const renderer = new WebGLRenderer2D({
   canvas: canvasElement,

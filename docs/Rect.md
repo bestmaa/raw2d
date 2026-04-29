@@ -178,10 +178,10 @@ scene.add(rect);
 raw2dCanvas.render(scene, camera);
 ```
 
-This is the current MVP API. Later, `CanvasRenderer` can take over drawing.
+This is the current API. `Canvas` and `WebGLRenderer2D` take over drawing.
 
 ## Important Rule
 
 Do not add `draw()` to `Rect`.
 
-`Rect` should only store object data. A future `CanvasRenderer` will draw it.
+`Rect` should only store object data. Renderers draw it.

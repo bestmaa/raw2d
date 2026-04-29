@@ -75,7 +75,7 @@ Dragging is not rendering. It is not object data either. Keeping it in `raw2d-in
 
 - `raw2d-core`: objects, scene, hit testing, picking.
 - `raw2d-canvas`: drawing.
-- `raw2d-webgl`: future WebGL drawing.
+- `raw2d-webgl`: batch-first WebGL drawing.
 - `raw2d-interaction`: optional editor-style pointer workflows.
 
 This keeps the engine transparent and lets apps choose how much interaction logic they want.

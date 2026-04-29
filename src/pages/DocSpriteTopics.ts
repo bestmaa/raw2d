@@ -6,7 +6,7 @@ export const spriteTopics: readonly DocTopic[] = [
     id: "texture",
     label: "Texture",
     title: "Texture",
-    description: "Texture wraps image-like source data for sprites and future WebGL upload.",
+    description: "Texture wraps image-like source data for sprites, Canvas drawing, and WebGL upload.",
     sections: [
       {
         title: "Load Texture",
