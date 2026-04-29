@@ -1,7 +1,7 @@
 {
   "name": "raw2d-workspace",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
   "type": "module",
   "workspaces": [
@@ -17,6 +17,7 @@
     "lint": "tsc --noEmit",
     "format": "tsc --noEmit",
     "test": "npm run build && node --test tests/**/*.test.mjs",
+    "test:browser": "npm run build && node --test tests/browser/*.test.mjs",
     "pack:check": "npm pack --workspaces --dry-run"
   },
   "repository": {
