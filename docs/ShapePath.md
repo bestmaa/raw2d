@@ -2,7 +2,7 @@
 
 ShapePath stores explicit path commands. It is useful for custom 2D shapes that do not fit Rect, Circle, Line, Polyline, or Polygon.
 
-Canvas renders ShapePath fill and stroke with native path commands. WebGL currently supports ShapePath stroke by flattening curves into line segments; ShapePath fill is still a future step.
+Canvas renders ShapePath fill and stroke with native path commands. WebGL supports flattened ShapePath stroke and simple closed ShapePath fill. Complex fill rules, holes, and self-intersections are still future work.
 
 ```ts
 import { BasicMaterial, Camera2D, Canvas, Scene, ShapePath } from "raw2d";
@@ -61,7 +61,7 @@ console.log(flattened.subpaths[0].points);
 console.log(flattened.subpaths[0].closed);
 ```
 
-Flattening keeps `ShapePath` as data. It does not draw by itself. Canvas can still use native path commands, while WebGL uses these points for ShapePath stroke geometry.
+Flattening keeps `ShapePath` as data. It does not draw by itself. Canvas can still use native path commands, while WebGL uses these points for stroke geometry and simple closed fills.
 
 Multiple `moveTo` commands create multiple subpaths:
 
@@ -74,25 +74,29 @@ for (const subpath of flattened.subpaths) {
 }
 ```
 
-## WebGL Stroke
+## WebGL Fill And Stroke
 
 ```ts
 const shapePath = new ShapePath({
   stroke: true,
-  fill: false,
+  fill: true,
   material: new BasicMaterial({
+    fillColor: "#38bdf8",
     strokeColor: "#f5f7fb",
     lineWidth: 4
   })
 })
   .moveTo(0, 0)
-  .quadraticCurveTo(80, 60, 160, 0);
+  .quadraticCurveTo(80, 60, 160, 0)
+  .lineTo(160, 80)
+  .lineTo(0, 80)
+  .closePath();
 
 scene.add(shapePath);
 webglRenderer.render(scene, camera);
 ```
 
-Closed subpaths also draw the closing stroke segment. Fill remains Canvas-only until ShapePath fill triangulation is added.
+Closed subpaths draw the closing stroke segment. WebGL fills simple closed subpaths by triangulating the flattened points.
 
 ## Notes
 

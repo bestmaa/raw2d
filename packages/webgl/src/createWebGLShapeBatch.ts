@@ -1,6 +1,6 @@
 import { Arc, Circle, Ellipse, Line, Polygon, Polyline, Rect, ShapePath } from "raw2d-core";
 import { appendWebGLDrawBatch } from "./appendWebGLDrawBatch.js";
-import { getWebGLMaterialKey } from "./getWebGLMaterialKey.js";
+import { getWebGLMaterialKey, getWebGLShapePathFillMaterialKey, getWebGLShapePathStrokeMaterialKey } from "./getWebGLMaterialKey.js";
 import { getWebGLPathPoints } from "./getWebGLPathPoints.js";
 import { parseWebGLColor } from "./parseWebGLColor.js";
 import { webGLFloatsPerVertex } from "./WebGLVertex.js";
@@ -9,7 +9,7 @@ import { getWebGLEllipseLikeVertexCount, writeWebGLEllipseLike } from "./writeWe
 import { getWebGLArcVertexCount, writeWebGLArc } from "./writeWebGLArc.js";
 import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWebGLPolygonFill.js";
 import { webGLRectVertexCount, writeWebGLRect } from "./writeWebGLRect.js";
-import { getWebGLShapePathVertexCount, writeWebGLShapePath } from "./writeWebGLShapePath.js";
+import { getWebGLShapePathVertexCount, writeWebGLShapePathFill, writeWebGLShapePathStroke } from "./writeWebGLShapePath.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 
@@ -46,8 +46,9 @@ export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLSha
       offset = writeFilledPolygon(vertices, offset, item, options);
       counts.polygons += 1;
     } else if (item.object instanceof ShapePath) {
-      offset = writeShapePath(vertices, offset, item, options, segments);
+      offset = writeShapePath(vertices, offset, item, options, segments, drawBatches);
       counts.shapePaths += 1;
+      continue;
     }
 
     appendWebGLDrawBatch(drawBatches, {
@@ -169,17 +170,39 @@ function writeShapePath(
   offset: number,
   item: WebGLShapeItem,
   options: WebGLShapeBatchOptions,
-  segments: number
+  segments: number,
+  drawBatches: WebGLDrawBatch[]
 ): number {
   if (!(item.object instanceof ShapePath)) {
     return offset;
   }
 
-  return writeWebGLShapePath(vertices, offset, item, {
+  const fillFirstVertex = offset / webGLFloatsPerVertex;
+  offset = writeWebGLShapePathFill(vertices, offset, item, {
+    ...options,
+    matrix: item.worldMatrix,
+    color: parseWebGLColor(item.object.material.fillColor),
+    curveSegments: segments
+  });
+  appendWebGLDrawBatch(drawBatches, {
+    key: getWebGLShapePathFillMaterialKey(item.object),
+    firstVertex: fillFirstVertex,
+    vertexCount: offset / webGLFloatsPerVertex - fillFirstVertex
+  });
+
+  const strokeFirstVertex = offset / webGLFloatsPerVertex;
+  offset = writeWebGLShapePathStroke(vertices, offset, item, {
     ...options,
     matrix: item.worldMatrix,
     color: parseWebGLColor(item.object.material.strokeColor),
     lineWidth: item.object.material.lineWidth,
     curveSegments: segments
   });
+  appendWebGLDrawBatch(drawBatches, {
+    key: getWebGLShapePathStrokeMaterialKey(item.object),
+    firstVertex: strokeFirstVertex,
+    vertexCount: offset / webGLFloatsPerVertex - strokeFirstVertex
+  });
+
+  return offset;
 }

@@ -36,7 +36,7 @@ const renderer = canUseWebGL
       },
       {
         title: "Partial Support",
-        body: "Partial support is still useful, but the limitation should be visible to users. ShapePath is partial because WebGL renders stroke but not fill yet.",
+        body: "Partial support is still useful, but the limitation should be visible to users. ShapePath is partial because WebGL supports simple fill/stroke, while complex fill rules still need Canvas.",
         code: `const pathSupport = getRendererSupportMatrix().find((entry) => {
   return entry.kind === "ShapePath";
 });

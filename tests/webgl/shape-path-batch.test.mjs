@@ -23,6 +23,7 @@ test("createWebGLShapeBatch writes ShapePath stroke geometry from flattened curv
 test("createWebGLShapeBatch includes closing ShapePath stroke segments", () => {
   const shapePath = new ShapePath({
     stroke: true,
+    fill: false,
     material: new BasicMaterial({ strokeColor: "#38bdf8", lineWidth: 2 })
   })
     .moveTo(0, 0)
@@ -36,7 +37,7 @@ test("createWebGLShapeBatch includes closing ShapePath stroke segments", () => {
   assert.equal(batch.vertices.length, 108);
 });
 
-test("createWebGLShapeBatch skips ShapePath fill until WebGL fill is implemented", () => {
+test("createWebGLShapeBatch writes simple closed ShapePath fill geometry", () => {
   const shapePath = new ShapePath({
     fill: true,
     stroke: false,
@@ -49,8 +50,28 @@ test("createWebGLShapeBatch skips ShapePath fill until WebGL fill is implemented
   const batch = createBatch(shapePath);
 
   assert.equal(batch.shapePaths, 1);
-  assert.deepEqual(batch.drawBatches, []);
-  assert.equal(batch.vertices.length, 0);
+  assert.deepEqual(batch.drawBatches, [{ key: "fill:#38bdf8", firstVertex: 0, vertexCount: 3 }]);
+  assert.equal(batch.vertices.length, 18);
+});
+
+test("createWebGLShapeBatch keeps ShapePath fill and stroke as separate draw batches", () => {
+  const shapePath = new ShapePath({
+    fill: true,
+    stroke: true,
+    material: new BasicMaterial({ fillColor: "#38bdf8", strokeColor: "#f5f7fb", lineWidth: 2 })
+  })
+    .moveTo(0, 0)
+    .lineTo(20, 0)
+    .lineTo(20, 20)
+    .closePath();
+  const batch = createBatch(shapePath);
+
+  assert.equal(batch.shapePaths, 1);
+  assert.deepEqual(batch.drawBatches, [
+    { key: "fill:#38bdf8", firstVertex: 0, vertexCount: 3 },
+    { key: "stroke:#f5f7fb:2", firstVertex: 3, vertexCount: 18 }
+  ]);
+  assert.equal(batch.vertices.length, 126);
 });
 
 function createBatch(shapePath) {

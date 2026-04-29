@@ -8,7 +8,7 @@ export const rendererSupportMatrix: readonly RendererSupportEntry[] = [
   { kind: "Line", canvas: "supported", webgl: "supported", note: "WebGL writes stroked line geometry." },
   { kind: "Polyline", canvas: "supported", webgl: "supported", note: "WebGL writes each segment as stroke geometry." },
   { kind: "Polygon", canvas: "supported", webgl: "supported", note: "WebGL triangulates simple polygons with ear clipping." },
-  { kind: "ShapePath", canvas: "supported", webgl: "partial", note: "WebGL renders flattened ShapePath strokes; fill comes later." },
+  { kind: "ShapePath", canvas: "supported", webgl: "partial", note: "WebGL renders flattened strokes and simple closed fills." },
   { kind: "Text2D", canvas: "supported", webgl: "partial", note: "WebGL rasterizes Text2D to texture; no glyph atlas yet." },
   { kind: "Sprite", canvas: "supported", webgl: "supported", note: "WebGL batches consecutive Sprites by texture." },
   { kind: "Group2D", canvas: "supported", webgl: "supported", note: "Groups are flattened by RenderPipeline before drawing." }

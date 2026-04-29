@@ -5,7 +5,11 @@ import type { WebGLShapeItem } from "./WebGLShapeBatch.type.js";
 export function getWebGLMaterialKey(item: WebGLShapeItem): string {
   const object = item.object;
 
-  if ((object instanceof Arc && !object.closed) || object instanceof Line || object instanceof Polyline || object instanceof ShapePath) {
+  if (object instanceof ShapePath) {
+    return object.stroke ? getWebGLShapePathStrokeMaterialKey(object) : getWebGLShapePathFillMaterialKey(object);
+  }
+
+  if ((object instanceof Arc && !object.closed) || object instanceof Line || object instanceof Polyline) {
     return serializeMaterialKey({
       pass: "stroke",
       color: object.material.strokeColor,
@@ -21,6 +25,21 @@ export function getWebGLMaterialKey(item: WebGLShapeItem): string {
   }
 
   return "unsupported";
+}
+
+export function getWebGLShapePathFillMaterialKey(shapePath: ShapePath): string {
+  return serializeMaterialKey({
+    pass: "fill",
+    color: shapePath.material.fillColor
+  });
+}
+
+export function getWebGLShapePathStrokeMaterialKey(shapePath: ShapePath): string {
+  return serializeMaterialKey({
+    pass: "stroke",
+    color: shapePath.material.strokeColor,
+    lineWidth: shapePath.material.lineWidth
+  });
 }
 
 function serializeMaterialKey(parts: WebGLMaterialKeyParts): string {

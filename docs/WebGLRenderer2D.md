@@ -4,7 +4,7 @@
 
 Current scope:
 
-- renders `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, simple `Polygon`, and ShapePath stroke
+- renders `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, simple `Polygon`, and simple ShapePath fill/stroke
 - renders `Sprite`
 - renders `Text2D` by rasterizing it to a canvas texture
 - uses cached world matrices from `RenderPipeline`
@@ -239,7 +239,7 @@ Browser timing is approximate. Use it for relative Canvas/WebGL comparisons.
 - no advanced texture atlas bin packing yet
 - no automatic static batch compaction yet
 - no glyph atlas or SDF text path yet
-- ShapePath fill is not implemented yet
+- ShapePath fill supports simple closed subpaths only; no holes, self-intersections, or fill rules yet
 - arc curves are approximated with line segments or triangle fans
 - polygon batching supports simple polygons, but not holes or self-intersections
 - SVG texture sources should be rasterized to canvas before WebGL upload

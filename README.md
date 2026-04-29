@@ -190,14 +190,14 @@ const worldBounds = getWorldBounds({
 });
 ```
 
-Use `flattenShapePath` when custom path commands need point geometry for tools or future WebGL rendering:
+Use `flattenShapePath` when custom path commands need point geometry for tools or WebGL rendering:
 
 ```ts
 const flattened = flattenShapePath(shapePath, { curveSegments: 12 });
 console.log(flattened.subpaths[0].points);
 ```
 
-WebGL uses flattened ShapePath data for stroke rendering. ShapePath fill still belongs to the Canvas path until fill triangulation is added.
+WebGL uses flattened ShapePath data for stroke geometry and simple closed fills. Canvas remains the exact path renderer for complex fill rules, holes, and self-intersections.
 
 Use `zIndex` when overlapping objects need predictable draw order:
 

@@ -51,7 +51,7 @@ const webglReady = getRendererSupportMatrix()
 console.log(webglReady);
 ```
 
-WebGL currently focuses on batched shapes, ShapePath strokes, sprites, atlas textures, and cached static runs. Canvas remains the fallback for ShapePath fill and exact path behavior.
+WebGL currently focuses on batched shapes, simple ShapePath fill/stroke, sprites, atlas textures, and cached static runs. Canvas remains the fallback for complex ShapePath fill rules and exact path behavior.
 
 ## Why This Exists
 
