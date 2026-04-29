@@ -100,7 +100,7 @@ const renderer = new Canvas({ canvas: canvasElement });
 renderer.render(scene, camera);
 ```
 
-Use `WebGLRenderer2D` when your scene uses supported objects and you want explicit batching, texture reuse, static render runs, safe sprite sorting, and performance stats.
+Use `WebGLRenderer2D` when your scene uses supported objects and you want explicit batching, texture reuse, static render runs, opt-in safe sprite sorting, and performance stats.
 
 ```ts
 import { WebGLRenderer2D } from "raw2d";

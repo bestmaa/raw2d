@@ -91,6 +91,8 @@ console.log(stats.uploadedBytes);
 - Real render ke baad `renderer.getStats().spriteTextureBindReduction` se same signal milta hai.
 - Safe layer ho to `renderer.render(scene, camera, { spriteSorting: "texture" })` use karke renderer ko explicit sorting bol sakte hain.
 - Default `"none"` hai, kyunki overlapping sprites me order badalne se visual output badal sakta hai.
+- Sorting sirf pure Sprite runs par hoti hai; `Text2D` mixed run untouched rehta hai.
+- Raw2D different `zIndex` ya static/dynamic render mode boundary cross nahi karta.
 - Static objects repeat render me `staticCacheHits` badhate hain.
 - Moving objects ko `dynamic` rakhein.
 - Browser timing approximate hota hai; same page me relative comparison ke liye use karein.

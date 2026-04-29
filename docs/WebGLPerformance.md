@@ -216,6 +216,7 @@ renderer.render(scene, camera, {
 ```
 
 The default is `"none"` because texture sorting can change visual stacking for overlapping sprites.
+When enabled, Raw2D only sorts pure Sprite runs. It does not cross `zIndex`, static/dynamic render mode, or `Text2D` mixed-run boundaries.
 
 ## Static And Dynamic Split
 
