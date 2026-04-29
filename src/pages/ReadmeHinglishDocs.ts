@@ -4,6 +4,7 @@ import canvas from "../../docs/hi/Canvas.md?raw";
 import canvasApi from "../../docs/hi/Canvas-api.md?raw";
 import canvasObjects from "../../docs/hi/Canvas-objects.md?raw";
 import canvasCulling from "../../docs/hi/CanvasCulling.md?raw";
+import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
 import scene from "../../docs/hi/Scene.md?raw";
 import camera2d from "../../docs/hi/Camera2D.md?raw";
 import cameraWorldBounds from "../../docs/hi/CameraWorldBounds.md?raw";
@@ -46,6 +47,7 @@ import keyboardController from "../../docs/hi/KeyboardController.md?raw";
 import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeHinglishDocs: readonly ReadmeDoc[] = [
+  { id: "getting-started", label: "Getting Started", filename: "hi/GettingStarted.md", content: gettingStarted },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },
   { id: "canvas", label: "Canvas", filename: "hi/Canvas.md", content: canvas },

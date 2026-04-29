@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const docs = [
+  ["getting-started", "Getting Started", "GettingStarted.md", "project start karna"],
   ["license", "License", "License.md", "license aur attribution"],
   ["asset-loading", "Asset Loading", "AssetLoading.md", "assets load karna"],
   ["canvas", "Canvas", "Canvas.md", "Canvas renderer initialize karna"],

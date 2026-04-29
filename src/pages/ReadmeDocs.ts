@@ -10,6 +10,7 @@ import canvasObjects from "../../docs/Canvas-objects.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
 import dirtyVersioning from "../../docs/DirtyVersioning.md?raw";
+import gettingStarted from "../../docs/GettingStarted.md?raw";
 import group2d from "../../docs/Group2D.md?raw";
 import hitTesting from "../../docs/HitTesting.md?raw";
 import interactionController from "../../docs/InteractionController.md?raw";
@@ -46,6 +47,7 @@ import webGLStaticBatchCache from "../../docs/WebGLStaticBatchCache.md?raw";
 import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
+  { id: "getting-started", label: "Getting Started", filename: "GettingStarted.md", content: gettingStarted },
   { id: "license", label: "License", filename: "License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "AssetLoading.md", content: assetLoading },
   { id: "canvas", label: "Canvas", filename: "Canvas.md", content: canvas },

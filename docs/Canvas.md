@@ -1,14 +1,17 @@
 # Canvas
 
-`Canvas` is Raw2D's first low-level browser surface wrapper.
+`Canvas` is Raw2D's complete reference renderer.
 
-It does not render objects, shapes, scenes, sprites, or materials. It only manages an `HTMLCanvasElement`, creates a 2D rendering context, handles pixel ratio sizing, and provides a clear method.
+It wraps a browser `HTMLCanvasElement`, manages the 2D context, handles logical sizing, clears the surface, and renders supported scene objects with a `Camera2D`.
+
+Objects do not contain Canvas drawing logic. `Canvas` owns drawing for the Canvas path.
 
 Detailed API reference:
 
 - `Canvas-api.md`
 - `Canvas-objects.md`
 - `BasicMaterial.md`
+- `GettingStarted.md`
 
 ## Import
 
@@ -16,27 +19,17 @@ Detailed API reference:
 import { Canvas } from "raw2d";
 ```
 
-From the public library entry:
+Focused package import:
 
 ```ts
-import { Canvas } from "raw2d";
+import { Canvas } from "raw2d-canvas";
 ```
 
-Later, when Raw2D is packaged as a library:
-
-```ts
-import { Canvas } from "raw2d";
-```
-
-## Create a Canvas Element
-
-You need a normal browser `<canvas>` element.
+## Create A Canvas Element
 
 ```html
 <canvas id="raw2d-canvas"></canvas>
 ```
-
-Then get it in TypeScript:
 
 ```ts
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
@@ -46,33 +39,56 @@ if (!canvasElement) {
 }
 ```
 
-## Basic Usage
+## Render A Scene
 
 ```ts
-import { Canvas } from "raw2d";
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 
 const raw2dCanvas = new Canvas({
   canvas: canvasElement,
   width: 800,
-  height: 600
+  height: 600,
+  backgroundColor: "#10141c"
 });
 
-const context = raw2dCanvas.getContext();
+const scene = new Scene();
+const camera = new Camera2D();
 
-raw2dCanvas.clear("#10141c");
-context.fillStyle = "#f5f7fb";
-context.fillText("Raw2D canvas ready", 24, 32);
+scene.add(new Rect({
+  x: 100,
+  y: 80,
+  width: 180,
+  height: 100,
+  material: new BasicMaterial({ fillColor: "#35c2ff" })
+}));
+
+raw2dCanvas.render(scene, camera);
 ```
+
+## Animation Loop
+
+```ts
+function animate(): void {
+  raw2dCanvas.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+
+animate();
+```
+
+Raw2D does not create a hidden loop. The app controls timing.
 
 ## Fullscreen Usage
 
 ```ts
 const raw2dCanvas = new Canvas({
-  canvas: canvasElement
+  canvas: canvasElement,
+  backgroundColor: "#10141c"
 });
 
 function resizeCanvas(): void {
-  raw2dCanvas.setSize(window.innerWidth, window.innerHeight, window.devicePixelRatio);
+  raw2dCanvas.setSize(window.innerWidth, window.innerHeight);
+  raw2dCanvas.render(scene, camera);
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -83,33 +99,32 @@ resizeCanvas();
 
 - stores the original canvas element
 - creates a `CanvasRenderingContext2D`
-- stores supported objects added with `add()`
-- throws if the browser cannot create the 2D context
-- stores logical width and height
-- stores pixel ratio
-- sets backing buffer size
-- sets CSS display size
-- scales the 2D context transform for high-DPI screens
-- clears the full backing canvas with a color
-- asks the internal object renderer to draw supported objects
+- stores logical width, height, and pixel ratio
+- sets backing buffer size and CSS size
+- clears the full canvas
+- builds or accepts a render list
+- draws supported scene objects
+- exposes renderer stats
+- implements the shared `Renderer2DLike` contract
 
 ## What Canvas Does Not Do
 
-- no scene graph
-- no camera
-- no object transform
-- no materials
-- no textures
-- no separate renderer abstraction yet
-- no animation loop
-- no shape classes
+- it does not own scene data
+- it does not hide an animation loop
+- it does not load assets by itself
+- it does not contain WebGL drawing logic
+- it does not mutate object transforms during render
 
-For now, use `add()` and `render()` for supported objects. Drawing logic lives outside `Canvas` in the renderer module.
+## Canvas And WebGL
+
+Canvas is the complete reference renderer. WebGLRenderer2D is the batch-first performance renderer.
+
+Use Canvas first when building new object behavior. Add WebGL support after Canvas behavior is clear.
 
 ## Current Source Files
 
 ```text
-src/core/Canvas.ts
-src/core/Canvas.type.ts
-src/core/index.ts
+packages/canvas/src/Canvas.ts
+packages/canvas/src/Canvas.type.ts
+packages/canvas/src/index.ts
 ```

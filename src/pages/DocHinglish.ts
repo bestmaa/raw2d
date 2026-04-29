@@ -70,6 +70,8 @@ const titleCopy = new Map<string, string>([
   ["Create Text2D", "Text2D banayein"],
   ["Recommended NPM Install", "Recommended NPM install"],
   ["Use From NPM", "NPM se use karein"],
+  ["First Canvas Render", "Pehla Canvas render"],
+  ["Switch To WebGL", "WebGL par switch"],
   ["Focused Package Install", "Focused package install"],
   ["CDN Usage", "CDN usage"],
   ["Local Raw2D Development", "Local development"],
@@ -100,6 +102,8 @@ const titleCopy = new Map<string, string>([
 const bodyCopy = new Map<string, string>([
   ["Recommended NPM Install", "Sabse pehle umbrella package use karein. Isme stable public Raw2D API milti hai."],
   ["Use From NPM", "Renderer, scene, camera, objects aur materials ko seedha raw2d se import karein."],
+  ["First Canvas Render", "Canvas complete reference renderer hai. Scene banayein, object add karein, phir camera ke saath render karein."],
+  ["Switch To WebGL", "Same scene aur camera ko WebGLRenderer2D se render kar sakte hain, agar object types supported hon."],
   ["Focused Package Install", "Advanced users sirf wahi packages install kar sakte hain jo unke project me chahiye."],
   ["CDN Usage", "Bundler ke bina browser me UMD build use karna ho to CDN script use karein."],
   ["Local Raw2D Development", "Ye sirf Raw2D source repo par kaam karte waqt use hota hai."],
