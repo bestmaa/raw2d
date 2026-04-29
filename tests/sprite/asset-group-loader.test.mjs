@@ -36,6 +36,7 @@ test("AssetGroupLoader loads texture and atlas manifest entries", async () => {
   assert.deepEqual(group.getSnapshot(), {
     textureNames: ["player"],
     atlasNames: ["playerAtlas"],
+    atlasPackingStatsNames: [],
     errorNames: []
   });
   assert.deepEqual(progress.map((event) => `${event.name}:${event.kind}:${event.status}`), [
@@ -95,8 +96,19 @@ test("AssetGroupLoader can pack loaded textures into an atlas", async () => {
   assert.equal(group.getTexture("player"), playerTexture);
   assert.equal(group.getTexture("enemy"), enemyTexture);
   assert.equal(group.hasAtlas("sprites"), true);
+  assert.equal(group.hasAtlasPackingStats("sprites"), true);
   assert.deepEqual(atlas?.getFrame("player"), { x: 1, y: 1, width: 16, height: 20 });
   assert.deepEqual(atlas?.getFrame("enemy"), { x: 18, y: 1, width: 10, height: 12 });
+  assert.deepEqual(group.getAtlasPackingStats("sprites"), {
+    width: 29,
+    height: 22,
+    totalArea: 638,
+    usedArea: 440,
+    wastedArea: 198,
+    occupancy: 440 / 638,
+    frameCount: 2
+  });
+  assert.deepEqual(group.getSnapshot().atlasPackingStatsNames, ["sprites"]);
 });
 
 test("AssetGroupLoader rejects failed assets by default", async () => {

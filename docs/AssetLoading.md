@@ -150,9 +150,8 @@ const assets = await new AssetGroupLoader().load({
   packAtlas: { atlasName: "sprites", padding: 2, edgeBleed: 1 }
 });
 
-const playerTexture = assets.getTexture("player");
-const playerAtlas = assets.getAtlas("playerAtlas");
 const packedSprites = assets.getAtlas("sprites");
+const packingStats = assets.getAtlasPackingStats("sprites");
 
 const player = createSpriteFromAtlas({
   atlas: packedSprites,
@@ -161,7 +160,7 @@ const player = createSpriteFromAtlas({
 });
 ```
 
-String entries are shorthand for `{ type: "texture", url }`. Atlas entries use `TextureAtlasLoader` internally. `packAtlas` packs loaded texture entries into a generated `TextureAtlas` while keeping the original textures available.
+String entries are shorthand for `{ type: "texture", url }`. Atlas entries use `TextureAtlasLoader` internally. `packAtlas` packs texture entries into a generated `TextureAtlas`, and `getAtlasPackingStats()` exposes occupancy, wasted area, and frame count.
 
 ## Loading Progress
 

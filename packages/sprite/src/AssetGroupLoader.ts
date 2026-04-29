@@ -17,7 +17,7 @@ import type { Texture } from "./Texture.js";
 import type { TextureAtlas } from "./TextureAtlas.js";
 import { TextureAtlasLoader } from "./TextureAtlasLoader.js";
 import { TextureAtlasPacker } from "./TextureAtlasPacker.js";
-import type { TextureAtlasPackerItem } from "./TextureAtlasPacker.type.js";
+import type { TextureAtlasPackerItem, TextureAtlasPackerStats } from "./TextureAtlasPacker.type.js";
 import { TextureLoader } from "./TextureLoader.js";
 
 const DEFAULT_PACKED_ATLAS_NAME = "packed";
@@ -112,6 +112,7 @@ function normalizeEntry(entry: AssetGroupManifestEntry): AssetGroupTextureEntry 
 function createGroup(results: readonly AssetGroupLoadedEntry[], options: AssetGroupLoadOptions): AssetGroup {
   const textures = new Map<string, Texture>();
   const atlases = new Map<string, TextureAtlas>();
+  const atlasPackingStats = new Map<string, TextureAtlasPackerStats>();
   const errors = new Map<string, Error>();
 
   for (const result of results) {
@@ -128,15 +129,16 @@ function createGroup(results: readonly AssetGroupLoadedEntry[], options: AssetGr
 
   if (packedAtlas) {
     atlases.set(packedAtlas.name, packedAtlas.atlas);
+    atlasPackingStats.set(packedAtlas.name, packedAtlas.stats);
   }
 
-  return new AssetGroup({ textures, atlases, errors });
+  return new AssetGroup({ textures, atlases, atlasPackingStats, errors });
 }
 
 function createPackedAtlas(
   results: readonly AssetGroupLoadedEntry[],
   options: AssetGroupLoadOptions
-): { readonly name: string; readonly atlas: TextureAtlas } | null {
+): { readonly name: string; readonly atlas: TextureAtlas; readonly stats: TextureAtlasPackerStats } | null {
   const packingOptions = getAtlasPackingOptions(options);
 
   if (!packingOptions) {
@@ -161,9 +163,12 @@ function createPackedAtlas(
   }
 
   const { atlasName = DEFAULT_PACKED_ATLAS_NAME, ...packerOptions } = packingOptions;
+  const result = new TextureAtlasPacker(packerOptions).packWithStats(items);
+
   return {
     name: atlasName,
-    atlas: new TextureAtlasPacker(packerOptions).pack(items)
+    atlas: result.atlas,
+    stats: result.stats
   };
 }
 

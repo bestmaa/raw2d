@@ -150,9 +150,8 @@ const assets = await new AssetGroupLoader().load({
   packAtlas: { atlasName: "sprites", padding: 2, edgeBleed: 1 }
 });
 
-const playerTexture = assets.getTexture("player");
-const playerAtlas = assets.getAtlas("playerAtlas");
 const packedSprites = assets.getAtlas("sprites");
+const packingStats = assets.getAtlasPackingStats("sprites");
 
 const player = createSpriteFromAtlas({
   atlas: packedSprites,
@@ -161,7 +160,7 @@ const player = createSpriteFromAtlas({
 });
 ```
 
-String entry `{ type: "texture", url }` ka shorthand hai. Atlas entry internally `TextureAtlasLoader` use karti hai. `packAtlas` loaded texture entries ko generated `TextureAtlas` me pack karta hai, aur original textures bhi available rehte hain.
+String entry `{ type: "texture", url }` ka shorthand hai. Atlas entry internally `TextureAtlasLoader` use karti hai. `packAtlas` texture entries ko generated `TextureAtlas` me pack karta hai, aur `getAtlasPackingStats()` occupancy, wasted area, aur frame count deta hai.
 
 ## Loading Progress
 

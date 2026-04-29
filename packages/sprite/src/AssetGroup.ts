@@ -1,15 +1,18 @@
 import type { AssetGroupOptions, AssetGroupSnapshot } from "./AssetGroup.type.js";
 import type { Texture } from "./Texture.js";
 import type { TextureAtlas } from "./TextureAtlas.js";
+import type { TextureAtlasPackerStats } from "./TextureAtlasPacker.type.js";
 
 export class AssetGroup {
   private readonly textures = new Map<string, Texture>();
   private readonly atlases = new Map<string, TextureAtlas>();
+  private readonly atlasPackingStats = new Map<string, TextureAtlasPackerStats>();
   private readonly errors = new Map<string, Error>();
 
   public constructor(options: AssetGroupOptions = {}) {
     copyMap(options.textures, this.textures);
     copyMap(options.atlases, this.atlases);
+    copyMap(options.atlasPackingStats, this.atlasPackingStats);
     copyMap(options.errors, this.errors);
   }
 
@@ -37,6 +40,16 @@ export class AssetGroup {
     return this.errors.get(name) ?? null;
   }
 
+  public getAtlasPackingStats(name: string): TextureAtlasPackerStats {
+    const stats = this.atlasPackingStats.get(name);
+
+    if (!stats) {
+      throw new Error(`Texture atlas packing stats not found: ${name}`);
+    }
+
+    return stats;
+  }
+
   public hasTexture(name: string): boolean {
     return this.textures.has(name);
   }
@@ -47,6 +60,10 @@ export class AssetGroup {
 
   public hasError(name: string): boolean {
     return this.errors.has(name);
+  }
+
+  public hasAtlasPackingStats(name: string): boolean {
+    return this.atlasPackingStats.has(name);
   }
 
   public getTextureNames(): readonly string[] {
@@ -61,10 +78,15 @@ export class AssetGroup {
     return [...this.errors.keys()];
   }
 
+  public getAtlasPackingStatsNames(): readonly string[] {
+    return [...this.atlasPackingStats.keys()];
+  }
+
   public getSnapshot(): AssetGroupSnapshot {
     return {
       textureNames: this.getTextureNames(),
       atlasNames: this.getAtlasNames(),
+      atlasPackingStatsNames: this.getAtlasPackingStatsNames(),
       errorNames: this.getErrorNames()
     };
   }
@@ -91,4 +113,3 @@ function copyMap<TKey, TValue>(source: ReadonlyMap<TKey, TValue> | undefined, ta
     target.set(key, value);
   }
 }
-
