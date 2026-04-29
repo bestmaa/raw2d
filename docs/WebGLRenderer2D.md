@@ -10,6 +10,7 @@ Current scope:
 - uses cached world matrices from `RenderPipeline`
 - batches consecutive shape objects by material key
 - supports WebGL stroke caps and joins for stroked paths
+- exposes `curveSegments` for WebGL curve quality and vertex-cost control
 - batches consecutive sprites by texture key
 - batches rasterized text through the texture path
 - supports sprite frame UVs from `TextureAtlas`
@@ -194,6 +195,17 @@ const material = new BasicMaterial({
 
 `strokeCap` supports `butt`, `round`, and `square`. `strokeJoin` supports `miter`, `round`, and `bevel`. These values are part of the WebGL material key, so incompatible stroke styles do not merge into the same draw batch.
 
+## Curve Sampling
+
+WebGL approximates `Circle`, `Ellipse`, `Arc`, and ShapePath curves with line segments. Higher `curveSegments` looks smoother but writes more vertices:
+
+```ts
+const renderer = new WebGLRenderer2D({ canvas: canvasElement, curveSegments: 48 });
+renderer.render(scene, camera, { curveSegments: 16 });
+```
+
+The renderer option sets the default. The render option is a per-frame override for quality/performance experiments or editor preview modes. Raw2D clamps values below `8`.
+
 ## Static And Dynamic Runs
 
 Every `Object2D` has a `renderMode`:
@@ -209,11 +221,8 @@ Object and material versions provide the invalidation signal:
 
 ```ts
 background.setRenderMode("static");
-background.markClean();
 background.setSize(900, 600);
-
 console.log(background.getDirtyState());
-// { version: 2, dirty: true }
 ```
 
 ## Static Batch Cache
@@ -235,10 +244,4 @@ The current WebGL vertex batches are already projected into clip space, so camer
 
 ## Current Limitations
 
-- no advanced texture atlas bin packing yet
-- no automatic static batch compaction yet
-- no glyph atlas or SDF text path yet
-- direct ShapePath fill supports one simple closed subpath only; complex fills need `shapePathFillFallback: "rasterize"` for texture fallback
-- arc curves are approximated with line segments or triangle fans
-- polygon batching supports simple polygons, but not holes or self-intersections
-- SVG texture sources should be rasterized to canvas before WebGL upload
+No advanced atlas bin packing, automatic static batch compaction, glyph atlas/SDF text, polygon holes, or SVG texture upload path yet. Direct ShapePath fill supports one simple closed subpath; complex fills need `shapePathFillFallback: "rasterize"` for texture fallback.

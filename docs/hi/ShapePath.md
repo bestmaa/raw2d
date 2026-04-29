@@ -8,6 +8,8 @@ ShapePath sirf path data rakhta hai. Canvas native path commands se fill/stroke 
 
 WebGL me complex fill rules abhi intentionally skip hote hain, taaki galat output na aaye.
 
+`WebGLRenderer2D` me `curveSegments` option se ShapePath curve smoothness control hoti hai. Value zyada hogi to curve smooth dikhega, par vertex count bhi badhega.
+
 ## Kab Use Karein
 
 Jab custom icon, editor shape, curve, ya low-level vector shape banana ho, tab ShapePath use karein. Agar exact Canvas-style fill behavior chahiye, Canvas renderer safest path hai.

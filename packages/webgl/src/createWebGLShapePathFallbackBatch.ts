@@ -1,13 +1,13 @@
 import { ShapePath, type RenderItem } from "raw2d-core";
 import { toClipPoint } from "./WebGLVertex.js";
 import { getWebGLShapePathFillSupport } from "./writeWebGLShapePath.js";
+import { resolveWebGLCurveSegments } from "./resolveWebGLCurveSegments.js";
 import type { WebGLSpriteBatch, WebGLSpriteDrawBatch } from "./WebGLSpriteBatch.type.js";
 import type { WebGLShapePathTextureEntry } from "./WebGLShapePathTextureCache.type.js";
 import type { WebGLShapePathFallbackBatchOptions } from "./createWebGLShapePathFallbackBatch.type.js";
 
 const floatsPerVertex = 5;
 const verticesPerFallback = 6;
-const minimumCurveSegments = 8;
 
 export function createWebGLShapePathFallbackBatch(options: WebGLShapePathFallbackBatchOptions): WebGLSpriteBatch {
   const items = options.items.filter((item): item is RenderItem<ShapePath> => shouldRasterizeShapePath(item, options));
@@ -37,7 +37,7 @@ export function shouldRasterizeShapePath(item: RenderItem, options: Pick<WebGLSh
     return false;
   }
 
-  const support = getWebGLShapePathFillSupport(item.object, getCurveSegments(options.curveSegments));
+  const support = getWebGLShapePathFillSupport(item.object, resolveWebGLCurveSegments(options));
   return !support.supported && support.reason !== "disabled" && support.reason !== "empty";
 }
 
@@ -72,8 +72,4 @@ function writeVertex(vertices: Float32Array, offset: number, x: number, y: numbe
   vertices[offset + 3] = v;
   vertices[offset + 4] = 1;
   return offset + floatsPerVertex;
-}
-
-function getCurveSegments(segments = 32): number {
-  return Math.max(minimumCurveSegments, Math.floor(segments));
 }

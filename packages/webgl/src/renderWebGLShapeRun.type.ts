@@ -11,6 +11,7 @@ export interface RenderWebGLShapeRunOptions {
   readonly camera: Camera2D;
   readonly width: number;
   readonly height: number;
+  readonly curveSegments: number;
   readonly resources: WebGLRenderer2DResources;
   readonly resourceOptions: WebGLRenderer2DOptions;
   readonly shapeFloatBuffer: WebGLFloatBuffer;

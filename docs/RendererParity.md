@@ -90,7 +90,7 @@ WebGL currently focuses on batched shapes, simple ShapePath fill/stroke, opt-in 
 ## Missing Support Plan
 
 1. Text2D cache maturity: current cache handles fill/stroke text textures; next step is glyph atlas or stronger pooling for large dynamic text scenes.
-2. Stroke polish: caps and joins are now material-driven; next polish is curve sampling controls and deeper visual tests.
+2. Stroke and curve polish: caps, joins, and curve sampling controls are now material/renderer-driven; next polish is deeper visual tests.
 3. ShapePath direct GPU fill: expand direct fill rules after the rasterized fallback has proven useful.
 4. Performance proof: keep Canvas/WebGL comparison demos and stats updated as each WebGL feature lands.
 

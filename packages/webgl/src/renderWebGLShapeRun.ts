@@ -28,7 +28,7 @@ function renderSegmentedShapeRun(options: RenderWebGLShapeRunOptions): void {
   let pending: WebGLRenderRun["items"] = [];
 
   for (const item of options.run.items) {
-    if (shouldRasterizeShapePath(item, {})) {
+    if (shouldRasterizeShapePath(item, { curveSegments: options.curveSegments })) {
       renderShapeBatch(options, { ...options.run, items: pending }, false);
       renderFallbackBatch(options, { ...options.run, items: [item] });
       renderShapeBatch(options, { ...options.run, items: [item] }, true);
@@ -51,6 +51,7 @@ function renderShapeBatch(options: RenderWebGLShapeRunOptions, run: WebGLRenderR
     camera: options.camera,
     width: options.width,
     height: options.height,
+    curveSegments: options.curveSegments,
     floatBuffer: options.shapeFloatBuffer
   });
   configureWebGLShapeProgram(options.gl, options.resources.shapeProgram, options.resources.shapeUploaders.dynamic);
@@ -69,6 +70,7 @@ function renderUncachedShapeRun(options: RenderWebGLShapeRunOptions): void {
     camera: options.camera,
     width: options.width,
     height: options.height,
+    curveSegments: options.curveSegments,
     floatBuffer: options.shapeFloatBuffer
   });
   const uploader = options.run.mode === "static" ? cacheShapeBatch(options, batch).uploader : options.resources.shapeUploaders.dynamic;
@@ -86,6 +88,7 @@ function renderFallbackBatch(options: RenderWebGLShapeRunOptions, run: WebGLRend
     camera: options.camera,
     width: options.width,
     height: options.height,
+    curveSegments: options.curveSegments,
     floatBuffer: options.spriteFloatBuffer,
     getTextureKey: (texture) => options.resources.textureCache.getKey(texture),
     getShapePathTexture: (shapePath) => options.resources.shapePathTextureCache.get(shapePath)
@@ -129,12 +132,13 @@ function createShapeRunIdentity(options: RenderWebGLShapeRunOptions): ReturnType
     camera: options.camera,
     width: options.width,
     height: options.height,
+    curveSegments: options.curveSegments,
     getTextureKey: (texture) => options.resources.textureCache.getKey(texture)
   });
 }
 
 function hasRasterizedFallbacks(options: RenderWebGLShapeRunOptions): boolean {
-  return options.resourceOptions.shapePathFillFallback === "rasterize" && options.run.items.some((item) => shouldRasterizeShapePath(item, {}));
+  return options.resourceOptions.shapePathFillFallback === "rasterize" && options.run.items.some((item) => shouldRasterizeShapePath(item, { curveSegments: options.curveSegments }));
 }
 
 function trackFallbackBatchStats(batch: WebGLSpriteBatch, run: WebGLRenderRun, options: RenderWebGLShapeRunOptions): void {

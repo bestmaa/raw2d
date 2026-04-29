@@ -11,14 +11,13 @@ import { getWebGLPolygonFillVertexCount, writeWebGLPolygonFill } from "./writeWe
 import { webGLRectVertexCount, writeWebGLRect } from "./writeWebGLRect.js";
 import { getWebGLShapePathFillSupport, getWebGLShapePathVertexCount, writeWebGLShapePathFill, writeWebGLShapePathStroke } from "./writeWebGLShapePath.js";
 import { getWebGLStrokeVertexCount, writeWebGLStroke } from "./writeWebGLStroke.js";
+import { resolveWebGLCurveSegments } from "./resolveWebGLCurveSegments.js";
 import type { WebGLDrawBatch } from "./WebGLDrawBatch.type.js";
 import type { WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
 
-const minimumCurveSegments = 8;
-
 export function createWebGLShapeBatch(options: WebGLShapeBatchOptions): WebGLShapeBatch {
   const shapeItems = options.items.filter(isShapeItem);
-  const segments = getCurveSegments(options.curveSegments);
+  const segments = resolveWebGLCurveSegments(options);
   const vertexCount = getVertexCount(shapeItems, segments);
   const floatCount = vertexCount * webGLFloatsPerVertex;
   const vertices = options.floatBuffer?.acquire(floatCount) ?? new Float32Array(floatCount);
@@ -104,10 +103,6 @@ function isShapeItem(item: WebGLShapeBatchOptions["items"][number]): item is Web
     item.object instanceof Polygon ||
     item.object instanceof ShapePath
   );
-}
-
-function getCurveSegments(segments = 32): number {
-  return Math.max(minimumCurveSegments, Math.floor(segments));
 }
 
 function getVertexCount(items: readonly WebGLShapeItem[], segments: number): number {

@@ -16,6 +16,7 @@ Current support:
 - complex `ShapePath` fill fallback through opt-in rasterized textures
 - ordered shape material batches
 - material-driven stroke caps and joins
+- configurable curve sampling for WebGL curve quality
 - ordered sprite texture batches
 - rasterized text texture batches
 - static and dynamic render run separation
@@ -89,6 +90,19 @@ const material = new BasicMaterial({
 ```
 
 The stroke cap, join, and miter limit are included in the material batch key.
+
+Curve quality is explicit. WebGL approximates curves with segments, so higher values look smoother and write more vertices:
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  curveSegments: 48
+});
+
+renderer.render(scene, camera, { curveSegments: 16 });
+```
+
+The constructor option sets the default. The render option overrides one frame. Values below `8` are clamped.
 
 Use `TextureAtlasPacker` from `raw2d-sprite` when separate sprite images should become one atlas texture:
 

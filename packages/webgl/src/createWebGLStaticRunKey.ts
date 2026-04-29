@@ -18,11 +18,12 @@ export function createWebGLStaticRunKey(options: WebGLStaticRunKeyOptions): WebG
   ].join("|");
   const cameraKey = `${options.camera.x},${options.camera.y},${options.camera.zoom}`;
   const viewportKey = `${options.width},${options.height}`;
+  const curveKey = `curves:${options.curveSegments ?? "default"}`;
   const objectKeys = options.run.items.map((item) => createObjectKey(item.object, options)).join("|");
 
   return {
     runId,
-    key: `${options.run.kind}:${options.run.mode}:${cameraKey}:${viewportKey}:${objectKeys}`
+    key: `${options.run.kind}:${options.run.mode}:${cameraKey}:${viewportKey}:${curveKey}:${objectKeys}`
   };
 }
 

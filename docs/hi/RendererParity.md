@@ -59,7 +59,7 @@ Ye editor UI, docs, debug tools, aur future React wrapper ke liye useful hai.
 ## Missing Support Plan
 
 1. Text2D cache maturity: current cache fill/stroke text textures handle karta hai; next step glyph atlas ya better pooling hai.
-2. Stroke polish: caps aur joins ab material se control hote hain; next polish curve sampling controls aur visual tests hain.
+2. Stroke aur curve polish: caps, joins, aur curve sampling controls ab material/renderer se control hote hain; next polish deeper visual tests hain.
 3. ShapePath direct GPU fill: rasterized fallback stable hone ke baad direct fill rules expand karna.
 4. Performance proof: Canvas/WebGL comparison demos aur stats ko updated rakhna.
 

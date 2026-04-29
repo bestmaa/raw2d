@@ -18,6 +18,7 @@ import { trackWebGLTextTextureStats } from "./trackWebGLTextTextureStats.js";
 import { trackWebGLSpriteRunDiagnostics } from "./trackWebGLSpriteRunDiagnostics.js";
 import { WebGLRenderer2DResources } from "./WebGLRenderer2DResources.js";
 import { renderWebGLShapeRun } from "./renderWebGLShapeRun.js";
+import { resolveWebGLCurveSegments } from "./resolveWebGLCurveSegments.js";
 import { releaseDisposedWebGLSpriteTextures } from "./releaseDisposedWebGLSpriteTextures.js";
 import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js";
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
@@ -121,7 +122,7 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
     for (const run of runs) {
       if (run.kind === "shape") {
-        this.renderShapeRun(run, camera, stats);
+        this.renderShapeRun(run, camera, stats, options);
       } else if (run.kind === "sprite") {
         this.renderSpriteRun(run, camera, stats);
       } else {
@@ -137,13 +138,17 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
     this.stats = finalizeWebGLRenderStats(stats);
   }
 
-  private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats): void {
+  private renderShapeRun(run: WebGLRenderRun, camera: Camera2D, stats: MutableWebGLRenderStats, options: WebGLRenderer2DRenderOptions): void {
     renderWebGLShapeRun({
       gl: this.gl,
       run,
       camera,
       width: this.width,
       height: this.height,
+      curveSegments: resolveWebGLCurveSegments({
+        curveSegments: options.curveSegments,
+        fallback: this.resourceOptions.curveSegments
+      }),
       resources: this.resources,
       resourceOptions: this.resourceOptions,
       shapeFloatBuffer: this.shapeFloatBuffer,

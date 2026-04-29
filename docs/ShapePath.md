@@ -63,6 +63,8 @@ console.log(flattened.subpaths[0].closed);
 
 Flattening keeps `ShapePath` as data. It does not draw by itself. Canvas can still use native path commands, while WebGL uses these points for stroke geometry and simple closed fills.
 
+WebGLRenderer2D also accepts `curveSegments` on the renderer or per render call. Use it to trade ShapePath curve smoothness against vertex count.
+
 ## WebGL Fill Safety
 
 WebGL cannot use browser path fill rules directly. Raw2D only fills a ShapePath in WebGL when it is a single simple closed subpath.

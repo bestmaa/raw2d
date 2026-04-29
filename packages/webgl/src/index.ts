@@ -64,5 +64,7 @@ export * from "./getWebGLMaterialKey.js";
 export * from "./getWebGLStrokeVertexCount.js";
 export * from "./getWebGLSpriteUV.js";
 export * from "./parseWebGLColor.js";
+export * from "./resolveWebGLCurveSegments.js";
+export * from "./resolveWebGLCurveSegments.type.js";
 export * from "./triangulateWebGLPolygon.js";
 export * from "./writeWebGLShapePath.js";

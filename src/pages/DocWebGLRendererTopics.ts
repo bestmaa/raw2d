@@ -51,6 +51,16 @@ webglRenderer.render(scene, camera);
 console.log(webglRenderer.getStats().textTextureCacheHits);`
       },
       {
+        title: "Curve Sampling",
+        body: "WebGL approximates Circle, Ellipse, Arc, and ShapePath curves with line segments. Use curveSegments to choose smoother curves or fewer vertices.",
+        liveDemoId: "webgl-renderer",
+        code: `const webglRenderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  curveSegments: 48
+});
+webglRenderer.render(scene, camera, { curveSegments: 16 });`
+      },
+      {
         title: "Sprite Texture Batch",
         body: "Sprites use a separate textured shader path. Consecutive Sprites using the same Texture are merged into one texture draw batch while render order stays stable.",
         liveDemoId: "webgl-renderer",
@@ -85,10 +95,6 @@ console.log(renderer.getStats());
 //   objects: 1000,
 //   drawCalls: 600,
 //   batches: 600,
-//   textureBinds: 142,
-//   textTextureCacheHits: 20,
-//   textTextureCacheMisses: 1,
-//   uploadedBytes: 792000,
 //   staticCacheHits: 0,
 //   unsupported: 0
 // }`
@@ -220,10 +226,7 @@ console.log(webglRenderer.getStats().uploadBufferSubDataCalls);
         code: `scene.add(new Rect({ material: blue }));
 scene.add(new Circle({ material: blue }));
 
-// Sprite uses the texture path, so it starts a texture run.
 scene.add(new Sprite({ texture }));
-
-// Shape drawing resumes as a new shape run.
 scene.add(new Line({ material: yellowStroke }));`
       },
       {
@@ -236,9 +239,7 @@ scene.add(new Line({ material: yellowStroke }));`
       {
         title: "Shared RenderList",
         body: "Build a render list manually when you want to inspect the scene before WebGL writes buffers.",
-        code: `const renderList = webglRenderer.createRenderList(scene, camera, {
-  culling: true
-});
+        code: `const renderList = webglRenderer.createRenderList(scene, camera, { culling: true });
 
 webglRenderer.render(scene, camera, { renderList });`
       }

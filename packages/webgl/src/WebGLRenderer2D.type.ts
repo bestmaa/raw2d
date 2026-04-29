@@ -15,6 +15,7 @@ export interface WebGLRenderer2DOptions {
   readonly shapePathTextureCacheMaxEntries?: number;
   readonly shapePathFillFallback?: WebGLShapePathFillFallbackMode;
   readonly onShapePathFillFallback?: (fallback: WebGLShapePathFillFallbackReport) => void;
+  readonly curveSegments?: number;
 }
 
 export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRenderer2DRenderOptions, WebGLRenderStats, WebGLRenderer2DSize> {
@@ -24,6 +25,7 @@ export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRende
 
 export interface WebGLRenderer2DRenderOptions extends Renderer2DRenderOptions<Object2D> {
   readonly spriteSorting?: WebGLSpriteSortingMode;
+  readonly curveSegments?: number;
 }
 
 export interface WebGLRenderer2DSize extends Renderer2DSize {

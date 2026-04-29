@@ -168,6 +168,21 @@ const material = new BasicMaterial({
 
 `strokeCap` ke options `butt`, `round`, aur `square` hain. `strokeJoin` ke options `miter`, `round`, aur `bevel` hain. Ye values WebGL material key ka part hain, isliye alag stroke style wale objects ek hi draw batch me merge nahi hote.
 
+## Curve Sampling
+
+WebGL `Circle`, `Ellipse`, `Arc`, aur ShapePath curves ko line segments me approximate karta hai. `curveSegments` zyada hoga to curve smooth dikhega, lekin vertices bhi zyada banenge.
+
+```ts
+const renderer = new WebGLRenderer2D({
+  canvas: canvasElement,
+  curveSegments: 48
+});
+
+renderer.render(scene, camera, { curveSegments: 16 });
+```
+
+Constructor wala value default quality hai. `render()` option per-frame override hai, jo preview mode ya performance testing ke liye useful hai. Raw2D minimum value `8` rakhta hai.
+
 ## Static Render Mode
 
 Static objects baar-baar change nahi hote, to WebGL unke buffers cache kar sakta hai.

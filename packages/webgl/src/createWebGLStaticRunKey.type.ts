@@ -7,6 +7,7 @@ export interface WebGLStaticRunKeyOptions {
   readonly camera: Camera2D;
   readonly width: number;
   readonly height: number;
+  readonly curveSegments?: number;
   readonly getTextureKey: (texture: Texture) => string;
 }
 

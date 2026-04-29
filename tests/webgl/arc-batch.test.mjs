@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { Arc, BasicMaterial, Camera2D, RenderPipeline } from "raw2d-core";
-import { createWebGLShapeBatch } from "raw2d-webgl";
+import { createWebGLShapeBatch, resolveWebGLCurveSegments } from "raw2d-webgl";
 
 test("createWebGLShapeBatch writes open Arc stroke geometry", () => {
   const arc = new Arc({
@@ -45,13 +45,38 @@ test("createWebGLShapeBatch writes closed Arc fill geometry", () => {
   assert.equal(batch.vertices[4], 1);
 });
 
-function createBatch(objects) {
+test("createWebGLShapeBatch uses curveSegments for Arc smoothness", () => {
+  const arc = new Arc({
+    x: 50,
+    y: 50,
+    radiusX: 20,
+    radiusY: 10,
+    startAngle: 0,
+    endAngle: Math.PI / 2,
+    closed: true
+  });
+  const low = createBatch([arc], 8);
+  const high = createBatch([arc], 64);
+
+  assert.equal(low.drawBatches[0].vertexCount, 6);
+  assert.equal(high.drawBatches[0].vertexCount, 48);
+  assert.equal(high.vertices.length > low.vertices.length, true);
+});
+
+test("resolveWebGLCurveSegments normalizes WebGL curve quality", () => {
+  assert.equal(resolveWebGLCurveSegments(), 32);
+  assert.equal(resolveWebGLCurveSegments({ curveSegments: 4 }), 8);
+  assert.equal(resolveWebGLCurveSegments({ curveSegments: 12.9 }), 12);
+  assert.equal(resolveWebGLCurveSegments({ fallback: 20 }), 20);
+});
+
+function createBatch(objects, curveSegments = 8) {
   return createWebGLShapeBatch({
     items: new RenderPipeline().build({ objects }).getFlatItems(),
     camera: new Camera2D(),
     width: 100,
     height: 100,
-    curveSegments: 8
+    curveSegments
   });
 }
 
