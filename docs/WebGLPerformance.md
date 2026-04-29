@@ -14,8 +14,14 @@ Use these stats to understand whether batching is helping:
 - `textureBinds`: texture bind operations for sprite batches
 - `textureUploads`: new texture uploads this frame
 - `textureCacheHits`: reused WebGL textures
+- `textTextureCacheHits`: reused cached `Text2D` textures
+- `textTextureCacheMisses`: `Text2D` entries created this frame
 - `staticCacheHits`: static runs that reused cached vertex buffers
+- `uploadBufferDataCalls`: full vertex-buffer uploads
+- `uploadBufferSubDataCalls`: partial vertex-buffer uploads
 - `uploadedBytes`: vertex bytes uploaded this frame
+
+For the complete field reference, see `docs/RendererStats.md`.
 
 ## Practical Setup
 
@@ -93,6 +99,28 @@ console.log({
   webglFps: 1000 / webglFrameMs
 });
 ```
+
+## Stats Categories
+
+Read stats in groups so the numbers point to the right system:
+
+```ts
+renderer.render(scene, camera, { culling: true });
+
+const stats = renderer.getStats();
+
+console.log(stats.renderList);
+console.log(stats.drawCalls, stats.batches, stats.vertices);
+console.log(stats.textureBinds, stats.textureUploads);
+console.log(stats.textTextureCacheHits, stats.textTextureCacheMisses);
+console.log(stats.uploadBufferDataCalls, stats.uploadBufferSubDataCalls);
+console.log(stats.uploadedBytes);
+```
+
+- render-list stats explain scene traversal
+- batch stats explain draw work
+- texture stats explain GPU texture work
+- upload stats explain buffer churn
 
 For smoother display numbers, keep a rolling average over the last 60 frames:
 

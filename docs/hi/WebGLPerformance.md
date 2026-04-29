@@ -10,8 +10,14 @@ Ye doc batata hai ki Raw2D me WebGL renderer ko kaise measure karein. Goal ye ha
 - `batches`: compatible objects ke groups
 - `drawCalls`: WebGL ko bheje gaye actual draw ranges
 - `textureBinds`: texture switch kitni baar hua
+- `textTextureCacheHits`: cached `Text2D` texture reuse hua
+- `textTextureCacheMisses`: `Text2D` ke liye nayi texture entry bani
 - `staticCacheHits`: static geometry cache se reuse hui
+- `uploadBufferDataCalls`: full vertex-buffer uploads
+- `uploadBufferSubDataCalls`: partial vertex-buffer uploads
 - `uploadedBytes`: is frame me GPU ko bheja gaya vertex data
+
+Full field reference ke liye `docs/hi/RendererStats.md` dekhein.
 
 ## Culling Example
 
@@ -49,6 +55,28 @@ const webglFrameMs = performance.now() - webglStart;
 
 console.log({ canvasFrameMs, webglFrameMs, stats: renderer.getStats() });
 ```
+
+## Stats Categories
+
+Stats ko groups me padhein, taki issue kis system me hai ye clear rahe:
+
+```ts
+renderer.render(scene, camera, { culling: true });
+
+const stats = renderer.getStats();
+
+console.log(stats.renderList);
+console.log(stats.drawCalls, stats.batches, stats.vertices);
+console.log(stats.textureBinds, stats.textureUploads);
+console.log(stats.textTextureCacheHits, stats.textTextureCacheMisses);
+console.log(stats.uploadBufferDataCalls, stats.uploadBufferSubDataCalls);
+console.log(stats.uploadedBytes);
+```
+
+- render-list stats scene traversal samjhate hain
+- batch stats draw work samjhate hain
+- texture stats GPU texture work samjhate hain
+- upload stats buffer churn samjhate hain
 
 ## Practical Notes
 

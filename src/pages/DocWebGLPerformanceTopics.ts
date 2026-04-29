@@ -65,6 +65,20 @@ console.log(stats.staticCacheHits);
 console.log(stats.uploadedBytes);`
       },
       {
+        title: "Stats Categories",
+        body: "Read stats in groups: render-list stats explain scene traversal, batch stats explain draw work, texture stats explain GPU texture work, and upload stats explain buffer churn.",
+        liveDemoId: "webgl-performance",
+        code: `webglRenderer.render(scene, camera, { culling: true });
+const stats = webglRenderer.getStats();
+
+console.log(stats.renderList);
+console.log(stats.drawCalls, stats.batches, stats.vertices);
+console.log(stats.textureBinds, stats.textureUploads);
+console.log(stats.textTextureCacheHits, stats.textTextureCacheMisses);
+console.log(stats.uploadBufferDataCalls, stats.uploadBufferSubDataCalls);
+console.log(stats.uploadedBytes);`
+      },
+      {
         title: "Culling Toggle",
         body: "Culling skips objects outside the camera world bounds before batching. Turn it off when debugging missing objects, then turn it on for large scenes.",
         liveDemoId: "webgl-performance",
