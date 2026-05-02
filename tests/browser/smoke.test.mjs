@@ -98,6 +98,7 @@ function getHtmlRoutes() {
     "/",
     "/doc",
     "/readme",
+    "/visual-test",
     "/examples/canvas-basic/",
     "/examples/webgl-basic/",
     "/examples/sprite-atlas/",

@@ -23,6 +23,12 @@ async function renderRoute(root: HTMLElement): Promise<void> {
     return;
   }
 
+  if (window.location.pathname === "/visual-test") {
+    const { renderVisualPixelTestPage } = await import("./pages/VisualPixelTest");
+    root.replaceChildren(renderVisualPixelTestPage());
+    return;
+  }
+
   renderCanvasPreview(root);
 }
 

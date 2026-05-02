@@ -22,6 +22,7 @@ import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 import { webGLPerformanceTopics } from "./DocWebGLPerformanceTopics";
 import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
+import { webGLVisualTestsTopics } from "./DocWebGLVisualTestsTopics";
 
 export const docGroups: readonly DocGroup[] = [
   { id: "start", label: "Start", hiLabel: "Start", topics: [...setupTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics] },
@@ -39,7 +40,7 @@ export const docGroups: readonly DocGroup[] = [
       ...renderPipelineTopics
     ]
   },
-  { id: "webgl", label: "WebGL", hiLabel: "WebGL", topics: [...webGLRendererTopics, ...webGLContextTopics, ...webGLPerformanceTopics] },
+  { id: "webgl", label: "WebGL", hiLabel: "WebGL", topics: [...webGLRendererTopics, ...webGLContextTopics, ...webGLPerformanceTopics, ...webGLVisualTestsTopics] },
   { id: "scene-tools", label: "Scene Tools", hiLabel: "Scene Tools", topics: [...group2DTopics, ...transformTopics, ...boundsTopics] },
   { id: "interaction", label: "Interaction", hiLabel: "Interaction", topics: [...hitTestingTopics, ...pickingTopics, ...interactionTopics] },
   { id: "geometry", label: "Geometry", hiLabel: "Geometry", topics: [...curveTopics, ...pathTopics] },

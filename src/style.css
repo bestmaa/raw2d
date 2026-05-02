@@ -39,6 +39,53 @@ body {
   font: 14px ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
+.visual-test-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #10141c;
+  box-sizing: border-box;
+}
+
+.visual-test-page h1 {
+  margin: 0 0 22px;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.visual-test-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.visual-test-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.visual-test-panel h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.visual-test-panel canvas {
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #10141c;
+}
+
+.visual-test-output {
+  min-height: 132px;
+  margin: 0;
+  padding: 12px;
+  overflow: auto;
+  background: #0d1118;
+  color: #dce4f2;
+  font: 12px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
 .doc-page {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
