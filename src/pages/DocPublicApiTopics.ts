@@ -37,6 +37,17 @@ const renderer = new Canvas({ canvas: canvasElement });
 renderer.render(scene, camera);`
       },
       {
+        title: "WebGL Package Boundary",
+        body: "raw2d-webgl exports WebGLRenderer2D plus batcher, buffer, texture-cache, and diagnostics helpers for engine-level tools.",
+        code: `import {
+  WebGLRenderer2D,
+  createWebGLShapeBatch,
+  WebGLFloatBuffer
+} from "raw2d-webgl";
+
+const renderer = new WebGLRenderer2D({ canvas: canvasElement });`
+      },
+      {
         title: "Umbrella Runtime Boundary",
         body: "The umbrella runtime exports are audited by tests. App-level classes stay available here, while Canvas/WebGL implementation internals stay out.",
         code: `// Available from raw2d:
