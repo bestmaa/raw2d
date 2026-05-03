@@ -39,7 +39,7 @@ export function renderDocPage(): HTMLElement {
 
   function setSearchTerm(nextSearchTerm: string): void {
     searchTerm = nextSearchTerm;
-    currentTopic = findFirstDocSearchMatch({ groups: docGroups, currentTopic, language, searchTerm }) ?? currentTopic;
+    currentTopic = findFirstDocSearchMatch({ groups: docGroups, language, searchTerm }) ?? currentTopic;
     render();
   }
 

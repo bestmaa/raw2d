@@ -1,6 +1,6 @@
 import type { DocGroup, DocLanguage, DocTopic } from "./DocPage.type";
 import { getDocUiText, translateTopic } from "./DocI18n";
-import { matchesDocSearch } from "./DocSearch";
+import { findFirstDocSearchMatch, getDocSearchScore } from "./DocSearch";
 import { docGroups } from "./DocTopics";
 
 export interface DocSidebarOptions {
@@ -19,7 +19,7 @@ export function createDocSidebarChildren(options: DocSidebarOptions): readonly H
   header.append(
     createSidebarLinks(),
     createLanguageControl(options.language, options.onLanguage),
-    createSearch(options.language, options.searchTerm, options.onSearch),
+    createSearch(options),
     createSidebarTitle()
   );
   return [header, nav];
@@ -58,25 +58,62 @@ function createLanguageButton(label: string, active: boolean, onClick: () => voi
   return button;
 }
 
-function createSearch(language: DocLanguage, searchTerm: string, onSearch: (term: string) => void): HTMLElement {
+function createSearch(options: DocSidebarOptions): HTMLElement {
   const form = document.createElement("form");
   const input = document.createElement("input");
   const button = document.createElement("button");
-  const text = getDocUiText(language);
+  const text = getDocUiText(options.language);
 
   form.className = "doc-search";
   input.type = "search";
-  input.value = searchTerm;
+  input.value = options.searchTerm;
   input.placeholder = text.searchPlaceholder;
   button.type = "submit";
   button.textContent = text.searchButton;
   form.append(input, button);
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    onSearch(input.value);
+    selectBestSearchMatch(options, input.value);
   });
-  input.addEventListener("input", () => onSearch(input.value));
+  input.addEventListener("input", () => options.onSearch(input.value));
+  input.addEventListener("keydown", (event) => handleSearchKeydown(event, options, input));
   return form;
+}
+
+function handleSearchKeydown(event: KeyboardEvent, options: DocSidebarOptions, input: HTMLInputElement): void {
+  if (event.key === "Escape") {
+    input.value = "";
+    options.onSearch("");
+    return;
+  }
+
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    focusFirstSearchResult();
+    return;
+  }
+
+  if (event.key === "Enter") {
+    event.preventDefault();
+    selectBestSearchMatch(options, input.value);
+  }
+}
+
+function focusFirstSearchResult(): void {
+  document.querySelector<HTMLButtonElement>(".doc-nav-button")?.focus();
+}
+
+function selectBestSearchMatch(options: DocSidebarOptions, searchTerm: string): void {
+  options.onSearch(searchTerm);
+  const topic = findFirstDocSearchMatch({
+    groups: docGroups,
+    language: options.language,
+    searchTerm
+  });
+
+  if (topic) {
+    options.onSelect(topic);
+  }
 }
 
 function createGroupedNav(options: DocSidebarOptions): HTMLElement {
@@ -114,16 +151,29 @@ function createGroup(
   title.textContent = options.language === "hi" ? group.hiLabel : group.label;
   section.append(title);
 
-  for (const topic of group.topics) {
-    if (!matchesDocSearch({ topic, group, language: options.language, searchTerm })) {
-      continue;
-    }
+  for (const topic of getRankedTopics(group, options.language, searchTerm)) {
 
     section.append(createNavButton(topic, options.language, options.onSelect, searchTerm));
     count += 1;
   }
 
   return { element: section, count };
+}
+
+function getRankedTopics(group: DocGroup, language: DocLanguage, searchTerm: string): readonly DocTopic[] {
+  if (!searchTerm) {
+    return group.topics;
+  }
+
+  return group.topics
+    .map((topic, index) => ({
+      index,
+      topic,
+      score: getDocSearchScore({ topic, group, language, searchTerm })
+    }))
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => right.score - left.score || left.index - right.index)
+    .map((entry) => entry.topic);
 }
 
 function createNavButton(

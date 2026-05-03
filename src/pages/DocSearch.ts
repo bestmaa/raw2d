@@ -10,6 +10,30 @@ export function matchesDocSearch(options: DocSearchMatchOptions): boolean {
   return getDocSearchScore(options) > 0;
 }
 
+export function getDocSearchScore(options: DocSearchMatchOptions): number {
+  const tokens = tokenizeSearch(options.searchTerm);
+
+  if (tokens.length === 0) {
+    return 1;
+  }
+
+  const entries = createSearchEntries(options);
+  const phrase = normalizeSearchText(options.searchTerm);
+  let score = entries.some((entry) => entry.value.includes(phrase)) ? 4 : 0;
+
+  for (const token of tokens) {
+    const tokenScore = Math.max(...entries.map((entry) => scoreToken(entry, token)));
+
+    if (tokenScore === 0) {
+      return 0;
+    }
+
+    score += tokenScore;
+  }
+
+  return score;
+}
+
 export function findFirstDocSearchMatch(options: DocSearchFindOptions): DocSearchMatchOptions["topic"] | null {
   const searchTerm = options.searchTerm.trim();
 
@@ -32,29 +56,6 @@ export function findFirstDocSearchMatch(options: DocSearchFindOptions): DocSearc
   }
 
   return bestTopic;
-}
-
-function getDocSearchScore(options: DocSearchMatchOptions): number {
-  const tokens = tokenizeSearch(options.searchTerm);
-
-  if (tokens.length === 0) {
-    return 1;
-  }
-
-  const entries = createSearchEntries(options);
-  let score = 0;
-
-  for (const token of tokens) {
-    const tokenScore = Math.max(...entries.map((entry) => scoreToken(entry, token)));
-
-    if (tokenScore === 0) {
-      return 0;
-    }
-
-    score += tokenScore;
-  }
-
-  return score;
 }
 
 function createSearchEntries(options: DocSearchMatchOptions): readonly SearchEntry[] {

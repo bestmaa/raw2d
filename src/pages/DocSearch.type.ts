@@ -9,7 +9,6 @@ export interface DocSearchMatchOptions {
 
 export interface DocSearchFindOptions {
   readonly groups: readonly DocGroup[];
-  readonly currentTopic: DocTopic;
   readonly language: DocLanguage;
   readonly searchTerm: string;
 }
