@@ -1,5 +1,31 @@
 # Raw2D Release Notes
 
+## v1.1.10 - Post-Release Consumer Audit Phase
+
+Raw2D v1.1.10 publishes the post-release audit hardening phase for real npm users.
+
+### Added
+
+- Fresh install smoke tests for the umbrella `raw2d` package.
+- Focused package install smoke tests for core, canvas, webgl, sprite, and text usage.
+- Separate install smoke tests for `raw2d-mcp` and `raw2d-react`.
+- README, Canvas docs, WebGL docs, and interaction docs snippet compile checks against packed packages.
+- Post-release npm/CDN/browser audit plan and audit report docs.
+
+### Fixed
+
+- Updated stale jsDelivr README URLs to use the current package path.
+- Fixed one interaction docs snippet that passed an invalid `camera` field to `pickObject`.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+- README and docs snippet compile smoke tests.
+
 ## v1.0.2 - Clean Publish Lockfile Fix
 
 Raw2D v1.0.2 fixes the release lockfile after the v1.0.1 publish attempt exposed an invalid generated dependency tarball URL.

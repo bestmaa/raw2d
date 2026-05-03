@@ -55,7 +55,7 @@ Push only on phase release tasks or explicit user request.
 - T118 | Version: v1.1.7 | Status: completed | Goal: Verify docs WebGL snippets compile in a temp app. | Verify: snippet test. | Commit: `Test WebGL docs snippets`
 - T119 | Version: v1.1.8 | Status: completed | Goal: Verify docs interaction snippets compile in a temp app. | Verify: snippet test. | Commit: `Test interaction docs snippets`
 - T120 | Version: v1.1.9 | Status: completed | Goal: Add post-release npm/CDN/browser audit report. | Verify: report review. | Commit: `Add post release audit report`
-- T121 | Version: v1.1.10 | Status: pending | Goal: Phase 9 release and publish. | Verify: phase release verification. | Commit: `Release post release audit phase`
+- T121 | Version: v1.1.10 | Status: completed | Goal: Phase 9 release and publish. | Verify: phase release verification. | Commit: `Release post release audit phase`
 
 ## Phase 10: Product-Quality Examples
 
