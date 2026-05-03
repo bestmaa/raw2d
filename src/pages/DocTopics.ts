@@ -18,6 +18,7 @@ import { publicApiTopics } from "./DocPublicApiTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { rendererTopics } from "./DocRendererTopics";
 import { rendererParityTopics } from "./DocRendererParityTopics";
+import { renderListTopics } from "./DocRenderListTopics";
 import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
 import { texturePathTopics } from "./DocTexturePathTopics";
@@ -59,7 +60,8 @@ export const docGroups: readonly DocGroup[] = [
       ...renderOrderTopics,
       ...rendererTopics,
       ...rendererParityTopics,
-      ...renderPipelineTopics
+      ...renderPipelineTopics,
+      ...renderListTopics
     ]
   },
   {
