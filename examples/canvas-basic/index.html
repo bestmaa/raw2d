@@ -5,22 +5,22 @@
     <link rel="icon" href="data:," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raw2D Canvas Basic</title>
-    <style>
-      body {
-        margin: 0;
-        display: grid;
-        min-height: 100vh;
-        place-items: center;
-        background: #0b1018;
-      }
-
-      canvas {
-        border: 1px solid #263243;
-      }
-    </style>
+    <link rel="stylesheet" href="../shared/example.css" />
   </head>
   <body>
-    <canvas id="raw2d-canvas"></canvas>
+    <main class="example-stage">
+      <section class="example-panel" aria-label="Canvas basic example">
+        <header class="example-header">
+          <a class="example-eyebrow" href="../">Raw2D Examples</a>
+          <h1 class="example-title">Canvas Basic</h1>
+          <p class="example-summary">
+            Reference Canvas renderer with shapes, text, transforms, and frame stats.
+          </p>
+        </header>
+        <canvas id="raw2d-canvas"></canvas>
+        <pre id="raw2d-stats" aria-live="polite"></pre>
+      </section>
+    </main>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
