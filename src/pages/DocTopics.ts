@@ -6,6 +6,7 @@ import { curveTopics } from "./DocCurveTopics";
 import { exampleTopics } from "./DocExamplesTopics";
 import { group2DTopics } from "./DocGroup2DTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
+import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
@@ -69,7 +70,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "interaction-tools",
     label: "Interaction Tools",
     hiLabel: "Interaction Tools",
-    topics: [...hitTestingTopics, ...pickingTopics, ...interactionTopics]
+    topics: [...interactionPathTopics, ...hitTestingTopics, ...pickingTopics, ...interactionTopics]
   }
 ];
 
