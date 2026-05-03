@@ -18,6 +18,7 @@ import { pluginTopics } from "./DocPluginTopics";
 import { publishTopics } from "./DocPublishTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
 import { docQaChecklistTopics } from "./DocQAChecklistTopics";
+import { deployTopics } from "./DocDeployTopics";
 import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
@@ -60,6 +61,7 @@ export const docGroups: readonly DocGroup[] = [
       ...migrationTopics,
       ...releaseTopics,
       ...publishTopics,
+      ...deployTopics,
       ...canvasQATopics,
       ...exampleTopics,
       ...docQaChecklistTopics,

@@ -205,7 +205,7 @@ Push only on phase release tasks or explicit user request.
 - T096 | Version: v0.10.7 | Status: completed | Goal: Add docs visual QA checklist for WebGL examples. | Verify: browser checklist. | Commit: `Add WebGL docs QA checklist`
 - T097 | Version: v0.10.8 | Status: completed | Goal: Add docs visual QA checklist for interaction examples. | Verify: browser checklist. | Commit: `Add interaction docs QA checklist`
 - T098 | Version: v0.10.9 | Status: completed | Goal: Add npm publish verification checklist. | Verify: checklist review. | Commit: `Add npm publish checklist`
-- T099 | Version: v0.10.10 | Status: pending | Goal: Add Cloudflare docs deploy verification checklist. | Verify: checklist review. | Commit: `Add docs deploy checklist`
+- T099 | Version: v0.10.10 | Status: completed | Goal: Add Cloudflare docs deploy verification checklist. | Verify: checklist review. | Commit: `Add docs deploy checklist`
 - T100 | Version: v0.10.11 | Status: pending | Goal: Add CDN verification checklist for jsDelivr. | Verify: checklist review. | Commit: `Add CDN verification checklist`
 - T101 | Version: v0.10.12 | Status: pending | Goal: Add browser console error audit checklist. | Verify: browser checklist. | Commit: `Add browser console audit checklist`
 - T102 | Version: v0.10.13 | Status: pending | Goal: Add accessibility smoke checklist for docs controls. | Verify: browser checklist. | Commit: `Add docs accessibility checklist`
