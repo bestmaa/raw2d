@@ -9,6 +9,7 @@ test("raw2d-canvas runtime exports match the audited public surface", () => {
 test("raw2d-canvas exposes renderer tools without owning core objects", () => {
   assert.equal(typeof CanvasPackage.Canvas, "function");
   assert.equal(typeof CanvasPackage.CanvasRenderer, "function");
+  assert.equal(CanvasPackage.Canvas, CanvasPackage.CanvasRenderer);
   assert.equal(typeof CanvasPackage.CanvasObjectRenderer, "function");
   assert.equal(typeof CanvasPackage.drawRect, "function");
   assert.equal(CanvasPackage.Scene, undefined);

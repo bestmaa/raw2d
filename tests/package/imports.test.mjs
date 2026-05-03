@@ -31,6 +31,10 @@ test("umbrella package runtime exports match the audited public surface", () => 
   assert.deepEqual(Object.keys(Raw2D).sort(), getExpectedUmbrellaRuntimeExports());
 });
 
+test("umbrella package keeps Canvas as a compatibility alias", () => {
+  assert.equal(Raw2D.Canvas, Raw2D.CanvasRenderer);
+});
+
 test("umbrella package keeps renderer internals out of runtime API", () => {
   assert.equal(Raw2D.CanvasObjectRenderer, undefined);
   assert.equal(Raw2D.WebGLFloatBuffer, undefined);

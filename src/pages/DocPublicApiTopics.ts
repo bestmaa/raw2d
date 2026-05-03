@@ -45,6 +45,13 @@ const renderer = new CanvasRenderer({ canvas: canvasElement });
 const webgl = new WebGLRenderer2D({ canvas: canvasElement });`
       },
       {
+        title: "Compatibility Alias",
+        body: "Canvas is the compatibility alias for CanvasRenderer. Keep it in existing code; prefer CanvasRenderer in new renderer-focused docs.",
+        code: `import { Canvas, CanvasRenderer } from "raw2d";
+
+console.log(Canvas === CanvasRenderer); // true`
+      },
+      {
         title: "WebGL Package Boundary",
         body: "raw2d-webgl exports WebGLRenderer2D plus batcher, buffer, texture-cache, and diagnostics helpers for engine-level tools.",
         code: `import {
