@@ -9,6 +9,7 @@ export function createDocPager(topic: DocTopic, language: DocLanguage, onSelect:
   const next = index >= 0 && index < topics.length - 1 ? topics[index + 1] : null;
 
   footer.className = "doc-pager";
+  footer.setAttribute("aria-label", "Topic navigation");
 
   if (previous) {
     footer.append(createPagerButton(previous, getDocUiText(language).previous, language, onSelect));
@@ -28,6 +29,7 @@ function createPagerButton(topic: DocTopic, eyebrow: string, language: DocLangua
 
   button.type = "button";
   button.className = "doc-pager-button";
+  button.setAttribute("aria-label", `${eyebrow}: ${translateTopic(topic, language).label}`);
   small.textContent = eyebrow;
   label.textContent = translateTopic(topic, language).label;
   button.append(small, label);
