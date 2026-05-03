@@ -200,6 +200,19 @@
   letter-spacing: 0;
 }
 
+.doc-code-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 8px 0 -4px;
+}
+
+.doc-copy-code {
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  background: #102031;
+  color: #e6f6ff;
+  cursor: pointer;
+}
+
 @media (max-width: 1040px) {
   .doc-topic-layout {
     grid-template-columns: minmax(0, 1fr) 380px;

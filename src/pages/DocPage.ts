@@ -1,4 +1,5 @@
 import type { DocLanguage, DocSection, DocTopic } from "./DocPage.type";
+import { createCodeBlock } from "./DocCodeBlock";
 import { createDemoForId, hasDemoId } from "./DocDemos";
 import { getDocUiText, translateTopic } from "./DocI18n";
 import { getLiveExampleCode } from "./DocLiveExampleCode";
@@ -190,20 +191,6 @@ function createSection(
   }
 
   return article;
-}
-
-function createCodeBlock(code: string, language: DocLanguage): HTMLElement {
-  const details = document.createElement("details");
-  const summary = document.createElement("summary");
-  const pre = document.createElement("pre");
-  const codeElement = document.createElement("code");
-
-  details.className = "doc-code-toggle";
-  summary.textContent = getDocUiText(language).code;
-  codeElement.textContent = code;
-  pre.append(codeElement);
-  details.append(summary, pre);
-  return details;
 }
 
 function createLiveCheckButton(
