@@ -42,6 +42,7 @@ jobs:
           npm publish --workspace raw2d-effects --access public
           npm publish --workspace raw2d-interaction --access public
           npm publish --workspace raw2d-mcp --access public
+          npm publish --workspace raw2d-react --access public
           npm publish --workspace raw2d --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

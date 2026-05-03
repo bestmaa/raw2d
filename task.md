@@ -186,7 +186,7 @@ Push only on phase release tasks or explicit user request.
 
 - T081 | Version: v0.9.0 | Status: completed | Goal: Define React package goals without changing core API. | Verify: design doc. | Commit: `Design Raw2D React package`
 - T082 | Version: v0.9.1 | Status: completed | Goal: Design JSX mapping for scene, camera, renderer, and objects. | Verify: docs review. | Commit: `Design Raw2D JSX mapping`
-- T083 | Version: v0.9.2 | Status: pending | Goal: Create `raw2d-react` package scaffold. | Verify: build and pack check. | Commit: `Scaffold Raw2D React package`
+- T083 | Version: v0.9.2 | Status: completed | Goal: Create `raw2d-react` package scaffold. | Verify: build and pack check. | Commit: `Scaffold Raw2D React package`
 - T084 | Version: v0.9.3 | Status: pending | Goal: Add `<Raw2DCanvas>` component. | Verify: React example. | Commit: `Add Raw2DCanvas component`
 - T085 | Version: v0.9.4 | Status: pending | Goal: Add JSX primitives for Rect, Circle, Line, Sprite, and Text2D. | Verify: React example. | Commit: `Add Raw2D JSX primitives`
 - T086 | Version: v0.9.5 | Status: pending | Goal: Add React docs and examples. | Verify: browser example. | Commit: `Document Raw2D React package`

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import * as Effects from "raw2d-effects";
 import * as Interaction from "raw2d-interaction";
+import * as ReactBridge from "raw2d-react";
 import * as Sprite from "raw2d-sprite";
 import * as Text from "raw2d-text";
 
@@ -56,4 +57,10 @@ test("raw2d-interaction runtime exports match the audited public surface", () =>
 
 test("raw2d-effects is intentionally empty for now", () => {
   assert.deepEqual(Object.keys(Effects), []);
+});
+
+test("raw2d-react exposes scaffold metadata only for now", () => {
+  assert.deepEqual(Object.keys(ReactBridge).sort(), ["RAW2D_REACT_PACKAGE_INFO"].sort());
+  assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.packageName, "raw2d-react");
+  assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.changesCoreApi, false);
 });
