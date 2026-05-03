@@ -70,7 +70,7 @@ Push only on phase release tasks or explicit user request.
 - T130 | Version: v1.2.8 | Status: completed | Goal: Add MCP scene JSON example. | Verify: MCP generated example builds. | Commit: `Add MCP example`
 - T131 | Version: v1.2.9 | Status: completed | Goal: Add examples README with install/run instructions. | Verify: README review. | Commit: `Document examples`
 - T132 | Version: v1.2.10 | Status: completed | Goal: Add browser smoke tests for all examples. | Verify: examples tests pass. | Commit: `Test examples routes`
-- T133 | Version: v1.2.11 | Status: pending | Goal: Phase 10 release and publish. | Verify: phase release verification. | Commit: `Release examples phase`
+- T133 | Version: v1.2.11 | Status: completed | Goal: Phase 10 release and publish. | Verify: phase release verification. | Commit: `Release examples phase`
 
 ## Phase 11: Docs Product Polish
 

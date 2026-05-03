@@ -1,5 +1,32 @@
 # Raw2D Release Notes
 
+## v1.2.11 - Product Examples Phase
+
+Raw2D v1.2.11 publishes the product-quality examples phase.
+
+### Added
+
+- Examples index and shared example styling.
+- Canvas basic scene with shapes, text, animation, and stats.
+- WebGL sprite batching example with texture sorting diagnostics.
+- Texture atlas example with packed sprite frames.
+- Interaction example for selection, drag, and Rect resize.
+- Camera controls example for pointer pan and wheel zoom.
+- ShapePath Canvas/WebGL comparison example.
+- React bridge example for `raw2d-react`.
+- MCP scene JSON example for `raw2d-mcp`.
+- Examples README with install, route, package import, and verification instructions.
+- Route coverage tests for all example folders.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+- React and MCP install smoke checks.
+
 ## v1.1.10 - Post-Release Consumer Audit Phase
 
 Raw2D v1.1.10 publishes the post-release audit hardening phase for real npm users.
