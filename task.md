@@ -135,7 +135,7 @@ Push only on phase release tasks or explicit user request.
 
 ### Phase 4: Performance Benchmark
 
-- T041 | Version: v0.6.0 | Status: pending | Goal: Create benchmark page route. | Verify: route loads in browser. | Commit: `Add benchmark page route`
+- T041 | Version: v0.6.0 | Status: completed | Goal: Create benchmark page route. | Verify: route loads in browser. | Commit: `Add benchmark page route`
 - T042 | Version: v0.6.1 | Status: pending | Goal: Add Canvas benchmark panel. | Verify: Canvas loop visible. | Commit: `Add Canvas benchmark panel`
 - T043 | Version: v0.6.2 | Status: pending | Goal: Add WebGL benchmark panel. | Verify: WebGL loop visible. | Commit: `Add WebGL benchmark panel`
 - T044 | Version: v0.6.3 | Status: pending | Goal: Add object count slider and object type selector. | Verify: controls update scene. | Commit: `Add benchmark object controls`
