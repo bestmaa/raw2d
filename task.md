@@ -90,7 +90,7 @@ Push only on phase release tasks or explicit user request.
 - T002 | Version: v0.3.1 | Status: completed | Goal: Audit all public exports in `raw2d-core`. | Verify: focused package import test. | Commit: `Audit core public exports`
 - T003 | Version: v0.3.2 | Status: completed | Goal: Audit all public exports in `raw2d-canvas`. | Verify: Canvas example in browser. | Commit: `Audit canvas public exports`
 - T004 | Version: v0.3.3 | Status: completed | Goal: Audit all public exports in `raw2d-webgl`. | Verify: WebGL example in browser. | Commit: `Audit webgl public exports`
-- T005 | Version: v0.3.4 | Status: pending | Goal: Audit `raw2d-sprite`, `raw2d-text`, `raw2d-effects`, and `raw2d-interaction` exports. | Verify: focused package imports. | Commit: `Audit focused package exports`
+- T005 | Version: v0.3.4 | Status: completed | Goal: Audit `raw2d-sprite`, `raw2d-text`, `raw2d-effects`, and `raw2d-interaction` exports. | Verify: focused package imports. | Commit: `Audit focused package exports`
 - T006 | Version: v0.3.5 | Status: pending | Goal: Finalize renderer naming for `Canvas`, `CanvasRenderer`, and `WebGLRenderer2D`. | Verify: docs and examples use final names. | Commit: `Stabilize renderer naming`
 - T007 | Version: v0.3.6 | Status: pending | Goal: Add compatibility aliases only where they reduce breaking changes. | Verify: old and new imports work. | Commit: `Add renderer compatibility aliases`
 - T008 | Version: v0.3.7 | Status: pending | Goal: Freeze object, material, texture, atlas, and interaction option names. | Verify: API docs and type tests. | Commit: `Freeze public option names`

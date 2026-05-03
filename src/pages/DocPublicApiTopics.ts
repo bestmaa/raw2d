@@ -48,6 +48,13 @@ renderer.render(scene, camera);`
 const renderer = new WebGLRenderer2D({ canvas: canvasElement });`
       },
       {
+        title: "Feature Package Boundary",
+        body: "Sprite, text, and interaction packages are focused public surfaces. raw2d-effects is reserved and intentionally empty for now.",
+        code: `import { Sprite, TextureLoader } from "raw2d-sprite";
+import { Text2D } from "raw2d-text";
+import { InteractionController } from "raw2d-interaction";`
+      },
+      {
         title: "Umbrella Runtime Boundary",
         body: "The umbrella runtime exports are audited by tests. App-level classes stay available here, while Canvas/WebGL implementation internals stay out.",
         code: `// Available from raw2d:
