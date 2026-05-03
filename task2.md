@@ -64,7 +64,7 @@ Push only on phase release tasks or explicit user request.
 - T124 | Version: v1.2.2 | Status: completed | Goal: Add WebGL sprite batching example. | Verify: WebGL visual/stats check. | Commit: `Add WebGL sprite example`
 - T125 | Version: v1.2.3 | Status: completed | Goal: Add texture atlas example. | Verify: atlas sprites render. | Commit: `Add texture atlas example`
 - T126 | Version: v1.2.4 | Status: completed | Goal: Add interaction select/drag/resize example. | Verify: browser interaction check. | Commit: `Add interaction example`
-- T127 | Version: v1.2.5 | Status: pending | Goal: Add camera pan/zoom example. | Verify: browser interaction check. | Commit: `Add camera controls example`
+- T127 | Version: v1.2.5 | Status: completed | Goal: Add camera pan/zoom example. | Verify: browser interaction check. | Commit: `Add camera controls example`
 - T128 | Version: v1.2.6 | Status: pending | Goal: Add ShapePath/advanced drawing example. | Verify: Canvas and WebGL comparison. | Commit: `Add shape path example`
 - T129 | Version: v1.2.7 | Status: pending | Goal: Add React example app. | Verify: React build and browser check. | Commit: `Add React example app`
 - T130 | Version: v1.2.8 | Status: pending | Goal: Add MCP scene JSON example. | Verify: MCP generated example builds. | Commit: `Add MCP example`

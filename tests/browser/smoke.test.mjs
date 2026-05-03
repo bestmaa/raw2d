@@ -106,6 +106,7 @@ function getHtmlRoutes() {
     "/examples/webgl-basic/",
     "/examples/sprite-atlas/",
     "/examples/interaction-basic/",
+    "/examples/camera-controls/",
     "/examples/mcp-scene/",
     "/examples/react-basic/",
     "/examples/text-basic/"
@@ -121,6 +122,7 @@ function getModuleRoutes() {
     "/examples/webgl-basic/main.ts",
     "/examples/sprite-atlas/main.ts",
     "/examples/interaction-basic/main.ts",
+    "/examples/camera-controls/main.ts",
     "/examples/mcp-scene/main.ts",
     "/examples/react-basic/main.ts",
     "/examples/text-basic/main.ts"
