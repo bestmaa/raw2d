@@ -15,6 +15,7 @@ import { licenseTopics } from "./DocLicenseTopics";
 import { mcpTopics } from "./DocMcpTopics";
 import { migrationTopics } from "./DocMigrationTopics";
 import { pluginTopics } from "./DocPluginTopics";
+import { publishTopics } from "./DocPublishTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
 import { docQaChecklistTopics } from "./DocQAChecklistTopics";
 import { objectTopics } from "./DocObjectTopics";
@@ -58,6 +59,7 @@ export const docGroups: readonly DocGroup[] = [
       ...publicApiTopics,
       ...migrationTopics,
       ...releaseTopics,
+      ...publishTopics,
       ...canvasQATopics,
       ...exampleTopics,
       ...docQaChecklistTopics,
