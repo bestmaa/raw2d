@@ -104,3 +104,13 @@ const styledScene = updateRaw2DObjectMaterial({
 ```
 
 Material patches merge with existing material data so small updates do not erase other style fields.
+
+## Inspect Scene
+
+```ts
+import { inspectRaw2DScene } from "raw2d-mcp";
+
+const inspection = inspectRaw2DScene({ document: styledScene });
+```
+
+Inspection returns object counts, type counts, texture/text flags, and renderer hints. It does not build Raw2D objects or draw anything.
