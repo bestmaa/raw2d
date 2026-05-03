@@ -49,7 +49,7 @@ Push only on phase release tasks or explicit user request.
 - T112 | Version: v1.1.1 | Status: completed | Goal: Add automated fresh install smoke for umbrella package. | Verify: generated app builds. | Commit: `Add umbrella install smoke`
 - T113 | Version: v1.1.2 | Status: completed | Goal: Add focused package install smoke for core/canvas/webgl/sprite/text. | Verify: generated app builds. | Commit: `Add focused package install smoke`
 - T114 | Version: v1.1.3 | Status: completed | Goal: Add `raw2d-mcp` separate install smoke. | Verify: MCP import works outside umbrella. | Commit: `Add MCP install smoke`
-- T115 | Version: v1.1.4 | Status: pending | Goal: Add `raw2d-react` separate install smoke. | Verify: React consumer app builds. | Commit: `Add React install smoke`
+- T115 | Version: v1.1.4 | Status: completed | Goal: Add `raw2d-react` separate install smoke. | Verify: React consumer app builds. | Commit: `Add React install smoke`
 - T116 | Version: v1.1.5 | Status: pending | Goal: Verify published npm README snippets compile in a temp app. | Verify: snippet test. | Commit: `Test README snippets`
 - T117 | Version: v1.1.6 | Status: pending | Goal: Verify docs Canvas snippets compile in a temp app. | Verify: snippet test. | Commit: `Test Canvas docs snippets`
 - T118 | Version: v1.1.7 | Status: pending | Goal: Verify docs WebGL snippets compile in a temp app. | Verify: snippet test. | Commit: `Test WebGL docs snippets`

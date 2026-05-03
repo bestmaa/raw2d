@@ -1,6 +1,6 @@
 {
   "name": "raw2d-canvas",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Canvas renderer package for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,9 +24,9 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "raw2d-core": "1.1.3",
-    "raw2d-sprite": "1.1.3",
-    "raw2d-text": "1.1.3"
+    "raw2d-core": "1.1.4",
+    "raw2d-sprite": "1.1.4",
+    "raw2d-text": "1.1.4"
   },
   "author": "Aditya Nandlal",
   "license": "Apache-2.0",
