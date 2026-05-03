@@ -128,3 +128,17 @@ if (!result.valid) {
 ```
 
 Validation accepts unknown JSON and returns path-based errors. It does not throw for bad scene data.
+
+## Generate Canvas And WebGL Examples
+
+```ts
+import { generateRaw2DCanvasExample, generateRaw2DWebGLExample } from "raw2d-mcp";
+
+const canvasExample = generateRaw2DCanvasExample({ document: styledScene });
+const webglExample = generateRaw2DWebGLExample({ document: styledScene });
+
+console.log(canvasExample.code);
+console.log(webglExample.code);
+```
+
+Generated examples import from `raw2d`, create a canvas renderer, rebuild scene objects, and call `renderer.render(scene, camera)`.

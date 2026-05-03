@@ -158,7 +158,7 @@ Push only on phase release tasks or explicit user request.
 - T058 | Version: v0.7.5 | Status: completed | Goal: Add MCP tool to update material. | Verify: MCP unit test. | Commit: `Add MCP material tool`
 - T059 | Version: v0.7.6 | Status: completed | Goal: Add MCP tool to inspect scene. | Verify: MCP unit test. | Commit: `Add MCP scene inspection tool`
 - T060 | Version: v0.7.7 | Status: completed | Goal: Add MCP tool to validate scene. | Verify: invalid scene test. | Commit: `Add MCP scene validation tool`
-- T061 | Version: v0.7.8 | Status: pending | Goal: Add MCP tools to generate Canvas and WebGL examples. | Verify: generated examples build. | Commit: `Add MCP example generation tools`
+- T061 | Version: v0.7.8 | Status: completed | Goal: Add MCP tools to generate Canvas and WebGL examples. | Verify: generated examples build. | Commit: `Add MCP example generation tools`
 - T062 | Version: v0.7.9 | Status: pending | Goal: Add MCP tool to generate docs snippets. | Verify: docs snippet test. | Commit: `Add MCP docs snippet tool`
 - T063 | Version: v0.7.10 | Status: pending | Goal: Add MCP tool to run visual tests. | Verify: visual test command. | Commit: `Add MCP visual test tool`
 - T064 | Version: v0.7.11 | Status: pending | Goal: Add MCP package export audit tool. | Verify: audit output. | Commit: `Add MCP export audit tool`
