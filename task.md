@@ -177,7 +177,7 @@ Push only on phase release tasks or explicit user request.
 - T074 | Version: v0.8.6 | Status: completed | Goal: Add plugin command to scaffold a Raw2D app. | Verify: generated app builds. | Commit: `Add Raw2D app scaffold command`
 - T075 | Version: v0.8.7 | Status: completed | Goal: Add plugin command to create examples. | Verify: generated example loads. | Commit: `Add Raw2D example command`
 - T076 | Version: v0.8.8 | Status: completed | Goal: Add plugin command to run docs QA. | Verify: command output. | Commit: `Add Raw2D docs QA command`
-- T077 | Version: v0.8.9 | Status: pending | Goal: Add plugin command to run visual pixel tests. | Verify: command output. | Commit: `Add Raw2D visual test command`
+- T077 | Version: v0.8.9 | Status: completed | Goal: Add plugin command to run visual pixel tests. | Verify: command output. | Commit: `Add Raw2D visual test command`
 - T078 | Version: v0.8.10 | Status: pending | Goal: Add plugin command to explain renderer stats. | Verify: command output. | Commit: `Add renderer stats explanation command`
 - T079 | Version: v0.8.11 | Status: pending | Goal: Add plugin README, docs page, and test workflow. | Verify: docs and workflow. | Commit: `Document Raw2D Codex plugin`
 - T080 | Version: v0.8.12 | Status: pending | Goal: Phase 6 release and publish. | Verify: phase release verification. | Commit: `Release plugin and skills phase`

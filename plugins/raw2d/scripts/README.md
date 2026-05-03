@@ -7,10 +7,10 @@ Available scripts:
 - app scaffold command
 - example generator command
 - docs QA command
+- visual pixel test command
 
 Planned scripts:
 
-- visual pixel test command
 - renderer stats explanation command
 
 ## App Scaffold
@@ -36,3 +36,12 @@ node plugins/raw2d/scripts/run-docs-qa.mjs --json
 ```
 
 Checks English/Hinglish doc pairs, TODO placeholders, and required public docs files.
+
+## Visual Pixel Tests
+
+```bash
+node plugins/raw2d/scripts/run-visual-pixel-tests.mjs --dry-run --json
+node plugins/raw2d/scripts/run-visual-pixel-tests.mjs
+```
+
+Runs the deterministic WebGL visual regression test entry.
