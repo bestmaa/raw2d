@@ -8,6 +8,7 @@ const packageNames = [
   "raw2d-core",
   "raw2d-effects",
   "raw2d-interaction",
+  "raw2d-mcp",
   "raw2d",
   "raw2d-sprite",
   "raw2d-text",

@@ -1,7 +1,7 @@
 {
   "name": "raw2d-workspace",
   "private": true,
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
   "type": "module",
   "workspaces": [
@@ -11,7 +11,7 @@
     "dev": "npm run build:packages && vite --host 0.0.0.0 --port 5174",
     "build": "npm run typecheck && npm run build:packages",
     "build:docs": "npm run typecheck && node scripts/clean-dist.mjs && vite build --config vite.docs.config.ts",
-    "build:packages": "npm run build --workspace raw2d-core && npm run build --workspace raw2d-interaction && npm run build --workspace raw2d-text && npm run build --workspace raw2d-sprite && npm run build --workspace raw2d-canvas && npm run build --workspace raw2d-webgl && npm run build --workspace raw2d-effects && npm run build --workspace raw2d",
+    "build:packages": "npm run build --workspace raw2d-core && npm run build --workspace raw2d-interaction && npm run build --workspace raw2d-text && npm run build --workspace raw2d-sprite && npm run build --workspace raw2d-canvas && npm run build --workspace raw2d-webgl && npm run build --workspace raw2d-effects && npm run build --workspace raw2d-mcp && npm run build --workspace raw2d",
     "preview": "vite preview --host 0.0.0.0 --port 4174",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
