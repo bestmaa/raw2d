@@ -98,6 +98,7 @@ function getHtmlRoutes() {
     "/",
     "/doc",
     "/readme",
+    "/benchmark",
     "/visual-test",
     "/examples/canvas-basic/",
     "/examples/webgl-basic/",
@@ -110,6 +111,7 @@ function getHtmlRoutes() {
 function getModuleRoutes() {
   return [
     "/src/main.ts",
+    "/src/pages/BenchmarkPage.ts",
     "/examples/canvas-basic/main.ts",
     "/examples/webgl-basic/main.ts",
     "/examples/sprite-atlas/main.ts",
