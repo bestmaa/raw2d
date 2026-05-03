@@ -2,6 +2,7 @@ import { boundsTopics } from "./DocBoundsTopics";
 import { beginnerPathTopics } from "./DocBeginnerPathTopics";
 import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
+import { canvasQATopics } from "./DocCanvasQATopics";
 import { coreTopics } from "./DocCoreTopics";
 import { curveTopics } from "./DocCurveTopics";
 import { exampleTopics } from "./DocExamplesTopics";
@@ -55,6 +56,7 @@ export const docGroups: readonly DocGroup[] = [
       ...publicApiTopics,
       ...migrationTopics,
       ...releaseTopics,
+      ...canvasQATopics,
       ...exampleTopics,
       ...docQaChecklistTopics,
       ...licenseTopics
