@@ -1,4 +1,5 @@
 import type { DocTopic } from "./DocPage.type";
+import { fullInteractionPathExample } from "./DocAdvancedFullExamples";
 
 export const interactionPathTopics: readonly DocTopic[] = [
   {
@@ -60,6 +61,12 @@ interaction.attachSelection({ drag: true, resize: true });`
   fastMoveStep: 20,
   onChange: () => renderer.render(scene, camera)
 });`
+      },
+      {
+        title: "Full Interaction Code",
+        body: "Complete setup for one draggable and resizable Rect.",
+        liveDemoId: "interaction-controller",
+        code: fullInteractionPathExample
       }
     ]
   }

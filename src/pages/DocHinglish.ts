@@ -118,6 +118,9 @@ const titleCopy = new Map<string, string>([
   ["Package Smoke Tests", "Package smoke tests"],
   ["Full Render Example", "Full render example"],
   ["Full ShapePath Code", "Full ShapePath code"],
+  ["Full TextureAtlas Code", "Full TextureAtlas code"],
+  ["Full WebGL Code", "Full WebGL code"],
+  ["Full Interaction Code", "Full Interaction code"],
   ["Parameters", "Parameters"],
   ["Current Scope", "Current scope"],
   ["Supported Objects", "Supported objects"],
@@ -196,7 +199,10 @@ const bodyCopy = new Map<string, string>([
   ["Flatten For Renderers", "Curves ko points me convert karke renderer ya tool geometry use kar sakta hai."],
   ["Plugin Style", "Interaction logic core aur renderer se alag rahega, taaki future tools clean modules me ban sakein."],
   ["Current Scope", "Abhi scope simple rakha gaya hai. Advanced behavior baad me focused modules ke through add hoga."],
-  ["Parameters", "Ye values object create karte waqt pass ki ja sakti hain."]
+  ["Parameters", "Ye values object create karte waqt pass ki ja sakti hain."],
+  ["Full TextureAtlas Code", "Canvas element se rendered atlas frame tak ka complete setup."],
+  ["Full WebGL Code", "WebGL ko prefer karte hue Canvas fallback ke saath complete setup."],
+  ["Full Interaction Code", "Ek draggable aur resizable Rect ke liye complete setup."]
 ]);
 
 export function createHinglishTopic(topic: DocTopic): DocTopic {

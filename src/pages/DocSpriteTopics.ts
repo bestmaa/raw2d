@@ -1,4 +1,5 @@
 import type { DocTopic } from "./DocPage.type";
+import { fullTextureAtlasExample } from "./DocAdvancedFullExamples";
 import { fullSpriteExample, fullTextureExample } from "./DocFullExamples";
 
 export const spriteTopics: readonly DocTopic[] = [
@@ -131,6 +132,12 @@ console.log(webglRenderer.getStats().textures);
   maxWidth: 1024,
   maxHeight: 1024
 }).pack(items);`
+      },
+      {
+        title: "Full TextureAtlas Code",
+        body: "Complete setup from canvas element to rendered atlas frame.",
+        liveDemoId: "texture-atlas",
+        code: fullTextureAtlasExample
       }
     ]
   },

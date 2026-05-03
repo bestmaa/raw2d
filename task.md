@@ -111,7 +111,7 @@ Push only on phase release tasks or explicit user request.
 - T020 | Version: v0.4.7 | Status: completed | Goal: Add previous and next topic buttons. | Verify: browser navigation. | Commit: `Add docs previous next navigation`
 - T021 | Version: v0.4.8 | Status: completed | Goal: Add topic progress indicator. | Verify: browser navigation. | Commit: `Add docs progress indicator`
 - T022 | Version: v0.4.9 | Status: completed | Goal: Add copy code button to code examples. | Verify: copy in browser. | Commit: `Add docs copy code buttons`
-- T023 | Version: v0.4.10 | Status: pending | Goal: Standardize small and full examples for shapes, materials, textures, WebGL, and interaction docs. | Verify: examples visible and correct. | Commit: `Standardize docs examples`
+- T023 | Version: v0.4.10 | Status: completed | Goal: Standardize small and full examples for shapes, materials, textures, WebGL, and interaction docs. | Verify: examples visible and correct. | Commit: `Standardize docs examples`
 - T024 | Version: v0.4.11 | Status: pending | Goal: Manually polish Hindi/Hinglish docs for install, Canvas, WebGL, and interaction. | Verify: language toggle in browser. | Commit: `Polish Hinglish docs`
 - T025 | Version: v0.4.12 | Status: pending | Goal: Add docs QA checklist page. | Verify: `/doc` route. | Commit: `Add docs QA checklist`
 - T026 | Version: v0.4.13 | Status: pending | Goal: Phase 2 release and publish. | Verify: phase release verification. | Commit: `Release docs polish phase`

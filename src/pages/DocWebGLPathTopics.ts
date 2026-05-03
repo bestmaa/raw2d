@@ -1,4 +1,5 @@
 import type { DocTopic } from "./DocPage.type";
+import { fullWebGLPathExample } from "./DocAdvancedFullExamples";
 
 export const webGLPathTopics: readonly DocTopic[] = [
   {
@@ -63,6 +64,12 @@ console.log(stats.spriteTextureBindReduction);`
   : new Canvas({ canvas: canvasElement });
 
 renderer.render(scene, camera);`
+      },
+      {
+        title: "Full WebGL Code",
+        body: "Complete setup with WebGL preferred and Canvas fallback kept in place.",
+        liveDemoId: "webgl-renderer",
+        code: fullWebGLPathExample
       }
     ]
   }
