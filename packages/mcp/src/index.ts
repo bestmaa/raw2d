@@ -1,4 +1,5 @@
 export { addRaw2DSceneObject } from "./addRaw2DSceneObject.js";
+export { auditRaw2DPackageExports } from "./auditRaw2DPackageExports.js";
 export { createRaw2DSceneJson } from "./createRaw2DSceneJson.js";
 export { createRaw2DVisualCheckPlan } from "./createRaw2DVisualCheckPlan.js";
 export { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
@@ -10,6 +11,12 @@ export { updateRaw2DObjectMaterial } from "./updateRaw2DObjectMaterial.js";
 export { updateRaw2DObjectTransform } from "./updateRaw2DObjectTransform.js";
 export { validateRaw2DScene } from "./validateRaw2DScene.js";
 export type { AddRaw2DSceneObjectOptions } from "./addRaw2DSceneObject.js";
+export type {
+  AuditRaw2DPackageExportsOptions,
+  Raw2DMcpExportAuditIssue,
+  Raw2DMcpExportAuditResult,
+  Raw2DMcpPackageManifestJson
+} from "./auditRaw2DPackageExports.type.js";
 export type { Raw2DMcpManifest, Raw2DMcpToolDefinition } from "./Raw2DMcpManifest.type.js";
 export type {
   CreateRaw2DSceneJsonOptions,

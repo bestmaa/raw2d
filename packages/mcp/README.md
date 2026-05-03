@@ -172,3 +172,15 @@ for (const command of plan.commands) {
 ```
 
 The MCP package returns explicit commands instead of controlling a browser internally. Agents can display the plan, ask for confirmation, then run the commands in the Raw2D repo.
+
+## Audit Package Exports
+
+```ts
+import { auditRaw2DPackageExports } from "raw2d-mcp";
+
+const result = auditRaw2DPackageExports({
+  packages: [packageManifestJson]
+});
+```
+
+The audit checks Raw2D package export-map conventions and returns structured issues for agents to report or fix.
