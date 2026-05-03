@@ -18,6 +18,7 @@ import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
 import { publicApiTopics } from "./DocPublicApiTopics";
+import { reactTopics } from "./DocReactTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { rendererTopics } from "./DocRendererTopics";
 import { rendererChoiceTopics } from "./DocRendererChoiceTopics";
@@ -106,6 +107,12 @@ export const docGroups: readonly DocGroup[] = [
     label: "AI Tools",
     hiLabel: "AI Tools",
     topics: [...mcpTopics, ...pluginTopics]
+  },
+  {
+    id: "react-later",
+    label: "React Later",
+    hiLabel: "React Later",
+    topics: [...reactTopics]
   }
 ];
 

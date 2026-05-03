@@ -46,7 +46,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 Use the CDN build without a bundler:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.8.12/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.9.0/dist/raw2d.umd.cjs"></script>
 ```
 
 ```ts
