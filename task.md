@@ -87,7 +87,7 @@ Push only on phase release tasks or explicit user request.
 ### Phase 1: API Stabilization
 
 - T001 | Version: v0.3.0 | Status: completed | Goal: Audit all public exports in `raw2d` umbrella package. | Verify: export audit test, consumer import, browser docs. | Commit: `Audit umbrella public exports`
-- T002 | Version: v0.3.1 | Status: pending | Goal: Audit all public exports in `raw2d-core`. | Verify: focused package import test. | Commit: `Audit core public exports`
+- T002 | Version: v0.3.1 | Status: completed | Goal: Audit all public exports in `raw2d-core`. | Verify: focused package import test. | Commit: `Audit core public exports`
 - T003 | Version: v0.3.2 | Status: pending | Goal: Audit all public exports in `raw2d-canvas`. | Verify: Canvas example in browser. | Commit: `Audit canvas public exports`
 - T004 | Version: v0.3.3 | Status: pending | Goal: Audit all public exports in `raw2d-webgl`. | Verify: WebGL example in browser. | Commit: `Audit webgl public exports`
 - T005 | Version: v0.3.4 | Status: pending | Goal: Audit `raw2d-sprite`, `raw2d-text`, `raw2d-effects`, and `raw2d-interaction` exports. | Verify: focused package imports. | Commit: `Audit focused package exports`

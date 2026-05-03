@@ -21,7 +21,7 @@ export const publicApiTopics: readonly DocTopic[] = [
       },
       {
         title: "Focused Packages",
-        body: "Install focused packages when you want tighter bundle control or lower-level renderer tools.",
+        body: "Install focused packages when you want tighter bundle control or lower-level renderer tools. raw2d-core has its own audited public surface.",
         code: `import { Rect, Scene } from "raw2d-core";
 import { Canvas } from "raw2d-canvas";
 import { WebGLRenderer2D } from "raw2d-webgl";
