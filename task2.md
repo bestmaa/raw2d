@@ -51,7 +51,7 @@ Push only on phase release tasks or explicit user request.
 - T114 | Version: v1.1.3 | Status: completed | Goal: Add `raw2d-mcp` separate install smoke. | Verify: MCP import works outside umbrella. | Commit: `Add MCP install smoke`
 - T115 | Version: v1.1.4 | Status: completed | Goal: Add `raw2d-react` separate install smoke. | Verify: React consumer app builds. | Commit: `Add React install smoke`
 - T116 | Version: v1.1.5 | Status: completed | Goal: Verify published npm README snippets compile in a temp app. | Verify: snippet test. | Commit: `Test README snippets`
-- T117 | Version: v1.1.6 | Status: pending | Goal: Verify docs Canvas snippets compile in a temp app. | Verify: snippet test. | Commit: `Test Canvas docs snippets`
+- T117 | Version: v1.1.6 | Status: completed | Goal: Verify docs Canvas snippets compile in a temp app. | Verify: snippet test. | Commit: `Test Canvas docs snippets`
 - T118 | Version: v1.1.7 | Status: pending | Goal: Verify docs WebGL snippets compile in a temp app. | Verify: snippet test. | Commit: `Test WebGL docs snippets`
 - T119 | Version: v1.1.8 | Status: pending | Goal: Verify docs interaction snippets compile in a temp app. | Verify: snippet test. | Commit: `Test interaction docs snippets`
 - T120 | Version: v1.1.9 | Status: pending | Goal: Add post-release npm/CDN/browser audit report. | Verify: report review. | Commit: `Add post release audit report`
