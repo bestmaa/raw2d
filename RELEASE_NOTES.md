@@ -1,5 +1,30 @@
 # Raw2D Release Notes
 
+## v0.9.7 - React Package Phase
+
+Raw2D v0.9.7 publishes the first `raw2d-react` phase for React users.
+
+### Added
+
+- New `raw2d-react` package with isolated React bridge boundaries.
+- `<Raw2DCanvas>` component with explicit Canvas/WebGL renderer choice.
+- React primitives for `RawRect`, `RawCircle`, `RawLine`, `RawSprite`, and `RawText2D`.
+- React package docs, Hinglish docs, package README, and Vite React example.
+- External consumer test that installs `raw2d-react` in a generated Vite app and builds it.
+
+### Changed
+
+- Publish workflow now includes `raw2d-react`.
+- Package versions are aligned at `0.9.7`.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit test suite, including React consumer build.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+
 ## v0.8.12 - Codex Plugin And Skills Phase
 
 Raw2D v0.8.12 publishes the first repo-local Codex plugin phase for contributor automation.

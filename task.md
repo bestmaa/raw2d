@@ -191,7 +191,7 @@ Push only on phase release tasks or explicit user request.
 - T085 | Version: v0.9.4 | Status: completed | Goal: Add JSX primitives for Rect, Circle, Line, Sprite, and Text2D. | Verify: React example. | Commit: `Add Raw2D JSX primitives`
 - T086 | Version: v0.9.5 | Status: completed | Goal: Add React docs and examples. | Verify: browser example. | Commit: `Document Raw2D React package`
 - T087 | Version: v0.9.6 | Status: completed | Goal: Add React consumer tests. | Verify: consumer test. | Commit: `Test Raw2D React package`
-- T088 | Version: v0.9.7 | Status: pending | Goal: Phase 7 release and publish. | Verify: phase release verification. | Commit: `Release React package phase`
+- T088 | Version: v0.9.7 | Status: completed | Goal: Phase 7 release and publish. | Verify: phase release verification. | Commit: `Release React package phase`
 
 ### Phase 8: v1.0 Hardening
 
