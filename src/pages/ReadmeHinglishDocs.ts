@@ -16,6 +16,7 @@ import renderer2d from "../../docs/hi/Renderer2D.md?raw";
 import rendererParity from "../../docs/hi/RendererParity.md?raw";
 import rendererStats from "../../docs/hi/RendererStats.md?raw";
 import renderMode from "../../docs/hi/RenderMode.md?raw";
+import pipelineArchitecture from "../../docs/hi/PipelineArchitecture.md?raw";
 import renderPipeline from "../../docs/hi/RenderPipeline.md?raw";
 import webglAvailability from "../../docs/hi/WebGLAvailability.md?raw";
 import webglRenderer from "../../docs/hi/WebGLRenderer2D.md?raw";
@@ -71,6 +72,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "renderer-parity", label: "Renderer Parity", filename: "hi/RendererParity.md", content: rendererParity },
   { id: "renderer-stats", label: "Renderer Stats", filename: "hi/RendererStats.md", content: rendererStats },
   { id: "render-mode", label: "Render Mode", filename: "hi/RenderMode.md", content: renderMode },
+  { id: "pipeline-architecture", label: "Pipeline Architecture", filename: "hi/PipelineArchitecture.md", content: pipelineArchitecture },
   { id: "render-pipeline", label: "Render Pipeline", filename: "hi/RenderPipeline.md", content: renderPipeline },
   { id: "webgl-availability", label: "WebGL Availability", filename: "hi/WebGLAvailability.md", content: webglAvailability },
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "hi/WebGLRenderer2D.md", content: webglRenderer },

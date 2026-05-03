@@ -21,13 +21,13 @@ Raw2D is for developers who want:
 - WebGL2 batching without hiding too much
 - tooling-friendly APIs for editors, visual tools, and engine experiments
 
-The long-term pipeline should stay understandable:
+The public pipeline names should stay understandable and testable:
 
 ```text
-Scene -> RenderPipeline -> RenderRun -> Batcher -> Buffer -> DrawCall
+Scene -> RenderList -> Batcher -> Buffer -> Shader -> DrawCall
 ```
 
-Performance matters, but the project identity is control, modularity, and transparency.
+Performance matters, but the project identity is control, modularity, readable diagnostics, and transparent pipeline steps.
 
 ## Install
 
@@ -46,7 +46,7 @@ npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-in
 CDN usage:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.5.11/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.5.12/dist/raw2d.umd.cjs"></script>
 <script>
   const { BasicMaterial, Camera2D, Canvas, Rect, Scene } = Raw2D;
 </script>

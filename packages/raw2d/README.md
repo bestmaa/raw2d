@@ -19,6 +19,14 @@ The umbrella `raw2d` package keeps a stable app-level runtime API. Lower-level r
 
 The umbrella runtime export surface is audited by tests. App code should import common objects, materials, renderers, textures, and interaction controllers from `raw2d`; renderer internals should be imported from focused packages only when building engine-level tools.
 
+Pipeline architecture is intentionally explicit:
+
+```text
+Scene -> RenderList -> Batcher -> Buffer -> Shader -> DrawCall
+```
+
+Use `renderer.createRenderList(...)`, `renderer.getStats()`, and `renderer.getDiagnostics()` when building debugging tools or comparing Canvas and WebGL behavior.
+
 Use `CanvasRenderer` when you want explicit renderer naming next to `WebGLRenderer2D`. The shorter `Canvas` name remains available for existing examples and compatibility.
 
 Raw2D treats documented exports, constructor option names, and renderer lifecycle methods as stable public API. Deprecations should add a compatibility alias first, then update docs, examples, and tests before any removal.
@@ -38,7 +46,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 Use the CDN build without a bundler:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.5.11/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.5.12/dist/raw2d.umd.cjs"></script>
 ```
 
 ```ts

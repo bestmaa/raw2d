@@ -29,6 +29,7 @@ import renderer2d from "../../docs/Renderer2D.md?raw";
 import rendererParity from "../../docs/RendererParity.md?raw";
 import rendererStats from "../../docs/RendererStats.md?raw";
 import renderMode from "../../docs/RenderMode.md?raw";
+import pipelineArchitecture from "../../docs/PipelineArchitecture.md?raw";
 import renderPipeline from "../../docs/RenderPipeline.md?raw";
 import resizeHandles from "../../docs/ResizeHandles.md?raw";
 import scene from "../../docs/Scene.md?raw";
@@ -71,6 +72,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "renderer-parity", label: "Renderer Parity", filename: "RendererParity.md", content: rendererParity },
   { id: "renderer-stats", label: "Renderer Stats", filename: "RendererStats.md", content: rendererStats },
   { id: "render-mode", label: "Render Mode", filename: "RenderMode.md", content: renderMode },
+  { id: "pipeline-architecture", label: "Pipeline Architecture", filename: "PipelineArchitecture.md", content: pipelineArchitecture },
   { id: "render-pipeline", label: "Render Pipeline", filename: "RenderPipeline.md", content: renderPipeline },
   { id: "webgl-availability", label: "WebGL Availability", filename: "WebGLAvailability.md", content: webGLAvailability },
   { id: "webgl-renderer", label: "WebGLRenderer2D", filename: "WebGLRenderer2D.md", content: webGLRenderer2D },
