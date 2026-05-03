@@ -13,7 +13,7 @@ const tools: readonly Raw2DMcpToolDefinition[] = [
   { name: "raw2d_run_visual_check", description: "Describe the future visual check command boundary.", mutatesScene: false }
 ];
 
-export function createRaw2DMcpManifest(version = "0.9.0"): Raw2DMcpManifest {
+export function createRaw2DMcpManifest(version = "0.9.1"): Raw2DMcpManifest {
   return {
     name: "raw2d-mcp",
     version,

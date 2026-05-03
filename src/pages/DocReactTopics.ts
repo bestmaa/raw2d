@@ -61,5 +61,50 @@ Later:
 - advanced interaction helpers`
       }
     ]
+  },
+  {
+    id: "react-jsx-mapping",
+    label: "JSX Mapping",
+    title: "JSX Mapping",
+    description: "Map React JSX elements to Raw2D scene, camera, renderer, objects, and material rules.",
+    sections: [
+      {
+        title: "Renderer",
+        body: "Raw2DCanvas should own the canvas element and create the selected renderer explicitly.",
+        code: `<Raw2DCanvas renderer="canvas" width={800} height={480} />
+<Raw2DCanvas renderer="webgl" width={800} height={480} />`
+      },
+      {
+        title: "Scene And Camera",
+        body: "Scene and camera stay explicit so the React API teaches the same structure as the low-level Raw2D API.",
+        code: `<Raw2DCanvas renderer="webgl">
+  <rawScene>
+    <rawCamera x={0} y={0} zoom={1} />
+  </rawScene>
+</Raw2DCanvas>`
+      },
+      {
+        title: "Objects",
+        body: "Object tags should use a raw prefix to avoid HTML conflicts while staying close to class names.",
+        code: `<rawRect x={80} y={80} width={160} height={96} fillColor="#35c2ff" />
+<rawCircle x={320} y={130} radius={48} fillColor="#facc15" />
+<rawLine x={80} y={240} startX={0} startY={0} endX={260} endY={0} />
+<rawText2D x={80} y={320} text="Raw2D" font="32px sans-serif" />`
+      },
+      {
+        title: "Materials",
+        body: "The first bridge can create BasicMaterial from common style props. Advanced material objects can be added after the core JSX mapping is stable.",
+        code: `<rawRect
+  fillColor="#35c2ff"
+  strokeColor="#f5f7fb"
+  lineWidth={2}
+/>`
+      },
+      {
+        title: "Identity And Updates",
+        body: "React keys should map to stable Raw2D object instances. Prop updates should mutate public properties or call public methods only.",
+        code: `<rawRect key="card-a" x={80} y={80} width={160} height={96} />`
+      }
+    ]
   }
 ];
