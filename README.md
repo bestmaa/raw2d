@@ -38,8 +38,10 @@ npm install raw2d
 Focused packages are available for advanced users:
 
 ```bash
-npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-interaction raw2d-mcp
+npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-interaction raw2d-react raw2d-mcp
 ```
+
+Package split rule: app examples should import from `raw2d`, engine-builder examples may import focused packages, and all Raw2D packages are versioned together so releases stay easy to audit.
 
 CDN usage:
 
@@ -217,7 +219,6 @@ Rules that shape the codebase:
 - files stay small and focused
 
 ## Local Development
-
 ```bash
 npm install
 npm run dev

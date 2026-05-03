@@ -80,7 +80,7 @@ Push only on phase release tasks or explicit user request.
 - T137 | Version: v1.3.3 | Status: completed | Goal: Make every docs code block copy-paste friendly with package imports. | Verify: snippet tests. | Commit: `Polish docs imports`
 - T138 | Version: v1.3.4 | Status: completed | Goal: Add small/full example toggle consistency across docs. | Verify: browser visual check. | Commit: `Polish docs examples`
 - T139 | Version: v1.3.5 | Status: completed | Goal: Polish Hindi/Hinglish docs manually for natural wording. | Verify: language browser check. | Commit: `Polish Hinglish docs`
-- T140 | Version: v1.3.6 | Status: pending | Goal: Improve README and /readme route for v1 install and package split. | Verify: README route check. | Commit: `Polish v1 README`
+- T140 | Version: v1.3.6 | Status: completed | Goal: Improve README and /readme route for v1 install and package split. | Verify: README route check. | Commit: `Polish v1 README`
 - T141 | Version: v1.3.7 | Status: pending | Goal: Add Canvas vs WebGL decision guide with practical examples. | Verify: docs route check. | Commit: `Polish renderer guide`
 - T142 | Version: v1.3.8 | Status: pending | Goal: Add docs glossary for scene, renderer, batch, atlas, bounds, hit testing. | Verify: glossary route check. | Commit: `Add docs glossary`
 - T143 | Version: v1.3.9 | Status: pending | Goal: Add docs QA automation for dead links and missing topics. | Verify: QA test. | Commit: `Add docs link audit`

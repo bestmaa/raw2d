@@ -12,6 +12,7 @@ import dragging from "../../docs/Dragging.md?raw";
 import dirtyVersioning from "../../docs/DirtyVersioning.md?raw";
 import examples from "../../docs/Examples.md?raw";
 import gettingStarted from "../../docs/GettingStarted.md?raw";
+import v1Install from "../../docs/V1Install.md?raw";
 import group2d from "../../docs/Group2D.md?raw";
 import hitTesting from "../../docs/HitTesting.md?raw";
 import interactionController from "../../docs/InteractionController.md?raw";
@@ -54,6 +55,7 @@ import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "GettingStarted.md", content: gettingStarted },
+  { id: "v1-install", label: "V1 Install", filename: "V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "PublicAPI.md", content: publicApi },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "license", label: "License", filename: "License.md", content: license },
