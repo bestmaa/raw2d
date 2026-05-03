@@ -1,5 +1,6 @@
 import { boundsTopics } from "./DocBoundsTopics";
 import { beginnerPathTopics } from "./DocBeginnerPathTopics";
+import { accessibilityTopics } from "./DocAccessibilityTopics";
 import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { canvasQATopics } from "./DocCanvasQATopics";
@@ -66,6 +67,7 @@ export const docGroups: readonly DocGroup[] = [
       ...deployTopics,
       ...cdnTopics,
       ...consoleAuditTopics,
+      ...accessibilityTopics,
       ...canvasQATopics,
       ...exampleTopics,
       ...docQaChecklistTopics,
