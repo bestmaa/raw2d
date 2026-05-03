@@ -1,12 +1,17 @@
-import { createElement, useEffect, useRef, type ReactElement } from "react";
+import { Fragment, createElement, useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { Camera2D, Scene } from "raw2d";
 import { createRaw2DReactRenderer } from "./createRaw2DReactRenderer.js";
+import { Raw2DReactContext } from "./Raw2DReactContext.js";
+import type { Raw2DReactContextValue } from "./Raw2DReactContext.type.js";
 import type { Raw2DCanvasProps } from "./Raw2DCanvas.type.js";
+import type { Raw2DReactRenderer } from "./Raw2DCanvas.type.js";
 
 export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sceneRef = useRef<Scene | null>(null);
   const cameraRef = useRef<Camera2D | null>(null);
+  const rendererRef = useRef<Raw2DReactRenderer | null>(null);
+  const [renderer, setRenderer] = useState<Raw2DReactRenderer | null>(null);
   const width = props.width ?? 800;
   const height = props.height ?? 480;
 
@@ -18,6 +23,18 @@ export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
     cameraRef.current = new Camera2D();
   }
 
+  const scene = props.scene ?? sceneRef.current;
+  const camera = props.camera ?? cameraRef.current;
+  const requestRender = useCallback((): void => {
+    rendererRef.current?.render(scene, camera);
+  }, [camera, scene]);
+  const contextValue: Raw2DReactContextValue = {
+    scene,
+    camera,
+    renderer,
+    requestRender
+  };
+
   useEffect((): (() => void) | undefined => {
     const canvas = canvasRef.current;
 
@@ -25,8 +42,6 @@ export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
       return undefined;
     }
 
-    const scene = props.scene ?? sceneRef.current ?? new Scene();
-    const camera = props.camera ?? cameraRef.current ?? new Camera2D();
     const result = createRaw2DReactRenderer({
       canvas,
       renderer: props.renderer ?? "canvas",
@@ -37,6 +52,8 @@ export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
       fallbackToCanvas: props.fallbackToCanvas ?? true
     });
 
+    rendererRef.current = result.renderer;
+    setRenderer(result.renderer);
     result.renderer.render(scene, camera);
     props.onReady?.({
       canvas,
@@ -48,6 +65,8 @@ export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
 
     return (): void => {
       result.renderer.dispose();
+      rendererRef.current = null;
+      setRenderer(null);
     };
   }, [
     props.backgroundColor,
@@ -61,7 +80,7 @@ export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
     width
   ]);
 
-  return createElement("canvas", {
+  const canvasElement = createElement("canvas", {
     "aria-label": props.ariaLabel ?? "Raw2D canvas",
     className: props.className,
     height,
@@ -69,4 +88,11 @@ export function Raw2DCanvas(props: Raw2DCanvasProps): ReactElement {
     style: props.style,
     width
   });
+
+  return createElement(
+    Fragment,
+    null,
+    canvasElement,
+    createElement(Raw2DReactContext.Provider, { value: contextValue }, props.children)
+  );
 }

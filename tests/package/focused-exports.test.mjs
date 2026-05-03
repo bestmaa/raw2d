@@ -62,10 +62,20 @@ test("raw2d-effects is intentionally empty for now", () => {
 test("raw2d-react exposes the first component bridge surface", () => {
   assert.deepEqual(Object.keys(ReactBridge).sort(), [
     "RAW2D_REACT_PACKAGE_INFO",
+    "RawCircle",
     "Raw2DCanvas",
+    "RawLine",
+    "RawRect",
+    "RawSprite",
+    "RawText2D",
     "createRaw2DReactRenderer"
   ].sort());
   assert.equal(typeof ReactBridge.Raw2DCanvas, "function");
+  assert.equal(typeof ReactBridge.RawRect, "function");
+  assert.equal(typeof ReactBridge.RawCircle, "function");
+  assert.equal(typeof ReactBridge.RawLine, "function");
+  assert.equal(typeof ReactBridge.RawSprite, "function");
+  assert.equal(typeof ReactBridge.RawText2D, "function");
   assert.equal(typeof ReactBridge.createRaw2DReactRenderer, "function");
   assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.packageName, "raw2d-react");
   assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.changesCoreApi, false);
