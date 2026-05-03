@@ -1,6 +1,6 @@
 {
   "name": "raw2d-sprite",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "description": "Sprite and texture package for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,7 +23,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "raw2d-core": "0.8.7"
+    "raw2d-core": "0.8.8"
   },
   "author": "Aditya Nandlal",
   "license": "Apache-2.0"

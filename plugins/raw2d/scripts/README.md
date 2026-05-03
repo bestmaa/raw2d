@@ -6,10 +6,10 @@ Available scripts:
 
 - app scaffold command
 - example generator command
+- docs QA command
 
 Planned scripts:
 
-- docs QA command
 - visual pixel test command
 - renderer stats explanation command
 
@@ -28,3 +28,11 @@ node plugins/raw2d/scripts/create-raw2d-example.mjs --out ./examples/my-example 
 ```
 
 Use `--shape rect`, `--shape circle`, or `--shape text` for a small focused example.
+
+## Docs QA
+
+```bash
+node plugins/raw2d/scripts/run-docs-qa.mjs --json
+```
+
+Checks English/Hinglish doc pairs, TODO placeholders, and required public docs files.
