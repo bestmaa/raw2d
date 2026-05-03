@@ -19,6 +19,7 @@ import { interactionTopics } from "./DocInteractionTopics";
 import { installSmokeTopics } from "./DocInstallSmokeTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import { mcpTopics } from "./DocMcpTopics";
+import { mcpReadinessTopics } from "./DocMCPReadinessTopics";
 import { migrationTopics } from "./DocMigrationTopics";
 import { pluginTopics } from "./DocPluginTopics";
 import { publishTopics } from "./DocPublishTopics";
@@ -142,7 +143,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "ai-tools",
     label: "AI Tools",
     hiLabel: "AI Tools",
-    topics: [...mcpTopics, ...pluginTopics]
+    topics: [...mcpTopics, ...mcpReadinessTopics, ...pluginTopics]
   },
   {
     id: "react-later",

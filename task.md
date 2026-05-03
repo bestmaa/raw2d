@@ -214,6 +214,6 @@ Push only on phase release tasks or explicit user request.
 - T105 | Version: v0.10.16 | Status: completed | Goal: Add final package install smoke instructions. | Verify: consumer smoke. | Commit: `Add install smoke instructions`
 - T106 | Version: v0.10.17 | Status: completed | Goal: Add final API freeze checklist. | Verify: checklist review. | Commit: `Add API freeze checklist`
 - T107 | Version: v0.10.18 | Status: completed | Goal: Add final renderer parity checklist. | Verify: Canvas and WebGL examples. | Commit: `Add renderer parity checklist`
-- T108 | Version: v0.10.19 | Status: pending | Goal: Add final MCP/plugin readiness checklist. | Verify: checklist review. | Commit: `Add MCP plugin readiness checklist`
+- T108 | Version: v0.10.19 | Status: completed | Goal: Add final MCP/plugin readiness checklist. | Verify: checklist review. | Commit: `Add MCP plugin readiness checklist`
 - T109 | Version: v0.10.20 | Status: pending | Goal: Add final React package readiness checklist. | Verify: checklist review. | Commit: `Add React readiness checklist`
 - T110 | Version: v1.0.0 | Status: pending | Goal: Final v1.0 release, push, publish, CDN check, and docs deployment check. | Verify: phase release verification. | Commit: `Release Raw2D v1.0`
