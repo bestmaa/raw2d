@@ -19,6 +19,7 @@
     "test": "npm run build && node --test tests/**/*.test.mjs",
     "test:browser": "npm run build && node --test tests/browser/*.test.mjs",
     "test:consumer": "node scripts/consumer-smoke.mjs",
+    "audit:bundle": "node scripts/audit-bundle-size.mjs --check",
     "pack:check": "npm pack --workspaces --dry-run"
   },
   "repository": {
