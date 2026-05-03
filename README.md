@@ -4,9 +4,7 @@ Raw2D is a low-level 2D rendering engine for JavaScript and TypeScript.
 
 It is browser-first, Canvas-first, WebGL2-ready, and built around small isolated modules. Objects store scene data and transform behavior. Renderers draw those objects.
 
-Public docs: https://raw2d.com/doc
-
-Markdown reference: https://raw2d.com/readme
+Public docs: https://raw2d.com/doc and markdown reference: https://raw2d.com/readme
 
 ## Why Raw2D Exists
 
@@ -46,7 +44,7 @@ npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-in
 CDN usage:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.9.9/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@latest/dist/raw2d.umd.cjs"></script>
 <script>
   const { BasicMaterial, Camera2D, Canvas, Rect, Scene } = Raw2D;
 </script>
@@ -233,30 +231,11 @@ http://localhost:5174/doc
 
 Examples run at `http://localhost:5174/examples/canvas-basic/` and the other `examples/*/` paths.
 
-Quality checks:
-
-```bash
-npm test
-npm run build:docs
-npm run pack:check
-```
+Quality checks: `npm test`, `npm run build:docs`, and `npm run pack:check`.
 
 ## Performance Roadmap
 
-- WebGL2 renderer
-- batch rendering
-- texture atlas
-- object pooling
-- dirty matrix updates
-- culling
-- typed array buffers
-- static and dynamic batches
-
-## Future Direction
-
-Raw2D will keep Canvas and WebGL both public. Canvas stays the complete reference renderer. WebGL grows as the batch-first performance path. Future modules may include effects, tooling, and React fiber-style integration, but the low-level engine should stay independent.
-
-Raw2D intentionally does not include physics, WASM, ECS, or external rendering libraries.
+WebGL2 renderer, batch rendering, texture atlas, object pooling, dirty matrix updates, culling, typed array buffers, and static/dynamic batches.
 
 ## License And Attribution
 
@@ -266,6 +245,4 @@ Raw2D is licensed under the Apache License 2.0.
 Copyright 2026 Aditya Nandlal
 ```
 
-If you redistribute Raw2D or a modified version, keep the `LICENSE` and `NOTICE` files with the distribution. Do not remove the original copyright or attribution notices.
-
-The Apache-2.0 license covers the source code. The Raw2D name and project identity are project marks; do not use them to imply that a fork, package, product, or service is the official Raw2D project unless you have permission.
+Redistributions must keep the `LICENSE` and `NOTICE` files. The Raw2D name and project identity are project marks; do not use them to imply that a fork, package, product, or service is official unless you have permission.
