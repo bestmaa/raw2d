@@ -73,6 +73,20 @@ const plan = createRaw2DVisualCheckPlan({ target: "all" });
 for (const command of plan.commands) {
   console.log(command.command, command.args.join(" "));
 }`
+      },
+      {
+        title: "AI Control Rule",
+        body: "Agents should validate and show generated output before any host environment writes files, runs visual checks, publishes packages, or pushes Git.",
+        code: `Allowed inside raw2d-mcp:
+- return JSON
+- return generated code
+- return command plans
+
+Not allowed inside raw2d-mcp:
+- hidden file writes
+- npm publish
+- git push
+- internal browser control`
       }
     ]
   }

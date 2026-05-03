@@ -176,6 +176,18 @@ for (const command of plan.commands) {
 
 The MCP package returns explicit commands instead of controlling a browser internally. Agents can display the plan, ask for confirmation, then run the commands in the Raw2D repo.
 
+## AI Control Boundary
+
+`raw2d-mcp` returns plain data. It should not silently write files, publish npm packages, push Git, call external services, or control a browser internally.
+
+Recommended agent flow:
+
+1. Create or update scene JSON.
+2. Validate and inspect it.
+3. Generate examples, docs snippets, audits, or visual-check plans.
+4. Show the generated output.
+5. Run host commands only after the caller allows it.
+
 ## Audit Package Exports
 
 ```ts
