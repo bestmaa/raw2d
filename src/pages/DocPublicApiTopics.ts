@@ -65,6 +65,27 @@ new InteractionController({
 });`
       },
       {
+        title: "API Stability Policy",
+        body: "Raw2D keeps runtime exports, documented focused-package exports, constructor option names, and renderer lifecycle methods stable. Renames should add aliases before removals.",
+        code: `// Stable app-level API:
+import { CanvasRenderer, Rect, Scene } from "raw2d";
+
+// Stable focused-package API:
+import { RectOptions } from "raw2d-core";
+
+// Compatibility alias stays available:
+import { Canvas } from "raw2d";`
+      },
+      {
+        title: "Deprecation Policy",
+        body: "Do not remove a public name in the same task that introduces its replacement. Update docs, examples, type tests, and export tests first.",
+        code: `// Step 1: add replacement and alias.
+export { Canvas as CanvasRenderer };
+
+// Step 2: document preferred name.
+// Step 3: keep tests proving old and new imports work.`
+      },
+      {
         title: "WebGL Package Boundary",
         body: "raw2d-webgl exports WebGLRenderer2D plus batcher, buffer, texture-cache, and diagnostics helpers for engine-level tools.",
         code: `import {

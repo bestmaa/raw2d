@@ -64,6 +64,30 @@ import type {
 
 Jab symbol sirf TypeScript ke liye ho, `import type` use karein.
 
+## Stability Policy
+
+Raw2D in cheezon ko stable public API maanta hai:
+
+- `raw2d` ke runtime exports.
+- documented focused-package exports.
+- objects, materials, textures, atlases, aur interaction controllers ke constructor option names.
+- renderer lifecycle methods jaise `render`, `clear`, `setSize`, `dispose`, aur `getStats`.
+
+Agar rename zaruri ho, aur old name real app code me useful hai, to compatibility alias pehle rakhein.
+
+## Deprecation Policy
+
+Deprecation clear aur chhota hona chahiye:
+
+```ts
+// Pehle old import working rakhein.
+import { Canvas, CanvasRenderer } from "raw2d";
+
+console.log(Canvas === CanvasRenderer);
+```
+
+Replacement introduce karte hi old public name remove mat karein. Removal se pehle docs, examples, type tests, aur package export tests update hone chahiye.
+
 ## Examples Ka Rule
 
 App-level examples `raw2d` se import karein.

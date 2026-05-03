@@ -21,6 +21,8 @@ The umbrella runtime export surface is audited by tests. App code should import 
 
 Use `CanvasRenderer` when you want explicit renderer naming next to `WebGLRenderer2D`. The shorter `Canvas` name remains available for existing examples and compatibility.
 
+Raw2D treats documented exports, constructor option names, and renderer lifecycle methods as stable public API. Deprecations should add a compatibility alias first, then update docs, examples, and tests before any removal.
+
 Install the umbrella package when you want the stable public API:
 
 ```sh
@@ -36,7 +38,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 Use the CDN build without a bundler:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.6/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.8/dist/raw2d.umd.cjs"></script>
 ```
 
 ```ts
