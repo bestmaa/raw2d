@@ -18,6 +18,7 @@ import { rendererTopics } from "./DocRendererTopics";
 import { rendererParityTopics } from "./DocRendererParityTopics";
 import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
+import { texturePathTopics } from "./DocTexturePathTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 import { webGLPerformanceTopics } from "./DocWebGLPerformanceTopics";
@@ -42,7 +43,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "drawing-objects",
     label: "Drawing Objects",
     hiLabel: "Drawing Objects",
-    topics: [...curveTopics, ...pathTopics, ...objectTopics]
+    topics: [...texturePathTopics, ...curveTopics, ...pathTopics, ...objectTopics]
   },
   {
     id: "render-flow",
