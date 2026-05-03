@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raw2D ShapePath</title>
+    <link rel="stylesheet" href="../shared/example.css" />
+  </head>
+  <body>
+    <main class="example-shell">
+      <header class="example-header">
+        <div class="example-eyebrow">Raw2D Core</div>
+        <h1 class="example-title">ShapePath Comparison</h1>
+        <p class="example-summary">
+          ShapePath stores Canvas-like commands. Canvas is the baseline, WebGL flattens curves
+          into explicit geometry for supported fills and strokes.
+        </p>
+      </header>
+      <section class="example-grid" aria-label="Renderer comparison">
+        <article class="example-panel">
+          <h2>Canvas</h2>
+          <canvas id="raw2d-canvas"></canvas>
+          <pre id="raw2d-canvas-stats" aria-live="polite"></pre>
+        </article>
+        <article class="example-panel">
+          <h2>WebGL2</h2>
+          <canvas id="raw2d-webgl"></canvas>
+          <pre id="raw2d-webgl-stats" aria-live="polite"></pre>
+        </article>
+      </section>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
