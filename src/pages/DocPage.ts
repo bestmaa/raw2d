@@ -2,7 +2,7 @@ import type { DocLanguage, DocSection, DocTopic } from "./DocPage.type";
 import { createCodeBlock } from "./DocCodeBlock";
 import { createDemoForId, hasDemoId } from "./DocDemos";
 import { getDocUiText, translateTopic } from "./DocI18n";
-import { getLiveExampleCode } from "./DocLiveExampleCode";
+import { createFocusedExample } from "./DocFocusedExample";
 import { createDocNotice } from "./DocNotice";
 import { createDocPager } from "./DocPager";
 import { findFirstDocSearchMatch } from "./DocSearch";
@@ -76,7 +76,7 @@ function createTopicContent(
     const nextDemo = section.liveDemoId ? createDemoForId(section.liveDemoId, section) : null;
 
     if (nextDemo && demoPanel) {
-      demoPanel.replaceChildren(createFocusedDemo(nextDemo, section, sourceSection));
+      demoPanel.replaceChildren(createFocusedDemo(nextDemo, section, sourceSection, language));
     }
   }
 
@@ -92,7 +92,7 @@ function createTopicContent(
 
     if (initialDemo) {
       const sourceDemoSection = getInitialDemoSection(sourceTopic) ?? initialDemoSection;
-      demoPanel = createDemoPanel(initialDemo, initialDemoSection, sourceDemoSection);
+      demoPanel = createDemoPanel(initialDemo, initialDemoSection, sourceDemoSection, language);
       wrapper.append(demoPanel);
     }
   }
@@ -129,38 +129,27 @@ function getInitialDemoSection(topic: DocTopic): DocSection | null {
   };
 }
 
-function createDemoPanel(demo: HTMLElement, section: DocSection, sourceSection: DocSection): HTMLElement {
+function createDemoPanel(
+  demo: HTMLElement,
+  section: DocSection,
+  sourceSection: DocSection,
+  language: DocLanguage
+): HTMLElement {
   const panel = document.createElement("aside");
   panel.className = "doc-demo-panel";
-  panel.append(createFocusedDemo(demo, section, sourceSection));
+  panel.append(createFocusedDemo(demo, section, sourceSection, language));
   return panel;
 }
 
-function createFocusedDemo(demo: HTMLElement, section: DocSection, sourceSection: DocSection): HTMLElement {
+function createFocusedDemo(
+  demo: HTMLElement,
+  section: DocSection,
+  sourceSection: DocSection,
+  language: DocLanguage
+): HTMLElement {
   demo.querySelectorAll("pre").forEach((pre) => pre.remove());
-  demo.append(createFocusedExample(section, sourceSection));
+  demo.append(createFocusedExample({ section, sourceSection, language }));
   return demo;
-}
-
-function createFocusedExample(section: DocSection, sourceSection: DocSection): HTMLElement {
-  const wrapper = document.createElement("div");
-  const title = document.createElement("h3");
-  const body = document.createElement("p");
-
-  wrapper.className = "doc-focused-example";
-  title.textContent = section.title;
-  body.textContent = section.body;
-  wrapper.append(title, body);
-
-  if (section.liveDemoId || section.liveCode || section.code) {
-    const pre = document.createElement("pre");
-    const code = document.createElement("code");
-    code.textContent = getLiveExampleCode(sourceSection);
-    pre.append(code);
-    wrapper.append(pre);
-  }
-
-  return wrapper;
 }
 
 function createSection(
