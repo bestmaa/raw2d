@@ -1,8 +1,26 @@
 # Raw2D Release Notes
 
+## v1.0.2 - Clean Publish Lockfile Fix
+
+Raw2D v1.0.2 fixes the release lockfile after the v1.0.1 publish attempt exposed an invalid generated dependency tarball URL.
+
+### Changed
+
+- Package versions are aligned at `1.0.2`.
+- The workspace lockfile is regenerated from package metadata instead of broad text replacement.
+
+### Verification
+
+- npm 10 clean install.
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+
 ## v1.0.1 - npm 10 Release Lockfile Fix
 
-Raw2D v1.0.1 fixes the clean GitHub Actions publish path for the stable v1 release.
+Raw2D v1.0.1 attempted to fix the clean GitHub Actions publish path for the stable v1 release.
 
 ### Changed
 
