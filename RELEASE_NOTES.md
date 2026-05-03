@@ -1,5 +1,30 @@
 # Raw2D Release Notes
 
+## v0.8.12 - Codex Plugin And Skills Phase
+
+Raw2D v0.8.12 publishes the first repo-local Codex plugin phase for contributor automation.
+
+### Added
+
+- Repo-local `plugins/raw2d` Codex plugin scaffold outside runtime packages.
+- Raw2D-specific skills for docs writing, isolated feature building, visual checks, and package audits.
+- Plugin commands for app scaffolding, example generation, docs QA, visual pixel test planning, and renderer stats explanations.
+- Plugin docs page, English README, Hinglish README, and dedicated plugin workflow.
+- Plugin tests covering manifest metadata, skills, command outputs, docs registration, and workflow coverage.
+
+### Changed
+
+- Package versions are aligned at `0.8.12`.
+- Docs now include an AI Tools section for MCP and plugin contributor workflows.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+
 ## v0.7.14 - MCP Phase
 
 Raw2D v0.7.14 publishes the first MCP-focused phase for AI-assisted scene automation.
@@ -25,4 +50,3 @@ Raw2D v0.7.14 publishes the first MCP-focused phase for AI-assisted scene automa
 - Docs production build.
 - Workspace package dry-run.
 - Consumer smoke test.
-
