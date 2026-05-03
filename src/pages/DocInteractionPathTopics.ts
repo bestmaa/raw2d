@@ -14,7 +14,6 @@ export const interactionPathTopics: readonly DocTopic[] = [
         liveDemoId: "selection",
         code: `const picked = pickObject({
   scene,
-  camera,
   x: pointerX,
   y: pointerY
 });`
