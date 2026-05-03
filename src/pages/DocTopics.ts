@@ -33,6 +33,7 @@ import { texturePathTopics } from "./DocTexturePathTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 import { webGLPerformanceTopics } from "./DocWebGLPerformanceTopics";
+import { webGLQATopics } from "./DocWebGLQATopics";
 import { webGLBatcherTopics } from "./DocWebGLBatcherTopics";
 import { webGLBatchingDetailsTopics } from "./DocWebGLBatchingDetailsTopics";
 import { webGLBufferTopics } from "./DocWebGLBufferTopics";
@@ -106,6 +107,7 @@ export const docGroups: readonly DocGroup[] = [
       ...webGLRendererTopics,
       ...webGLContextTopics,
       ...webGLPerformanceTopics,
+      ...webGLQATopics,
       ...webGLVisualTestsTopics
     ]
   },
