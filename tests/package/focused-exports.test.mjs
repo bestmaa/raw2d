@@ -59,8 +59,14 @@ test("raw2d-effects is intentionally empty for now", () => {
   assert.deepEqual(Object.keys(Effects), []);
 });
 
-test("raw2d-react exposes scaffold metadata only for now", () => {
-  assert.deepEqual(Object.keys(ReactBridge).sort(), ["RAW2D_REACT_PACKAGE_INFO"].sort());
+test("raw2d-react exposes the first component bridge surface", () => {
+  assert.deepEqual(Object.keys(ReactBridge).sort(), [
+    "RAW2D_REACT_PACKAGE_INFO",
+    "Raw2DCanvas",
+    "createRaw2DReactRenderer"
+  ].sort());
+  assert.equal(typeof ReactBridge.Raw2DCanvas, "function");
+  assert.equal(typeof ReactBridge.createRaw2DReactRenderer, "function");
   assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.packageName, "raw2d-react");
   assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.changesCoreApi, false);
 });

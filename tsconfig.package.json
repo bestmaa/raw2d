@@ -13,6 +13,7 @@
       "raw2d-effects": ["../effects/src/index.ts"],
       "raw2d-interaction": ["../interaction/src/index.ts"],
       "raw2d-mcp": ["../mcp/src/index.ts"],
+      "raw2d-react": ["../react/src/index.ts"],
       "raw2d-sprite": ["../sprite/src/index.ts"],
       "raw2d-text": ["../text/src/index.ts"],
       "raw2d-webgl": ["../webgl/src/index.ts"]
