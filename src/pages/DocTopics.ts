@@ -11,6 +11,7 @@ import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import { mcpTopics } from "./DocMcpTopics";
+import { migrationTopics } from "./DocMigrationTopics";
 import { pluginTopics } from "./DocPluginTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
 import { docQaChecklistTopics } from "./DocQAChecklistTopics";
@@ -47,7 +48,15 @@ export const docGroups: readonly DocGroup[] = [
     id: "start-here",
     label: "Start Here",
     hiLabel: "Yahan Se Start",
-    topics: [...setupTopics, ...beginnerPathTopics, ...publicApiTopics, ...exampleTopics, ...docQaChecklistTopics, ...licenseTopics]
+    topics: [
+      ...setupTopics,
+      ...beginnerPathTopics,
+      ...publicApiTopics,
+      ...migrationTopics,
+      ...exampleTopics,
+      ...docQaChecklistTopics,
+      ...licenseTopics
+    ]
   },
   {
     id: "scene-foundations",
