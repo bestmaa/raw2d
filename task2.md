@@ -45,7 +45,7 @@ Push only on phase release tasks or explicit user request.
 
 ## Phase 9: Post-Release Consumer Audit
 
-- T111 | Version: v1.1.0 | Status: pending | Goal: Create fresh npm install audit plan for `raw2d`. | Verify: audit doc review. | Commit: `Add post release audit plan`
+- T111 | Version: v1.1.0 | Status: completed | Goal: Create fresh npm install audit plan for `raw2d`. | Verify: audit doc review. | Commit: `Add post release audit plan`
 - T112 | Version: v1.1.1 | Status: pending | Goal: Add automated fresh install smoke for umbrella package. | Verify: generated app builds. | Commit: `Add umbrella install smoke`
 - T113 | Version: v1.1.2 | Status: pending | Goal: Add focused package install smoke for core/canvas/webgl/sprite/text. | Verify: generated app builds. | Commit: `Add focused package install smoke`
 - T114 | Version: v1.1.3 | Status: pending | Goal: Add `raw2d-mcp` separate install smoke. | Verify: MCP import works outside umbrella. | Commit: `Add MCP install smoke`
