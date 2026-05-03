@@ -146,7 +146,7 @@ Push only on phase release tasks or explicit user request.
 - T049 | Version: v0.6.8 | Status: completed | Goal: Document when to use Canvas versus WebGL. | Verify: docs in browser. | Commit: `Document renderer choice`
 - T050 | Version: v0.6.9 | Status: completed | Goal: Add benchmark limitations docs. | Verify: docs in browser. | Commit: `Document benchmark limitations`
 - T051 | Version: v0.6.10 | Status: completed | Goal: Add browser smoke test for benchmark page. | Verify: test passes. | Commit: `Test benchmark route`
-- T052 | Version: v0.6.11 | Status: pending | Goal: Phase 4 release and publish. | Verify: phase release verification. | Commit: `Release benchmark phase`
+- T052 | Version: v0.6.11 | Status: completed | Goal: Phase 4 release and publish. | Verify: phase release verification. | Commit: `Release benchmark phase`
 
 ### Phase 5: MCP Server
 
