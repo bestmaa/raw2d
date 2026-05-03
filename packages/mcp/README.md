@@ -85,3 +85,22 @@ const movedScene = updateRaw2DObjectTransform({
 ```
 
 The update helper only changes the matching object and throws when the id is missing.
+
+## Update Object Material
+
+```ts
+import { updateRaw2DObjectMaterial } from "raw2d-mcp";
+
+const styledScene = updateRaw2DObjectMaterial({
+  document: movedScene,
+  id: "hero-card",
+  material: {
+    fillColor: "#f45b69",
+    strokeColor: "#ffffff",
+    lineWidth: 2,
+    opacity: 0.9
+  }
+});
+```
+
+Material patches merge with existing material data so small updates do not erase other style fields.
