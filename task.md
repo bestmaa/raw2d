@@ -210,7 +210,7 @@ Push only on phase release tasks or explicit user request.
 - T101 | Version: v0.10.12 | Status: completed | Goal: Add browser console error audit checklist. | Verify: browser checklist. | Commit: `Add browser console audit checklist`
 - T102 | Version: v0.10.13 | Status: completed | Goal: Add accessibility smoke checklist for docs controls. | Verify: browser checklist. | Commit: `Add docs accessibility checklist`
 - T103 | Version: v0.10.14 | Status: completed | Goal: Add release notes template. | Verify: template review. | Commit: `Add release notes template`
-- T104 | Version: v0.10.15 | Status: pending | Goal: Add changelog workflow notes. | Verify: docs review. | Commit: `Add changelog workflow notes`
+- T104 | Version: v0.10.15 | Status: completed | Goal: Add changelog workflow notes. | Verify: docs review. | Commit: `Add changelog workflow notes`
 - T105 | Version: v0.10.16 | Status: pending | Goal: Add final package install smoke instructions. | Verify: consumer smoke. | Commit: `Add install smoke instructions`
 - T106 | Version: v0.10.17 | Status: pending | Goal: Add final API freeze checklist. | Verify: checklist review. | Commit: `Add API freeze checklist`
 - T107 | Version: v0.10.18 | Status: pending | Goal: Add final renderer parity checklist. | Verify: Canvas and WebGL examples. | Commit: `Add renderer parity checklist`

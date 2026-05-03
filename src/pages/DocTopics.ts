@@ -5,6 +5,7 @@ import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { canvasQATopics } from "./DocCanvasQATopics";
 import { cdnTopics } from "./DocCDNTopics";
+import { changelogTopics } from "./DocChangelogTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { consoleAuditTopics } from "./DocConsoleAuditTopics";
 import { curveTopics } from "./DocCurveTopics";
@@ -65,6 +66,7 @@ export const docGroups: readonly DocGroup[] = [
       ...migrationTopics,
       ...releaseTopics,
       ...releaseNotesTopics,
+      ...changelogTopics,
       ...publishTopics,
       ...deployTopics,
       ...cdnTopics,
