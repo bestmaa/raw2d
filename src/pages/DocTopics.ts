@@ -15,6 +15,7 @@ import { hitTestingTopics } from "./DocHitTestingTopics";
 import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionQATopics } from "./DocInteractionQATopics";
 import { interactionTopics } from "./DocInteractionTopics";
+import { installSmokeTopics } from "./DocInstallSmokeTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import { mcpTopics } from "./DocMcpTopics";
 import { migrationTopics } from "./DocMigrationTopics";
@@ -67,6 +68,7 @@ export const docGroups: readonly DocGroup[] = [
       ...releaseTopics,
       ...releaseNotesTopics,
       ...changelogTopics,
+      ...installSmokeTopics,
       ...publishTopics,
       ...deployTopics,
       ...cdnTopics,
