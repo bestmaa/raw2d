@@ -1,0 +1,4 @@
+interface:
+  display_name: "Raw2D Feature Builder"
+  short_description: "Build isolated Raw2D features with tests."
+  default_prompt: "Build this Raw2D feature with tests and docs."

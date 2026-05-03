@@ -5,9 +5,9 @@ Raw2D skills will live here. Each skill should focus on one workflow and should 
 Available skills:
 
 - `raw2d-doc-writer`
+- `raw2d-feature-builder`
 
 Planned skills:
 
-- `raw2d-feature-builder`
 - `raw2d-visual-check`
 - `raw2d-package-audit`
