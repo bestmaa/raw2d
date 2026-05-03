@@ -7,14 +7,14 @@ interface TopicCopy {
 }
 
 const topicCopy: Record<string, TopicCopy> = {
-  setup: { label: "Install / Setup", title: "Install / Setup", description: "Raw2D ko npm ya CDN se start karne ka seedha setup." },
-  "public-api": { label: "Public API", title: "Public API", description: "Stable app API aur focused low-level packages ka boundary." },
+  setup: { label: "Install / Setup", title: "Install / Setup", description: "Raw2D ko npm ya CDN se start karne ka seedha tarika." },
+  "public-api": { label: "Public API", title: "Public API", description: "Stable app API aur focused low-level packages ki boundary." },
   "beginner-path": { label: "Beginner Path", title: "Beginner Path", description: "Raw2D me install se render tak ka short first-scene flow." },
   "texture-path": { label: "Texture Path", title: "Texture Path", description: "Texture load, atlas, sprite aur animation ka practical flow." },
   examples: { label: "Examples", title: "Examples", description: "Chhote package-style examples jo wahi imports use karte hain jo users npm se karenge." },
   license: { label: "License", title: "License", description: "Raw2D open source hai, Apache-2.0 license aur attribution rules ke saath." },
-  canvas: { label: "Canvas Init", title: "Canvas Init", description: "Raw2D Canvas renderer ko HTML canvas ke saath initialize karna." },
-  renderers: { label: "Canvas / WebGL", title: "Canvas / WebGL", description: "Canvas aur WebGL renderer ko clearly choose karne ka flow." },
+  canvas: { label: "Canvas Init", title: "Canvas Init", description: "HTML canvas ke saath Raw2D Canvas renderer initialize karna." },
+  renderers: { label: "Canvas / WebGL", title: "Canvas / WebGL", description: "Canvas aur WebGL renderer choose karne ka clear flow." },
   scene: { label: "Scene", title: "Scene", description: "Scene me woh objects rakhe jaate hain jo ek saath render hone hain." },
   camera: { label: "Camera2D", title: "Camera2D", description: "Camera2D world ka visible area, pan aur zoom control karta hai." },
   "basic-material": { label: "BasicMaterial", title: "BasicMaterial", description: "Fill, stroke aur line width jaise simple style data ka material." },
@@ -25,7 +25,7 @@ const topicCopy: Record<string, TopicCopy> = {
   "renderer-parity": { label: "Renderer Parity", title: "Renderer Parity Matrix", description: "Canvas aur WebGL me kaun sa object support hai ye compare karna." },
   "render-pipeline": { label: "Render Pipeline", title: "Render Pipeline", description: "Scene se flat render list aur render runs banne ka low-level flow." },
   "webgl-renderer": { label: "WebGLRenderer2D", title: "WebGLRenderer2D", description: "Raw2D ka WebGL2 batch-first renderer path." },
-  "webgl-path-guide": { label: "WebGL Path Guide", title: "WebGL Path Guide", description: "WebGL support, renderer setup, batching aur diagnostics ka practical flow." },
+  "webgl-path-guide": { label: "WebGL Path Guide", title: "WebGL Path Guide", description: "WebGL support check, renderer setup, batching aur diagnostics ka practical flow." },
   "webgl-context-lifecycle": { label: "WebGL Context", title: "WebGL Context Lifecycle", description: "Context lost, restore aur dispose handling ka WebGL lifecycle." },
   "webgl-performance": { label: "WebGL Performance", title: "WebGL Performance", description: "Canvas aur WebGL performance stats ko practical tarike se compare karna." },
   "webgl-visual-tests": { label: "WebGL Visual Tests", title: "WebGL Visual Tests", description: "Browser me Canvas aur WebGL ke real pixels check karna." },
@@ -75,7 +75,7 @@ const titleCopy = new Map<string, string>([
   ["Create A Circle", "Circle banayein"],
   ["Create A Line", "Line banayein"],
   ["Create Text2D", "Text2D banayein"],
-  ["Recommended NPM Install", "Recommended NPM install"],
+  ["Recommended NPM Install", "Recommended NPM Install"],
   ["Install Raw2D", "Raw2D install karein"],
   ["Add Canvas", "Canvas add karein"],
   ["Create Renderer", "Renderer banayein"],
@@ -144,10 +144,10 @@ const titleCopy = new Map<string, string>([
 ]);
 
 const bodyCopy = new Map<string, string>([
-  ["Recommended NPM Install", "Sabse pehle umbrella package use karein. Isme stable public Raw2D API milti hai."],
-  ["Install Raw2D", "Umbrella package se start karein. Isme stable app-level API milti hai."],
-  ["Add Canvas", "Raw2D real HTMLCanvasElement me render karta hai. Canvas element app ke control me rahega."],
-  ["Create Renderer", "CanvasRenderer pehle learn karein, kyunki ye current objects ko complete support deta hai."],
+  ["Recommended NPM Install", "Sabse pehle umbrella package use karein. Isme stable Raw2D public API milti hai."],
+  ["Install Raw2D", "Umbrella package se start karein. Isse app-level API simple aur stable rahti hai."],
+  ["Add Canvas", "Raw2D real HTMLCanvasElement par render karta hai. Canvas element app ke control me rahta hai."],
+  ["Create Renderer", "Pehle Canvas renderer use karein. Ye reference path hai aur current objects ko complete support deta hai."],
   ["Create Scene And Camera", "Scene objects store karta hai. Camera2D world ka visible area define karta hai."],
   ["Add Shape", "Objects sirf data store karte hain. Drawing ka decision renderer leta hai."],
   ["Render Scene", "Scene change hone ke baad render call karein. Animation me pehle data update karein, phir render karein."],
@@ -160,15 +160,15 @@ const bodyCopy = new Map<string, string>([
   ["First Canvas Render", "Canvas complete reference renderer hai. Scene banayein, object add karein, phir camera ke saath render karein."],
   ["Switch To WebGL", "Same scene aur camera ko WebGLRenderer2D se render kar sakte hain, agar object types supported hon."],
   ["Check Support", "WebGLRenderer2D ko WebGL2 chahiye. Canvas fallback chahiye ho to pehle support check karein."],
-  ["Choose Renderer", "Scene aur camera code same rakhein. Canvas aur WebGL ke beech sirf renderer change hota hai."],
-  ["Render Supported Objects", "WebGL pehle high-volume object path support karta hai: primitives, sprites aur rasterized Text2D."],
+  ["Choose Renderer", "Scene aur camera code same rakhein. Canvas aur WebGL ke beech sirf renderer badalta hai."],
+  ["Render Supported Objects", "WebGL ka first focus high-volume path hai: primitives, sprites aur rasterized Text2D."],
   ["Read Batch Stats", "Stats batate hain ki WebGL ne is frame me render-list, batches, draw calls aur uploads kaise handle kiye."],
   ["Read Texture Diagnostics", "Sprite-heavy scene me texture binds aur uploads dekhein. Atlas packing se dono kam hone chahiye."],
   ["Keep Canvas Fallback", "Canvas reference renderer hai. Unsupported devices, debugging aur full object coverage ke liye fallback rakhein."],
   ["Pick An Object", "Pointer ko world coordinates me convert karein, phir Raw2D se top visible object pick karayein."],
   ["Track Selection", "SelectionManager editor state ko objects aur renderers se alag rakhta hai."],
-  ["Attach One Object", "Jab sirf ek object draggable ya resizable hona chahiye tab attach use karein."],
-  ["Attach Selection", "Jab currently selected objects interactive hone chahiye tab attachSelection use karein."],
+  ["Attach One Object", "Jab sirf ek object draggable/resizable hona chahiye, tab attach use karein."],
+  ["Attach Selection", "Jab current selected objects interactive hone chahiye, tab attachSelection use karein."],
   ["Move With Keyboard", "KeyboardController sirf selected objects mutate karta hai. Render kab karna hai ye app decide karti hai."],
   ["Focused Package Install", "Advanced users sirf wahi packages install kar sakte hain jo unke project me chahiye."],
   ["CDN Usage", "Bundler ke bina browser me UMD build use karna ho to CDN script use karein."],
@@ -230,7 +230,7 @@ function createHinglishSection(topic: DocTopic, section: DocSection): DocSection
 
 function createDefaultBody(topic: DocTopic, sectionTitle: string): string {
   const topicName = topicCopy[topic.id]?.label ?? topic.label;
-  return `${topicName} me "${sectionTitle}" ka practical use yahan dikhaya gaya hai. Code block same Raw2D API flow ko clearly show karta hai.`;
+  return `${topicName} me "${sectionTitle}" ka practical use yahan dikhaya gaya hai. Code same Raw2D API flow ko clear rakhta hai.`;
 }
 
 function fallbackTopic(topic: DocTopic): TopicCopy {
