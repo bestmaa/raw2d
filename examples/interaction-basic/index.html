@@ -5,27 +5,22 @@
     <link rel="icon" href="data:," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raw2D Interaction Basic</title>
-    <style>
-      body {
-        margin: 0;
-        display: grid;
-        min-height: 100vh;
-        place-items: center;
-        background: #0b1018;
-        color: #dce9ff;
-        font: 14px system-ui, sans-serif;
-      }
-
-      canvas {
-        border: 1px solid #263243;
-      }
-    </style>
+    <link rel="stylesheet" href="../shared/example.css" />
   </head>
   <body>
-    <div>
-      <canvas id="raw2d-canvas"></canvas>
-      <p>Click and drag. Rect handles can resize.</p>
-    </div>
+    <main class="example-stage">
+      <section class="example-panel" aria-label="Raw2D interaction example">
+        <header class="example-header">
+          <div class="example-eyebrow">Raw2D Interaction</div>
+          <h1 class="example-title">Select, Drag, Resize</h1>
+          <p class="example-summary">
+            Click an object to select it, drag to move it, or drag Rect handles to resize.
+          </p>
+        </header>
+        <canvas id="raw2d-canvas"></canvas>
+        <pre id="raw2d-stats" aria-live="polite"></pre>
+      </section>
+    </main>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
