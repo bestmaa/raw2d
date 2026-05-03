@@ -196,7 +196,7 @@ Push only on phase release tasks or explicit user request.
 ### Phase 8: v1.0 Hardening
 
 - T089 | Version: v0.10.0 | Status: completed | Goal: Audit every docs route and example route manually. | Verify: browser checklist. | Commit: `Audit docs and examples`
-- T090 | Version: v0.10.1 | Status: pending | Goal: Audit all packages for accidental internals in public exports. | Verify: export audit. | Commit: `Audit public package surfaces`
+- T090 | Version: v0.10.1 | Status: completed | Goal: Audit all packages for accidental internals in public exports. | Verify: export audit. | Commit: `Audit public package surfaces`
 - T091 | Version: v0.10.2 | Status: pending | Goal: Audit bundle size and tree-shaking behavior. | Verify: build output. | Commit: `Audit bundle size`
 - T092 | Version: v0.10.3 | Status: pending | Goal: Audit README, LICENSE, NOTICE, TRADEMARKS, and npm metadata. | Verify: npm pack. | Commit: `Audit package metadata`
 - T093 | Version: v0.10.4 | Status: pending | Goal: Add migration guide for pre-v1 APIs. | Verify: docs route. | Commit: `Add pre-v1 migration guide`
