@@ -85,7 +85,7 @@ import { startObjectDrag } from "raw2d-interaction";`
       {
         title: "CDN Usage",
         body: "Use the UMD build directly in a browser when you do not want a bundler.",
-        code: `<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.4/dist/raw2d.umd.cjs"></script>
+        code: `<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.5/dist/raw2d.umd.cjs"></script>
 
 <script>
   const { BasicMaterial, Camera2D, Canvas, Rect, Scene } = Raw2D;

@@ -85,6 +85,7 @@ function getMainSource() {
   BasicMaterial,
   Camera2D,
   Canvas,
+  CanvasRenderer,
   InteractionController,
   Rect,
   Scene,
@@ -128,6 +129,7 @@ renderer.render(scene, camera);
 
 new InteractionController({ canvas: canvasElement, scene, camera });
 console.log(atlasPacker, focusedPacker, typeof createWebGLShapeBatch);
+console.log(typeof CanvasRenderer);
 console.log(
   sortWebGLSpritesForBatching({ sprites: [sprite] }).length,
   estimateWebGLSpriteTextureBinds({ sprites: [sprite] }),

@@ -29,12 +29,20 @@ import { Sprite, TextureAtlasPacker } from "raw2d-sprite";`
       },
       {
         title: "Canvas Package Boundary",
-        body: "raw2d-canvas exports the Canvas renderer and Canvas drawing helpers. Scene graph objects still come from raw2d-core or the umbrella package.",
-        code: `import { Canvas, drawRect } from "raw2d-canvas";
+        body: "raw2d-canvas exports CanvasRenderer as the explicit renderer name. Canvas stays as the short compatibility name.",
+        code: `import { CanvasRenderer, drawRect } from "raw2d-canvas";
 import { Rect, Scene } from "raw2d-core";
 
-const renderer = new Canvas({ canvas: canvasElement });
+const renderer = new CanvasRenderer({ canvas: canvasElement });
 renderer.render(scene, camera);`
+      },
+      {
+        title: "Renderer Naming",
+        body: "Use CanvasRenderer when you want naming parity with WebGLRenderer2D. Existing Canvas examples keep working.",
+        code: `import { CanvasRenderer, WebGLRenderer2D } from "raw2d";
+
+const renderer = new CanvasRenderer({ canvas: canvasElement });
+const webgl = new WebGLRenderer2D({ canvas: canvasElement });`
       },
       {
         title: "WebGL Package Boundary",

@@ -18,6 +18,7 @@ import {
 
 test("umbrella package exports common public API", () => {
   assert.equal(typeof Raw2D.Canvas, "function");
+  assert.equal(typeof Raw2D.CanvasRenderer, "function");
   assert.equal(typeof Raw2D.WebGLRenderer2D, "function");
   assert.equal(typeof Raw2D.Scene, "function");
   assert.equal(typeof Raw2D.Rect, "function");
@@ -81,6 +82,7 @@ function getExpectedUmbrellaRuntimeExports() {
     "Camera2D",
     "CameraControls",
     "Canvas",
+    "CanvasRenderer",
     "Circle",
     "Ellipse",
     "Group2D",

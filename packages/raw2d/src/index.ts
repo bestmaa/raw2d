@@ -44,7 +44,7 @@ export {
   sortRenderObjects,
   worldToLocalPoint
 } from "raw2d-core";
-export { Canvas } from "raw2d-canvas";
+export { Canvas, CanvasRenderer } from "raw2d-canvas";
 export { WebGLRenderer2D, isWebGL2Available } from "raw2d-webgl";
 export {
   CameraControls,
