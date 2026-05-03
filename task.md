@@ -168,7 +168,7 @@ Push only on phase release tasks or explicit user request.
 
 ### Phase 6: Codex Plugin And Skills
 
-- T068 | Version: v0.8.0 | Status: pending | Goal: Design Raw2D Codex plugin manifest. | Verify: plugin design doc. | Commit: `Design Raw2D Codex plugin`
+- T068 | Version: v0.8.0 | Status: completed | Goal: Design Raw2D Codex plugin manifest. | Verify: plugin design doc. | Commit: `Design Raw2D Codex plugin`
 - T069 | Version: v0.8.1 | Status: pending | Goal: Add plugin scaffold outside runtime packages. | Verify: plugin files and docs. | Commit: `Scaffold Raw2D Codex plugin`
 - T070 | Version: v0.8.2 | Status: pending | Goal: Add skill `raw2d-doc-writer`. | Verify: skill instructions. | Commit: `Add Raw2D doc writer skill`
 - T071 | Version: v0.8.3 | Status: pending | Goal: Add skill `raw2d-feature-builder`. | Verify: skill instructions. | Commit: `Add Raw2D feature builder skill`
