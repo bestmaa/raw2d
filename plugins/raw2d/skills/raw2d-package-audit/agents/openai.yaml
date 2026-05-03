@@ -1,0 +1,4 @@
+interface:
+  display_name: "Raw2D Package Audit"
+  short_description: "Audit Raw2D package exports and releases."
+  default_prompt: "Audit Raw2D packages before release."

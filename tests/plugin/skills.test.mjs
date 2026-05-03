@@ -88,3 +88,28 @@ test("raw2d-visual-check skill includes Codex UI metadata", () => {
   assert.match(text, /display_name: "Raw2D Visual Check"/);
   assert.match(text, /default_prompt: "Visually check this Raw2D example."/);
 });
+
+test("raw2d-package-audit skill has required frontmatter", () => {
+  const text = readSkill("raw2d-package-audit");
+
+  assert.match(text, /^---\nname: raw2d-package-audit\n/m);
+  assert.match(text, /description: Audit Raw2D workspace packages/);
+  assert.doesNotMatch(text, /\[TODO:/);
+});
+
+test("raw2d-package-audit skill covers release checks", () => {
+  const text = readSkill("raw2d-package-audit");
+
+  assert.match(text, /npm run pack:check -- --silent/);
+  assert.match(text, /npm run test:consumer/);
+  assert.match(text, /Do not push or publish unless/);
+  assert.match(text, /jsDelivr/);
+});
+
+test("raw2d-package-audit skill includes Codex UI metadata", () => {
+  const agentPath = path.join(skillsRoot, "raw2d-package-audit", "agents", "openai.yaml");
+  const text = fs.readFileSync(agentPath, "utf8");
+
+  assert.match(text, /display_name: "Raw2D Package Audit"/);
+  assert.match(text, /default_prompt: "Audit Raw2D packages before release."/);
+});

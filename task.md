@@ -173,7 +173,7 @@ Push only on phase release tasks or explicit user request.
 - T070 | Version: v0.8.2 | Status: completed | Goal: Add skill `raw2d-doc-writer`. | Verify: skill instructions. | Commit: `Add Raw2D doc writer skill`
 - T071 | Version: v0.8.3 | Status: completed | Goal: Add skill `raw2d-feature-builder`. | Verify: skill instructions. | Commit: `Add Raw2D feature builder skill`
 - T072 | Version: v0.8.4 | Status: completed | Goal: Add skill `raw2d-visual-check`. | Verify: skill instructions. | Commit: `Add Raw2D visual check skill`
-- T073 | Version: v0.8.5 | Status: pending | Goal: Add skill `raw2d-package-audit`. | Verify: skill instructions. | Commit: `Add Raw2D package audit skill`
+- T073 | Version: v0.8.5 | Status: completed | Goal: Add skill `raw2d-package-audit`. | Verify: skill instructions. | Commit: `Add Raw2D package audit skill`
 - T074 | Version: v0.8.6 | Status: pending | Goal: Add plugin command to scaffold a Raw2D app. | Verify: generated app builds. | Commit: `Add Raw2D app scaffold command`
 - T075 | Version: v0.8.7 | Status: pending | Goal: Add plugin command to create examples. | Verify: generated example loads. | Commit: `Add Raw2D example command`
 - T076 | Version: v0.8.8 | Status: pending | Goal: Add plugin command to run docs QA. | Verify: command output. | Commit: `Add Raw2D docs QA command`
