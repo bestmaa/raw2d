@@ -1,4 +1,5 @@
 import { createCanvasBenchmarkPanel } from "./CanvasBenchmarkPanel";
+import { createWebGLBenchmarkPanel } from "./WebGLBenchmarkPanel";
 
 export function renderBenchmarkPage(): HTMLElement {
   const page = document.createElement("main");
@@ -6,7 +7,7 @@ export function renderBenchmarkPage(): HTMLElement {
   const body = document.createElement("p");
   const grid = document.createElement("section");
   const canvasPanel = createCanvasBenchmarkPanel();
-  const webglPanel = createPlaceholderPanel("WebGL Benchmark", "T043 will add the WebGL loop and stats.");
+  const webglPanel = createWebGLBenchmarkPanel();
 
   page.className = "visual-test-page";
   grid.style.display = "grid";
@@ -17,16 +18,4 @@ export function renderBenchmarkPage(): HTMLElement {
   grid.append(canvasPanel, webglPanel);
   page.append(title, body, grid);
   return page;
-}
-
-function createPlaceholderPanel(titleText: string, bodyText: string): HTMLElement {
-  const panel = document.createElement("article");
-  const title = document.createElement("h2");
-  const body = document.createElement("p");
-
-  panel.className = "visual-test-card";
-  title.textContent = titleText;
-  body.textContent = bodyText;
-  panel.append(title, body);
-  return panel;
 }
