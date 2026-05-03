@@ -6,8 +6,8 @@ Available skills:
 
 - `raw2d-doc-writer`
 - `raw2d-feature-builder`
+- `raw2d-visual-check`
 
 Planned skills:
 
-- `raw2d-visual-check`
 - `raw2d-package-audit`

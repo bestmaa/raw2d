@@ -1,0 +1,4 @@
+interface:
+  display_name: "Raw2D Visual Check"
+  short_description: "Verify Raw2D docs and rendering visually."
+  default_prompt: "Visually check this Raw2D example."

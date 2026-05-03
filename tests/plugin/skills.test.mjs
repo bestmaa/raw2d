@@ -63,3 +63,28 @@ test("raw2d-feature-builder skill includes Codex UI metadata", () => {
   assert.match(text, /display_name: "Raw2D Feature Builder"/);
   assert.match(text, /default_prompt: "Build this Raw2D feature with tests and docs."/);
 });
+
+test("raw2d-visual-check skill has required frontmatter", () => {
+  const text = readSkill("raw2d-visual-check");
+
+  assert.match(text, /^---\nname: raw2d-visual-check\n/m);
+  assert.match(text, /description: Verify Raw2D docs/);
+  assert.doesNotMatch(text, /\[TODO:/);
+});
+
+test("raw2d-visual-check skill covers browser and pixel checks", () => {
+  const text = readSkill("raw2d-visual-check");
+
+  assert.match(text, /node --test tests\/browser-smoke\.test\.mjs/);
+  assert.match(text, /tests\/webgl\/visual-regression\.test\.mjs/);
+  assert.match(text, /Canvas and WebGL outputs separately/);
+  assert.match(text, /route and viewport checked/);
+});
+
+test("raw2d-visual-check skill includes Codex UI metadata", () => {
+  const agentPath = path.join(skillsRoot, "raw2d-visual-check", "agents", "openai.yaml");
+  const text = fs.readFileSync(agentPath, "utf8");
+
+  assert.match(text, /display_name: "Raw2D Visual Check"/);
+  assert.match(text, /default_prompt: "Visually check this Raw2D example."/);
+});
