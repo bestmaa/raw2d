@@ -145,11 +145,14 @@ function createGroup(
 ): { readonly element: HTMLElement; readonly count: number } {
   const section = document.createElement("section");
   const title = document.createElement("h2");
+  const description = document.createElement("p");
   let count = 0;
 
   section.className = "doc-nav-group";
   title.textContent = options.language === "hi" ? group.hiLabel : group.label;
-  section.append(title);
+  description.className = "doc-nav-group-description";
+  description.textContent = options.language === "hi" ? group.hiDescription : group.description;
+  section.append(title, description);
 
   for (const topic of getRankedTopics(group, options.language, searchTerm)) {
 

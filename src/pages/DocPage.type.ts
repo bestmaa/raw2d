@@ -22,6 +22,8 @@ export type DocLanguage = "en" | "hi";
 export interface DocGroup {
   readonly id: string;
   readonly label: string;
+  readonly description: string;
   readonly hiLabel: string;
+  readonly hiDescription: string;
   readonly topics: readonly DocTopic[];
 }

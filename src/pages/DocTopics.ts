@@ -64,7 +64,9 @@ export const docGroups: readonly DocGroup[] = [
   {
     id: "start-here",
     label: "Start Here",
+    description: "Install, first render, examples, releases, and publish basics.",
     hiLabel: "Yahan Se Start",
+    hiDescription: "Install, first render, examples, release, aur publish basics.",
     topics: [
       ...setupTopics,
       ...beginnerPathTopics,
@@ -90,19 +92,25 @@ export const docGroups: readonly DocGroup[] = [
   {
     id: "scene-foundations",
     label: "Scene Foundations",
+    description: "Scene graph, transforms, groups, bounds, and core object rules.",
     hiLabel: "Scene Foundation",
+    hiDescription: "Scene graph, transform, groups, bounds, aur core object rules.",
     topics: [...coreTopics, ...group2DTopics, ...transformTopics, ...boundsTopics]
   },
   {
     id: "drawing-objects",
     label: "Drawing Objects",
+    description: "Shapes, paths, textures, sprites, text, and object parameters.",
     hiLabel: "Drawing Objects",
+    hiDescription: "Shapes, paths, textures, sprites, text, aur object parameters.",
     topics: [...texturePathTopics, ...curveTopics, ...pathTopics, ...objectTopics]
   },
   {
     id: "render-flow",
     label: "Render Flow",
+    description: "Renderer choice, render lists, ordering, culling, and parity.",
     hiLabel: "Render Flow",
+    hiDescription: "Renderer choice, render list, order, culling, aur parity.",
     topics: [
       ...canvasCullingTopics,
       ...visibleObjectsTopics,
@@ -119,7 +127,9 @@ export const docGroups: readonly DocGroup[] = [
   {
     id: "webgl-path",
     label: "WebGL Path",
+    description: "Batching, buffers, shaders, draw calls, diagnostics, and tests.",
     hiLabel: "WebGL Path",
+    hiDescription: "Batching, buffers, shaders, draw calls, diagnostics, aur tests.",
     topics: [
       ...webGLPathTopics,
       ...webGLPipelineTopics,
@@ -139,19 +149,25 @@ export const docGroups: readonly DocGroup[] = [
   {
     id: "interaction-tools",
     label: "Interaction Tools",
+    description: "Picking, selection, dragging, resize handles, and keyboard input.",
     hiLabel: "Interaction Tools",
+    hiDescription: "Picking, selection, drag, resize handles, aur keyboard input.",
     topics: [...interactionPathTopics, ...hitTestingTopics, ...pickingTopics, ...interactionTopics, ...interactionQATopics]
   },
   {
     id: "ai-tools",
     label: "AI Tools",
+    description: "MCP, plugin, skills, and AI-assisted Raw2D project workflows.",
     hiLabel: "AI Tools",
+    hiDescription: "MCP, plugin, skills, aur AI-assisted Raw2D workflows.",
     topics: [...mcpTopics, ...mcpReadinessTopics, ...pluginTopics]
   },
   {
     id: "react-later",
     label: "React Later",
+    description: "React bridge status and the future fiber-style package path.",
     hiLabel: "React Later",
+    hiDescription: "React bridge status aur future fiber-style package path.",
     topics: [...reactTopics, ...reactReadinessTopics]
   }
 ];

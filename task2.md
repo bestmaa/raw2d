@@ -76,7 +76,7 @@ Push only on phase release tasks or explicit user request.
 
 - T134 | Version: v1.3.0 | Status: completed | Goal: Redesign docs beginner path: install, canvas, scene, shape, texture, WebGL. | Verify: browser route check. | Commit: `Polish docs beginner path`
 - T135 | Version: v1.3.1 | Status: completed | Goal: Improve docs search scoring and keyboard behavior. | Verify: search browser check. | Commit: `Improve docs search`
-- T136 | Version: v1.3.2 | Status: pending | Goal: Add grouped docs navigation descriptions. | Verify: navigation browser check. | Commit: `Polish docs navigation`
+- T136 | Version: v1.3.2 | Status: completed | Goal: Add grouped docs navigation descriptions. | Verify: navigation browser check. | Commit: `Polish docs navigation`
 - T137 | Version: v1.3.3 | Status: pending | Goal: Make every docs code block copy-paste friendly with package imports. | Verify: snippet tests. | Commit: `Polish docs imports`
 - T138 | Version: v1.3.4 | Status: pending | Goal: Add small/full example toggle consistency across docs. | Verify: browser visual check. | Commit: `Polish docs examples`
 - T139 | Version: v1.3.5 | Status: pending | Goal: Polish Hindi/Hinglish docs manually for natural wording. | Verify: language browser check. | Commit: `Polish Hinglish docs`
