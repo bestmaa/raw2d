@@ -1,10 +1,10 @@
+import type { Raw2DMcpSceneObjectJson } from "./Raw2DSceneObjectJson.type.js";
+
 export interface Raw2DMcpCameraJson {
   readonly x: number;
   readonly y: number;
   readonly zoom: number;
 }
-
-export type Raw2DMcpSceneObjectJson = never;
 
 export interface Raw2DMcpSceneJson {
   readonly objects: readonly Raw2DMcpSceneObjectJson[];

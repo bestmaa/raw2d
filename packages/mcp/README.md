@@ -44,3 +44,25 @@ The returned shape is intentionally close to Raw2D examples:
 ## Boundary
 
 This package should return data and generated code. It should not silently mutate a project or transmit project data.
+
+## Add Object JSON
+
+```ts
+import { addRaw2DSceneObject, createRaw2DSceneJson } from "raw2d-mcp";
+
+const emptyScene = createRaw2DSceneJson();
+const sceneWithRect = addRaw2DSceneObject({
+  document: emptyScene,
+  object: {
+    type: "rect",
+    id: "hero-card",
+    x: 80,
+    y: 64,
+    width: 160,
+    height: 96,
+    material: { fillColor: "#35c2ff" }
+  }
+});
+```
+
+The add helper returns a new scene document and rejects duplicate object ids.
