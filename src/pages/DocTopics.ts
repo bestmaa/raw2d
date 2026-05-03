@@ -17,6 +17,7 @@ import { pickingTopics } from "./DocPickingTopics";
 import { publicApiTopics } from "./DocPublicApiTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { rendererTopics } from "./DocRendererTopics";
+import { rendererChoiceTopics } from "./DocRendererChoiceTopics";
 import { rendererParityTopics } from "./DocRendererParityTopics";
 import { renderListTopics } from "./DocRenderListTopics";
 import { renderPipelineTopics } from "./DocRenderPipelineTopics";
@@ -65,6 +66,7 @@ export const docGroups: readonly DocGroup[] = [
       ...visibleObjectsTopics,
       ...renderOrderTopics,
       ...rendererTopics,
+      ...rendererChoiceTopics,
       ...rendererParityTopics,
       ...renderPipelineTopics,
       ...renderListTopics

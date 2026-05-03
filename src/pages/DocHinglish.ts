@@ -22,7 +22,7 @@ const topicCopy: Record<string, TopicCopy> = {
   "canvas-culling": { label: "Canvas Culling", title: "Canvas Culling", description: "Canvas render me off-screen objects skip karke performance improve karna." },
   "visible-objects": { label: "Visible Objects", title: "Visible Objects", description: "Camera viewport ke andar kaun se objects visible hain ye nikalna." },
   "render-order": { label: "Render Order", title: "Render Order", description: "zIndex aur scene order se draw order predictable rakhna." },
-  renderer2d: { label: "Renderer2D", title: "Renderer2D", description: "Canvas aur WebGL ke shared renderer contract ko samajhna." },
+  renderer2d: { label: "Renderer2D", title: "Renderer2D", description: "Canvas aur WebGL ke shared renderer contract ko samajhna." }, "renderer-choice": { label: "Renderer Choice", title: "Canvas ya WebGL kab use karein", description: "Canvas simple rendering ke liye aur WebGLRenderer2D bade batched scene ke liye choose karna." },
   "renderer-parity": { label: "Renderer Parity", title: "Renderer Parity Matrix", description: "Canvas aur WebGL me kaun sa object support hai ye compare karna." },
   "render-pipeline": { label: "Render Pipeline", title: "Render Pipeline", description: "Scene se flat render list aur render runs banne ka low-level flow." },
   "webgl-renderer": { label: "WebGLRenderer2D", title: "WebGLRenderer2D", description: "Raw2D ka WebGL2 batch-first renderer path." },
@@ -209,7 +209,7 @@ const bodyCopy = new Map<string, string>([
   ["Parameters", "Ye values object create karte waqt pass ki ja sakti hain."],
   ["Full TextureAtlas Code", "Canvas element se rendered atlas frame tak ka complete setup."],
   ["Full WebGL Code", "WebGL ko prefer karte hue Canvas fallback ke saath complete setup."],
-  ["Full Interaction Code", "Ek draggable aur resizable Rect ke liye complete setup."]
+  ["Full Interaction Code", "Ek draggable aur resizable Rect ke liye complete setup."], ["Benchmark Before Deciding", "Practical compare ke liye /benchmark locally ya https://raw2d.com/benchmark production par open karein. Object count, scene type, static ratio, atlas aur culling badal kar renderer choose karein."]
 ]);
 
 export function createHinglishTopic(topic: DocTopic): DocTopic {
@@ -239,7 +239,6 @@ function createDefaultBody(topic: DocTopic, sectionTitle: string): string {
   const topicName = topicCopy[topic.id]?.label ?? topic.label;
   return `${topicName} me "${sectionTitle}" ka practical use yahan dikhaya gaya hai. Code same Raw2D API flow ko clear rakhta hai.`;
 }
-
 function fallbackTopic(topic: DocTopic): TopicCopy {
   return {
     label: topic.label,
