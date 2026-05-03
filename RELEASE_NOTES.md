@@ -1,5 +1,41 @@
 # Raw2D Release Notes
 
+## v1.0.0 - Stable Raw2D MVP
+
+Raw2D v1.0.0 is the first stable release for the modular 2D rendering engine.
+
+### Highlights
+
+- Stable public API checklist, package metadata, release workflow, and docs QA gates.
+- Canvas reference renderer and WebGL2 batched renderer with documented parity boundaries.
+- Modular packages for core, canvas, webgl, sprite, text, interaction, mcp, react, and effects.
+- Docs and examples for Canvas, WebGL, interaction, MCP/plugin tooling, React readiness, and release verification.
+
+### Added
+
+- Final QA checklists for Canvas, WebGL, interaction, console, accessibility, install smoke, API freeze, renderer parity, MCP/plugin, React, npm, CDN, and Cloudflare.
+- Browser and package audit tests for final v1 hardening docs.
+- Release notes, changelog, API freeze, install smoke, and v1 release workflows.
+
+### Changed
+
+- Package versions are aligned at `1.0.0`.
+
+### Known Limits
+
+- `raw2d-effects` remains intentionally empty.
+- `raw2d-react` is an early optional adapter package.
+- `WebGLRenderer2D` remains explicit and batch-focused, with documented renderer differences.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+- npm, CDN, and docs deployment checks after publish.
+
 ## v0.9.9 - Clean Release Lockfile Fix
 
 Raw2D v0.9.9 fixes the npm 10 clean-install lockfile used by GitHub Actions release publishing.
