@@ -11,6 +11,10 @@ export function createDocPager(topic: DocTopic, language: DocLanguage, onSelect:
   footer.className = "doc-pager";
   footer.setAttribute("aria-label", "Topic navigation");
 
+  if (index >= 0) {
+    footer.append(createProgress(index, topics.length, language));
+  }
+
   if (previous) {
     footer.append(createPagerButton(previous, getDocUiText(language).previous, language, onSelect));
   }
@@ -20,6 +24,15 @@ export function createDocPager(topic: DocTopic, language: DocLanguage, onSelect:
   }
 
   return footer;
+}
+
+function createProgress(index: number, total: number, language: DocLanguage): HTMLElement {
+  const progress = document.createElement("p");
+  progress.className = "doc-pager-progress";
+  progress.textContent = language === "hi"
+    ? `Topic ${index + 1} / ${total}`
+    : `Topic ${index + 1} of ${total}`;
+  return progress;
 }
 
 function createPagerButton(topic: DocTopic, eyebrow: string, language: DocLanguage, onSelect: (topic: DocTopic) => void): HTMLElement {
