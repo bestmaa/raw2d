@@ -1,5 +1,23 @@
 # Raw2D Release Notes
 
+## v0.9.8 - React Package Build Fix
+
+Raw2D v0.9.8 fixes the clean CI release path for the first React package phase.
+
+### Changed
+
+- Package versions are aligned at `0.9.8`.
+- Workspace package build order now builds the `raw2d` umbrella package before `raw2d-react`.
+
+### Verification
+
+- Clean install.
+- TypeScript strict typecheck.
+- Full unit test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+
 ## v0.9.7 - React Package Phase
 
 Raw2D v0.9.7 publishes the first `raw2d-react` phase for React users.
