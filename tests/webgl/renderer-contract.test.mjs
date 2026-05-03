@@ -25,6 +25,29 @@ test("WebGLRenderer2D exposes the shared renderer lifecycle surface", () => {
   assert.equal(gl.calls.includes("clearColor:1,1,1,1"), true);
 });
 
+test("WebGLRenderer2D diagnostics keep stable public field names", () => {
+  const gl = createFakeWebGL2Context();
+  const renderer = new WebGLRenderer2D({ canvas: createFakeCanvas(gl), width: 200, height: 120 });
+  const scene = new Scene();
+
+  scene.add(createRect());
+  renderer.render(scene, new Camera2D());
+  const diagnostics = renderer.getDiagnostics();
+
+  assert.deepEqual(Object.keys(diagnostics), [
+    "renderer",
+    "contextLost",
+    "textureCacheSize",
+    "textTextureCacheSize",
+    "shapePathTextureCacheSize",
+    "stats"
+  ]);
+  assert.equal(diagnostics.renderer, "webgl2");
+  assert.equal(diagnostics.contextLost, false);
+  assert.equal(diagnostics.stats.objects, 1);
+  assert.equal(diagnostics.stats.drawCalls, 1);
+});
+
 function createRect() {
   return new Rect({
     x: 20,

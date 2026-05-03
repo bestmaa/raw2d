@@ -24,6 +24,37 @@ test("RenderPipeline creates sorted root items and flat metadata", () => {
   });
 });
 
+test("RenderPipeline and RenderList keep stable metadata names", () => {
+  const scene = new Scene();
+  const rect = new Rect({ name: "stable", width: 20, height: 20 });
+  const pipeline = new RenderPipeline({
+    boundsProvider: () => new Rectangle({ width: 20, height: 20 })
+  });
+
+  scene.add(rect);
+  const renderList = pipeline.build({ scene });
+  const [item] = renderList.getFlatItems();
+
+  assert.deepEqual(Object.keys(item), [
+    "object",
+    "id",
+    "parentId",
+    "depth",
+    "order",
+    "zIndex",
+    "visible",
+    "culled",
+    "bounds",
+    "localMatrix",
+    "worldMatrix",
+    "children"
+  ]);
+  assert.equal(typeof renderList.getRootItems, "function");
+  assert.equal(typeof renderList.getFlatItems, "function");
+  assert.equal(typeof renderList.getObjects, "function");
+  assert.equal(typeof renderList.getStats, "function");
+});
+
 test("RenderPipeline preserves Group2D child hierarchy", () => {
   const scene = new Scene();
   const group = new Group2D({ name: "group" });
@@ -75,4 +106,3 @@ test("RenderPipeline filters hidden, custom-filtered, and culled objects", () =>
     culled: 1
   });
 });
-
