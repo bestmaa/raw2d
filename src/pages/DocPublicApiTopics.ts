@@ -79,6 +79,11 @@ import { Canvas } from "raw2d";`
       {
         title: "Deprecation Policy",
         body: "Do not remove a public name in the same task that introduces its replacement. Update docs, examples, type tests, and export tests first.",
+        notice: {
+          tone: "warning",
+          title: "Deprecation helper",
+          body: "Use a visible note before a breaking rename, then keep the old name working until the migration is documented and tested."
+        },
         code: `// Step 1: add replacement and alias.
 export { Canvas as CanvasRenderer };
 

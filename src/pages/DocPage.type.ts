@@ -1,9 +1,12 @@
+import type { DocNoticeOptions } from "./DocNotice.type";
+
 export interface DocSection {
   readonly title: string;
   readonly body: string;
   readonly code?: string;
   readonly liveCode?: string;
   readonly liveDemoId?: string;
+  readonly notice?: DocNoticeOptions;
 }
 
 export interface DocTopic {

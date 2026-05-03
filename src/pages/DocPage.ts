@@ -2,6 +2,7 @@ import type { DocLanguage, DocSection, DocTopic } from "./DocPage.type";
 import { createDemoForId, hasDemoId } from "./DocDemos";
 import { getDocUiText, translateTopic } from "./DocI18n";
 import { getLiveExampleCode } from "./DocLiveExampleCode";
+import { createDocNotice } from "./DocNotice";
 import { createDocPager } from "./DocPager";
 import { findFirstDocSearchMatch } from "./DocSearch";
 import { restoreSidebarSearchFocus, shouldRestoreSearchFocus } from "./DocSearchFocus";
@@ -175,6 +176,10 @@ function createSection(
   title.textContent = section.title;
   body.textContent = section.body;
   article.append(title, body);
+
+  if (section.notice) {
+    article.append(createDocNotice(section.notice));
+  }
 
   if (section.code) {
     article.append(createCodeBlock(section.code, language));
