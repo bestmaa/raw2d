@@ -24,6 +24,7 @@ import type { MutableWebGLRenderStats } from "./MutableWebGLRenderStats.type.js"
 import type { WebGLRenderRun } from "./WebGLRenderRun.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 import type { WebGLSpriteBatch } from "./WebGLSpriteBatch.type.js";
+import type { WebGLDiagnostics } from "./WebGLDiagnostics.type.js";
 import type { WebGLRenderer2DLike, WebGLRenderer2DOptions, WebGLRenderer2DRenderOptions, WebGLRenderer2DSize } from "./WebGLRenderer2D.type.js";
 
 export class WebGLRenderer2D implements WebGLRenderer2DLike {
@@ -76,6 +77,16 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
   public getSupport(): RendererSupportProfile { return getRendererSupport("webgl"); }
   public getTextureCacheSize(): number { return this.resources.textureCache.getSize(); }
   public getTextTextureCacheSize(): number { return this.resources.textTextureCache.getSize(); }
+  public getDiagnostics(): WebGLDiagnostics {
+    return {
+      renderer: "webgl2",
+      contextLost: this.isContextLost(),
+      textureCacheSize: this.resources.textureCache.getSize(),
+      textTextureCacheSize: this.resources.textTextureCache.getSize(),
+      shapePathTextureCacheSize: this.resources.shapePathTextureCache.getSize(),
+      stats: this.stats
+    };
+  }
   public isContextLost(): boolean {
     return this.contextLost || (typeof this.gl.isContextLost === "function" && this.gl.isContextLost());
   }

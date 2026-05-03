@@ -124,7 +124,7 @@ Push only on phase release tasks or explicit user request.
 - T030 | Version: v0.5.3 | Status: completed | Goal: Add buffer upload docs and practical example. | Verify: WebGL stats. | Commit: `Document WebGL buffers`
 - T031 | Version: v0.5.4 | Status: completed | Goal: Add shader docs without hiding low-level details. | Verify: docs in browser. | Commit: `Document WebGL shaders`
 - T032 | Version: v0.5.5 | Status: completed | Goal: Add draw call docs with stats example. | Verify: stats example. | Commit: `Document WebGL draw calls`
-- T033 | Version: v0.5.6 | Status: pending | Goal: Expose stable WebGL diagnostics type. | Verify: type tests. | Commit: `Stabilize WebGL diagnostics`
+- T033 | Version: v0.5.6 | Status: completed | Goal: Expose stable WebGL diagnostics type. | Verify: type tests. | Commit: `Stabilize WebGL diagnostics`
 - T034 | Version: v0.5.7 | Status: pending | Goal: Add WebGL debug overlay example. | Verify: browser overlay. | Commit: `Add WebGL debug overlay example`
 - T035 | Version: v0.5.8 | Status: pending | Goal: Document context lost/restored and fallback behavior. | Verify: docs and tests. | Commit: `Document WebGL context lifecycle`
 - T036 | Version: v0.5.9 | Status: pending | Goal: Document ShapePath fallback, static/dynamic batches, and texture bind reduction. | Verify: docs and examples. | Commit: `Document WebGL batching details`

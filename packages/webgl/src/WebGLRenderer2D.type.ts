@@ -1,5 +1,6 @@
 import type { Object2D, Renderer2DLike, Renderer2DRenderOptions, Renderer2DSize } from "raw2d-core";
 import type { WebGLShapePathFillFallbackMode, WebGLShapePathFillFallbackReport } from "./WebGLShapePathFillFallback.type.js";
+import type { WebGLDiagnostics } from "./WebGLDiagnostics.type.js";
 import type { WebGLRenderStats } from "./WebGLRenderStats.type.js";
 
 export type WebGLSpriteSortingMode = "none" | "texture";
@@ -20,6 +21,7 @@ export interface WebGLRenderer2DOptions {
 
 export interface WebGLRenderer2DLike extends Renderer2DLike<Object2D, WebGLRenderer2DRenderOptions, WebGLRenderStats, WebGLRenderer2DSize> {
   clearTextureCache(): void;
+  getDiagnostics(): WebGLDiagnostics;
   isContextLost(): boolean;
 }
 

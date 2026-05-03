@@ -4,6 +4,7 @@ export * from "./isWebGL2Available.js";
 export * from "./isWebGL2Available.type.js";
 export * from "./WebGLRenderer2DResources.js";
 export * from "./WebGLRenderer2DResources.type.js";
+export * from "./WebGLDiagnostics.type.js";
 export * from "./WebGLRenderStats.type.js";
 export * from "./WebGLRenderRun.type.js";
 export * from "./WebGLColor.type.js";
