@@ -1,5 +1,23 @@
 # Raw2D Release Notes
 
+## v0.9.9 - Clean Release Lockfile Fix
+
+Raw2D v0.9.9 fixes the npm 10 clean-install lockfile used by GitHub Actions release publishing.
+
+### Changed
+
+- Package versions are aligned at `0.9.9`.
+- The workspace lockfile now includes npm 10 Linux optional dependencies required by clean release installs.
+
+### Verification
+
+- npm 10 clean install.
+- TypeScript strict typecheck.
+- Full unit test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+
 ## v0.9.8 - React Package Build Fix
 
 Raw2D v0.9.8 fixes the clean CI release path for the first React package phase.
