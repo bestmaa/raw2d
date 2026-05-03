@@ -50,6 +50,7 @@ export interface WebGLPerformanceRenderOptions {
   readonly canvasStats: HTMLElement;
   readonly webglStats: HTMLElement;
   readonly spriteStats: HTMLElement;
+  readonly debugOverlay: HTMLElement;
   readonly summary: HTMLElement;
   readonly code: HTMLElement;
 }

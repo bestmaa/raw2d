@@ -29,6 +29,7 @@ import { webGLBatcherTopics } from "./DocWebGLBatcherTopics";
 import { webGLBufferTopics } from "./DocWebGLBufferTopics";
 import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLDrawCallTopics } from "./DocWebGLDrawCallTopics";
+import { webGLDebugOverlayTopics } from "./DocWebGLDebugOverlayTopics";
 import { webGLPathTopics } from "./DocWebGLPathTopics";
 import { webGLPipelineTopics } from "./DocWebGLPipelineTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
@@ -79,6 +80,7 @@ export const docGroups: readonly DocGroup[] = [
       ...webGLBufferTopics,
       ...webGLShaderTopics,
       ...webGLDrawCallTopics,
+      ...webGLDebugOverlayTopics,
       ...webGLRendererTopics,
       ...webGLContextTopics,
       ...webGLPerformanceTopics,

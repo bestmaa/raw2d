@@ -3,6 +3,7 @@ import { createWebGLPerformanceAssets } from "./WebGLPerformanceAssets";
 import { createWebGLPerformanceControls } from "./WebGLPerformanceControls";
 import { createWebGLPerformanceScene } from "./WebGLPerformanceScene";
 import { createFrameTimer } from "./WebGLPerformanceTiming";
+import { createDebugCanvasLayer, createWebGLDebugOverlay, updateWebGLDebugOverlay } from "./WebGLDebugOverlay";
 import {
   createWebGLPerformanceCode,
   formatCanvasStats,
@@ -39,6 +40,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
   const summary = document.createElement("code");
   const code = document.createElement("code");
   const pre = document.createElement("pre");
+  const webglOverlay = createWebGLDebugOverlay();
   const canvasRenderer = new Canvas({ canvas: canvasElement, width, height, backgroundColor: "#10141c" });
   const webglRenderer = createWebGLRenderer(webglElement);
   const camera = new Camera2D();
@@ -53,6 +55,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
     canvasStats,
     webglStats,
     spriteStats,
+    debugOverlay: webglOverlay,
     summary,
     code
   };
@@ -64,7 +67,7 @@ export function createWebGLPerformanceDemo(): HTMLElement {
   section.append(
     createTitle(),
     createRendererBlock("Canvas", canvasElement, canvasStats),
-    createRendererBlock("WebGL2", webglElement, webglStats),
+    createRendererBlock("WebGL2", createDebugCanvasLayer(webglElement, webglOverlay), webglStats),
     createInfoBlock("Sprite Diagnostics", spriteStats),
     createSummary(summary),
     createWebGLPerformanceControls(
@@ -107,13 +110,13 @@ function createWebGLRenderer(canvas: HTMLCanvasElement): WebGLRenderer2D | null 
   }
 }
 
-function createRendererBlock(label: string, canvas: HTMLCanvasElement, stats: HTMLElement): HTMLElement {
+function createRendererBlock(label: string, visual: HTMLElement, stats: HTMLElement): HTMLElement {
   const block = document.createElement("div");
   const title = document.createElement("h3");
   title.className = "shape-demo-controls-title";
   title.textContent = label;
   stats.className = "shape-demo-loading";
-  block.append(title, canvas, stats);
+  block.append(title, visual, stats);
   return block;
 }
 
@@ -188,6 +191,7 @@ function renderDemo(options: WebGLPerformanceRenderOptions): void {
 
   if (!options.webglRenderer) {
     options.webglStats.textContent = formatWebGLUnavailable(options.runtime.webglTimer.getSnapshot());
+    updateWebGLDebugOverlay(options.debugOverlay, null);
     options.spriteStats.textContent = "WebGL2 unavailable.";
     options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);
     options.code.textContent = createWebGLPerformanceCode(options.state);
@@ -199,6 +203,7 @@ function renderDemo(options: WebGLPerformanceRenderOptions): void {
   options.webglRenderer.render(prepared.scene, options.camera, renderOptions);
   const webglTiming = options.runtime.webglTimer.record(performance.now() - webglStart);
   options.webglStats.textContent = formatWebGLStats(options.webglRenderer, webglTiming);
+  updateWebGLDebugOverlay(options.debugOverlay, options.webglRenderer.getDiagnostics());
   options.spriteStats.textContent = formatWebGLSpriteDiagnostics(options.webglRenderer);
   options.summary.textContent = formatWebGLPerformanceSummary(prepared, options.state);
   options.code.textContent = createWebGLPerformanceCode(options.state);
