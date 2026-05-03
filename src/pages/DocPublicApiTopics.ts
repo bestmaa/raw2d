@@ -29,7 +29,7 @@ import { Sprite, TextureAtlasPacker } from "raw2d-sprite";`
       },
       {
         title: "Umbrella Runtime Boundary",
-        body: "The umbrella package intentionally avoids exporting Canvas/WebGL implementation internals at runtime.",
+        body: "The umbrella runtime exports are audited by tests. App-level classes stay available here, while Canvas/WebGL implementation internals stay out.",
         code: `// Available from raw2d:
 Canvas;
 WebGLRenderer2D;
@@ -40,6 +40,18 @@ TextureAtlasPacker;
 //   createWebGLShapeBatch,
 //   sortWebGLSpritesForBatching
 // } from "raw2d-webgl";`
+      },
+      {
+        title: "Audited Export Surface",
+        body: "Raw2D keeps an exact runtime export test for the umbrella package so accidental internals cannot leak into app code.",
+        code: `import * as Raw2D from "raw2d";
+
+console.log(Raw2D.Canvas);
+console.log(Raw2D.Scene);
+console.log(Raw2D.WebGLRenderer2D);
+
+// Internal renderer helpers are not exported from raw2d.
+// Import advanced tools from focused packages only.`
       },
       {
         title: "Type Exports",

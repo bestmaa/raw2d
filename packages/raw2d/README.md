@@ -17,6 +17,8 @@ It is designed around explicit control and readable internals:
 
 The umbrella `raw2d` package keeps a stable app-level runtime API. Lower-level renderer helpers stay available from focused packages such as `raw2d-webgl` and `raw2d-canvas`.
 
+The umbrella runtime export surface is audited by tests. App code should import common objects, materials, renderers, textures, and interaction controllers from `raw2d`; renderer internals should be imported from focused packages only when building engine-level tools.
+
 Install the umbrella package when you want the stable public API:
 
 ```sh
@@ -32,7 +34,7 @@ npm install raw2d-core raw2d-canvas raw2d-sprite
 Use the CDN build without a bundler:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.2.1/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.0/dist/raw2d.umd.cjs"></script>
 ```
 
 ```ts

@@ -11,13 +11,41 @@ const workspace = await mkdtemp(path.join(tmpdir(), `raw2d-consumer-${version}-`
 
 try {
   await createConsumerProject(workspace);
+  const packageTarballs = await packWorkspacePackages(workspace);
   await run("npm", ["init", "-y"], workspace);
-  await run("npm", ["install", `raw2d@${version}`, `raw2d-webgl@${version}`, `raw2d-sprite@${version}`, `raw2d-core@${version}`, "vite@^8.0.10", "typescript@~6.0.2"], workspace);
+  await run("npm", ["install", ...packageTarballs, "vite@^8.0.10", "typescript@~6.0.2"], workspace);
   await run("npx", ["tsc", "--noEmit"], workspace);
   await run("npx", ["vite", "build"], workspace);
   await run("node", ["runtime-check.mjs"], workspace);
 } finally {
   await rm(workspace, { recursive: true, force: true });
+}
+
+async function packWorkspacePackages(destination) {
+  const packageDirectories = [
+    "packages/core",
+    "packages/interaction",
+    "packages/text",
+    "packages/sprite",
+    "packages/canvas",
+    "packages/webgl",
+    "packages/effects",
+    "packages/raw2d"
+  ];
+  const tarballs = [];
+
+  for (const packageDirectory of packageDirectories) {
+    const output = await runForOutput("npm", ["pack", "--silent", "--pack-destination", destination], path.join(root, packageDirectory));
+    const fileName = output.trim().split(/\r?\n/).filter(Boolean).at(-1);
+
+    if (!fileName) {
+      throw new Error(`npm pack did not return a tarball for ${packageDirectory}`);
+    }
+
+    tarballs.push(path.join(destination, fileName));
+  }
+
+  return tarballs;
 }
 
 async function createConsumerProject(directory) {
@@ -123,6 +151,30 @@ async function run(command, args, cwd) {
   if (code !== 0) {
     throw new Error(`Command failed: ${command} ${args.join(" ")}`);
   }
+}
+
+async function runForOutput(command, args, cwd) {
+  const child = spawn(command, args, {
+    cwd,
+    env: { ...process.env, npm_config_fund: "false", npm_config_audit: "false" },
+    shell: process.platform === "win32",
+    stdio: ["ignore", "pipe", "inherit"]
+  });
+  let output = "";
+
+  child.stdout.on("data", (chunk) => {
+    output += chunk.toString();
+  });
+
+  const code = await new Promise((resolve) => {
+    child.on("close", resolve);
+  });
+
+  if (code !== 0) {
+    throw new Error(`Command failed: ${command} ${args.join(" ")}`);
+  }
+
+  return output;
 }
 
 console.log(`Consumer smoke passed for raw2d@${version} from ${root}`);

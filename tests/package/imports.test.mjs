@@ -26,6 +26,10 @@ test("umbrella package exports common public API", () => {
   assert.equal(typeof Raw2D.InteractionController, "function");
 });
 
+test("umbrella package runtime exports match the audited public surface", () => {
+  assert.deepEqual(Object.keys(Raw2D).sort(), getExpectedUmbrellaRuntimeExports());
+});
+
 test("umbrella package keeps renderer internals out of runtime API", () => {
   assert.equal(Raw2D.CanvasObjectRenderer, undefined);
   assert.equal(Raw2D.WebGLFloatBuffer, undefined);
@@ -67,3 +71,87 @@ test("package imports can build a small scene without browser globals", () => {
   assert.equal(camera.zoom, 1);
   assert.equal(selection.getPrimary(), rect);
 });
+
+function getExpectedUmbrellaRuntimeExports() {
+  return [
+    "Arc",
+    "AssetGroup",
+    "AssetGroupLoader",
+    "BasicMaterial",
+    "Camera2D",
+    "CameraControls",
+    "Canvas",
+    "Circle",
+    "Ellipse",
+    "Group2D",
+    "InteractionController",
+    "KeyboardController",
+    "Line",
+    "Matrix3",
+    "Object2D",
+    "Polygon",
+    "Polyline",
+    "Rect",
+    "Rectangle",
+    "RenderList",
+    "RenderPipeline",
+    "Scene",
+    "SelectionManager",
+    "ShapePath",
+    "Sprite",
+    "SpriteAnimationClip",
+    "SpriteAnimator",
+    "Text2D",
+    "Texture",
+    "TextureAtlas",
+    "TextureAtlasLoader",
+    "TextureAtlasPacker",
+    "TextureLoader",
+    "WebGLRenderer2D",
+    "containsCirclePoint",
+    "containsEllipsePoint",
+    "containsLinePoint",
+    "containsPoint",
+    "containsPolygonPoint",
+    "containsPolylinePoint",
+    "containsRectPoint",
+    "createSpriteAnimationClip",
+    "createSpriteFromAtlas",
+    "createSpritesFromAtlas",
+    "endObjectDrag",
+    "endObjectResize",
+    "flattenPathCommands",
+    "flattenShapePath",
+    "getArcLocalBounds",
+    "getCameraWorldBounds",
+    "getCircleLocalBounds",
+    "getCoreLocalBounds",
+    "getEllipseLocalBounds",
+    "getInteractionPoint",
+    "getLineLocalBounds",
+    "getPolygonLocalBounds",
+    "getPolylineLocalBounds",
+    "getRectLocalBounds",
+    "getRendererSupport",
+    "getRendererSupportMatrix",
+    "getResizeHandles",
+    "getSelectionBounds",
+    "getShapePathLocalBounds",
+    "getSpriteLocalBounds",
+    "getSpriteWorldBounds",
+    "getVisibleObjects",
+    "getWorldBounds",
+    "isWebGL2Available",
+    "measureText2DLocalBounds",
+    "measureText2DWorldBounds",
+    "pickObject",
+    "pickResizeHandle",
+    "resolveObject2DOrigin",
+    "sortRenderObjects",
+    "startObjectDrag",
+    "startObjectResize",
+    "updateObjectDrag",
+    "updateObjectResize",
+    "worldToLocalPoint"
+  ].sort();
+}
