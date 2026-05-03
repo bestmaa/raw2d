@@ -40,13 +40,13 @@ npm install raw2d
 Focused packages are available for advanced users:
 
 ```bash
-npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-interaction
+npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-interaction raw2d-mcp
 ```
 
 CDN usage:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.7.11/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.7.12/dist/raw2d.umd.cjs"></script>
 <script>
   const { BasicMaterial, Camera2D, Canvas, Rect, Scene } = Raw2D;
 </script>
@@ -168,6 +168,30 @@ const interaction = new InteractionController({
 interaction.enableSelection();
 interaction.enableDrag();
 interaction.enableResize();
+```
+
+## MCP And Automation
+
+`raw2d-mcp` is the automation package for agents, docs generators, and project tooling. It works with scene JSON, validates unknown input, inspects renderer hints, generates Canvas/WebGL examples, and returns explicit visual-check command plans.
+
+```ts
+import {
+  addRaw2DSceneObject,
+  createRaw2DSceneJson,
+  generateRaw2DCanvasExample,
+  validateRaw2DScene
+} from "raw2d-mcp";
+
+const document = addRaw2DSceneObject({
+  document: createRaw2DSceneJson(),
+  object: { type: "rect", id: "card", width: 120, height: 80 }
+});
+
+const result = validateRaw2DScene({ document });
+const example = generateRaw2DCanvasExample({ document });
+
+console.log(result.valid);
+console.log(example.code);
 ```
 
 ## Architecture

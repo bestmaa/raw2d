@@ -162,7 +162,7 @@ Push only on phase release tasks or explicit user request.
 - T062 | Version: v0.7.9 | Status: completed | Goal: Add MCP tool to generate docs snippets. | Verify: docs snippet test. | Commit: `Add MCP docs snippet tool`
 - T063 | Version: v0.7.10 | Status: completed | Goal: Add MCP tool to run visual tests. | Verify: visual test command. | Commit: `Add MCP visual test tool`
 - T064 | Version: v0.7.11 | Status: completed | Goal: Add MCP package export audit tool. | Verify: audit output. | Commit: `Add MCP export audit tool`
-- T065 | Version: v0.7.12 | Status: pending | Goal: Add MCP README, docs page, and consumer example. | Verify: docs and consumer example. | Commit: `Document Raw2D MCP package`
+- T065 | Version: v0.7.12 | Status: completed | Goal: Add MCP README, docs page, and consumer example. | Verify: docs and consumer example. | Commit: `Document Raw2D MCP package`
 - T066 | Version: v0.7.13 | Status: pending | Goal: Add MCP tests and AI control boundary docs. | Verify: MCP test suite. | Commit: `Test and document MCP boundaries`
 - T067 | Version: v0.7.14 | Status: pending | Goal: Phase 5 release and publish. | Verify: phase release verification. | Commit: `Release MCP phase`
 

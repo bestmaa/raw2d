@@ -10,6 +10,7 @@ import { hitTestingTopics } from "./DocHitTestingTopics";
 import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import { licenseTopics } from "./DocLicenseTopics";
+import { mcpTopics } from "./DocMcpTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
 import { docQaChecklistTopics } from "./DocQAChecklistTopics";
 import { objectTopics } from "./DocObjectTopics";
@@ -98,6 +99,12 @@ export const docGroups: readonly DocGroup[] = [
     label: "Interaction Tools",
     hiLabel: "Interaction Tools",
     topics: [...interactionPathTopics, ...hitTestingTopics, ...pickingTopics, ...interactionTopics]
+  },
+  {
+    id: "ai-tools",
+    label: "AI Tools",
+    hiLabel: "AI Tools",
+    topics: [...mcpTopics]
   }
 ];
 

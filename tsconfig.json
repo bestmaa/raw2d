@@ -27,6 +27,7 @@
       "raw2d-core": ["packages/core/src/index.ts"],
       "raw2d-effects": ["packages/effects/src/index.ts"],
       "raw2d-interaction": ["packages/interaction/src/index.ts"],
+      "raw2d-mcp": ["packages/mcp/src/index.ts"],
       "raw2d-sprite": ["packages/sprite/src/index.ts"],
       "raw2d-text": ["packages/text/src/index.ts"],
       "raw2d-webgl": ["packages/webgl/src/index.ts"]

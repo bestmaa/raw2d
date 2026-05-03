@@ -4,9 +4,12 @@
 
 ## Current Scope
 
-- Describe the package name and version.
-- List planned MCP tool names.
-- Create an empty scene JSON document with camera defaults.
+- Create Raw2D scene JSON with camera defaults.
+- Add supported object JSON.
+- Update transform and material fields immutably.
+- Validate and inspect scene JSON.
+- Generate Canvas, WebGL, and markdown examples.
+- Create explicit visual-check and export-audit plans.
 - Keep runtime code deterministic and side-effect free.
 - Avoid browser, file-writing, publishing, or network behavior in the scaffold.
 
