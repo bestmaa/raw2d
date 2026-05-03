@@ -122,7 +122,7 @@ Push only on phase release tasks or explicit user request.
 - T028 | Version: v0.5.1 | Status: completed | Goal: Add render list docs and practical example. | Verify: browser example. | Commit: `Document render lists`
 - T029 | Version: v0.5.2 | Status: completed | Goal: Add batcher docs and practical example. | Verify: browser example. | Commit: `Document WebGL batchers`
 - T030 | Version: v0.5.3 | Status: completed | Goal: Add buffer upload docs and practical example. | Verify: WebGL stats. | Commit: `Document WebGL buffers`
-- T031 | Version: v0.5.4 | Status: pending | Goal: Add shader docs without hiding low-level details. | Verify: docs in browser. | Commit: `Document WebGL shaders`
+- T031 | Version: v0.5.4 | Status: completed | Goal: Add shader docs without hiding low-level details. | Verify: docs in browser. | Commit: `Document WebGL shaders`
 - T032 | Version: v0.5.5 | Status: pending | Goal: Add draw call docs with stats example. | Verify: stats example. | Commit: `Document WebGL draw calls`
 - T033 | Version: v0.5.6 | Status: pending | Goal: Expose stable WebGL diagnostics type. | Verify: type tests. | Commit: `Stabilize WebGL diagnostics`
 - T034 | Version: v0.5.7 | Status: pending | Goal: Add WebGL debug overlay example. | Verify: browser overlay. | Commit: `Add WebGL debug overlay example`

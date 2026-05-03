@@ -1,6 +1,6 @@
 {
   "name": "raw2d",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Umbrella package for the modular Raw2D 2D rendering engine.",
   "type": "module",
   "main": "./dist/raw2d.umd.cjs",
@@ -27,13 +27,13 @@
     "pack:check": "npm pack --dry-run"
   },
   "dependencies": {
-    "raw2d-canvas": "0.5.3",
-    "raw2d-core": "0.5.3",
-    "raw2d-effects": "0.5.3",
-    "raw2d-interaction": "0.5.3",
-    "raw2d-sprite": "0.5.3",
-    "raw2d-text": "0.5.3",
-    "raw2d-webgl": "0.5.3"
+    "raw2d-canvas": "0.5.4",
+    "raw2d-core": "0.5.4",
+    "raw2d-effects": "0.5.4",
+    "raw2d-interaction": "0.5.4",
+    "raw2d-sprite": "0.5.4",
+    "raw2d-text": "0.5.4",
+    "raw2d-webgl": "0.5.4"
   },
   "devDependencies": {
     "vite": "^8.0.10"

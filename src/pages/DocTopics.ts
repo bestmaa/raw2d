@@ -31,6 +31,7 @@ import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLPathTopics } from "./DocWebGLPathTopics";
 import { webGLPipelineTopics } from "./DocWebGLPipelineTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
+import { webGLShaderTopics } from "./DocWebGLShaderTopics";
 import { webGLVisualTestsTopics } from "./DocWebGLVisualTestsTopics";
 
 export const docGroups: readonly DocGroup[] = [
@@ -75,6 +76,7 @@ export const docGroups: readonly DocGroup[] = [
       ...webGLPipelineTopics,
       ...webGLBatcherTopics,
       ...webGLBufferTopics,
+      ...webGLShaderTopics,
       ...webGLRendererTopics,
       ...webGLContextTopics,
       ...webGLPerformanceTopics,
