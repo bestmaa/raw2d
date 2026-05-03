@@ -8,11 +8,20 @@ export function renderBenchmarkPage(): HTMLElement {
   const body = document.createElement("p");
   const controls = document.createElement("section");
   const grid = document.createElement("section");
-  const options: BenchmarkSceneOptions = { objectCount: 140, objectKind: "rect" };
+  const options: BenchmarkSceneOptions = {
+    objectCount: 140,
+    objectKind: "rect",
+    staticRatio: 0.72,
+    cullingEnabled: false,
+    atlasEnabled: true
+  };
   const canvasPanel = createCanvasBenchmarkPanel(options);
   const webglPanel = createWebGLBenchmarkPanel(options);
   const countControl = createCountControl(options);
   const kindControl = createKindControl(options);
+  const staticControl = createStaticRatioControl(options);
+  const cullingControl = createToggleControl("Culling", options.cullingEnabled);
+  const atlasControl = createToggleControl("Atlas", options.atlasEnabled);
   const update = (): void => {
     canvasPanel.updateScene(options);
     webglPanel.updateScene(options);
@@ -34,7 +43,20 @@ export function renderBenchmarkPage(): HTMLElement {
     options.objectKind = kindControl.input.value as BenchmarkObjectKind;
     update();
   });
-  controls.append(countControl.element, kindControl.element);
+  staticControl.input.addEventListener("input", () => {
+    options.staticRatio = Number(staticControl.input.value) / 100;
+    staticControl.value.textContent = `${staticControl.input.value}%`;
+    update();
+  });
+  cullingControl.input.addEventListener("change", () => {
+    options.cullingEnabled = cullingControl.input.checked;
+    update();
+  });
+  atlasControl.input.addEventListener("change", () => {
+    options.atlasEnabled = atlasControl.input.checked;
+    update();
+  });
+  controls.append(countControl.element, kindControl.element, staticControl.element, cullingControl.element, atlasControl.element);
   grid.append(canvasPanel.element, webglPanel.element);
   page.append(title, body, controls, grid);
   return page;
@@ -66,5 +88,34 @@ function createKindControl(options: BenchmarkSceneOptions): { readonly element: 
   input.append(new Option("Rect", "rect"), new Option("Circle", "circle"), new Option("Mixed", "mixed"));
   input.value = options.objectKind;
   label.append(text, input);
+  return { element: label, input };
+}
+
+function createStaticRatioControl(options: BenchmarkSceneOptions): { readonly element: HTMLElement; readonly input: HTMLInputElement; readonly value: HTMLElement } {
+  const label = document.createElement("label");
+  const text = document.createElement("span");
+  const input = document.createElement("input");
+  const value = document.createElement("strong");
+
+  text.textContent = "Static ratio";
+  input.type = "range";
+  input.min = "0";
+  input.max = "100";
+  input.step = "10";
+  input.value = String(Math.round(options.staticRatio * 100));
+  value.textContent = `${input.value}%`;
+  label.append(text, input, value);
+  return { element: label, input, value };
+}
+
+function createToggleControl(labelText: string, checked: boolean): { readonly element: HTMLElement; readonly input: HTMLInputElement } {
+  const label = document.createElement("label");
+  const input = document.createElement("input");
+  const text = document.createElement("span");
+
+  input.type = "checkbox";
+  input.checked = checked;
+  text.textContent = labelText;
+  label.append(input, text);
   return { element: label, input };
 }

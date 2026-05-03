@@ -11,6 +11,7 @@ export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions)
   const title = document.createElement("h2");
   const canvas = document.createElement("canvas");
   const stats = document.createElement("code");
+  let sceneOptions = { ...initialOptions };
   let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
   const runtime: WebGLBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false };
@@ -25,8 +26,8 @@ export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions)
 
   try {
     renderer = new WebGLRenderer2D({ canvas, width, height, backgroundColor: "#10141c" });
-    renderFrame({ renderer, getScene: () => scene, camera, runtime, stats }, runtime.lastTime);
-    scheduleFrame({ panel, renderer, getScene: () => scene, camera, runtime, stats });
+    renderFrame({ renderer, getScene: () => scene, getOptions: () => sceneOptions, camera, runtime, stats }, runtime.lastTime);
+    scheduleFrame({ panel, renderer, getScene: () => scene, getOptions: () => sceneOptions, camera, runtime, stats });
   } catch (error) {
     stats.textContent = createUnavailableMessage(error);
   }
@@ -34,10 +35,11 @@ export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions)
   return {
     element: panel,
     updateScene(options: BenchmarkSceneOptions): void {
+      sceneOptions = { ...options };
       scene = createBenchmarkScene(options);
 
       if (renderer) {
-        renderFrame({ renderer, getScene: () => scene, camera, runtime, stats }, performance.now());
+        renderFrame({ renderer, getScene: () => scene, getOptions: () => sceneOptions, camera, runtime, stats }, performance.now());
       }
     }
   }
@@ -47,6 +49,7 @@ function scheduleFrame(options: {
   readonly panel: HTMLElement;
   readonly renderer: WebGLRenderer2D;
   readonly getScene: () => Scene;
+  readonly getOptions: () => BenchmarkSceneOptions;
   readonly camera: Camera2D;
   readonly runtime: WebGLBenchmarkRuntime;
   readonly stats: HTMLElement;
@@ -63,13 +66,14 @@ function scheduleFrame(options: {
 function renderFrame(options: {
   readonly renderer: WebGLRenderer2D;
   readonly getScene: () => Scene;
+  readonly getOptions: () => BenchmarkSceneOptions;
   readonly camera: Camera2D;
   readonly runtime: WebGLBenchmarkRuntime;
   readonly stats: HTMLElement;
 }, time: number): void {
   options.runtime.frame += 1;
   options.camera.x = Math.sin(time / 900) * 20;
-  options.renderer.render(options.getScene(), options.camera);
+  options.renderer.render(options.getScene(), options.camera, { culling: options.getOptions().cullingEnabled });
   updateStats(options, time);
 }
 
