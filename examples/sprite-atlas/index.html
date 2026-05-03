@@ -4,23 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="data:," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raw2D Sprite Atlas</title>
-    <style>
-      body {
-        margin: 0;
-        display: grid;
-        min-height: 100vh;
-        place-items: center;
-        background: #0b1018;
-      }
-
-      canvas {
-        border: 1px solid #263243;
-      }
-    </style>
+    <title>Raw2D Texture Atlas</title>
+    <link rel="stylesheet" href="../shared/example.css" />
   </head>
   <body>
-    <canvas id="raw2d-canvas"></canvas>
+    <main class="example-stage">
+      <section class="example-panel" aria-label="Raw2D texture atlas example">
+        <header class="example-header">
+          <div class="example-eyebrow">Raw2D Sprite</div>
+          <h1 class="example-title">Texture Atlas</h1>
+          <p class="example-summary">
+            Pack small sprite textures into one atlas and render many sprites from shared frames.
+          </p>
+        </header>
+        <canvas id="raw2d-canvas"></canvas>
+        <pre id="raw2d-stats" aria-live="polite"></pre>
+      </section>
+    </main>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
