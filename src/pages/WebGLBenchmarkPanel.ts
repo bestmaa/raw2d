@@ -13,7 +13,7 @@ export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions)
   const stats = document.createElement("code");
   let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
-  const runtime: WebGLBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, connected: false };
+  const runtime: WebGLBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false };
   let renderer: WebGLRenderer2D | null = null;
 
   panel.className = "visual-test-card";
@@ -83,10 +83,12 @@ function updateStats(options: {
 
   options.runtime.lastTime = time;
   options.runtime.fps = 1000 / delta;
+  options.runtime.frameMs = delta;
   options.stats.textContent = [
     "renderer: webgl2",
     `frame: ${options.runtime.frame}`,
     `fps: ${options.runtime.fps.toFixed(1)}`,
+    `frameMs: ${options.runtime.frameMs.toFixed(2)}`,
     `objects: ${stats.objects}`,
     `rects: ${stats.rects}`,
     `circles: ${stats.circles}`,

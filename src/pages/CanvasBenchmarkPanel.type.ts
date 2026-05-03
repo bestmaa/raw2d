@@ -3,5 +3,6 @@ export interface CanvasBenchmarkRuntime {
   frame: number;
   lastTime: number;
   fps: number;
+  frameMs: number;
   connected: boolean;
 }

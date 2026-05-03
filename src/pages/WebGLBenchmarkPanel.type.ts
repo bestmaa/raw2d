@@ -3,5 +3,6 @@ export interface WebGLBenchmarkRuntime {
   frame: number;
   lastTime: number;
   fps: number;
+  frameMs: number;
   connected: boolean;
 }

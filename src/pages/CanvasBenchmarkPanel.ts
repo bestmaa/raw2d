@@ -14,7 +14,7 @@ export function createCanvasBenchmarkPanel(initialOptions: BenchmarkSceneOptions
   const renderer = new Canvas({ canvas, width, height, backgroundColor: "#10141c" });
   let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
-  const runtime: CanvasBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, connected: false };
+  const runtime: CanvasBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false };
 
   panel.className = "visual-test-card";
   title.textContent = "Canvas Benchmark";
@@ -73,12 +73,15 @@ function updateStats(options: {
 
   options.runtime.lastTime = time;
   options.runtime.fps = 1000 / delta;
+  options.runtime.frameMs = delta;
   options.stats.textContent = [
     `renderer: canvas`,
     `frame: ${options.runtime.frame}`,
     `fps: ${options.runtime.fps.toFixed(1)}`,
+    `frameMs: ${options.runtime.frameMs.toFixed(2)}`,
     `objects: ${stats.objects}`,
     `drawCalls: ${stats.drawCalls}`,
+    "textureBinds: n/a",
     `culled: ${stats.renderList.culled}`
   ].join("\n");
 }
