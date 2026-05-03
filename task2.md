@@ -66,7 +66,7 @@ Push only on phase release tasks or explicit user request.
 - T126 | Version: v1.2.4 | Status: completed | Goal: Add interaction select/drag/resize example. | Verify: browser interaction check. | Commit: `Add interaction example`
 - T127 | Version: v1.2.5 | Status: completed | Goal: Add camera pan/zoom example. | Verify: browser interaction check. | Commit: `Add camera controls example`
 - T128 | Version: v1.2.6 | Status: completed | Goal: Add ShapePath/advanced drawing example. | Verify: Canvas and WebGL comparison. | Commit: `Add shape path example`
-- T129 | Version: v1.2.7 | Status: pending | Goal: Add React example app. | Verify: React build and browser check. | Commit: `Add React example app`
+- T129 | Version: v1.2.7 | Status: completed | Goal: Add React example app. | Verify: React build and browser check. | Commit: `Add React example app`
 - T130 | Version: v1.2.8 | Status: pending | Goal: Add MCP scene JSON example. | Verify: MCP generated example builds. | Commit: `Add MCP example`
 - T131 | Version: v1.2.9 | Status: pending | Goal: Add examples README with install/run instructions. | Verify: README review. | Commit: `Document examples`
 - T132 | Version: v1.2.10 | Status: pending | Goal: Add browser smoke tests for all examples. | Verify: examples tests pass. | Commit: `Test examples routes`
