@@ -1,0 +1,4 @@
+interface:
+  display_name: "Raw2D Doc Writer"
+  short_description: "Write Raw2D docs with examples and checks."
+  default_prompt: "Write docs for this Raw2D feature."
