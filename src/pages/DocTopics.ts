@@ -1,5 +1,6 @@
 import { boundsTopics } from "./DocBoundsTopics";
 import { beginnerPathTopics } from "./DocBeginnerPathTopics";
+import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { curveTopics } from "./DocCurveTopics";
@@ -67,6 +68,7 @@ export const docGroups: readonly DocGroup[] = [
       ...renderOrderTopics,
       ...rendererTopics,
       ...rendererChoiceTopics,
+      ...benchmarkLimitationsTopics,
       ...rendererParityTopics,
       ...renderPipelineTopics,
       ...renderListTopics
