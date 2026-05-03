@@ -1,0 +1,43 @@
+name: Plugin
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "plugins/raw2d/**"
+      - "tests/plugin/**"
+      - ".github/workflows/plugin.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "plugins/raw2d/**"
+      - "tests/plugin/**"
+      - ".github/workflows/plugin.yml"
+
+jobs:
+  plugin:
+    name: Plugin checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Plugin tests
+        run: node --test tests/plugin/*.test.mjs
+
+      - name: Docs QA
+        run: node plugins/raw2d/scripts/run-docs-qa.mjs

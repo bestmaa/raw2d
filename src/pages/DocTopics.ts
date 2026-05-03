@@ -11,6 +11,7 @@ import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import { mcpTopics } from "./DocMcpTopics";
+import { pluginTopics } from "./DocPluginTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
 import { docQaChecklistTopics } from "./DocQAChecklistTopics";
 import { objectTopics } from "./DocObjectTopics";
@@ -104,7 +105,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "ai-tools",
     label: "AI Tools",
     hiLabel: "AI Tools",
-    topics: [...mcpTopics]
+    topics: [...mcpTopics, ...pluginTopics]
   }
 ];
 

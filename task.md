@@ -179,7 +179,7 @@ Push only on phase release tasks or explicit user request.
 - T076 | Version: v0.8.8 | Status: completed | Goal: Add plugin command to run docs QA. | Verify: command output. | Commit: `Add Raw2D docs QA command`
 - T077 | Version: v0.8.9 | Status: completed | Goal: Add plugin command to run visual pixel tests. | Verify: command output. | Commit: `Add Raw2D visual test command`
 - T078 | Version: v0.8.10 | Status: completed | Goal: Add plugin command to explain renderer stats. | Verify: command output. | Commit: `Add renderer stats explanation command`
-- T079 | Version: v0.8.11 | Status: pending | Goal: Add plugin README, docs page, and test workflow. | Verify: docs and workflow. | Commit: `Document Raw2D Codex plugin`
+- T079 | Version: v0.8.11 | Status: completed | Goal: Add plugin README, docs page, and test workflow. | Verify: docs and workflow. | Commit: `Document Raw2D Codex plugin`
 - T080 | Version: v0.8.12 | Status: pending | Goal: Phase 6 release and publish. | Verify: phase release verification. | Commit: `Release plugin and skills phase`
 
 ### Phase 7: React Fiber Later
