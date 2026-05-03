@@ -1,0 +1,44 @@
+{
+  "name": "raw2d",
+  "version": "0.1.0",
+  "description": "Codex tools and skills for building, documenting, and visually testing Raw2D.",
+  "author": {
+    "name": "Aditya Nandlal",
+    "email": "support@raw2d.com",
+    "url": "https://github.com/bestmaa/raw2d"
+  },
+  "homepage": "https://raw2d.com/doc",
+  "repository": "https://github.com/bestmaa/raw2d",
+  "license": "Apache-2.0",
+  "keywords": [
+    "raw2d",
+    "canvas",
+    "webgl",
+    "codex",
+    "visual-testing"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Raw2D",
+    "shortDescription": "Build Raw2D features with docs and visual checks.",
+    "longDescription": "Raw2D plugin helps contributors scaffold examples, write feature docs, run package checks, and verify Canvas/WebGL behavior without hiding the rendering pipeline.",
+    "developerName": "Aditya Nandlal",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Write",
+      "Test",
+      "Browser",
+      "MCP"
+    ],
+    "websiteURL": "https://raw2d.com",
+    "privacyPolicyURL": "https://raw2d.com/doc#license",
+    "termsOfServiceURL": "https://raw2d.com/doc#license",
+    "defaultPrompt": [
+      "Add a Raw2D feature with tests and docs.",
+      "Create a Canvas and WebGL example.",
+      "Run Raw2D visual checks and summarize issues."
+    ],
+    "brandColor": "#35C2FF"
+  }
+}
