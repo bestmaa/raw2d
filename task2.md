@@ -59,7 +59,7 @@ Push only on phase release tasks or explicit user request.
 
 ## Phase 10: Product-Quality Examples
 
-- T122 | Version: v1.2.0 | Status: pending | Goal: Create examples index and shared example style. | Verify: examples route/browser. | Commit: `Add examples index`
+- T122 | Version: v1.2.0 | Status: completed | Goal: Create examples index and shared example style. | Verify: examples route/browser. | Commit: `Add examples index`
 - T123 | Version: v1.2.1 | Status: pending | Goal: Add basic Canvas scene example. | Verify: browser visual check. | Commit: `Add Canvas basic example`
 - T124 | Version: v1.2.2 | Status: pending | Goal: Add WebGL sprite batching example. | Verify: WebGL visual/stats check. | Commit: `Add WebGL sprite example`
 - T125 | Version: v1.2.3 | Status: pending | Goal: Add texture atlas example. | Verify: atlas sprites render. | Commit: `Add texture atlas example`

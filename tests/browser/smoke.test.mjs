@@ -100,6 +100,7 @@ function getHtmlRoutes() {
     "/readme",
     "/benchmark",
     "/visual-test",
+    "/examples/",
     "/examples/webgl-pipeline",
     "/examples/canvas-basic/",
     "/examples/webgl-basic/",
