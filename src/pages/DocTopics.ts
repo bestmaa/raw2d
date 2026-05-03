@@ -10,6 +10,7 @@ import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import type { DocGroup, DocTopic } from "./DocPage.type";
+import { docQaChecklistTopics } from "./DocQAChecklistTopics";
 import { objectTopics } from "./DocObjectTopics";
 import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
@@ -33,7 +34,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "start-here",
     label: "Start Here",
     hiLabel: "Yahan Se Start",
-    topics: [...setupTopics, ...beginnerPathTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics]
+    topics: [...setupTopics, ...beginnerPathTopics, ...publicApiTopics, ...exampleTopics, ...docQaChecklistTopics, ...licenseTopics]
   },
   {
     id: "scene-foundations",
