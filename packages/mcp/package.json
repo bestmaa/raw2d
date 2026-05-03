@@ -1,6 +1,6 @@
 {
   "name": "raw2d-mcp",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "MCP tools and manifests for Raw2D scene automation.",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,7 +24,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "raw2d-core": "1.2.1"
+    "raw2d-core": "1.2.2"
   },
   "author": "Aditya Nandlal",
   "license": "Apache-2.0",

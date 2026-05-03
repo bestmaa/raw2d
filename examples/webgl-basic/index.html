@@ -5,27 +5,23 @@
     <link rel="icon" href="data:," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raw2D WebGL Basic</title>
-    <style>
-      body {
-        margin: 0;
-        display: grid;
-        min-height: 100vh;
-        place-items: center;
-        background: #0b1018;
-        color: #dce9ff;
-        font: 14px ui-monospace, monospace;
-      }
-
-      canvas {
-        border: 1px solid #263243;
-      }
-    </style>
+    <link rel="stylesheet" href="../shared/example.css" />
   </head>
   <body>
-    <div>
+    <main class="example-stage">
+      <section class="example-panel" aria-label="WebGL sprite batching example">
+        <header class="example-header">
+          <a class="example-eyebrow" href="../">Raw2D Examples</a>
+          <h1 class="example-title">WebGL Sprite Batching</h1>
+          <p class="example-summary">
+            WebGL2 renderer drawing many Sprites while reporting draw calls,
+            sprite batches, texture binds, and bind reduction.
+          </p>
+        </header>
       <canvas id="raw2d-canvas"></canvas>
-      <p id="raw2d-stats"></p>
-    </div>
+        <pre id="raw2d-stats" aria-live="polite"></pre>
+      </section>
+    </main>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
