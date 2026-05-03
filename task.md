@@ -104,7 +104,7 @@ Push only on phase release tasks or explicit user request.
 - T013 | Version: v0.4.0 | Status: completed | Goal: Rebuild docs navigation into grouped learning paths. | Verify: browser nav and search. | Commit: `Group docs navigation paths`
 - T014 | Version: v0.4.1 | Status: completed | Goal: Add beginner path: install, canvas, scene, shape, render. | Verify: beginner flow in browser. | Commit: `Add beginner docs path`
 - T015 | Version: v0.4.2 | Status: completed | Goal: Add texture path: load texture, atlas, sprite, animation. | Verify: sprite examples in browser. | Commit: `Add texture docs path`
-- T016 | Version: v0.4.3 | Status: pending | Goal: Add WebGL path: renderer, support, batching, diagnostics. | Verify: WebGL docs in browser. | Commit: `Add WebGL docs path`
+- T016 | Version: v0.4.3 | Status: completed | Goal: Add WebGL path: renderer, support, batching, diagnostics. | Verify: WebGL docs in browser. | Commit: `Add WebGL docs path`
 - T017 | Version: v0.4.4 | Status: pending | Goal: Add interaction path: pick, select, drag, resize, keyboard. | Verify: interaction example in browser. | Commit: `Add interaction docs path`
 - T018 | Version: v0.4.5 | Status: pending | Goal: Improve docs search scoring for partial words. | Verify: manual search cases. | Commit: `Improve docs search scoring`
 - T019 | Version: v0.4.6 | Status: pending | Goal: Improve search empty state and result highlighting. | Verify: manual search cases. | Commit: `Improve docs search feedback`
