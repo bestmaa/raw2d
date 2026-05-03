@@ -46,7 +46,7 @@ npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text raw2d-in
 CDN usage:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.1/dist/raw2d.umd.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/raw2d@0.3.2/dist/raw2d.umd.cjs"></script>
 <script>
   const { BasicMaterial, Camera2D, Canvas, Rect, Scene } = Raw2D;
 </script>

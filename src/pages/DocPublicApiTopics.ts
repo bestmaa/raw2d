@@ -28,6 +28,15 @@ import { WebGLRenderer2D } from "raw2d-webgl";
 import { Sprite, TextureAtlasPacker } from "raw2d-sprite";`
       },
       {
+        title: "Canvas Package Boundary",
+        body: "raw2d-canvas exports the Canvas renderer and Canvas drawing helpers. Scene graph objects still come from raw2d-core or the umbrella package.",
+        code: `import { Canvas, drawRect } from "raw2d-canvas";
+import { Rect, Scene } from "raw2d-core";
+
+const renderer = new Canvas({ canvas: canvasElement });
+renderer.render(scene, camera);`
+      },
+      {
         title: "Umbrella Runtime Boundary",
         body: "The umbrella runtime exports are audited by tests. App-level classes stay available here, while Canvas/WebGL implementation internals stay out.",
         code: `// Available from raw2d:
