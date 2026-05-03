@@ -237,12 +237,12 @@ function createHinglishSection(topic: DocTopic, section: DocSection): DocSection
 
 function createDefaultBody(topic: DocTopic, sectionTitle: string): string {
   const topicName = topicCopy[topic.id]?.label ?? topic.label;
-  return `${topicName} me "${sectionTitle}" ka practical use yahan dikhaya gaya hai. Code same Raw2D API flow ko clear rakhta hai.`;
+  return `${topicName}: "${sectionTitle}" ka practical flow yahan hai. Code copy karke same Raw2D API ke saath try kar sakte hain.`;
 }
 function fallbackTopic(topic: DocTopic): TopicCopy {
   return {
     label: topic.label,
     title: topic.title,
-    description: `${topic.label} ka practical Raw2D workflow yahan explain kiya gaya hai.`
+    description: `${topic.label} ka practical Raw2D workflow yahan simple tarike se explain kiya gaya hai.`
   };
 }

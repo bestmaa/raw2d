@@ -24,14 +24,14 @@ const uiText: Record<DocLanguage, DocUiText> = {
     language: "Language"
   },
   hi: {
-    searchPlaceholder: "Docs search karein",
+    searchPlaceholder: "Docs me search karein",
     searchButton: "Search",
-    noResults: "Koi doc nahi mila.",
-    code: "Code",
-    example: "Example",
+    noResults: "Koi matching doc nahi mila.",
+    code: "Code dekhein",
+    example: "Live example",
     previous: "Pichla",
     next: "Agla",
-    language: "Language"
+    language: "Bhasha"
   }
 };
 

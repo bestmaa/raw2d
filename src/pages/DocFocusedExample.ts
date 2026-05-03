@@ -71,7 +71,7 @@ function updateToggle(smallButton: HTMLButtonElement, fullButton: HTMLButtonElem
 
 function getLabel(language: DocFocusedExampleOptions["language"], mode: "small" | "full"): string {
   if (language === "hi") {
-    return mode === "small" ? "Small code" : "Full example";
+    return mode === "small" ? "Chhota code" : "Full example";
   }
 
   return mode === "small" ? "Small code" : "Full example";
