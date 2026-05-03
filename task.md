@@ -154,7 +154,7 @@ Push only on phase release tasks or explicit user request.
 - T054 | Version: v0.7.1 | Status: completed | Goal: Add MCP package scaffold. | Verify: build and pack check. | Commit: `Scaffold Raw2D MCP package`
 - T055 | Version: v0.7.2 | Status: completed | Goal: Add MCP tool to create scene JSON. | Verify: MCP unit test. | Commit: `Add MCP scene creation tool`
 - T056 | Version: v0.7.3 | Status: completed | Goal: Add MCP tool to add objects to scene JSON. | Verify: MCP unit test. | Commit: `Add MCP object creation tool`
-- T057 | Version: v0.7.4 | Status: pending | Goal: Add MCP tool to update object transform. | Verify: MCP unit test. | Commit: `Add MCP transform tool`
+- T057 | Version: v0.7.4 | Status: completed | Goal: Add MCP tool to update object transform. | Verify: MCP unit test. | Commit: `Add MCP transform tool`
 - T058 | Version: v0.7.5 | Status: pending | Goal: Add MCP tool to update material. | Verify: MCP unit test. | Commit: `Add MCP material tool`
 - T059 | Version: v0.7.6 | Status: pending | Goal: Add MCP tool to inspect scene. | Verify: MCP unit test. | Commit: `Add MCP scene inspection tool`
 - T060 | Version: v0.7.7 | Status: pending | Goal: Add MCP tool to validate scene. | Verify: invalid scene test. | Commit: `Add MCP scene validation tool`

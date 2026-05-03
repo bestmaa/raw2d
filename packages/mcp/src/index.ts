@@ -1,6 +1,7 @@
 export { addRaw2DSceneObject } from "./addRaw2DSceneObject.js";
 export { createRaw2DSceneJson } from "./createRaw2DSceneJson.js";
 export { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
+export { updateRaw2DObjectTransform } from "./updateRaw2DObjectTransform.js";
 export type { AddRaw2DSceneObjectOptions } from "./addRaw2DSceneObject.js";
 export type { Raw2DMcpManifest, Raw2DMcpToolDefinition } from "./Raw2DMcpManifest.type.js";
 export type {
@@ -16,9 +17,11 @@ export type {
   Raw2DMcpObjectBaseJson,
   Raw2DMcpOriginKeyword,
   Raw2DMcpPointJson,
+  Raw2DMcpRenderModeJson,
   Raw2DMcpRectJson,
   Raw2DMcpSceneObjectJson,
   Raw2DMcpSceneObjectType,
   Raw2DMcpSpriteJson,
   Raw2DMcpText2DJson
 } from "./Raw2DSceneObjectJson.type.js";
+export type { Raw2DMcpObjectTransformPatch, UpdateRaw2DObjectTransformOptions } from "./updateRaw2DObjectTransform.type.js";

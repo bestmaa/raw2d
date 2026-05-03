@@ -1,4 +1,5 @@
 export type Raw2DMcpSceneObjectType = "rect" | "circle" | "line" | "text2d" | "sprite";
+export type Raw2DMcpRenderModeJson = "dynamic" | "static";
 
 export type Raw2DMcpOriginKeyword =
   | "top-left"
@@ -34,6 +35,7 @@ export interface Raw2DMcpObjectBaseJson {
   readonly origin?: Raw2DMcpOriginKeyword | Raw2DMcpPointJson;
   readonly visible?: boolean;
   readonly zIndex?: number;
+  readonly renderMode?: Raw2DMcpRenderModeJson;
   readonly material?: Raw2DMcpMaterialJson;
 }
 

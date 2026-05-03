@@ -66,3 +66,22 @@ const sceneWithRect = addRaw2DSceneObject({
 ```
 
 The add helper returns a new scene document and rejects duplicate object ids.
+
+## Update Object Transform
+
+```ts
+import { updateRaw2DObjectTransform } from "raw2d-mcp";
+
+const movedScene = updateRaw2DObjectTransform({
+  document: sceneWithRect,
+  id: "hero-card",
+  transform: {
+    x: 120,
+    y: 90,
+    rotation: 0.25,
+    renderMode: "static"
+  }
+});
+```
+
+The update helper only changes the matching object and throws when the id is missing.
