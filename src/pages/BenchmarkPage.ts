@@ -63,7 +63,7 @@ function createKindControl(options: BenchmarkSceneOptions): { readonly element: 
   const input = document.createElement("select");
 
   text.textContent = "Object type";
-  input.append(new Option("Rect", "rect"), new Option("Circle", "circle"));
+  input.append(new Option("Rect", "rect"), new Option("Circle", "circle"), new Option("Mixed", "mixed"));
   input.value = options.objectKind;
   label.append(text, input);
   return { element: label, input };
