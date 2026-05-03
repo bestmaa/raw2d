@@ -150,7 +150,7 @@ Push only on phase release tasks or explicit user request.
 
 ### Phase 5: MCP Server
 
-- T053 | Version: v0.7.0 | Status: pending | Goal: Design `raw2d-mcp` package scope and commands. | Verify: design doc. | Commit: `Design Raw2D MCP package`
+- T053 | Version: v0.7.0 | Status: completed | Goal: Design `raw2d-mcp` package scope and commands. | Verify: design doc. | Commit: `Design Raw2D MCP package`
 - T054 | Version: v0.7.1 | Status: pending | Goal: Add MCP package scaffold. | Verify: build and pack check. | Commit: `Scaffold Raw2D MCP package`
 - T055 | Version: v0.7.2 | Status: pending | Goal: Add MCP tool to create scene JSON. | Verify: MCP unit test. | Commit: `Add MCP scene creation tool`
 - T056 | Version: v0.7.3 | Status: pending | Goal: Add MCP tool to add objects to scene JSON. | Verify: MCP unit test. | Commit: `Add MCP object creation tool`
