@@ -217,3 +217,5 @@ Push only on phase release tasks or explicit user request.
 - T108 | Version: v0.10.19 | Status: completed | Goal: Add final MCP/plugin readiness checklist. | Verify: checklist review. | Commit: `Add MCP plugin readiness checklist`
 - T109 | Version: v0.10.20 | Status: completed | Goal: Add final React package readiness checklist. | Verify: checklist review. | Commit: `Add React readiness checklist`
 - T110 | Version: v1.0.2 | Status: completed | Goal: Final v1.0 release, push, publish, CDN check, and docs deployment check. | Verify: phase release verification. | Commit: `Release Raw2D v1.0`
+
+Next queue: continue with `task2.md` T111.
