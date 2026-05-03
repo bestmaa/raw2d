@@ -86,7 +86,15 @@ async function setupSpriteDemo(
 
   scene.add(sprite);
   section.querySelector(".shape-demo-loading")?.remove();
-  section.insertBefore(createControls(state, raw2dCanvas, scene, camera, sprite, code), code.parentElement);
+  const controls = createControls(state, raw2dCanvas, scene, camera, sprite, code);
+  const codeBlock = code.parentElement;
+
+  if (codeBlock?.parentElement === section) {
+    section.insertBefore(controls, codeBlock);
+  } else {
+    section.append(controls);
+  }
+
   updateDemo(raw2dCanvas, scene, camera, sprite, state, code);
 }
 

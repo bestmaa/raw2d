@@ -24,6 +24,19 @@ npm run test:consumer`
 http://localhost:5197/doc`
       },
       {
+        title: "Audit Route Coverage",
+        body: "For docs hardening tasks, open the docs shell, important hash topics, readme page, benchmark page, visual test page, and every example route in a browser.",
+        code: `http://localhost:5197/doc#install-setup
+http://localhost:5197/doc#texture
+http://localhost:5197/doc#sprite
+http://localhost:5197/doc#webgl-performance
+http://localhost:5197/readme
+http://localhost:5197/benchmark
+http://localhost:5197/visual-test
+http://localhost:5197/examples/webgl-pipeline
+http://localhost:5197/examples/react-basic/`
+      },
+      {
         title: "Check Feature Examples",
         body: "Every feature topic should have a small code block, and practical topics should include a full example or focused live example.",
         code: `// Good doc flow:

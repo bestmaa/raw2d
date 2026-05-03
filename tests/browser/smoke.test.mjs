@@ -100,6 +100,7 @@ function getHtmlRoutes() {
     "/readme",
     "/benchmark",
     "/visual-test",
+    "/examples/webgl-pipeline",
     "/examples/canvas-basic/",
     "/examples/webgl-basic/",
     "/examples/sprite-atlas/",
@@ -114,6 +115,7 @@ function getModuleRoutes() {
   return [
     "/src/main.ts",
     "/src/pages/BenchmarkPage.ts",
+    "/src/pages/WebGLPipelineExample.ts",
     "/examples/canvas-basic/main.ts",
     "/examples/webgl-basic/main.ts",
     "/examples/sprite-atlas/main.ts",
