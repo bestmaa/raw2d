@@ -8,9 +8,6 @@ Available scripts:
 - example generator command
 - docs QA command
 - visual pixel test command
-
-Planned scripts:
-
 - renderer stats explanation command
 
 ## App Scaffold
@@ -45,3 +42,12 @@ node plugins/raw2d/scripts/run-visual-pixel-tests.mjs
 ```
 
 Runs the deterministic WebGL visual regression test entry.
+
+## Renderer Stats Explanation
+
+```bash
+node plugins/raw2d/scripts/explain-renderer-stats.mjs --sample
+node plugins/raw2d/scripts/explain-renderer-stats.mjs --input '{"renderer":"WebGLRenderer2D","objects":280,"drawCalls":4}'
+```
+
+Explains Raw2D renderer diagnostics in practical batching and performance terms.
