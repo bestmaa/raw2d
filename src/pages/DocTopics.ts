@@ -1,4 +1,5 @@
 import { boundsTopics } from "./DocBoundsTopics";
+import { beginnerPathTopics } from "./DocBeginnerPathTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { curveTopics } from "./DocCurveTopics";
@@ -29,7 +30,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "start-here",
     label: "Start Here",
     hiLabel: "Yahan Se Start",
-    topics: [...setupTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics]
+    topics: [...setupTopics, ...beginnerPathTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics]
   },
   {
     id: "scene-foundations",

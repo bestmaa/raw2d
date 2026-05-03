@@ -9,6 +9,7 @@ interface TopicCopy {
 const topicCopy: Record<string, TopicCopy> = {
   setup: { label: "Install / Setup", title: "Install / Setup", description: "Raw2D ko npm ya CDN se start karne ka seedha setup." },
   "public-api": { label: "Public API", title: "Public API", description: "Stable app API aur focused low-level packages ka boundary." },
+  "beginner-path": { label: "Beginner Path", title: "Beginner Path", description: "Raw2D me install se render tak ka short first-scene flow." },
   examples: { label: "Examples", title: "Examples", description: "Chhote package-style examples jo wahi imports use karte hain jo users npm se karenge." },
   license: { label: "License", title: "License", description: "Raw2D open source hai, Apache-2.0 license aur attribution rules ke saath." },
   canvas: { label: "Canvas Init", title: "Canvas Init", description: "Raw2D Canvas renderer ko HTML canvas ke saath initialize karna." },
@@ -72,6 +73,12 @@ const titleCopy = new Map<string, string>([
   ["Create A Line", "Line banayein"],
   ["Create Text2D", "Text2D banayein"],
   ["Recommended NPM Install", "Recommended NPM install"],
+  ["Install Raw2D", "Raw2D install karein"],
+  ["Add Canvas", "Canvas add karein"],
+  ["Create Renderer", "Renderer banayein"],
+  ["Create Scene And Camera", "Scene aur Camera banayein"],
+  ["Add Shape", "Shape add karein"],
+  ["Render Scene", "Scene render karein"],
   ["Use From NPM", "NPM se use karein"],
   ["First Canvas Render", "Pehla Canvas render"],
   ["Switch To WebGL", "WebGL par switch"],
@@ -116,6 +123,12 @@ const titleCopy = new Map<string, string>([
 
 const bodyCopy = new Map<string, string>([
   ["Recommended NPM Install", "Sabse pehle umbrella package use karein. Isme stable public Raw2D API milti hai."],
+  ["Install Raw2D", "Umbrella package se start karein. Isme stable app-level API milti hai."],
+  ["Add Canvas", "Raw2D real HTMLCanvasElement me render karta hai. Canvas element app ke control me rahega."],
+  ["Create Renderer", "CanvasRenderer pehle learn karein, kyunki ye current objects ko complete support deta hai."],
+  ["Create Scene And Camera", "Scene objects store karta hai. Camera2D world ka visible area define karta hai."],
+  ["Add Shape", "Objects sirf data store karte hain. Drawing ka decision renderer leta hai."],
+  ["Render Scene", "Scene change hone ke baad render call karein. Animation me pehle data update karein, phir render karein."],
   ["Use From NPM", "Renderer, scene, camera, objects aur materials ko seedha raw2d se import karein."],
   ["First Canvas Render", "Canvas complete reference renderer hai. Scene banayein, object add karein, phir camera ke saath render karein."],
   ["Switch To WebGL", "Same scene aur camera ko WebGLRenderer2D se render kar sakte hain, agar object types supported hon."],
