@@ -13,7 +13,8 @@
     "dist",
     "README.md",
     "LICENSE",
-    "NOTICE"
+    "NOTICE",
+    "TRADEMARKS.md"
   ],
   "exports": {
     ".": {
@@ -47,7 +48,8 @@
     "webgl",
     "2d",
     "renderer",
-    "typescript"
+    "typescript",
+    "raw2d"
   ],
   "author": "Aditya Nandlal",
   "license": "Apache-2.0",

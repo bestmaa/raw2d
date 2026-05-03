@@ -11,7 +11,8 @@
     "dist",
     "README.md",
     "LICENSE",
-    "NOTICE"
+    "NOTICE",
+    "TRADEMARKS.md"
   ],
   "exports": {
     ".": {
@@ -28,5 +29,21 @@
     "raw2d-text": "0.9.9"
   },
   "author": "Aditya Nandlal",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestmaa/raw2d.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bestmaa/raw2d/issues"
+  },
+  "homepage": "https://raw2d.com/doc",
+  "keywords": [
+    "webgl",
+    "webgl2",
+    "2d",
+    "renderer",
+    "typescript",
+    "raw2d"
+  ]
 }

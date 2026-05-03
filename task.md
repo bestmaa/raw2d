@@ -198,7 +198,7 @@ Push only on phase release tasks or explicit user request.
 - T089 | Version: v0.10.0 | Status: completed | Goal: Audit every docs route and example route manually. | Verify: browser checklist. | Commit: `Audit docs and examples`
 - T090 | Version: v0.10.1 | Status: completed | Goal: Audit all packages for accidental internals in public exports. | Verify: export audit. | Commit: `Audit public package surfaces`
 - T091 | Version: v0.10.2 | Status: completed | Goal: Audit bundle size and tree-shaking behavior. | Verify: build output. | Commit: `Audit bundle size`
-- T092 | Version: v0.10.3 | Status: pending | Goal: Audit README, LICENSE, NOTICE, TRADEMARKS, and npm metadata. | Verify: npm pack. | Commit: `Audit package metadata`
+- T092 | Version: v0.10.3 | Status: completed | Goal: Audit README, LICENSE, NOTICE, TRADEMARKS, and npm metadata. | Verify: npm pack. | Commit: `Audit package metadata`
 - T093 | Version: v0.10.4 | Status: pending | Goal: Add migration guide for pre-v1 APIs. | Verify: docs route. | Commit: `Add pre-v1 migration guide`
 - T094 | Version: v0.10.5 | Status: pending | Goal: Add v1.0 release checklist. | Verify: checklist review. | Commit: `Add v1 release checklist`
 - T095 | Version: v0.10.6 | Status: pending | Goal: Add docs visual QA checklist for Canvas examples. | Verify: browser checklist. | Commit: `Add Canvas docs QA checklist`
