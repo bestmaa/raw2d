@@ -26,6 +26,7 @@ import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
 import { webGLPerformanceTopics } from "./DocWebGLPerformanceTopics";
 import { webGLContextTopics } from "./DocWebGLContextTopics";
 import { webGLPathTopics } from "./DocWebGLPathTopics";
+import { webGLPipelineTopics } from "./DocWebGLPipelineTopics";
 import { webGLRendererTopics } from "./DocWebGLRendererTopics";
 import { webGLVisualTestsTopics } from "./DocWebGLVisualTestsTopics";
 
@@ -65,7 +66,14 @@ export const docGroups: readonly DocGroup[] = [
     id: "webgl-path",
     label: "WebGL Path",
     hiLabel: "WebGL Path",
-    topics: [...webGLPathTopics, ...webGLRendererTopics, ...webGLContextTopics, ...webGLPerformanceTopics, ...webGLVisualTestsTopics]
+    topics: [
+      ...webGLPathTopics,
+      ...webGLPipelineTopics,
+      ...webGLRendererTopics,
+      ...webGLContextTopics,
+      ...webGLPerformanceTopics,
+      ...webGLVisualTestsTopics
+    ]
   },
   {
     id: "interaction-tools",
