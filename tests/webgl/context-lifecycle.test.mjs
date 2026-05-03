@@ -12,9 +12,13 @@ test("WebGLRenderer2D skips render work while context is lost", () => {
   scene.add(new Rect({ x: 10, y: 10, width: 20, height: 20 }));
   canvas.dispatch("webglcontextlost");
   renderer.render(scene, new Camera2D());
+  const diagnostics = renderer.getDiagnostics();
 
   assert.equal(renderer.isContextLost(), true);
   assert.equal(renderer.getStats().objects, 0);
+  assert.equal(diagnostics.contextLost, true);
+  assert.equal(diagnostics.stats.objects, 0);
+  assert.equal(diagnostics.textureCacheSize, 0);
   assert.equal(canvas.events.webglcontextlost.defaultPrevented, true);
 });
 

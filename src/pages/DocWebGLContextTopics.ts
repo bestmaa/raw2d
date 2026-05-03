@@ -10,11 +10,23 @@ export const webGLContextTopics: readonly DocTopic[] = [
       {
         title: "Detect Context Loss",
         body: "WebGLRenderer2D listens for browser context loss events. While lost, render does not upload buffers, bind textures, or draw.",
+        liveDemoId: "webgl-performance",
         code: `renderer.render(scene, camera);
 
 if (renderer.isContextLost()) {
   console.log("WebGL is waiting for restore");
 }`
+      },
+      {
+        title: "Read Diagnostics",
+        body: "Diagnostics keep context state and render stats in one stable object. Use it for debug overlays, logs, and fallback decisions.",
+        liveDemoId: "webgl-performance",
+        code: `const diagnostics = renderer.getDiagnostics();
+
+console.log(diagnostics.contextLost);
+console.log(diagnostics.stats.objects);
+console.log(diagnostics.stats.drawCalls);
+console.log(diagnostics.textureCacheSize);`
       },
       {
         title: "Restore Recreates Resources",
@@ -24,6 +36,15 @@ if (renderer.isContextLost()) {
 
 renderer.render(scene, camera);
 console.log(renderer.getStats().textureUploads);`
+      },
+      {
+        title: "Canvas Fallback",
+        body: "Raw2D keeps Canvas and WebGL separate. If WebGL2 is unavailable or the context is lost for too long, render the same Scene with Canvas.",
+        code: `const renderer = isWebGL2Available(canvas)
+  ? new WebGLRenderer2D({ canvas })
+  : new Canvas({ canvas });
+
+renderer.render(scene, camera);`
       },
       {
         title: "Animation Loop",
