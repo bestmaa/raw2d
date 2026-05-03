@@ -1,24 +1,41 @@
 # raw2d-react
 
-React bridge package scaffold for Raw2D.
+React bridge package for Raw2D.
 
-This package is intentionally minimal right now. It exists so the React phase can grow in a separate package without changing `raw2d-core`, `raw2d-canvas`, or `raw2d-webgl`.
+This package lets React apps mount a Raw2D canvas and describe basic Raw2D scene objects with React components. It stays separate from the runtime packages so `raw2d-core`, `raw2d-canvas`, and `raw2d-webgl` do not depend on React.
 
 ```bash
 npm install raw2d raw2d-react react
 ```
 
-Current status:
+## Basic Usage
 
-- package boundary only
-- no JSX runtime yet
+```tsx
+import { Raw2DCanvas, RawCircle, RawLine, RawRect, RawText2D } from "raw2d-react";
+
+export function App() {
+  return (
+    <Raw2DCanvas renderer="canvas" width={800} height={480} backgroundColor="#10141c">
+      <RawRect x={80} y={80} width={160} height={96} fillColor="#35c2ff" />
+      <RawCircle x={320} y={128} radius={48} fillColor="#f45b69" />
+      <RawLine x={80} y={240} endX={260} endY={0} strokeColor="#f5f7fb" lineWidth={4} />
+      <RawText2D x={80} y={320} text="Raw2D React" font="32px sans-serif" fillColor="#f5f7fb" />
+    </Raw2DCanvas>
+  );
+}
+```
+
+## Current Status
+
+- `<Raw2DCanvas>` component
+- `RawRect`, `RawCircle`, `RawLine`, `RawSprite`, and `RawText2D`
+- explicit Canvas/WebGL renderer selection
 - no renderer API changes
 - no React dependency inside Raw2D runtime packages
 
-Planned direction:
+## Planned Direction
 
-- `<Raw2DCanvas>` component
-- explicit Canvas/WebGL renderer selection
-- JSX scene, camera, object, and material mapping
 - lifecycle cleanup for objects, listeners, and textures
-
+- hooks for scene access
+- suspense-friendly asset loaders
+- interaction helper components

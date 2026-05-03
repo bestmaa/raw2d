@@ -2,6 +2,50 @@ import type { DocTopic } from "./DocPage.type";
 
 export const reactTopics: readonly DocTopic[] = [
   {
+    id: "react-package",
+    label: "React Package",
+    title: "React Package",
+    description: "Use raw2d-react to mount Raw2D in React without adding React to core renderer packages.",
+    sections: [
+      {
+        title: "Install",
+        body: "Install Raw2D, the React bridge, and React runtime packages together.",
+        code: `npm install raw2d raw2d-react react react-dom`
+      },
+      {
+        title: "Basic Canvas",
+        body: "Raw2DCanvas owns the canvas element. Child primitives add Raw2D objects to the scene and request a render.",
+        code: `import { Raw2DCanvas, RawRect } from "raw2d-react";
+
+export function App() {
+  return (
+    <Raw2DCanvas renderer="canvas" width={800} height={480} backgroundColor="#10141c">
+      <RawRect x={80} y={80} width={160} height={96} fillColor="#35c2ff" />
+    </Raw2DCanvas>
+  );
+}`
+      },
+      {
+        title: "Primitives",
+        body: "The first bridge exposes Rect, Circle, Line, Sprite, and Text2D component wrappers.",
+        code: `<RawRect x={80} y={80} width={160} height={96} fillColor="#35c2ff" />
+<RawCircle x={320} y={128} radius={48} fillColor="#f45b69" />
+<RawLine x={80} y={240} endX={260} endY={0} strokeColor="#f5f7fb" lineWidth={4} />
+<RawText2D x={80} y={320} text="Raw2D React" font="32px sans-serif" />`
+      },
+      {
+        title: "Sprite",
+        body: "RawSprite takes an existing Raw2D Texture so asset loading stays explicit.",
+        code: `import { Texture } from "raw2d";
+import { RawSprite } from "raw2d-react";
+
+const texture = new Texture({ source: image, width: 64, height: 64 });
+
+<RawSprite texture={texture} x={420} y={96} width={64} height={64} />;`
+      }
+    ]
+  },
+  {
     id: "react-package-design",
     label: "React Package Design",
     title: "React Package Design",
