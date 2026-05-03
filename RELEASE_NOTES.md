@@ -1,8 +1,26 @@
 # Raw2D Release Notes
 
+## v1.0.1 - npm 10 Release Lockfile Fix
+
+Raw2D v1.0.1 fixes the clean GitHub Actions publish path for the stable v1 release.
+
+### Changed
+
+- Package versions are aligned at `1.0.1`.
+- The workspace lockfile is regenerated for npm 10 clean installs used by the publish workflow.
+
+### Verification
+
+- npm 10 clean install.
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+
 ## v1.0.0 - Stable Raw2D MVP
 
-Raw2D v1.0.0 is the first stable release for the modular 2D rendering engine.
+Raw2D v1.0.0 is the first stable release candidate for the modular 2D rendering engine.
 
 ### Highlights
 
