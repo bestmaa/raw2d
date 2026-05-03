@@ -1,5 +1,6 @@
 export { addRaw2DSceneObject } from "./addRaw2DSceneObject.js";
 export { createRaw2DSceneJson } from "./createRaw2DSceneJson.js";
+export { createRaw2DVisualCheckPlan } from "./createRaw2DVisualCheckPlan.js";
 export { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
 export { generateRaw2DCanvasExample } from "./generateRaw2DCanvasExample.js";
 export { generateRaw2DDocsSnippet } from "./generateRaw2DDocsSnippet.js";
@@ -41,6 +42,12 @@ export type {
   Raw2DMcpGeneratedExample
 } from "./generateRaw2DExample.type.js";
 export type { GenerateRaw2DDocsSnippetOptions, Raw2DMcpDocsSnippet } from "./generateRaw2DDocsSnippet.type.js";
+export type {
+  CreateRaw2DVisualCheckPlanOptions,
+  Raw2DMcpVisualCheckCommand,
+  Raw2DMcpVisualCheckPlan,
+  Raw2DMcpVisualCheckTarget
+} from "./createRaw2DVisualCheckPlan.type.js";
 export type { UpdateRaw2DObjectMaterialOptions } from "./updateRaw2DObjectMaterial.type.js";
 export type { Raw2DMcpObjectTransformPatch, UpdateRaw2DObjectTransformOptions } from "./updateRaw2DObjectTransform.type.js";
 export type {

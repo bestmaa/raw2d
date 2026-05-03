@@ -158,3 +158,17 @@ console.log(snippet.markdown);
 ```
 
 The snippet includes a short scene summary plus a fenced TypeScript example.
+
+## Visual Check Plan
+
+```ts
+import { createRaw2DVisualCheckPlan } from "raw2d-mcp";
+
+const plan = createRaw2DVisualCheckPlan({ target: "all" });
+
+for (const command of plan.commands) {
+  console.log(command.command, command.args.join(" "));
+}
+```
+
+The MCP package returns explicit commands instead of controlling a browser internally. Agents can display the plan, ask for confirmation, then run the commands in the Raw2D repo.
