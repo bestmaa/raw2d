@@ -114,3 +114,17 @@ const inspection = inspectRaw2DScene({ document: styledScene });
 ```
 
 Inspection returns object counts, type counts, texture/text flags, and renderer hints. It does not build Raw2D objects or draw anything.
+
+## Validate Scene
+
+```ts
+import { validateRaw2DScene } from "raw2d-mcp";
+
+const result = validateRaw2DScene({ document: styledScene });
+
+if (!result.valid) {
+  console.table(result.errors);
+}
+```
+
+Validation accepts unknown JSON and returns path-based errors. It does not throw for bad scene data.
