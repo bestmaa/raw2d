@@ -1,16 +1,18 @@
-import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
+import { Camera2D, Canvas, Scene } from "raw2d";
+import { createBenchmarkScene } from "./createBenchmarkScene";
+import type { BenchmarkPanelController, BenchmarkSceneOptions } from "./BenchmarkScene.type";
 import type { CanvasBenchmarkRuntime } from "./CanvasBenchmarkPanel.type";
 
 const width = 360;
 const height = 220;
 
-export function createCanvasBenchmarkPanel(): HTMLElement {
+export function createCanvasBenchmarkPanel(initialOptions: BenchmarkSceneOptions): BenchmarkPanelController {
   const panel = document.createElement("article");
   const title = document.createElement("h2");
   const canvas = document.createElement("canvas");
   const stats = document.createElement("code");
   const renderer = new Canvas({ canvas, width, height, backgroundColor: "#10141c" });
-  const scene = createScene();
+  let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
   const runtime: CanvasBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, connected: false };
 
@@ -20,33 +22,21 @@ export function createCanvasBenchmarkPanel(): HTMLElement {
   canvas.height = height;
   stats.className = "visual-test-results";
   panel.append(title, canvas, stats);
-  renderFrame({ renderer, scene, camera, runtime, stats }, runtime.lastTime);
-  scheduleFrame({ panel, renderer, scene, camera, runtime, stats });
-  return panel;
-}
-
-function createScene(): Scene {
-  const scene = new Scene();
-  const materialA = new BasicMaterial({ fillColor: "#35c2ff" });
-  const materialB = new BasicMaterial({ fillColor: "#f45b69" });
-
-  for (let index = 0; index < 140; index += 1) {
-    scene.add(new Rect({
-      x: 12 + (index % 20) * 17,
-      y: 16 + Math.floor(index / 20) * 24,
-      width: 11,
-      height: 16,
-      material: index % 2 === 0 ? materialA : materialB
-    }));
+  renderFrame({ renderer, getScene: () => scene, camera, runtime, stats }, runtime.lastTime);
+  scheduleFrame({ panel, renderer, getScene: () => scene, camera, runtime, stats });
+  return {
+    element: panel,
+    updateScene(options: BenchmarkSceneOptions): void {
+      scene = createBenchmarkScene(options);
+      renderFrame({ renderer, getScene: () => scene, camera, runtime, stats }, performance.now());
+    }
   }
-
-  return scene;
 }
 
 function scheduleFrame(options: {
   readonly panel: HTMLElement;
   readonly renderer: Canvas;
-  readonly scene: Scene;
+  readonly getScene: () => Scene;
   readonly camera: Camera2D;
   readonly runtime: CanvasBenchmarkRuntime;
   readonly stats: HTMLElement;
@@ -62,14 +52,14 @@ function scheduleFrame(options: {
 
 function renderFrame(options: {
   readonly renderer: Canvas;
-  readonly scene: Scene;
+  readonly getScene: () => Scene;
   readonly camera: Camera2D;
   readonly runtime: CanvasBenchmarkRuntime;
   readonly stats: HTMLElement;
 }, time: number): void {
   options.runtime.frame += 1;
   options.camera.x = Math.sin(time / 900) * 20;
-  options.renderer.render(options.scene, options.camera, { culling: true });
+  options.renderer.render(options.getScene(), options.camera);
   updateStats(options, time);
 }
 

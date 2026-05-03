@@ -1,17 +1,20 @@
-import { BasicMaterial, Camera2D, Rect, Scene, WebGLRenderer2D } from "raw2d";
+import { Camera2D, Scene, WebGLRenderer2D } from "raw2d";
+import { createBenchmarkScene } from "./createBenchmarkScene";
+import type { BenchmarkPanelController, BenchmarkSceneOptions } from "./BenchmarkScene.type";
 import type { WebGLBenchmarkRuntime } from "./WebGLBenchmarkPanel.type";
 
 const width = 360;
 const height = 220;
 
-export function createWebGLBenchmarkPanel(): HTMLElement {
+export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions): BenchmarkPanelController {
   const panel = document.createElement("article");
   const title = document.createElement("h2");
   const canvas = document.createElement("canvas");
   const stats = document.createElement("code");
-  const scene = createScene();
+  let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
   const runtime: WebGLBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, connected: false };
+  let renderer: WebGLRenderer2D | null = null;
 
   panel.className = "visual-test-card";
   title.textContent = "WebGL Benchmark";
@@ -21,39 +24,29 @@ export function createWebGLBenchmarkPanel(): HTMLElement {
   panel.append(title, canvas, stats);
 
   try {
-    const renderer = new WebGLRenderer2D({ canvas, width, height, backgroundColor: "#10141c" });
-    renderFrame({ renderer, scene, camera, runtime, stats }, runtime.lastTime);
-    scheduleFrame({ panel, renderer, scene, camera, runtime, stats });
+    renderer = new WebGLRenderer2D({ canvas, width, height, backgroundColor: "#10141c" });
+    renderFrame({ renderer, getScene: () => scene, camera, runtime, stats }, runtime.lastTime);
+    scheduleFrame({ panel, renderer, getScene: () => scene, camera, runtime, stats });
   } catch (error) {
     stats.textContent = createUnavailableMessage(error);
   }
 
-  return panel;
-}
+  return {
+    element: panel,
+    updateScene(options: BenchmarkSceneOptions): void {
+      scene = createBenchmarkScene(options);
 
-function createScene(): Scene {
-  const scene = new Scene();
-  const materialA = new BasicMaterial({ fillColor: "#35c2ff" });
-  const materialB = new BasicMaterial({ fillColor: "#f45b69" });
-
-  for (let index = 0; index < 140; index += 1) {
-    scene.add(new Rect({
-      x: 12 + (index % 20) * 17,
-      y: 16 + Math.floor(index / 20) * 24,
-      width: 11,
-      height: 16,
-      renderMode: index < 100 ? "static" : "dynamic",
-      material: index % 2 === 0 ? materialA : materialB
-    }));
+      if (renderer) {
+        renderFrame({ renderer, getScene: () => scene, camera, runtime, stats }, performance.now());
+      }
+    }
   }
-
-  return scene;
 }
 
 function scheduleFrame(options: {
   readonly panel: HTMLElement;
   readonly renderer: WebGLRenderer2D;
-  readonly scene: Scene;
+  readonly getScene: () => Scene;
   readonly camera: Camera2D;
   readonly runtime: WebGLBenchmarkRuntime;
   readonly stats: HTMLElement;
@@ -69,14 +62,14 @@ function scheduleFrame(options: {
 
 function renderFrame(options: {
   readonly renderer: WebGLRenderer2D;
-  readonly scene: Scene;
+  readonly getScene: () => Scene;
   readonly camera: Camera2D;
   readonly runtime: WebGLBenchmarkRuntime;
   readonly stats: HTMLElement;
 }, time: number): void {
   options.runtime.frame += 1;
   options.camera.x = Math.sin(time / 900) * 20;
-  options.renderer.render(options.scene, options.camera, { culling: true });
+  options.renderer.render(options.getScene(), options.camera);
   updateStats(options, time);
 }
 
