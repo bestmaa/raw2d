@@ -1,9 +1,11 @@
+import { createCanvasBenchmarkPanel } from "./CanvasBenchmarkPanel";
+
 export function renderBenchmarkPage(): HTMLElement {
   const page = document.createElement("main");
   const title = document.createElement("h1");
   const body = document.createElement("p");
   const grid = document.createElement("section");
-  const canvasPanel = createPlaceholderPanel("Canvas Benchmark", "T042 will add the Canvas loop and stats.");
+  const canvasPanel = createCanvasBenchmarkPanel();
   const webglPanel = createPlaceholderPanel("WebGL Benchmark", "T043 will add the WebGL loop and stats.");
 
   page.className = "visual-test-page";
