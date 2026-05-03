@@ -142,3 +142,19 @@ console.log(webglExample.code);
 ```
 
 Generated examples import from `raw2d`, create a canvas renderer, rebuild scene objects, and call `renderer.render(scene, camera)`.
+
+## Generate Docs Snippet
+
+```ts
+import { generateRaw2DDocsSnippet } from "raw2d-mcp";
+
+const snippet = generateRaw2DDocsSnippet({
+  document: styledScene,
+  title: "Hero Card Scene",
+  renderer: "canvas"
+});
+
+console.log(snippet.markdown);
+```
+
+The snippet includes a short scene summary plus a fenced TypeScript example.

@@ -2,6 +2,7 @@ export { addRaw2DSceneObject } from "./addRaw2DSceneObject.js";
 export { createRaw2DSceneJson } from "./createRaw2DSceneJson.js";
 export { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
 export { generateRaw2DCanvasExample } from "./generateRaw2DCanvasExample.js";
+export { generateRaw2DDocsSnippet } from "./generateRaw2DDocsSnippet.js";
 export { generateRaw2DWebGLExample } from "./generateRaw2DWebGLExample.js";
 export { inspectRaw2DScene } from "./inspectRaw2DScene.js";
 export { updateRaw2DObjectMaterial } from "./updateRaw2DObjectMaterial.js";
@@ -39,6 +40,7 @@ export type {
   Raw2DMcpExampleRenderer,
   Raw2DMcpGeneratedExample
 } from "./generateRaw2DExample.type.js";
+export type { GenerateRaw2DDocsSnippetOptions, Raw2DMcpDocsSnippet } from "./generateRaw2DDocsSnippet.type.js";
 export type { UpdateRaw2DObjectMaterialOptions } from "./updateRaw2DObjectMaterial.type.js";
 export type { Raw2DMcpObjectTransformPatch, UpdateRaw2DObjectTransformOptions } from "./updateRaw2DObjectTransform.type.js";
 export type {
