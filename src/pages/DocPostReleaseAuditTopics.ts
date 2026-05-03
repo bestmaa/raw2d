@@ -45,5 +45,52 @@ npm run test:browser
 npm run test:consumer`
       }
     ]
+  },
+  {
+    id: "post-release-audit-report",
+    label: "Audit Report",
+    title: "Post-Release Audit Report",
+    description: "A short release-facing report template for npm, CDN, docs, and browser checks.",
+    sections: [
+      {
+        title: "Current Result",
+        body: "Use this report after a version is published. Fill the published version, npm metadata result, CDN result, docs result, and browser result before announcing the release.",
+        code: `Version: v1.1.x
+npm package: pass / fail
+CDN UMD: pass / fail
+Docs route: pass / fail
+Browser examples: pass / fail`
+      },
+      {
+        title: "NPM Checks",
+        body: "Confirm the umbrella package and focused packages resolve from npm, then run fresh install smoke apps without workspace links.",
+        code: `npm view raw2d version
+npm view raw2d-core version
+npm view raw2d-webgl version
+npm install raw2d`
+      },
+      {
+        title: "CDN Checks",
+        body: "Check jsDelivr for ESM and UMD output. The CDN can lag npm briefly, so record the time if the package was just published.",
+        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs`
+      },
+      {
+        title: "Browser Checks",
+        body: "Open the docs and examples in a real browser. Confirm Canvas, WebGL, Sprite, Texture Atlas, Interaction, and React examples do not show console errors.",
+        code: `https://raw2d.com/doc
+/examples/canvas-basic/
+/examples/webgl-basic/
+/examples/sprite-atlas/
+/examples/interaction-basic/`
+      },
+      {
+        title: "Report Decision",
+        body: "Publish release notes only when all checks pass. If any check fails, keep the report with the failing command and fix before publishing again.",
+        code: `Decision: pass
+Release notes: ready
+Next audit: after next version bump`
+      }
+    ]
   }
 ];
