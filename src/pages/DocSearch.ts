@@ -95,15 +95,38 @@ function normalizeSearchText(value: string): string {
 }
 
 function scoreToken(entry: SearchEntry, token: string): number {
-  if (entry.value.split(" ").includes(token)) {
+  const words = entry.value.split(" ");
+
+  if (words.includes(token)) {
     return entry.weight * 3;
   }
 
-  if (entry.value.includes(token)) {
+  if (token.length >= 2 && words.some((word) => word.startsWith(token))) {
+    return entry.weight * 2;
+  }
+
+  if (token.length >= 2 && getAcronym(words).startsWith(token)) {
+    return entry.weight * 2;
+  }
+
+  if (token.length >= 3 && entry.value.includes(token)) {
     return entry.weight;
   }
 
-  return token.length >= 4 && entry.value.split(" ").some((word) => word.length >= 3 && getEditDistance(token, word) <= 1) ? 1 : 0;
+  return token.length >= 4 && words.some((word) => isNearWordMatch(token, word)) ? 1 : 0;
+}
+
+function getAcronym(words: readonly string[]): string {
+  return words.map((word) => word[0] ?? "").join("");
+}
+
+function isNearWordMatch(token: string, word: string): boolean {
+  if (word.length < 3) {
+    return false;
+  }
+
+  const prefix = word.slice(0, token.length);
+  return getEditDistance(token, word) <= 1 || getEditDistance(token, prefix) <= 1;
 }
 
 function getEditDistance(left: string, right: string): number {
