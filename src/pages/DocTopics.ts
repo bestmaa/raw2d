@@ -29,6 +29,7 @@ import { publicApiTopics } from "./DocPublicApiTopics";
 import { reactTopics } from "./DocReactTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { releaseTopics } from "./DocReleaseTopics";
+import { releaseNotesTopics } from "./DocReleaseNotesTopics";
 import { rendererTopics } from "./DocRendererTopics";
 import { rendererChoiceTopics } from "./DocRendererChoiceTopics";
 import { rendererParityTopics } from "./DocRendererParityTopics";
@@ -63,6 +64,7 @@ export const docGroups: readonly DocGroup[] = [
       ...publicApiTopics,
       ...migrationTopics,
       ...releaseTopics,
+      ...releaseNotesTopics,
       ...publishTopics,
       ...deployTopics,
       ...cdnTopics,
