@@ -1,5 +1,6 @@
 import type { DocLanguage } from "./DocPage.type";
 import { getDocUiText } from "./DocI18n";
+import { getCopyFriendlyCode } from "./DocCopyCode";
 
 export function createCodeBlock(code: string, language: DocLanguage): HTMLElement {
   const details = document.createElement("details");
@@ -12,7 +13,7 @@ export function createCodeBlock(code: string, language: DocLanguage): HTMLElemen
   toolbar.className = "doc-code-toolbar";
   summary.textContent = getDocUiText(language).code;
   codeElement.textContent = code;
-  toolbar.append(createCopyButton(code, language, codeElement));
+  toolbar.append(createCopyButton(getCopyFriendlyCode(code), language, codeElement));
   pre.append(codeElement);
   details.append(summary, toolbar, pre);
   return details;
