@@ -74,7 +74,7 @@ Push only on phase release tasks or explicit user request.
 
 ## Phase 11: Docs Product Polish
 
-- T134 | Version: v1.3.0 | Status: pending | Goal: Redesign docs beginner path: install, canvas, scene, shape, texture, WebGL. | Verify: browser route check. | Commit: `Polish docs beginner path`
+- T134 | Version: v1.3.0 | Status: completed | Goal: Redesign docs beginner path: install, canvas, scene, shape, texture, WebGL. | Verify: browser route check. | Commit: `Polish docs beginner path`
 - T135 | Version: v1.3.1 | Status: pending | Goal: Improve docs search scoring and keyboard behavior. | Verify: search browser check. | Commit: `Improve docs search`
 - T136 | Version: v1.3.2 | Status: pending | Goal: Add grouped docs navigation descriptions. | Verify: navigation browser check. | Commit: `Polish docs navigation`
 - T137 | Version: v1.3.3 | Status: pending | Goal: Make every docs code block copy-paste friendly with package imports. | Verify: snippet tests. | Commit: `Polish docs imports`
