@@ -31,6 +31,7 @@ import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
 import { publicApiTopics } from "./DocPublicApiTopics";
 import { reactTopics } from "./DocReactTopics";
+import { reactReadinessTopics } from "./DocReactReadinessTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { releaseTopics } from "./DocReleaseTopics";
 import { releaseNotesTopics } from "./DocReleaseNotesTopics";
@@ -149,7 +150,7 @@ export const docGroups: readonly DocGroup[] = [
     id: "react-later",
     label: "React Later",
     hiLabel: "React Later",
-    topics: [...reactTopics]
+    topics: [...reactTopics, ...reactReadinessTopics]
   }
 ];
 
