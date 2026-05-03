@@ -14,7 +14,7 @@ export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions)
   let sceneOptions = { ...initialOptions };
   let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
-  const runtime: WebGLBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false };
+  const runtime: WebGLBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false, paused: false };
   let renderer: WebGLRenderer2D | null = null;
 
   panel.className = "visual-test-card";
@@ -41,6 +41,12 @@ export function createWebGLBenchmarkPanel(initialOptions: BenchmarkSceneOptions)
       if (renderer) {
         renderFrame({ renderer, getScene: () => scene, getOptions: () => sceneOptions, camera, runtime, stats }, performance.now());
       }
+    },
+    setPaused(paused: boolean): void {
+      runtime.paused = paused;
+    },
+    getStatsText(): string {
+      return stats.textContent ?? "";
     }
   }
 }
@@ -58,7 +64,10 @@ function scheduleFrame(options: {
     const time = performance.now();
 
     options.runtime.connected = options.runtime.connected || options.panel.isConnected;
-    renderFrame(options, time);
+    if (!options.runtime.paused) {
+      renderFrame(options, time);
+    }
+
     scheduleFrame(options);
   }, 100);
 }

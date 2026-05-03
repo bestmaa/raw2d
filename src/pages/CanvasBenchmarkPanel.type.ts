@@ -5,4 +5,5 @@ export interface CanvasBenchmarkRuntime {
   fps: number;
   frameMs: number;
   connected: boolean;
+  paused: boolean;
 }

@@ -5,4 +5,5 @@ export interface WebGLBenchmarkRuntime {
   fps: number;
   frameMs: number;
   connected: boolean;
+  paused: boolean;
 }

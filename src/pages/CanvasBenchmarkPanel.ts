@@ -15,7 +15,7 @@ export function createCanvasBenchmarkPanel(initialOptions: BenchmarkSceneOptions
   let sceneOptions = { ...initialOptions };
   let scene = createBenchmarkScene(initialOptions);
   const camera = new Camera2D();
-  const runtime: CanvasBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false };
+  const runtime: CanvasBenchmarkRuntime = { frameId: null, frame: 0, lastTime: performance.now(), fps: 0, frameMs: 0, connected: false, paused: false };
 
   panel.className = "visual-test-card";
   title.textContent = "Canvas Benchmark";
@@ -31,6 +31,12 @@ export function createCanvasBenchmarkPanel(initialOptions: BenchmarkSceneOptions
       sceneOptions = { ...options };
       scene = createBenchmarkScene(options);
       renderFrame({ renderer, getScene: () => scene, getOptions: () => sceneOptions, camera, runtime, stats }, performance.now());
+    },
+    setPaused(paused: boolean): void {
+      runtime.paused = paused;
+    },
+    getStatsText(): string {
+      return stats.textContent ?? "";
     }
   }
 }
@@ -48,7 +54,10 @@ function scheduleFrame(options: {
     const time = performance.now();
 
     options.runtime.connected = options.runtime.connected || options.panel.isConnected;
-    renderFrame(options, time);
+    if (!options.runtime.paused) {
+      renderFrame(options, time);
+    }
+
     scheduleFrame(options);
   }, 100);
 }

@@ -11,4 +11,6 @@ export interface BenchmarkSceneOptions {
 export interface BenchmarkPanelController {
   readonly element: HTMLElement;
   updateScene(options: BenchmarkSceneOptions): void;
+  setPaused(paused: boolean): void;
+  getStatsText(): string;
 }

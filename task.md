@@ -142,7 +142,7 @@ Push only on phase release tasks or explicit user request.
 - T045 | Version: v0.6.4 | Status: completed | Goal: Add mixed scene benchmark. | Verify: mixed objects render. | Commit: `Add mixed benchmark scene`
 - T046 | Version: v0.6.5 | Status: completed | Goal: Add FPS, frame time, draw call, and texture bind display. | Verify: live stats update. | Commit: `Add benchmark stats`
 - T047 | Version: v0.6.6 | Status: completed | Goal: Add static/dynamic ratio, atlas toggle, and culling toggle. | Verify: stats change. | Commit: `Add benchmark renderer controls`
-- T048 | Version: v0.6.7 | Status: pending | Goal: Add pause/resume and result copy controls. | Verify: browser controls. | Commit: `Add benchmark control buttons`
+- T048 | Version: v0.6.7 | Status: completed | Goal: Add pause/resume and result copy controls. | Verify: browser controls. | Commit: `Add benchmark control buttons`
 - T049 | Version: v0.6.8 | Status: pending | Goal: Document when to use Canvas versus WebGL. | Verify: docs in browser. | Commit: `Document renderer choice`
 - T050 | Version: v0.6.9 | Status: pending | Goal: Add benchmark limitations docs. | Verify: docs in browser. | Commit: `Document benchmark limitations`
 - T051 | Version: v0.6.10 | Status: pending | Goal: Add browser smoke test for benchmark page. | Verify: test passes. | Commit: `Test benchmark route`
