@@ -29,6 +29,12 @@ async function renderRoute(root: HTMLElement): Promise<void> {
     return;
   }
 
+  if (window.location.pathname === "/examples/webgl-pipeline") {
+    const { renderWebGLPipelineExample } = await import("./pages/WebGLPipelineExample");
+    renderWebGLPipelineExample(root);
+    return;
+  }
+
   renderCanvasPreview(root);
 }
 
@@ -37,6 +43,7 @@ function renderCanvasPreview(root: HTMLElement): void {
     <nav class="home-links" aria-label="Raw2D links">
       <a href="/doc">Docs</a>
       <a href="/readme">Readme</a>
+      <a href="/examples/webgl-pipeline">WebGL Pipeline Example</a>
     </nav>
     <canvas id="raw2d-canvas" aria-label="Raw2D canvas preview"></canvas>
   `;

@@ -10,7 +10,10 @@ export const webGLPipelineTopics: readonly DocTopic[] = [
       {
         title: "Pipeline Chain",
         body: "Raw2D does not hide the renderer pipeline. The app owns Scene data, the renderer prepares a RenderList, then WebGL groups compatible items before drawing.",
-        code: `// Raw2D WebGL direction:
+        code: `// Browser example:
+// /examples/webgl-pipeline
+
+// Raw2D WebGL direction:
 // Scene -> RenderList -> Batcher -> Buffer -> Shader -> DrawCall`
       },
       {
