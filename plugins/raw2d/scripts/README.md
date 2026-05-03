@@ -5,10 +5,10 @@ Deterministic helper scripts will live here. Scripts should print clear output a
 Available scripts:
 
 - app scaffold command
+- example generator command
 
 Planned scripts:
 
-- example generator command
 - docs QA command
 - visual pixel test command
 - renderer stats explanation command
@@ -20,3 +20,11 @@ node plugins/raw2d/scripts/scaffold-raw2d-app.mjs --out ./my-raw2d-app --rendere
 ```
 
 Use `--renderer canvas` for a Canvas-only starter or `--renderer webgl` for WebGL with Canvas fallback.
+
+## Example Generator
+
+```bash
+node plugins/raw2d/scripts/create-raw2d-example.mjs --out ./examples/my-example --renderer canvas --shape rect
+```
+
+Use `--shape rect`, `--shape circle`, or `--shape text` for a small focused example.
