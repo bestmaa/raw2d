@@ -101,7 +101,7 @@ Push only on phase release tasks or explicit user request.
 
 ### Phase 2: Docs Polish
 
-- T013 | Version: v0.4.0 | Status: pending | Goal: Rebuild docs navigation into grouped learning paths. | Verify: browser nav and search. | Commit: `Group docs navigation paths`
+- T013 | Version: v0.4.0 | Status: completed | Goal: Rebuild docs navigation into grouped learning paths. | Verify: browser nav and search. | Commit: `Group docs navigation paths`
 - T014 | Version: v0.4.1 | Status: pending | Goal: Add beginner path: install, canvas, scene, shape, render. | Verify: beginner flow in browser. | Commit: `Add beginner docs path`
 - T015 | Version: v0.4.2 | Status: pending | Goal: Add texture path: load texture, atlas, sprite, animation. | Verify: sprite examples in browser. | Commit: `Add texture docs path`
 - T016 | Version: v0.4.3 | Status: pending | Goal: Add WebGL path: renderer, support, batching, diagnostics. | Verify: WebGL docs in browser. | Commit: `Add WebGL docs path`

@@ -25,12 +25,28 @@ import { webGLRendererTopics } from "./DocWebGLRendererTopics";
 import { webGLVisualTestsTopics } from "./DocWebGLVisualTestsTopics";
 
 export const docGroups: readonly DocGroup[] = [
-  { id: "start", label: "Start", hiLabel: "Start", topics: [...setupTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics] },
-  { id: "core", label: "Core", hiLabel: "Core", topics: coreTopics },
   {
-    id: "rendering",
-    label: "Rendering",
-    hiLabel: "Rendering",
+    id: "start-here",
+    label: "Start Here",
+    hiLabel: "Yahan Se Start",
+    topics: [...setupTopics, ...publicApiTopics, ...exampleTopics, ...licenseTopics]
+  },
+  {
+    id: "scene-foundations",
+    label: "Scene Foundations",
+    hiLabel: "Scene Foundation",
+    topics: [...coreTopics, ...group2DTopics, ...transformTopics, ...boundsTopics]
+  },
+  {
+    id: "drawing-objects",
+    label: "Drawing Objects",
+    hiLabel: "Drawing Objects",
+    topics: [...curveTopics, ...pathTopics, ...objectTopics]
+  },
+  {
+    id: "render-flow",
+    label: "Render Flow",
+    hiLabel: "Render Flow",
     topics: [
       ...canvasCullingTopics,
       ...visibleObjectsTopics,
@@ -40,11 +56,18 @@ export const docGroups: readonly DocGroup[] = [
       ...renderPipelineTopics
     ]
   },
-  { id: "webgl", label: "WebGL", hiLabel: "WebGL", topics: [...webGLRendererTopics, ...webGLContextTopics, ...webGLPerformanceTopics, ...webGLVisualTestsTopics] },
-  { id: "scene-tools", label: "Scene Tools", hiLabel: "Scene Tools", topics: [...group2DTopics, ...transformTopics, ...boundsTopics] },
-  { id: "interaction", label: "Interaction", hiLabel: "Interaction", topics: [...hitTestingTopics, ...pickingTopics, ...interactionTopics] },
-  { id: "geometry", label: "Geometry", hiLabel: "Geometry", topics: [...curveTopics, ...pathTopics] },
-  { id: "objects", label: "Objects", hiLabel: "Objects", topics: objectTopics }
+  {
+    id: "webgl-path",
+    label: "WebGL Path",
+    hiLabel: "WebGL Path",
+    topics: [...webGLRendererTopics, ...webGLContextTopics, ...webGLPerformanceTopics, ...webGLVisualTestsTopics]
+  },
+  {
+    id: "interaction-tools",
+    label: "Interaction Tools",
+    hiLabel: "Interaction Tools",
+    topics: [...hitTestingTopics, ...pickingTopics, ...interactionTopics]
+  }
 ];
 
 export const topics: readonly DocTopic[] = docGroups.flatMap((group) => group.topics);
