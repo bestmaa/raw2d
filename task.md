@@ -131,7 +131,7 @@ Push only on phase release tasks or explicit user request.
 - T037 | Version: v0.5.10 | Status: completed | Goal: Add WebGL pipeline browser example. | Verify: manual browser check. | Commit: `Add WebGL pipeline example`
 - T038 | Version: v0.5.11 | Status: completed | Goal: Add diagnostics stability and pipeline naming tests. | Verify: automated tests. | Commit: `Test WebGL pipeline diagnostics`
 - T039 | Version: v0.5.12 | Status: completed | Goal: Add pipeline architecture README section. | Verify: readme route. | Commit: `Add pipeline README section`
-- T040 | Version: v0.5.13 | Status: pending | Goal: Phase 3 release and publish. | Verify: phase release verification. | Commit: `Release WebGL pipeline phase`
+- T040 | Version: v0.5.13 | Status: completed | Goal: Phase 3 release and publish. | Verify: phase release verification. | Commit: `Release WebGL pipeline phase`
 
 ### Phase 4: Performance Benchmark
 
