@@ -36,6 +36,7 @@ import { releaseNotesTopics } from "./DocReleaseNotesTopics";
 import { rendererTopics } from "./DocRendererTopics";
 import { rendererChoiceTopics } from "./DocRendererChoiceTopics";
 import { rendererParityTopics } from "./DocRendererParityTopics";
+import { finalRendererParityTopics } from "./DocFinalRendererParityTopics";
 import { renderListTopics } from "./DocRenderListTopics";
 import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
@@ -106,6 +107,7 @@ export const docGroups: readonly DocGroup[] = [
       ...rendererChoiceTopics,
       ...benchmarkLimitationsTopics,
       ...rendererParityTopics,
+      ...finalRendererParityTopics,
       ...renderPipelineTopics,
       ...renderListTopics
     ]
