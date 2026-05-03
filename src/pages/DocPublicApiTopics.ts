@@ -52,6 +52,19 @@ const webgl = new WebGLRenderer2D({ canvas: canvasElement });`
 console.log(Canvas === CanvasRenderer); // true`
       },
       {
+        title: "Frozen Option Names",
+        body: "Constructor option names for objects, materials, textures, atlases, and interaction controllers are treated as public API. Type tests guard these names before releases.",
+        code: `new Rect({ width: 120, height: 80, material });
+new Sprite({ texture, frame, width: 64, height: 64 });
+new InteractionController({
+  canvas,
+  scene,
+  camera,
+  selection,
+  onChange: render
+});`
+      },
+      {
         title: "WebGL Package Boundary",
         body: "raw2d-webgl exports WebGLRenderer2D plus batcher, buffer, texture-cache, and diagnostics helpers for engine-level tools.",
         code: `import {

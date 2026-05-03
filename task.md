@@ -93,7 +93,7 @@ Push only on phase release tasks or explicit user request.
 - T005 | Version: v0.3.4 | Status: completed | Goal: Audit `raw2d-sprite`, `raw2d-text`, `raw2d-effects`, and `raw2d-interaction` exports. | Verify: focused package imports. | Commit: `Audit focused package exports`
 - T006 | Version: v0.3.5 | Status: completed | Goal: Finalize renderer naming for `Canvas`, `CanvasRenderer`, and `WebGLRenderer2D`. | Verify: docs and examples use final names. | Commit: `Stabilize renderer naming`
 - T007 | Version: v0.3.6 | Status: completed | Goal: Add compatibility aliases only where they reduce breaking changes. | Verify: old and new imports work. | Commit: `Add renderer compatibility aliases`
-- T008 | Version: v0.3.7 | Status: pending | Goal: Freeze object, material, texture, atlas, and interaction option names. | Verify: API docs and type tests. | Commit: `Freeze public option names`
+- T008 | Version: v0.3.7 | Status: completed | Goal: Freeze object, material, texture, atlas, and interaction option names. | Verify: API docs and type tests. | Commit: `Freeze public option names`
 - T009 | Version: v0.3.8 | Status: pending | Goal: Add API stability and deprecation policy docs. | Verify: `/doc` and `/readme`. | Commit: `Document API stability policy`
 - T010 | Version: v0.3.9 | Status: pending | Goal: Add package export map tests for all packages. | Verify: consumer smoke. | Commit: `Test package export maps`
 - T011 | Version: v0.3.10 | Status: pending | Goal: Add deprecation note helper for future breaking changes. | Verify: typecheck and docs. | Commit: `Add deprecation note helper`
