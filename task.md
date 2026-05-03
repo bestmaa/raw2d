@@ -95,7 +95,7 @@ Push only on phase release tasks or explicit user request.
 - T007 | Version: v0.3.6 | Status: completed | Goal: Add compatibility aliases only where they reduce breaking changes. | Verify: old and new imports work. | Commit: `Add renderer compatibility aliases`
 - T008 | Version: v0.3.7 | Status: completed | Goal: Freeze object, material, texture, atlas, and interaction option names. | Verify: API docs and type tests. | Commit: `Freeze public option names`
 - T009 | Version: v0.3.8 | Status: completed | Goal: Add API stability and deprecation policy docs. | Verify: `/doc` and `/readme`. | Commit: `Document API stability policy`
-- T010 | Version: v0.3.9 | Status: pending | Goal: Add package export map tests for all packages. | Verify: consumer smoke. | Commit: `Test package export maps`
+- T010 | Version: v0.3.9 | Status: completed | Goal: Add package export map tests for all packages. | Verify: consumer smoke. | Commit: `Test package export maps`
 - T011 | Version: v0.3.10 | Status: pending | Goal: Add deprecation note helper for future breaking changes. | Verify: typecheck and docs. | Commit: `Add deprecation note helper`
 - T012 | Version: v0.3.11 | Status: pending | Goal: Phase 1 release and publish. | Verify: phase release verification. | Commit: `Release API stabilization phase`
 
