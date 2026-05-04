@@ -10,11 +10,13 @@ import {
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
+const nextFrameButton = document.querySelector<HTMLButtonElement>("#raw2d-next-frame");
 
-if (!canvasElement || !statsElement) {
+if (!canvasElement || !statsElement || !nextFrameButton) {
   throw new Error("Example DOM nodes not found.");
 }
 
+const statsOutput = statsElement;
 const scene = new Scene();
 const camera = new Camera2D();
 const atlasResult = new TextureAtlasPacker({ padding: 2, edgeBleed: 1, sort: "area" }).packWithStats([
@@ -25,10 +27,12 @@ const atlasResult = new TextureAtlasPacker({ padding: 2, edgeBleed: 1, sort: "ar
 ]);
 const atlas = atlasResult.atlas;
 const names = ["cyan", "rose", "green", "gold"] as const;
+const sprites: Sprite[] = [];
+let selectedFrameIndex = 0;
 
 for (let index = 0; index < 64; index += 1) {
   const name = names[index % names.length];
-  scene.add(new Sprite({
+  const sprite = new Sprite({
     texture: atlas.texture,
     frame: atlas.getFrame(name),
     x: 54 + (index % 16) * 44,
@@ -36,30 +40,53 @@ for (let index = 0; index < 64; index += 1) {
     width: 36,
     height: 36,
     origin: "center"
-  }));
+  });
+  sprites.push(sprite);
+  scene.add(sprite);
 }
 
-if (isWebGL2Available()) {
-  const renderer = new WebGLRenderer2D({ canvas: canvasElement, width: 800, height: 360, backgroundColor: "#10141c" });
-  renderer.render(scene, camera, { spriteSorting: "texture" });
-  const stats = renderer.getStats();
-  statsElement.textContent = [
-    "renderer: WebGL2",
-    `atlas: ${atlasResult.stats.width}x${atlasResult.stats.height}`,
-    `frames: ${atlasResult.stats.frameCount}`,
-    `sprites: ${stats.objects}`,
-    `textureBinds: ${stats.spriteTextureBinds}`,
-    `drawCalls: ${stats.drawCalls}`
-  ].join(" | ");
-} else {
-  const renderer = new Canvas({ canvas: canvasElement, width: 800, height: 360, backgroundColor: "#10141c" });
-  renderer.render(scene, camera);
-  statsElement.textContent = [
-    "renderer: Canvas fallback",
-    `atlas: ${atlasResult.stats.width}x${atlasResult.stats.height}`,
-    `frames: ${atlasResult.stats.frameCount}`,
-    "sprites: 64"
-  ].join(" | ");
+const renderer = isWebGL2Available()
+  ? new WebGLRenderer2D({ canvas: canvasElement, width: 800, height: 360, backgroundColor: "#10141c" })
+  : new Canvas({ canvas: canvasElement, width: 800, height: 360, backgroundColor: "#10141c" });
+
+nextFrameButton.addEventListener("click", (): void => {
+  selectedFrameIndex = (selectedFrameIndex + 1) % names.length;
+  renderScene();
+});
+
+function renderScene(): void {
+  const selectedName = names[selectedFrameIndex] ?? names[0];
+  updateSelectedFrame(selectedName);
+
+  if (renderer instanceof WebGLRenderer2D) {
+    renderer.render(scene, camera, { spriteSorting: "texture" });
+    const stats = renderer.getStats();
+    statsOutput.textContent = [
+      "renderer: WebGL2",
+      `selectedFrame: ${selectedName}`,
+      `atlas: ${atlasResult.stats.width}x${atlasResult.stats.height}`,
+      `frames: ${atlasResult.stats.frameCount}`,
+      `sprites: ${stats.objects}`,
+      `textureBinds: ${stats.spriteTextureBinds}`,
+      `drawCalls: ${stats.drawCalls}`
+    ].join(" | ");
+  } else {
+    renderer.render(scene, camera);
+    statsOutput.textContent = [
+      "renderer: Canvas fallback",
+      `selectedFrame: ${selectedName}`,
+      `atlas: ${atlasResult.stats.width}x${atlasResult.stats.height}`,
+      `frames: ${atlasResult.stats.frameCount}`,
+      "sprites: 64"
+    ].join(" | ");
+  }
+}
+
+function updateSelectedFrame(selectedName: string): void {
+  for (let index = 0; index < sprites.length; index += 1) {
+    const spriteName = names[index % names.length];
+    sprites[index]?.setOpacity(spriteName === selectedName ? 1 : 0.42);
+  }
 }
 
 function createTile(fillColor: string, strokeColor: string): HTMLCanvasElement {
@@ -80,3 +107,5 @@ function createTile(fillColor: string, strokeColor: string): HTMLCanvasElement {
   context.strokeRect(4, 4, 40, 40);
   return tile;
 }
+
+renderScene();
