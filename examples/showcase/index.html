@@ -10,24 +10,43 @@
   <body>
     <main class="example-stage">
       <section class="example-panel" aria-label="Raw2D showcase scene">
-        <label>
-          Renderer
-          <select id="raw2d-renderer">
-            <option value="canvas">Canvas</option>
-            <option value="webgl">WebGL2</option>
-          </select>
-        </label>
-        <button id="raw2d-reset" type="button">Reset camera</button>
-        <button id="raw2d-copy-report" type="button">Copy report</button>
-        <label><input id="raw2d-toggle-atlas" type="checkbox" checked /> Atlas sort</label>
-        <label><input id="raw2d-toggle-static" type="checkbox" checked /> Static batches</label>
-        <label><input id="raw2d-toggle-culling" type="checkbox" checked /> Culling</label>
-        <div class="showcase-canvas-stack">
-          <canvas id="raw2d-canvas"></canvas>
-          <canvas id="raw2d-overlay"></canvas>
+        <header class="example-header">
+          <div class="example-eyebrow">Raw2D Showcase</div>
+          <h1 class="example-title">Renderer, interaction, and batching in one scene</h1>
+          <p class="example-summary">
+            Switch renderers, inspect stats, select and resize objects, and watch WebGL batching stay visible.
+          </p>
+        </header>
+        <div class="example-runtime">
+          <div>
+            <label>
+              Renderer
+              <select id="raw2d-renderer">
+                <option value="canvas">Canvas</option>
+                <option value="webgl">WebGL2</option>
+              </select>
+            </label>
+            <button id="raw2d-reset" type="button">Reset camera</button>
+            <button id="raw2d-focus-selection" type="button">Focus selection</button>
+            <button id="raw2d-copy-report" type="button">Copy report</button>
+            <label><input id="raw2d-toggle-atlas" type="checkbox" checked /> Atlas sort</label>
+            <label><input id="raw2d-toggle-static" type="checkbox" checked /> Static batches</label>
+            <label><input id="raw2d-toggle-culling" type="checkbox" checked /> Culling</label>
+            <div class="showcase-canvas-stack">
+              <canvas id="raw2d-canvas"></canvas>
+              <canvas id="raw2d-overlay"></canvas>
+            </div>
+            <canvas id="raw2d-minimap" width="220" height="140"></canvas>
+            <pre id="raw2d-stats">Loading Raw2D showcase...</pre>
+          </div>
+          <aside class="example-info">
+            <h2>What this proves</h2>
+            <pre>npm install raw2d</pre>
+            <p>One scene can move between Canvas and WebGL while keeping the pipeline explicit.</p>
+            <p>Use the stats report to compare draw calls, texture binds, culling, and interaction state.</p>
+            <pre id="raw2d-showcase-status">status: loading</pre>
+          </aside>
         </div>
-        <canvas id="raw2d-minimap" width="220" height="140"></canvas>
-        <pre id="raw2d-stats">Loading Raw2D showcase...</pre>
       </section>
     </main>
     <script type="module" src="./main.ts"></script>

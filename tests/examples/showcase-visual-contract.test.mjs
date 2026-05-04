@@ -13,6 +13,8 @@ test("showcase visual surface includes main, overlay, and minimap canvases", () 
     assert.match(html, new RegExp(expected));
   }
 
+  assert.match(html, /Renderer, interaction, and batching in one scene/);
+  assert.match(html, /npm install raw2d/);
   assert.match(main, /drawShowcaseMinimap/);
   assert.match(main, /drawShowcaseOverlay/);
 });

@@ -8,7 +8,9 @@ const stats = readFileSync("examples/showcase/showcaseStats.ts", "utf8");
 
 test("showcase exposes copyable live renderer stats", () => {
   assert.match(html, /id="raw2d-copy-report"/);
+  assert.match(html, /id="raw2d-showcase-status"/);
   assert.match(main, /latestReport/);
+  assert.match(main, /updateShowcaseStatus/);
   assert.match(main, /navigator\.clipboard/);
   assert.match(main, /buildShowcaseStatsReport/);
 });

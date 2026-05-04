@@ -15,12 +15,14 @@ const cullingToggle = document.querySelector<HTMLInputElement>("#raw2d-toggle-cu
 const minimapElement = document.querySelector<HTMLCanvasElement>("#raw2d-minimap");
 const overlayElement = document.querySelector<HTMLCanvasElement>("#raw2d-overlay");
 const copyReportButton = document.querySelector<HTMLButtonElement>("#raw2d-copy-report");
+const focusSelectionButton = document.querySelector<HTMLButtonElement>("#raw2d-focus-selection");
 const rendererSelect = document.querySelector<HTMLSelectElement>("#raw2d-renderer");
 const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
 const staticToggle = document.querySelector<HTMLInputElement>("#raw2d-toggle-static");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
+const statusElement = document.querySelector<HTMLPreElement>("#raw2d-showcase-status");
 
-if (!atlasToggle || !canvasElement || !cullingToggle || !minimapElement || !overlayElement || !copyReportButton || !rendererSelect || !resetButton || !staticToggle || !statsElement) {
+if (!atlasToggle || !canvasElement || !cullingToggle || !minimapElement || !overlayElement || !copyReportButton || !focusSelectionButton || !rendererSelect || !resetButton || !staticToggle || !statsElement || !statusElement) {
   throw new Error("Showcase elements not found.");
 }
 
@@ -33,11 +35,14 @@ const overlayInput = overlayElement;
 const statsOutput = statsElement;
 const rendererInput = rendererSelect;
 const copyButton = copyReportButton;
+const focusButton = focusSelectionButton;
 const atlasInput = atlasToggle;
 const cullingInput = cullingToggle;
 const staticInput = staticToggle;
+const statusOutput = statusElement;
 let rendererState = createRenderer(rendererInput.value);
 let latestReport = "";
+let latestAction = "running";
 let frame = 0;
 const controls = new CameraControls({
   target: canvasInput,
@@ -64,13 +69,22 @@ controls.enableZoom();
 rendererInput.addEventListener("change", () => {
   rendererState.renderer.dispose();
   rendererState = createRenderer(rendererInput.value);
+  updateShowcaseAction("renderer changed");
 });
 resetButton.addEventListener("click", () => {
   showcase.camera.setPosition(0, 0);
   showcase.camera.setZoom(1);
+  updateShowcaseAction("camera reset");
+});
+focusButton.addEventListener("click", () => {
+  showcase.camera.setPosition(0, 180);
+  showcase.camera.setZoom(1.45);
+  interaction.getSelection().select(showcase.interactiveRect);
+  updateShowcaseAction("selection focused");
 });
 copyButton.addEventListener("click", () => {
   void navigator.clipboard?.writeText(latestReport);
+  updateShowcaseAction("report copied");
 });
 
 function animate(): void {
@@ -125,6 +139,7 @@ function animate(): void {
     zoom: showcase.camera.zoom
   });
   statsOutput.textContent = latestReport;
+  updateShowcaseStatus();
 
   requestAnimationFrame(animate);
 }
@@ -146,6 +161,20 @@ function createRenderer(value: string): ShowcaseRendererResult {
     mode,
     width: viewportWidth
   });
+}
+
+function updateShowcaseAction(action: string): void {
+  latestAction = action;
+  updateShowcaseStatus();
+}
+
+function updateShowcaseStatus(): void {
+  statusOutput.textContent = [
+    `status: ${latestAction}`,
+    `renderer: ${rendererState.label}`,
+    `objects: ${showcase.objectCount}`,
+    `selected: ${interaction.getSelection().getSelected().length}`
+  ].join("\n");
 }
 
 animate();
