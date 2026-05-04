@@ -110,7 +110,7 @@ Push only on phase release tasks or explicit user request.
 - T161 | Version: v1.5.6 | Status: completed | Goal: Add skill update for post-release audits and examples. | Verify: skill tests. | Commit: `Update Raw2D skills`
 - T162 | Version: v1.5.7 | Status: completed | Goal: Add MCP/plugin consumer documentation. | Verify: docs route check. | Commit: `Polish MCP plugin docs`
 - T163 | Version: v1.5.8 | Status: completed | Goal: Add MCP/plugin package audit tests. | Verify: package audit test. | Commit: `Test MCP plugin packages`
-- T164 | Version: v1.5.9 | Status: pending | Goal: Phase 13 release and publish. | Verify: phase release verification. | Commit: `Release MCP plugin hardening phase`
+- T164 | Version: v1.5.9 | Status: completed | Goal: Phase 13 release and publish. | Verify: phase release verification. | Commit: `Release MCP plugin hardening phase`
 
 ## Phase 14: React Fiber Preparation
 

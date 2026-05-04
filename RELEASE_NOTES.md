@@ -1,5 +1,33 @@
 # Raw2D Release Notes
 
+## v1.5.9 - MCP Plugin Hardening Phase
+
+Raw2D v1.5.9 publishes MCP and Codex plugin hardening for automation workflows, package boundaries, generated examples, and contributor audit commands.
+
+### Added
+
+- `raw2d-mcp` stdio server entry with deterministic method dispatch.
+- MCP schema docs for public scene, validation, example, visual-check, and batch update tools.
+- Batch MCP scene updates for multiple transform and material patches.
+- Fresh install audit plugin command for pack and consumer smoke plans.
+- Showcase scene generator command for larger Canvas/WebGL demos.
+- MCP/plugin consumer guide in English and Hinglish.
+- Package audit tests ensuring MCP stays core-only and plugin files do not ship in runtime packages.
+- Updated Raw2D skills for post-release audits, generated examples, showcase demos, and package checks.
+
+### Changed
+
+- Package versions are aligned at `1.5.9`.
+- MCP/plugin docs now explain the boundary between installable automation packages and repo-local contributor tooling.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+
 ## v1.4.9 - Showcase Phase
 
 Raw2D v1.4.9 publishes the real-world showcase phase for proving Canvas/WebGL parity, interaction, camera controls, and visible renderer diagnostics in one runnable demo.
