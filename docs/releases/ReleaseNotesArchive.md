@@ -1,5 +1,24 @@
 # Raw2D Release Notes Archive
 
+## v1.7.10 - Public Beta Hardening
+
+Raw2D v1.7.10 completes the Public Beta Hardening phase.
+
+### Added
+
+- Fresh install audits for `raw2d`, focused Canvas/WebGL packages, and `raw2d-react`.
+- CDN smoke page and pinned jsDelivr verification.
+- Product docs snippet compile audit for user-facing docs examples.
+- Browser bug-bash, mobile viewport, and dark UI overflow checks for docs and examples.
+
+### Verification
+
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer smoke test.
+- Mobile docs and dark UI browser route checks.
+
 ## v1.0.2 - Clean Publish Lockfile Fix
 
 Raw2D v1.0.2 fixes the release lockfile after the v1.0.1 publish attempt exposed an invalid generated dependency tarball URL.
