@@ -24,9 +24,11 @@ function renderTool(tool: StudioToolItem): string {
   `;
 }
 
-function renderLayer(layer: StudioLayerItem): string {
+function renderLayer(layer: StudioLayerItem, selectedLayerId: string | undefined): string {
+  const isSelected = layer.id === selectedLayerId;
+
   return `
-    <button class="studio-layer" type="button" data-layer="${layer.id}">
+    <button class="studio-layer${isSelected ? " is-selected" : ""}" type="button" data-layer="${layer.id}">
       <span>${layer.label}</span>
       <small>${layer.type}</small>
     </button>
@@ -101,7 +103,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           </section>
           <section>
             <h2>Layers</h2>
-            <div class="studio-stack">${layers.map(renderLayer).join("")}</div>
+            <div class="studio-stack">${layers.map((layer) => renderLayer(layer, options.selectedLayerId)).join("")}</div>
           </section>
           <section>
             <h2>Properties</h2>

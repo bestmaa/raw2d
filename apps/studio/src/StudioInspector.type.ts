@@ -4,3 +4,7 @@ export interface StudioInspectorModel {
   readonly layers: readonly StudioLayerItem[];
   readonly properties: readonly StudioPropertyRow[];
 }
+
+export interface StudioInspectorOptions {
+  readonly selectedObjectId?: string;
+}

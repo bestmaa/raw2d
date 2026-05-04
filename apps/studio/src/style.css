@@ -146,6 +146,11 @@ kbd {
   color: #83b6ce;
 }
 
+.studio-layer.is-selected {
+  border-color: #facc15;
+  background: #2b2a16;
+}
+
 .studio-workspace {
   display: flex;
   flex-direction: column;

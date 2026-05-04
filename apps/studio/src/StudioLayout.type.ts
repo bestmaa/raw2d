@@ -21,4 +21,5 @@ export interface StudioLayoutOptions {
   readonly objectCount: number;
   readonly layers: readonly StudioLayerItem[];
   readonly properties: readonly StudioPropertyRow[];
+  readonly selectedLayerId?: string;
 }

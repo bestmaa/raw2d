@@ -80,7 +80,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 ## Phase 21: Studio Interaction And Panels
 
-- T229 | Version: v1.13.0 | Status: pending | Goal: Add single-object selection in Studio. | Verify: browser click check. | Commit: `Add Studio selection`
+- T229 | Version: v1.13.0 | Status: completed | Goal: Add single-object selection in Studio. | Verify: browser click check. | Commit: `Add Studio selection`
 - T230 | Version: v1.13.1 | Status: pending | Goal: Add drag selected object. | Verify: browser drag check. | Commit: `Add Studio drag`
 - T231 | Version: v1.13.2 | Status: pending | Goal: Add resize handles for Rect and Sprite. | Verify: browser resize check. | Commit: `Add Studio resize`
 - T232 | Version: v1.13.3 | Status: pending | Goal: Add keyboard move, delete, and escape clear. | Verify: browser keyboard check. | Commit: `Add Studio keyboard`

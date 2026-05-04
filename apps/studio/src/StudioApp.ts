@@ -19,6 +19,7 @@ export class StudioApp {
   private readonly root: HTMLElement;
   private sceneState: StudioSceneState = createStudioSceneState();
   private rendererMode: StudioRendererMode = "canvas";
+  private selectedObjectId: string | undefined;
 
   public constructor(options: StudioAppOptions) {
     this.root = options.root;
@@ -28,19 +29,23 @@ export class StudioApp {
     this.render();
     this.bindRendererSwitch();
     this.bindActions();
+    this.bindLayers();
     this.renderRuntimeScene();
   }
 
   private render(): void {
     const rendererLabel = getStudioRendererLabel(this.rendererMode);
-    const inspector = createStudioInspectorModel(this.sceneState, rendererLabel);
+    const inspector = createStudioInspectorModel(this.sceneState, rendererLabel, {
+      selectedObjectId: this.selectedObjectId
+    });
 
     this.root.innerHTML = renderStudioLayout({
       rendererLabel,
       sceneName: this.sceneState.name,
       objectCount: this.sceneState.objects.length,
       layers: inspector.layers,
-      properties: inspector.properties
+      properties: inspector.properties,
+      selectedLayerId: this.selectedObjectId
     });
   }
 
@@ -66,33 +71,54 @@ export class StudioApp {
     sampleButton?.addEventListener("click", () => {
       this.sceneState = createStudioSampleSceneState();
       this.rendererMode = this.sceneState.rendererMode;
+      this.selectedObjectId = undefined;
       this.mount();
     });
 
     rectTool?.addEventListener("click", () => {
       this.sceneState = addStudioRectObject({ scene: this.sceneState });
+      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
       this.mount();
     });
 
     circleTool?.addEventListener("click", () => {
       this.sceneState = addStudioCircleObject({ scene: this.sceneState });
+      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
       this.mount();
     });
 
     lineTool?.addEventListener("click", () => {
       this.sceneState = addStudioLineObject({ scene: this.sceneState });
+      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
       this.mount();
     });
 
     textTool?.addEventListener("click", () => {
       this.sceneState = addStudioTextObject({ scene: this.sceneState });
+      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
       this.mount();
     });
 
     spriteTool?.addEventListener("click", () => {
       this.sceneState = addStudioSpriteObject({ scene: this.sceneState });
+      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
       this.mount();
     });
+  }
+
+  private bindLayers(): void {
+    const layerButtons = this.root.querySelectorAll<HTMLButtonElement>("[data-layer]");
+
+    for (const button of layerButtons) {
+      button.addEventListener("click", () => {
+        const objectId = button.dataset.layer;
+
+        if (objectId && this.sceneState.objects.some((object) => object.id === objectId)) {
+          this.selectedObjectId = objectId;
+          this.mount();
+        }
+      });
+    }
   }
 
   private renderRuntimeScene(): void {
