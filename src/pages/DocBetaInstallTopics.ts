@@ -30,5 +30,35 @@ renderer.render(scene, camera);`
 console.log("umbrella-runtime-ok", typeof m.Scene, typeof m.CanvasRenderer);`
       }
     ]
+  },
+  {
+    id: "canvas-focused-install",
+    label: "Canvas Install",
+    title: "Canvas Focused Install Audit",
+    description: "Verify the smallest Canvas package path with `raw2d-core` and `raw2d-canvas`.",
+    sections: [
+      {
+        title: "Run The Audit",
+        body: "Use this smoke when checking users who want Canvas only. It installs only the core and Canvas focused packages.",
+        code: `npm run test:consumer:canvas`
+      },
+      {
+        title: "Expected Install",
+        body: "The generated app must not need the umbrella, WebGL, sprite, text, React, or MCP packages.",
+        code: `npm install raw2d-core raw2d-canvas`
+      },
+      {
+        title: "Expected Imports",
+        body: "Use core for scene data and Canvas for drawing. Objects stay renderer-agnostic.",
+        code: `import { BasicMaterial, Camera2D, Rect, Scene } from "raw2d-core";
+import { CanvasRenderer } from "raw2d-canvas";`
+      },
+      {
+        title: "Render Gate",
+        body: "The app must add a visible object and call the Canvas renderer.",
+        code: `scene.add(rect);
+renderer.render(scene, camera);`
+      }
+    ]
   }
 ];

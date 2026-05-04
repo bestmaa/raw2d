@@ -4,6 +4,7 @@ import canvas from "../../docs/hi/Canvas.md?raw";
 import canvasApi from "../../docs/hi/Canvas-api.md?raw";
 import canvasObjects from "../../docs/hi/Canvas-objects.md?raw";
 import canvasCulling from "../../docs/hi/CanvasCulling.md?raw";
+import canvasFocusedInstallAudit from "../../docs/hi/CanvasFocusedInstallAudit.md?raw";
 import examples from "../../docs/hi/Examples.md?raw";
 import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
 import glossary from "../../docs/hi/Glossary.md?raw";
@@ -80,6 +81,12 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
     label: "Umbrella Install Audit",
     filename: "hi/UmbrellaBetaInstallAudit.md",
     content: umbrellaBetaInstallAudit
+  },
+  {
+    id: "canvas-focused-install-audit",
+    label: "Canvas Focused Install",
+    filename: "hi/CanvasFocusedInstallAudit.md",
+    content: canvasFocusedInstallAudit
   },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },

@@ -6,6 +6,7 @@ import cameraWorldBounds from "../../docs/CameraWorldBounds.md?raw";
 import canvas from "../../docs/Canvas.md?raw";
 import canvasApi from "../../docs/Canvas-api.md?raw";
 import canvasCulling from "../../docs/CanvasCulling.md?raw";
+import canvasFocusedInstallAudit from "../../docs/CanvasFocusedInstallAudit.md?raw";
 import canvasObjects from "../../docs/Canvas-objects.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
@@ -80,6 +81,12 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     label: "Umbrella Install Audit",
     filename: "UmbrellaBetaInstallAudit.md",
     content: umbrellaBetaInstallAudit
+  },
+  {
+    id: "canvas-focused-install-audit",
+    label: "Canvas Focused Install",
+    filename: "CanvasFocusedInstallAudit.md",
+    content: canvasFocusedInstallAudit
   },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
