@@ -48,9 +48,9 @@ The returned shape is intentionally close to Raw2D examples:
 
 This package should return data and generated code. It should not silently mutate a project or transmit project data.
 
-## Future Stdio Server Entry
+## Stdio Server Entry
 
-The executable server should be a small Node.js ESM stdio adapter:
+The executable server is a small Node.js ESM stdio adapter:
 
 ```json
 {
@@ -60,7 +60,13 @@ The executable server should be a small Node.js ESM stdio adapter:
 }
 ```
 
-The server should dispatch MCP tool calls to the same pure helpers exported by this package. It may depend on `raw2d-core`, but it must not import `raw2d-canvas`, `raw2d-webgl`, DOM APIs, or browser globals at runtime.
+Run it locally with:
+
+```bash
+npx raw2d-mcp
+```
+
+The server dispatches MCP tool calls to the same pure helpers exported by this package. It may depend on `raw2d-core`, but it must not import `raw2d-canvas`, `raw2d-webgl`, DOM APIs, or browser globals at runtime.
 
 Renderer packages may appear in generated code strings, but the MCP server process should stay focused on JSON, validation, inspection, and command plans.
 

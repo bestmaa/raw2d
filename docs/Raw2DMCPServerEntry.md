@@ -1,6 +1,6 @@
 # Raw2D MCP Server Entry
 
-`raw2d-mcp` should provide a Node.js stdio server entry for agents that need Raw2D scene automation. The entry must stay separate from browser rendering packages.
+`raw2d-mcp` provides a Node.js stdio server entry for agents that need Raw2D scene automation. The entry stays separate from browser rendering packages.
 
 ## Goal
 
@@ -37,7 +37,7 @@ Renderer packages can still appear in generated examples, but the MCP server sho
 
 ## CLI Shape
 
-Future package metadata should expose a bin entry:
+Package metadata exposes a bin entry:
 
 ```json
 {
@@ -47,17 +47,17 @@ Future package metadata should expose a bin entry:
 }
 ```
 
-Local usage should look like:
+Local usage:
 
 ```bash
 npx raw2d-mcp
 ```
 
-MCP clients can then launch that command as a stdio server.
+MCP clients can launch that command as a stdio server.
 
 ## Tool Dispatch
 
-The server should use a small dispatch table:
+The server uses a small dispatch table:
 
 ```ts
 const tools = {
@@ -74,9 +74,23 @@ The dispatch layer should only:
 - serialize the result
 - convert thrown errors into structured MCP errors
 
+## Local Smoke
+
+The server accepts one JSON request per line and writes one JSON response per line.
+
+```json
+{"jsonrpc":"2.0","id":1,"method":"raw2d_create_scene","params":{}}
+```
+
+Expected response:
+
+```json
+{"jsonrpc":"2.0","id":1,"result":{"scene":{"objects":[]},"camera":{"x":0,"y":0,"zoom":1}}}
+```
+
 ## Verification
 
-Before adding the executable server, verify:
+After changing the executable server, verify:
 
 ```bash
 npm run typecheck
@@ -84,4 +98,4 @@ npm test
 npm run test:consumer:mcp
 ```
 
-The first executable task should also include a local stdio smoke that starts the server, sends one tool request, and checks the JSON response.
+The local stdio smoke starts `packages/mcp/dist/server.js`, sends one tool request, and checks the JSON response.
