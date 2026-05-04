@@ -1,5 +1,22 @@
 # Raw2D Release Notes Archive
 
+## v1.12.7 - Studio Tools Phase
+
+Raw2D v1.12.7 publishes the first Studio drawing tools phase.
+
+### Added
+
+- Rect, Circle, Line, Text2D, and Sprite placeholder tools in `apps/studio`.
+- Dynamic Layers and Properties output for created Studio objects.
+- Scene JSON factory tests and runtime adapter coverage for Studio tools.
+- Studio tools documentation with small and full examples.
+
+### Verification
+
+- Full package and docs tests.
+- Browser Studio tool checks.
+- Consumer install smoke and workspace pack dry-run.
+
 ## v1.11.8 - Studio Shell Phase
 
 Raw2D v1.11.8 publishes the first Studio editor shell phase.

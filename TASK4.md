@@ -76,7 +76,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T225 | Version: v1.12.4 | Status: completed | Goal: Add Sprite placeholder tool with asset slot. | Verify: browser placeholder render check. | Commit: `Add Studio sprite tool`
 - T226 | Version: v1.12.5 | Status: completed | Goal: Add tool docs with small and full examples. | Verify: docs QA and browser check. | Commit: `Document Studio tools`
 - T227 | Version: v1.12.6 | Status: completed | Goal: Add drawing tool unit tests for scene JSON output. | Verify: unit tests. | Commit: `Test Studio tools`
-- T228 | Version: v1.12.7 | Status: pending | Goal: Phase 20 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio tools. | Commit: `Release Studio tools phase`
+- T228 | Version: v1.12.7 | Status: completed | Goal: Phase 20 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio tools. | Commit: `Release Studio tools phase`
 
 ## Phase 21: Studio Interaction And Panels
 
