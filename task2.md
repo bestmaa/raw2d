@@ -89,7 +89,7 @@ Push only on phase release tasks or explicit user request.
 ## Phase 12: Real-World Demo
 
 - T145 | Version: v1.4.0 | Status: completed | Goal: Design showcase demo scope and performance targets. | Verify: design doc. | Commit: `Design Raw2D showcase`
-- T146 | Version: v1.4.1 | Status: pending | Goal: Add showcase scene with many sprites and shapes. | Verify: browser visual check. | Commit: `Add showcase scene`
+- T146 | Version: v1.4.1 | Status: completed | Goal: Add showcase scene with many sprites and shapes. | Verify: browser visual check. | Commit: `Add showcase scene`
 - T147 | Version: v1.4.2 | Status: pending | Goal: Add Canvas/WebGL renderer switch to showcase. | Verify: both renderers work. | Commit: `Add showcase renderer switch`
 - T148 | Version: v1.4.3 | Status: pending | Goal: Add camera controls and minimap/viewport hints. | Verify: browser interaction check. | Commit: `Add showcase camera controls`
 - T149 | Version: v1.4.4 | Status: pending | Goal: Add interaction selection and transform handles to showcase. | Verify: select/drag/resize browser check. | Commit: `Add showcase interaction`

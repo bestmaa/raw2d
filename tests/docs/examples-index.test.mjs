@@ -10,6 +10,7 @@ test("examples index links core example routes", () => {
   for (const route of [
     "canvas-basic",
     "webgl-basic",
+    "showcase",
     "sprite-atlas",
     "interaction-basic",
     "text-basic",

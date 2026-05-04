@@ -23,6 +23,7 @@ npx vite --host 0.0.0.0 --port 5175
 
 - `/examples/canvas-basic/` shows the Canvas renderer baseline.
 - `/examples/webgl-basic/` shows WebGL sprite batching and stats.
+- `/examples/showcase/` shows a dense scene with sprites, shapes, labels, and stats.
 - `/examples/sprite-atlas/` shows atlas-packed sprites sharing one texture.
 - `/examples/interaction-basic/` shows selection, drag, and Rect resize.
 - `/examples/camera-controls/` shows pointer pan and wheel zoom.
