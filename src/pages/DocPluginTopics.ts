@@ -36,6 +36,13 @@ node plugins/raw2d/scripts/run-fresh-install-audit.mjs --dry-run --json
 node plugins/raw2d/scripts/explain-renderer-stats.mjs --sample`
       },
       {
+        title: "MCP And Plugin Consumer Flow",
+        body: "Use raw2d-mcp outside the repo for scene JSON and generated snippets. Use the repo plugin inside Raw2D for docs QA, examples, visual checks, and fresh install audit plans.",
+        code: `npm install raw2d-mcp raw2d
+node plugins/raw2d/scripts/create-raw2d-showcase.mjs --out /tmp/raw2d-showcase --renderer webgl
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs --dry-run --json`
+      },
+      {
         title: "Test Workflow",
         body: "The plugin workflow builds Raw2D packages first, then runs plugin command and skill tests.",
         code: `npm ci
