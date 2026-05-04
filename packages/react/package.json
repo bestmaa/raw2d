@@ -1,6 +1,6 @@
 {
   "name": "raw2d-react",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "React bridge package scaffold for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,7 +24,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "peerDependencies": {
-    "raw2d": "1.8.2",
+    "raw2d": "1.8.3",
     "react": ">=18.0.0"
   },
   "author": "Aditya Nandlal",

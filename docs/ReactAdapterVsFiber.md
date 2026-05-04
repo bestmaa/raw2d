@@ -21,6 +21,8 @@ This package is intentionally simple:
 - no custom reconciler requirement
 - no hidden renderer internals
 
+It is the right package for the current beta when you want React components without changing Raw2D's low-level API.
+
 ## Future Fiber Package
 
 Future `raw2d-react-fiber` should use a custom reconciler when Raw2D needs deeper React integration.
@@ -35,6 +37,8 @@ Future `raw2d-react-fiber` should use a custom reconciler when Raw2D needs deepe
 ```
 
 Fiber is useful when Raw2D needs host nodes, commit batching, stable object identity, and large JSX scene updates.
+
+Fiber should stay separate from `raw2d-react` so the current adapter remains easy to audit.
 
 ## When To Use Which
 
@@ -55,3 +59,7 @@ Wait for Fiber later:
 ## Core Rule
 
 Both packages must wrap public Raw2D APIs. Neither package should make React required for non-React Raw2D users.
+
+`raw2d-core`, `raw2d-canvas`, and `raw2d-webgl` stay React-free.
+
+React support must not hide renderer choice. Users should still choose Canvas or WebGL explicitly.
