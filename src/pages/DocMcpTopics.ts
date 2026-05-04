@@ -47,6 +47,20 @@ console.log(inspection.objectCount);
 console.log(inspection.rendererHints);`
       },
       {
+        title: "Tool Schemas",
+        body: "Every MCP tool uses explicit params and JSON output. Scene tools return scene documents, validation returns errors, generators return code or markdown, and visual checks return command plans.",
+        code: `raw2d_create_scene -> SceneDocument
+raw2d_add_object -> SceneDocument
+raw2d_update_transform -> SceneDocument
+raw2d_update_material -> SceneDocument
+raw2d_inspect_scene -> inspection JSON
+raw2d_validate_scene -> { valid, errors }
+raw2d_generate_canvas_example -> { code, renderer }
+raw2d_generate_webgl_example -> { code, renderer }
+raw2d_generate_docs_snippet -> { markdown }
+raw2d_run_visual_check -> { commands }`
+      },
+      {
         title: "Generate Examples",
         body: "Generate Canvas, WebGL, or markdown snippets. The output is plain text so agents can show it before writing files.",
         code: `import {

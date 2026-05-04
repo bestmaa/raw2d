@@ -44,6 +44,10 @@ The returned shape is intentionally close to Raw2D examples:
 - Docs snippet generation
 - Visual test command integration
 
+## Schema Docs
+
+Input and output schemas for every public tool are documented in `docs/Raw2DMCPSchemas.md`.
+
 ## Boundary
 
 This package should return data and generated code. It should not silently mutate a project or transmit project data.

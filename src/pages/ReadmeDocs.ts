@@ -39,6 +39,7 @@ import selection from "../../docs/Selection.md?raw";
 import shapePath from "../../docs/ShapePath.md?raw";
 import showcaseDemo from "../../docs/ShowcaseDemo.md?raw";
 import raw2dMcpServerEntry from "../../docs/Raw2DMCPServerEntry.md?raw";
+import raw2dMcpSchemas from "../../docs/Raw2DMCPSchemas.md?raw";
 import spriteAnimation from "../../docs/SpriteAnimation.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
 import textureAtlas from "../../docs/TextureAtlas.md?raw";
@@ -63,6 +64,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
+  { id: "raw2d-mcp-schemas", label: "MCP Schemas", filename: "Raw2DMCPSchemas.md", content: raw2dMcpSchemas },
   { id: "glossary", label: "Glossary", filename: "Glossary.md", content: glossary },
   { id: "license", label: "License", filename: "License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "AssetLoading.md", content: assetLoading },

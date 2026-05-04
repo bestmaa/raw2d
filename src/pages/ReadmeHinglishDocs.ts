@@ -41,6 +41,7 @@ import polygon from "../../docs/hi/Polygon.md?raw";
 import shapePath from "../../docs/hi/ShapePath.md?raw";
 import showcaseDemo from "../../docs/hi/ShowcaseDemo.md?raw";
 import raw2dMcpServerEntry from "../../docs/hi/Raw2DMCPServerEntry.md?raw";
+import raw2dMcpSchemas from "../../docs/hi/Raw2DMCPSchemas.md?raw";
 import spriteAnimation from "../../docs/hi/SpriteAnimation.md?raw";
 import text2d from "../../docs/hi/Text2D.md?raw";
 import textureAtlas from "../../docs/hi/TextureAtlas.md?raw";
@@ -63,6 +64,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "hi/Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
+  { id: "raw2d-mcp-schemas", label: "MCP Schemas", filename: "hi/Raw2DMCPSchemas.md", content: raw2dMcpSchemas },
   { id: "glossary", label: "Glossary", filename: "hi/Glossary.md", content: glossary },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },
