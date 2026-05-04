@@ -23,6 +23,7 @@ import renderMode from "../../docs/hi/RenderMode.md?raw";
 import pipelineArchitecture from "../../docs/hi/PipelineArchitecture.md?raw";
 import renderPipeline from "../../docs/hi/RenderPipeline.md?raw";
 import webglAvailability from "../../docs/hi/WebGLAvailability.md?raw";
+import webglFocusedInstallAudit from "../../docs/hi/WebGLFocusedInstallAudit.md?raw";
 import webglRenderer from "../../docs/hi/WebGLRenderer2D.md?raw";
 import webglPerformance from "../../docs/hi/WebGLPerformance.md?raw";
 import webglSpriteBatching from "../../docs/hi/WebGLSpriteBatching.md?raw";
@@ -87,6 +88,12 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
     label: "Canvas Focused Install",
     filename: "hi/CanvasFocusedInstallAudit.md",
     content: canvasFocusedInstallAudit
+  },
+  {
+    id: "webgl-focused-install-audit",
+    label: "WebGL Focused Install",
+    filename: "hi/WebGLFocusedInstallAudit.md",
+    content: webglFocusedInstallAudit
   },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },

@@ -60,5 +60,36 @@ import { CanvasRenderer } from "raw2d-canvas";`
 renderer.render(scene, camera);`
       }
     ]
+  },
+  {
+    id: "webgl-focused-install",
+    label: "WebGL Install",
+    title: "WebGL Focused Install Audit",
+    description: "Verify the focused WebGL package path with `raw2d-core` and `raw2d-webgl`.",
+    sections: [
+      {
+        title: "Run The Audit",
+        body: "Use this smoke for users who want WebGL without the umbrella package.",
+        code: `npm run test:consumer:webgl`
+      },
+      {
+        title: "Expected Install",
+        body: "The generated app should directly depend on core scene data and the WebGL renderer package.",
+        code: `npm install raw2d-core raw2d-webgl`
+      },
+      {
+        title: "Expected Imports",
+        body: "Use core for scene data and WebGL for drawing. Canvas is not part of this focused app code.",
+        code: `import { BasicMaterial, Camera2D, Rect, Scene } from "raw2d-core";
+import { WebGLRenderer2D, isWebGL2Available } from "raw2d-webgl";`
+      },
+      {
+        title: "Render Gate",
+        body: "The app must create a WebGL renderer and render when WebGL2 is available.",
+        code: `if (isWebGL2Available({ canvas })) {
+  renderer.render(scene, camera);
+}`
+      }
+    ]
   }
 ];

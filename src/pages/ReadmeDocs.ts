@@ -56,6 +56,7 @@ import transformMatrix from "../../docs/TransformMatrix.md?raw";
 import umbrellaBetaInstallAudit from "../../docs/UmbrellaBetaInstallAudit.md?raw";
 import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import webGLAvailability from "../../docs/WebGLAvailability.md?raw";
+import webGLFocusedInstallAudit from "../../docs/WebGLFocusedInstallAudit.md?raw";
 import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
 import webGLPerformance from "../../docs/WebGLPerformance.md?raw";
 import webGLSpriteBatching from "../../docs/WebGLSpriteBatching.md?raw";
@@ -87,6 +88,12 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     label: "Canvas Focused Install",
     filename: "CanvasFocusedInstallAudit.md",
     content: canvasFocusedInstallAudit
+  },
+  {
+    id: "webgl-focused-install-audit",
+    label: "WebGL Focused Install",
+    filename: "WebGLFocusedInstallAudit.md",
+    content: webGLFocusedInstallAudit
   },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
