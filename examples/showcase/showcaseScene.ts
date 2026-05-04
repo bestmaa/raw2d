@@ -9,6 +9,7 @@ export function createShowcaseScene(): ShowcaseSceneResult {
   const animatedSprites: Sprite[] = [];
   let shapeCount = 0;
   let spriteCount = 0;
+  let interactiveRect: Rect | null = null;
 
   for (let index = 0; index < 320; index += 1) {
     const sprite = new Sprite({
@@ -39,6 +40,13 @@ export function createShowcaseScene(): ShowcaseSceneResult {
       material: new BasicMaterial({ fillColor: index % 2 === 0 ? "#1f8a70" : "#f45b69" })
     });
     rect.setRenderMode("static");
+
+    if (index === 4) {
+      rect.name = "showcase-card";
+      rect.setRenderMode("dynamic");
+      interactiveRect = rect;
+    }
+
     scene.add(rect);
     shapeCount += 1;
   }
@@ -68,6 +76,7 @@ export function createShowcaseScene(): ShowcaseSceneResult {
   return {
     animatedSprites,
     camera,
+    interactiveRect: interactiveRect ?? createFallbackInteractiveRect(scene),
     objectCount: spriteCount + shapeCount + 1,
     scene,
     shapeCount,
@@ -75,4 +84,17 @@ export function createShowcaseScene(): ShowcaseSceneResult {
     worldHeight: 620,
     worldWidth: 940
   };
+}
+
+function createFallbackInteractiveRect(scene: Scene): Rect {
+  const rect = new Rect({
+    name: "showcase-card",
+    x: 96,
+    y: 430,
+    width: 80,
+    height: 34,
+    material: new BasicMaterial({ fillColor: "#f45b69", strokeColor: "#ffd6dd", lineWidth: 2 })
+  });
+  scene.add(rect);
+  return rect;
 }

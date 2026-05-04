@@ -103,3 +103,18 @@ canvas {
   border: 1px solid #263243;
   max-width: 100%;
 }
+
+.showcase-canvas-stack {
+  position: relative;
+  width: min(960px, 100%);
+}
+
+.showcase-canvas-stack canvas {
+  display: block;
+}
+
+.showcase-canvas-stack canvas + canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}

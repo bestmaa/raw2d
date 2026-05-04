@@ -10,7 +10,8 @@ const docs = readFileSync("docs/ShowcaseDemo.md", "utf8");
 test("showcase wires camera controls and reset UI", () => {
   assert.match(html, /id="raw2d-reset"/);
   assert.match(main, /new CameraControls/);
-  assert.match(main, /controls\.enablePan\(0\)/);
+  assert.match(main, /panButton: 1/);
+  assert.match(main, /controls\.enablePan\(1\)/);
   assert.match(main, /controls\.enableZoom\(\)/);
   assert.match(main, /showcase\.camera\.setZoom\(1\)/);
 });

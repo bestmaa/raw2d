@@ -92,7 +92,7 @@ Push only on phase release tasks or explicit user request.
 - T146 | Version: v1.4.1 | Status: completed | Goal: Add showcase scene with many sprites and shapes. | Verify: browser visual check. | Commit: `Add showcase scene`
 - T147 | Version: v1.4.2 | Status: completed | Goal: Add Canvas/WebGL renderer switch to showcase. | Verify: both renderers work. | Commit: `Add showcase renderer switch`
 - T148 | Version: v1.4.3 | Status: completed | Goal: Add camera controls and minimap/viewport hints. | Verify: browser interaction check. | Commit: `Add showcase camera controls`
-- T149 | Version: v1.4.4 | Status: pending | Goal: Add interaction selection and transform handles to showcase. | Verify: select/drag/resize browser check. | Commit: `Add showcase interaction`
+- T149 | Version: v1.4.4 | Status: completed | Goal: Add interaction selection and transform handles to showcase. | Verify: select/drag/resize browser check. | Commit: `Add showcase interaction`
 - T150 | Version: v1.4.5 | Status: pending | Goal: Add live renderer stats panel and copy report button. | Verify: stats update. | Commit: `Add showcase stats`
 - T151 | Version: v1.4.6 | Status: pending | Goal: Add atlas/static/dynamic/culling toggles to showcase. | Verify: stats change. | Commit: `Add showcase performance toggles`
 - T152 | Version: v1.4.7 | Status: pending | Goal: Add showcase docs explaining what Raw2D proves. | Verify: docs route check. | Commit: `Document showcase demo`
