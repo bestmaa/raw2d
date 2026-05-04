@@ -17,9 +17,22 @@
             Drag the canvas to pan the camera. Use the mouse wheel to zoom around the pointer.
           </p>
         </header>
-        <canvas id="raw2d-canvas"></canvas>
-        <button id="raw2d-reset" type="button">Reset camera</button>
-        <pre id="raw2d-stats" aria-live="polite"></pre>
+        <div class="example-runtime">
+          <canvas id="raw2d-canvas"></canvas>
+          <aside class="example-info" aria-label="Camera controls">
+            <h2>Camera</h2>
+            <pre><code>npm install raw2d raw2d-interaction</code></pre>
+            <pre><code>controls.enablePan(0);
+controls.enableZoom();</code></pre>
+            <div class="example-actions">
+              <button id="raw2d-pan-right" type="button">Pan right</button>
+              <button id="raw2d-zoom-in" type="button">Zoom in</button>
+              <button id="raw2d-zoom-out" type="button">Zoom out</button>
+              <button id="raw2d-reset" type="button">Reset camera</button>
+            </div>
+            <pre id="raw2d-stats" aria-live="polite"></pre>
+          </aside>
+        </div>
       </section>
     </main>
     <script type="module" src="./main.ts"></script>

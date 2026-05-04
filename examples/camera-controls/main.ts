@@ -2,9 +2,12 @@ import { BasicMaterial, Camera2D, CameraControls, Canvas, Line, Rect, Scene, Tex
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
+const panRightButton = document.querySelector<HTMLButtonElement>("#raw2d-pan-right");
+const zoomInButton = document.querySelector<HTMLButtonElement>("#raw2d-zoom-in");
+const zoomOutButton = document.querySelector<HTMLButtonElement>("#raw2d-zoom-out");
 const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
 
-if (!canvasElement || !statsElement || !resetButton) {
+if (!canvasElement || !statsElement || !panRightButton || !zoomInButton || !zoomOutButton || !resetButton) {
   throw new Error("Example DOM nodes not found.");
 }
 
@@ -57,7 +60,23 @@ const controls = new CameraControls({
 
 controls.enablePan(0);
 controls.enableZoom();
-resetButton.addEventListener("click", () => {
+
+panRightButton.addEventListener("click", (): void => {
+  camera.setPosition(camera.x + 80, camera.y);
+  render();
+});
+
+zoomInButton.addEventListener("click", (): void => {
+  camera.setZoom(Math.min(camera.zoom * 1.2, 4));
+  render();
+});
+
+zoomOutButton.addEventListener("click", (): void => {
+  camera.setZoom(Math.max(camera.zoom / 1.2, 0.4));
+  render();
+});
+
+resetButton.addEventListener("click", (): void => {
   camera.setPosition(0, 0);
   camera.setZoom(1);
   render();
