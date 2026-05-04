@@ -46,6 +46,7 @@ import raw2dMcpSchemas from "../../docs/hi/Raw2DMCPSchemas.md?raw";
 import raw2dMcpPluginConsumer from "../../docs/hi/Raw2DMCPPluginConsumer.md?raw";
 import reactFiberBoundary from "../../docs/hi/ReactFiberBoundary.md?raw";
 import reactRendererAPIAudit from "../../docs/hi/ReactRendererAPIAudit.md?raw";
+import reactReconcilerModel from "../../docs/hi/ReactReconcilerModel.md?raw";
 import spriteAnimation from "../../docs/hi/SpriteAnimation.md?raw";
 import text2d from "../../docs/hi/Text2D.md?raw";
 import textureAtlas from "../../docs/hi/TextureAtlas.md?raw";
@@ -72,6 +73,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "raw2d-mcp-plugin-consumer", label: "MCP Plugin Consumer", filename: "hi/Raw2DMCPPluginConsumer.md", content: raw2dMcpPluginConsumer },
   { id: "react-fiber-boundary", label: "React Fiber Boundary", filename: "hi/ReactFiberBoundary.md", content: reactFiberBoundary },
   { id: "react-renderer-api-audit", label: "React Renderer API Audit", filename: "hi/ReactRendererAPIAudit.md", content: reactRendererAPIAudit },
+  { id: "react-reconciler-model", label: "React Reconciler Model", filename: "hi/ReactReconcilerModel.md", content: reactReconcilerModel },
   { id: "glossary", label: "Glossary", filename: "hi/Glossary.md", content: glossary },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },

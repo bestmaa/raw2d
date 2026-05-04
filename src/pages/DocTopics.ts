@@ -34,6 +34,7 @@ import { pathTopics } from "./DocPathTopics";
 import { pickingTopics } from "./DocPickingTopics";
 import { publicApiTopics } from "./DocPublicApiTopics";
 import { reactTopics } from "./DocReactTopics";
+import { reactReconcilerTopics } from "./DocReactReconcilerTopics";
 import { reactReadinessTopics } from "./DocReactReadinessTopics";
 import { renderOrderTopics } from "./DocRenderOrderTopics";
 import { releaseTopics } from "./DocReleaseTopics";
@@ -173,7 +174,7 @@ export const docGroups: readonly DocGroup[] = [
     description: "React bridge status and the future fiber-style package path.",
     hiLabel: "React Later",
     hiDescription: "React bridge status aur future fiber-style package path.",
-    topics: [...reactTopics, ...reactReadinessTopics]
+    topics: [...reactTopics, ...reactReconcilerTopics, ...reactReadinessTopics]
   }
 ];
 

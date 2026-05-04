@@ -1,7 +1,7 @@
 {
   "name": "raw2d-workspace",
   "private": true,
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
   "type": "module",
   "workspaces": [
