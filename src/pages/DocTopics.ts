@@ -12,6 +12,7 @@ import { changelogTopics } from "./DocChangelogTopics";
 import { coreTopics } from "./DocCoreTopics";
 import { consoleAuditTopics } from "./DocConsoleAuditTopics";
 import { curveTopics } from "./DocCurveTopics";
+import { darkOverflowTopics } from "./DocDarkOverflowTopics";
 import { exampleTopics } from "./DocExamplesTopics";
 import { group2DTopics } from "./DocGroup2DTopics";
 import { glossaryTopics } from "./DocGlossaryTopics";
@@ -93,6 +94,7 @@ export const docGroups: readonly DocGroup[] = [
       ...cdnTopics,
       ...browserBugBashTopics,
       ...mobileViewportTopics,
+      ...darkOverflowTopics,
       ...consoleAuditTopics,
       ...accessibilityTopics,
       ...canvasQATopics,

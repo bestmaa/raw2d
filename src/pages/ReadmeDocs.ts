@@ -13,6 +13,7 @@ import betaBrowserBugBash from "../../docs/BetaBrowserBugBash.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
 import dirtyVersioning from "../../docs/DirtyVersioning.md?raw";
+import darkUIOverflowAudit from "../../docs/DarkUIOverflowAudit.md?raw";
 import docsMobileViewport from "../../docs/DocsMobileViewport.md?raw";
 import examples from "../../docs/Examples.md?raw";
 import gettingStarted from "../../docs/GettingStarted.md?raw";
@@ -109,6 +110,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "CDNBetaSmoke.md", content: cdnBetaSmoke },
   { id: "beta-browser-bug-bash", label: "Browser Bug Bash", filename: "BetaBrowserBugBash.md", content: betaBrowserBugBash },
   { id: "docs-mobile-viewport", label: "Docs Mobile Viewport", filename: "DocsMobileViewport.md", content: docsMobileViewport },
+  { id: "dark-ui-overflow-audit", label: "Dark UI Overflow", filename: "DarkUIOverflowAudit.md", content: darkUIOverflowAudit },
   {
     id: "product-docs-snippet-audit",
     label: "Product Docs Snippets",
