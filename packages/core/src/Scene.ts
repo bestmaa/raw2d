@@ -1,4 +1,5 @@
 import { uid } from "./uid.js";
+import { attachObject2D, detachObject2D } from "./Object2DLifecycle.js";
 import type { SceneObject } from "./Scene.type.js";
 import type { SceneLike, SceneOptions } from "./Scene.type.js";
 
@@ -19,6 +20,7 @@ export class Scene implements SceneLike {
   public add(object: SceneObject): this {
     if (!this.objects.includes(object)) {
       this.objects.push(object);
+      attachObject2D({ object, parent: this });
     }
 
     return this;
@@ -29,12 +31,17 @@ export class Scene implements SceneLike {
 
     if (index !== -1) {
       this.objects.splice(index, 1);
+      detachObject2D({ object, parent: this });
     }
 
     return this;
   }
 
   public clear(): void {
+    for (const object of this.objects) {
+      detachObject2D({ object, parent: this });
+    }
+
     this.objects.length = 0;
   }
 

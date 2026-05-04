@@ -53,9 +53,9 @@ Ye gap important hai kyunki reconciler ko private fields read kiye bina cleanup 
 `raw2d-react-fiber` banane se pehle small lifecycle hooks add karo:
 
 ```ts
-object.onAttach(parent);
-object.onDetach(parent);
-object.dispose();
+attachObject2D({ object, parent });
+detachObject2D({ object, parent });
+disposeObject2D(object);
 object.markDirty();
 ```
 

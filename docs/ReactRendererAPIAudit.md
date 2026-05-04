@@ -53,9 +53,9 @@ That gap matters because a reconciler needs reliable cleanup and render invalida
 Before building `raw2d-react-fiber`, add small lifecycle hooks:
 
 ```ts
-object.onAttach(parent);
-object.onDetach(parent);
-object.dispose();
+attachObject2D({ object, parent });
+detachObject2D({ object, parent });
+disposeObject2D(object);
 object.markDirty();
 ```
 

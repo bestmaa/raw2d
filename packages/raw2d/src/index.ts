@@ -16,6 +16,7 @@ export {
   RenderPipeline,
   Scene,
   ShapePath,
+  attachObject2D,
   containsCirclePoint,
   containsEllipsePoint,
   containsLinePoint,
@@ -31,6 +32,7 @@ export {
   getCoreLocalBounds,
   getEllipseLocalBounds,
   getLineLocalBounds,
+  getObject2DLifecycleState,
   getPolygonLocalBounds,
   getPolylineLocalBounds,
   getRectLocalBounds,
@@ -41,6 +43,8 @@ export {
   getWorldBounds,
   pickObject,
   resolveObject2DOrigin,
+  detachObject2D,
+  disposeObject2D,
   sortRenderObjects,
   worldToLocalPoint
 } from "raw2d-core";

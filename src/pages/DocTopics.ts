@@ -19,6 +19,7 @@ import { interactionQATopics } from "./DocInteractionQATopics";
 import { interactionTopics } from "./DocInteractionTopics";
 import { installSmokeTopics } from "./DocInstallSmokeTopics";
 import { licenseTopics } from "./DocLicenseTopics";
+import { lifecycleTopics } from "./DocLifecycleTopics";
 import { mcpTopics } from "./DocMcpTopics";
 import { mcpReadinessTopics } from "./DocMCPReadinessTopics";
 import { migrationTopics } from "./DocMigrationTopics";
@@ -99,7 +100,7 @@ export const docGroups: readonly DocGroup[] = [
     description: "Scene graph, transforms, groups, bounds, and core object rules.",
     hiLabel: "Scene Foundation",
     hiDescription: "Scene graph, transform, groups, bounds, aur core object rules.",
-    topics: [...coreTopics, ...group2DTopics, ...transformTopics, ...boundsTopics]
+    topics: [...coreTopics, ...group2DTopics, ...lifecycleTopics, ...transformTopics, ...boundsTopics]
   },
   {
     id: "drawing-objects",

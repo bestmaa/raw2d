@@ -20,6 +20,7 @@ import interactionController from "../../docs/InteractionController.md?raw";
 import keyboardController from "../../docs/KeyboardController.md?raw";
 import license from "../../docs/License.md?raw";
 import line from "../../docs/Line.md?raw";
+import objectLifecycle from "../../docs/ObjectLifecycle.md?raw";
 import objectResize from "../../docs/ObjectResize.md?raw";
 import picking from "../../docs/Picking.md?raw";
 import polygon from "../../docs/Polygon.md?raw";
@@ -83,6 +84,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "VisibleObjects.md", content: visibleObjects },
   { id: "dirty-versioning", label: "Dirty Versioning", filename: "DirtyVersioning.md", content: dirtyVersioning },
+  { id: "object-lifecycle", label: "Object Lifecycle", filename: "ObjectLifecycle.md", content: objectLifecycle },
   { id: "render-order", label: "Render Order", filename: "RenderOrder.md", content: renderOrder },
   { id: "renderer2d", label: "Renderer2D", filename: "Renderer2D.md", content: renderer2d },
   { id: "renderer-parity", label: "Renderer Parity", filename: "RendererParity.md", content: rendererParity },

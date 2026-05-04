@@ -16,6 +16,8 @@ export * from "./Matrix3.js";
 export * from "./Matrix3.type.js";
 export * from "./Object2D.js";
 export * from "./Object2D.type.js";
+export * from "./Object2DLifecycle.js";
+export * from "./Object2DLifecycle.type.js";
 export * from "./PathCommand.type.js";
 export * from "./pickObject.js";
 export * from "./pickObject.type.js";

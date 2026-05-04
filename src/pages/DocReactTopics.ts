@@ -225,9 +225,9 @@ cleanup owned resources on unmount`
       {
         title: "Gap",
         body: "Formal object lifecycle hooks are the missing piece. They should be core APIs, not React-only APIs.",
-        code: `object.onAttach(parent);
-object.onDetach(parent);
-object.dispose();
+        code: `attachObject2D({ object, parent });
+detachObject2D({ object, parent });
+disposeObject2D(object);
 object.markDirty();`
       }
     ]

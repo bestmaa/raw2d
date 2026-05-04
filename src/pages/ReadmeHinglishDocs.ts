@@ -13,6 +13,7 @@ import camera2d from "../../docs/hi/Camera2D.md?raw";
 import cameraWorldBounds from "../../docs/hi/CameraWorldBounds.md?raw";
 import visibleObjects from "../../docs/hi/VisibleObjects.md?raw";
 import dirtyVersioning from "../../docs/hi/DirtyVersioning.md?raw";
+import objectLifecycle from "../../docs/hi/ObjectLifecycle.md?raw";
 import renderOrder from "../../docs/hi/RenderOrder.md?raw";
 import renderer2d from "../../docs/hi/Renderer2D.md?raw";
 import rendererParity from "../../docs/hi/RendererParity.md?raw";
@@ -83,6 +84,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "camera-world-bounds", label: "Camera World Bounds", filename: "hi/CameraWorldBounds.md", content: cameraWorldBounds },
   { id: "visible-objects", label: "Visible Objects", filename: "hi/VisibleObjects.md", content: visibleObjects },
   { id: "dirty-versioning", label: "Dirty Versioning", filename: "hi/DirtyVersioning.md", content: dirtyVersioning },
+  { id: "object-lifecycle", label: "Object Lifecycle", filename: "hi/ObjectLifecycle.md", content: objectLifecycle },
   { id: "render-order", label: "Render Order", filename: "hi/RenderOrder.md", content: renderOrder },
   { id: "renderer2d", label: "Renderer2D", filename: "hi/Renderer2D.md", content: renderer2d },
   { id: "renderer-parity", label: "Renderer Parity", filename: "hi/RendererParity.md", content: rendererParity },

@@ -1,4 +1,5 @@
 import { Object2D } from "./Object2D.js";
+import { attachObject2D, detachObject2D } from "./Object2DLifecycle.js";
 import type { Group2DChild, Group2DLike, Group2DOptions } from "./Group2D.type.js";
 
 export class Group2D extends Object2D implements Group2DLike {
@@ -19,6 +20,7 @@ export class Group2D extends Object2D implements Group2DLike {
 
     if (!this.children.includes(child)) {
       this.children.push(child);
+      attachObject2D({ object: child, parent: this });
       this.markDirty();
     }
 
@@ -30,6 +32,7 @@ export class Group2D extends Object2D implements Group2DLike {
 
     if (index !== -1) {
       this.children.splice(index, 1);
+      detachObject2D({ object: child, parent: this });
       this.markDirty();
     }
 
@@ -37,6 +40,10 @@ export class Group2D extends Object2D implements Group2DLike {
   }
 
   public clear(): void {
+    for (const child of this.children) {
+      detachObject2D({ object: child, parent: this });
+    }
+
     this.children.length = 0;
     this.markDirty();
   }
