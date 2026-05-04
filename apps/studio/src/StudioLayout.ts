@@ -93,7 +93,10 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
             <span>800 x 600</span>
           </div>
           <div class="studio-canvas-placeholder">
-            <div class="studio-artboard">Raw2D canvas mount</div>
+            <div class="studio-artboard">
+              <canvas class="studio-canvas" width="800" height="600" aria-label="Raw2D Studio canvas"></canvas>
+              <span>Raw2D canvas mount</span>
+            </div>
           </div>
           <footer class="studio-statusbar">
             Ready | ${options.rendererLabel} renderer | ${options.objectCount} objects | No selection
