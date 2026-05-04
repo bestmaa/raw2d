@@ -10,8 +10,8 @@ export const cdnTopics: readonly DocTopic[] = [
       {
         title: "Pinned Version URLs",
         body: "Always verify pinned version URLs first. They should return 200 and the expected JavaScript content type.",
-        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d@0.10.10/dist/raw2d.js
-curl -I https://cdn.jsdelivr.net/npm/raw2d@0.10.10/dist/raw2d.umd.cjs`
+        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.5/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.5/dist/raw2d.umd.cjs`
       },
       {
         title: "Latest URL",
@@ -22,11 +22,18 @@ curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs`
       {
         title: "Browser Import",
         body: "Load the ESM CDN build in a browser module script and create a tiny scene. This confirms the package works without bundler aliases.",
-        code: `import { Scene, Camera2D, CanvasRenderer } from "https://cdn.jsdelivr.net/npm/raw2d@0.10.10/dist/raw2d.js";
+        code: `import { Scene, Camera2D, CanvasRenderer } from "https://cdn.jsdelivr.net/npm/raw2d@1.7.5/dist/raw2d.js";
 
 const scene = new Scene();
 const camera = new Camera2D();
 const renderer = new CanvasRenderer({ canvas, width: 320, height: 180 });`
+      },
+      {
+        title: "Raw2D Smoke Page",
+        body: "Use the local CDN smoke page before release. Dry-run checks URL shape now; live mode should pass after npm publish.",
+        code: `npm run test:cdn:pinned
+npm run test:cdn:pinned -- --live
+open /cdn-smoke`
       },
       {
         title: "Failure Checks",

@@ -99,6 +99,7 @@ function getHtmlRoutes() {
     "/doc",
     "/readme",
     "/benchmark",
+    "/cdn-smoke",
     "/visual-test",
     "/examples/",
     "/examples/webgl-pipeline",
@@ -119,6 +120,7 @@ function getModuleRoutes() {
   return [
     "/src/main.ts",
     "/src/pages/BenchmarkPage.ts",
+    "/src/pages/CDNSmokePage.ts",
     "/src/pages/WebGLPipelineExample.ts",
     "/examples/canvas-basic/main.ts",
     "/examples/webgl-basic/main.ts",

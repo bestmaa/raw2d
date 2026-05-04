@@ -8,6 +8,7 @@ import canvasApi from "../../docs/Canvas-api.md?raw";
 import canvasCulling from "../../docs/CanvasCulling.md?raw";
 import canvasFocusedInstallAudit from "../../docs/CanvasFocusedInstallAudit.md?raw";
 import canvasObjects from "../../docs/Canvas-objects.md?raw";
+import cdnBetaSmoke from "../../docs/CDNBetaSmoke.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
 import dirtyVersioning from "../../docs/DirtyVersioning.md?raw";
@@ -102,6 +103,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     filename: "ReactBetaInstallAudit.md",
     content: reactBetaInstallAudit
   },
+  { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "CDNBetaSmoke.md", content: cdnBetaSmoke },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },

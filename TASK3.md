@@ -51,7 +51,7 @@ Add release notes on phase release tasks.
 - T174 | Version: v1.7.2 | Status: completed | Goal: Fresh install audit for `raw2d-core` plus `raw2d-canvas`. | Verify: generated app builds and renders Canvas. | Commit: `Audit Canvas focused install`
 - T175 | Version: v1.7.3 | Status: completed | Goal: Fresh install audit for `raw2d-webgl` with focused packages. | Verify: generated app builds and renders WebGL. | Commit: `Audit WebGL focused install`
 - T176 | Version: v1.7.4 | Status: completed | Goal: Fresh install audit for `raw2d-react`. | Verify: generated React app builds. | Commit: `Audit React beta install`
-- T177 | Version: v1.7.5 | Status: pending | Goal: Add CDN smoke page and jsDelivr pinned-version check. | Verify: browser CDN route check. | Commit: `Add CDN beta smoke`
+- T177 | Version: v1.7.5 | Status: completed | Goal: Add CDN smoke page and jsDelivr pinned-version check. | Verify: browser CDN route check. | Commit: `Add CDN beta smoke`
 - T178 | Version: v1.7.6 | Status: pending | Goal: Audit docs snippets copied from product docs into fresh apps. | Verify: snippet compile tests. | Commit: `Audit docs snippet copy paste`
 - T179 | Version: v1.7.7 | Status: pending | Goal: Add beta browser bug bash checklist for `/doc` and `/readme`. | Verify: checklist route check. | Commit: `Add docs bug bash checklist`
 - T180 | Version: v1.7.8 | Status: pending | Goal: Add mobile viewport checks for docs navigation, search, and code blocks. | Verify: browser mobile check. | Commit: `Test docs mobile view`

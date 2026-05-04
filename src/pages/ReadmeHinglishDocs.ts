@@ -5,6 +5,7 @@ import canvasApi from "../../docs/hi/Canvas-api.md?raw";
 import canvasObjects from "../../docs/hi/Canvas-objects.md?raw";
 import canvasCulling from "../../docs/hi/CanvasCulling.md?raw";
 import canvasFocusedInstallAudit from "../../docs/hi/CanvasFocusedInstallAudit.md?raw";
+import cdnBetaSmoke from "../../docs/hi/CDNBetaSmoke.md?raw";
 import examples from "../../docs/hi/Examples.md?raw";
 import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
 import glossary from "../../docs/hi/Glossary.md?raw";
@@ -102,6 +103,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
     filename: "hi/ReactBetaInstallAudit.md",
     content: reactBetaInstallAudit
   },
+  { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "hi/CDNBetaSmoke.md", content: cdnBetaSmoke },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "hi/Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
