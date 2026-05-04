@@ -97,7 +97,7 @@ Push only on phase release tasks or explicit user request.
 - T151 | Version: v1.4.6 | Status: completed | Goal: Add atlas/static/dynamic/culling toggles to showcase. | Verify: stats change. | Commit: `Add showcase performance toggles`
 - T152 | Version: v1.4.7 | Status: completed | Goal: Add showcase docs explaining what Raw2D proves. | Verify: docs route check. | Commit: `Document showcase demo`
 - T153 | Version: v1.4.8 | Status: completed | Goal: Add visual/browser tests for showcase. | Verify: showcase tests pass. | Commit: `Test showcase demo`
-- T154 | Version: v1.4.9 | Status: pending | Goal: Phase 12 release and publish. | Verify: phase release verification. | Commit: `Release showcase phase`
+- T154 | Version: v1.4.9 | Status: completed | Goal: Phase 12 release and publish. | Verify: phase release verification. | Commit: `Release showcase phase`
 
 ## Phase 13: MCP And Plugin Hardening
 

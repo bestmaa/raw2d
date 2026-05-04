@@ -1,5 +1,33 @@
 # Raw2D Release Notes
 
+## v1.4.9 - Showcase Phase
+
+Raw2D v1.4.9 publishes the real-world showcase phase for proving Canvas/WebGL parity, interaction, camera controls, and visible renderer diagnostics in one runnable demo.
+
+### Added
+
+- Showcase demo route at `/examples/showcase/` with many sprites, shapes, labels, and a shared scene.
+- Canvas/WebGL renderer switch using the same `Scene` and `Camera2D`.
+- Camera pan, zoom, reset, and minimap viewport hints.
+- Interaction selection, drag, resize, and transform overlay.
+- Live renderer stats with copyable reports.
+- Atlas sorting, static batch, and culling toggles for visible performance experiments.
+- Showcase docs in English and Hinglish explaining what Raw2D proves.
+- Showcase-specific browser and visual contract tests.
+
+### Changed
+
+- Package versions are aligned at `1.4.9`.
+- Browser showcase tests now use a dynamic safe port for stable repeated verification.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+
 ## v1.3.10 - Docs Polish Phase
 
 Raw2D v1.3.10 publishes the docs polish phase for better onboarding, search, navigation, copyable examples, and release-safe docs QA.
