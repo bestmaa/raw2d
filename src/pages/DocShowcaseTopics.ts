@@ -16,6 +16,16 @@ export const showcaseTopics: readonly DocTopic[] = [
 // WebGL proves batching pressure and texture behavior.`
       },
       {
+        title: "What It Proves",
+        body: "The demo proves that Raw2D keeps one explicit scene graph while renderer decisions stay visible. A user can switch Canvas/WebGL, change batching options, move the camera, and inspect the result without hidden engine magic.",
+        code: `const proofPoints = [
+  "same Scene and Camera2D",
+  "Canvas as the readable baseline",
+  "WebGL as the batch-first path",
+  "stats that expose draw calls and texture binds"
+];`
+      },
+      {
         title: "Scene Scope",
         body: "The scene should include many sprites, simple shapes, text labels, static background objects, and dynamic selected objects.",
         code: `const targetScene = {
@@ -34,6 +44,14 @@ export const showcaseTopics: readonly DocTopic[] = [
   webgl: "lower draw calls with batching and atlas usage",
   shared: "same Scene, same Camera2D, same objects"
 };`
+      },
+      {
+        title: "Use It For Decisions",
+        body: "Use the controls to decide whether a real project needs Canvas simplicity, WebGL batching, atlas sorting, culling, or static batches. The answer should come from visible behavior and stats, not guesswork.",
+        code: `// Practical reading:
+// Many unique textures -> atlas sorting should reduce texture pressure.
+// Many background objects -> static batches should help WebGL.
+// Large scene outside camera -> culling should reduce work.`
       },
       {
         title: "Acceptance Checks",
