@@ -1,5 +1,33 @@
 # Raw2D Release Notes
 
+## v1.10.7 - Studio Planning Phase
+
+Raw2D v1.10.7 publishes the Studio planning phase. This release defines the future visual editor scope, boundaries, scene JSON direction, tool model, panels, placeholder route, and implementation queue.
+
+### Added
+
+- Raw2D Studio scope and non-goals in English and Hinglish docs.
+- Studio boundary docs that keep editor UI outside runtime packages.
+- Studio scene JSON save/load design aligned with MCP-style scene documents.
+- Studio tools and panels design for select, move, resize, shape, text, sprite, layers, properties, assets, and renderer stats.
+- `/studio` MVP shell route as a UI-only placeholder.
+- `STUDIO_TASKS.md` for the next implementation phase.
+
+### Changed
+
+- Package versions are aligned at `1.10.7`.
+- CDN smoke docs now point to the `1.10.7` pinned package URLs.
+- Docs navigation now includes Studio planning topics in the beginner/product flow.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+- Browser checks for Studio docs and `/studio` shell route.
+
 ## v1.9.9 - Examples Audit Phase
 
 Raw2D v1.9.9 publishes the examples audit phase for stronger fresh-user examples, clearer package install paths, browser-verified demo pages, and release-ready showcase/benchmark polish.
@@ -207,32 +235,6 @@ Raw2D v1.2.11 publishes the product-quality examples phase.
 - Consumer install smoke tests.
 - React and MCP install smoke checks.
 
-## v1.1.10 - Post-Release Consumer Audit Phase
-
-Raw2D v1.1.10 publishes the post-release audit hardening phase for real npm users.
-
-### Added
-
-- Fresh install smoke tests for the umbrella `raw2d` package.
-- Focused package install smoke tests for core, canvas, webgl, sprite, and text usage.
-- Separate install smoke tests for `raw2d-mcp` and `raw2d-react`.
-- README, Canvas docs, WebGL docs, and interaction docs snippet compile checks against packed packages.
-- Post-release npm/CDN/browser audit plan and audit report docs.
-
-### Fixed
-
-- Updated stale jsDelivr README URLs to use the current package path.
-- Fixed one interaction docs snippet that passed an invalid `camera` field to `pickObject`.
-
-### Verification
-
-- TypeScript strict typecheck.
-- Full unit and browser test suite.
-- Docs production build.
-- Workspace package dry-run.
-- Consumer install smoke tests.
-- README and docs snippet compile smoke tests.
-
 ## v1.0.2 - Clean Publish Lockfile Fix
 
-Older entries from v1.0.2 and earlier live in `docs/releases/ReleaseNotesArchive.md`.
+Older entries from v1.1.10 and earlier live in `docs/releases/ReleaseNotesArchive.md`.
