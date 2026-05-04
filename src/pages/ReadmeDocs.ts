@@ -9,6 +9,7 @@ import canvasCulling from "../../docs/CanvasCulling.md?raw";
 import canvasFocusedInstallAudit from "../../docs/CanvasFocusedInstallAudit.md?raw";
 import canvasObjects from "../../docs/Canvas-objects.md?raw";
 import cdnBetaSmoke from "../../docs/CDNBetaSmoke.md?raw";
+import betaBrowserBugBash from "../../docs/BetaBrowserBugBash.md?raw";
 import circle from "../../docs/Circle.md?raw";
 import dragging from "../../docs/Dragging.md?raw";
 import dirtyVersioning from "../../docs/DirtyVersioning.md?raw";
@@ -105,6 +106,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     content: reactBetaInstallAudit
   },
   { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "CDNBetaSmoke.md", content: cdnBetaSmoke },
+  { id: "beta-browser-bug-bash", label: "Browser Bug Bash", filename: "BetaBrowserBugBash.md", content: betaBrowserBugBash },
   {
     id: "product-docs-snippet-audit",
     label: "Product Docs Snippets",

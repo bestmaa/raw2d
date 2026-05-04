@@ -4,6 +4,7 @@ import { betaInstallTopics } from "./DocBetaInstallTopics";
 import { accessibilityTopics } from "./DocAccessibilityTopics";
 import { apiFreezeTopics } from "./DocAPIFreezeTopics";
 import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
+import { browserBugBashTopics } from "./DocBrowserBugBashTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
 import { canvasQATopics } from "./DocCanvasQATopics";
 import { cdnTopics } from "./DocCDNTopics";
@@ -89,6 +90,7 @@ export const docGroups: readonly DocGroup[] = [
       ...publishTopics,
       ...deployTopics,
       ...cdnTopics,
+      ...browserBugBashTopics,
       ...consoleAuditTopics,
       ...accessibilityTopics,
       ...canvasQATopics,
