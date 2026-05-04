@@ -47,5 +47,9 @@ function createObjectProperties(object: StudioSceneObject): readonly StudioPrope
     ];
   }
 
+  if (object.type === "circle") {
+    return [...transformRows, { label: "Radius", value: String(object.radius) }];
+  }
+
   return transformRows;
 }

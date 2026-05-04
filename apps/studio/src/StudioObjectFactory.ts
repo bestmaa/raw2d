@@ -1,5 +1,5 @@
 import type { StudioObjectFactoryOptions } from "./StudioObjectFactory.type";
-import type { StudioRectState, StudioSceneState } from "./StudioSceneState.type";
+import type { StudioCircleState, StudioRectState, StudioSceneState } from "./StudioSceneState.type";
 
 export function addStudioRectObject(options: StudioObjectFactoryOptions): StudioSceneState {
   const rectCount = options.scene.objects.filter((object) => object.type === "rect").length;
@@ -23,5 +23,29 @@ export function addStudioRectObject(options: StudioObjectFactoryOptions): Studio
   return {
     ...options.scene,
     objects: [...options.scene.objects, rect]
+  };
+}
+
+export function addStudioCircleObject(options: StudioObjectFactoryOptions): StudioSceneState {
+  const circleCount = options.scene.objects.filter((object) => object.type === "circle").length;
+  const circleIndex = circleCount + 1;
+  const offset = circleCount * 24;
+  const circle: StudioCircleState = {
+    id: `circle-${circleIndex}`,
+    type: "circle",
+    name: `Circle ${circleIndex}`,
+    x: 220 + offset,
+    y: 180 + offset,
+    radius: 56,
+    material: {
+      fillColor: "#f472b6",
+      strokeColor: "#ffe4f1",
+      lineWidth: 2
+    }
+  };
+
+  return {
+    ...options.scene,
+    objects: [...options.scene.objects, circle]
   };
 }
