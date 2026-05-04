@@ -2,12 +2,17 @@ import { BasicMaterial, Camera2D, Canvas, Circle, Line, Rect, Scene, Text2D } fr
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
+const toggleButton = document.querySelector<HTMLButtonElement>("#raw2d-toggle");
+const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
 
-if (!canvasElement || !statsElement) {
+if (!canvasElement || !statsElement || !toggleButton || !resetButton) {
   throw new Error("Canvas example elements not found.");
 }
 
 const statsOutput = statsElement;
+const animationToggle = toggleButton;
+const animationReset = resetButton;
+
 const renderer = new Canvas({
   canvas: canvasElement,
   width: 800,
@@ -43,14 +48,35 @@ scene.add(new Text2D({
 }));
 
 let frame = 0;
+let running = true;
+
+animationToggle.addEventListener("click", (): void => {
+  running = !running;
+  animationToggle.textContent = running ? "Pause" : "Resume";
+});
+
+animationReset.addEventListener("click", (): void => {
+  frame = 0;
+  rect.rotation = 0;
+  circle.y = 160;
+});
 
 function animate(): void {
-  frame += 1;
-  rect.rotation += 0.012;
-  circle.y = 160 + Math.sin(frame / 28) * 32;
+  if (running) {
+    frame += 1;
+    rect.rotation += 0.012;
+    circle.y = 160 + Math.sin(frame / 28) * 32;
+  }
+
   renderer.render(scene, camera);
   const stats = renderer.getStats();
-  statsOutput.textContent = `renderer: Canvas | objects: ${stats.objects} | drawCalls: ${stats.drawCalls}`;
+  statsOutput.textContent = [
+    "renderer: Canvas",
+    `status: ${running ? "running" : "paused"}`,
+    `objects: ${stats.objects}`,
+    `drawCalls: ${stats.drawCalls}`,
+    `frame: ${frame}`
+  ].join(" | ");
   requestAnimationFrame(animate);
 }
 
