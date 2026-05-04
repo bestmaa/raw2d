@@ -6,6 +6,7 @@ Available scripts:
 
 - app scaffold command
 - example generator command
+- showcase scene generator command
 - docs QA command
 - visual pixel test command
 - fresh install audit command
@@ -26,6 +27,14 @@ node plugins/raw2d/scripts/create-raw2d-example.mjs --out ./examples/my-example 
 ```
 
 Use `--shape rect`, `--shape circle`, or `--shape text` for a small focused example.
+
+## Showcase Generator
+
+```bash
+node plugins/raw2d/scripts/create-raw2d-showcase.mjs --out ./showcase --renderer webgl
+```
+
+Generates a bigger Canvas/WebGL scene with mixed objects and static/dynamic render modes.
 
 ## Docs QA
 
