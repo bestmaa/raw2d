@@ -14,3 +14,7 @@ export interface StudioPropertyRow {
   readonly label: string;
   readonly value: string;
 }
+
+export interface StudioLayoutOptions {
+  readonly rendererLabel: string;
+}

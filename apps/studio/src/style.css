@@ -102,6 +102,27 @@ kbd {
   gap: 24px;
 }
 
+.studio-renderer-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.studio-renderer-option {
+  display: grid;
+  gap: 4px;
+  min-height: 66px;
+}
+
+.studio-renderer-option small {
+  color: #83b6ce;
+}
+
+.studio-renderer-option.is-active {
+  border-color: #7dd3fc;
+  background: #123044;
+}
+
 .studio-stack > * + * {
   margin-top: 10px;
 }

@@ -1,8 +1,10 @@
 import type {
+  StudioLayoutOptions,
   StudioLayerItem,
   StudioPropertyRow,
   StudioToolItem
 } from "./StudioLayout.type";
+import { studioRendererOptions } from "./StudioRenderer";
 
 const tools: readonly StudioToolItem[] = [
   { id: "select", label: "Select", shortcut: "V" },
@@ -15,12 +17,6 @@ const tools: readonly StudioToolItem[] = [
 const layers: readonly StudioLayerItem[] = [
   { id: "scene", label: "Scene Root", type: "Scene" },
   { id: "guide", label: "Workspace Guide", type: "Guide" }
-];
-
-const properties: readonly StudioPropertyRow[] = [
-  { label: "Renderer", value: "Canvas" },
-  { label: "Zoom", value: "100%" },
-  { label: "Selection", value: "None" }
 ];
 
 function renderTool(tool: StudioToolItem): string {
@@ -41,6 +37,20 @@ function renderLayer(layer: StudioLayerItem): string {
   `;
 }
 
+function renderRendererSwitch(activeLabel: string): string {
+  return studioRendererOptions
+    .map((option) => {
+      const isActive = option.label === activeLabel;
+      return `
+        <button class="studio-renderer-option${isActive ? " is-active" : ""}" type="button" data-renderer="${option.mode}">
+          <span>${option.label}</span>
+          <small>${option.description}</small>
+        </button>
+      `;
+    })
+    .join("");
+}
+
 function renderProperty(row: StudioPropertyRow): string {
   return `
     <div class="studio-property">
@@ -50,7 +60,13 @@ function renderProperty(row: StudioPropertyRow): string {
   `;
 }
 
-export function renderStudioLayout(): string {
+export function renderStudioLayout(options: StudioLayoutOptions): string {
+  const properties: readonly StudioPropertyRow[] = [
+    { label: "Renderer", value: options.rendererLabel },
+    { label: "Zoom", value: "100%" },
+    { label: "Selection", value: "None" }
+  ];
+
   return `
     <section class="studio-shell" aria-label="Raw2D Studio">
       <header class="studio-topbar">
@@ -77,9 +93,13 @@ export function renderStudioLayout(): string {
           <div class="studio-canvas-placeholder">
             <div class="studio-artboard">Raw2D canvas mount</div>
           </div>
-          <footer class="studio-statusbar">Ready | Canvas renderer | No selection</footer>
+          <footer class="studio-statusbar">Ready | ${options.rendererLabel} renderer | No selection</footer>
         </section>
         <aside class="studio-panel studio-inspector" aria-label="Inspector">
+          <section>
+            <h2>Renderer</h2>
+            <div class="studio-renderer-switch">${renderRendererSwitch(options.rendererLabel)}</div>
+          </section>
           <section>
             <h2>Layers</h2>
             <div class="studio-stack">${layers.map(renderLayer).join("")}</div>

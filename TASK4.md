@@ -60,7 +60,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T212 | Version: v1.11.0 | Status: completed | Goal: Create `apps/studio` Vite TypeScript app with strict config. | Verify: Studio app typecheck and build. | Commit: `Create Studio app`
 - T213 | Version: v1.11.1 | Status: completed | Goal: Add Studio layout shell: topbar, left tools, canvas workspace, right panels. | Verify: browser layout check. | Commit: `Add Studio layout shell`
 - T214 | Version: v1.11.2 | Status: completed | Goal: Add Studio route docs and README entry from `/doc` and `/readme`. | Verify: docs route check. | Commit: `Document Studio shell`
-- T215 | Version: v1.11.3 | Status: pending | Goal: Add renderer switch UI for Canvas and WebGL placeholders. | Verify: browser state check. | Commit: `Add Studio renderer switch`
+- T215 | Version: v1.11.3 | Status: completed | Goal: Add renderer switch UI for Canvas and WebGL placeholders. | Verify: browser state check. | Commit: `Add Studio renderer switch`
 - T216 | Version: v1.11.4 | Status: pending | Goal: Add Studio scene state container with camera and empty object list. | Verify: unit test. | Commit: `Add Studio scene state`
 - T217 | Version: v1.11.5 | Status: pending | Goal: Add Studio render adapter that converts scene JSON to Raw2D runtime objects. | Verify: unit test and browser canvas check. | Commit: `Add Studio render adapter`
 - T218 | Version: v1.11.6 | Status: pending | Goal: Add Studio sample scene button. | Verify: browser render check. | Commit: `Add Studio sample scene`
