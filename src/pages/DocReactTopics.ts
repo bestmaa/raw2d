@@ -189,5 +189,47 @@ raw2d-webgl        no React dependency`
 - required React dependency for non-React users`
       }
     ]
+  },
+  {
+    id: "react-renderer-api-audit",
+    label: "Renderer API Audit",
+    title: "React Renderer API Audit",
+    description: "Audit the public renderer surface a future Fiber adapter can use without touching internals.",
+    sections: [
+      {
+        title: "Result",
+        body: "Renderer APIs are stable enough for planning. A real Fiber adapter still needs object lifecycle hooks before implementation.",
+        code: `Current: JSX adapter can call public renderer APIs.
+Needed: stable object attach/detach/update hooks.
+Avoid: private renderer cache or batch buffer access.`
+      },
+      {
+        title: "Stable Surface",
+        body: "React can call the same explicit APIs as vanilla Raw2D users.",
+        code: `scene.add(object);
+scene.remove(object);
+renderer.render(scene, camera);
+renderer.setSize(width, height);
+renderer.clear();
+renderer.dispose();`
+      },
+      {
+        title: "Reconciliation Needs",
+        body: "The adapter should own the React-to-Raw2D instance map and update public fields after React commits.",
+        code: `create instance once
+update props through public fields
+attach or detach from Scene/Group2D
+request render after commit
+cleanup owned resources on unmount`
+      },
+      {
+        title: "Gap",
+        body: "Formal object lifecycle hooks are the missing piece. They should be core APIs, not React-only APIs.",
+        code: `object.onAttach(parent);
+object.onDetach(parent);
+object.dispose();
+object.markDirty();`
+      }
+    ]
   }
 ];
