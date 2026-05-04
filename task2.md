@@ -104,7 +104,7 @@ Push only on phase release tasks or explicit user request.
 - T155 | Version: v1.5.0 | Status: completed | Goal: Add MCP CLI/server entry design without coupling to browser packages. | Verify: design doc. | Commit: `Design MCP server entry`
 - T156 | Version: v1.5.1 | Status: completed | Goal: Add executable MCP server entrypoint for stdio usage. | Verify: local MCP smoke. | Commit: `Add MCP stdio entry`
 - T157 | Version: v1.5.2 | Status: completed | Goal: Add MCP schema docs for every tool input/output. | Verify: docs review. | Commit: `Document MCP schemas`
-- T158 | Version: v1.5.3 | Status: pending | Goal: Add MCP scene patch/update commands for multiple objects. | Verify: MCP unit tests. | Commit: `Add MCP batch update tools`
+- T158 | Version: v1.5.3 | Status: completed | Goal: Add MCP scene patch/update commands for multiple objects. | Verify: MCP unit tests. | Commit: `Add MCP batch update tools`
 - T159 | Version: v1.5.4 | Status: pending | Goal: Add plugin command to run fresh install audit. | Verify: command test. | Commit: `Add plugin install audit command`
 - T160 | Version: v1.5.5 | Status: pending | Goal: Add plugin command to generate showcase scenes. | Verify: generated scene builds. | Commit: `Add plugin showcase command`
 - T161 | Version: v1.5.6 | Status: pending | Goal: Add skill update for post-release audits and examples. | Verify: skill tests. | Commit: `Update Raw2D skills`

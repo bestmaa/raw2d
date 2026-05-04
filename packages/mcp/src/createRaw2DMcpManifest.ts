@@ -5,6 +5,7 @@ const tools: readonly Raw2DMcpToolDefinition[] = [
   { name: "raw2d_add_object", description: "Add a supported object to a scene JSON document.", mutatesScene: true },
   { name: "raw2d_update_transform", description: "Update object transform fields.", mutatesScene: true },
   { name: "raw2d_update_material", description: "Update object material fields.", mutatesScene: true },
+  { name: "raw2d_update_objects", description: "Batch update transform and material fields.", mutatesScene: true },
   { name: "raw2d_inspect_scene", description: "Summarize scene counts and renderer hints.", mutatesScene: false },
   { name: "raw2d_validate_scene", description: "Validate scene JSON without mutating it.", mutatesScene: false },
   { name: "raw2d_generate_canvas_example", description: "Generate Canvas example code.", mutatesScene: false },

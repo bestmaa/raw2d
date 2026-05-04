@@ -9,6 +9,7 @@ export { generateRaw2DWebGLExample } from "./generateRaw2DWebGLExample.js";
 export { inspectRaw2DScene } from "./inspectRaw2DScene.js";
 export { updateRaw2DObjectMaterial } from "./updateRaw2DObjectMaterial.js";
 export { updateRaw2DObjectTransform } from "./updateRaw2DObjectTransform.js";
+export { updateRaw2DObjects } from "./updateRaw2DObjects.js";
 export { validateRaw2DScene } from "./validateRaw2DScene.js";
 export type { AddRaw2DSceneObjectOptions } from "./addRaw2DSceneObject.js";
 export type {
@@ -57,6 +58,12 @@ export type {
 } from "./createRaw2DVisualCheckPlan.type.js";
 export type { UpdateRaw2DObjectMaterialOptions } from "./updateRaw2DObjectMaterial.type.js";
 export type { Raw2DMcpObjectTransformPatch, UpdateRaw2DObjectTransformOptions } from "./updateRaw2DObjectTransform.type.js";
+export type {
+  Raw2DMcpMaterialUpdate,
+  Raw2DMcpTransformUpdate,
+  UpdateRaw2DObjectsOptions,
+  UpdateRaw2DObjectsResult
+} from "./updateRaw2DObjects.type.js";
 export type {
   Raw2DMcpValidationError,
   Raw2DMcpValidationResult,

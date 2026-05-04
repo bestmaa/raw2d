@@ -16,6 +16,8 @@ import { updateRaw2DObjectMaterial } from "./updateRaw2DObjectMaterial.js";
 import type { UpdateRaw2DObjectMaterialOptions } from "./updateRaw2DObjectMaterial.type.js";
 import { updateRaw2DObjectTransform } from "./updateRaw2DObjectTransform.js";
 import type { UpdateRaw2DObjectTransformOptions } from "./updateRaw2DObjectTransform.type.js";
+import { updateRaw2DObjects } from "./updateRaw2DObjects.js";
+import type { UpdateRaw2DObjectsOptions } from "./updateRaw2DObjects.type.js";
 import { validateRaw2DScene } from "./validateRaw2DScene.js";
 import type { ValidateRaw2DSceneOptions } from "./validateRaw2DScene.type.js";
 
@@ -31,6 +33,7 @@ const handlers: Readonly<Record<string, ToolHandler>> = {
   raw2d_manifest: () => createRaw2DMcpManifest(),
   raw2d_run_visual_check: (params) => createRaw2DVisualCheckPlan(optionalRecord<CreateRaw2DVisualCheckPlanOptions>(params)),
   raw2d_update_material: (params) => updateRaw2DObjectMaterial(requireRecord<UpdateRaw2DObjectMaterialOptions>(params)),
+  raw2d_update_objects: (params) => updateRaw2DObjects(requireRecord<UpdateRaw2DObjectsOptions>(params)),
   raw2d_update_transform: (params) => updateRaw2DObjectTransform(requireRecord<UpdateRaw2DObjectTransformOptions>(params)),
   raw2d_validate_scene: (params) => validateRaw2DScene(requireRecord<ValidateRaw2DSceneOptions>(params))
 };

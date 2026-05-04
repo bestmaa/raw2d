@@ -8,6 +8,7 @@ const expectedTools = [
   "raw2d_add_object",
   "raw2d_update_transform",
   "raw2d_update_material",
+  "raw2d_update_objects",
   "raw2d_inspect_scene",
   "raw2d_validate_scene",
   "raw2d_generate_canvas_example",
@@ -53,6 +54,7 @@ function getExpectedExports() {
     "inspectRaw2DScene",
     "updateRaw2DObjectMaterial",
     "updateRaw2DObjectTransform",
+    "updateRaw2DObjects",
     "validateRaw2DScene"
   ];
 }

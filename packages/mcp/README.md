@@ -6,7 +6,7 @@
 
 - Create Raw2D scene JSON with camera defaults.
 - Add supported object JSON.
-- Update transform and material fields immutably.
+- Update transform and material fields immutably, including batch updates.
 - Validate and inspect scene JSON.
 - Generate Canvas, WebGL, and markdown examples.
 - Create explicit visual-check and export-audit plans.
@@ -133,6 +133,20 @@ const styledScene = updateRaw2DObjectMaterial({
 ```
 
 Material patches merge with existing material data so small updates do not erase other style fields.
+
+## Batch Update Objects
+
+```ts
+import { updateRaw2DObjects } from "raw2d-mcp";
+
+const batchScene = updateRaw2DObjects({
+  document: styledScene,
+  transforms: [{ id: "hero-card", transform: { x: 180, y: 120 } }],
+  materials: [{ id: "hero-card", material: { fillColor: "#35c2ff" } }]
+});
+```
+
+Batch updates are useful when an agent needs to apply one visible scene change from several small patches.
 
 ## Inspect Scene
 

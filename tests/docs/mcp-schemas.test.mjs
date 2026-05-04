@@ -14,6 +14,7 @@ const toolNames = [
   "raw2d_add_object",
   "raw2d_update_transform",
   "raw2d_update_material",
+  "raw2d_update_objects",
   "raw2d_inspect_scene",
   "raw2d_validate_scene",
   "raw2d_generate_canvas_example",

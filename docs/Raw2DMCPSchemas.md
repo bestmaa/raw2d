@@ -65,6 +65,26 @@ Output: `SceneDocument`
 
 Merges fill, stroke, line width, opacity, and text style fields into one object.
 
+### raw2d_update_objects
+
+Input:
+
+```ts
+{
+  document: SceneDocument;
+  transforms?: { id: string; transform: TransformPatch }[];
+  materials?: { id: string; material: MaterialPatch }[];
+}
+```
+
+Output:
+
+```ts
+{ document: SceneDocument; updatedIds: string[] }
+```
+
+Applies multiple transform and material patches in one deterministic scene update.
+
 ### raw2d_inspect_scene
 
 Input:
