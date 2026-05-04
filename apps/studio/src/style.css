@@ -64,6 +64,13 @@ kbd {
   line-height: 1.1;
 }
 
+.studio-scene-name {
+  display: inline-block;
+  margin-top: 8px;
+  color: #a8c4d6;
+  font-size: 13px;
+}
+
 .studio-actions {
   display: flex;
   gap: 10px;

@@ -17,4 +17,6 @@ export interface StudioPropertyRow {
 
 export interface StudioLayoutOptions {
   readonly rendererLabel: string;
+  readonly sceneName: string;
+  readonly objectCount: number;
 }

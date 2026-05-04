@@ -34,5 +34,5 @@
       "raw2d-webgl": ["packages/webgl/src/index.ts"]
     }
   },
-  "include": ["src", "packages/*/src", "examples/*/*.ts", "tests/types/*.ts"]
+  "include": ["src", "packages/*/src", "apps/studio/src", "examples/*/*.ts", "tests/types/*.ts"]
 }

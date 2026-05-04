@@ -63,6 +63,7 @@ function renderProperty(row: StudioPropertyRow): string {
 export function renderStudioLayout(options: StudioLayoutOptions): string {
   const properties: readonly StudioPropertyRow[] = [
     { label: "Renderer", value: options.rendererLabel },
+    { label: "Objects", value: String(options.objectCount) },
     { label: "Zoom", value: "100%" },
     { label: "Selection", value: "None" }
   ];
@@ -73,6 +74,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
         <div>
           <p class="studio-kicker">Raw2D Studio</p>
           <h1>Editor workspace</h1>
+          <span class="studio-scene-name">${options.sceneName}</span>
         </div>
         <nav class="studio-actions" aria-label="Studio actions">
           <button type="button">New</button>
@@ -93,7 +95,9 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <div class="studio-canvas-placeholder">
             <div class="studio-artboard">Raw2D canvas mount</div>
           </div>
-          <footer class="studio-statusbar">Ready | ${options.rendererLabel} renderer | No selection</footer>
+          <footer class="studio-statusbar">
+            Ready | ${options.rendererLabel} renderer | ${options.objectCount} objects | No selection
+          </footer>
         </section>
         <aside class="studio-panel studio-inspector" aria-label="Inspector">
           <section>

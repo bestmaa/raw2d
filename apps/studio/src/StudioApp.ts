@@ -2,9 +2,12 @@ import type { StudioAppOptions } from "./StudioApp.type";
 import { renderStudioLayout } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
+import { createStudioSceneState } from "./StudioSceneState";
+import type { StudioSceneState } from "./StudioSceneState.type";
 
 export class StudioApp {
   private readonly root: HTMLElement;
+  private readonly sceneState: StudioSceneState = createStudioSceneState();
   private rendererMode: StudioRendererMode = "canvas";
 
   public constructor(options: StudioAppOptions) {
@@ -18,7 +21,9 @@ export class StudioApp {
 
   private render(): void {
     this.root.innerHTML = renderStudioLayout({
-      rendererLabel: getStudioRendererLabel(this.rendererMode)
+      rendererLabel: getStudioRendererLabel(this.rendererMode),
+      sceneName: this.sceneState.name,
+      objectCount: this.sceneState.objects.length
     });
   }
 
