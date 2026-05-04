@@ -16,7 +16,8 @@ Use this skill to implement one focused Raw2D feature end to end.
 5. Keep objects as data/scene-graph classes; keep Canvas/WebGL drawing inside renderer packages.
 6. Add focused unit tests before broad docs work.
 7. Add docs and examples only for the changed behavior.
-8. Run focused tests, full checks, and browser checks when examples or docs changed.
+8. Generate a focused example or showcase scene when the behavior needs a practical browser demo.
+9. Run focused tests, full checks, and browser checks when examples or docs changed.
 
 ## Code Rules
 
@@ -54,9 +55,15 @@ npm run test:consumer
 git diff --check
 ```
 
+For example-heavy changes, verify generated demos:
+
+```bash
+node plugins/raw2d/scripts/create-raw2d-example.mjs --out /tmp/raw2d-example --renderer canvas --shape rect
+node plugins/raw2d/scripts/create-raw2d-showcase.mjs --out /tmp/raw2d-showcase --renderer webgl
+```
+
 For visual features, open the relevant docs/example route and confirm the rendered output matches the docs.
 
 ## Summary
 
 Report the feature added, files changed, public API names, tests run, docs/examples touched, and any unsupported renderer behavior.
-

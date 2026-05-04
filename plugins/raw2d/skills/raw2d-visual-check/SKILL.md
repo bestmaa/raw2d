@@ -15,7 +15,8 @@ Use this skill when a Raw2D change affects browser UI, docs pages, live controls
 4. Interact with controls that the docs mention.
 5. Check Canvas and WebGL outputs separately when both renderers are involved.
 6. Run visual pixel tests when geometry, batching, textures, or WebGL changed.
-7. Record the route, viewport, command output, and any mismatch.
+7. Use generated showcase scenes for broad renderer demonstrations.
+8. Record the route, viewport, command output, and any mismatch.
 
 ## Commands
 
@@ -25,6 +26,7 @@ Use focused commands first:
 npm run build:docs
 node --test tests/browser-smoke.test.mjs
 node --test tests/webgl/visual-regression.test.mjs
+node plugins/raw2d/scripts/create-raw2d-showcase.mjs --out /tmp/raw2d-showcase --renderer webgl
 ```
 
 Use the full gate before release or broad UI changes:
@@ -61,4 +63,3 @@ Report:
 - pixel or browser tests run
 - visible mismatch found or not found
 - next fix if output is wrong
-

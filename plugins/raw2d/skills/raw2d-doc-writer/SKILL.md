@@ -13,8 +13,9 @@ Use this skill to document one Raw2D feature clearly without changing unrelated 
 2. Read the implementation, type file, tests, and current docs for that feature.
 3. Write docs for why the feature exists, when to use it, and how it fits Raw2D's transparent pipeline.
 4. Include a small example and a full example when the feature can be demonstrated.
-5. Add or update Hinglish docs when an English docs file exists.
-6. Verify docs build, examples compile, and browser examples still load.
+5. Use `create-raw2d-example.mjs` or `create-raw2d-showcase.mjs` when a runnable example helps explain the feature.
+6. Add or update Hinglish docs when an English docs file exists.
+7. Verify docs build, examples compile, and browser examples still load.
 
 ## Content Rules
 
@@ -40,6 +41,7 @@ Run focused checks first, then full checks when package versions or docs navigat
 npm run typecheck
 npm test
 npm run build:docs
+node plugins/raw2d/scripts/create-raw2d-showcase.mjs --out /tmp/raw2d-showcase --renderer webgl
 ```
 
 For browser-facing docs, open the relevant `/doc#...`, `/readme#...`, or example page and confirm the page renders, examples match the text, and controls are usable.
@@ -53,4 +55,3 @@ Report:
 - tests/build commands run
 - browser page checked
 - remaining doc gaps, if any
-

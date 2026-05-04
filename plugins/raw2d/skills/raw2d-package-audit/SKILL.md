@@ -15,7 +15,8 @@ Use this skill before publishing or when package exports, versions, dependencies
 4. Run public API export tests and package dry-run.
 5. Run consumer install smoke from a clean temp project.
 6. Check docs install snippets and CDN examples use the intended package/version.
-7. For release tasks, confirm release notes exist before tag push.
+7. Run the plugin fresh install audit command for a repeatable plan.
+8. For release tasks, confirm release notes exist before tag push.
 
 ## Commands
 
@@ -28,6 +29,13 @@ npm run build:docs
 npm run pack:check -- --silent
 npm run test:consumer
 git diff --check
+```
+
+Use the plugin command when an agent needs a clean install audit plan:
+
+```bash
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs --dry-run --json
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs
 ```
 
 Use npm metadata checks after publish:
@@ -46,6 +54,7 @@ npm view raw2d-mcp version
 - Release tags must match package versions, for example `v0.8.12`.
 - Include release notes that list added, changed, verification, and package names.
 - After tag push, verify GitHub CI, publish workflow, npm versions, jsDelivr, and docs URL.
+- Store post-release audit notes in `docs/audits/` when the task asks for a release record.
 
 ## Boundaries
 
@@ -57,4 +66,3 @@ npm view raw2d-mcp version
 ## Summary
 
 Report target version, package list checked, command results, published versions if applicable, CDN/docs checks, and any package risk.
-

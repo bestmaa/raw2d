@@ -28,6 +28,7 @@ test("raw2d-doc-writer skill covers Raw2D docs rules", () => {
   assert.match(text, /Hinglish Rules/);
   assert.match(text, /Canvas and WebGL behavior separately/);
   assert.match(text, /npm run build:docs/);
+  assert.match(text, /create-raw2d-showcase/);
   assert.match(text, /browser page checked/);
 });
 
@@ -54,6 +55,7 @@ test("raw2d-feature-builder skill covers engineering rules", () => {
   assert.match(text, /under 250 lines/);
   assert.match(text, /Scene -> RenderList -> Batcher -> Buffer -> Shader -> DrawCall/);
   assert.match(text, /npm run test:consumer/);
+  assert.match(text, /create-raw2d-example/);
 });
 
 test("raw2d-feature-builder skill includes Codex UI metadata", () => {
@@ -77,6 +79,7 @@ test("raw2d-visual-check skill covers browser and pixel checks", () => {
 
   assert.match(text, /node --test tests\/browser-smoke\.test\.mjs/);
   assert.match(text, /tests\/webgl\/visual-regression\.test\.mjs/);
+  assert.match(text, /generated showcase scenes/);
   assert.match(text, /Canvas and WebGL outputs separately/);
   assert.match(text, /route and viewport checked/);
 });
@@ -102,6 +105,7 @@ test("raw2d-package-audit skill covers release checks", () => {
 
   assert.match(text, /npm run pack:check -- --silent/);
   assert.match(text, /npm run test:consumer/);
+  assert.match(text, /run-fresh-install-audit/);
   assert.match(text, /Do not push or publish unless/);
   assert.match(text, /jsDelivr/);
 });
