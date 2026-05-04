@@ -1,5 +1,9 @@
 # Raw2D Task Queue 3
 
+Status: closed.
+
+Next queue: `TASK4.md`.
+
 This queue starts after `task2.md` T171 / `v1.6.6`. Work one task at a time, in order.
 
 ## Auto Mode Rules
@@ -94,3 +98,15 @@ Add release notes on phase release tasks.
 - T208 | Version: v1.10.5 | Status: completed | Goal: Add Studio MVP route placeholder without runtime coupling. | Verify: browser route check. | Commit: `Add Studio MVP shell`
 - T209 | Version: v1.10.6 | Status: completed | Goal: Add Studio MVP task queue for implementation phases. | Verify: task review. | Commit: `Add Studio implementation queue`
 - T210 | Version: v1.10.7 | Status: completed | Goal: Phase 18 release and publish. | Verify: phase release verification. | Commit: `Release Studio planning phase`
+
+## Phase 18.1: Release Pipeline Closure
+
+- T211 | Version: v1.10.8 | Status: completed | Goal: Permanently fix GitHub/npm/Cloudflare install failures after v1.10.7. | Verify: CI success, publish success, npm latest check, Cloudflare docs HTTP 200. | Commit: `Fix release pipeline dependencies`
+
+## Closure Notes
+
+- GitHub CI passed for `3020afe`.
+- GitHub Publish passed for `v1.10.8`.
+- npm latest verified as `raw2d@1.10.8`.
+- `https://raw2d.com/doc` returned HTTP 200 from Cloudflare.
+- Future implementation work continues in `TASK4.md`.
