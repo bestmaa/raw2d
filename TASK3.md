@@ -92,5 +92,5 @@ Add release notes on phase release tasks.
 - T206 | Version: v1.10.3 | Status: completed | Goal: Design Studio tools: select, move, resize, text, shape, sprite. | Verify: tools doc review. | Commit: `Design Studio tools`
 - T207 | Version: v1.10.4 | Status: completed | Goal: Design Studio panels: layers, properties, assets, renderer stats. | Verify: panels doc review. | Commit: `Design Studio panels`
 - T208 | Version: v1.10.5 | Status: completed | Goal: Add Studio MVP route placeholder without runtime coupling. | Verify: browser route check. | Commit: `Add Studio MVP shell`
-- T209 | Version: v1.10.6 | Status: pending | Goal: Add Studio MVP task queue for implementation phases. | Verify: task review. | Commit: `Add Studio implementation queue`
+- T209 | Version: v1.10.6 | Status: completed | Goal: Add Studio MVP task queue for implementation phases. | Verify: task review. | Commit: `Add Studio implementation queue`
 - T210 | Version: v1.10.7 | Status: pending | Goal: Phase 18 release and publish. | Verify: phase release verification. | Commit: `Release Studio planning phase`

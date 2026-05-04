@@ -1,8 +1,8 @@
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene, Text2D } from "raw2d";
 
-const pinnedVersion = "1.10.5";
-const esmUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.10.5/dist/raw2d.js";
-const umdUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.10.5/dist/raw2d.umd.cjs";
+const pinnedVersion = "1.10.6";
+const esmUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.10.6/dist/raw2d.js";
+const umdUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.10.6/dist/raw2d.umd.cjs";
 
 export function renderCDNSmokePage(root: HTMLElement): void {
   root.innerHTML = `
