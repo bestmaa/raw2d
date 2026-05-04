@@ -1,7 +1,7 @@
 {
   "name": "raw2d-workspace",
   "private": true,
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
   "type": "module",
   "workspaces": [
@@ -27,6 +27,7 @@
     "test:consumer:react": "node scripts/react-install-smoke.mjs",
     "test:snippets:canvas": "node scripts/docs-canvas-snippet-smoke.mjs",
     "test:snippets:interaction": "node scripts/docs-interaction-snippet-smoke.mjs",
+    "test:snippets:product": "node scripts/product-docs-snippet-smoke.mjs",
     "test:snippets:readme": "node scripts/readme-snippet-smoke.mjs",
     "test:snippets:webgl": "node scripts/docs-webgl-snippet-smoke.mjs",
     "test:cdn:pinned": "node scripts/cdn-pinned-check.mjs",

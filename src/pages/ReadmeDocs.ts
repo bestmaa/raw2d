@@ -29,6 +29,7 @@ import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
 import publicApi from "../../docs/PublicAPI.md?raw";
 import publicBetaHardeningPlan from "../../docs/PublicBetaHardeningPlan.md?raw";
+import productDocsSnippetAudit from "../../docs/ProductDocsSnippetAudit.md?raw";
 import reactAdapterVsFiber from "../../docs/ReactAdapterVsFiber.md?raw";
 import reactBetaInstallAudit from "../../docs/ReactBetaInstallAudit.md?raw";
 import rect from "../../docs/Rect.md?raw";
@@ -104,6 +105,12 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     content: reactBetaInstallAudit
   },
   { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "CDNBetaSmoke.md", content: cdnBetaSmoke },
+  {
+    id: "product-docs-snippet-audit",
+    label: "Product Docs Snippets",
+    filename: "ProductDocsSnippetAudit.md",
+    content: productDocsSnippetAudit
+  },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },

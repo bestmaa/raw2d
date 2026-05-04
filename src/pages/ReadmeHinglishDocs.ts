@@ -60,6 +60,7 @@ import picking from "../../docs/hi/Picking.md?raw";
 import selection from "../../docs/hi/Selection.md?raw";
 import publicApi from "../../docs/hi/PublicAPI.md?raw";
 import publicBetaHardeningPlan from "../../docs/hi/PublicBetaHardeningPlan.md?raw";
+import productDocsSnippetAudit from "../../docs/hi/ProductDocsSnippetAudit.md?raw";
 import reactAdapterVsFiber from "../../docs/hi/ReactAdapterVsFiber.md?raw";
 import reactBetaInstallAudit from "../../docs/hi/ReactBetaInstallAudit.md?raw";
 import dragging from "../../docs/hi/Dragging.md?raw";
@@ -104,6 +105,12 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
     content: reactBetaInstallAudit
   },
   { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "hi/CDNBetaSmoke.md", content: cdnBetaSmoke },
+  {
+    id: "product-docs-snippet-audit",
+    label: "Product Docs Snippets",
+    filename: "hi/ProductDocsSnippetAudit.md",
+    content: productDocsSnippetAudit
+  },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "hi/Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
