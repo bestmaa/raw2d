@@ -2,12 +2,14 @@ import { Camera2D, Canvas, Scene, Sprite, Texture, WebGLRenderer2D, isWebGL2Avai
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
+const sortButton = document.querySelector<HTMLButtonElement>("#raw2d-sort");
 
-if (!canvasElement || !statsElement) {
+if (!canvasElement || !statsElement || !sortButton) {
   throw new Error("Example elements not found.");
 }
 
 const statsOutput = statsElement;
+const textureSortToggle = sortButton;
 const scene = new Scene();
 const camera = new Camera2D();
 const renderer = isWebGL2Available({ canvas: canvasElement })
@@ -18,8 +20,15 @@ const textures = [
   createTexture("#f45b69", "#ffe4e6"),
   createTexture("#facc15", "#fef9c3")
 ];
+const spriteCount = 240;
+let useTextureSorting = true;
 
-for (let index = 0; index < 240; index += 1) {
+textureSortToggle.addEventListener("click", (): void => {
+  useTextureSorting = !useTextureSorting;
+  textureSortToggle.textContent = useTextureSorting ? "Disable sorting" : "Enable sorting";
+});
+
+for (let index = 0; index < spriteCount; index += 1) {
   const sprite = new Sprite({
     x: 28 + (index % 40) * 18,
     y: 44 + Math.floor(index / 40) * 58,
@@ -33,15 +42,18 @@ for (let index = 0; index < 240; index += 1) {
 
 function animate(): void {
   if (renderer instanceof WebGLRenderer2D) {
-    renderer.render(scene, camera, { spriteSorting: "texture" });
+    const spriteSorting = useTextureSorting ? "texture" : "none";
+    renderer.render(scene, camera, { spriteSorting });
     const stats = renderer.getStats();
     statsOutput.textContent = [
       "renderer: WebGL2",
+      `spriteSorting: ${spriteSorting}`,
       `objects: ${stats.objects}`,
       `drawCalls: ${stats.drawCalls}`,
+      `drawCallReduction: ${spriteCount - stats.drawCalls}`,
       `spriteBatches: ${stats.spriteBatches}`,
       `textureBinds: ${stats.spriteTextureBinds}`,
-      `bindReduction: ${stats.spriteTextureBindReduction}`
+      `engineBindReduction: ${stats.spriteTextureBindReduction}`
     ].join(" | ");
   } else {
     renderer.render(scene, camera);
