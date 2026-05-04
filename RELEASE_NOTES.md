@@ -1,5 +1,32 @@
 # Raw2D Release Notes
 
+## v1.9.9 - Examples Audit Phase
+
+Raw2D v1.9.9 publishes the examples audit phase for stronger fresh-user examples, clearer package install paths, browser-verified demo pages, and release-ready showcase/benchmark polish.
+
+### Added
+
+- Polished examples for Canvas, WebGL, sprite atlas, interaction, camera controls, React, benchmark, and showcase routes.
+- Copyable install commands on `/examples/` for umbrella, Canvas-focused, WebGL-focused, and React installs.
+- Benchmark presets for Canvas reference, WebGL batch, and culling stress comparison.
+- Showcase visitor context with install notes, live status, and focus-selection controls.
+- Tests that keep examples, browser smoke routes, benchmark controls, and showcase UI aligned.
+
+### Changed
+
+- Package versions are aligned at `1.9.9`.
+- CDN smoke docs now point to the `1.9.9` pinned package URLs.
+- Examples README now documents copyable install paths for package users.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+- Browser checks for React, benchmark, showcase, and examples copy flow.
+
 ## v1.8.9 - Beginner Docs Phase
 
 Raw2D v1.8.9 publishes the beginner docs phase for clearer onboarding, MCP guidance, Hinglish docs polish, docs pager flow, and stronger search behavior.
