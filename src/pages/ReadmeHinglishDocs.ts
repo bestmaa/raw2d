@@ -6,6 +6,7 @@ import canvasObjects from "../../docs/hi/Canvas-objects.md?raw";
 import canvasCulling from "../../docs/hi/CanvasCulling.md?raw";
 import examples from "../../docs/hi/Examples.md?raw";
 import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
+import glossary from "../../docs/hi/Glossary.md?raw";
 import v1Install from "../../docs/hi/V1Install.md?raw";
 import scene from "../../docs/hi/Scene.md?raw";
 import camera2d from "../../docs/hi/Camera2D.md?raw";
@@ -58,6 +59,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "v1-install", label: "V1 Install", filename: "hi/V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "hi/PublicAPI.md", content: publicApi },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
+  { id: "glossary", label: "Glossary", filename: "hi/Glossary.md", content: glossary },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },
   { id: "canvas", label: "Canvas", filename: "hi/Canvas.md", content: canvas },

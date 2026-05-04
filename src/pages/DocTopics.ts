@@ -12,6 +12,7 @@ import { consoleAuditTopics } from "./DocConsoleAuditTopics";
 import { curveTopics } from "./DocCurveTopics";
 import { exampleTopics } from "./DocExamplesTopics";
 import { group2DTopics } from "./DocGroup2DTopics";
+import { glossaryTopics } from "./DocGlossaryTopics";
 import { hitTestingTopics } from "./DocHitTestingTopics";
 import { interactionPathTopics } from "./DocInteractionPathTopics";
 import { interactionQATopics } from "./DocInteractionQATopics";
@@ -86,6 +87,7 @@ export const docGroups: readonly DocGroup[] = [
       ...canvasQATopics,
       ...exampleTopics,
       ...docQaChecklistTopics,
+      ...glossaryTopics,
       ...licenseTopics
     ]
   },

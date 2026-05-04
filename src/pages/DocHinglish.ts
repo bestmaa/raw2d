@@ -13,6 +13,7 @@ const topicCopy: Record<string, TopicCopy> = {
   "texture-path": { label: "Texture Path", title: "Texture Path", description: "Texture load, atlas, sprite aur animation ka practical flow." },
   examples: { label: "Examples", title: "Examples", description: "Chhote package-style examples jo wahi imports use karte hain jo users npm se karenge." },
   "docs-qa-checklist": { label: "Docs QA Checklist", title: "Docs QA Checklist", description: "Docs ya release task done karne se pehle ye checklist use karein." },
+  glossary: { label: "Glossary", title: "Raw2D Glossary", description: "Raw2D ke common scene, renderer, batching, atlas, bounds aur hit testing words ka short meaning." },
   license: { label: "License", title: "License", description: "Raw2D open source hai, Apache-2.0 license aur attribution rules ke saath." },
   canvas: { label: "Canvas Init", title: "Canvas Init", description: "HTML canvas ke saath Raw2D Canvas renderer initialize karna." },
   renderers: { label: "Canvas / WebGL", title: "Canvas / WebGL", description: "Canvas aur WebGL renderer choose karne ka clear flow." },
