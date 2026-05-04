@@ -94,7 +94,7 @@ Push only on phase release tasks or explicit user request.
 - T148 | Version: v1.4.3 | Status: completed | Goal: Add camera controls and minimap/viewport hints. | Verify: browser interaction check. | Commit: `Add showcase camera controls`
 - T149 | Version: v1.4.4 | Status: completed | Goal: Add interaction selection and transform handles to showcase. | Verify: select/drag/resize browser check. | Commit: `Add showcase interaction`
 - T150 | Version: v1.4.5 | Status: completed | Goal: Add live renderer stats panel and copy report button. | Verify: stats update. | Commit: `Add showcase stats`
-- T151 | Version: v1.4.6 | Status: pending | Goal: Add atlas/static/dynamic/culling toggles to showcase. | Verify: stats change. | Commit: `Add showcase performance toggles`
+- T151 | Version: v1.4.6 | Status: completed | Goal: Add atlas/static/dynamic/culling toggles to showcase. | Verify: stats change. | Commit: `Add showcase performance toggles`
 - T152 | Version: v1.4.7 | Status: pending | Goal: Add showcase docs explaining what Raw2D proves. | Verify: docs route check. | Commit: `Document showcase demo`
 - T153 | Version: v1.4.8 | Status: pending | Goal: Add visual/browser tests for showcase. | Verify: showcase tests pass. | Commit: `Test showcase demo`
 - T154 | Version: v1.4.9 | Status: pending | Goal: Phase 12 release and publish. | Verify: phase release verification. | Commit: `Release showcase phase`

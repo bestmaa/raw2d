@@ -31,6 +31,7 @@ The first showcase should include:
 - camera pan, zoom, reset, and minimap viewport hints
 - selection, drag, resize, and transform handles through interaction tools
 - live renderer stats and copyable performance report
+- atlas sorting, static batch, dynamic mode, and culling toggles
 
 ## Performance Targets
 

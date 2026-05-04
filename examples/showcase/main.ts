@@ -3,19 +3,24 @@ import { createShowcaseScene } from "./showcaseScene";
 import { createShowcaseInteraction } from "./showcaseInteraction";
 import { drawShowcaseMinimap } from "./showcaseMinimap";
 import { drawShowcaseOverlay } from "./showcaseOverlay";
+import { applyShowcasePerformance } from "./showcasePerformance";
 import { createShowcaseRenderer } from "./showcaseRenderer";
+import type { ShowcasePerformanceOptions } from "./ShowcasePerformance.type";
 import { buildShowcaseStatsReport } from "./showcaseStats";
 import type { ShowcaseRendererMode, ShowcaseRendererResult } from "./ShowcaseRenderer.type";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+const atlasToggle = document.querySelector<HTMLInputElement>("#raw2d-toggle-atlas");
+const cullingToggle = document.querySelector<HTMLInputElement>("#raw2d-toggle-culling");
 const minimapElement = document.querySelector<HTMLCanvasElement>("#raw2d-minimap");
 const overlayElement = document.querySelector<HTMLCanvasElement>("#raw2d-overlay");
 const copyReportButton = document.querySelector<HTMLButtonElement>("#raw2d-copy-report");
 const rendererSelect = document.querySelector<HTMLSelectElement>("#raw2d-renderer");
 const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
+const staticToggle = document.querySelector<HTMLInputElement>("#raw2d-toggle-static");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
 
-if (!canvasElement || !minimapElement || !overlayElement || !copyReportButton || !rendererSelect || !resetButton || !statsElement) {
+if (!atlasToggle || !canvasElement || !cullingToggle || !minimapElement || !overlayElement || !copyReportButton || !rendererSelect || !resetButton || !staticToggle || !statsElement) {
   throw new Error("Showcase elements not found.");
 }
 
@@ -28,6 +33,9 @@ const overlayInput = overlayElement;
 const statsOutput = statsElement;
 const rendererInput = rendererSelect;
 const copyButton = copyReportButton;
+const atlasInput = atlasToggle;
+const cullingInput = cullingToggle;
+const staticInput = staticToggle;
 let rendererState = createRenderer(rendererInput.value);
 let latestReport = "";
 let frame = 0;
@@ -67,6 +75,8 @@ copyButton.addEventListener("click", () => {
 
 function animate(): void {
   frame += 1;
+  const performance = readPerformanceOptions();
+  applyShowcasePerformance({ scene: showcase, options: performance });
 
   for (const sprite of showcase.animatedSprites) {
     sprite.rotation += 0.018;
@@ -76,9 +86,12 @@ function animate(): void {
   const webglRenderer = rendererState.renderer instanceof WebGLRenderer2D ? rendererState.renderer : null;
 
   if (webglRenderer) {
-    rendererState.renderer.render(showcase.scene, showcase.camera, { spriteSorting: "texture" });
+    rendererState.renderer.render(showcase.scene, showcase.camera, {
+      culling: performance.culling,
+      spriteSorting: performance.atlasSorting ? "texture" : "none"
+    });
   } else {
-    rendererState.renderer.render(showcase.scene, showcase.camera);
+    rendererState.renderer.render(showcase.scene, showcase.camera, { culling: performance.culling });
   }
 
   drawShowcaseMinimap({
@@ -96,21 +109,32 @@ function animate(): void {
   });
   const webglStats = webglRenderer?.getStats() ?? null;
   latestReport = buildShowcaseStatsReport({
+    atlasSorting: performance.atlasSorting,
     animatedCount: showcase.animatedSprites.length,
     cameraX: showcase.camera.x,
     cameraY: showcase.camera.y,
+    culling: performance.culling,
     drawCalls: webglStats?.drawCalls ?? null,
     interactionMode: interaction.getMode(),
     objectCount: showcase.objectCount,
     rendererLabel: rendererState.label,
     shapeCount: showcase.shapeCount,
     spriteCount: showcase.spriteCount,
+    staticBatches: performance.staticBatches,
     textureBinds: webglStats?.spriteTextureBinds ?? null,
     zoom: showcase.camera.zoom
   });
   statsOutput.textContent = latestReport;
 
   requestAnimationFrame(animate);
+}
+
+function readPerformanceOptions(): ShowcasePerformanceOptions {
+  return {
+    atlasSorting: atlasInput.checked,
+    culling: cullingInput.checked,
+    staticBatches: staticInput.checked
+  };
 }
 
 function createRenderer(value: string): ShowcaseRendererResult {

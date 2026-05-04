@@ -7,6 +7,7 @@ export function createShowcaseScene(): ShowcaseSceneResult {
   const camera = new Camera2D({ x: 0, y: 0, zoom: 1 });
   const textures = createShowcaseTextures();
   const animatedSprites: Sprite[] = [];
+  const staticSprites: Sprite[] = [];
   let shapeCount = 0;
   let spriteCount = 0;
   let interactiveRect: Rect | null = null;
@@ -25,6 +26,7 @@ export function createShowcaseScene(): ShowcaseSceneResult {
       animatedSprites.push(sprite);
     } else {
       sprite.setRenderMode("static");
+      staticSprites.push(sprite);
     }
 
     scene.add(sprite);
@@ -81,6 +83,7 @@ export function createShowcaseScene(): ShowcaseSceneResult {
     scene,
     shapeCount,
     spriteCount,
+    staticSprites,
     worldHeight: 620,
     worldWidth: 940
   };

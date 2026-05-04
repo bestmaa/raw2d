@@ -30,6 +30,7 @@ Pehle showcase me ye cheezein honi chahiye:
 - camera pan, zoom, reset, aur minimap viewport hints
 - selection, drag, resize, aur transform handles interaction tools se
 - live renderer stats aur copyable performance report
+- atlas sorting, static batch, dynamic mode, aur culling toggles
 
 ## Performance Targets
 

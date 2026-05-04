@@ -8,6 +8,7 @@ export interface ShowcaseSceneResult {
   readonly objectCount: number;
   readonly shapeCount: number;
   readonly spriteCount: number;
+  readonly staticSprites: readonly Sprite[];
   readonly worldHeight: number;
   readonly worldWidth: number;
 }
