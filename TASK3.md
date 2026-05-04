@@ -68,7 +68,7 @@ Add release notes on phase release tasks.
 - T188 | Version: v1.8.5 | Status: completed | Goal: Manually polish Hinglish docs for core beginner flow. | Verify: Hinglish route review. | Commit: `Polish Hinglish beginner docs`
 - T189 | Version: v1.8.6 | Status: completed | Goal: Add next/previous navigation across beginner docs. | Verify: browser navigation check. | Commit: `Add docs next previous flow`
 - T190 | Version: v1.8.7 | Status: completed | Goal: Improve docs search for partial words, aliases, and common misspellings. | Verify: search browser check. | Commit: `Improve beta docs search`
-- T191 | Version: v1.8.8 | Status: pending | Goal: Add docs quality tests for beginner path coverage. | Verify: docs QA test. | Commit: `Test beginner docs path`
+- T191 | Version: v1.8.8 | Status: completed | Goal: Add docs quality tests for beginner path coverage. | Verify: docs QA test. | Commit: `Test beginner docs path`
 - T192 | Version: v1.8.9 | Status: pending | Goal: Phase 16 release and publish. | Verify: phase release verification. | Commit: `Release beginner docs phase`
 
 ## Phase 17: Product Examples Audit
