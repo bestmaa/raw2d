@@ -6,6 +6,29 @@ interface SearchEntry {
   readonly weight: number;
 }
 
+const searchAliases = new Map<string, readonly string[]>([
+  ["canvs", ["canvas"]],
+  ["danvas", ["canvas"]],
+  ["wevgl", ["webgl"]],
+  ["webcl", ["webgl"]],
+  ["webgl2", ["webgl"]],
+  ["camra", ["camera"]],
+  ["reactangle", ["rect"]],
+  ["recr", ["rect"]],
+  ["circl", ["circle"]],
+  ["cirlce", ["circle"]],
+  ["sprit", ["sprite"]],
+  ["textur", ["texture"]],
+  ["texure", ["texture"]],
+  ["atlus", ["atlas"]],
+  ["interacton", ["interaction"]],
+  ["rezise", ["resize"]],
+  ["resizer", ["resize"]],
+  ["perf", ["performance", "benchmark"]],
+  ["speed", ["performance", "benchmark"]],
+  ["ai", ["mcp", "plugin"]]
+]);
+
 export function matchesDocSearch(options: DocSearchMatchOptions): boolean {
   return getDocSearchScore(options) > 0;
 }
@@ -22,7 +45,9 @@ export function getDocSearchScore(options: DocSearchMatchOptions): number {
   let score = entries.some((entry) => entry.value.includes(phrase)) ? 4 : 0;
 
   for (const token of tokens) {
-    const tokenScore = Math.max(...entries.map((entry) => scoreToken(entry, token)));
+    const tokenScore = Math.max(...expandToken(token).flatMap((alias) => (
+      entries.map((entry) => scoreToken(entry, alias))
+    )));
 
     if (tokenScore === 0) {
       return 0;
@@ -84,6 +109,10 @@ function createEntry(value: string, weight: number): SearchEntry {
 function tokenizeSearch(value: string): readonly string[] {
   const tokens = normalizeSearchText(value).split(" ").filter(Boolean);
   return [...new Set(tokens)];
+}
+
+function expandToken(token: string): readonly string[] {
+  return [...new Set([token, ...(searchAliases.get(token) ?? [])])];
 }
 
 function normalizeSearchText(value: string): string {

@@ -11,6 +11,11 @@ test("docs search exposes scoring and keyboard navigation hooks", async () => {
 
   assert.match(searchSource, /export function getDocSearchScore/);
   assert.match(searchSource, /phrase/);
+  assert.match(searchSource, /searchAliases/);
+  assert.match(searchSource, /expandToken/);
+  assert.match(searchSource, /wevgl/);
+  assert.match(searchSource, /canvs/);
+  assert.match(searchSource, /sprit/);
   assert.match(sidebarSource, /getRankedTopics/);
   assert.match(sidebarSource, /right\.score - left\.score/);
   assert.match(sidebarSource, /event\.key === "ArrowDown"/);
