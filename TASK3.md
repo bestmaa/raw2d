@@ -78,7 +78,7 @@ Add release notes on phase release tasks.
 - T195 | Version: v1.9.2 | Status: completed | Goal: Audit and polish sprite/texture atlas example. | Verify: texture visual check. | Commit: `Polish sprite atlas example`
 - T196 | Version: v1.9.3 | Status: completed | Goal: Audit and polish interaction example. | Verify: select drag resize browser check. | Commit: `Polish interaction example`
 - T197 | Version: v1.9.4 | Status: completed | Goal: Audit and polish camera controls example. | Verify: pan zoom browser check. | Commit: `Polish camera example`
-- T198 | Version: v1.9.5 | Status: pending | Goal: Audit and polish React example. | Verify: React example build and browser check. | Commit: `Polish React example`
+- T198 | Version: v1.9.5 | Status: completed | Goal: Audit and polish React example. | Verify: React example build and browser check. | Commit: `Polish React example`
 - T199 | Version: v1.9.6 | Status: pending | Goal: Audit and polish benchmark page for Canvas/WebGL comparison. | Verify: benchmark browser check. | Commit: `Polish benchmark example`
 - T200 | Version: v1.9.7 | Status: pending | Goal: Audit and polish showcase demo for public visitors. | Verify: showcase browser check. | Commit: `Polish showcase demo`
 - T201 | Version: v1.9.8 | Status: pending | Goal: Add example copy buttons and package install notes. | Verify: examples browser check. | Commit: `Polish example copy flow`
