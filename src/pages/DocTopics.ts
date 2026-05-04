@@ -25,6 +25,7 @@ import { lifecycleTopics } from "./DocLifecycleTopics";
 import { mcpTopics } from "./DocMcpTopics";
 import { mcpReadinessTopics } from "./DocMCPReadinessTopics";
 import { migrationTopics } from "./DocMigrationTopics";
+import { mobileViewportTopics } from "./DocMobileViewportTopics";
 import { pluginTopics } from "./DocPluginTopics";
 import { postReleaseAuditTopics } from "./DocPostReleaseAuditTopics";
 import { publicBetaTopics } from "./DocPublicBetaTopics";
@@ -91,6 +92,7 @@ export const docGroups: readonly DocGroup[] = [
       ...deployTopics,
       ...cdnTopics,
       ...browserBugBashTopics,
+      ...mobileViewportTopics,
       ...consoleAuditTopics,
       ...accessibilityTopics,
       ...canvasQATopics,

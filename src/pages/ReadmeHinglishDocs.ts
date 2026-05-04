@@ -16,6 +16,7 @@ import camera2d from "../../docs/hi/Camera2D.md?raw";
 import cameraWorldBounds from "../../docs/hi/CameraWorldBounds.md?raw";
 import visibleObjects from "../../docs/hi/VisibleObjects.md?raw";
 import dirtyVersioning from "../../docs/hi/DirtyVersioning.md?raw";
+import docsMobileViewport from "../../docs/hi/DocsMobileViewport.md?raw";
 import objectLifecycle from "../../docs/hi/ObjectLifecycle.md?raw";
 import renderOrder from "../../docs/hi/RenderOrder.md?raw";
 import renderer2d from "../../docs/hi/Renderer2D.md?raw";
@@ -107,6 +108,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   },
   { id: "cdn-beta-smoke", label: "CDN Beta Smoke", filename: "hi/CDNBetaSmoke.md", content: cdnBetaSmoke },
   { id: "beta-browser-bug-bash", label: "Browser Bug Bash", filename: "hi/BetaBrowserBugBash.md", content: betaBrowserBugBash },
+  { id: "docs-mobile-viewport", label: "Docs Mobile Viewport", filename: "hi/DocsMobileViewport.md", content: docsMobileViewport },
   {
     id: "product-docs-snippet-audit",
     label: "Product Docs Snippets",
