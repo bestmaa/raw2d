@@ -24,6 +24,7 @@ import { interactionTopics } from "./DocInteractionTopics";
 import { installSmokeTopics } from "./DocInstallSmokeTopics";
 import { licenseTopics } from "./DocLicenseTopics";
 import { lifecycleTopics } from "./DocLifecycleTopics";
+import { mcpBeginnerTopics } from "./DocMCPBeginnerTopics";
 import { mcpTopics } from "./DocMcpTopics";
 import { mcpReadinessTopics } from "./DocMCPReadinessTopics";
 import { migrationTopics } from "./DocMigrationTopics";
@@ -182,7 +183,7 @@ export const docGroups: readonly DocGroup[] = [
     description: "MCP, plugin, skills, and AI-assisted Raw2D project workflows.",
     hiLabel: "AI Tools",
     hiDescription: "MCP, plugin, skills, aur AI-assisted Raw2D workflows.",
-    topics: [...mcpTopics, ...mcpReadinessTopics, ...pluginTopics]
+    topics: [...mcpBeginnerTopics, ...mcpTopics, ...mcpReadinessTopics, ...pluginTopics]
   },
   {
     id: "react-later",
