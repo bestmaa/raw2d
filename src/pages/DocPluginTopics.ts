@@ -31,6 +31,7 @@ raw2d-package-audit`
 node plugins/raw2d/scripts/create-raw2d-example.mjs --out ./examples/card --shape rect
 node plugins/raw2d/scripts/run-docs-qa.mjs --json
 node plugins/raw2d/scripts/run-visual-pixel-tests.mjs --dry-run --json
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs --dry-run --json
 node plugins/raw2d/scripts/explain-renderer-stats.mjs --sample`
       },
       {
@@ -56,4 +57,3 @@ Release-only:
     ]
   }
 ];
-

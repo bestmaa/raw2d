@@ -41,6 +41,7 @@ node plugins/raw2d/scripts/scaffold-raw2d-app.mjs --out ./demo --renderer webgl
 node plugins/raw2d/scripts/create-raw2d-example.mjs --out ./examples/card --shape rect
 node plugins/raw2d/scripts/run-docs-qa.mjs --json
 node plugins/raw2d/scripts/run-visual-pixel-tests.mjs --dry-run --json
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs --dry-run --json
 node plugins/raw2d/scripts/explain-renderer-stats.mjs --sample
 ```
 
@@ -60,4 +61,3 @@ node --test tests/plugin/*.test.mjs
 - Plugin commands Git push nahi karte.
 - Generated files explicit output path me hi jate hain.
 - Release tasks version bump, tags, release notes, publish workflow checks, npm verification aur CDN verification own karte hain.
-

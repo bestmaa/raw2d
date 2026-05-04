@@ -8,6 +8,7 @@ Available scripts:
 - example generator command
 - docs QA command
 - visual pixel test command
+- fresh install audit command
 - renderer stats explanation command
 
 ## App Scaffold
@@ -42,6 +43,15 @@ node plugins/raw2d/scripts/run-visual-pixel-tests.mjs
 ```
 
 Runs the deterministic WebGL visual regression test entry.
+
+## Fresh Install Audit
+
+```bash
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs --dry-run --json
+node plugins/raw2d/scripts/run-fresh-install-audit.mjs
+```
+
+Runs package dry pack checks and fresh consumer install smoke tests.
 
 ## Renderer Stats Explanation
 
