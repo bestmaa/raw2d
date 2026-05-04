@@ -2,37 +2,6 @@ import type { DocTopic } from "./DocPage.type";
 
 export const coreTopics: readonly DocTopic[] = [
   {
-    id: "canvas",
-    label: "Canvas Init",
-    title: "Canvas Init",
-    description: "Create and control the public low-level Raw2D Canvas renderer.",
-    sections: [
-      {
-        title: "Add A Canvas Element",
-        body: "Canvas needs a real HTMLCanvasElement. Raw2D does not create hidden DOM for you.",
-        code: `<canvas id="raw2d-canvas"></canvas>`
-      },
-      {
-        title: "Create The Canvas Class",
-        body: "Pass the DOM canvas element into the Raw2D Canvas wrapper.",
-        code: `import { Canvas } from "raw2d";
-
-const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
-
-if (!canvasElement) {
-  throw new Error("Canvas element not found.");
-}
-
-const raw2dCanvas = new Canvas({
-  canvas: canvasElement,
-  width: 800,
-  height: 600,
-  backgroundColor: "#10141c"
-});`
-      }
-    ]
-  },
-  {
     id: "renderers",
     label: "Canvas / WebGL",
     title: "Canvas / WebGL",

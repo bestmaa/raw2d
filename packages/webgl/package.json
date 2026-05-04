@@ -1,6 +1,6 @@
 {
   "name": "raw2d-webgl",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Batch-first WebGL2 renderer package for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,9 +24,9 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "raw2d-core": "1.8.0",
-    "raw2d-sprite": "1.8.0",
-    "raw2d-text": "1.8.0"
+    "raw2d-core": "1.8.1",
+    "raw2d-sprite": "1.8.1",
+    "raw2d-text": "1.8.1"
   },
   "author": "Aditya Nandlal",
   "license": "Apache-2.0",

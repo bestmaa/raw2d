@@ -32,6 +32,40 @@ const camera = new Camera2D();
 raw2dCanvas.render(scene, camera);
 ```
 
+## Smallest Working Scene
+
+Ye sabse chhota useful Canvas-first scene hai. Isme ek renderer, ek scene, ek camera, ek object, aur ek render call hai.
+
+```html
+<canvas id="raw2d-canvas"></canvas>
+```
+
+```ts
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const raw2dCanvas = new Canvas({ canvas: canvasElement, width: 800, height: 600 });
+const scene = new Scene();
+const camera = new Camera2D();
+
+scene.add(new Rect({
+  x: 100,
+  y: 80,
+  width: 180,
+  height: 100,
+  material: new BasicMaterial({ fillColor: "#35c2ff" })
+}));
+
+raw2dCanvas.render(scene, camera);
+```
+
+`render(scene, camera)` canvas clear karta hai, scene traverse karta hai, camera/object transforms apply karta hai, phir supported objects draw karta hai.
+
 ## Render Ka Flow
 
 `render(scene, camera)` pehle canvas clear karta hai, phir scene ke visible objects ko camera ke hisab se draw karta hai.

@@ -6,6 +6,7 @@ import { apiFreezeTopics } from "./DocAPIFreezeTopics";
 import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
 import { browserBugBashTopics } from "./DocBrowserBugBashTopics";
 import { canvasCullingTopics } from "./DocCanvasCullingTopics";
+import { canvasInitTopics } from "./DocCanvasInitTopics";
 import { canvasQATopics } from "./DocCanvasQATopics";
 import { cdnTopics } from "./DocCDNTopics";
 import { changelogTopics } from "./DocChangelogTopics";
@@ -113,7 +114,7 @@ export const docGroups: readonly DocGroup[] = [
     description: "Scene graph, transforms, groups, bounds, and core object rules.",
     hiLabel: "Scene Foundation",
     hiDescription: "Scene graph, transform, groups, bounds, aur core object rules.",
-    topics: [...coreTopics, ...group2DTopics, ...lifecycleTopics, ...transformTopics, ...boundsTopics]
+    topics: [...canvasInitTopics, ...coreTopics, ...group2DTopics, ...lifecycleTopics, ...transformTopics, ...boundsTopics]
   },
   {
     id: "drawing-objects",

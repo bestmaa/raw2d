@@ -65,6 +65,40 @@ scene.add(new Rect({
 raw2dCanvas.render(scene, camera);
 ```
 
+## Smallest Working Scene
+
+This is the smallest useful Canvas-first scene. It has one renderer, one scene, one camera, one object, and one render call.
+
+```html
+<canvas id="raw2d-canvas"></canvas>
+```
+
+```ts
+import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
+
+const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+
+if (!canvasElement) {
+  throw new Error("Canvas element not found.");
+}
+
+const raw2dCanvas = new Canvas({ canvas: canvasElement, width: 800, height: 600 });
+const scene = new Scene();
+const camera = new Camera2D();
+
+scene.add(new Rect({
+  x: 100,
+  y: 80,
+  width: 180,
+  height: 100,
+  material: new BasicMaterial({ fillColor: "#35c2ff" })
+}));
+
+raw2dCanvas.render(scene, camera);
+```
+
+`render(scene, camera)` clears the canvas, traverses the scene, applies camera and object transforms, then draws supported objects.
+
 ## Animation Loop
 
 ```ts
