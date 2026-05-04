@@ -30,8 +30,8 @@ npm run test:cdn:pinned -- --live
 ## Expected URLs
 
 ```bash
-https://cdn.jsdelivr.net/npm/raw2d@1.10.0/dist/raw2d.js
-https://cdn.jsdelivr.net/npm/raw2d@1.10.0/dist/raw2d.umd.cjs
+https://cdn.jsdelivr.net/npm/raw2d@1.10.1/dist/raw2d.js
+https://cdn.jsdelivr.net/npm/raw2d@1.10.1/dist/raw2d.umd.cjs
 ```
 
 ## Pass Criteria

@@ -41,5 +41,38 @@ raw2d-interaction
 raw2d-studio  # later app/package`
       }
     ]
+  },
+  {
+    id: "studio-boundary",
+    label: "Studio Boundary",
+    title: "Raw2D Studio Boundary",
+    description: "Where Studio should live, what it may import, and what must stay out of runtime packages.",
+    sections: [
+      {
+        title: "Location",
+        body: "Studio should start as apps/studio in this repository. It should stay outside package runtime code so editor UI cannot leak into core rendering modules.",
+        code: `apps/studio`
+      },
+      {
+        title: "Dependency Direction",
+        body: "Studio may import Raw2D packages, but Raw2D packages must never import Studio. This keeps the engine installable without editor code.",
+        code: `apps/studio -> raw2d-core
+apps/studio -> raw2d-canvas
+apps/studio -> raw2d-webgl
+apps/studio -> raw2d-interaction`
+      },
+      {
+        title: "Later Package",
+        body: "After the editor API is stable, Studio can become raw2d-studio. It should not be re-exported from the umbrella raw2d package.",
+        code: `npm install raw2d-studio
+# separate from npm install raw2d`
+      },
+      {
+        title: "Shared Code Rule",
+        body: "Reusable engine logic can move to focused Raw2D packages only when it is useful without the editor. Panel state and toolbar commands belong in Studio.",
+        code: `Engine logic: packages/*
+Editor UI state: apps/studio`
+      }
+    ]
   }
 ];
