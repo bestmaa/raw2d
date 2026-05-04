@@ -26,6 +26,7 @@ import picking from "../../docs/Picking.md?raw";
 import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
 import publicApi from "../../docs/PublicAPI.md?raw";
+import publicBetaHardeningPlan from "../../docs/PublicBetaHardeningPlan.md?raw";
 import reactAdapterVsFiber from "../../docs/ReactAdapterVsFiber.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
@@ -67,6 +68,12 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "GettingStarted.md", content: gettingStarted },
   { id: "v1-install", label: "V1 Install", filename: "V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "PublicAPI.md", content: publicApi },
+  {
+    id: "public-beta-hardening-plan",
+    label: "Public Beta Hardening",
+    filename: "PublicBetaHardeningPlan.md",
+    content: publicBetaHardeningPlan
+  },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },

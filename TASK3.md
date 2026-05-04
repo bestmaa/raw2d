@@ -46,7 +46,7 @@ Add release notes on phase release tasks.
 
 ## Phase 15: Public Beta Hardening
 
-- T172 | Version: v1.7.0 | Status: pending | Goal: Add public beta hardening plan and pass/fail gates. | Verify: plan doc review. | Commit: `Plan public beta hardening`
+- T172 | Version: v1.7.0 | Status: completed | Goal: Add public beta hardening plan and pass/fail gates. | Verify: plan doc review. | Commit: `Plan public beta hardening`
 - T173 | Version: v1.7.1 | Status: pending | Goal: Fresh install audit for `raw2d` umbrella in a new Vite app. | Verify: generated app builds and renders. | Commit: `Audit umbrella beta install`
 - T174 | Version: v1.7.2 | Status: pending | Goal: Fresh install audit for `raw2d-core` plus `raw2d-canvas`. | Verify: generated app builds and renders Canvas. | Commit: `Audit Canvas focused install`
 - T175 | Version: v1.7.3 | Status: pending | Goal: Fresh install audit for `raw2d-webgl` with focused packages. | Verify: generated app builds and renders WebGL. | Commit: `Audit WebGL focused install`

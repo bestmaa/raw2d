@@ -55,6 +55,7 @@ import hitTesting from "../../docs/hi/HitTesting.md?raw";
 import picking from "../../docs/hi/Picking.md?raw";
 import selection from "../../docs/hi/Selection.md?raw";
 import publicApi from "../../docs/hi/PublicAPI.md?raw";
+import publicBetaHardeningPlan from "../../docs/hi/PublicBetaHardeningPlan.md?raw";
 import reactAdapterVsFiber from "../../docs/hi/ReactAdapterVsFiber.md?raw";
 import dragging from "../../docs/hi/Dragging.md?raw";
 import resizeHandles from "../../docs/hi/ResizeHandles.md?raw";
@@ -67,6 +68,12 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "hi/GettingStarted.md", content: gettingStarted },
   { id: "v1-install", label: "V1 Install", filename: "hi/V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "hi/PublicAPI.md", content: publicApi },
+  {
+    id: "public-beta-hardening-plan",
+    label: "Public Beta Hardening",
+    filename: "hi/PublicBetaHardeningPlan.md",
+    content: publicBetaHardeningPlan
+  },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "hi/Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
