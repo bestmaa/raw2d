@@ -44,6 +44,7 @@ import { finalRendererParityTopics } from "./DocFinalRendererParityTopics";
 import { renderListTopics } from "./DocRenderListTopics";
 import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
+import { showcaseTopics } from "./DocShowcaseTopics";
 import { texturePathTopics } from "./DocTexturePathTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
@@ -86,6 +87,7 @@ export const docGroups: readonly DocGroup[] = [
       ...accessibilityTopics,
       ...canvasQATopics,
       ...exampleTopics,
+      ...showcaseTopics,
       ...docQaChecklistTopics,
       ...glossaryTopics,
       ...licenseTopics

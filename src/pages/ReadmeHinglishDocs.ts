@@ -39,6 +39,7 @@ import line from "../../docs/hi/Line.md?raw";
 import polyline from "../../docs/hi/Polyline.md?raw";
 import polygon from "../../docs/hi/Polygon.md?raw";
 import shapePath from "../../docs/hi/ShapePath.md?raw";
+import showcaseDemo from "../../docs/hi/ShowcaseDemo.md?raw";
 import spriteAnimation from "../../docs/hi/SpriteAnimation.md?raw";
 import text2d from "../../docs/hi/Text2D.md?raw";
 import textureAtlas from "../../docs/hi/TextureAtlas.md?raw";
@@ -59,6 +60,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "v1-install", label: "V1 Install", filename: "hi/V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "hi/PublicAPI.md", content: publicApi },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
+  { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },
   { id: "glossary", label: "Glossary", filename: "hi/Glossary.md", content: glossary },
   { id: "license", label: "License", filename: "hi/License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "hi/AssetLoading.md", content: assetLoading },

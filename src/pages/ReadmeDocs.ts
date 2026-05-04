@@ -37,6 +37,7 @@ import resizeHandles from "../../docs/ResizeHandles.md?raw";
 import scene from "../../docs/Scene.md?raw";
 import selection from "../../docs/Selection.md?raw";
 import shapePath from "../../docs/ShapePath.md?raw";
+import showcaseDemo from "../../docs/ShowcaseDemo.md?raw";
 import spriteAnimation from "../../docs/SpriteAnimation.md?raw";
 import text2d from "../../docs/Text2D.md?raw";
 import textureAtlas from "../../docs/TextureAtlas.md?raw";
@@ -59,6 +60,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "v1-install", label: "V1 Install", filename: "V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "PublicAPI.md", content: publicApi },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
+  { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
   { id: "glossary", label: "Glossary", filename: "Glossary.md", content: glossary },
   { id: "license", label: "License", filename: "License.md", content: license },
   { id: "asset-loading", label: "Asset Loading", filename: "AssetLoading.md", content: assetLoading },
