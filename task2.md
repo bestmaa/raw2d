@@ -84,7 +84,7 @@ Push only on phase release tasks or explicit user request.
 - T141 | Version: v1.3.7 | Status: completed | Goal: Add Canvas vs WebGL decision guide with practical examples. | Verify: docs route check. | Commit: `Polish renderer guide`
 - T142 | Version: v1.3.8 | Status: completed | Goal: Add docs glossary for scene, renderer, batch, atlas, bounds, hit testing. | Verify: glossary route check. | Commit: `Add docs glossary`
 - T143 | Version: v1.3.9 | Status: completed | Goal: Add docs QA automation for dead links and missing topics. | Verify: QA test. | Commit: `Add docs link audit`
-- T144 | Version: v1.3.10 | Status: pending | Goal: Phase 11 release and publish. | Verify: phase release verification. | Commit: `Release docs polish phase`
+- T144 | Version: v1.3.10 | Status: completed | Goal: Phase 11 release and publish. | Verify: phase release verification. | Commit: `Release docs polish phase`
 
 ## Phase 12: Real-World Demo
 
