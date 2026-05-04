@@ -19,4 +19,6 @@ test("examples README covers core example routes and package imports", () => {
   assert.match(readme, /shape-path/);
   assert.match(readme, /raw2d-react/);
   assert.match(readme, /raw2d-mcp/);
+  assert.match(readme, /npm install raw2d-core raw2d-canvas/);
+  assert.match(readme, /npm install raw2d-core raw2d-webgl/);
 });

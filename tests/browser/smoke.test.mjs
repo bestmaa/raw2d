@@ -122,6 +122,7 @@ function getModuleRoutes() {
     "/src/pages/BenchmarkPage.ts",
     "/src/pages/CDNSmokePage.ts",
     "/src/pages/WebGLPipelineExample.ts",
+    "/examples/main.ts",
     "/examples/canvas-basic/main.ts",
     "/examples/webgl-basic/main.ts",
     "/examples/showcase/main.ts",

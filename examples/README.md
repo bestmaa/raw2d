@@ -34,6 +34,15 @@ npx vite --host 0.0.0.0 --port 5175
 
 ## Package Imports
 
+The examples index includes copy buttons for the most common install paths:
+
+```bash
+npm install raw2d
+npm install raw2d-core raw2d-canvas
+npm install raw2d-core raw2d-webgl
+npm install raw2d raw2d-react react react-dom
+```
+
 Use the umbrella package when learning:
 
 ```ts

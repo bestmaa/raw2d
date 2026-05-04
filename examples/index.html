@@ -18,6 +18,19 @@
         </p>
       </header>
 
+      <section class="example-info" aria-label="Package install commands">
+        <h2>Install commands</h2>
+        <p>Start with the umbrella package, then move to focused packages when bundle control matters.</p>
+        <pre id="raw2d-install-umbrella">npm install raw2d</pre>
+        <div class="example-actions">
+          <button type="button" data-copy-command="npm install raw2d">Copy umbrella install</button>
+          <button type="button" data-copy-command="npm install raw2d-core raw2d-canvas">Copy Canvas focused install</button>
+          <button type="button" data-copy-command="npm install raw2d-core raw2d-webgl">Copy WebGL focused install</button>
+          <button type="button" data-copy-command="npm install raw2d raw2d-react react react-dom">Copy React install</button>
+        </div>
+        <pre id="raw2d-copy-status">copy: ready</pre>
+      </section>
+
       <section class="example-grid" aria-label="Example routes">
         <a class="example-card" href="./canvas-basic/">
           <h2>Canvas Basic</h2>
@@ -61,5 +74,6 @@
         </a>
       </section>
     </main>
+    <script type="module" src="./main.ts"></script>
   </body>
 </html>
