@@ -8,6 +8,10 @@ const source = readFileSync("examples/interaction-basic/main.ts", "utf8");
 test("Interaction example uses shared example layout", () => {
   assert.match(html, /shared\/example\.css/);
   assert.match(html, /Select, Drag, Resize/);
+  assert.match(html, /raw2d-select-card/);
+  assert.match(html, /raw2d-select-badge/);
+  assert.match(html, /raw2d-grow-card/);
+  assert.match(html, /raw2d-reset/);
   assert.match(html, /raw2d-stats/);
 });
 
@@ -16,6 +20,9 @@ test("Interaction example enables selection, drag, resize, and overlay state", (
   assert.match(source, /enableSelection/);
   assert.match(source, /enableDrag/);
   assert.match(source, /enableResize/);
+  assert.match(source, /addEventListener\("click"/);
+  assert.match(source, /setSize/);
+  assert.match(source, /getPrimaryTransform/);
   assert.match(source, /getResizeHandles/);
   assert.match(source, /getSelection/);
 });

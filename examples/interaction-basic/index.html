@@ -17,8 +17,23 @@
             Click an object to select it, drag to move it, or drag Rect handles to resize.
           </p>
         </header>
-        <canvas id="raw2d-canvas"></canvas>
-        <pre id="raw2d-stats" aria-live="polite"></pre>
+        <div class="example-runtime">
+          <canvas id="raw2d-canvas"></canvas>
+          <aside class="example-info" aria-label="Interaction controls">
+            <h2>Controls</h2>
+            <pre><code>npm install raw2d raw2d-interaction</code></pre>
+            <pre><code>interaction.enableSelection();
+interaction.enableDrag();
+interaction.enableResize();</code></pre>
+            <div class="example-actions">
+              <button id="raw2d-select-card" type="button">Select card</button>
+              <button id="raw2d-select-badge" type="button">Select badge</button>
+              <button id="raw2d-grow-card" type="button">Grow card</button>
+              <button id="raw2d-reset" type="button">Reset</button>
+            </div>
+            <pre id="raw2d-stats" aria-live="polite"></pre>
+          </aside>
+        </div>
       </section>
     </main>
     <script type="module" src="./main.ts"></script>

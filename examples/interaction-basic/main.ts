@@ -3,8 +3,12 @@ import type { Object2D } from "raw2d";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
+const selectCardButton = document.querySelector<HTMLButtonElement>("#raw2d-select-card");
+const selectBadgeButton = document.querySelector<HTMLButtonElement>("#raw2d-select-badge");
+const growCardButton = document.querySelector<HTMLButtonElement>("#raw2d-grow-card");
+const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
 
-if (!canvasElement || !statsElement) {
+if (!canvasElement || !statsElement || !selectCardButton || !selectBadgeButton || !growCardButton || !resetButton) {
   throw new Error("Example DOM nodes not found.");
 }
 
@@ -47,6 +51,33 @@ interaction.enableSelection();
 interaction.enableDrag();
 interaction.enableResize();
 interaction.getSelection().select(card);
+
+selectCardButton.addEventListener("click", (): void => {
+  interaction.getSelection().select(card);
+  render();
+});
+
+selectBadgeButton.addEventListener("click", (): void => {
+  interaction.getSelection().select(badge);
+  render();
+});
+
+growCardButton.addEventListener("click", (): void => {
+  card.setSize(card.width + 24, card.height + 14);
+  interaction.getSelection().select(card);
+  render();
+});
+
+resetButton.addEventListener("click", (): void => {
+  card.x = 160;
+  card.y = 120;
+  card.setSize(190, 110);
+  badge.x = 520;
+  badge.y = 175;
+  interaction.getSelection().select(card);
+  render();
+});
+
 render();
 
 function render(): void {
@@ -86,6 +117,19 @@ function writeStats(): void {
     `mode: ${interaction.getMode()}`,
     `selected: ${selected.map((object) => object.name || object.id).join(", ") || "none"}`,
     `primary: ${primary?.name ?? "none"}`,
+    `transform: ${getPrimaryTransform(primary)}`,
     `handles: ${interaction.getResizeHandles().length}`
   ].join(" | ");
+}
+
+function getPrimaryTransform(object: Object2D | null): string {
+  if (object instanceof Rect) {
+    return `x=${Math.round(object.x)}, y=${Math.round(object.y)}, w=${Math.round(object.width)}, h=${Math.round(object.height)}`;
+  }
+
+  if (object instanceof Circle) {
+    return `x=${Math.round(object.x)}, y=${Math.round(object.y)}, r=${Math.round(object.radius)}`;
+  }
+
+  return "none";
 }

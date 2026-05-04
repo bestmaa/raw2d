@@ -76,7 +76,7 @@ Add release notes on phase release tasks.
 - T193 | Version: v1.9.0 | Status: completed | Goal: Audit and polish basic Canvas example for npm users. | Verify: browser visual check. | Commit: `Polish Canvas example`
 - T194 | Version: v1.9.1 | Status: completed | Goal: Audit and polish WebGL sprite batching example. | Verify: WebGL stats check. | Commit: `Polish WebGL example`
 - T195 | Version: v1.9.2 | Status: completed | Goal: Audit and polish sprite/texture atlas example. | Verify: texture visual check. | Commit: `Polish sprite atlas example`
-- T196 | Version: v1.9.3 | Status: pending | Goal: Audit and polish interaction example. | Verify: select drag resize browser check. | Commit: `Polish interaction example`
+- T196 | Version: v1.9.3 | Status: completed | Goal: Audit and polish interaction example. | Verify: select drag resize browser check. | Commit: `Polish interaction example`
 - T197 | Version: v1.9.4 | Status: pending | Goal: Audit and polish camera controls example. | Verify: pan zoom browser check. | Commit: `Polish camera example`
 - T198 | Version: v1.9.5 | Status: pending | Goal: Audit and polish React example. | Verify: React example build and browser check. | Commit: `Polish React example`
 - T199 | Version: v1.9.6 | Status: pending | Goal: Audit and polish benchmark page for Canvas/WebGL comparison. | Verify: benchmark browser check. | Commit: `Polish benchmark example`
