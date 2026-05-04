@@ -4,16 +4,18 @@ import { createShowcaseInteraction } from "./showcaseInteraction";
 import { drawShowcaseMinimap } from "./showcaseMinimap";
 import { drawShowcaseOverlay } from "./showcaseOverlay";
 import { createShowcaseRenderer } from "./showcaseRenderer";
+import { buildShowcaseStatsReport } from "./showcaseStats";
 import type { ShowcaseRendererMode, ShowcaseRendererResult } from "./ShowcaseRenderer.type";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
 const minimapElement = document.querySelector<HTMLCanvasElement>("#raw2d-minimap");
 const overlayElement = document.querySelector<HTMLCanvasElement>("#raw2d-overlay");
+const copyReportButton = document.querySelector<HTMLButtonElement>("#raw2d-copy-report");
 const rendererSelect = document.querySelector<HTMLSelectElement>("#raw2d-renderer");
 const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
 
-if (!canvasElement || !minimapElement || !overlayElement || !rendererSelect || !resetButton || !statsElement) {
+if (!canvasElement || !minimapElement || !overlayElement || !copyReportButton || !rendererSelect || !resetButton || !statsElement) {
   throw new Error("Showcase elements not found.");
 }
 
@@ -25,7 +27,9 @@ const minimapInput = minimapElement;
 const overlayInput = overlayElement;
 const statsOutput = statsElement;
 const rendererInput = rendererSelect;
+const copyButton = copyReportButton;
 let rendererState = createRenderer(rendererInput.value);
+let latestReport = "";
 let frame = 0;
 const controls = new CameraControls({
   target: canvasInput,
@@ -57,6 +61,9 @@ resetButton.addEventListener("click", () => {
   showcase.camera.setPosition(0, 0);
   showcase.camera.setZoom(1);
 });
+copyButton.addEventListener("click", () => {
+  void navigator.clipboard?.writeText(latestReport);
+});
 
 function animate(): void {
   frame += 1;
@@ -66,7 +73,9 @@ function animate(): void {
     sprite.y += Math.sin(frame / 24 + sprite.x / 40) * 0.08;
   }
 
-  if (rendererState.renderer instanceof WebGLRenderer2D) {
+  const webglRenderer = rendererState.renderer instanceof WebGLRenderer2D ? rendererState.renderer : null;
+
+  if (webglRenderer) {
     rendererState.renderer.render(showcase.scene, showcase.camera, { spriteSorting: "texture" });
   } else {
     rendererState.renderer.render(showcase.scene, showcase.camera);
@@ -85,16 +94,21 @@ function animate(): void {
     canvas: overlayInput,
     interaction
   });
-  statsOutput.textContent = [
-    `renderer: ${rendererState.label}`,
-    `camera: ${showcase.camera.x.toFixed(1)}, ${showcase.camera.y.toFixed(1)}`,
-    `zoom: ${showcase.camera.zoom.toFixed(2)}`,
-    `interaction: ${interaction.getMode()}`,
-    `objects: ${showcase.objectCount}`,
-    `sprites: ${showcase.spriteCount}`,
-    `shapes: ${showcase.shapeCount}`,
-    `animated: ${showcase.animatedSprites.length}`
-  ].join(" | ");
+  const webglStats = webglRenderer?.getStats() ?? null;
+  latestReport = buildShowcaseStatsReport({
+    animatedCount: showcase.animatedSprites.length,
+    cameraX: showcase.camera.x,
+    cameraY: showcase.camera.y,
+    drawCalls: webglStats?.drawCalls ?? null,
+    interactionMode: interaction.getMode(),
+    objectCount: showcase.objectCount,
+    rendererLabel: rendererState.label,
+    shapeCount: showcase.shapeCount,
+    spriteCount: showcase.spriteCount,
+    textureBinds: webglStats?.spriteTextureBinds ?? null,
+    zoom: showcase.camera.zoom
+  });
+  statsOutput.textContent = latestReport;
 
   requestAnimationFrame(animate);
 }
