@@ -29,6 +29,7 @@ import polyline from "../../docs/Polyline.md?raw";
 import publicApi from "../../docs/PublicAPI.md?raw";
 import publicBetaHardeningPlan from "../../docs/PublicBetaHardeningPlan.md?raw";
 import reactAdapterVsFiber from "../../docs/ReactAdapterVsFiber.md?raw";
+import reactBetaInstallAudit from "../../docs/ReactBetaInstallAudit.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
 import renderer2d from "../../docs/Renderer2D.md?raw";
@@ -94,6 +95,12 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     label: "WebGL Focused Install",
     filename: "WebGLFocusedInstallAudit.md",
     content: webGLFocusedInstallAudit
+  },
+  {
+    id: "react-beta-install-audit",
+    label: "React Beta Install",
+    filename: "ReactBetaInstallAudit.md",
+    content: reactBetaInstallAudit
   },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },

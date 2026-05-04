@@ -91,5 +91,34 @@ import { WebGLRenderer2D, isWebGL2Available } from "raw2d-webgl";`
 }`
       }
     ]
+  },
+  {
+    id: "react-beta-install",
+    label: "React Install",
+    title: "React Beta Install Audit",
+    description: "Verify the optional `raw2d-react` bridge in a fresh React/Vite app.",
+    sections: [
+      {
+        title: "Run The Audit",
+        body: "Use this smoke for the current React adapter. It is not the future Fiber package.",
+        code: `npm run test:consumer:react`
+      },
+      {
+        title: "Expected Install",
+        body: "React users install Raw2D, the bridge package, and React itself. The bridge keeps Raw2D public APIs visible.",
+        code: `npm install raw2d raw2d-react react react-dom`
+      },
+      {
+        title: "Expected Imports",
+        body: "The generated app must cover the current bridge component set.",
+        code: `import { Raw2DCanvas, RawCircle, RawRect, RawSprite, RawText2D } from "raw2d-react";`
+      },
+      {
+        title: "Runtime Gate",
+        body: "The runtime import check confirms the package metadata and bridge exports are available.",
+        code: `const react = await import("raw2d-react");
+console.log("react-runtime-ok", react.RAW2D_REACT_PACKAGE_INFO.packageName);`
+      }
+    ]
   }
 ];

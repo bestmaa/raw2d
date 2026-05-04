@@ -60,6 +60,7 @@ import selection from "../../docs/hi/Selection.md?raw";
 import publicApi from "../../docs/hi/PublicAPI.md?raw";
 import publicBetaHardeningPlan from "../../docs/hi/PublicBetaHardeningPlan.md?raw";
 import reactAdapterVsFiber from "../../docs/hi/ReactAdapterVsFiber.md?raw";
+import reactBetaInstallAudit from "../../docs/hi/ReactBetaInstallAudit.md?raw";
 import dragging from "../../docs/hi/Dragging.md?raw";
 import resizeHandles from "../../docs/hi/ResizeHandles.md?raw";
 import objectResize from "../../docs/hi/ObjectResize.md?raw";
@@ -94,6 +95,12 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
     label: "WebGL Focused Install",
     filename: "hi/WebGLFocusedInstallAudit.md",
     content: webglFocusedInstallAudit
+  },
+  {
+    id: "react-beta-install-audit",
+    label: "React Beta Install",
+    filename: "hi/ReactBetaInstallAudit.md",
+    content: reactBetaInstallAudit
   },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },
