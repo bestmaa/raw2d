@@ -20,6 +20,19 @@ const renderer = new Canvas({
 });`
       },
       {
+        title: "Decision Checklist",
+        body: "Choose Canvas for correctness, debugging, small editor tools, and exact path behavior. Choose WebGL when many sprites, repeated redraws, static runs, atlas textures, or draw-call stats matter more.",
+        code: `const shouldUseWebGL =
+  objectCount > 500 ||
+  spriteCount > 200 ||
+  needsAtlasBatching ||
+  needsStaticBatchCache;
+
+const renderer = shouldUseWebGL
+  ? new WebGLRenderer2D({ canvas })
+  : new Canvas({ canvas });`
+      },
+      {
         title: "Move To WebGL For Scale",
         body: "Use WebGLRenderer2D when object count, sprite count, texture binds, or repeated redraws become the bottleneck. WebGL exposes batching stats so you can see what changed.",
         code: `import { WebGLRenderer2D } from "raw2d";
@@ -33,6 +46,19 @@ const renderer = new WebGLRenderer2D({
 
 renderer.render(scene, camera);
 console.log(renderer.getStats().drawCalls);`
+      },
+      {
+        title: "Compare Real Stats",
+        body: "Do not guess from renderer names. Render the same scene, then compare frame time, draw calls, texture binds, cache hits, and unsupported object warnings.",
+        code: `canvasRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+
+console.table({
+  canvasDrawCalls: canvasRenderer.getStats().drawCalls,
+  webglDrawCalls: webglRenderer.getStats().drawCalls,
+  textureBinds: webglRenderer.getStats().textureBinds,
+  staticCacheHits: webglRenderer.getStats().staticCacheHits
+});`
       },
       {
         title: "Keep The Same Scene",

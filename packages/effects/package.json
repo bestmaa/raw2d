@@ -1,6 +1,6 @@
 {
   "name": "raw2d-effects",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "Effects package placeholder for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",

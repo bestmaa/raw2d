@@ -42,6 +42,52 @@ renderer.render(scene, camera);
 
 Canvas and WebGL still keep their focused APIs. WebGL exposes extra methods such as `clearTextureCache()` and `isContextLost()`. Use the common contract when generic tooling only needs the renderer lifecycle.
 
+## Decision Guide
+
+Use Canvas when:
+
+- the scene is small or medium
+- exact Canvas path behavior matters
+- you are debugging shape, origin, bounds, or interaction logic
+- unsupported WebGL objects should still render
+
+Use WebGLRenderer2D when:
+
+- many sprites or repeated redraws are the bottleneck
+- atlas packing can reduce texture binds
+- static objects can reuse cached buffers
+- draw calls, uploads, and batching diagnostics should be visible
+
+```ts
+const shouldUseWebGL =
+  spriteCount > 200 ||
+  objectCount > 500 ||
+  needsStaticBatchCache ||
+  needsAtlasBatching;
+
+const renderer: Renderer2DLike = shouldUseWebGL
+  ? new WebGLRenderer2D({ canvas })
+  : new Canvas({ canvas });
+```
+
+The same `Scene` and `Camera2D` can be rendered by either renderer. That keeps renderer choice explicit instead of leaking drawing logic into objects.
+
+## Compare Real Stats
+
+```ts
+canvasRenderer.render(scene, camera);
+webglRenderer.render(scene, camera);
+
+console.table({
+  canvasDrawCalls: canvasRenderer.getStats().drawCalls,
+  webglDrawCalls: webglRenderer.getStats().drawCalls,
+  textureBinds: webglRenderer.getStats().textureBinds,
+  staticCacheHits: webglRenderer.getStats().staticCacheHits
+});
+```
+
+Benchmark with the actual scene. Canvas can be faster for tiny scenes because it has less setup overhead. WebGL should win when batching, atlas reuse, and static cache reuse reduce repeated CPU/GPU work.
+
 ## Shared Render Options
 
 Canvas and WebGL both accept the common render options:
