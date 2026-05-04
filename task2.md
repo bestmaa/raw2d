@@ -101,7 +101,7 @@ Push only on phase release tasks or explicit user request.
 
 ## Phase 13: MCP And Plugin Hardening
 
-- T155 | Version: v1.5.0 | Status: pending | Goal: Add MCP CLI/server entry design without coupling to browser packages. | Verify: design doc. | Commit: `Design MCP server entry`
+- T155 | Version: v1.5.0 | Status: completed | Goal: Add MCP CLI/server entry design without coupling to browser packages. | Verify: design doc. | Commit: `Design MCP server entry`
 - T156 | Version: v1.5.1 | Status: pending | Goal: Add executable MCP server entrypoint for stdio usage. | Verify: local MCP smoke. | Commit: `Add MCP stdio entry`
 - T157 | Version: v1.5.2 | Status: pending | Goal: Add MCP schema docs for every tool input/output. | Verify: docs review. | Commit: `Document MCP schemas`
 - T158 | Version: v1.5.3 | Status: pending | Goal: Add MCP scene patch/update commands for multiple objects. | Verify: MCP unit tests. | Commit: `Add MCP batch update tools`

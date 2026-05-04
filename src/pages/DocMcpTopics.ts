@@ -87,6 +87,20 @@ Not allowed inside raw2d-mcp:
 - npm publish
 - git push
 - internal browser control`
+      },
+      {
+        title: "Server Entry Design",
+        body: "The future raw2d-mcp executable should be a Node.js stdio server that dispatches to pure helper functions. It must not import Canvas, WebGL, DOM, or browser runtime packages.",
+        code: `// Future package shape:
+{
+  "bin": {
+    "raw2d-mcp": "./dist/server.js"
+  }
+}
+
+// Runtime rule:
+// raw2d-mcp -> raw2d-core + stdio adapter
+// raw2d-mcp -> no raw2d-canvas/raw2d-webgl imports`
       }
     ]
   }
