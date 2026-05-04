@@ -1,5 +1,10 @@
 import type { StudioObjectFactoryOptions } from "./StudioObjectFactory.type";
-import type { StudioCircleState, StudioRectState, StudioSceneState } from "./StudioSceneState.type";
+import type {
+  StudioCircleState,
+  StudioLineState,
+  StudioRectState,
+  StudioSceneState
+} from "./StudioSceneState.type";
 
 export function addStudioRectObject(options: StudioObjectFactoryOptions): StudioSceneState {
   const rectCount = options.scene.objects.filter((object) => object.type === "rect").length;
@@ -47,5 +52,31 @@ export function addStudioCircleObject(options: StudioObjectFactoryOptions): Stud
   return {
     ...options.scene,
     objects: [...options.scene.objects, circle]
+  };
+}
+
+export function addStudioLineObject(options: StudioObjectFactoryOptions): StudioSceneState {
+  const lineCount = options.scene.objects.filter((object) => object.type === "line").length;
+  const lineIndex = lineCount + 1;
+  const offset = lineCount * 24;
+  const line: StudioLineState = {
+    id: `line-${lineIndex}`,
+    type: "line",
+    name: `Line ${lineIndex}`,
+    x: 120 + offset,
+    y: 300 + offset,
+    startX: 0,
+    startY: 0,
+    endX: 240,
+    endY: 0,
+    material: {
+      strokeColor: "#facc15",
+      lineWidth: 5
+    }
+  };
+
+  return {
+    ...options.scene,
+    objects: [...options.scene.objects, line]
   };
 }

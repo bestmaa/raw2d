@@ -104,3 +104,49 @@ test("Studio Circle tool factory offsets repeated Circle objects", async () => {
   assert.equal(circle.x, 244);
   assert.equal(circle.y, 204);
 });
+
+test("Studio Line tool factory appends a renderable Line object", async () => {
+  const module = await importFactoryModule();
+  const scene = {
+    version: 1,
+    name: "Tool Test",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: []
+  };
+  const nextScene = module.addStudioLineObject({ scene });
+
+  assert.equal(nextScene.objects.length, 1);
+  assert.deepEqual(nextScene.objects[0], {
+    id: "line-1",
+    type: "line",
+    name: "Line 1",
+    x: 120,
+    y: 300,
+    startX: 0,
+    startY: 0,
+    endX: 240,
+    endY: 0,
+    material: {
+      strokeColor: "#facc15",
+      lineWidth: 5
+    }
+  });
+});
+
+test("Studio Line tool factory offsets repeated Line objects", async () => {
+  const module = await importFactoryModule();
+  const scene = {
+    version: 1,
+    name: "Tool Test",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: [{ id: "line-1", type: "line", name: "Line 1", x: 120, y: 300, startX: 0, startY: 0, endX: 240, endY: 0 }]
+  };
+  const nextScene = module.addStudioLineObject({ scene });
+  const line = nextScene.objects[1];
+
+  assert.equal(line.id, "line-2");
+  assert.equal(line.x, 144);
+  assert.equal(line.y, 324);
+});

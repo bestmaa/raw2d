@@ -51,5 +51,13 @@ function createObjectProperties(object: StudioSceneObject): readonly StudioPrope
     return [...transformRows, { label: "Radius", value: String(object.radius) }];
   }
 
+  if (object.type === "line") {
+    return [
+      ...transformRows,
+      { label: "Start", value: `${object.startX}, ${object.startY}` },
+      { label: "End", value: `${object.endX}, ${object.endY}` }
+    ];
+  }
+
   return transformRows;
 }
