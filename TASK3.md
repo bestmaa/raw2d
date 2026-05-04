@@ -88,7 +88,7 @@ Add release notes on phase release tasks.
 
 - T203 | Version: v1.10.0 | Status: completed | Goal: Add Raw2D Studio product scope and non-goals. | Verify: design doc review. | Commit: `Plan Raw2D Studio`
 - T204 | Version: v1.10.1 | Status: completed | Goal: Decide Studio app location and package boundary. | Verify: architecture doc review. | Commit: `Define Studio boundary`
-- T205 | Version: v1.10.2 | Status: pending | Goal: Design Studio scene JSON save/load format. | Verify: schema doc review. | Commit: `Design Studio scene format`
+- T205 | Version: v1.10.2 | Status: completed | Goal: Design Studio scene JSON save/load format. | Verify: schema doc review. | Commit: `Design Studio scene format`
 - T206 | Version: v1.10.3 | Status: pending | Goal: Design Studio tools: select, move, resize, text, shape, sprite. | Verify: tools doc review. | Commit: `Design Studio tools`
 - T207 | Version: v1.10.4 | Status: pending | Goal: Design Studio panels: layers, properties, assets, renderer stats. | Verify: panels doc review. | Commit: `Design Studio panels`
 - T208 | Version: v1.10.5 | Status: pending | Goal: Add Studio MVP route placeholder without runtime coupling. | Verify: browser route check. | Commit: `Add Studio MVP shell`

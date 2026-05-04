@@ -74,5 +74,53 @@ apps/studio -> raw2d-interaction`
 Editor UI state: apps/studio`
       }
     ]
+  },
+  {
+    id: "studio-scene-format",
+    label: "Studio Scene JSON",
+    title: "Studio Scene JSON Format",
+    description: "A versioned save/load shape for future Raw2D Studio scenes.",
+    sections: [
+      {
+        title: "Document",
+        body: "Studio should save a readable JSON document with version, metadata, camera, scene objects, and assets. It should not store renderer internals.",
+        code: `{
+  "version": 1,
+  "meta": { "name": "Untitled Scene", "createdWith": "raw2d-studio" },
+  "camera": { "x": 0, "y": 0, "zoom": 1 },
+  "scene": { "objects": [] },
+  "assets": { "textures": [] }
+}`
+      },
+      {
+        title: "Object",
+        body: "Objects should use explicit type values and public Raw2D-style fields, so saved scenes stay easy to inspect and edit.",
+        code: `{
+  "id": "rect-1",
+  "type": "rect",
+  "x": 100,
+  "y": 80,
+  "width": 140,
+  "height": 90,
+  "origin": "center",
+  "material": { "fillColor": "#35c2ff" }
+}`
+      },
+      {
+        title: "Assets",
+        body: "Texture assets should be referenced by stable IDs. Sprite objects should point to textureId and optional frameName instead of storing image bytes.",
+        code: `{
+  "id": "hero-texture",
+  "src": "./assets/hero.png",
+  "width": 256,
+  "height": 256
+}`
+      },
+      {
+        title: "Load",
+        body: "Load should validate the JSON before creating Raw2D objects. Error messages should point to fields such as scene.objects[2].width.",
+        code: `validate -> create assets -> create objects -> render`
+      }
+    ]
   }
 ];
