@@ -8,7 +8,7 @@ export interface StudioCameraState {
 
 export interface StudioSceneObjectState {
   readonly id: string;
-  readonly type: "rect" | "circle" | "line" | "text2d";
+  readonly type: "rect" | "circle" | "line" | "text2d" | "sprite";
   readonly name: string;
   readonly x: number;
   readonly y: number;
@@ -46,7 +46,19 @@ export interface StudioTextState extends StudioSceneObjectState {
   readonly font?: string;
 }
 
-export type StudioSceneObject = StudioRectState | StudioCircleState | StudioLineState | StudioTextState;
+export interface StudioSpriteState extends StudioSceneObjectState {
+  readonly type: "sprite";
+  readonly width: number;
+  readonly height: number;
+  readonly assetSlot: string;
+}
+
+export type StudioSceneObject =
+  | StudioRectState
+  | StudioCircleState
+  | StudioLineState
+  | StudioTextState
+  | StudioSpriteState;
 
 export interface StudioSceneState {
   readonly version: 1;

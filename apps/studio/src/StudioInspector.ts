@@ -67,5 +67,14 @@ function createObjectProperties(object: StudioSceneObject): readonly StudioPrope
     ];
   }
 
+  if (object.type === "sprite") {
+    return [
+      ...transformRows,
+      { label: "Width", value: String(object.width) },
+      { label: "Height", value: String(object.height) },
+      { label: "Asset", value: object.assetSlot }
+    ];
+  }
+
   return transformRows;
 }

@@ -4,6 +4,7 @@ import type {
   StudioLineState,
   StudioRectState,
   StudioSceneState,
+  StudioSpriteState,
   StudioTextState
 } from "./StudioSceneState.type";
 
@@ -102,5 +103,31 @@ export function addStudioTextObject(options: StudioObjectFactoryOptions): Studio
   return {
     ...options.scene,
     objects: [...options.scene.objects, text]
+  };
+}
+
+export function addStudioSpriteObject(options: StudioObjectFactoryOptions): StudioSceneState {
+  const spriteCount = options.scene.objects.filter((object) => object.type === "sprite").length;
+  const spriteIndex = spriteCount + 1;
+  const offset = spriteCount * 24;
+  const sprite: StudioSpriteState = {
+    id: `sprite-${spriteIndex}`,
+    type: "sprite",
+    name: `Sprite ${spriteIndex}`,
+    x: 280 + offset,
+    y: 140 + offset,
+    width: 128,
+    height: 128,
+    assetSlot: "empty",
+    material: {
+      fillColor: "#1f2937",
+      strokeColor: "#35c2ff",
+      lineWidth: 2
+    }
+  };
+
+  return {
+    ...options.scene,
+    objects: [...options.scene.objects, sprite]
   };
 }

@@ -7,6 +7,7 @@ import type {
   StudioRectState,
   StudioSceneObject,
   StudioSceneState,
+  StudioSpriteState,
   StudioTextState
 } from "./StudioSceneState.type";
 import type { StudioRuntimeScene } from "./StudioRenderAdapter.type";
@@ -33,6 +34,8 @@ function createRuntimeObject(object: StudioSceneObject): Object2D {
       return createLine(object);
     case "text2d":
       return createText(object);
+    case "sprite":
+      return createSpritePlaceholder(object);
   }
 }
 
@@ -77,6 +80,17 @@ function createText(object: StudioTextState): Text2D {
     y: object.y,
     text: object.text,
     font: object.font,
+    material: createMaterial(object.material)
+  });
+}
+
+function createSpritePlaceholder(object: StudioSpriteState): Rect {
+  return new Rect({
+    name: object.name,
+    x: object.x,
+    y: object.y,
+    width: object.width,
+    height: object.height,
     material: createMaterial(object.material)
   });
 }

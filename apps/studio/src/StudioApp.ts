@@ -5,6 +5,7 @@ import {
   addStudioCircleObject,
   addStudioLineObject,
   addStudioRectObject,
+  addStudioSpriteObject,
   addStudioTextObject
 } from "./StudioObjectFactory";
 import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
@@ -60,6 +61,7 @@ export class StudioApp {
     const circleTool = this.root.querySelector<HTMLButtonElement>('[data-tool="circle"]');
     const lineTool = this.root.querySelector<HTMLButtonElement>('[data-tool="line"]');
     const textTool = this.root.querySelector<HTMLButtonElement>('[data-tool="text"]');
+    const spriteTool = this.root.querySelector<HTMLButtonElement>('[data-tool="sprite"]');
 
     sampleButton?.addEventListener("click", () => {
       this.sceneState = createStudioSampleSceneState();
@@ -84,6 +86,11 @@ export class StudioApp {
 
     textTool?.addEventListener("click", () => {
       this.sceneState = addStudioTextObject({ scene: this.sceneState });
+      this.mount();
+    });
+
+    spriteTool?.addEventListener("click", () => {
+      this.sceneState = addStudioSpriteObject({ scene: this.sceneState });
       this.mount();
     });
   }

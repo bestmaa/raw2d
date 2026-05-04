@@ -6,7 +6,8 @@ const tools: readonly StudioToolItem[] = [
   { id: "rect", label: "Rect", shortcut: "R" },
   { id: "circle", label: "Circle", shortcut: "C" },
   { id: "line", label: "Line", shortcut: "L" },
-  { id: "text", label: "Text", shortcut: "T" }
+  { id: "text", label: "Text", shortcut: "T" },
+  { id: "sprite", label: "Sprite", shortcut: "S" }
 ];
 
 const emptyLayers: readonly StudioLayerItem[] = [

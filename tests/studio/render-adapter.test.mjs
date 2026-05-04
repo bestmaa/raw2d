@@ -28,13 +28,15 @@ test("Studio render adapter creates Raw2D runtime scene", async () => {
     camera: { x: 4, y: 8, zoom: 2 },
     objects: [
       { id: "rect-1", type: "rect", name: "Card", x: 10, y: 20, width: 80, height: 40 },
-      { id: "text-1", type: "text2d", name: "Label", x: 12, y: 24, text: "Raw2D" }
+      { id: "text-1", type: "text2d", name: "Label", x: 12, y: 24, text: "Raw2D" },
+      { id: "sprite-1", type: "sprite", name: "Sprite Slot", x: 40, y: 60, width: 32, height: 32, assetSlot: "empty" }
     ]
   });
 
   assert.equal(runtime.scene.name, "Adapter Test");
   assert.deepEqual(runtime.camera.getTransform(), { x: 4, y: 8, zoom: 2 });
-  assert.equal(runtime.scene.getObjects().length, 2);
+  assert.equal(runtime.scene.getObjects().length, 3);
   assert.equal(runtime.objects[0].name, "Card");
   assert.equal(runtime.objects[1].name, "Label");
+  assert.equal(runtime.objects[2].name, "Sprite Slot");
 });
