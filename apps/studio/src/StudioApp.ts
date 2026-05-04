@@ -1,5 +1,7 @@
 import { Canvas } from "raw2d";
 import type { StudioAppOptions } from "./StudioApp.type";
+import { createStudioInspectorModel } from "./StudioInspector";
+import { addStudioRectObject } from "./StudioObjectFactory";
 import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
 import { renderStudioLayout } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
@@ -24,10 +26,15 @@ export class StudioApp {
   }
 
   private render(): void {
+    const rendererLabel = getStudioRendererLabel(this.rendererMode);
+    const inspector = createStudioInspectorModel(this.sceneState, rendererLabel);
+
     this.root.innerHTML = renderStudioLayout({
-      rendererLabel: getStudioRendererLabel(this.rendererMode),
+      rendererLabel,
       sceneName: this.sceneState.name,
-      objectCount: this.sceneState.objects.length
+      objectCount: this.sceneState.objects.length,
+      layers: inspector.layers,
+      properties: inspector.properties
     });
   }
 
@@ -44,10 +51,16 @@ export class StudioApp {
 
   private bindActions(): void {
     const sampleButton = this.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
+    const rectTool = this.root.querySelector<HTMLButtonElement>('[data-tool="rect"]');
 
     sampleButton?.addEventListener("click", () => {
       this.sceneState = createStudioSampleSceneState();
       this.rendererMode = this.sceneState.rendererMode;
+      this.mount();
+    });
+
+    rectTool?.addEventListener("click", () => {
+      this.sceneState = addStudioRectObject({ scene: this.sceneState });
       this.mount();
     });
   }

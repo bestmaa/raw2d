@@ -1,9 +1,4 @@
-import type {
-  StudioLayoutOptions,
-  StudioLayerItem,
-  StudioPropertyRow,
-  StudioToolItem
-} from "./StudioLayout.type";
+import type { StudioLayoutOptions, StudioLayerItem, StudioPropertyRow, StudioToolItem } from "./StudioLayout.type";
 import { studioRendererOptions } from "./StudioRenderer";
 
 const tools: readonly StudioToolItem[] = [
@@ -14,7 +9,7 @@ const tools: readonly StudioToolItem[] = [
   { id: "text", label: "Text", shortcut: "T" }
 ];
 
-const layers: readonly StudioLayerItem[] = [
+const emptyLayers: readonly StudioLayerItem[] = [
   { id: "scene", label: "Scene Root", type: "Scene" },
   { id: "guide", label: "Workspace Guide", type: "Guide" }
 ];
@@ -61,12 +56,7 @@ function renderProperty(row: StudioPropertyRow): string {
 }
 
 export function renderStudioLayout(options: StudioLayoutOptions): string {
-  const properties: readonly StudioPropertyRow[] = [
-    { label: "Renderer", value: options.rendererLabel },
-    { label: "Objects", value: String(options.objectCount) },
-    { label: "Zoom", value: "100%" },
-    { label: "Selection", value: "None" }
-  ];
+  const layers = options.layers.length > 0 ? options.layers : emptyLayers;
 
   return `
     <section class="studio-shell" aria-label="Raw2D Studio">
@@ -114,7 +104,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           </section>
           <section>
             <h2>Properties</h2>
-            <div class="studio-stack">${properties.map(renderProperty).join("")}</div>
+            <div class="studio-stack">${options.properties.map(renderProperty).join("")}</div>
           </section>
         </aside>
       </div>

@@ -69,7 +69,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 ## Phase 20: Studio Drawing Tools
 
-- T221 | Version: v1.12.0 | Status: pending | Goal: Add Rect creation tool. | Verify: browser render and properties check. | Commit: `Add Studio rect tool`
+- T221 | Version: v1.12.0 | Status: completed | Goal: Add Rect creation tool. | Verify: browser render and properties check. | Commit: `Add Studio rect tool`
 - T222 | Version: v1.12.1 | Status: pending | Goal: Add Circle creation tool. | Verify: browser render and properties check. | Commit: `Add Studio circle tool`
 - T223 | Version: v1.12.2 | Status: pending | Goal: Add Line creation tool. | Verify: browser render and properties check. | Commit: `Add Studio line tool`
 - T224 | Version: v1.12.3 | Status: pending | Goal: Add Text2D creation tool. | Verify: browser render and text edit check. | Commit: `Add Studio text tool`

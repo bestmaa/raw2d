@@ -19,4 +19,6 @@ export interface StudioLayoutOptions {
   readonly rendererLabel: string;
   readonly sceneName: string;
   readonly objectCount: number;
+  readonly layers: readonly StudioLayerItem[];
+  readonly properties: readonly StudioPropertyRow[];
 }
