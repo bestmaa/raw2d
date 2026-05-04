@@ -157,5 +157,40 @@ CreateObjectCommand({ type: "text2d" })`
 }`
       }
     ]
+  },
+  {
+    id: "studio-panels",
+    label: "Studio Panels",
+    title: "Raw2D Studio Panels",
+    description: "Layers, properties, assets, and renderer stats panels for the future Studio app.",
+    sections: [
+      {
+        title: "Layout",
+        body: "Studio should use a predictable editor layout: tools and layers on the left, canvas workspace in the center, properties/assets/stats on the right.",
+        code: `left: tools and layers
+center: canvas workspace
+right: properties, assets, renderer stats`
+      },
+      {
+        title: "Layers",
+        body: "Layers should show object name, type, visibility, locked state, zIndex or order, and selection. It edits scene state, not renderer internals.",
+        code: `Rect  visible  unlocked  zIndex: 0
+Text2D visible  locked    zIndex: 1`
+      },
+      {
+        title: "Properties And Assets",
+        body: "Properties edits public object fields. Assets manages textures, atlas frames, active sprite assets, and missing asset warnings.",
+        code: `transform, geometry, material, render
+textures, atlas frames, sprite asset`
+      },
+      {
+        title: "Renderer Stats",
+        body: "Renderer stats should be read-only diagnostics for draw calls, texture binds, cache hits, cache misses, and unsupported object warnings.",
+        code: `renderer: WebGLRenderer2D
+objects: 280
+drawCalls: 12
+textureBinds: 2`
+      }
+    ]
   }
 ];
