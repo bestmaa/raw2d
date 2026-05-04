@@ -1,7 +1,12 @@
 import { Canvas } from "raw2d";
 import type { StudioAppOptions } from "./StudioApp.type";
 import { createStudioInspectorModel } from "./StudioInspector";
-import { addStudioCircleObject, addStudioLineObject, addStudioRectObject } from "./StudioObjectFactory";
+import {
+  addStudioCircleObject,
+  addStudioLineObject,
+  addStudioRectObject,
+  addStudioTextObject
+} from "./StudioObjectFactory";
 import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
 import { renderStudioLayout } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
@@ -54,6 +59,7 @@ export class StudioApp {
     const rectTool = this.root.querySelector<HTMLButtonElement>('[data-tool="rect"]');
     const circleTool = this.root.querySelector<HTMLButtonElement>('[data-tool="circle"]');
     const lineTool = this.root.querySelector<HTMLButtonElement>('[data-tool="line"]');
+    const textTool = this.root.querySelector<HTMLButtonElement>('[data-tool="text"]');
 
     sampleButton?.addEventListener("click", () => {
       this.sceneState = createStudioSampleSceneState();
@@ -73,6 +79,11 @@ export class StudioApp {
 
     lineTool?.addEventListener("click", () => {
       this.sceneState = addStudioLineObject({ scene: this.sceneState });
+      this.mount();
+    });
+
+    textTool?.addEventListener("click", () => {
+      this.sceneState = addStudioTextObject({ scene: this.sceneState });
       this.mount();
     });
   }

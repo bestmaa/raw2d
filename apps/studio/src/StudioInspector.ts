@@ -59,5 +59,13 @@ function createObjectProperties(object: StudioSceneObject): readonly StudioPrope
     ];
   }
 
+  if (object.type === "text2d") {
+    return [
+      ...transformRows,
+      { label: "Text", value: object.text },
+      { label: "Font", value: object.font ?? "default" }
+    ];
+  }
+
   return transformRows;
 }

@@ -150,3 +150,46 @@ test("Studio Line tool factory offsets repeated Line objects", async () => {
   assert.equal(line.x, 144);
   assert.equal(line.y, 324);
 });
+
+test("Studio Text tool factory appends a renderable Text2D object", async () => {
+  const module = await importFactoryModule();
+  const scene = {
+    version: 1,
+    name: "Tool Test",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: []
+  };
+  const nextScene = module.addStudioTextObject({ scene });
+
+  assert.equal(nextScene.objects.length, 1);
+  assert.deepEqual(nextScene.objects[0], {
+    id: "text-1",
+    type: "text2d",
+    name: "Text 1",
+    x: 160,
+    y: 220,
+    text: "Raw2D Text",
+    font: "32px sans-serif",
+    material: {
+      fillColor: "#f8fafc"
+    }
+  });
+});
+
+test("Studio Text tool factory offsets repeated Text2D objects", async () => {
+  const module = await importFactoryModule();
+  const scene = {
+    version: 1,
+    name: "Tool Test",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: [{ id: "text-1", type: "text2d", name: "Text 1", x: 160, y: 220, text: "Raw2D Text" }]
+  };
+  const nextScene = module.addStudioTextObject({ scene });
+  const text = nextScene.objects[1];
+
+  assert.equal(text.id, "text-2");
+  assert.equal(text.x, 184);
+  assert.equal(text.y, 244);
+});

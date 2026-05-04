@@ -3,7 +3,8 @@ import type {
   StudioCircleState,
   StudioLineState,
   StudioRectState,
-  StudioSceneState
+  StudioSceneState,
+  StudioTextState
 } from "./StudioSceneState.type";
 
 export function addStudioRectObject(options: StudioObjectFactoryOptions): StudioSceneState {
@@ -78,5 +79,28 @@ export function addStudioLineObject(options: StudioObjectFactoryOptions): Studio
   return {
     ...options.scene,
     objects: [...options.scene.objects, line]
+  };
+}
+
+export function addStudioTextObject(options: StudioObjectFactoryOptions): StudioSceneState {
+  const textCount = options.scene.objects.filter((object) => object.type === "text2d").length;
+  const textIndex = textCount + 1;
+  const offset = textCount * 24;
+  const text: StudioTextState = {
+    id: `text-${textIndex}`,
+    type: "text2d",
+    name: `Text ${textIndex}`,
+    x: 160 + offset,
+    y: 220 + offset,
+    text: "Raw2D Text",
+    font: "32px sans-serif",
+    material: {
+      fillColor: "#f8fafc"
+    }
+  };
+
+  return {
+    ...options.scene,
+    objects: [...options.scene.objects, text]
   };
 }
