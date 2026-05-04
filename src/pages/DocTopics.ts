@@ -52,6 +52,7 @@ import { renderListTopics } from "./DocRenderListTopics";
 import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
 import { showcaseTopics } from "./DocShowcaseTopics";
+import { startHereTopics } from "./DocStartHereTopics";
 import { texturePathTopics } from "./DocTexturePathTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
@@ -77,6 +78,7 @@ export const docGroups: readonly DocGroup[] = [
     hiLabel: "Yahan Se Start",
     hiDescription: "Install, first render, examples, release, aur publish basics.",
     topics: [
+      ...startHereTopics,
       ...setupTopics,
       ...beginnerPathTopics,
       ...publicApiTopics,
