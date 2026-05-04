@@ -50,6 +50,7 @@ import showcaseDemo from "../../docs/hi/ShowcaseDemo.md?raw";
 import raw2dMcpServerEntry from "../../docs/hi/Raw2DMCPServerEntry.md?raw";
 import raw2dMcpSchemas from "../../docs/hi/Raw2DMCPSchemas.md?raw";
 import raw2dMcpPluginConsumer from "../../docs/hi/Raw2DMCPPluginConsumer.md?raw";
+import raw2dStudioShell from "../../docs/hi/Raw2DStudioShell.md?raw";
 import reactFiberBoundary from "../../docs/hi/ReactFiberBoundary.md?raw";
 import reactRendererAPIAudit from "../../docs/hi/ReactRendererAPIAudit.md?raw";
 import reactReconcilerModel from "../../docs/hi/ReactReconcilerModel.md?raw";
@@ -122,6 +123,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "hi/Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
   { id: "raw2d-mcp-schemas", label: "MCP Schemas", filename: "hi/Raw2DMCPSchemas.md", content: raw2dMcpSchemas },
   { id: "raw2d-mcp-plugin-consumer", label: "MCP Plugin Consumer", filename: "hi/Raw2DMCPPluginConsumer.md", content: raw2dMcpPluginConsumer },
+  { id: "studio-shell", label: "Studio Shell", filename: "hi/Raw2DStudioShell.md", content: raw2dStudioShell },
   { id: "react-adapter-vs-fiber", label: "React Adapter Vs Fiber", filename: "hi/ReactAdapterVsFiber.md", content: reactAdapterVsFiber },
   { id: "react-fiber-boundary", label: "React Fiber Boundary", filename: "hi/ReactFiberBoundary.md", content: reactFiberBoundary },
   { id: "react-renderer-api-audit", label: "React Renderer API Audit", filename: "hi/ReactRendererAPIAudit.md", content: reactRendererAPIAudit },

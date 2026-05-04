@@ -201,14 +201,27 @@ textureBinds: 2`
     sections: [
       {
         title: "Route",
-        body: "The /studio route is a UI-only shell for planning the editor layout. It intentionally avoids importing Raw2D renderer packages.",
-        code: `open /studio`
+        body: "The /studio route in the docs app is a UI-only shell for planning the editor layout. The separate apps/studio Vite app is the implementation workspace.",
+        code: `open /studio
+npm --prefix apps/studio run dev`
       },
       {
         title: "Purpose",
         body: "The shell gives Raw2D a visible editor direction without coupling Studio to core, Canvas, WebGL, interaction, sprite, or text packages.",
         code: `Studio UI -> future editor state
 Raw2D packages -> runtime engine`
+      },
+      {
+        title: "App Boundary",
+        body: "Studio app code lives under apps/studio. Runtime packages must not import it, and built files go to dist-studio.",
+        code: `apps/studio
+dist-studio  # ignored build output`
+      },
+      {
+        title: "Verification",
+        body: "The first shell is verified with strict TypeScript, Vite production build, and browser checks for the topbar, tools, layers, properties, workspace, and console errors.",
+        code: `npm --prefix apps/studio run typecheck
+npm --prefix apps/studio run build`
       }
     ]
   }
