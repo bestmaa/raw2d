@@ -1,6 +1,6 @@
 {
   "name": "raw2d-interaction",
-  "version": "1.5.9",
+  "version": "1.5.10",
   "description": "Optional interaction helpers for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,7 +24,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "raw2d-core": "1.5.9"
+    "raw2d-core": "1.5.10"
   },
   "author": "Aditya Nandlal",
   "license": "Apache-2.0",

@@ -1,5 +1,23 @@
 # Raw2D Release Notes
 
+## v1.5.10 - Publish Lockfile Fix
+
+Raw2D v1.5.10 fixes the GitHub Actions install path for the MCP plugin hardening release.
+
+### Fixed
+
+- Regenerated the workspace lockfile from a clean install so `source-map-js` resolves to the real npm registry version.
+- Keeps the v1.5.x MCP/plugin hardening package contents unchanged aside from version alignment.
+
+### Verification
+
+- npm 10 clean install.
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+
 ## v1.5.9 - MCP Plugin Hardening Phase
 
 Raw2D v1.5.9 publishes MCP and Codex plugin hardening for automation workflows, package boundaries, generated examples, and contributor audit commands.
