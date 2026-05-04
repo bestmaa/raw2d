@@ -118,6 +118,6 @@ Push only on phase release tasks or explicit user request.
 - T166 | Version: v1.6.1 | Status: completed | Goal: Audit renderer API stability for React reconciliation needs. | Verify: API audit. | Commit: `Audit React renderer API needs`
 - T167 | Version: v1.6.2 | Status: completed | Goal: Add object lifecycle hooks needed by future React Fiber adapter. | Verify: core tests. | Commit: `Add object lifecycle hooks`
 - T168 | Version: v1.6.3 | Status: completed | Goal: Add reconciler data model design for JSX objects. | Verify: docs review. | Commit: `Design React reconciler model`
-- T169 | Version: v1.6.4 | Status: pending | Goal: Add React docs explaining current adapter versus future Fiber. | Verify: docs route check. | Commit: `Document React fiber plan`
+- T169 | Version: v1.6.4 | Status: completed | Goal: Add React docs explaining current adapter versus future Fiber. | Verify: docs route check. | Commit: `Document React fiber plan`
 - T170 | Version: v1.6.5 | Status: pending | Goal: Add React example parity tests for current adapter. | Verify: React tests. | Commit: `Test React example parity`
 - T171 | Version: v1.6.6 | Status: pending | Goal: Phase 14 release and publish. | Verify: phase release verification. | Commit: `Release React preparation phase`

@@ -26,6 +26,7 @@ import picking from "../../docs/Picking.md?raw";
 import polygon from "../../docs/Polygon.md?raw";
 import polyline from "../../docs/Polyline.md?raw";
 import publicApi from "../../docs/PublicAPI.md?raw";
+import reactAdapterVsFiber from "../../docs/ReactAdapterVsFiber.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
 import renderer2d from "../../docs/Renderer2D.md?raw";
@@ -71,6 +72,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
   { id: "raw2d-mcp-schemas", label: "MCP Schemas", filename: "Raw2DMCPSchemas.md", content: raw2dMcpSchemas },
   { id: "raw2d-mcp-plugin-consumer", label: "MCP Plugin Consumer", filename: "Raw2DMCPPluginConsumer.md", content: raw2dMcpPluginConsumer },
+  { id: "react-adapter-vs-fiber", label: "React Adapter Vs Fiber", filename: "ReactAdapterVsFiber.md", content: reactAdapterVsFiber },
   { id: "react-fiber-boundary", label: "React Fiber Boundary", filename: "ReactFiberBoundary.md", content: reactFiberBoundary },
   { id: "react-renderer-api-audit", label: "React Renderer API Audit", filename: "ReactRendererAPIAudit.md", content: reactRendererAPIAudit },
   { id: "react-reconciler-model", label: "React Reconciler Model", filename: "ReactReconcilerModel.md", content: reactReconcilerModel },

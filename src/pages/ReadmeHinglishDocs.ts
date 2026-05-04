@@ -55,6 +55,7 @@ import hitTesting from "../../docs/hi/HitTesting.md?raw";
 import picking from "../../docs/hi/Picking.md?raw";
 import selection from "../../docs/hi/Selection.md?raw";
 import publicApi from "../../docs/hi/PublicAPI.md?raw";
+import reactAdapterVsFiber from "../../docs/hi/ReactAdapterVsFiber.md?raw";
 import dragging from "../../docs/hi/Dragging.md?raw";
 import resizeHandles from "../../docs/hi/ResizeHandles.md?raw";
 import objectResize from "../../docs/hi/ObjectResize.md?raw";
@@ -71,6 +72,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "hi/Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
   { id: "raw2d-mcp-schemas", label: "MCP Schemas", filename: "hi/Raw2DMCPSchemas.md", content: raw2dMcpSchemas },
   { id: "raw2d-mcp-plugin-consumer", label: "MCP Plugin Consumer", filename: "hi/Raw2DMCPPluginConsumer.md", content: raw2dMcpPluginConsumer },
+  { id: "react-adapter-vs-fiber", label: "React Adapter Vs Fiber", filename: "hi/ReactAdapterVsFiber.md", content: reactAdapterVsFiber },
   { id: "react-fiber-boundary", label: "React Fiber Boundary", filename: "hi/ReactFiberBoundary.md", content: reactFiberBoundary },
   { id: "react-renderer-api-audit", label: "React Renderer API Audit", filename: "hi/ReactRendererAPIAudit.md", content: reactRendererAPIAudit },
   { id: "react-reconciler-model", label: "React Reconciler Model", filename: "hi/ReactReconcilerModel.md", content: reactReconcilerModel },
