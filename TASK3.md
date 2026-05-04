@@ -62,7 +62,7 @@ Add release notes on phase release tasks.
 
 - T183 | Version: v1.8.0 | Status: completed | Goal: Add Start Here docs path for first-time users. | Verify: browser docs route check. | Commit: `Add Start Here docs`
 - T184 | Version: v1.8.1 | Status: completed | Goal: Polish Canvas-first docs with smallest working scene. | Verify: snippet and browser check. | Commit: `Polish Canvas first docs`
-- T185 | Version: v1.8.2 | Status: pending | Goal: Polish WebGL-when-needed docs with performance tradeoffs. | Verify: docs route check. | Commit: `Polish WebGL decision docs`
+- T185 | Version: v1.8.2 | Status: completed | Goal: Polish WebGL-when-needed docs with performance tradeoffs. | Verify: docs route check. | Commit: `Polish WebGL decision docs`
 - T186 | Version: v1.8.3 | Status: pending | Goal: Polish React current adapter versus future Fiber docs. | Verify: React docs route check. | Commit: `Polish React beta docs`
 - T187 | Version: v1.8.4 | Status: pending | Goal: Polish MCP for AI tools docs with beginner commands. | Verify: MCP docs route check. | Commit: `Polish MCP beginner docs`
 - T188 | Version: v1.8.5 | Status: pending | Goal: Manually polish Hinglish docs for core beginner flow. | Verify: Hinglish route review. | Commit: `Polish Hinglish beginner docs`
