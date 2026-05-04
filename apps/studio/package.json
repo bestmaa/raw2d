@@ -1,0 +1,12 @@
+{
+  "name": "raw2d-studio-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5198",
+    "build": "tsc -p tsconfig.json && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4198",
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}
