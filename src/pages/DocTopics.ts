@@ -56,6 +56,7 @@ import { renderPipelineTopics } from "./DocRenderPipelineTopics";
 import { setupTopics } from "./DocSetupTopics";
 import { showcaseTopics } from "./DocShowcaseTopics";
 import { startHereTopics } from "./DocStartHereTopics";
+import { studioTopics } from "./DocStudioTopics";
 import { texturePathTopics } from "./DocTexturePathTopics";
 import { transformTopics } from "./DocTransformTopics";
 import { visibleObjectsTopics } from "./DocVisibleObjectsTopics";
@@ -106,6 +107,7 @@ export const docGroups: readonly DocGroup[] = [
       ...canvasQATopics,
       ...exampleTopics,
       ...showcaseTopics,
+      ...studioTopics,
       ...docQaChecklistTopics,
       ...glossaryTopics,
       ...licenseTopics

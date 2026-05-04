@@ -86,7 +86,7 @@ Add release notes on phase release tasks.
 
 ## Phase 18: Raw2D Studio MVP Planning
 
-- T203 | Version: v1.10.0 | Status: pending | Goal: Add Raw2D Studio product scope and non-goals. | Verify: design doc review. | Commit: `Plan Raw2D Studio`
+- T203 | Version: v1.10.0 | Status: completed | Goal: Add Raw2D Studio product scope and non-goals. | Verify: design doc review. | Commit: `Plan Raw2D Studio`
 - T204 | Version: v1.10.1 | Status: pending | Goal: Decide Studio app location and package boundary. | Verify: architecture doc review. | Commit: `Define Studio boundary`
 - T205 | Version: v1.10.2 | Status: pending | Goal: Design Studio scene JSON save/load format. | Verify: schema doc review. | Commit: `Design Studio scene format`
 - T206 | Version: v1.10.3 | Status: pending | Goal: Design Studio tools: select, move, resize, text, shape, sprite. | Verify: tools doc review. | Commit: `Design Studio tools`
