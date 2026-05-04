@@ -1,22 +1,27 @@
-import { Canvas } from "raw2d";
+import { WebGLRenderer2D } from "raw2d";
 import { createShowcaseScene } from "./showcaseScene";
+import { createShowcaseRenderer } from "./showcaseRenderer";
+import type { ShowcaseRendererMode, ShowcaseRendererResult } from "./ShowcaseRenderer.type";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+const rendererSelect = document.querySelector<HTMLSelectElement>("#raw2d-renderer");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
 
-if (!canvasElement || !statsElement) {
+if (!canvasElement || !rendererSelect || !statsElement) {
   throw new Error("Showcase elements not found.");
 }
 
 const showcase = createShowcaseScene();
+const canvasInput = canvasElement;
 const statsOutput = statsElement;
-const renderer = new Canvas({
-  canvas: canvasElement,
-  width: 960,
-  height: 600,
-  backgroundColor: "#10141c"
-});
+const rendererInput = rendererSelect;
+let rendererState = createRenderer(rendererInput.value);
 let frame = 0;
+
+rendererInput.addEventListener("change", () => {
+  rendererState.renderer.dispose();
+  rendererState = createRenderer(rendererInput.value);
+});
 
 function animate(): void {
   frame += 1;
@@ -26,9 +31,14 @@ function animate(): void {
     sprite.y += Math.sin(frame / 24 + sprite.x / 40) * 0.08;
   }
 
-  renderer.render(showcase.scene, showcase.camera);
+  if (rendererState.renderer instanceof WebGLRenderer2D) {
+    rendererState.renderer.render(showcase.scene, showcase.camera, { spriteSorting: "texture" });
+  } else {
+    rendererState.renderer.render(showcase.scene, showcase.camera);
+  }
+
   statsOutput.textContent = [
-    "renderer: Canvas",
+    `renderer: ${rendererState.label}`,
     `objects: ${showcase.objectCount}`,
     `sprites: ${showcase.spriteCount}`,
     `shapes: ${showcase.shapeCount}`,
@@ -36,6 +46,17 @@ function animate(): void {
   ].join(" | ");
 
   requestAnimationFrame(animate);
+}
+
+function createRenderer(value: string): ShowcaseRendererResult {
+  const mode: ShowcaseRendererMode = value === "webgl" ? "webgl" : "canvas";
+
+  return createShowcaseRenderer({
+    canvas: canvasInput,
+    height: 600,
+    mode,
+    width: 960
+  });
 }
 
 animate();

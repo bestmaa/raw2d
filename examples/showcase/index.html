@@ -10,6 +10,13 @@
   <body>
     <main class="example-stage">
       <section class="example-panel" aria-label="Raw2D showcase scene">
+        <label>
+          Renderer
+          <select id="raw2d-renderer">
+            <option value="canvas">Canvas</option>
+            <option value="webgl">WebGL2</option>
+          </select>
+        </label>
         <canvas id="raw2d-canvas"></canvas>
         <pre id="raw2d-stats">Loading Raw2D showcase...</pre>
       </section>
