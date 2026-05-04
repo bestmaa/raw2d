@@ -192,5 +192,24 @@ drawCalls: 12
 textureBinds: 2`
       }
     ]
+  },
+  {
+    id: "studio-shell",
+    label: "Studio Shell",
+    title: "Studio MVP Shell",
+    description: "A placeholder route for the future editor that stays separate from Raw2D runtime packages.",
+    sections: [
+      {
+        title: "Route",
+        body: "The /studio route is a UI-only shell for planning the editor layout. It intentionally avoids importing Raw2D renderer packages.",
+        code: `open /studio`
+      },
+      {
+        title: "Purpose",
+        body: "The shell gives Raw2D a visible editor direction without coupling Studio to core, Canvas, WebGL, interaction, sprite, or text packages.",
+        code: `Studio UI -> future editor state
+Raw2D packages -> runtime engine`
+      }
+    ]
   }
 ];

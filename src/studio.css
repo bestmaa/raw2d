@@ -1,0 +1,105 @@
+.studio-page {
+  min-height: 100vh;
+  background: #0b0f16;
+  color: #f5f7fb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.studio-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+  border-bottom: 1px solid #273142;
+}
+
+.studio-header h1,
+.studio-header p {
+  margin: 0;
+}
+
+.studio-header p {
+  max-width: 760px;
+  color: #c6d4e1;
+}
+
+.studio-header nav {
+  display: flex;
+  gap: 12px;
+}
+
+.studio-header a,
+.studio-rail button {
+  border: 1px solid #35516c;
+  background: #102132;
+  color: #f5f7fb;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.studio-workspace {
+  display: grid;
+  grid-template-columns: 160px minmax(280px, 1fr) 320px;
+  gap: 16px;
+  padding: 16px;
+}
+
+.studio-rail,
+.studio-panels,
+.studio-canvas-placeholder {
+  border: 1px solid #273142;
+  background: #101720;
+}
+
+.studio-rail {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 12px;
+}
+
+.studio-canvas-placeholder {
+  display: grid;
+  min-height: 560px;
+  place-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.studio-canvas-placeholder p {
+  color: #c6d4e1;
+}
+
+.studio-panels {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 12px;
+}
+
+.studio-panels section {
+  border: 1px solid #273142;
+  padding: 12px;
+}
+
+.studio-panels h2 {
+  margin: 0 0 8px;
+}
+
+.studio-panels ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #c6d4e1;
+}
+
+@media (max-width: 900px) {
+  .studio-header,
+  .studio-workspace {
+    display: grid;
+  }
+
+  .studio-workspace {
+    grid-template-columns: 1fr;
+  }
+}

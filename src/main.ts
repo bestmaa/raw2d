@@ -1,5 +1,6 @@
 import "./style.css";
 import "./docs.css";
+import "./studio.css";
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -41,6 +42,12 @@ async function renderRoute(root: HTMLElement): Promise<void> {
     return;
   }
 
+  if (window.location.pathname === "/studio") {
+    const { renderStudioPage } = await import("./pages/StudioPage");
+    root.replaceChildren(renderStudioPage());
+    return;
+  }
+
   if (window.location.pathname === "/examples/webgl-pipeline") {
     const { renderWebGLPipelineExample } = await import("./pages/WebGLPipelineExample");
     renderWebGLPipelineExample(root);
@@ -56,6 +63,7 @@ function renderCanvasPreview(root: HTMLElement): void {
       <a href="/doc">Docs</a>
       <a href="/readme">Readme</a>
       <a href="/benchmark">Benchmark</a>
+      <a href="/studio">Studio</a>
       <a href="/cdn-smoke">CDN Smoke</a>
       <a href="/examples/webgl-pipeline">WebGL Pipeline Example</a>
     </nav>
