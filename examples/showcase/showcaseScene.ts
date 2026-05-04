@@ -71,6 +71,8 @@ export function createShowcaseScene(): ShowcaseSceneResult {
     objectCount: spriteCount + shapeCount + 1,
     scene,
     shapeCount,
-    spriteCount
+    spriteCount,
+    worldHeight: 620,
+    worldWidth: 940
   };
 }

@@ -28,6 +28,7 @@ The first showcase should include:
 - selection, drag, and resize
 - live renderer stats
 - Canvas/WebGL renderer switch
+- camera pan, zoom, reset, and minimap viewport hints
 
 ## Performance Targets
 

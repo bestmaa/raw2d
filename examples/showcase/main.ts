@@ -1,26 +1,47 @@
-import { WebGLRenderer2D } from "raw2d";
+import { CameraControls, WebGLRenderer2D } from "raw2d";
 import { createShowcaseScene } from "./showcaseScene";
+import { drawShowcaseMinimap } from "./showcaseMinimap";
 import { createShowcaseRenderer } from "./showcaseRenderer";
 import type { ShowcaseRendererMode, ShowcaseRendererResult } from "./ShowcaseRenderer.type";
 
 const canvasElement = document.querySelector<HTMLCanvasElement>("#raw2d-canvas");
+const minimapElement = document.querySelector<HTMLCanvasElement>("#raw2d-minimap");
 const rendererSelect = document.querySelector<HTMLSelectElement>("#raw2d-renderer");
+const resetButton = document.querySelector<HTMLButtonElement>("#raw2d-reset");
 const statsElement = document.querySelector<HTMLPreElement>("#raw2d-stats");
 
-if (!canvasElement || !rendererSelect || !statsElement) {
+if (!canvasElement || !minimapElement || !rendererSelect || !resetButton || !statsElement) {
   throw new Error("Showcase elements not found.");
 }
 
+const viewportWidth = 960;
+const viewportHeight = 600;
 const showcase = createShowcaseScene();
 const canvasInput = canvasElement;
+const minimapInput = minimapElement;
 const statsOutput = statsElement;
 const rendererInput = rendererSelect;
 let rendererState = createRenderer(rendererInput.value);
 let frame = 0;
+const controls = new CameraControls({
+  target: canvasInput,
+  camera: showcase.camera,
+  width: viewportWidth,
+  height: viewportHeight,
+  minZoom: 0.45,
+  maxZoom: 3,
+  panButton: 0
+});
 
+controls.enablePan(0);
+controls.enableZoom();
 rendererInput.addEventListener("change", () => {
   rendererState.renderer.dispose();
   rendererState = createRenderer(rendererInput.value);
+});
+resetButton.addEventListener("click", () => {
+  showcase.camera.setPosition(0, 0);
+  showcase.camera.setZoom(1);
 });
 
 function animate(): void {
@@ -37,8 +58,18 @@ function animate(): void {
     rendererState.renderer.render(showcase.scene, showcase.camera);
   }
 
+  drawShowcaseMinimap({
+    camera: showcase.camera,
+    canvas: minimapInput,
+    viewportHeight,
+    viewportWidth,
+    worldHeight: showcase.worldHeight,
+    worldWidth: showcase.worldWidth
+  });
   statsOutput.textContent = [
     `renderer: ${rendererState.label}`,
+    `camera: ${showcase.camera.x.toFixed(1)}, ${showcase.camera.y.toFixed(1)}`,
+    `zoom: ${showcase.camera.zoom.toFixed(2)}`,
     `objects: ${showcase.objectCount}`,
     `sprites: ${showcase.spriteCount}`,
     `shapes: ${showcase.shapeCount}`,
@@ -53,9 +84,9 @@ function createRenderer(value: string): ShowcaseRendererResult {
 
   return createShowcaseRenderer({
     canvas: canvasInput,
-    height: 600,
+    height: viewportHeight,
     mode,
-    width: 960
+    width: viewportWidth
   });
 }
 

@@ -7,4 +7,6 @@ export interface ShowcaseSceneResult {
   readonly objectCount: number;
   readonly shapeCount: number;
   readonly spriteCount: number;
+  readonly worldHeight: number;
+  readonly worldWidth: number;
 }

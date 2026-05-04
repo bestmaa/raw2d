@@ -27,6 +27,7 @@ Pehle showcase me ye cheezein honi chahiye:
 - selection, drag, resize
 - live renderer stats
 - Canvas/WebGL renderer switch
+- camera pan, zoom, reset, aur minimap viewport hints
 
 ## Performance Targets
 
