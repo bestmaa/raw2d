@@ -114,7 +114,7 @@ Push only on phase release tasks or explicit user request.
 
 ## Phase 14: React Fiber Preparation
 
-- T165 | Version: v1.6.0 | Status: pending | Goal: Define React Fiber package boundary and non-goals. | Verify: design doc. | Commit: `Design React fiber boundary`
+- T165 | Version: v1.6.0 | Status: completed | Goal: Define React Fiber package boundary and non-goals. | Verify: design doc. | Commit: `Design React fiber boundary`
 - T166 | Version: v1.6.1 | Status: pending | Goal: Audit renderer API stability for React reconciliation needs. | Verify: API audit. | Commit: `Audit React renderer API needs`
 - T167 | Version: v1.6.2 | Status: pending | Goal: Add object lifecycle hooks needed by future React Fiber adapter. | Verify: core tests. | Commit: `Add object lifecycle hooks`
 - T168 | Version: v1.6.3 | Status: pending | Goal: Add reconciler data model design for JSX objects. | Verify: docs review. | Commit: `Design React reconciler model`

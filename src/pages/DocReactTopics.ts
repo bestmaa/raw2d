@@ -150,5 +150,44 @@ Later:
         code: `<rawRect key="card-a" x={80} y={80} width={160} height={96} />`
       }
     ]
+  },
+  {
+    id: "react-fiber-boundary",
+    label: "Fiber Boundary",
+    title: "React Fiber Boundary",
+    description: "Define what the future Fiber-style package owns and what must stay in Raw2D core.",
+    sections: [
+      {
+        title: "Boundary",
+        body: "The future Fiber package should be a separate adapter. Raw2D core, Canvas, and WebGL packages stay React-free.",
+        code: `React JSX -> raw2d-react-fiber -> Raw2D public API -> Renderer`
+      },
+      {
+        title: "Package Scope",
+        body: "raw2d-react remains the simple bridge. raw2d-react-fiber can become the custom reconciler once core lifecycle APIs are stable.",
+        code: `raw2d-react        current simple bridge
+raw2d-react-fiber  future reconciler
+raw2d-core         no React dependency
+raw2d-canvas       no React dependency
+raw2d-webgl        no React dependency`
+      },
+      {
+        title: "Adapter Owns",
+        body: "The adapter may create objects, update props, attach objects to Scene, render after commits, and clean up owned references.",
+        code: `<Raw2DCanvas renderer="webgl" width={800} height={480}>
+  <rawRect x={80} y={80} width={160} height={96} fillColor="#35c2ff" />
+  <rawCircle x={320} y={128} radius={48} fillColor="#facc15" />
+</Raw2DCanvas>`
+      },
+      {
+        title: "Non-Goals",
+        body: "The Fiber package should not hide renderer choice, rewrite the scene graph, or depend on private renderer caches.",
+        code: `Do not add:
+- hidden Canvas/WebGL choice
+- private batch buffer mutation
+- physics, ECS, WASM, or plugin system
+- required React dependency for non-React users`
+      }
+    ]
   }
 ];
