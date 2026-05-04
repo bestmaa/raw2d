@@ -1,5 +1,22 @@
 # Raw2D Release Notes Archive
 
+## v1.11.8 - Studio Shell Phase
+
+Raw2D v1.11.8 publishes the first Studio editor shell phase.
+
+### Added
+
+- Strict Vite TypeScript Studio app scaffold under `apps/studio`.
+- Editor workspace shell with tools, canvas workspace, renderer controls, layers, and properties.
+- Studio scene JSON state, Raw2D runtime adapter, and sample scene rendering.
+- Studio smoke tests for scene state, render adapter, and visual shell wiring.
+
+### Verification
+
+- Studio typecheck and production build.
+- Workspace TypeScript strict typecheck.
+- Studio Node tests and browser shell check.
+
 ## v1.1.10 - Post-Release Consumer Audit Phase
 
 Raw2D v1.1.10 publishes the post-release audit hardening phase for real npm users.
