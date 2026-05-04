@@ -1,5 +1,30 @@
 # Raw2D Release Notes
 
+## v1.8.9 - Beginner Docs Phase
+
+Raw2D v1.8.9 publishes the beginner docs phase for clearer onboarding, MCP guidance, Hinglish docs polish, docs pager flow, and stronger search behavior.
+
+### Added
+
+- MCP beginner docs that explain when `raw2d-mcp` should be installed separately from the runtime packages.
+- Beginner path coverage tests for install, Canvas, Scene, Camera, shapes, texture/sprite, WebGL, interaction, MCP, and React docs.
+- Group-aware docs next/previous navigation with stable topic metadata for browser checks.
+- Search aliases for common misspellings such as `wevgl`, `sprit`, `camra`, `texure`, and `rezise`.
+
+### Changed
+
+- Package versions are aligned at `1.8.9`.
+- Hinglish beginner docs are manually polished to avoid awkward mixed-language labels.
+- CDN smoke docs now point to the `1.8.9` pinned package URLs.
+
+### Verification
+
+- TypeScript strict typecheck.
+- Full unit and browser test suite.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+- Docs search and beginner path browser checks.
+
 ## v1.6.6 - React Preparation Phase
 
 Raw2D v1.6.6 publishes the React preparation phase for lifecycle-safe scene objects, current adapter parity checks, and a clear future Fiber boundary.
