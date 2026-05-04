@@ -52,6 +52,7 @@ import text2d from "../../docs/hi/Text2D.md?raw";
 import textureAtlas from "../../docs/hi/TextureAtlas.md?raw";
 import textureAtlasPacker from "../../docs/hi/TextureAtlasPacker.md?raw";
 import hitTesting from "../../docs/hi/HitTesting.md?raw";
+import umbrellaBetaInstallAudit from "../../docs/hi/UmbrellaBetaInstallAudit.md?raw";
 import picking from "../../docs/hi/Picking.md?raw";
 import selection from "../../docs/hi/Selection.md?raw";
 import publicApi from "../../docs/hi/PublicAPI.md?raw";
@@ -73,6 +74,12 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
     label: "Public Beta Hardening",
     filename: "hi/PublicBetaHardeningPlan.md",
     content: publicBetaHardeningPlan
+  },
+  {
+    id: "umbrella-beta-install-audit",
+    label: "Umbrella Install Audit",
+    filename: "hi/UmbrellaBetaInstallAudit.md",
+    content: umbrellaBetaInstallAudit
   },
   { id: "examples", label: "Examples", filename: "hi/Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "hi/ShowcaseDemo.md", content: showcaseDemo },

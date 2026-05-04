@@ -1,5 +1,6 @@
 import { boundsTopics } from "./DocBoundsTopics";
 import { beginnerPathTopics } from "./DocBeginnerPathTopics";
+import { betaInstallTopics } from "./DocBetaInstallTopics";
 import { accessibilityTopics } from "./DocAccessibilityTopics";
 import { apiFreezeTopics } from "./DocAPIFreezeTopics";
 import { benchmarkLimitationsTopics } from "./DocBenchmarkLimitationsTopics";
@@ -83,6 +84,7 @@ export const docGroups: readonly DocGroup[] = [
       ...changelogTopics,
       ...postReleaseAuditTopics,
       ...publicBetaTopics,
+      ...betaInstallTopics,
       ...installSmokeTopics,
       ...publishTopics,
       ...deployTopics,

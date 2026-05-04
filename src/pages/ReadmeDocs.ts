@@ -52,6 +52,7 @@ import text2d from "../../docs/Text2D.md?raw";
 import textureAtlas from "../../docs/TextureAtlas.md?raw";
 import textureAtlasPacker from "../../docs/TextureAtlasPacker.md?raw";
 import transformMatrix from "../../docs/TransformMatrix.md?raw";
+import umbrellaBetaInstallAudit from "../../docs/UmbrellaBetaInstallAudit.md?raw";
 import visibleObjects from "../../docs/VisibleObjects.md?raw";
 import webGLAvailability from "../../docs/WebGLAvailability.md?raw";
 import webGLRenderer2D from "../../docs/WebGLRenderer2D.md?raw";
@@ -73,6 +74,12 @@ export const readmeDocs: readonly ReadmeDoc[] = [
     label: "Public Beta Hardening",
     filename: "PublicBetaHardeningPlan.md",
     content: publicBetaHardeningPlan
+  },
+  {
+    id: "umbrella-beta-install-audit",
+    label: "Umbrella Install Audit",
+    filename: "UmbrellaBetaInstallAudit.md",
+    content: umbrellaBetaInstallAudit
   },
   { id: "examples", label: "Examples", filename: "Examples.md", content: examples },
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
