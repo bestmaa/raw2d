@@ -1,8 +1,8 @@
 # Getting Started
 
-Ye Raw2D start karne ka shortest guide hai. Isme install se lekar first scene render tak ka flow diya gaya hai.
+Ye Raw2D shuru karne ka short guide hai. Isme install se lekar pehla scene render karne tak ka flow diya gaya hai.
 
-Pehle `raw2d` package use karo. Ye umbrella package hai, jisme stable public API ek jagah milti hai.
+Pehle `raw2d` package use karein. Ye umbrella package hai, jisme stable public API ek jagah milti hai.
 
 ## Install
 
@@ -10,7 +10,7 @@ Pehle `raw2d` package use karo. Ye umbrella package hai, jisme stable public API
 npm install raw2d
 ```
 
-Advanced users baad me focused packages use kar sakte hain:
+Advanced users baad me focused packages install kar sakte hain:
 
 ```bash
 npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-interaction
@@ -22,7 +22,7 @@ npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-interaction
 <canvas id="raw2d-canvas"></canvas>
 ```
 
-Raw2D ko real browser `HTMLCanvasElement` chahiye. Ye app ke liye hidden canvas create nahi karta.
+Raw2D ko real browser `HTMLCanvasElement` chahiye. Ye app ke liye apne aap hidden canvas create nahi karta.
 
 ## First Object Render
 
@@ -67,11 +67,11 @@ function animate(): void {
 animate();
 ```
 
-Raw2D hidden loop start nahi karta. Timing app ke control me rehti hai.
+Raw2D apne aap animation loop start nahi karta. Timing aur redraw app ke control me rehte hain.
 
 ## WebGL Par Switch
 
-Same `Scene` aur `Camera2D` ko WebGL renderer se draw kar sakte ho, jab objects supported hon.
+Same `Scene` aur `Camera2D` ko WebGL renderer se draw kar sakte hain, jab objects supported hon.
 
 ```ts
 import { WebGLRenderer2D } from "raw2d";
@@ -91,9 +91,9 @@ Canvas complete reference renderer hai. WebGL batch-first performance renderer h
 
 ## Next Topics
 
-- `Canvas.md` me Canvas renderer detail hai.
-- `WebGLRenderer2D.md` me WebGL renderer detail hai.
-- `Scene.md` aur `Camera2D.md` core render flow samjhate hain.
-- `Rect.md`, `Circle.md`, aur `Line.md` primitives ke liye hain.
-- `TextureAtlas.md` aur `SpriteAnimation.md` sprite workflow ke liye hain.
-- `InteractionController.md` selection, drag, aur resize ke liye hai.
+- `Canvas.md`: Canvas renderer ka setup aur render flow.
+- `WebGLRenderer2D.md`: WebGL renderer aur stats.
+- `Scene.md` aur `Camera2D.md`: core render flow.
+- `Rect.md`, `Circle.md`, aur `Line.md`: drawing primitives.
+- `TextureAtlas.md` aur `SpriteAnimation.md`: sprite workflow.
+- `InteractionController.md`: selection, drag, aur resize.

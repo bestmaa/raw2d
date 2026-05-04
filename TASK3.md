@@ -65,7 +65,7 @@ Add release notes on phase release tasks.
 - T185 | Version: v1.8.2 | Status: completed | Goal: Polish WebGL-when-needed docs with performance tradeoffs. | Verify: docs route check. | Commit: `Polish WebGL decision docs`
 - T186 | Version: v1.8.3 | Status: completed | Goal: Polish React current adapter versus future Fiber docs. | Verify: React docs route check. | Commit: `Polish React beta docs`
 - T187 | Version: v1.8.4 | Status: completed | Goal: Polish MCP for AI tools docs with beginner commands. | Verify: MCP docs route check. | Commit: `Polish MCP beginner docs`
-- T188 | Version: v1.8.5 | Status: pending | Goal: Manually polish Hinglish docs for core beginner flow. | Verify: Hinglish route review. | Commit: `Polish Hinglish beginner docs`
+- T188 | Version: v1.8.5 | Status: completed | Goal: Manually polish Hinglish docs for core beginner flow. | Verify: Hinglish route review. | Commit: `Polish Hinglish beginner docs`
 - T189 | Version: v1.8.6 | Status: pending | Goal: Add next/previous navigation across beginner docs. | Verify: browser navigation check. | Commit: `Add docs next previous flow`
 - T190 | Version: v1.8.7 | Status: pending | Goal: Improve docs search for partial words, aliases, and common misspellings. | Verify: search browser check. | Commit: `Improve beta docs search`
 - T191 | Version: v1.8.8 | Status: pending | Goal: Add docs quality tests for beginner path coverage. | Verify: docs QA test. | Commit: `Test beginner docs path`

@@ -8,7 +8,7 @@ const hinglish = readFileSync("docs/hi/Canvas.md", "utf8");
 
 test("Canvas docs show the smallest working scene", () => {
   for (const content of [topic, english, hinglish]) {
-    assert.match(content, /Smallest Working Scene/);
+    assert.match(content, /Smallest Working Scene|Sabse Chhota Working Scene/);
     assert.match(content, /new Canvas/);
     assert.match(content, /new Scene/);
     assert.match(content, /new Camera2D/);

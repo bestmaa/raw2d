@@ -8,7 +8,9 @@
 npm install raw2d-mcp raw2d
 ```
 
-## Scene Banayein
+## Scene JSON Banayein
+
+MCP helpers renderer start nahi karte. Pehle JSON document banate hain, jise tool inspect ya code me convert kar sakta hai.
 
 ```ts
 import { createRaw2DSceneJson } from "raw2d-mcp";
@@ -19,6 +21,8 @@ const document = createRaw2DSceneJson({
 ```
 
 ## Rect Add Karein
+
+Object add karte waqt wahi data pass hota hai jo normal Raw2D object me use hota hai.
 
 ```ts
 import { addRaw2DSceneObject } from "raw2d-mcp";
@@ -37,7 +41,9 @@ const nextDocument = addRaw2DSceneObject({
 });
 ```
 
-## Validate Aur Inspect
+## Validate Aur Inspect Karein
+
+Validation batata hai JSON shape sahi hai ya nahi. Inspection quick summary deta hai, jaise object count.
 
 ```ts
 const validation = validateRaw2DScene({ document: nextDocument });
@@ -48,6 +54,8 @@ console.log(inspection.objectCount);
 ```
 
 ## Example Generate Karein
+
+Generated example ko docs, tests, ya AI workflow me copy kiya ja sakta hai.
 
 ```ts
 const example = generateRaw2DCanvasExample({ document: nextDocument });

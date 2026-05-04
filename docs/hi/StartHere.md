@@ -1,20 +1,20 @@
-# Yahan Se Start
+# Yahan Se Shuru Karein
 
-Ye Raw2D ka sabse short beginner path hai.
+Ye Raw2D ka beginner path hai. Agar aap pehli baar library try kar rahe hain, to isi order me chalna sabse simple rahega.
 
-## Sabse Pehle Kya Install Karein
+## Sabse Pehle Kya Install Karna Hai
 
-Pehle umbrella package install karein:
+Pehle umbrella package install karein. Isme Raw2D ka public API ek jagah milta hai:
 
 ```bash
 npm install raw2d
 ```
 
-Focused packages baad me use karein, jab public API clear ho jaye.
+Focused packages baad me use karein, jab aapko sirf canvas, webgl, ya interaction layer alag se chahiye.
 
-## First Render Goal
+## Pehla Render Goal
 
-Ek canvas, ek scene, ek camera, ek object banayein, phir render call karein.
+Pehle ek canvas, ek scene, ek camera, ek object banayein. Uske baad `render(scene, camera)` call karein.
 
 ```ts
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene } from "raw2d";
@@ -40,28 +40,28 @@ scene.add(new Rect({
 renderer.render(scene, camera);
 ```
 
-## Beginner Order
+## Seekhne Ka Order
 
-Seekhne ke liye ye order follow karein:
+Docs padhte waqt ye flow follow karein:
 
 1. Install / Setup
 2. Canvas Init
 3. Scene
 4. Camera2D
-5. Rect ya Circle
+5. Rect ya Circle draw karna
 6. Texture aur Sprite
 7. Canvas / WebGL
 8. Interaction Path
-9. React Later ya MCP, sirf jab zarurat ho
+9. React ya MCP, sirf jab project me zarurat ho
 
 ## Canvas First
 
-Canvas reference renderer hai. Correctness, debugging, simple scenes, aur full feature coverage ke liye use karein.
+Canvas Raw2D ka reference renderer hai. Debugging, simple scenes, aur visual correctness check karne ke liye pehle Canvas use karein.
 
-## WebGL Jab Zarurat Ho
+## WebGL Kab Use Karna Hai
 
-WebGL batch-first renderer hai. Bahut saare sprites, texture atlas scenes, aur draw-call pressure ke liye use karein.
+WebGL tab use karein jab scene me bahut objects, sprites, texture atlas, ya draw-call pressure ho. Scene aur camera same rahte hain, renderer swap hota hai.
 
 ## Next
 
-`/doc#beginner-path`, phir `/examples/canvas-basic/`, phir `/examples/webgl-basic/` open karein.
+Next docs: `/doc#beginner-path`, phir `/examples/canvas-basic/`, phir `/examples/webgl-basic/`.

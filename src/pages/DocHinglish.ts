@@ -4,7 +4,7 @@ interface TopicCopy { readonly label: string; readonly title: string; readonly d
 
 const topicCopy: Record<string, TopicCopy> = {
   setup: { label: "Install / Setup", title: "Install / Setup", description: "Raw2D ko npm ya CDN se start karne ka seedha tarika." },
-  "start-here-guide": { label: "Start Here", title: "Yahan Se Start", description: "Pehli baar Raw2D use karne ke liye shortest path." },
+  "start-here-guide": { label: "Start Here", title: "Yahan Se Shuru Karein", description: "Pehli baar Raw2D use karne ke liye simple beginner path." },
   "public-api": { label: "Public API", title: "Public API", description: "Stable app API aur focused low-level packages ki boundary." },
   "beginner-path": { label: "Beginner Path", title: "Beginner Path", description: "Raw2D me install se render tak ka short first-scene flow." },
   "texture-path": { label: "Texture Path", title: "Texture Path", description: "Texture load, atlas, sprite aur animation ka practical flow." },
@@ -75,8 +75,8 @@ const titleCopy = new Map<string, string>([
   ["Create A Line", "Line banayein"],
   ["Create Text2D", "Text2D banayein"],
   ["Recommended NPM Install", "Recommended NPM Install"],
-  ["What To Install First", "Sabse pehle kya install karein"], ["First Render Goal", "First render goal"],
-  ["Beginner Order", "Beginner order"], ["What To Open Next", "Next kya open karein"],
+  ["What To Install First", "Sabse pehle kya install karna hai"], ["First Render Goal", "Pehla render goal"],
+  ["Beginner Order", "Seekhne ka order"], ["What To Open Next", "Aage kya open karein"],
   ["Install Raw2D", "Raw2D install karein"],
   ["Add Canvas", "Canvas add karein"],
   ["Create Renderer", "Renderer banayein"],
@@ -149,8 +149,8 @@ const titleCopy = new Map<string, string>([
 
 const bodyCopy = new Map<string, string>([
   ["Recommended NPM Install", "Sabse pehle umbrella package use karein. Isme stable Raw2D public API milti hai."],
-  ["What To Install First", "Pehle umbrella package use karein. Seekhte waqt imports simple rahte hain."], ["First Render Goal", "Canvas, Scene, Camera2D, ek Rect, aur ek render call se pehla output prove karein."],
-  ["Beginner Order", "Install se start karein, phir Canvas, Scene, Camera, shape, texture, WebGL, interaction, React ya MCP tak jayein."], ["What To Open Next", "Is page ke baad Beginner Path aur runnable examples open karein."],
+  ["What To Install First", "Pehle umbrella package install karein. Seekhte waqt imports simple rahte hain."], ["First Render Goal", "Canvas, Scene, Camera2D, ek Rect, aur ek render call se pehla output verify karein."],
+  ["Beginner Order", "Install se shuru karein, phir Canvas, Scene, Camera, shape, texture, WebGL, interaction, React ya MCP tak jayein."], ["What To Open Next", "Is page ke baad Beginner Path aur runnable examples open karein."],
   ["Install Raw2D", "Umbrella package se start karein. Isse app-level API simple aur stable rahti hai."],
   ["Add Canvas", "Raw2D real HTMLCanvasElement par render karta hai. Canvas element app ke control me rahta hai."],
   ["Create Renderer", "Pehle Canvas renderer use karein. Ye reference path hai aur current objects ko complete support deta hai."],

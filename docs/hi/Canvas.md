@@ -2,7 +2,7 @@
 
 Canvas Raw2D ka stable reference renderer hai. Iska kaam browser ke real `HTMLCanvasElement` ko manage karna, size set karna, clear karna, aur `Scene + Camera2D` ko draw karna hai.
 
-Raw2D me object khud draw nahi karta. `Rect`, `Circle`, `Line`, `Sprite`, ya `Text2D` sirf apna data rakhte hain. Drawing renderer karta hai.
+Raw2D me object khud draw nahi karta. `Rect`, `Circle`, `Line`, `Sprite`, ya `Text2D` sirf data rakhte hain. Drawing renderer ki responsibility hai.
 
 ## Basic Setup
 
@@ -32,7 +32,7 @@ const camera = new Camera2D();
 raw2dCanvas.render(scene, camera);
 ```
 
-## Smallest Working Scene
+## Sabse Chhota Working Scene
 
 Ye sabse chhota useful Canvas-first scene hai. Isme ek renderer, ek scene, ek camera, ek object, aur ek render call hai.
 
@@ -64,17 +64,17 @@ scene.add(new Rect({
 raw2dCanvas.render(scene, camera);
 ```
 
-`render(scene, camera)` canvas clear karta hai, scene traverse karta hai, camera/object transforms apply karta hai, phir supported objects draw karta hai.
+`render(scene, camera)` canvas clear karta hai, scene traverse karta hai, camera aur object transforms apply karta hai, phir supported objects draw karta hai.
 
-## Render Ka Flow
+## Render Flow
 
-`render(scene, camera)` pehle canvas clear karta hai, phir scene ke visible objects ko camera ke hisab se draw karta hai.
+`render(scene, camera)` pehle canvas clear karta hai. Uske baad scene ke visible objects ko camera ke hisab se draw karta hai.
 
 ```ts
 raw2dCanvas.render(scene, camera);
 ```
 
-Har frame me render call kar sakte ho:
+Animation me har frame render call kar sakte hain:
 
 ```ts
 function animate(): void {
@@ -87,7 +87,7 @@ animate();
 
 ## Resize
 
-Fullscreen ya responsive editor ke liye canvas ka logical size update karo.
+Fullscreen app ya responsive editor ke liye canvas ka logical size update karein.
 
 ```ts
 function resize(): void {
@@ -103,8 +103,8 @@ resize();
 
 - Canvas path sabse pehle complete hona chahiye, kyunki ye simple aur debug-friendly renderer hai.
 - WebGL fast path hai, lekin Canvas behavior ko reference maana jata hai.
-- Canvas object ke andar rendering pipeline hide nahi honi chahiye.
-- Object data aur renderer drawing logic separate rehna chahiye.
+- Canvas object ke andar rendering pipeline unnecessary hide nahi honi chahiye.
+- Object data aur renderer drawing logic separate rehne chahiye.
 
 ## English Reference
 

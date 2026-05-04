@@ -1,10 +1,10 @@
-# WebGL Jab Zarurat Ho
+# WebGL Kab Use Karna Hai
 
-Raw2D me pehle simple start karein. Canvas se start karein, phir WebGL par tab jayein jab scene me real pressure dikhe.
+Raw2D me pehle simple start karein. Canvas se shuru karein, phir WebGL par tab switch karein jab scene me real performance pressure dikhe.
 
 ## Canvas First Rule
 
-Canvas reference renderer hai. Learning, debugging, new object behavior, ya exact visual output prove karne ke liye pehle Canvas use karein.
+Canvas reference renderer hai. Learning, debugging, new object behavior, ya visual output verify karne ke liye pehle Canvas use karein.
 
 ```ts
 import { Canvas } from "raw2d";
@@ -25,11 +25,11 @@ const shouldUseWebGL =
   hasLargeStaticLayers;
 ```
 
-Scene aur camera same rahte hain. Sirf renderer change hota hai.
+Scene aur camera same rahte hain. Sirf renderer change hota hai, isliye app ka data model stable rehta hai.
 
 ## Stats Compare Karein
 
-Renderer ke naam se decide mat karein. Same scene measure karein.
+Renderer ke naam se decide mat karein. Same scene ko Canvas aur WebGL dono me measure karein.
 
 ```ts
 canvasRenderer.render(scene, camera);
@@ -63,4 +63,4 @@ const renderer: Renderer2DLike = isWebGL2Available({ canvas: canvasElement })
 
 - Canvas: simple, complete, debug-friendly
 - WebGL: batched, atlas-friendly, stats-driven
-- Rule: same `Scene` aur `Camera2D` rakhein, sirf renderer swap karein
+- Practical rule: same `Scene` aur `Camera2D` rakhein, sirf renderer swap karein

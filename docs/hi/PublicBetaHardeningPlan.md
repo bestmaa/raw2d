@@ -1,6 +1,6 @@
 # Public Beta Hardening Plan
 
-Ye plan Raw2D public beta ke release gates define karta hai. Is phase ka goal aur features add karna nahi hai. Goal ye prove karna hai ki naya user Raw2D install, read, copy, run, aur debug kar sake bina repo ke hidden knowledge ke.
+Ye plan Raw2D public beta ke release gates define karta hai. Is phase ka goal naye features banana nahi hai. Goal ye prove karna hai ki naya user Raw2D install, read, copy, run, aur debug kar sake, bina repo ke hidden knowledge ke.
 
 ## Scope
 
@@ -26,7 +26,7 @@ npm install raw2d-core raw2d-webgl
 npm install raw2d-react react react-dom
 ```
 
-Har app me `npm run build` pass hona chahiye aur browser me kam se kam ek visible Canvas, WebGL, ya React scene render hona chahiye.
+Har app me `npm run build` pass hona chahiye. Browser me kam se kam ek visible Canvas, WebGL, ya React scene render hona chahiye.
 
 ## CDN Gates
 
@@ -51,7 +51,7 @@ Docs tab pass hain jab:
 
 ## Browser Gates
 
-Manual browser verification in routes ke liye required hai:
+In routes ke liye manual browser verification required hai:
 
 - `/doc`
 - `/readme`

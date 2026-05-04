@@ -79,8 +79,8 @@ export const docGroups: readonly DocGroup[] = [
     id: "start-here",
     label: "Start Here",
     description: "Install, first render, examples, releases, and publish basics.",
-    hiLabel: "Yahan Se Start",
-    hiDescription: "Install, first render, examples, release, aur publish basics.",
+    hiLabel: "Yahan Se Shuru Karein",
+    hiDescription: "Install, pehla render, examples, releases, aur publish basics.",
     topics: [
       ...startHereTopics,
       ...setupTopics,

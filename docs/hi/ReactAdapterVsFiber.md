@@ -1,10 +1,10 @@
-# React Adapter Vs Future Fiber
+# React Adapter Aur Future Fiber
 
-Raw2D me abhi `raw2d-react` ek simple React bridge hai. Future Fiber package jyada advanced hoga aur custom reconciler use karega.
+Raw2D me abhi `raw2d-react` ek simple React bridge hai. Future Fiber package alag hoga aur custom reconciler use karega.
 
-## Current Package
+## Abhi Ka Package
 
-`raw2d-react` tab use karo jab Raw2D ke upar small React wrapper chahiye.
+`raw2d-react` tab use karein jab Raw2D ke upar simple React wrapper chahiye.
 
 ```tsx
 import { Raw2DCanvas, RawRect } from "raw2d-react";
@@ -16,16 +16,16 @@ import { Raw2DCanvas, RawRect } from "raw2d-react";
 
 Ye package simple rakha gaya hai:
 
-- samajhna easy
-- examples aur small React apps ke liye good
-- custom reconciler required nahi
-- hidden renderer internals nahi
+- samajhna aasaan hai
+- examples aur small React apps ke liye useful hai
+- custom reconciler ki zarurat nahi
+- renderer internals unnecessarily hide nahi karta
 
 Current beta me ye sahi package hai jab React components chahiye, par Raw2D ka low-level API same rakhna hai.
 
 ## Future Fiber Package
 
-Future `raw2d-react-fiber` custom reconciler use karega jab Raw2D ko deeper React integration chahiye.
+Future `raw2d-react-fiber` custom reconciler use karega. Ye tab useful hoga jab Raw2D ko deeper React integration chahiye.
 
 ```tsx
 <Raw2DCanvas renderer="webgl" width={800} height={480}>
@@ -36,20 +36,20 @@ Future `raw2d-react-fiber` custom reconciler use karega jab Raw2D ko deeper Reac
 </Raw2DCanvas>
 ```
 
-Fiber tab useful hai jab Raw2D ko host nodes, commit batching, stable object identity, aur large JSX scene updates chahiye.
+Fiber tab useful hai jab host nodes, commit batching, stable object identity, aur large JSX scene updates chahiye.
 
 Fiber ko `raw2d-react` se alag rehna chahiye, taki current adapter simple aur audit-friendly rahe.
 
 ## Kaunsa Use Kare
 
-Abhi `raw2d-react` use karo:
+Abhi `raw2d-react` use karein:
 
 - React components quickly chahiye
 - scene small ya medium hai
 - explicit props aur simple rendering pasand hai
 - custom reconciliation nahi chahiye
 
-Fiber ka wait karo:
+Fiber ka wait karein:
 
 - large JSX scenes chahiye
 - object identity aur update batching important hai
@@ -58,7 +58,7 @@ Fiber ka wait karo:
 
 ## Core Rule
 
-Dono packages public Raw2D APIs ko wrap karenge. Kisi package ke wajah se non-React Raw2D users ke liye React required nahi hona chahiye.
+Dono packages public Raw2D APIs ko wrap karenge. Kisi package ke wajah se non-React Raw2D users ko React install karne ki zarurat nahi honi chahiye.
 
 `raw2d-core`, `raw2d-canvas`, aur `raw2d-webgl` React-free rahenge.
 
