@@ -63,7 +63,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T215 | Version: v1.11.3 | Status: completed | Goal: Add renderer switch UI for Canvas and WebGL placeholders. | Verify: browser state check. | Commit: `Add Studio renderer switch`
 - T216 | Version: v1.11.4 | Status: completed | Goal: Add Studio scene state container with camera and empty object list. | Verify: unit test. | Commit: `Add Studio scene state`
 - T217 | Version: v1.11.5 | Status: completed | Goal: Add Studio render adapter that converts scene JSON to Raw2D runtime objects. | Verify: unit test and browser canvas check. | Commit: `Add Studio render adapter`
-- T218 | Version: v1.11.6 | Status: pending | Goal: Add Studio sample scene button. | Verify: browser render check. | Commit: `Add Studio sample scene`
+- T218 | Version: v1.11.6 | Status: completed | Goal: Add Studio sample scene button. | Verify: browser render check. | Commit: `Add Studio sample scene`
 - T219 | Version: v1.11.7 | Status: pending | Goal: Add Studio shell visual smoke test. | Verify: browser visual test. | Commit: `Test Studio shell`
 - T220 | Version: v1.11.8 | Status: pending | Goal: Phase 19 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio route. | Commit: `Release Studio shell phase`
 

@@ -25,3 +25,15 @@ test("Studio scene state starts empty with default camera", async () => {
   assert.deepEqual(scene.camera, { x: 0, y: 0, zoom: 1 });
   assert.deepEqual(scene.objects, []);
 });
+
+test("Studio sample scene includes visible starter objects", async () => {
+  const module = await importSceneStateModule();
+  const scene = module.createStudioSampleSceneState();
+
+  assert.equal(scene.name, "Sample Scene");
+  assert.equal(scene.objects.length, 3);
+  assert.deepEqual(
+    scene.objects.map((object) => object.type),
+    ["rect", "circle", "text2d"]
+  );
+});
