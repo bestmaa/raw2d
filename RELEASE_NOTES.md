@@ -1,5 +1,26 @@
 # Raw2D Release Notes
 
+## v1.10.8 - Release Pipeline Fix
+
+Raw2D v1.10.8 stabilizes npm, GitHub Actions, and Cloudflare installs after the v1.10.7 publish run failed before npm publish.
+
+### Changed
+
+- Package versions are aligned at `1.10.8`.
+- Vite is pinned to the stable `7.3.x` line for reliable CI and Cloudflare installs.
+- CDN smoke docs now point to the `1.10.8` pinned package URLs.
+
+### Fixed
+
+- Removed the unreliable Vite 8/Rolldown install path that caused GitHub Actions and Cloudflare builds to fail during `npm ci`.
+- Regenerated the lockfile so fresh CI installs do not depend on unavailable `@oxc-project/types@0.17.0` metadata.
+
+### Verification
+
+- Clean `npm ci`.
+- Docs production build.
+- TypeScript strict typecheck.
+
 ## v1.10.7 - Studio Planning Phase
 
 Raw2D v1.10.7 publishes the Studio planning phase. This release defines the future visual editor scope, boundaries, scene JSON direction, tool model, panels, placeholder route, and implementation queue.
@@ -207,33 +228,6 @@ Raw2D v1.3.10 publishes the docs polish phase for better onboarding, search, nav
 - Docs link audit.
 - Workspace package dry-run.
 - Consumer install smoke tests.
-
-## v1.2.11 - Product Examples Phase
-
-Raw2D v1.2.11 publishes the product-quality examples phase.
-
-### Added
-
-- Examples index and shared example styling.
-- Canvas basic scene with shapes, text, animation, and stats.
-- WebGL sprite batching example with texture sorting diagnostics.
-- Texture atlas example with packed sprite frames.
-- Interaction example for selection, drag, and Rect resize.
-- Camera controls example for pointer pan and wheel zoom.
-- ShapePath Canvas/WebGL comparison example.
-- React bridge example for `raw2d-react`.
-- MCP scene JSON example for `raw2d-mcp`.
-- Examples README with install, route, package import, and verification instructions.
-- Route coverage tests for all example folders.
-
-### Verification
-
-- TypeScript strict typecheck.
-- Full unit and browser test suite.
-- Docs production build.
-- Workspace package dry-run.
-- Consumer install smoke tests.
-- React and MCP install smoke checks.
 
 ## v1.0.2 - Clean Publish Lockfile Fix
 
