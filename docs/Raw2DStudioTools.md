@@ -34,23 +34,101 @@ Resize uses bounds handles and preserves the opposite edge where possible.
 
 Rect, Sprite, Text2D, and image-like objects can resize directly. Circle should resize radius. Line can move endpoints later.
 
-## Shape Tool
+## Current MVP Tools
 
-Shape tool creates Rect, Circle, Line, Polygon, and ShapePath objects.
+The current Studio shell supports simple click-to-create tools:
 
-The first MVP should support click-drag Rect and Circle. More complex paths can come later.
+```ts
+// Small example
+clickTool("rect");
+clickTool("circle");
+clickTool("line");
+clickTool("text");
+clickTool("sprite");
+```
+
+Each click appends one object to the scene state, redraws the canvas, and updates Layers and Properties.
+
+## Rect Tool
+
+Rect creates a drawable rectangle with width, height, and material data.
+
+```ts
+addStudioRectObject({ scene });
+```
+
+Full scene object:
+
+```json
+{
+  "id": "rect-1",
+  "type": "rect",
+  "name": "Rect 1",
+  "x": 120,
+  "y": 120,
+  "width": 160,
+  "height": 96,
+  "material": {
+    "fillColor": "#35c2ff",
+    "strokeColor": "#dff5ff",
+    "lineWidth": 2
+  }
+}
+```
+
+## Circle Tool
+
+Circle creates a drawable circle with radius and material data.
+
+```ts
+addStudioCircleObject({ scene });
+```
+
+The Properties panel shows `X`, `Y`, and `Radius`.
+
+## Line Tool
+
+Line creates a simple stroke with local start and end points.
+
+```ts
+addStudioLineObject({ scene });
+```
+
+The object stores transform separately from line geometry:
+
+```json
+{ "x": 120, "y": 300, "startX": 0, "startY": 0, "endX": 240, "endY": 0 }
+```
 
 ## Text Tool
 
-Text tool creates Text2D and opens the properties panel for editing content, font, and material.
+Text creates Text2D and exposes text and font values in Properties.
 
-It should not become a rich text editor in the MVP.
+```ts
+addStudioTextObject({ scene });
+```
+
+Full text defaults:
+
+```json
+{ "type": "text2d", "text": "Raw2D Text", "font": "32px sans-serif" }
+```
 
 ## Sprite Tool
 
-Sprite tool creates Sprite objects from selected assets.
+Sprite creates a placeholder object with an asset slot.
 
-If an atlas frame is selected, the new Sprite should store `textureId` and `frameName`.
+```ts
+addStudioSpriteObject({ scene });
+```
+
+Current placeholder:
+
+```json
+{ "type": "sprite", "width": 128, "height": 128, "assetSlot": "empty" }
+```
+
+Later, the asset slot can point to a texture or atlas frame without changing the tool boundary.
 
 ## Command Rule
 

@@ -142,18 +142,22 @@ drag selected -> update x/y
 resize handle -> update bounds fields`
       },
       {
-        title: "Shape And Text",
-        body: "Shape tools create Rect, Circle, Line, Polygon, and ShapePath objects. Text creates Text2D and opens properties for text, font, and material.",
-        code: `CreateObjectCommand({ type: "rect" })
-CreateObjectCommand({ type: "text2d" })`
+        title: "Current Create Tools",
+        body: "The MVP toolbar creates Rect, Circle, Line, Text2D, and Sprite placeholder objects. Each click appends scene JSON, redraws, and updates Layers and Properties.",
+        code: `addStudioRectObject({ scene })
+addStudioCircleObject({ scene })
+addStudioLineObject({ scene })
+addStudioTextObject({ scene })
+addStudioSpriteObject({ scene })`
       },
       {
-        title: "Sprite",
-        body: "Sprite tool creates Sprite objects from selected assets. Atlas frames should be stored as textureId plus frameName.",
+        title: "Sprite Placeholder",
+        body: "Sprite currently stores an asset slot and renders as a placeholder. Later save/load can point that slot to a texture or atlas frame.",
         code: `{
   "type": "sprite",
-  "textureId": "atlas-main",
-  "frameName": "hero-idle"
+  "width": 128,
+  "height": 128,
+  "assetSlot": "empty"
 }`
       }
     ]

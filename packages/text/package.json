@@ -1,6 +1,6 @@
 {
   "name": "raw2d-text",
-  "version": "1.12.4",
+  "version": "1.12.5",
   "description": "Text object package for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,7 +24,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "raw2d-core": "1.12.4"
+    "raw2d-core": "1.12.5"
   },
   "author": "Aditya Nandlal",
   "license": "Apache-2.0",

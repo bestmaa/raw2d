@@ -74,7 +74,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T223 | Version: v1.12.2 | Status: completed | Goal: Add Line creation tool. | Verify: browser render and properties check. | Commit: `Add Studio line tool`
 - T224 | Version: v1.12.3 | Status: completed | Goal: Add Text2D creation tool. | Verify: browser render and text edit check. | Commit: `Add Studio text tool`
 - T225 | Version: v1.12.4 | Status: completed | Goal: Add Sprite placeholder tool with asset slot. | Verify: browser placeholder render check. | Commit: `Add Studio sprite tool`
-- T226 | Version: v1.12.5 | Status: pending | Goal: Add tool docs with small and full examples. | Verify: docs QA and browser check. | Commit: `Document Studio tools`
+- T226 | Version: v1.12.5 | Status: completed | Goal: Add tool docs with small and full examples. | Verify: docs QA and browser check. | Commit: `Document Studio tools`
 - T227 | Version: v1.12.6 | Status: pending | Goal: Add drawing tool unit tests for scene JSON output. | Verify: unit tests. | Commit: `Test Studio tools`
 - T228 | Version: v1.12.7 | Status: pending | Goal: Phase 20 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio tools. | Commit: `Release Studio tools phase`
 
