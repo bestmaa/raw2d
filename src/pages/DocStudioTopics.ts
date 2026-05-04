@@ -122,5 +122,40 @@ Editor UI state: apps/studio`
         code: `validate -> create assets -> create objects -> render`
       }
     ]
+  },
+  {
+    id: "studio-tools",
+    label: "Studio Tools",
+    title: "Raw2D Studio Tools",
+    description: "Focused editor modes for selecting, moving, resizing, adding text, drawing shapes, and placing sprites.",
+    sections: [
+      {
+        title: "Model",
+        body: "A Studio tool should convert pointer or keyboard input into explicit editor commands. Tools should mutate scene state, then request a render.",
+        code: `pointer event -> tool -> command -> scene state -> render`
+      },
+      {
+        title: "Select And Move",
+        body: "Select should use picking, support multi-select later, and reuse raw2d-interaction for drag and resize where possible. Move updates x and y.",
+        code: `select object
+drag selected -> update x/y
+resize handle -> update bounds fields`
+      },
+      {
+        title: "Shape And Text",
+        body: "Shape tools create Rect, Circle, Line, Polygon, and ShapePath objects. Text creates Text2D and opens properties for text, font, and material.",
+        code: `CreateObjectCommand({ type: "rect" })
+CreateObjectCommand({ type: "text2d" })`
+      },
+      {
+        title: "Sprite",
+        body: "Sprite tool creates Sprite objects from selected assets. Atlas frames should be stored as textureId plus frameName.",
+        code: `{
+  "type": "sprite",
+  "textureId": "atlas-main",
+  "frameName": "hero-idle"
+}`
+      }
+    ]
   }
 ];
