@@ -92,7 +92,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 ## Phase 22: Studio Persistence And Export
 
-- T238 | Version: v1.14.0 | Status: pending | Goal: Add save scene JSON. | Verify: schema snapshot test. | Commit: `Add Studio save`
+- T238 | Version: v1.14.0 | Status: completed | Goal: Add save scene JSON. | Verify: schema snapshot test. | Commit: `Add Studio save`
 - T239 | Version: v1.14.1 | Status: pending | Goal: Add load scene JSON. | Verify: browser load check. | Commit: `Add Studio load`
 - T240 | Version: v1.14.2 | Status: pending | Goal: Add export PNG. | Verify: browser export check. | Commit: `Add Studio png export`
 - T241 | Version: v1.14.3 | Status: pending | Goal: Add import validation errors for invalid JSON. | Verify: unit and browser error check. | Commit: `Validate Studio scene import`

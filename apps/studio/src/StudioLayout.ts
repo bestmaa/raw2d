@@ -109,7 +109,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
         <nav class="studio-actions" aria-label="Studio actions">
           <button type="button">New</button>
           <button type="button" data-action="sample-scene">Sample</button>
-          <button type="button">Save</button>
+          <button type="button" data-action="save-scene">Save</button>
           <button type="button">Export</button>
         </nav>
       </header>

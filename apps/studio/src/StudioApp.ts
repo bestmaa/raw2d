@@ -5,13 +5,13 @@ import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./
 import type { StudioDragSession } from "./StudioDrag.type";
 import { createStudioInspectorModel } from "./StudioInspector";
 import { applyStudioKeyboardCommand } from "./StudioKeyboard";
-import { applyStudioLayerAction } from "./StudioLayers";
-import type { StudioLayerAction } from "./StudioLayers.type";
+import { bindStudioLayerButtons } from "./StudioLayerBindings";
 import { bindStudioPropertyInputs } from "./StudioPropertyBindings";
 import { bindStudioRendererSwitch } from "./StudioRendererBindings";
 import { resizeStudioObject, startStudioResize } from "./StudioResize";
 import type { StudioResizeSession } from "./StudioResize.type";
 import { renderStudioRuntimeScene } from "./StudioRuntimeRender";
+import { downloadStudioScene } from "./StudioSave";
 import { renderStudioLayout, renderStudioStatsPanel } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
@@ -93,27 +93,25 @@ export class StudioApp {
       return;
     }
 
+    if (action === "save-scene") {
+      downloadStudioScene({ scene: this.sceneState });
+      return;
+    }
+
     this.sceneState = createStudioActionObject(this.sceneState, action);
     this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
     this.mount();
   }
 
   private bindLayers(): void {
-    const layerButtons = this.root.querySelectorAll<HTMLButtonElement>("[data-layer-action]");
-
-    for (const button of layerButtons) {
-      button.addEventListener("click", () => {
-        const action = button.dataset.layerAction as StudioLayerAction | undefined;
-        const objectId = button.dataset.layerId;
-
-        if (!objectId || !action) return;
-        const result = applyStudioLayerAction({ scene: this.sceneState, selectedObjectId: this.selectedObjectId, objectId, action });
-        if (!result.handled) return;
-        this.sceneState = result.scene;
-        this.selectedObjectId = result.selectedObjectId;
-        this.mount();
-      });
-    }
+    bindStudioLayerButtons({
+      root: this.root,
+      getScene: () => this.sceneState,
+      getSelectedObjectId: () => this.selectedObjectId,
+      setScene: (scene) => { this.sceneState = scene; },
+      setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
+      mount: () => { this.mount(); }
+    });
   }
 
   private bindProperties(): void {
@@ -121,12 +119,8 @@ export class StudioApp {
       root: this.root,
       getScene: () => this.sceneState,
       getSelectedObjectId: () => this.selectedObjectId,
-      setScene: (scene) => {
-        this.sceneState = scene;
-      },
-      renderRuntimeScene: () => {
-        this.renderRuntimeScene();
-      }
+      setScene: (scene) => { this.sceneState = scene; },
+      renderRuntimeScene: () => { this.renderRuntimeScene(); }
     });
   }
 

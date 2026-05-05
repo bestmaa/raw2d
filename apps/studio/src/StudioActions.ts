@@ -12,9 +12,14 @@ const toolActions: readonly StudioAction[] = ["rect", "circle", "line", "text", 
 
 export function bindStudioActions(options: StudioActionBindingOptions): void {
   const sampleButton = options.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
+  const saveButton = options.root.querySelector<HTMLButtonElement>('[data-action="save-scene"]');
 
   sampleButton?.addEventListener("click", () => {
     options.onAction("sample-scene");
+  });
+
+  saveButton?.addEventListener("click", () => {
+    options.onAction("save-scene");
   });
 
   for (const action of toolActions) {
@@ -38,6 +43,7 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "sprite":
       return addStudioSpriteObject({ scene });
     case "sample-scene":
+    case "save-scene":
       return scene;
   }
 }
