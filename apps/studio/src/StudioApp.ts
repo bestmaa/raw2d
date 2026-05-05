@@ -1,4 +1,6 @@
 import { Canvas } from "raw2d";
+import { bindStudioActions, createStudioActionObject } from "./StudioActions";
+import type { StudioAction } from "./StudioActions.type";
 import type { StudioAppOptions } from "./StudioApp.type";
 import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./StudioDrag";
 import type { StudioDragSession } from "./StudioDrag.type";
@@ -6,14 +8,9 @@ import { createStudioInspectorModel } from "./StudioInspector";
 import { applyStudioKeyboardCommand } from "./StudioKeyboard";
 import { applyStudioLayerAction } from "./StudioLayers";
 import type { StudioLayerAction } from "./StudioLayers.type";
-import {
-  addStudioCircleObject,
-  addStudioLineObject,
-  addStudioRectObject,
-  addStudioSpriteObject,
-  addStudioTextObject
-} from "./StudioObjectFactory";
+import { bindStudioPropertyInputs } from "./StudioPropertyBindings";
 import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
+import { bindStudioRendererSwitch } from "./StudioRendererBindings";
 import { drawStudioResizeHandles, resizeStudioObject, startStudioResize } from "./StudioResize";
 import type { StudioResizeSession } from "./StudioResize.type";
 import { renderStudioLayout } from "./StudioLayout";
@@ -42,6 +39,7 @@ export class StudioApp {
     this.bindRendererSwitch();
     this.bindActions();
     this.bindLayers();
+    this.bindProperties();
     this.bindCanvasDrag();
     this.renderRuntimeScene();
   }
@@ -58,65 +56,42 @@ export class StudioApp {
       objectCount: this.sceneState.objects.length,
       layers: inspector.layers,
       properties: inspector.properties,
+      propertyFields: inspector.propertyFields,
       selectedLayerId: this.selectedObjectId
     });
   }
 
   private bindRendererSwitch(): void {
-    const buttons = this.root.querySelectorAll<HTMLButtonElement>("[data-renderer]");
-
-    for (const button of buttons) {
-      button.addEventListener("click", () => {
-        this.rendererMode = button.dataset.renderer === "webgl" ? "webgl" : "canvas";
+    bindStudioRendererSwitch({
+      root: this.root,
+      onRendererMode: (mode) => {
+        this.rendererMode = mode;
         this.mount();
-      });
-    }
+      }
+    });
   }
 
   private bindActions(): void {
-    const sampleButton = this.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
-    const rectTool = this.root.querySelector<HTMLButtonElement>('[data-tool="rect"]');
-    const circleTool = this.root.querySelector<HTMLButtonElement>('[data-tool="circle"]');
-    const lineTool = this.root.querySelector<HTMLButtonElement>('[data-tool="line"]');
-    const textTool = this.root.querySelector<HTMLButtonElement>('[data-tool="text"]');
-    const spriteTool = this.root.querySelector<HTMLButtonElement>('[data-tool="sprite"]');
+    bindStudioActions({
+      root: this.root,
+      onAction: (action) => {
+        this.handleAction(action);
+      }
+    });
+  }
 
-    sampleButton?.addEventListener("click", () => {
+  private handleAction(action: StudioAction): void {
+    if (action === "sample-scene") {
       this.sceneState = createStudioSampleSceneState();
       this.rendererMode = this.sceneState.rendererMode;
       this.selectedObjectId = undefined;
       this.mount();
-    });
+      return;
+    }
 
-    rectTool?.addEventListener("click", () => {
-      this.sceneState = addStudioRectObject({ scene: this.sceneState });
-      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
-      this.mount();
-    });
-
-    circleTool?.addEventListener("click", () => {
-      this.sceneState = addStudioCircleObject({ scene: this.sceneState });
-      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
-      this.mount();
-    });
-
-    lineTool?.addEventListener("click", () => {
-      this.sceneState = addStudioLineObject({ scene: this.sceneState });
-      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
-      this.mount();
-    });
-
-    textTool?.addEventListener("click", () => {
-      this.sceneState = addStudioTextObject({ scene: this.sceneState });
-      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
-      this.mount();
-    });
-
-    spriteTool?.addEventListener("click", () => {
-      this.sceneState = addStudioSpriteObject({ scene: this.sceneState });
-      this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
-      this.mount();
-    });
+    this.sceneState = createStudioActionObject(this.sceneState, action);
+    this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
+    this.mount();
   }
 
   private bindLayers(): void {
@@ -135,6 +110,20 @@ export class StudioApp {
         this.mount();
       });
     }
+  }
+
+  private bindProperties(): void {
+    bindStudioPropertyInputs({
+      root: this.root,
+      getScene: () => this.sceneState,
+      getSelectedObjectId: () => this.selectedObjectId,
+      setScene: (scene) => {
+        this.sceneState = scene;
+      },
+      renderRuntimeScene: () => {
+        this.renderRuntimeScene();
+      }
+    });
   }
 
   private bindCanvasDrag(): void {

@@ -85,7 +85,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T231 | Version: v1.13.2 | Status: completed | Goal: Add resize handles for Rect and Sprite. | Verify: browser resize check. | Commit: `Add Studio resize`
 - T232 | Version: v1.13.3 | Status: completed | Goal: Add keyboard move, delete, and escape clear. | Verify: browser keyboard check. | Commit: `Add Studio keyboard`
 - T233 | Version: v1.13.4 | Status: completed | Goal: Add Layers panel with select, visibility, and ordering. | Verify: browser layers check. | Commit: `Add Studio layers panel`
-- T234 | Version: v1.13.5 | Status: pending | Goal: Add Properties panel for transform and material edits. | Verify: browser edit check. | Commit: `Add Studio properties panel`
+- T234 | Version: v1.13.5 | Status: completed | Goal: Add Properties panel for transform and material edits. | Verify: browser edit check. | Commit: `Add Studio properties panel`
 - T235 | Version: v1.13.6 | Status: pending | Goal: Add Renderer Stats panel for Canvas/WebGL diagnostics. | Verify: browser stats check. | Commit: `Add Studio stats panel`
 - T236 | Version: v1.13.7 | Status: pending | Goal: Add interaction and panel docs. | Verify: docs route check. | Commit: `Document Studio interaction`
 - T237 | Version: v1.13.8 | Status: pending | Goal: Phase 21 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio interaction. | Commit: `Release Studio interaction phase`

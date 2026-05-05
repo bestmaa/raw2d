@@ -1,4 +1,5 @@
 import type { StudioLayoutOptions, StudioLayerItem, StudioPropertyRow, StudioToolItem } from "./StudioLayout.type";
+import type { StudioPropertyField } from "./StudioProperties.type";
 import { studioRendererOptions } from "./StudioRenderer";
 
 const tools: readonly StudioToolItem[] = [
@@ -63,6 +64,18 @@ function renderProperty(row: StudioPropertyRow): string {
   `;
 }
 
+function renderPropertyField(field: StudioPropertyField): string {
+  const min = field.min === undefined ? "" : ` min="${field.min}"`;
+  const step = field.step === undefined ? "" : ` step="${field.step}"`;
+
+  return `
+    <label class="studio-property-field">
+      <span>${field.label}</span>
+      <input type="${field.inputType}" value="${field.value}" data-property-id="${field.id}"${min}${step}>
+    </label>
+  `;
+}
+
 export function renderStudioLayout(options: StudioLayoutOptions): string {
   const layers = options.layers.length > 0 ? options.layers : emptyLayers;
 
@@ -113,6 +126,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <section>
             <h2>Properties</h2>
             <div class="studio-stack">${options.properties.map(renderProperty).join("")}</div>
+            <div class="studio-property-fields">${options.propertyFields.map(renderPropertyField).join("")}</div>
           </section>
         </aside>
       </div>

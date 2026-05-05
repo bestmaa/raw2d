@@ -1,3 +1,5 @@
+import type { StudioPropertyField } from "./StudioProperties.type";
+
 export interface StudioToolItem {
   readonly id: string;
   readonly label: string;
@@ -22,5 +24,6 @@ export interface StudioLayoutOptions {
   readonly objectCount: number;
   readonly layers: readonly StudioLayerItem[];
   readonly properties: readonly StudioPropertyRow[];
+  readonly propertyFields: readonly StudioPropertyField[];
   readonly selectedLayerId?: string;
 }

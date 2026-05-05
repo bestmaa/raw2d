@@ -1,0 +1,43 @@
+.studio-property {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid #1c3140;
+  padding: 8px 0;
+  color: #a8c4d6;
+}
+
+.studio-property strong {
+  color: #eef6ff;
+  font-weight: 700;
+}
+
+.studio-property-fields {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.studio-property-field {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  color: #a8c4d6;
+  font-size: 13px;
+}
+
+.studio-property-field input {
+  min-width: 0;
+  border: 1px solid #2b5368;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #eef6ff;
+  background: #0b1520;
+  font: inherit;
+}
+
+.studio-property-field input[type="color"] {
+  height: 36px;
+  padding: 3px;
+}
