@@ -1,5 +1,23 @@
 # Raw2D Release Notes Archive
 
+## v1.14.6 - Studio Persistence Phase
+
+Raw2D v1.14.6 publishes the Studio persistence phase.
+
+### Added
+
+- Studio scene JSON save and load workflows with deterministic filenames.
+- Import validation errors surfaced in the Studio status area.
+- Canvas PNG export from the active Studio viewport.
+- Persistence docs in English and Hinglish.
+- Browser smoke coverage for Studio save, load, and export wiring.
+
+### Verification
+
+- Full package and docs tests.
+- Browser Studio persistence and import error checks.
+- Consumer install smoke and workspace pack dry-run.
+
 ## v1.13.8 - Studio Interaction Phase
 
 Raw2D v1.13.8 publishes the Studio interaction phase.

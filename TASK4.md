@@ -98,7 +98,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T241 | Version: v1.14.3 | Status: completed | Goal: Add import validation errors for invalid JSON. | Verify: unit and browser error check. | Commit: `Validate Studio scene import`
 - T242 | Version: v1.14.4 | Status: completed | Goal: Add Studio persistence docs and README. | Verify: docs QA. | Commit: `Document Studio persistence`
 - T243 | Version: v1.14.5 | Status: completed | Goal: Add browser smoke for save, load, export. | Verify: browser test. | Commit: `Test Studio persistence`
-- T244 | Version: v1.14.6 | Status: pending | Goal: Phase 22 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio persistence. | Commit: `Release Studio persistence phase`
+- T244 | Version: v1.14.6 | Status: completed | Goal: Phase 22 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio persistence. | Commit: `Release Studio persistence phase`
 
 ## Phase 23: Public Beta Studio Polish
 
