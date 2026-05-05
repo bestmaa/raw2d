@@ -14,6 +14,7 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
   const sampleButton = options.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
   const saveButton = options.root.querySelector<HTMLButtonElement>('[data-action="save-scene"]');
   const loadButton = options.root.querySelector<HTMLButtonElement>('[data-action="load-scene"]');
+  const exportButton = options.root.querySelector<HTMLButtonElement>('[data-action="export-png"]');
 
   sampleButton?.addEventListener("click", () => {
     options.onAction("sample-scene");
@@ -25,6 +26,10 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
 
   loadButton?.addEventListener("click", () => {
     options.onAction("load-scene");
+  });
+
+  exportButton?.addEventListener("click", () => {
+    options.onAction("export-png");
   });
 
   for (const action of toolActions) {
@@ -50,6 +55,7 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "sample-scene":
     case "save-scene":
     case "load-scene":
+    case "export-png":
       return scene;
   }
 }

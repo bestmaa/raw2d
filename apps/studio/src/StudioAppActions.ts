@@ -2,6 +2,7 @@ import { bindStudioActions, createStudioActionObject } from "./StudioActions";
 import type { StudioAction } from "./StudioActions.type";
 import type { StudioAppActionBindingOptions } from "./StudioAppActions.type";
 import { bindStudioSceneLoadInput, clickStudioSceneLoadInput } from "./StudioLoadBindings";
+import { downloadStudioCanvasPng } from "./StudioPngExport";
 import { downloadStudioScene } from "./StudioSave";
 import { createStudioSampleSceneState } from "./StudioSceneState";
 
@@ -40,6 +41,11 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
 
   if (action === "load-scene") {
     clickStudioSceneLoadInput(options.root);
+    return;
+  }
+
+  if (action === "export-png") {
+    downloadStudioCanvasPng({ root: options.root, sceneName: options.getScene().name });
     return;
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "raw2d-core",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "description": "Core scene graph, objects, camera, and materials for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",

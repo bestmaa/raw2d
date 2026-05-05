@@ -94,7 +94,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 - T238 | Version: v1.14.0 | Status: completed | Goal: Add save scene JSON. | Verify: schema snapshot test. | Commit: `Add Studio save`
 - T239 | Version: v1.14.1 | Status: completed | Goal: Add load scene JSON. | Verify: browser load check. | Commit: `Add Studio load`
-- T240 | Version: v1.14.2 | Status: pending | Goal: Add export PNG. | Verify: browser export check. | Commit: `Add Studio png export`
+- T240 | Version: v1.14.2 | Status: completed | Goal: Add export PNG. | Verify: browser export check. | Commit: `Add Studio png export`
 - T241 | Version: v1.14.3 | Status: pending | Goal: Add import validation errors for invalid JSON. | Verify: unit and browser error check. | Commit: `Validate Studio scene import`
 - T242 | Version: v1.14.4 | Status: pending | Goal: Add Studio persistence docs and README. | Verify: docs QA. | Commit: `Document Studio persistence`
 - T243 | Version: v1.14.5 | Status: pending | Goal: Add browser smoke for save, load, export. | Verify: browser test. | Commit: `Test Studio persistence`
