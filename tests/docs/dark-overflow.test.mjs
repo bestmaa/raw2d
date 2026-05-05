@@ -31,5 +31,9 @@ test("dark UI overflow audit is documented and routed", () => {
   assert.match(packageJson, /test:browser:dark-overflow/);
   assert.match(topics, /darkOverflowTopics/);
   assert.match(english, /examples\/showcase/);
+  assert.match(english, /\/studio/);
+  assert.match(english, /Studio panels wrap and scroll/);
   assert.match(hinglish, /examples\/showcase/);
+  assert.match(hinglish, /\/studio/);
+  assert.match(hinglish, /Studio panels wrap/);
 });

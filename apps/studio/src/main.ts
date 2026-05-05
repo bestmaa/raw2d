@@ -1,5 +1,6 @@
 import { StudioApp } from "./StudioApp";
 import "./properties.css";
+import "./responsive.css";
 import "./style.css";
 
 const root = document.querySelector<HTMLElement>("#studio-root");

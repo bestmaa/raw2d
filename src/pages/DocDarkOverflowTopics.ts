@@ -5,7 +5,7 @@ export const darkOverflowTopics: readonly DocTopic[] = [
     id: "dark-ui-overflow",
     label: "Dark UI Overflow",
     title: "Dark UI Overflow Audit",
-    description: "Check docs, examples, benchmark, and showcase pages for dark UI overflow regressions.",
+    description: "Check docs, Studio, examples, benchmark, and showcase pages for dark UI overflow regressions.",
     sections: [
       {
         title: "Automated Check",
@@ -14,10 +14,11 @@ export const darkOverflowTopics: readonly DocTopic[] = [
       },
       {
         title: "Routes",
-        body: "The audit covers docs, readme, benchmark, showcase, and a core example route.",
+        body: "The audit covers docs, readme, benchmark, Studio, showcase, and a core example route.",
         code: `/doc
 /readme
 /benchmark
+/studio
 /examples/showcase/
 /examples/canvas-basic/`
       },
@@ -28,7 +29,8 @@ export const darkOverflowTopics: readonly DocTopic[] = [
 dark background
 no clipped text
 scrollable code
-scrollable side panels`
+scrollable side panels
+Studio panels wrap and scroll`
       }
     ]
   }

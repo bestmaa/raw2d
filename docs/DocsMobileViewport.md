@@ -1,15 +1,16 @@
 # Docs Mobile Viewport Check
 
-This check protects the small-screen docs experience for `/doc` and `/readme`.
+This check protects the small-screen docs and Studio experience for `/doc`, `/readme`, and `/studio`.
 
 ## What It Verifies
 
-- `/doc` and `/readme` return browser-loadable HTML through Vite
+- `/doc`, `/readme`, and `/studio` return browser-loadable HTML through Vite
 - docs and readme layouts collapse to one column below `760px`
 - sticky sidebars become normal document flow on mobile
 - search input can shrink without overflowing
 - code blocks use horizontal scrolling instead of breaking the page
 - live example panels stack below the topic content
+- Studio app panels collapse to one column, wrap topbar actions, and keep the artboard inside the viewport
 
 ## Run
 
@@ -28,3 +29,4 @@ Open DevTools device mode at `390px` width and check:
 - long code blocks scroll horizontally
 - next/previous buttons stack cleanly
 - live control panels do not overlap content
+- Studio grid stacks and panels remain scrollable

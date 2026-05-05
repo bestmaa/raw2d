@@ -1,6 +1,6 @@
 # Dark UI Overflow Audit
 
-Ye audit Raw2D docs aur examples ke dark UI surfaces ko layout overflow se protect karta hai.
+Ye audit Raw2D docs, Studio, aur examples ke dark UI surfaces ko layout overflow se protect karta hai.
 
 ## Run
 
@@ -15,6 +15,7 @@ Script Vite start karta hai, critical routes check karta hai, aur CSS contracts 
 - `/doc`
 - `/readme`
 - `/benchmark`
+- `/studio`
 - `/examples/showcase/`
 - `/examples/canvas-basic/`
 
@@ -23,5 +24,6 @@ Script Vite start karta hai, critical routes check karta hai, aur CSS contracts 
 - dark backgrounds consistent rahein
 - code blocks horizontally scroll hon
 - side panels aur live controls scroll kar saken
+- Studio panels wrap hon aur scroll kar saken
 - canvases aur media parent width ke andar rahein
 - buttons aur labels overlap na karein

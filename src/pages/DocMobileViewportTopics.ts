@@ -9,7 +9,7 @@ export const mobileViewportTopics: readonly DocTopic[] = [
     sections: [
       {
         title: "Automated Check",
-        body: "Run the mobile docs check before beta releases. It starts Vite, opens `/doc` and `/readme`, and audits the CSS contracts for mobile layout.",
+        body: "Run the mobile docs check before beta releases. It starts Vite, opens `/doc`, `/readme`, and `/studio`, and audits the CSS contracts for docs and Studio mobile layout.",
         code: `npm run test:browser:mobile-docs`
       },
       {
@@ -18,7 +18,8 @@ export const mobileViewportTopics: readonly DocTopic[] = [
         code: `Viewport: 390 x 844
 Routes:
 /doc
-/readme`
+/readme
+/studio`
       },
       {
         title: "Pass Criteria",
@@ -27,7 +28,8 @@ Routes:
 navigation visible
 search usable
 code scrolls
-live panel stacks`
+live panel stacks
+Studio grid stacks`
       }
     ]
   }

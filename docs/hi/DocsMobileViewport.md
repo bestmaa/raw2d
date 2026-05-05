@@ -1,15 +1,16 @@
 # Docs Mobile Viewport Check
 
-Ye check `/doc` aur `/readme` ke small-screen docs experience ko protect karta hai.
+Ye check `/doc`, `/readme`, aur `/studio` ke small-screen docs aur Studio experience ko protect karta hai.
 
 ## Kya Verify Hota Hai
 
-- `/doc` aur `/readme` Vite ke through browser-loadable HTML return karein
+- `/doc`, `/readme`, aur `/studio` Vite ke through browser-loadable HTML return karein
 - docs aur readme layouts `760px` ke neeche one column ho jayein
 - sticky sidebars mobile par normal document flow me aa jayein
 - search input overflow ke bina shrink ho sake
 - code blocks page todne ke bajay horizontal scroll use karein
 - live example panels topic content ke neeche stack hon
+- Studio app panels one column me stack hon, topbar actions wrap hon, aur artboard viewport ke andar rahe
 
 ## Run
 
@@ -28,3 +29,4 @@ DevTools device mode me `390px` width par open karo aur check karo:
 - long code blocks horizontally scroll hon
 - next/previous buttons clean stack hon
 - live control panels content ke sath overlap na karein
+- Studio grid stack ho aur panels scrollable rahein

@@ -32,4 +32,8 @@ test("docs mobile viewport checklist is documented", () => {
   assert.match(topics, /mobileViewportTopics/);
   assert.match(english, /390px/);
   assert.match(hinglish, /390px/);
+  assert.match(english, /\/studio/);
+  assert.match(english, /Studio grid stacks/);
+  assert.match(hinglish, /\/studio/);
+  assert.match(hinglish, /Studio grid stack/);
 });

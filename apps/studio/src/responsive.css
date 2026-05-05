@@ -1,0 +1,32 @@
+@media (max-width: 820px) {
+  .studio-topbar {
+    align-items: stretch;
+  }
+
+  .studio-actions {
+    width: 100%;
+  }
+
+  .studio-actions button {
+    flex: 1 1 96px;
+  }
+
+  .studio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-panel,
+  .studio-panel:last-child {
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid #1f3342;
+  }
+
+  .studio-workspace {
+    padding: 16px;
+  }
+
+  .studio-artboard {
+    width: 100%;
+  }
+}

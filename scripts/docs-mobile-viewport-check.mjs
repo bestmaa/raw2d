@@ -14,8 +14,9 @@ try {
   await waitForServer(server);
   await checkRoute("/doc");
   await checkRoute("/readme");
+  await checkRoute("/studio");
   await checkMobileCss();
-  console.log(`docs-mobile-ok ${baseUrl}/doc ${baseUrl}/readme`);
+  console.log(`docs-mobile-ok ${baseUrl}/doc ${baseUrl}/readme ${baseUrl}/studio`);
 } finally {
   await stopServer(server.process);
 }
@@ -73,6 +74,9 @@ async function checkRoute(route) {
 async function checkMobileCss() {
   const style = await readFile(new URL("../src/style.css", import.meta.url), "utf8");
   const docs = await readFile(new URL("../src/docs.css", import.meta.url), "utf8");
+  const studioBase = await readFile(new URL("../apps/studio/src/style.css", import.meta.url), "utf8");
+  const studioResponsive = await readFile(new URL("../apps/studio/src/responsive.css", import.meta.url), "utf8");
+  const studio = `${studioBase}\n${studioResponsive}`;
 
   assert(/@media \(max-width: 760px\)/.test(style), "style.css needs mobile media query");
   assert(/\.doc-page\s*\{[\s\S]*?grid-template-columns:\s*1fr/.test(style), "doc page should become one column");
@@ -82,6 +86,10 @@ async function checkMobileCss() {
   assert(/pre\s*\{[\s\S]*?overflow-x:\s*auto/.test(style), "code blocks should scroll horizontally");
   assert(/@media \(max-width: 760px\)/.test(docs), "docs.css needs mobile media query");
   assert(/\.doc-topic-layout\s*\{[\s\S]*?grid-template-columns:\s*1fr/.test(docs), "live demo layout should become one column");
+  assert(/@media \(max-width: 820px\)/.test(studio), "Studio app needs mobile media query");
+  assert(/\.studio-grid\s*\{[\s\S]*?grid-template-columns:\s*1fr/.test(studio), "Studio app grid should become one column");
+  assert(/\.studio-actions\s*\{[\s\S]*?width:\s*100%/.test(studio), "Studio actions should wrap to full width on mobile");
+  assert(/\.studio-artboard\s*\{[\s\S]*?width:\s*100%/.test(studio), "Studio artboard should fit mobile width");
 }
 
 async function stopServer(viteProcess) {

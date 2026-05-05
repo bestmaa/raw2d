@@ -7,7 +7,7 @@ const root = fileURLToPath(new URL("../", import.meta.url));
 const viteBin = fileURLToPath(new URL("../node_modules/vite/bin/vite.js", import.meta.url));
 const port = 5197;
 const baseUrl = `http://127.0.0.1:${port}`;
-const routes = ["/doc", "/readme", "/benchmark", "/examples/showcase/", "/examples/canvas-basic/"];
+const routes = ["/doc", "/readme", "/benchmark", "/studio", "/examples/showcase/", "/examples/canvas-basic/"];
 const server = startViteServer();
 
 try {
@@ -72,7 +72,11 @@ async function checkCssContracts() {
   const style = await readFile(new URL("../src/style.css", import.meta.url), "utf8");
   const docs = await readFile(new URL("../src/docs.css", import.meta.url), "utf8");
   const examples = await readFile(new URL("../examples/shared/example.css", import.meta.url), "utf8");
-  const combined = `${style}\n${docs}\n${examples}`;
+  const studioBase = await readFile(new URL("../apps/studio/src/style.css", import.meta.url), "utf8");
+  const studioResponsive = await readFile(new URL("../apps/studio/src/responsive.css", import.meta.url), "utf8");
+  const studio = `${studioBase}\n${studioResponsive}`;
+  const studioProperties = await readFile(new URL("../apps/studio/src/properties.css", import.meta.url), "utf8");
+  const combined = `${style}\n${docs}\n${examples}\n${studio}\n${studioProperties}`;
 
   assert(/background:\s*#0b0f16|background:\s*#10141c/.test(combined), "dark surfaces should stay explicit");
   assert(/min-width:\s*0/.test(combined), "grid/flex children need min-width zero");
@@ -80,6 +84,8 @@ async function checkCssContracts() {
   assert(/overflow-x:\s*auto/.test(combined), "long code or panels need horizontal overflow protection");
   assert(/max-width:\s*100%/.test(combined), "canvas and media surfaces need max-width protection");
   assert(/overflow:\s*auto/.test(combined), "fixed panels need scrollable overflow");
+  assert(/\.studio-panel\s*\{[\s\S]*?overflow:\s*auto/.test(studio), "Studio panels need scrollable overflow");
+  assert(/\.studio-actions\s*\{[\s\S]*?flex-wrap:\s*wrap/.test(studio), "Studio actions should wrap");
 }
 
 async function stopServer(viteProcess) {
