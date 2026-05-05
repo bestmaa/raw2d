@@ -5,7 +5,7 @@ export const startHereTopics: readonly DocTopic[] = [
     id: "start-here-guide",
     label: "Start Here",
     title: "Start Here",
-    description: "The shortest beginner path from install to first render, next examples, WebGL, React, and MCP.",
+    description: "The shortest beginner path from install to first render, examples, Studio, WebGL, React, and MCP.",
     sections: [
       {
         title: "What To Install First",
@@ -39,9 +39,9 @@ renderer.render(scene, camera);`
       },
       {
         title: "Beginner Order",
-        body: "Read in this order: install, Canvas, Scene, Camera2D, Rect or Circle, Texture, Sprite, WebGL, Interaction, then React or MCP only if needed.",
+        body: "Read in this order: install, Canvas, Scene, Camera2D, Rect or Circle, Texture, Sprite, examples, Studio, WebGL, Interaction, then React or MCP only if needed.",
         code: `Start Here -> Canvas Init -> Scene -> Camera2D -> Rect
-Texture -> Sprite -> Canvas / WebGL -> Interaction Path
+Texture -> Sprite -> Examples -> Studio -> Canvas / WebGL -> Interaction Path
 React Later -> MCP`
       },
       {
@@ -62,11 +62,13 @@ const renderer = isWebGL2Available({ canvas: canvasElement })
       },
       {
         title: "What To Open Next",
-        body: "After this page, open Beginner Path for the step-by-step flow, then Examples for copy-paste runnable scenes.",
+        body: "After this page, open Beginner Path for the step-by-step flow, Examples for copy-paste runnable scenes, then Studio to inspect how Raw2D scene data becomes an editor workflow.",
         code: `/doc#beginner-path
 /doc#examples
 /examples/canvas-basic/
-/examples/webgl-basic/`
+/examples/webgl-basic/
+/doc#studio-shell
+/studio`
       }
     ]
   }

@@ -50,9 +50,11 @@ Docs padhte waqt ye flow follow karein:
 4. Camera2D
 5. Rect ya Circle draw karna
 6. Texture aur Sprite
-7. Canvas / WebGL
-8. Interaction Path
-9. React ya MCP, sirf jab project me zarurat ho
+7. Runnable examples
+8. Studio
+9. Canvas / WebGL
+10. Interaction Path
+11. React ya MCP, sirf jab project me zarurat ho
 
 ## Canvas First
 
@@ -64,4 +66,4 @@ WebGL tab use karein jab scene me bahut objects, sprites, texture atlas, ya draw
 
 ## Next
 
-Next docs: `/doc#beginner-path`, phir `/examples/canvas-basic/`, phir `/examples/webgl-basic/`.
+Next docs: `/doc#beginner-path`, phir `/examples/canvas-basic/`, phir `/examples/webgl-basic/`, phir `/doc#studio-shell` aur `/studio`.

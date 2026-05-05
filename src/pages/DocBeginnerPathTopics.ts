@@ -5,7 +5,7 @@ export const beginnerPathTopics: readonly DocTopic[] = [
     id: "beginner-path",
     label: "Beginner Path",
     title: "Beginner Path",
-    description: "A practical Raw2D learning path from install to Canvas, scene objects, texture, and WebGL.",
+    description: "A practical Raw2D learning path from install to Canvas, scene objects, texture, examples, Studio, and WebGL.",
     sections: [
       {
         title: "1. Install",
@@ -93,6 +93,14 @@ renderer.render(scene, camera);`
 /examples/interaction-basic/
 /examples/camera-controls/
 /examples/shape-path/`
+      },
+      {
+        title: "9. Open Studio After Examples",
+        body: "After runnable examples make sense, open Studio docs and the public Studio route. Studio shows the same scene data as an explicit editor workflow: create objects, select, edit, save, load, and export.",
+        code: `/doc#studio-shell
+/doc#studio-tools
+/doc#studio-scene-format
+/studio`
       }
     ]
   }

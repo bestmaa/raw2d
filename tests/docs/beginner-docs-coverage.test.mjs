@@ -17,6 +17,7 @@ test("beginner path docs cover the core first-user journey", () => {
     assert.match(content, /Rect|Circle|shape/i);
     assert.match(content, /Texture|Sprite/);
     assert.match(content, /WebGL/);
+    assert.match(content, /Studio/);
     assert.match(content, /Interaction|MCP|React/i);
   }
 });
@@ -25,6 +26,7 @@ test("beginner navigation keeps the expected early learning order", () => {
   assertBefore("...startHereTopics", "...setupTopics");
   assertBefore("...setupTopics", "...beginnerPathTopics");
   assertBefore("...beginnerPathTopics", "...publicApiTopics");
+  assertBefore("...exampleTopics", "...studioTopics");
   assertBefore("...canvasInitTopics", "...coreTopics");
   assertBefore("...webGLDecisionTopics", "...rendererChoiceTopics");
   assertBefore("...mcpBeginnerTopics", "...mcpTopics");

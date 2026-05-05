@@ -20,3 +20,12 @@ test("beginner path covers texture, WebGL, and examples next steps", () => {
   assert.match(source, /isWebGL2Available/);
   assert.ok(source.includes("/examples/sprite-atlas/"));
 });
+
+test("beginner path sends users to Studio after examples", () => {
+  assert.match(source, /Open Studio After Examples/);
+  assert.match(source, /\/doc#studio-shell/);
+  assert.match(source, /\/doc#studio-tools/);
+  assert.match(source, /\/doc#studio-scene-format/);
+  assert.match(source, /\/studio/);
+  assert.ok(source.indexOf("8. Next Examples") < source.indexOf("9. Open Studio After Examples"));
+});

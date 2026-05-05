@@ -50,9 +50,11 @@ Use this order while learning:
 4. Camera2D
 5. Rect or Circle
 6. Texture and Sprite
-7. Canvas / WebGL
-8. Interaction Path
-9. React Later or MCP only if needed
+7. Runnable examples
+8. Studio
+9. Canvas / WebGL
+10. Interaction Path
+11. React Later or MCP only if needed
 
 ## Canvas First
 
@@ -64,4 +66,4 @@ WebGL is the batch-first renderer. Use it for many sprites, texture atlas scenes
 
 ## Next
 
-Open `/doc#beginner-path`, then `/examples/canvas-basic/`, then `/examples/webgl-basic/`.
+Open `/doc#beginner-path`, then `/examples/canvas-basic/`, then `/examples/webgl-basic/`, then `/doc#studio-shell` and `/studio`.
