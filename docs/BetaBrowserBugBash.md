@@ -1,6 +1,6 @@
 # Beta Browser Bug Bash
 
-Use this checklist before a public beta release to verify the docs like a real user.
+Use this checklist before a public beta release to verify the docs, examples, CDN smoke page, and Studio entry points like a real user.
 
 ## Routes
 
@@ -9,8 +9,14 @@ Open these routes directly:
 ```text
 http://localhost:5174/doc
 http://localhost:5174/readme
+http://localhost:5174/examples/
+http://localhost:5174/studio
+http://localhost:5174/cdn-smoke
 https://raw2d.com/doc
 https://raw2d.com/readme
+https://raw2d.com/examples/
+https://raw2d.com/studio
+https://raw2d.com/cdn-smoke
 ```
 
 Each route should load without a blank screen, missing asset error, or fatal console error.
@@ -31,11 +37,30 @@ Each route should load without a blank screen, missing asset error, or fatal con
 - verify long code blocks remain readable
 - confirm next/previous navigation still works
 
+## `/examples` Checks
+
+- open the examples index
+- open Canvas basic, WebGL basic, showcase, interaction, camera, and React examples
+- confirm every route has visible canvases or example controls
+- confirm no route shows a Vite import error
+
+## `/studio` Checks
+
+- open the public `/studio` route from the docs app
+- confirm Studio planning links open scope, tools, and panel docs
+- run the separate `apps/studio` browser smoke before accepting save, load, and export workflows
+
+## CDN Smoke Checks
+
+- open `/cdn-smoke`
+- confirm the pinned URL text matches the current package version
+- after release publishing, confirm pinned jsDelivr ESM and UMD URLs return 200
+
 ## Pass Criteria
 
 The bug bash passes when:
 
-- both routes return 200
+- all listed routes return 200
 - navigation and search remain usable
 - no severe layout overflow hides content
 - no fatal browser console errors appear

@@ -8,12 +8,16 @@ const english = readFileSync("docs/BetaBrowserBugBash.md", "utf8");
 const hinglish = readFileSync("docs/hi/BetaBrowserBugBash.md", "utf8");
 const smoke = readFileSync("tests/browser/smoke.test.mjs", "utf8");
 
-test("browser bug bash checklist covers docs and readme routes", () => {
+test("browser bug bash checklist covers beta docs, examples, Studio, and CDN routes", () => {
   for (const content of [topic, english, hinglish]) {
     assert.match(content, /\/doc/);
     assert.match(content, /\/readme/);
+    assert.match(content, /\/examples/);
+    assert.match(content, /\/studio/);
+    assert.match(content, /\/cdn-smoke/);
     assert.match(content, /search/i);
     assert.match(content, /Hinglish/i);
+    assert.match(content, /CDN/i);
   }
 });
 
@@ -22,4 +26,7 @@ test("browser bug bash checklist is registered and browser-smoked", () => {
   assert.match(topic, /browser-bug-bash/);
   assert.match(smoke, /"\/doc"/);
   assert.match(smoke, /"\/readme"/);
+  assert.match(smoke, /"\/examples\/"/);
+  assert.match(smoke, /"\/studio"/);
+  assert.match(smoke, /"\/cdn-smoke"/);
 });
