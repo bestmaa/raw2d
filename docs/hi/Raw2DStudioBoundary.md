@@ -1,6 +1,6 @@
 # Raw2D Studio Boundary
 
-Raw2D Studio pehle is repository me ek separate app ke roop me start hona chahiye. Publishable package tab banana chahiye jab editor API stable ho.
+Raw2D Studio pehle is repository me ek alag app ke roop me shuru hona chahiye. Publishable package tab banayein jab editor API stable ho.
 
 ## Location
 
@@ -14,7 +14,7 @@ Isse editor UI, application state, panels, aur build tooling `packages/core`, `p
 
 ## Package Plan
 
-Studio later package ban sakta hai:
+Baad me Studio package ban sakta hai:
 
 ```text
 raw2d-studio
@@ -51,7 +51,7 @@ Examples:
 
 Studio core package releases ko block nahi karega. Core renderer work editor changes ke bina ship ho sakta hai.
 
-Studio package banne ke baad uski release aur notes alag ho sakte hain.
+Studio package banne ke baad uski release aur notes alag reh sakte hain.
 
 ## Verification
 

@@ -36,7 +36,7 @@ Properties selected object ke public fields edit karta hai.
 
 ## Assets Panel
 
-Assets abhi planned hai. Sprite abhi `assetSlot` placeholder use karta hai jab tak save/load aur asset import nahi aate.
+Assets panel abhi planned hai. Sprite filhaal `assetSlot` placeholder use karta hai jab tak asset import flow nahi aata.
 
 - image import
 - textures list

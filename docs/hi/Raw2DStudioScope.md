@@ -1,10 +1,10 @@
 # Raw2D Studio Scope
 
-Raw2D Studio ek visual editor plan hai jo Raw2D ke upar banega. Yeh core renderer packages ke andar mix nahi hoga.
+Raw2D Studio ek visual editor plan hai jo Raw2D ke upar banega. Ye core renderer packages ke andar mix nahi hoga.
 
 ## Product Goal
 
-Studio ka goal hai developers aur designers ko Raw2D scene visually banana, scene graph inspect karna, aur scene data ya image export karna.
+Studio ka goal hai developers aur designers ko Raw2D scene visually banane, scene graph inspect karne, aur scene data ya image export karne ka clear workflow dena.
 
 Pehla version ek focused editor hona chahiye, full Photoshop replacement nahi.
 
@@ -33,14 +33,14 @@ Pehla version ek focused editor hona chahiye, full Photoshop replacement nahi.
 
 ## Package Boundary
 
-Studio app ya later package ke roop me alag rehna chahiye.
+Studio app ya baad ke package ke roop me alag rehna chahiye.
 
 ```text
 raw2d-core        scene objects, math, materials
 raw2d-canvas      Canvas renderer
 raw2d-webgl       WebGL renderer
 raw2d-interaction selection, hit testing, drag, resize
-raw2d-studio      visual editor app, later package
+raw2d-studio      visual editor app, baad ka package
 ```
 
 Core packages Studio ke bina bhi usable rehne chahiye.

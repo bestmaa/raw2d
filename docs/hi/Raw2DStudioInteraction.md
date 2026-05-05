@@ -1,10 +1,10 @@
 # Raw2D Studio Interaction
 
-Studio interaction simple aur explicit rakha gaya hai: browser input ek chhota editor command banta hai, command scene state update karta hai, aur renderer us state se redraw karta hai.
+Studio interaction ko simple aur explicit rakha gaya hai: browser input ek chhota editor command banta hai, command scene state update karta hai, aur renderer us state se redraw karta hai.
 
-## Current Controls
+## Abhi Ke Controls
 
-Current Studio app ek selected object ke liye direct editing support karta hai:
+Abhi Studio app ek selected object ke liye direct editing support karta hai:
 
 - object par click karke select karein
 - selected object ko drag karke `x` aur `y` move karein
@@ -22,7 +22,7 @@ Selection, drag, resize, keyboard, layer, aur property changes Raw2D runtime obj
 input -> Studio command -> StudioSceneState -> runtime adapter -> renderer
 ```
 
-Isse editor debug karna easy rehta hai. Canvas state ka preview hai, source of truth nahi.
+Isse editor ko debug karna asaan rehta hai. Canvas state ka preview hai, source of truth nahi.
 
 ## Selection Aur Resize
 

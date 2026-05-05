@@ -43,6 +43,25 @@ test("core beginner Hinglish markdown avoids awkward mixed copy", async () => {
   }
 });
 
+test("Studio Hinglish markdown uses polished app copy", async () => {
+  const paths = [
+    "docs/hi/Raw2DStudioBoundary.md",
+    "docs/hi/Raw2DStudioInteraction.md",
+    "docs/hi/Raw2DStudioPanels.md",
+    "docs/hi/Raw2DStudioSceneFormat.md",
+    "docs/hi/Raw2DStudioScope.md",
+    "docs/hi/Raw2DStudioShell.md",
+    "docs/hi/Raw2DStudioTools.md"
+  ];
+
+  for (const path of paths) {
+    const content = await readText(path);
+    assert.match(content, /Studio/);
+    assert.doesNotMatch(content, /future visual editor|Current Studio app|later package|debug karna easy|directly draw/);
+    assert.doesNotMatch(content, /Yeh core|separate app ke roop me start|Tools directly/);
+  }
+});
+
 async function readText(path) {
   return readFile(new URL(path, `file://${root}`), "utf8");
 }

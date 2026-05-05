@@ -10,7 +10,7 @@ Isme renderer internals save nahi honge, jaise GPU buffers, Canvas context state
 
 ## Current Document Shape
 
-Current `apps/studio` save file `StudioSceneState` ke close hai, taaki Save aur Load hidden editor data ke bina round-trip kar sake.
+Abhi `apps/studio` save file `StudioSceneState` ke close hai, taaki Save aur Load hidden editor data ke bina round-trip kar sake.
 
 ```json
 {

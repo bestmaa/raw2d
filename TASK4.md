@@ -104,7 +104,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 - T245 | Version: v1.15.0 | Status: completed | Goal: Audit `/doc`, `/readme`, `/examples`, `/studio`, and CDN smoke after Studio MVP. | Verify: browser bug bash. | Commit: `Audit Studio beta routes`
 - T246 | Version: v1.15.1 | Status: completed | Goal: Polish beginner docs flow to include Studio after examples. | Verify: docs navigation check. | Commit: `Polish Studio beginner docs`
-- T247 | Version: v1.15.2 | Status: pending | Goal: Polish Hinglish Studio docs manually. | Verify: Hinglish route review. | Commit: `Polish Studio Hinglish docs`
+- T247 | Version: v1.15.2 | Status: completed | Goal: Polish Hinglish Studio docs manually. | Verify: Hinglish route review. | Commit: `Polish Studio Hinglish docs`
 - T248 | Version: v1.15.3 | Status: pending | Goal: Add Studio mobile and overflow checks. | Verify: browser viewport checks. | Commit: `Audit Studio responsive UI`
 - T249 | Version: v1.15.4 | Status: pending | Goal: Add Studio public demo checklist. | Verify: checklist route check. | Commit: `Add Studio demo checklist`
 - T250 | Version: v1.15.5 | Status: pending | Goal: Add post-release npm and CDN audit for Studio packages/docs. | Verify: fresh install and CDN checks. | Commit: `Audit Studio release`

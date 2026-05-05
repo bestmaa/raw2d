@@ -1,6 +1,6 @@
 # Raw2D Studio Tools
 
-Studio tools chhote editor modes hone chahiye jo explicit commands ke through scene state mutate karein.
+Studio tools chhote editor modes hone chahiye jo explicit commands ke through scene state update karein.
 
 ## Tool Model
 
@@ -10,7 +10,7 @@ Har tool ka ek clear kaam hona chahiye:
 pointer event -> tool -> editor command -> scene JSON/state -> render
 ```
 
-Tools directly draw nahi karenge. State change ke baad renderer se redraw karaya ja sakta hai.
+Tools direct draw nahi karenge. State change ke baad renderer se redraw karaya ja sakta hai.
 
 ## Select Tool
 
@@ -128,11 +128,11 @@ Current placeholder:
 { "type": "sprite", "width": 128, "height": 128, "assetSlot": "empty" }
 ```
 
-Later asset slot texture ya atlas frame ko point kar sakta hai, tool boundary change kiye bina.
+Baad me asset slot texture ya atlas frame ko point kar sakta hai, tool boundary change kiye bina.
 
 ## Command Rule
 
-Sab tools later command objects produce karenge taaki undo/redo tool logic rewrite kiye bina add ho sake.
+Sab tools baad me command objects produce karenge taaki undo/redo tool logic rewrite kiye bina add ho sake.
 
 ```text
 CreateObjectCommand
