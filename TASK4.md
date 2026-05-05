@@ -82,7 +82,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 - T229 | Version: v1.13.0 | Status: completed | Goal: Add single-object selection in Studio. | Verify: browser click check. | Commit: `Add Studio selection`
 - T230 | Version: v1.13.1 | Status: completed | Goal: Add drag selected object. | Verify: browser drag check. | Commit: `Add Studio drag`
-- T231 | Version: v1.13.2 | Status: pending | Goal: Add resize handles for Rect and Sprite. | Verify: browser resize check. | Commit: `Add Studio resize`
+- T231 | Version: v1.13.2 | Status: completed | Goal: Add resize handles for Rect and Sprite. | Verify: browser resize check. | Commit: `Add Studio resize`
 - T232 | Version: v1.13.3 | Status: pending | Goal: Add keyboard move, delete, and escape clear. | Verify: browser keyboard check. | Commit: `Add Studio keyboard`
 - T233 | Version: v1.13.4 | Status: pending | Goal: Add Layers panel with select, visibility, and ordering. | Verify: browser layers check. | Commit: `Add Studio layers panel`
 - T234 | Version: v1.13.5 | Status: pending | Goal: Add Properties panel for transform and material edits. | Verify: browser edit check. | Commit: `Add Studio properties panel`

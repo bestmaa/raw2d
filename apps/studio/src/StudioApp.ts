@@ -11,6 +11,8 @@ import {
   addStudioTextObject
 } from "./StudioObjectFactory";
 import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
+import { drawStudioResizeHandles, resizeStudioObject, startStudioResize } from "./StudioResize";
+import type { StudioResizeSession } from "./StudioResize.type";
 import { renderStudioLayout } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
@@ -23,6 +25,7 @@ export class StudioApp {
   private rendererMode: StudioRendererMode = "canvas";
   private selectedObjectId: string | undefined;
   private dragSession: StudioDragSession | undefined;
+  private resizeSession: StudioResizeSession | undefined;
 
   public constructor(options: StudioAppOptions) {
     this.root = options.root;
@@ -138,6 +141,16 @@ export class StudioApp {
       }
 
       const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
+      const resizeStart = startStudioResize(this.sceneState, this.selectedObjectId, pointer);
+
+      if (resizeStart) {
+        this.selectedObjectId = resizeStart.selectedObjectId;
+        this.resizeSession = resizeStart.session;
+        canvasElement.setPointerCapture(event.pointerId);
+        event.preventDefault();
+        return;
+      }
+
       const dragStart = startStudioDrag(this.sceneState, this.selectedObjectId, pointer);
 
       if (!dragStart) {
@@ -151,6 +164,14 @@ export class StudioApp {
     });
 
     canvasElement.addEventListener("pointermove", (event) => {
+      if (this.resizeSession) {
+        const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
+        this.sceneState = resizeStudioObject({ scene: this.sceneState, session: this.resizeSession, pointer });
+        this.renderRuntimeScene();
+        event.preventDefault();
+        return;
+      }
+
       if (!this.dragSession) {
         return;
       }
@@ -162,11 +183,12 @@ export class StudioApp {
     });
 
     const finishDrag = (event: PointerEvent): void => {
-      if (!this.dragSession) {
+      if (!this.dragSession && !this.resizeSession) {
         return;
       }
 
       this.dragSession = undefined;
+      this.resizeSession = undefined;
       if (canvasElement.hasPointerCapture(event.pointerId)) {
         canvasElement.releasePointerCapture(event.pointerId);
       }
@@ -194,5 +216,6 @@ export class StudioApp {
     });
 
     renderer.render(runtime.scene, runtime.camera);
+    drawStudioResizeHandles(renderer.getContext(), this.sceneState, this.selectedObjectId);
   }
 }
