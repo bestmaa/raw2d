@@ -34,3 +34,4 @@ Build output `dist-studio` me jata hai. Ye git me commit nahi hota.
 - Rect, Circle, Line, Text2D, aur Sprite placeholder creation.
 - Single selection, drag, Rect/Sprite resize, keyboard nudge/delete/escape.
 - Layers, Properties, aur Renderer Stats panels.
+- Save `.raw2d.json`, Load `.raw2d.json`, invalid import errors, aur PNG export.

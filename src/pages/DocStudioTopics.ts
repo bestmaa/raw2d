@@ -79,17 +79,17 @@ Editor UI state: apps/studio`
     id: "studio-scene-format",
     label: "Studio Scene JSON",
     title: "Studio Scene JSON Format",
-    description: "A versioned save/load shape for future Raw2D Studio scenes.",
+    description: "The current versioned save/load shape for Raw2D Studio scenes.",
     sections: [
       {
-        title: "Document",
-        body: "Studio should save a readable JSON document with version, metadata, camera, scene objects, and assets. It should not store renderer internals.",
+        title: "Current Document",
+        body: "Studio saves a readable JSON document with version, name, rendererMode, camera, and objects. It does not store renderer internals.",
         code: `{
   "version": 1,
-  "meta": { "name": "Untitled Scene", "createdWith": "raw2d-studio" },
+  "name": "Untitled Scene",
+  "rendererMode": "canvas",
   "camera": { "x": 0, "y": 0, "zoom": 1 },
-  "scene": { "objects": [] },
-  "assets": { "textures": [] }
+  "objects": []
 }`
       },
       {
@@ -107,19 +107,16 @@ Editor UI state: apps/studio`
 }`
       },
       {
-        title: "Assets",
-        body: "Texture assets should be referenced by stable IDs. Sprite objects should point to textureId and optional frameName instead of storing image bytes.",
-        code: `{
-  "id": "hero-texture",
-  "src": "./assets/hero.png",
-  "width": 256,
-  "height": 256
-}`
+        title: "Save Load Export",
+        body: "Save downloads .raw2d.json, Load validates and replaces Studio scene state, and Export downloads the current canvas preview as PNG.",
+        code: `serializeStudioScene(scene)
+deserializeStudioScene(json)
+getStudioCanvasPngDataUrl(root)`
       },
       {
-        title: "Load",
-        body: "Load should validate the JSON before creating Raw2D objects. Error messages should point to fields such as scene.objects[2].width.",
-        code: `validate -> create assets -> create objects -> render`
+        title: "Import Errors",
+        body: "Invalid JSON is reported in the Studio status bar before any scene state is replaced.",
+        code: `Import error: Studio scene version must be 1.`
       }
     ]
   },

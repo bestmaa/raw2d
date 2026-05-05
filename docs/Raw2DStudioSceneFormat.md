@@ -8,28 +8,25 @@ The format should be readable, versioned, and close to the public Raw2D object m
 
 It should not store renderer internals such as GPU buffers, Canvas context state, batch cache keys, or generated draw calls.
 
-## Document Shape
+## Current Document Shape
+
+The current `apps/studio` save file is intentionally close to `StudioSceneState` so it can round-trip through Save and Load without hidden editor data.
 
 ```json
 {
   "version": 1,
-  "meta": {
-    "name": "Untitled Scene",
-    "createdWith": "raw2d-studio"
-  },
+  "name": "Untitled Scene",
+  "rendererMode": "canvas",
   "camera": {
     "x": 0,
     "y": 0,
     "zoom": 1
   },
-  "scene": {
-    "objects": []
-  },
-  "assets": {
-    "textures": []
-  }
+  "objects": []
 }
 ```
+
+Save uses `serializeStudioScene(scene)` and downloads `<scene-name>.raw2d.json`.
 
 ## Object Shape
 
@@ -55,7 +52,17 @@ Objects should use explicit `type` values and public Raw2D-style fields.
 }
 ```
 
-## Assets
+## Save, Load, Export
+
+Persistence currently has three user-facing actions:
+
+- Save downloads stable `.raw2d.json`.
+- Load reads a valid `.raw2d.json`, validates the schema, then replaces Studio scene state.
+- Export downloads the current canvas preview as PNG.
+
+Invalid JSON is reported in the Studio status bar as an import error.
+
+## Planned Assets
 
 Texture assets should use IDs so Sprite objects do not store image bytes directly.
 
@@ -84,12 +91,12 @@ Do not save runtime-only data.
 
 ## Load Rule
 
-Load should validate first, then create Raw2D objects.
+Load validates first, then creates Raw2D objects through the runtime adapter.
 
 Invalid objects should be reported with useful path messages such as `scene.objects[2].width`.
 
 ## Compatibility
 
-The first Studio format should extend the MCP scene JSON idea instead of inventing a separate incompatible format.
+The first Studio format should stay compatible with the MCP scene JSON idea instead of inventing a separate incompatible format.
 
 MCP can stay minimal, while Studio can add `version`, `meta`, and `assets`.

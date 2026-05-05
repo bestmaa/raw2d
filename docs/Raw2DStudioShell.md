@@ -34,3 +34,4 @@ The build output goes to `dist-studio`, which is ignored by git.
 - Rect, Circle, Line, Text2D, and Sprite placeholder creation.
 - Single selection, drag, Rect/Sprite resize, keyboard nudge/delete/escape.
 - Layers, Properties, and Renderer Stats panels.
+- Save `.raw2d.json`, Load `.raw2d.json`, invalid import errors, and PNG export.
