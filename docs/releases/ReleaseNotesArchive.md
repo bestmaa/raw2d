@@ -1,5 +1,22 @@
 # Raw2D Release Notes Archive
 
+## v1.13.8 - Studio Interaction Phase
+
+Raw2D v1.13.8 publishes the Studio interaction phase.
+
+### Added
+
+- Studio selection, drag movement, Rect/Sprite resize handles, keyboard nudge/delete/escape, and Layers panel actions.
+- Editable Properties panel for transform, geometry, text, and material fields.
+- Renderer Stats panel showing Canvas render-list stats and WebGL diagnostics.
+- Studio interaction and panel docs in English and Hinglish.
+
+### Verification
+
+- Full package and docs tests.
+- Browser Studio interaction and stats checks.
+- Consumer install smoke and workspace pack dry-run.
+
 ## v1.12.7 - Studio Tools Phase
 
 Raw2D v1.12.7 publishes the first Studio drawing tools phase.

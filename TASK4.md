@@ -88,7 +88,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T234 | Version: v1.13.5 | Status: completed | Goal: Add Properties panel for transform and material edits. | Verify: browser edit check. | Commit: `Add Studio properties panel`
 - T235 | Version: v1.13.6 | Status: completed | Goal: Add Renderer Stats panel for Canvas/WebGL diagnostics. | Verify: browser stats check. | Commit: `Add Studio stats panel`
 - T236 | Version: v1.13.7 | Status: completed | Goal: Add interaction and panel docs. | Verify: docs route check. | Commit: `Document Studio interaction`
-- T237 | Version: v1.13.8 | Status: pending | Goal: Phase 21 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio interaction. | Commit: `Release Studio interaction phase`
+- T237 | Version: v1.13.8 | Status: completed | Goal: Phase 21 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio interaction. | Commit: `Release Studio interaction phase`
 
 ## Phase 22: Studio Persistence And Export
 
