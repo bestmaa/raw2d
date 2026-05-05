@@ -17,7 +17,7 @@ raw2d packages -> no Studio imports
 npm --prefix apps/studio run dev
 ```
 
-Open the printed `/studio/` URL. The first shell includes a topbar, tools panel, canvas workspace, layers, properties, and status bar.
+Open the printed `/studio/` URL. The Studio app includes a topbar, tools panel, canvas workspace, renderer switch, stats panel, layers, properties, and status bar.
 
 ## Build
 
@@ -30,7 +30,7 @@ The build output goes to `dist-studio`, which is ignored by git.
 ## Current Scope
 
 - Editor layout shell.
-- Canvas workspace placeholder.
-- Tool, layer, property, and action surfaces.
-- No scene mutation yet.
-- No renderer coupling yet.
+- Canvas and WebGL preview path through Raw2D renderers.
+- Rect, Circle, Line, Text2D, and Sprite placeholder creation.
+- Single selection, drag, Rect/Sprite resize, keyboard nudge/delete/escape.
+- Layers, Properties, and Renderer Stats panels.

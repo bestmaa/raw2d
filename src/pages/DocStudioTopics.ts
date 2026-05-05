@@ -170,30 +170,71 @@ addStudioSpriteObject({ scene })`
     sections: [
       {
         title: "Layout",
-        body: "Studio should use a predictable editor layout: tools and layers on the left, canvas workspace in the center, properties/assets/stats on the right.",
-        code: `left: tools and layers
+        body: "Studio uses a predictable editor layout: tools on the left, canvas workspace in the center, and renderer, stats, layers, and properties on the right.",
+        code: `left: tools
 center: canvas workspace
-right: properties, assets, renderer stats`
+right: renderer, stats, layers, properties`
       },
       {
         title: "Layers",
-        body: "Layers should show object name, type, visibility, locked state, zIndex or order, and selection. It edits scene state, not renderer internals.",
-        code: `Rect  visible  unlocked  zIndex: 0
-Text2D visible  locked    zIndex: 1`
+        body: "Layers show object name, type, visibility, order controls, and selection. The panel can select, hide/show, move up, and move down without touching renderer internals.",
+        code: `Blue Card      Rect    Hide Up Down
+Accent Circle  Circle  Hide Up Down`
       },
       {
-        title: "Properties And Assets",
-        body: "Properties edits public object fields. Assets manages textures, atlas frames, active sprite assets, and missing asset warnings.",
-        code: `transform, geometry, material, render
-textures, atlas frames, sprite asset`
+        title: "Properties",
+        body: "Properties edits public selected-object fields: x, y, width, height, radius, text, font, fillColor, strokeColor, and lineWidth. Visibility remains a layer command.",
+        code: `transform: x, y
+geometry: width, height, radius, text, font
+material: fillColor, strokeColor, lineWidth`
       },
       {
         title: "Renderer Stats",
-        body: "Renderer stats should be read-only diagnostics for draw calls, texture binds, cache hits, cache misses, and unsupported object warnings.",
-        code: `renderer: WebGLRenderer2D
-objects: 280
-drawCalls: 12
-textureBinds: 2`
+        body: "Renderer stats are read-only diagnostics after every render. Canvas reports objects, draw calls, and render-list counts; WebGL also reports batches, vertices, texture binds, and unsupported objects.",
+        code: `Canvas: objects, drawCalls, accepted, hidden, culled
+WebGL: batches, vertices, textureBinds, unsupported`
+      },
+      {
+        title: "Assets",
+        body: "Assets are still planned. Sprite currently keeps an assetSlot placeholder until save/load and asset import arrive.",
+        code: `assetSlot: "empty"`
+      }
+    ]
+  },
+  {
+    id: "studio-interaction",
+    label: "Studio Interaction",
+    title: "Raw2D Studio Interaction",
+    description: "Selection, drag, resize, keyboard, layer, property, and stats behavior in the current Studio app.",
+    sections: [
+      {
+        title: "Current Controls",
+        body: "Studio supports single-object selection, drag movement, Rect/Sprite resize handles, keyboard nudging, delete, and escape clear. Input becomes explicit scene-state updates.",
+        code: `click object -> select
+drag selected -> update x/y
+corner handle -> resize Rect/Sprite
+Arrow keys -> nudge
+Escape -> clear selection
+Delete -> remove selected`
+      },
+      {
+        title: "State Flow",
+        body: "Interaction code updates StudioSceneState first, then the runtime adapter creates Raw2D objects for Canvas or WebGL rendering. The canvas preview is not the source of truth.",
+        code: `input -> Studio command -> StudioSceneState -> runtime adapter -> renderer`
+      },
+      {
+        title: "Keyboard",
+        body: "Arrow keys move by one unit, Shift+Arrow moves by ten units, Escape clears selection, and Delete or Backspace removes the selected object.",
+        code: `ArrowRight -> x + 1
+Shift+ArrowRight -> x + 10
+Escape -> selectedObjectId = undefined`
+      },
+      {
+        title: "Panel Commands",
+        body: "Layers and Properties mutate editor state through focused helpers. Stats reads renderer diagnostics after rendering and remains read-only.",
+        code: `applyStudioLayerAction
+applyStudioPropertyEdit
+createStudioStatsPanel`
       }
     ]
   },

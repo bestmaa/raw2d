@@ -7,37 +7,36 @@ Studio panels scene data ko clearly expose karenge aur Raw2D ke low-level model 
 MVP layout predictable editor jaisa hona chahiye:
 
 ```text
-left: tools and layers
+left: tools
 center: canvas workspace
-right: properties, assets, renderer stats
+right: renderer, stats, layers, properties
 bottom: optional messages and validation results
 ```
 
 ## Layers Panel
 
-Layers scene order aur object identity dikhayega.
+Layers scene order aur object identity dikhata hai.
 
 - object name
 - object type
 - visibility
-- locked state
-- zIndex ya order
+- order controls
 - selected state
 
-Layers scene state update karega, renderer internals nahi.
+Layers select, hide/show, move up, aur move down kar sakta hai. Ye scene state update karta hai, renderer internals nahi.
 
 ## Properties Panel
 
-Properties selected object ke public fields edit karega.
+Properties selected object ke public fields edit karta hai.
 
-- transform: x, y, rotation, scale, origin
-- geometry: width, height, radius, points, text, sprite frame
-- material: fillColor, strokeColor, lineWidth, opacity
-- render: visible, renderMode, zIndex
+- transform: x, y
+- geometry: width, height, radius, text, font
+- material: fillColor, strokeColor, lineWidth
+- render state: visibility Layers se
 
 ## Assets Panel
 
-Assets textures aur atlas frames manage karega.
+Assets abhi planned hai. Sprite abhi `assetSlot` placeholder use karta hai jab tak save/load aur asset import nahi aate.
 
 - image import
 - textures list
@@ -47,13 +46,14 @@ Assets textures aur atlas frames manage karega.
 
 ## Renderer Stats Panel
 
-Stats Raw2D pipeline ko visible banayega.
+Stats har render ke baad Raw2D pipeline ko visible banata hai.
 
 - renderer name
 - object count
 - draw calls
-- texture binds
-- static cache hits aur misses
+- accepted, hidden, aur culled render-list counts
+- WebGL batches aur vertices
+- textureBinds
 - unsupported object warnings
 
 ## Verification
