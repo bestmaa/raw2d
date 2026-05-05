@@ -30,6 +30,8 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   assert.match(layout, /studio-canvas/);
   assert.match(layout, /data-action="sample-scene"/);
   assert.match(layout, /data-action="save-scene"/);
+  assert.match(layout, /data-action="load-scene"/);
+  assert.match(layout, /data-scene-load-input/);
   assert.match(layout, /data-renderer="\$\{option\.mode\}"/);
   assert.match(layout, /studio-stats/);
   assert.match(layout, /data-stats-renderer/);

@@ -110,7 +110,9 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <button type="button">New</button>
           <button type="button" data-action="sample-scene">Sample</button>
           <button type="button" data-action="save-scene">Save</button>
+          <button type="button" data-action="load-scene">Load</button>
           <button type="button">Export</button>
+          <input type="file" accept="application/json,.json" data-scene-load-input hidden>
         </nav>
       </header>
       <div class="studio-grid">

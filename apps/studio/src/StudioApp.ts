@@ -1,5 +1,4 @@
-import { bindStudioActions, createStudioActionObject } from "./StudioActions";
-import type { StudioAction } from "./StudioActions.type";
+import { bindStudioAppActions } from "./StudioAppActions";
 import type { StudioAppOptions } from "./StudioApp.type";
 import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./StudioDrag";
 import type { StudioDragSession } from "./StudioDrag.type";
@@ -11,11 +10,10 @@ import { bindStudioRendererSwitch } from "./StudioRendererBindings";
 import { resizeStudioObject, startStudioResize } from "./StudioResize";
 import type { StudioResizeSession } from "./StudioResize.type";
 import { renderStudioRuntimeScene } from "./StudioRuntimeRender";
-import { downloadStudioScene } from "./StudioSave";
 import { renderStudioLayout, renderStudioStatsPanel } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
-import { createStudioSampleSceneState, createStudioSceneState } from "./StudioSceneState";
+import { createStudioSceneState } from "./StudioSceneState";
 import type { StudioSceneState } from "./StudioSceneState.type";
 import { createEmptyStudioStats } from "./StudioStats";
 import type { StudioStatsPanelModel } from "./StudioStats.type";
@@ -76,31 +74,14 @@ export class StudioApp {
   }
 
   private bindActions(): void {
-    bindStudioActions({
+    bindStudioAppActions({
       root: this.root,
-      onAction: (action) => {
-        this.handleAction(action);
-      }
+      getScene: () => this.sceneState,
+      setScene: (scene) => { this.sceneState = scene; },
+      setRendererMode: (mode) => { this.rendererMode = mode; },
+      setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
+      mount: () => { this.mount(); }
     });
-  }
-
-  private handleAction(action: StudioAction): void {
-    if (action === "sample-scene") {
-      this.sceneState = createStudioSampleSceneState();
-      this.rendererMode = this.sceneState.rendererMode;
-      this.selectedObjectId = undefined;
-      this.mount();
-      return;
-    }
-
-    if (action === "save-scene") {
-      downloadStudioScene({ scene: this.sceneState });
-      return;
-    }
-
-    this.sceneState = createStudioActionObject(this.sceneState, action);
-    this.selectedObjectId = this.sceneState.objects.at(-1)?.id;
-    this.mount();
   }
 
   private bindLayers(): void {

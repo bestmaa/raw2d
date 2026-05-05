@@ -13,6 +13,7 @@ const toolActions: readonly StudioAction[] = ["rect", "circle", "line", "text", 
 export function bindStudioActions(options: StudioActionBindingOptions): void {
   const sampleButton = options.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
   const saveButton = options.root.querySelector<HTMLButtonElement>('[data-action="save-scene"]');
+  const loadButton = options.root.querySelector<HTMLButtonElement>('[data-action="load-scene"]');
 
   sampleButton?.addEventListener("click", () => {
     options.onAction("sample-scene");
@@ -20,6 +21,10 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
 
   saveButton?.addEventListener("click", () => {
     options.onAction("save-scene");
+  });
+
+  loadButton?.addEventListener("click", () => {
+    options.onAction("load-scene");
   });
 
   for (const action of toolActions) {
@@ -44,6 +49,7 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
       return addStudioSpriteObject({ scene });
     case "sample-scene":
     case "save-scene":
+    case "load-scene":
       return scene;
   }
 }
