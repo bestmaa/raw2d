@@ -4,7 +4,7 @@ Ye audit Raw2D ko bahar se check karta hai, bilkul waise jaise ek naya npm user 
 
 ## Goal
 
-Confirm karo ki published packages, CDN files, docs snippets, aur examples workspace paths ke bina kaam karte hain.
+Confirm karo ki published packages, CDN files, docs snippets, examples, aur Studio docs workspace paths ke bina kaam karte hain.
 
 ## Fresh Install Matrix
 
@@ -27,6 +27,7 @@ Har app build hona chahiye aur ek real scene render karna chahiye:
 - Interaction select, drag, resize scene.
 - React adapter scene.
 - MCP scene JSON helper import.
+- Studio demo checklist route aur `/studio` route.
 
 ## Snippet Checks
 
@@ -49,4 +50,5 @@ Audit tab pass hai jab:
 - Fresh apps install aur build ho jayein.
 - `npm run build` har generated app me pass ho.
 - Canvas, WebGL, Sprite, Texture Atlas, aur Interaction examples visibly render hon.
-- `/doc` aur `/readme` release ke baad load hon.
+- `/doc`, `/readme`, `/studio`, aur Studio demo checklist docs release ke baad load hon.
+- Pinned jsDelivr ESM aur UMD URLs expected version return karein.

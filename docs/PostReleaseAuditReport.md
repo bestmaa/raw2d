@@ -10,6 +10,7 @@ npm package: pass / fail
 CDN UMD: pass / fail
 Docs route: pass / fail
 Browser examples: pass / fail
+Studio docs/demo: pass / fail
 Decision: pass / fail
 ```
 
@@ -36,6 +37,8 @@ Record CDN lag when npm is published but jsDelivr has not refreshed yet.
 ## Browser Checks
 
 Open `https://raw2d.com/doc` and verify Canvas, WebGL, Sprite, Texture Atlas, Interaction, and React examples without console errors.
+
+Open `https://raw2d.com/studio`, `/doc#studio-demo-checklist`, and `/readme#studio-demo-checklist`. Confirm Studio demo, save/load/export, and responsive checklist docs are reachable.
 
 ## Release Decision
 

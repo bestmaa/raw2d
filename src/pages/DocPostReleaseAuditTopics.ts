@@ -9,7 +9,7 @@ export const postReleaseAuditTopics: readonly DocTopic[] = [
     sections: [
       {
         title: "Goal",
-        body: "The audit proves that published packages, CDN files, docs snippets, and examples work without local workspace paths or hidden build assumptions.",
+        body: "The audit proves that published packages, CDN files, docs snippets, examples, and Studio docs work without local workspace paths or hidden build assumptions.",
         code: `npm view raw2d version
 npm view raw2d-core version
 curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.js`
@@ -24,10 +24,10 @@ npm install raw2d-react react react-dom`
       },
       {
         title: "Runtime Checks",
-        body: "Each generated app must build and render one real scene. Canvas is the reference renderer; WebGL must also draw when the browser supports WebGL2.",
+        body: "Each generated app must build and render one real scene. Canvas is the reference renderer; WebGL must also draw when the browser supports WebGL2. Studio docs and demo routes must load after publish.",
         code: `npm run build
 npm run preview
-# open Canvas, WebGL, Sprite, Texture Atlas, and Interaction examples`
+# open Canvas, WebGL, Sprite, Texture Atlas, Interaction, and Studio demo routes`
       },
       {
         title: "Snippet Checks",
@@ -38,11 +38,12 @@ import { WebGLRenderer2D } from "raw2d-webgl";`
       },
       {
         title: "Pass Criteria",
-        body: "The audit passes only when install, build, browser render, npm metadata, CDN, and docs routes all work from the published package versions.",
+        body: "The audit passes only when install, build, browser render, npm metadata, CDN, docs routes, and Studio demo docs all work from the published package versions.",
         code: `npm run typecheck
 npm run build:docs
 npm run test:browser
-npm run test:consumer`
+npm run test:consumer
+npm run test:cdn:pinned -- --live`
       }
     ]
   },
@@ -55,11 +56,12 @@ npm run test:consumer`
       {
         title: "Current Result",
         body: "Use this report after a version is published. Fill the published version, npm metadata result, CDN result, docs result, and browser result before announcing the release.",
-        code: `Version: v1.1.x
+code: `Version: v1.1.x
 npm package: pass / fail
 CDN UMD: pass / fail
 Docs route: pass / fail
-Browser examples: pass / fail`
+Browser examples: pass / fail
+Studio docs/demo: pass / fail`
       },
       {
         title: "NPM Checks",
@@ -77,8 +79,11 @@ curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs`
       },
       {
         title: "Browser Checks",
-        body: "Open the docs and examples in a real browser. Confirm Canvas, WebGL, Sprite, Texture Atlas, Interaction, and React examples do not show console errors.",
+        body: "Open the docs, Studio, and examples in a real browser. Confirm Canvas, WebGL, Sprite, Texture Atlas, Interaction, React, and Studio demo routes do not show console errors.",
         code: `https://raw2d.com/doc
+https://raw2d.com/studio
+/doc#studio-demo-checklist
+/readme#studio-demo-checklist
 /examples/canvas-basic/
 /examples/webgl-basic/
 /examples/sprite-atlas/

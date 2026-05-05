@@ -56,8 +56,8 @@ npm run test:browser`
         body: "Open the CDN smoke page before release, then verify pinned jsDelivr ESM and UMD URLs after the publish workflow finishes.",
         code: `Check:
 /cdn-smoke
-https://cdn.jsdelivr.net/npm/raw2d@1.15.4/dist/raw2d.js
-https://cdn.jsdelivr.net/npm/raw2d@1.15.4/dist/raw2d.umd.cjs`
+https://cdn.jsdelivr.net/npm/raw2d@1.15.5/dist/raw2d.js
+https://cdn.jsdelivr.net/npm/raw2d@1.15.5/dist/raw2d.umd.cjs`
       },
       {
         title: "Pass Criteria",

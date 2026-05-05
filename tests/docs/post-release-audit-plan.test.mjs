@@ -23,6 +23,8 @@ test("post-release audit plan covers runtime and CDN checks", () => {
     assert.match(content, /WebGL/);
     assert.match(content, /Texture Atlas/);
     assert.match(content, /Interaction/);
+    assert.match(content, /Studio/);
+    assert.match(content, /\/studio/);
   }
 });
 

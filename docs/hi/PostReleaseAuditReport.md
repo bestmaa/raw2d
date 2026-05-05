@@ -10,6 +10,7 @@ npm package: pass / fail
 CDN UMD: pass / fail
 Docs route: pass / fail
 Browser examples: pass / fail
+Studio docs/demo: pass / fail
 Decision: pass / fail
 ```
 
@@ -36,6 +37,8 @@ Agar npm publish ke turant baad jsDelivr late ho, report me CDN lag time likho.
 ## Browser Checks
 
 `https://raw2d.com/doc` open karo aur Canvas, WebGL, Sprite, Texture Atlas, Interaction, aur React examples console errors ke bina verify karo.
+
+`https://raw2d.com/studio`, `/doc#studio-demo-checklist`, aur `/readme#studio-demo-checklist` open karo. Studio demo, save/load/export, aur responsive checklist docs reachable hone chahiye.
 
 ## Release Decision
 
