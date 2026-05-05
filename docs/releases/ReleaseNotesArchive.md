@@ -1,5 +1,23 @@
 # Raw2D Release Notes Archive
 
+## v1.15.6 - Studio Beta Polish Phase
+
+Raw2D v1.15.6 publishes the Studio beta polish phase.
+
+### Added
+
+- Public beta route audit coverage for docs, readme, examples, Studio, and CDN smoke.
+- Beginner docs flow that points users to Studio after runnable examples.
+- Polished Hinglish Studio documentation.
+- Studio mobile and dark-overflow checks for stacked layout, wrapped actions, and scrollable panels.
+- Studio public demo checklist and post-release npm/CDN audit guidance.
+
+### Verification
+
+- Full package and docs tests.
+- Browser route, Studio persistence, mobile viewport, and dark overflow checks.
+- Consumer install smoke, CDN pinned dry-run, and workspace pack dry-run.
+
 ## v1.14.6 - Studio Persistence Phase
 
 Raw2D v1.14.6 publishes the Studio persistence phase.

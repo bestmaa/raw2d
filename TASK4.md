@@ -108,7 +108,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T248 | Version: v1.15.3 | Status: completed | Goal: Add Studio mobile and overflow checks. | Verify: browser viewport checks. | Commit: `Audit Studio responsive UI`
 - T249 | Version: v1.15.4 | Status: completed | Goal: Add Studio public demo checklist. | Verify: checklist route check. | Commit: `Add Studio demo checklist`
 - T250 | Version: v1.15.5 | Status: completed | Goal: Add post-release npm and CDN audit for Studio packages/docs. | Verify: fresh install and CDN checks. | Commit: `Audit Studio release`
-- T251 | Version: v1.15.6 | Status: pending | Goal: Phase 23 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio demo. | Commit: `Release Studio beta polish phase`
+- T251 | Version: v1.15.6 | Status: completed | Goal: Phase 23 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio demo. | Commit: `Release Studio beta polish phase`
 
 ## Later Queues
 
