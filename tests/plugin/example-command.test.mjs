@@ -8,6 +8,8 @@ import { test } from "node:test";
 
 const root = process.cwd();
 const scriptPath = path.join(root, "plugins", "raw2d", "scripts", "create-raw2d-example.mjs");
+const port = 6400 + Math.floor(Math.random() * 600);
+const baseUrl = `http://127.0.0.1:${port}`;
 
 test("Raw2D example command creates an example that loads through Vite", async (t) => {
   const app = await mkdtemp(path.join(tmpdir(), "raw2d-example-"));
@@ -34,8 +36,8 @@ test("Raw2D example command creates an example that loads through Vite", async (
   await run("npm", ["run", "build"], app);
 
   server = startVite(app);
-  await waitForRoute("http://127.0.0.1:5198/");
-  const moduleResponse = await fetch("http://127.0.0.1:5198/main.ts");
+  await waitForRoute(`${baseUrl}/`);
+  const moduleResponse = await fetch(`${baseUrl}/main.ts`);
   const moduleBody = await moduleResponse.text();
 
   assert.equal(moduleResponse.status, 200);
@@ -98,7 +100,9 @@ async function packWorkspacePackages(destination) {
 }
 
 function startVite(cwd) {
-  return spawn("npx", ["vite", "--host", "127.0.0.1", "--port", "5198", "--strictPort"], {
+  const viteBin = path.join(cwd, "node_modules", "vite", "bin", "vite.js");
+
+  return spawn(process.execPath, [viteBin, "--host", "127.0.0.1", "--port", String(port), "--strictPort"], {
     cwd,
     env: { ...process.env, BROWSER: "none" },
     shell: process.platform === "win32",
@@ -107,7 +111,7 @@ function startVite(cwd) {
 }
 
 async function waitForRoute(url) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+  for (let attempt = 0; attempt < 200; attempt += 1) {
     try {
       const response = await fetch(url);
 

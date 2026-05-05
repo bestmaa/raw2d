@@ -1,5 +1,7 @@
 import { Canvas } from "raw2d";
 import type { StudioAppOptions } from "./StudioApp.type";
+import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./StudioDrag";
+import type { StudioDragSession } from "./StudioDrag.type";
 import { createStudioInspectorModel } from "./StudioInspector";
 import {
   addStudioCircleObject,
@@ -20,6 +22,7 @@ export class StudioApp {
   private sceneState: StudioSceneState = createStudioSceneState();
   private rendererMode: StudioRendererMode = "canvas";
   private selectedObjectId: string | undefined;
+  private dragSession: StudioDragSession | undefined;
 
   public constructor(options: StudioAppOptions) {
     this.root = options.root;
@@ -30,6 +33,7 @@ export class StudioApp {
     this.bindRendererSwitch();
     this.bindActions();
     this.bindLayers();
+    this.bindCanvasDrag();
     this.renderRuntimeScene();
   }
 
@@ -119,6 +123,59 @@ export class StudioApp {
         }
       });
     }
+  }
+
+  private bindCanvasDrag(): void {
+    const canvasElement = this.root.querySelector<HTMLCanvasElement>(".studio-canvas");
+
+    if (!canvasElement) {
+      return;
+    }
+
+    canvasElement.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) {
+        return;
+      }
+
+      const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
+      const dragStart = startStudioDrag(this.sceneState, this.selectedObjectId, pointer);
+
+      if (!dragStart) {
+        return;
+      }
+
+      this.selectedObjectId = dragStart.selectedObjectId;
+      this.dragSession = dragStart.session;
+      canvasElement.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    canvasElement.addEventListener("pointermove", (event) => {
+      if (!this.dragSession) {
+        return;
+      }
+
+      const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
+      this.sceneState = moveStudioObject({ scene: this.sceneState, session: this.dragSession, pointer });
+      this.renderRuntimeScene();
+      event.preventDefault();
+    });
+
+    const finishDrag = (event: PointerEvent): void => {
+      if (!this.dragSession) {
+        return;
+      }
+
+      this.dragSession = undefined;
+      if (canvasElement.hasPointerCapture(event.pointerId)) {
+        canvasElement.releasePointerCapture(event.pointerId);
+      }
+      event.preventDefault();
+      this.mount();
+    };
+
+    canvasElement.addEventListener("pointerup", finishDrag);
+    canvasElement.addEventListener("pointercancel", finishDrag);
   }
 
   private renderRuntimeScene(): void {

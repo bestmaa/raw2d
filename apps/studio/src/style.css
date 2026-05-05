@@ -197,12 +197,19 @@ kbd {
   width: 100%;
   height: 100%;
   background: #0a121c;
+  cursor: grab;
+  touch-action: none;
+}
+
+.studio-canvas:active {
+  cursor: grabbing;
 }
 
 .studio-artboard span {
   position: relative;
   z-index: 1;
   color: #d9f6ff;
+  pointer-events: none;
 }
 
 .studio-property {
