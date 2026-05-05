@@ -132,7 +132,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
             </div>
           </div>
           <footer class="studio-statusbar">
-            Ready | ${options.rendererLabel} renderer | ${options.objectCount} objects | No selection
+            ${options.statusMessage} | ${options.rendererLabel} renderer | ${options.objectCount} objects
           </footer>
         </section>
         <aside class="studio-panel studio-inspector" aria-label="Inspector">

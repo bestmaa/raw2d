@@ -26,6 +26,7 @@ export class StudioApp {
   private dragSession: StudioDragSession | undefined;
   private resizeSession: StudioResizeSession | undefined;
   private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
+  private statusMessage = "Ready";
 
   public constructor(options: StudioAppOptions) {
     this.root = options.root;
@@ -53,6 +54,7 @@ export class StudioApp {
     this.root.innerHTML = renderStudioLayout({
       rendererLabel,
       sceneName: this.sceneState.name,
+      statusMessage: this.statusMessage,
       objectCount: this.sceneState.objects.length,
       layers: inspector.layers,
       properties: inspector.properties,
@@ -80,6 +82,7 @@ export class StudioApp {
       setScene: (scene) => { this.sceneState = scene; },
       setRendererMode: (mode) => { this.rendererMode = mode; },
       setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
+      setStatusMessage: (message) => { this.statusMessage = message; },
       mount: () => { this.mount(); }
     });
   }

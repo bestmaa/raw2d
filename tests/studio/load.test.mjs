@@ -50,3 +50,24 @@ test("Studio load rejects unsupported object types", async () => {
     /Unsupported Studio object type/
   );
 });
+
+test("Studio load reports malformed JSON", async () => {
+  const module = await importLoadModule();
+
+  assert.throws(() => module.deserializeStudioScene("{"), /Expected property name|JSON/);
+});
+
+test("Studio load reports missing required schema fields", async () => {
+  const module = await importLoadModule();
+
+  assert.throws(
+    () =>
+      module.deserializeStudioScene(`{
+        "version": 1,
+        "name": "Missing Camera",
+        "rendererMode": "canvas",
+        "objects": []
+      }`),
+    /Studio scene JSON must contain an object/
+  );
+});

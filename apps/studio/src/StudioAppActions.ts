@@ -19,6 +19,11 @@ export function bindStudioAppActions(options: StudioAppActionBindingOptions): vo
       options.setScene(scene);
       options.setRendererMode(scene.rendererMode);
       options.setSelectedObjectId(undefined);
+      options.setStatusMessage("Loaded scene");
+      options.mount();
+    },
+    onLoadError: (error) => {
+      options.setStatusMessage(`Import error: ${error.message}`);
       options.mount();
     }
   });
@@ -30,6 +35,7 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     options.setScene(scene);
     options.setRendererMode(scene.rendererMode);
     options.setSelectedObjectId(undefined);
+    options.setStatusMessage("Loaded sample scene");
     options.mount();
     return;
   }
@@ -52,5 +58,6 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
   const scene = createStudioActionObject(options.getScene(), action);
   options.setScene(scene);
   options.setSelectedObjectId(scene.objects.at(-1)?.id);
+  options.setStatusMessage("Scene updated");
   options.mount();
 }
