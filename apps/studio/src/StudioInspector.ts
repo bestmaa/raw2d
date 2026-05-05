@@ -8,7 +8,6 @@ export function createStudioInspectorModel(
   options: StudioInspectorOptions = {}
 ): StudioInspectorModel {
   const selectedObject = scene.objects.find((object) => object.id === options.selectedObjectId);
-  const activeObject = selectedObject ?? scene.objects.at(-1);
 
   return {
     layers: scene.objects.map((object) => ({
@@ -16,7 +15,7 @@ export function createStudioInspectorModel(
       label: object.name,
       type: object.type
     })),
-    properties: createProperties(scene, rendererLabel, activeObject)
+    properties: createProperties(scene, rendererLabel, selectedObject)
   };
 }
 

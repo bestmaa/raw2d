@@ -88,7 +88,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           </div>
           <div class="studio-canvas-placeholder">
             <div class="studio-artboard">
-              <canvas class="studio-canvas" width="800" height="600" aria-label="Raw2D Studio canvas"></canvas>
+              <canvas class="studio-canvas" width="800" height="600" tabindex="0" aria-label="Raw2D Studio canvas"></canvas>
               <span>Raw2D canvas mount</span>
             </div>
           </div>

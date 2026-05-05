@@ -3,6 +3,7 @@ import type { StudioAppOptions } from "./StudioApp.type";
 import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./StudioDrag";
 import type { StudioDragSession } from "./StudioDrag.type";
 import { createStudioInspectorModel } from "./StudioInspector";
+import { applyStudioKeyboardCommand } from "./StudioKeyboard";
 import {
   addStudioCircleObject,
   addStudioLineObject,
@@ -29,6 +30,9 @@ export class StudioApp {
 
   public constructor(options: StudioAppOptions) {
     this.root = options.root;
+    document.addEventListener("keydown", (event) => {
+      this.handleKeyDown(event);
+    });
   }
 
   public mount(): void {
@@ -141,6 +145,7 @@ export class StudioApp {
       }
 
       const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
+      canvasElement.focus();
       const resizeStart = startStudioResize(this.sceneState, this.selectedObjectId, pointer);
 
       if (resizeStart) {
@@ -198,6 +203,23 @@ export class StudioApp {
 
     canvasElement.addEventListener("pointerup", finishDrag);
     canvasElement.addEventListener("pointercancel", finishDrag);
+  }
+
+  private handleKeyDown(event: KeyboardEvent): void {
+    const result = applyStudioKeyboardCommand({
+      scene: this.sceneState,
+      selectedObjectId: this.selectedObjectId,
+      command: { key: event.key, shiftKey: event.shiftKey }
+    });
+
+    if (!result.handled) {
+      return;
+    }
+
+    this.sceneState = result.scene;
+    this.selectedObjectId = result.selectedObjectId;
+    event.preventDefault();
+    this.mount();
   }
 
   private renderRuntimeScene(): void {

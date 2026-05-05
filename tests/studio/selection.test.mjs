@@ -35,3 +35,18 @@ test("Studio inspector uses selected object for properties", async () => {
   assert.equal(inspector.properties.find((row) => row.label === "Width")?.value, "160");
   assert.equal(inspector.properties.some((row) => row.label === "Radius"), false);
 });
+
+test("Studio inspector shows no active object when selection is clear", async () => {
+  const module = await importInspectorModule();
+  const scene = {
+    version: 1,
+    name: "Selection Test",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: [{ id: "rect-1", type: "rect", name: "Rect 1", x: 10, y: 20, width: 160, height: 96 }]
+  };
+  const inspector = module.createStudioInspectorModel(scene, "Canvas");
+
+  assert.equal(inspector.properties.find((row) => row.label === "Selection")?.value, "None");
+  assert.equal(inspector.properties.some((row) => row.label === "Width"), false);
+});
