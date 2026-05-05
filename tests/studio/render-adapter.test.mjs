@@ -40,3 +40,16 @@ test("Studio render adapter creates Raw2D runtime scene", async () => {
   assert.equal(runtime.objects[1].name, "Label");
   assert.equal(runtime.objects[2].name, "Sprite Slot");
 });
+
+test("Studio render adapter preserves object visibility", async () => {
+  const module = await importRenderAdapterModule();
+  const runtime = module.createRuntimeSceneFromStudioState({
+    version: 1,
+    name: "Hidden Test",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: [{ id: "rect-1", type: "rect", name: "Hidden", x: 10, y: 20, width: 80, height: 40, visible: false }]
+  });
+
+  assert.equal(runtime.objects[0].visible, false);
+});

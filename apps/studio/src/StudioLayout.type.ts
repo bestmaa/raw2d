@@ -8,6 +8,7 @@ export interface StudioLayerItem {
   readonly id: string;
   readonly label: string;
   readonly type: string;
+  readonly visible: boolean;
 }
 
 export interface StudioPropertyRow {

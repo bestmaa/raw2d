@@ -44,6 +44,7 @@ function createRect(object: StudioRectState): Rect {
     name: object.name,
     x: object.x,
     y: object.y,
+    visible: object.visible ?? true,
     width: object.width,
     height: object.height,
     material: createMaterial(object.material)
@@ -55,6 +56,7 @@ function createCircle(object: StudioCircleState): Circle {
     name: object.name,
     x: object.x,
     y: object.y,
+    visible: object.visible ?? true,
     radius: object.radius,
     material: createMaterial(object.material)
   });
@@ -65,6 +67,7 @@ function createLine(object: StudioLineState): Line {
     name: object.name,
     x: object.x,
     y: object.y,
+    visible: object.visible ?? true,
     startX: object.startX,
     startY: object.startY,
     endX: object.endX,
@@ -78,6 +81,7 @@ function createText(object: StudioTextState): Text2D {
     name: object.name,
     x: object.x,
     y: object.y,
+    visible: object.visible ?? true,
     text: object.text,
     font: object.font,
     material: createMaterial(object.material)
@@ -89,6 +93,7 @@ function createSpritePlaceholder(object: StudioSpriteState): Rect {
     name: object.name,
     x: object.x,
     y: object.y,
+    visible: object.visible ?? true,
     width: object.width,
     height: object.height,
     material: createMaterial(object.material)

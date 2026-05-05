@@ -13,7 +13,8 @@ export function createStudioInspectorModel(
     layers: scene.objects.map((object) => ({
       id: object.id,
       label: object.name,
-      type: object.type
+      type: object.type,
+      visible: object.visible ?? true
     })),
     properties: createProperties(scene, rendererLabel, selectedObject)
   };

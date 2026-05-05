@@ -12,6 +12,7 @@ export interface StudioSceneObjectState {
   readonly name: string;
   readonly x: number;
   readonly y: number;
+  readonly visible?: boolean;
   readonly material?: StudioMaterialState;
 }
 

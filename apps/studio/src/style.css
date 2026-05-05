@@ -151,6 +151,12 @@ kbd {
   background: #2b2a16;
 }
 
+.studio-layer-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 58px 48px 56px;
+  gap: 6px;
+}
+
 .studio-workspace {
   display: flex;
   flex-direction: column;

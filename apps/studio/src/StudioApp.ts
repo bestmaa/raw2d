@@ -4,6 +4,8 @@ import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./
 import type { StudioDragSession } from "./StudioDrag.type";
 import { createStudioInspectorModel } from "./StudioInspector";
 import { applyStudioKeyboardCommand } from "./StudioKeyboard";
+import { applyStudioLayerAction } from "./StudioLayers";
+import type { StudioLayerAction } from "./StudioLayers.type";
 import {
   addStudioCircleObject,
   addStudioLineObject,
@@ -118,16 +120,19 @@ export class StudioApp {
   }
 
   private bindLayers(): void {
-    const layerButtons = this.root.querySelectorAll<HTMLButtonElement>("[data-layer]");
+    const layerButtons = this.root.querySelectorAll<HTMLButtonElement>("[data-layer-action]");
 
     for (const button of layerButtons) {
       button.addEventListener("click", () => {
-        const objectId = button.dataset.layer;
+        const action = button.dataset.layerAction as StudioLayerAction | undefined;
+        const objectId = button.dataset.layerId;
 
-        if (objectId && this.sceneState.objects.some((object) => object.id === objectId)) {
-          this.selectedObjectId = objectId;
-          this.mount();
-        }
+        if (!objectId || !action) return;
+        const result = applyStudioLayerAction({ scene: this.sceneState, selectedObjectId: this.selectedObjectId, objectId, action });
+        if (!result.handled) return;
+        this.sceneState = result.scene;
+        this.selectedObjectId = result.selectedObjectId;
+        this.mount();
       });
     }
   }
@@ -228,7 +233,6 @@ export class StudioApp {
     if (!canvasElement) {
       return;
     }
-
     const runtime = createRuntimeSceneFromStudioState(this.sceneState);
     const renderer = new Canvas({
       canvas: canvasElement,
@@ -238,6 +242,8 @@ export class StudioApp {
     });
 
     renderer.render(runtime.scene, runtime.camera);
+    canvasElement.style.width = "100%";
+    canvasElement.style.height = "100%";
     drawStudioResizeHandles(renderer.getContext(), this.sceneState, this.selectedObjectId);
   }
 }

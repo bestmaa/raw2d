@@ -11,8 +11,8 @@ const tools: readonly StudioToolItem[] = [
 ];
 
 const emptyLayers: readonly StudioLayerItem[] = [
-  { id: "scene", label: "Scene Root", type: "Scene" },
-  { id: "guide", label: "Workspace Guide", type: "Guide" }
+  { id: "scene", label: "Scene Root", type: "Scene", visible: true },
+  { id: "guide", label: "Workspace Guide", type: "Guide", visible: true }
 ];
 
 function renderTool(tool: StudioToolItem): string {
@@ -28,10 +28,15 @@ function renderLayer(layer: StudioLayerItem, selectedLayerId: string | undefined
   const isSelected = layer.id === selectedLayerId;
 
   return `
-    <button class="studio-layer${isSelected ? " is-selected" : ""}" type="button" data-layer="${layer.id}">
-      <span>${layer.label}</span>
-      <small>${layer.type}</small>
-    </button>
+    <div class="studio-layer-row">
+      <button class="studio-layer${isSelected ? " is-selected" : ""}" type="button" data-layer-action="select" data-layer-id="${layer.id}">
+        <span>${layer.label}</span>
+        <small>${layer.type}</small>
+      </button>
+      <button type="button" data-layer-action="toggle-visibility" data-layer-id="${layer.id}">${layer.visible ? "Hide" : "Show"}</button>
+      <button type="button" data-layer-action="move-up" data-layer-id="${layer.id}">Up</button>
+      <button type="button" data-layer-action="move-down" data-layer-id="${layer.id}">Down</button>
+    </div>
   `;
 }
 
