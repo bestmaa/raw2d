@@ -41,3 +41,27 @@
   height: 36px;
   padding: 3px;
 }
+
+.studio-stats {
+  display: grid;
+  gap: 8px;
+}
+
+.studio-stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #1c3140;
+  padding: 6px 0;
+  color: #a8c4d6;
+}
+
+.studio-stat-row strong {
+  color: #eef6ff;
+}
+
+.studio-stats p {
+  margin: 4px 0 0;
+  color: #fbbf24;
+  font-size: 13px;
+}

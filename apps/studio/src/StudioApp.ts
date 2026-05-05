@@ -1,4 +1,3 @@
-import { Canvas } from "raw2d";
 import { bindStudioActions, createStudioActionObject } from "./StudioActions";
 import type { StudioAction } from "./StudioActions.type";
 import type { StudioAppOptions } from "./StudioApp.type";
@@ -9,15 +8,17 @@ import { applyStudioKeyboardCommand } from "./StudioKeyboard";
 import { applyStudioLayerAction } from "./StudioLayers";
 import type { StudioLayerAction } from "./StudioLayers.type";
 import { bindStudioPropertyInputs } from "./StudioPropertyBindings";
-import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
 import { bindStudioRendererSwitch } from "./StudioRendererBindings";
-import { drawStudioResizeHandles, resizeStudioObject, startStudioResize } from "./StudioResize";
+import { resizeStudioObject, startStudioResize } from "./StudioResize";
 import type { StudioResizeSession } from "./StudioResize.type";
-import { renderStudioLayout } from "./StudioLayout";
+import { renderStudioRuntimeScene } from "./StudioRuntimeRender";
+import { renderStudioLayout, renderStudioStatsPanel } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
 import { createStudioSampleSceneState, createStudioSceneState } from "./StudioSceneState";
 import type { StudioSceneState } from "./StudioSceneState.type";
+import { createEmptyStudioStats } from "./StudioStats";
+import type { StudioStatsPanelModel } from "./StudioStats.type";
 
 export class StudioApp {
   private readonly root: HTMLElement;
@@ -26,6 +27,7 @@ export class StudioApp {
   private selectedObjectId: string | undefined;
   private dragSession: StudioDragSession | undefined;
   private resizeSession: StudioResizeSession | undefined;
+  private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
 
   public constructor(options: StudioAppOptions) {
     this.root = options.root;
@@ -57,7 +59,8 @@ export class StudioApp {
       layers: inspector.layers,
       properties: inspector.properties,
       propertyFields: inspector.propertyFields,
-      selectedLayerId: this.selectedObjectId
+      selectedLayerId: this.selectedObjectId,
+      stats: this.rendererStats
     });
   }
 
@@ -66,6 +69,7 @@ export class StudioApp {
       root: this.root,
       onRendererMode: (mode) => {
         this.rendererMode = mode;
+        this.rendererStats = createEmptyStudioStats(mode);
         this.mount();
       }
     });
@@ -222,17 +226,22 @@ export class StudioApp {
     if (!canvasElement) {
       return;
     }
-    const runtime = createRuntimeSceneFromStudioState(this.sceneState);
-    const renderer = new Canvas({
-      canvas: canvasElement,
-      width: 800,
-      height: 600,
-      backgroundColor: "#0a121c"
+    const result = renderStudioRuntimeScene({
+      canvasElement,
+      sceneState: this.sceneState,
+      selectedObjectId: this.selectedObjectId,
+      rendererMode: this.rendererMode
     });
 
-    renderer.render(runtime.scene, runtime.camera);
-    canvasElement.style.width = "100%";
-    canvasElement.style.height = "100%";
-    drawStudioResizeHandles(renderer.getContext(), this.sceneState, this.selectedObjectId);
+    this.rendererStats = result.stats;
+    this.renderStatsPanel();
+  }
+
+  private renderStatsPanel(): void {
+    const statsElement = this.root.querySelector<HTMLElement>(".studio-stats");
+
+    if (statsElement) {
+      statsElement.outerHTML = renderStudioStatsPanel(this.rendererStats);
+    }
   }
 }

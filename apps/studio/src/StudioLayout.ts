@@ -1,5 +1,6 @@
 import type { StudioLayoutOptions, StudioLayerItem, StudioPropertyRow, StudioToolItem } from "./StudioLayout.type";
 import type { StudioPropertyField } from "./StudioProperties.type";
+import type { StudioStatsPanelModel, StudioStatsRow } from "./StudioStats.type";
 import { studioRendererOptions } from "./StudioRenderer";
 
 const tools: readonly StudioToolItem[] = [
@@ -76,6 +77,24 @@ function renderPropertyField(field: StudioPropertyField): string {
   `;
 }
 
+function renderStatsRow(row: StudioStatsRow): string {
+  return `
+    <div class="studio-stat-row">
+      <span>${row.label}</span>
+      <strong>${row.value}</strong>
+    </div>
+  `;
+}
+
+export function renderStudioStatsPanel(stats: StudioStatsPanelModel): string {
+  return `
+    <div class="studio-stats" data-stats-renderer="${stats.renderer}">
+      ${stats.rows.map(renderStatsRow).join("")}
+      ${stats.note ? `<p>${stats.note}</p>` : ""}
+    </div>
+  `;
+}
+
 export function renderStudioLayout(options: StudioLayoutOptions): string {
   const layers = options.layers.length > 0 ? options.layers : emptyLayers;
 
@@ -118,6 +137,10 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <section>
             <h2>Renderer</h2>
             <div class="studio-renderer-switch">${renderRendererSwitch(options.rendererLabel)}</div>
+          </section>
+          <section>
+            <h2>Stats</h2>
+            ${renderStudioStatsPanel(options.stats)}
           </section>
           <section>
             <h2>Layers</h2>
