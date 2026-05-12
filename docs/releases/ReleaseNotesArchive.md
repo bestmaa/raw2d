@@ -1,5 +1,21 @@
 # Raw2D Release Notes Archive
 
+## v1.15.7 - Resize Fix
+
+Raw2D v1.15.7 publishes a focused resize behavior fix for `raw2d-interaction` and Raw2D Studio.
+
+### Fixed
+
+- Corner resize now keeps dimensions non-negative while allowing the dragged corner to cross the opposite corner.
+- Studio Rect and Sprite resize now normalize bounds from a fixed edge instead of getting stuck at the minimum size.
+- `raw2d-interaction` resize helpers now use the same fixed-edge axis model for all corner handles.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Workspace package dry-run.
+
 ## v1.15.6 - Studio Beta Polish Phase
 
 Raw2D v1.15.6 publishes the Studio beta polish phase.
