@@ -1,5 +1,26 @@
 # Raw2D Release Notes Archive
 
+## v1.16.6 - Studio Command History Phase
+
+Raw2D v1.16.6 publishes the Studio command history phase.
+
+### Added
+
+- Studio command model for create, delete, transform, material, text, visibility, and layer order edits.
+- Undo and redo state management with toolbar buttons and Ctrl/Cmd keyboard shortcuts.
+- Explicit command wiring for Studio create tools, keyboard movement, delete, canvas drag, resize, layer actions, and property edits.
+- Studio command history documentation in English and Hinglish.
+- Browser smoke coverage for create, move, resize, property edit, undo, and redo workflows.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Browser smoke suite.
+- Workspace package dry-run.
+- Consumer install smoke tests.
+- CDN pinned dry-run.
+
 ## v1.15.7 - Resize Fix
 
 Raw2D v1.15.7 publishes a focused resize behavior fix for `raw2d-interaction` and Raw2D Studio.
