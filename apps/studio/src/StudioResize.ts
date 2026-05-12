@@ -134,22 +134,19 @@ function containsHandle(handle: StudioResizeHandle, pointer: StudioPoint): boole
 }
 
 function resizeBounds(bounds: StudioResizeBounds, handleId: StudioResizeHandleId, delta: StudioPoint): StudioResizeBounds {
-  const left = handleId.endsWith("left") ? bounds.x + delta.x : bounds.x;
-  const top = handleId.startsWith("top") ? bounds.y + delta.y : bounds.y;
-  const right = handleId.endsWith("right") ? bounds.x + bounds.width + delta.x : bounds.x + bounds.width;
-  const bottom = handleId.startsWith("bottom") ? bounds.y + bounds.height + delta.y : bounds.y + bounds.height;
+  const horizontal = handleId.endsWith("left")
+    ? normalizeAxis(bounds.x + bounds.width, bounds.x + delta.x)
+    : normalizeAxis(bounds.x, bounds.x + bounds.width + delta.x);
+  const vertical = handleId.startsWith("top")
+    ? normalizeAxis(bounds.y + bounds.height, bounds.y + delta.y)
+    : normalizeAxis(bounds.y, bounds.y + bounds.height + delta.y);
 
-  return normalizeBounds(left, top, right, bottom);
+  return { x: horizontal.position, y: vertical.position, width: horizontal.size, height: vertical.size };
 }
 
-function normalizeBounds(left: number, top: number, right: number, bottom: number): StudioResizeBounds {
-  const width = Math.max(minimumSize, right - left);
-  const height = Math.max(minimumSize, bottom - top);
+function normalizeAxis(fixedPosition: number, movingPosition: number): { readonly position: number; readonly size: number } {
+  const size = Math.max(minimumSize, Math.abs(movingPosition - fixedPosition));
+  const position = movingPosition < fixedPosition ? fixedPosition - size : fixedPosition;
 
-  return {
-    x: right - left < minimumSize ? right - width : left,
-    y: bottom - top < minimumSize ? bottom - height : top,
-    width,
-    height
-  };
+  return { position, size };
 }

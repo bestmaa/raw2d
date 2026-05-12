@@ -16,18 +16,19 @@ export function updateObjectResize(options: UpdateObjectResizeOptions): void {
 
 function getHorizontalResize(state: ObjectResizeState, deltaX: number): { readonly x: number; readonly width: number } {
   if (state.handleName.includes("left")) {
-    const width = Math.max(state.minWidth, state.startWidth - deltaX);
-    return {
-      x: state.startObjectX + state.startWidth - width,
-      width
-    };
+    return resizeAxis({
+      fixedPosition: state.startObjectX + state.startWidth,
+      movingPosition: state.startObjectX + deltaX,
+      minSize: state.minWidth
+    });
   }
 
   if (state.handleName.includes("right")) {
-    return {
-      x: state.startObjectX,
-      width: Math.max(state.minWidth, state.startWidth + deltaX)
-    };
+    return resizeAxis({
+      fixedPosition: state.startObjectX,
+      movingPosition: state.startObjectX + state.startWidth + deltaX,
+      minSize: state.minWidth
+    });
   }
 
   return {
@@ -38,22 +39,39 @@ function getHorizontalResize(state: ObjectResizeState, deltaX: number): { readon
 
 function getVerticalResize(state: ObjectResizeState, deltaY: number): { readonly y: number; readonly height: number } {
   if (state.handleName.startsWith("top")) {
-    const height = Math.max(state.minHeight, state.startHeight - deltaY);
-    return {
-      y: state.startObjectY + state.startHeight - height,
-      height
-    };
+    const resize = resizeAxis({
+      fixedPosition: state.startObjectY + state.startHeight,
+      movingPosition: state.startObjectY + deltaY,
+      minSize: state.minHeight
+    });
+
+    return { y: resize.x, height: resize.width };
   }
 
   if (state.handleName.startsWith("bottom")) {
-    return {
-      y: state.startObjectY,
-      height: Math.max(state.minHeight, state.startHeight + deltaY)
-    };
+    const resize = resizeAxis({
+      fixedPosition: state.startObjectY,
+      movingPosition: state.startObjectY + state.startHeight + deltaY,
+      minSize: state.minHeight
+    });
+
+    return { y: resize.x, height: resize.width };
   }
 
   return {
     y: state.startObjectY,
     height: state.startHeight
   };
+}
+
+function resizeAxis(options: {
+  readonly fixedPosition: number;
+  readonly movingPosition: number;
+  readonly minSize: number;
+}): { readonly x: number; readonly width: number } {
+  const size = Math.max(options.minSize, Math.abs(options.movingPosition - options.fixedPosition));
+  const crossed = options.movingPosition < options.fixedPosition;
+  const x = crossed ? options.fixedPosition - size : options.fixedPosition;
+
+  return { x, width: size };
 }

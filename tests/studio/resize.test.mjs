@@ -76,3 +76,31 @@ test("Studio top-left resize keeps the opposite corner fixed", async () => {
   assert.equal(nextScene.objects[1].width, 74);
   assert.equal(nextScene.objects[1].height, 74);
 });
+
+test("Studio corner resize flips bounds after crossing the opposite corner", async () => {
+  const module = await importResizeModule();
+  const cases = [
+    { handle: { x: 10, y: 20 }, pointer: { x: 140, y: 130 }, expected: { x: 110, y: 100, width: 30, height: 30 } },
+    { handle: { x: 110, y: 20 }, pointer: { x: -30, y: 130 }, expected: { x: -30, y: 100, width: 40, height: 30 } },
+    { handle: { x: 110, y: 100 }, pointer: { x: -40, y: -30 }, expected: { x: -40, y: -30, width: 50, height: 50 } },
+    { handle: { x: 10, y: 100 }, pointer: { x: 150, y: -20 }, expected: { x: 110, y: -20, width: 40, height: 40 } }
+  ];
+
+  for (const resizeCase of cases) {
+    const scene = createScene();
+    const resizeStart = module.startStudioResize(scene, "rect-1", resizeCase.handle);
+
+    assert.ok(resizeStart);
+
+    const nextScene = module.resizeStudioObject({
+      scene,
+      session: resizeStart.session,
+      pointer: resizeCase.pointer
+    });
+
+    assert.equal(nextScene.objects[0].x, resizeCase.expected.x);
+    assert.equal(nextScene.objects[0].y, resizeCase.expected.y);
+    assert.equal(nextScene.objects[0].width, resizeCase.expected.width);
+    assert.equal(nextScene.objects[0].height, resizeCase.expected.height);
+  }
+});
