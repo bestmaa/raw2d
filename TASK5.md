@@ -62,7 +62,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 ## Phase 24: Studio Command History
 
-- T253 | Version: v1.16.0 | Status: pending | Goal: Design Studio command history types for create, transform, material, delete, layer order, and visibility changes. | Verify: unit tests for command apply/invert behavior. | Commit: `Design Studio command history`
+- T253 | Version: v1.16.0 | Status: completed | Goal: Design Studio command history types for create, transform, material, delete, layer order, and visibility changes. | Verify: unit tests for command apply/invert behavior. | Commit: `Design Studio command history`
 - T254 | Version: v1.16.1 | Status: pending | Goal: Add undo and redo state management to Studio actions without coupling commands to Canvas or WebGL. | Verify: unit tests for undo/redo stack boundaries. | Commit: `Add Studio undo redo state`
 - T255 | Version: v1.16.2 | Status: pending | Goal: Wire undo and redo keyboard shortcuts and toolbar buttons in Studio. | Verify: browser keyboard and button check. | Commit: `Add Studio undo redo controls`
 - T256 | Version: v1.16.3 | Status: pending | Goal: Convert create, drag, resize, delete, layer order, and property edits to explicit Studio commands. | Verify: unit tests plus browser edit workflow check. | Commit: `Use Studio edit commands`
