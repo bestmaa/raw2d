@@ -12,6 +12,11 @@ export interface StudioTransformState {
   readonly endY?: number;
 }
 
+export interface StudioTextContentState {
+  readonly text?: string;
+  readonly font?: string;
+}
+
 export interface StudioCreateObjectCommand {
   readonly kind: "create-object";
   readonly object: StudioSceneObject;
@@ -39,6 +44,13 @@ export interface StudioUpdateMaterialCommand {
   readonly after?: StudioMaterialState;
 }
 
+export interface StudioUpdateTextCommand {
+  readonly kind: "update-text";
+  readonly objectId: string;
+  readonly before: StudioTextContentState;
+  readonly after: StudioTextContentState;
+}
+
 export interface StudioSetVisibilityCommand {
   readonly kind: "set-visibility";
   readonly objectId: string;
@@ -58,6 +70,7 @@ export type StudioCommand =
   | StudioDeleteObjectCommand
   | StudioUpdateTransformCommand
   | StudioUpdateMaterialCommand
+  | StudioUpdateTextCommand
   | StudioSetVisibilityCommand
   | StudioReorderObjectCommand;
 
@@ -70,3 +83,11 @@ export interface StudioCommandResult {
   readonly scene: StudioSceneState;
   readonly handled: boolean;
 }
+
+export interface StudioCommandApplyOptions {
+  readonly selectedObjectId?: string;
+  readonly statusMessage?: string;
+  readonly renderRuntimeOnly?: boolean;
+}
+
+export type ApplyStudioEditorCommand = (command: StudioCommand, options?: StudioCommandApplyOptions) => void;

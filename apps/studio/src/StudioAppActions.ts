@@ -1,4 +1,4 @@
-import { bindStudioActions, createStudioActionObject } from "./StudioActions";
+import { bindStudioActions } from "./StudioActions";
 import type { StudioAction } from "./StudioActions.type";
 import type { StudioAppActionBindingOptions } from "./StudioAppActions.type";
 import { bindStudioSceneLoadInput, clickStudioSceneLoadInput } from "./StudioLoadBindings";
@@ -17,10 +17,11 @@ export function bindStudioAppActions(options: StudioAppActionBindingOptions): vo
     root: options.root,
     onSceneLoaded: (scene) => {
       options.setScene(scene);
-      options.setRendererMode(scene.rendererMode);
-      options.setSelectedObjectId(undefined);
-      options.setStatusMessage("Loaded scene");
-      options.mount();
+    options.setRendererMode(scene.rendererMode);
+    options.setSelectedObjectId(undefined);
+    options.setStatusMessage("Loaded scene");
+    options.resetHistory();
+    options.mount();
     },
     onLoadError: (error) => {
       options.setStatusMessage(`Import error: ${error.message}`);
@@ -36,6 +37,7 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     options.setRendererMode(scene.rendererMode);
     options.setSelectedObjectId(undefined);
     options.setStatusMessage("Loaded sample scene");
+    options.resetHistory();
     options.mount();
     return;
   }
@@ -65,9 +67,5 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
-  const scene = createStudioActionObject(options.getScene(), action);
-  options.setScene(scene);
-  options.setSelectedObjectId(scene.objects.at(-1)?.id);
-  options.setStatusMessage("Scene updated");
-  options.mount();
+  options.onCreateObject(action);
 }

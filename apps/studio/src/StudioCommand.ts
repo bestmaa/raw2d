@@ -2,6 +2,7 @@ import type {
   ApplyStudioCommandOptions,
   StudioCommand,
   StudioCommandResult,
+  StudioTextContentState,
   StudioTransformState
 } from "./StudioCommand.type";
 import type { StudioSceneObject, StudioSceneState } from "./StudioSceneState.type";
@@ -18,6 +19,8 @@ export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCo
       return updateObject(scene, command.objectId, (object) => updateTransform(object, command.after));
     case "update-material":
       return updateObject(scene, command.objectId, (object) => ({ ...object, material: command.after }));
+    case "update-text":
+      return updateObject(scene, command.objectId, (object) => updateTextContent(object, command.after));
     case "set-visibility":
       return updateObject(scene, command.objectId, (object) => ({ ...object, visible: command.after }));
     case "reorder-object":
@@ -34,6 +37,8 @@ export function invertStudioCommand(command: StudioCommand): StudioCommand {
     case "update-transform":
       return { ...command, before: command.after, after: command.before };
     case "update-material":
+      return { ...command, before: command.after, after: command.before };
+    case "update-text":
       return { ...command, before: command.after, after: command.before };
     case "set-visibility":
       return { ...command, before: command.after, after: command.before };
@@ -132,6 +137,10 @@ function updateTransform(object: StudioSceneObject, transform: StudioTransformSt
   }
 
   return { ...object, x, y };
+}
+
+function updateTextContent(object: StudioSceneObject, content: StudioTextContentState): StudioSceneObject {
+  return object.type === "text2d" ? { ...object, text: content.text ?? object.text, font: content.font } : object;
 }
 
 function clampIndex(index: number, maxIndex: number): number {

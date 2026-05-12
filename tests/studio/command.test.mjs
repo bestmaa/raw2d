@@ -101,6 +101,26 @@ test("Studio material and visibility commands apply and invert", async () => {
   assert.equal(reverted.scene.objects[0].material, undefined);
 });
 
+test("Studio text command applies and inverts text content", async () => {
+  const module = await importCommandModule();
+  const command = {
+    kind: "update-text",
+    objectId: "text-1",
+    before: { text: "Layer", font: undefined },
+    after: { text: "Headline", font: "20px sans-serif" }
+  };
+  const updated = module.applyStudioCommand({ scene: createScene(), command });
+
+  assert.equal(updated.handled, true);
+  assert.equal(updated.scene.objects[2].text, "Headline");
+  assert.equal(updated.scene.objects[2].font, "20px sans-serif");
+
+  const reverted = module.applyStudioCommand({ scene: updated.scene, command: module.invertStudioCommand(command) });
+
+  assert.equal(reverted.scene.objects[2].text, "Layer");
+  assert.equal(reverted.scene.objects[2].font, undefined);
+});
+
 test("Studio reorder command applies and inverts layer order", async () => {
   const module = await importCommandModule();
   const command = { kind: "reorder-object", objectId: "text-1", fromIndex: 2, toIndex: 0 };

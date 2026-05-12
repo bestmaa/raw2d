@@ -1,16 +1,16 @@
 import { bindStudioAppActions } from "./StudioAppActions";
+import { createStudioActionObject } from "./StudioActions";
 import type { StudioAppOptions } from "./StudioApp.type";
-import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./StudioDrag";
-import type { StudioDragSession } from "./StudioDrag.type";
+import type { StudioCommand, StudioCommandApplyOptions } from "./StudioCommand.type";
+import { bindStudioCanvasDrag } from "./StudioCanvasBindings";
+import { createStudioCreateObjectCommand, createStudioDeleteObjectCommand, createStudioTransformCommand, findStudioObject } from "./StudioCommandFactory";
 import { createStudioInspectorModel } from "./StudioInspector";
 import { applyStudioKeyboardCommand, getStudioHistoryKeyboardAction } from "./StudioKeyboard";
-import { createStudioHistory, redoStudioHistory, undoStudioHistory } from "./StudioHistory";
+import { applyStudioHistoryCommand, createStudioHistory, redoStudioHistory, undoStudioHistory } from "./StudioHistory";
 import type { StudioHistoryState } from "./StudioHistory.type";
 import { bindStudioLayerButtons } from "./StudioLayerBindings";
 import { bindStudioPropertyInputs } from "./StudioPropertyBindings";
 import { bindStudioRendererSwitch } from "./StudioRendererBindings";
-import { resizeStudioObject, startStudioResize } from "./StudioResize";
-import type { StudioResizeSession } from "./StudioResize.type";
 import { renderStudioRuntimeScene } from "./StudioRuntimeRender";
 import { renderStudioLayout, renderStudioStatsPanel } from "./StudioLayout";
 import { getStudioRendererLabel } from "./StudioRenderer";
@@ -25,8 +25,6 @@ export class StudioApp {
   private sceneState: StudioSceneState = createStudioSceneState();
   private rendererMode: StudioRendererMode = "canvas";
   private selectedObjectId: string | undefined;
-  private dragSession: StudioDragSession | undefined;
-  private resizeSession: StudioResizeSession | undefined;
   private history: StudioHistoryState = createStudioHistory();
   private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
   private statusMessage = "Ready";
@@ -86,8 +84,10 @@ export class StudioApp {
       setRendererMode: (mode) => { this.rendererMode = mode; },
       setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
       setStatusMessage: (message) => { this.statusMessage = message; },
+      resetHistory: () => { this.history = createStudioHistory(); },
       onUndo: () => { this.applyHistoryAction("undo"); },
       onRedo: () => { this.applyHistoryAction("redo"); },
+      onCreateObject: (action) => { this.handleCreateObject(action); },
       mount: () => { this.mount(); }
     });
   }
@@ -98,6 +98,7 @@ export class StudioApp {
       getScene: () => this.sceneState,
       getSelectedObjectId: () => this.selectedObjectId,
       setScene: (scene) => { this.sceneState = scene; },
+      applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
       setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
       mount: () => { this.mount(); }
     });
@@ -109,81 +110,22 @@ export class StudioApp {
       getScene: () => this.sceneState,
       getSelectedObjectId: () => this.selectedObjectId,
       setScene: (scene) => { this.sceneState = scene; },
+      applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
       renderRuntimeScene: () => { this.renderRuntimeScene(); }
     });
   }
 
   private bindCanvasDrag(): void {
-    const canvasElement = this.root.querySelector<HTMLCanvasElement>(".studio-canvas");
-
-    if (!canvasElement) {
-      return;
-    }
-
-    canvasElement.addEventListener("pointerdown", (event) => {
-      if (event.button !== 0) {
-        return;
-      }
-
-      const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
-      canvasElement.focus();
-      const resizeStart = startStudioResize(this.sceneState, this.selectedObjectId, pointer);
-
-      if (resizeStart) {
-        this.selectedObjectId = resizeStart.selectedObjectId;
-        this.resizeSession = resizeStart.session;
-        canvasElement.setPointerCapture(event.pointerId);
-        event.preventDefault();
-        return;
-      }
-
-      const dragStart = startStudioDrag(this.sceneState, this.selectedObjectId, pointer);
-
-      if (!dragStart) {
-        return;
-      }
-
-      this.selectedObjectId = dragStart.selectedObjectId;
-      this.dragSession = dragStart.session;
-      canvasElement.setPointerCapture(event.pointerId);
-      event.preventDefault();
+    bindStudioCanvasDrag({
+      root: this.root,
+      getScene: () => this.sceneState,
+      getSelectedObjectId: () => this.selectedObjectId,
+      setScene: (scene) => { this.sceneState = scene; },
+      setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
+      applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
+      renderRuntimeScene: () => { this.renderRuntimeScene(); },
+      mount: () => { this.mount(); }
     });
-
-    canvasElement.addEventListener("pointermove", (event) => {
-      if (this.resizeSession) {
-        const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
-        this.sceneState = resizeStudioObject({ scene: this.sceneState, session: this.resizeSession, pointer });
-        this.renderRuntimeScene();
-        event.preventDefault();
-        return;
-      }
-
-      if (!this.dragSession) {
-        return;
-      }
-
-      const pointer = getStudioCanvasWorldPoint(canvasElement, event, this.sceneState.camera);
-      this.sceneState = moveStudioObject({ scene: this.sceneState, session: this.dragSession, pointer });
-      this.renderRuntimeScene();
-      event.preventDefault();
-    });
-
-    const finishDrag = (event: PointerEvent): void => {
-      if (!this.dragSession && !this.resizeSession) {
-        return;
-      }
-
-      this.dragSession = undefined;
-      this.resizeSession = undefined;
-      if (canvasElement.hasPointerCapture(event.pointerId)) {
-        canvasElement.releasePointerCapture(event.pointerId);
-      }
-      event.preventDefault();
-      this.mount();
-    };
-
-    canvasElement.addEventListener("pointerup", finishDrag);
-    canvasElement.addEventListener("pointercancel", finishDrag);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -203,23 +145,70 @@ export class StudioApp {
     const result = applyStudioKeyboardCommand({
       scene: this.sceneState,
       selectedObjectId: this.selectedObjectId,
-      command: { key: event.key, shiftKey: event.shiftKey }
+      command: { key: event.key, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, metaKey: event.metaKey }
     });
 
     if (!result.handled) {
       return;
     }
 
-    this.sceneState = result.scene;
-    this.selectedObjectId = result.selectedObjectId;
+    const command = this.createKeyboardCommand(result.scene, event.key);
+
+    if (command) {
+      this.applyCommand(command, { selectedObjectId: result.selectedObjectId, statusMessage: "Keyboard edit" });
+    } else {
+      this.sceneState = result.scene;
+      this.selectedObjectId = result.selectedObjectId;
+      this.mount();
+    }
     event.preventDefault();
+  }
+
+  private handleCreateObject(action: Parameters<typeof createStudioActionObject>[1]): void {
+    const beforeCount = this.sceneState.objects.length;
+    const scene = createStudioActionObject(this.sceneState, action);
+    const object = scene.objects.at(-1);
+
+    if (!object || scene === this.sceneState) {
+      return;
+    }
+
+    this.applyCommand(createStudioCreateObjectCommand(object, beforeCount), {
+      selectedObjectId: object.id,
+      statusMessage: "Scene updated"
+    });
+  }
+
+  private applyCommand(command: StudioCommand, options: StudioCommandApplyOptions = {}): void {
+    const result = applyStudioHistoryCommand({ scene: this.sceneState, history: this.history, command });
+
+    if (!result.handled) {
+      return;
+    }
+
+    this.sceneState = result.scene;
+    this.history = result.history;
+    this.selectedObjectId = options.selectedObjectId ?? this.selectedObjectId;
+    this.statusMessage = options.statusMessage ?? "Scene updated";
+    if (options.renderRuntimeOnly) {
+      this.renderRuntimeScene();
+      return;
+    }
     this.mount();
   }
 
+  private createKeyboardCommand(scene: StudioSceneState, key: string): StudioCommand | undefined {
+    if (key === "Delete" || key === "Backspace") {
+      return createStudioDeleteObjectCommand(this.sceneState, this.selectedObjectId);
+    }
+
+    const before = findStudioObject(this.sceneState, this.selectedObjectId);
+    const after = findStudioObject(scene, this.selectedObjectId);
+    return before && after ? createStudioTransformCommand(before, after) : undefined;
+  }
+
   private applyHistoryAction(action: "undo" | "redo"): void {
-    const result = action === "undo"
-      ? undoStudioHistory({ scene: this.sceneState, history: this.history })
-      : redoStudioHistory({ scene: this.sceneState, history: this.history });
+    const result = action === "undo" ? undoStudioHistory({ scene: this.sceneState, history: this.history }) : redoStudioHistory({ scene: this.sceneState, history: this.history });
 
     if (!result.handled) {
       this.statusMessage = action === "undo" ? "Nothing to undo" : "Nothing to redo";
@@ -255,9 +244,6 @@ export class StudioApp {
 
   private renderStatsPanel(): void {
     const statsElement = this.root.querySelector<HTMLElement>(".studio-stats");
-
-    if (statsElement) {
-      statsElement.outerHTML = renderStudioStatsPanel(this.rendererStats);
-    }
+    if (statsElement) statsElement.outerHTML = renderStudioStatsPanel(this.rendererStats);
   }
 }

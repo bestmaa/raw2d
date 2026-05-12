@@ -54,6 +54,24 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   assert.match(adapter, /new Rect/);
   assert.match(adapter, /new Circle/);
   assert.match(adapter, /new Text2D/);
+
+  const app = await fetchText("/studio/src/StudioApp.ts");
+  assert.match(app, /applyStudioHistoryCommand/);
+  assert.match(app, /createStudioCreateObjectCommand/);
+  assert.match(app, /createStudioDeleteObjectCommand/);
+
+  const canvasBindings = await fetchText("/studio/src/StudioCanvasBindings.ts");
+  assert.match(canvasBindings, /createStudioTransformCommand/);
+  assert.match(canvasBindings, /recordCanvasTransform/);
+
+  const propertyBindings = await fetchText("/studio/src/StudioPropertyBindings.ts");
+  assert.match(propertyBindings, /createStudioTransformCommand/);
+  assert.match(propertyBindings, /createStudioMaterialCommand/);
+  assert.match(propertyBindings, /createStudioTextCommand/);
+
+  const layerBindings = await fetchText("/studio/src/StudioLayerBindings.ts");
+  assert.match(layerBindings, /createStudioVisibilityCommand/);
+  assert.match(layerBindings, /createStudioReorderCommand/);
 });
 
 function startStudioServer() {
