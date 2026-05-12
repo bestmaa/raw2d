@@ -13,6 +13,8 @@ Abhi Studio app ek selected object ke liye direct editing support karta hai:
 - Shift ke saath Arrow keys larger movement ke liye use karein
 - Escape se selection clear karein
 - Delete ya Backspace se selected object remove karein
+- Ctrl/Cmd+Z se undo karein
+- Ctrl/Cmd+Shift+Z ya Ctrl+Y se redo karein
 
 ## Scene State Flow
 
@@ -42,6 +44,27 @@ ArrowRight -> x + 1
 Shift+ArrowRight -> x + 10
 Escape -> selectedObjectId = undefined
 Delete -> selected object remove
+Ctrl/Cmd+Z -> last edit undo
+Ctrl/Cmd+Shift+Z -> last undone edit redo
+```
+
+## Command History
+
+Studio scene data badalne wale edits ke liye reversible editor commands record karta hai:
+
+- object create
+- selected object delete
+- drag move aur keyboard movement
+- Rect aur Sprite resize
+- layer visibility aur layer order
+- transform, material, text, aur font property edits
+
+Selection-only changes, renderer switch, Save, Export, aur failed imports history me add nahi hote. Scene ya sample scene load karne par history reset hoti hai, taaki purana undo stack naye document ko change na kare.
+
+```text
+applyStudioHistoryCommand -> undoStack
+undoStudioHistory -> redoStack
+redoStudioHistory -> undoStack
 ```
 
 ## Panel Commands

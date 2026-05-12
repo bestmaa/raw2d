@@ -13,6 +13,8 @@ The current Studio app supports direct editing for one selected object at a time
 - hold Shift with Arrow keys for larger movement
 - press Escape to clear selection
 - press Delete or Backspace to remove the selected object
+- press Ctrl/Cmd+Z to undo
+- press Ctrl/Cmd+Shift+Z or Ctrl+Y to redo
 
 ## Scene State Flow
 
@@ -42,6 +44,27 @@ ArrowRight -> x + 1
 Shift+ArrowRight -> x + 10
 Escape -> selectedObjectId = undefined
 Delete -> remove selected object
+Ctrl/Cmd+Z -> undo last edit
+Ctrl/Cmd+Shift+Z -> redo last undone edit
+```
+
+## Command History
+
+Studio records reversible editor commands for changes that alter scene data:
+
+- create object
+- delete selected object
+- drag move and keyboard movement
+- Rect and Sprite resize
+- layer visibility and layer order
+- transform, material, text, and font property edits
+
+Selection-only changes, renderer switching, Save, Export, and failed imports are not added to history. Loading a scene or sample scene resets the history so an old undo stack cannot modify a new document.
+
+```text
+applyStudioHistoryCommand -> undoStack
+undoStudioHistory -> redoStack
+redoStudioHistory -> undoStack
 ```
 
 ## Panel Commands

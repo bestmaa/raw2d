@@ -132,17 +132,23 @@ Later, the asset slot can point to a texture or atlas frame without changing the
 
 ## Command Rule
 
-All tools should produce command objects later so undo/redo can be added without rewriting tool logic.
+Studio tools now produce command objects for scene-changing edits so undo and redo can replay the same data path.
 
 ```text
-CreateObjectCommand
-UpdateTransformCommand
-UpdateMaterialCommand
-DeleteSelectionCommand
+create-object
+delete-object
+update-transform
+update-material
+update-text
+set-visibility
+reorder-object
 ```
+
+The command history stays inside `apps/studio`. Canvas and WebGL renderers only receive the resulting scene state through the runtime adapter.
 
 ## Verification
 
 - Every tool maps to explicit scene state changes.
 - Tools do not own Canvas or WebGL rendering logic.
 - Selection and resize reuse `raw2d-interaction` where possible.
+- Undo/redo should work for create, delete, move, resize, layer, and property edits.

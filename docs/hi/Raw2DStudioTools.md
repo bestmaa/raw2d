@@ -132,17 +132,23 @@ Baad me asset slot texture ya atlas frame ko point kar sakta hai, tool boundary 
 
 ## Command Rule
 
-Sab tools baad me command objects produce karenge taaki undo/redo tool logic rewrite kiye bina add ho sake.
+Studio tools ab scene-changing edits ke liye command objects produce karte hain, taaki undo aur redo wahi data path replay kar saken.
 
 ```text
-CreateObjectCommand
-UpdateTransformCommand
-UpdateMaterialCommand
-DeleteSelectionCommand
+create-object
+delete-object
+update-transform
+update-material
+update-text
+set-visibility
+reorder-object
 ```
+
+Command history `apps/studio` ke andar rehti hai. Canvas aur WebGL renderers ko sirf runtime adapter se resulting scene state milta hai.
 
 ## Verification
 
 - Har tool explicit scene state changes se map hota hai.
 - Tools Canvas ya WebGL rendering logic own nahi karte.
 - Selection aur resize jahan possible ho `raw2d-interaction` reuse karte hain.
+- Undo/redo create, delete, move, resize, layer, aur property edits ke liye kaam karna chahiye.

@@ -33,3 +33,16 @@ test("Studio tools docs keep small and full examples visible", () => {
   assert.match(hinglishDocs, /Chhota example/);
   assert.match(hinglishDocs, /Full scene object/);
 });
+
+test("Studio tools docs cover current command history names", () => {
+  for (const content of [englishDocs, hinglishDocs]) {
+    assert.match(content, /create-object/);
+    assert.match(content, /delete-object/);
+    assert.match(content, /update-transform/);
+    assert.match(content, /update-material/);
+    assert.match(content, /update-text/);
+    assert.match(content, /set-visibility/);
+    assert.match(content, /reorder-object/);
+    assert.doesNotMatch(content, /produce command objects later/);
+  }
+});
