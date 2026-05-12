@@ -109,6 +109,8 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
         <nav class="studio-actions" aria-label="Studio actions">
           <button type="button">New</button>
           <button type="button" data-action="sample-scene">Sample</button>
+          <button type="button" data-action="undo">Undo</button>
+          <button type="button" data-action="redo">Redo</button>
           <button type="button" data-action="save-scene">Save</button>
           <button type="button" data-action="load-scene">Load</button>
           <button type="button" data-action="export-png">Export</button>

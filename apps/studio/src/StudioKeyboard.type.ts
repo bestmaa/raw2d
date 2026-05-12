@@ -3,7 +3,11 @@ import type { StudioSceneState } from "./StudioSceneState.type";
 export interface StudioKeyboardCommand {
   readonly key: string;
   readonly shiftKey: boolean;
+  readonly ctrlKey?: boolean;
+  readonly metaKey?: boolean;
 }
+
+export type StudioHistoryKeyboardAction = "undo" | "redo";
 
 export interface StudioKeyboardResult {
   readonly scene: StudioSceneState;

@@ -70,3 +70,12 @@ test("Studio keyboard escape clears selection without mutating the scene", async
   assert.equal(result.scene, scene);
   assert.equal(result.selectedObjectId, undefined);
 });
+
+test("Studio keyboard maps undo and redo shortcuts", async () => {
+  const module = await importKeyboardModule();
+
+  assert.equal(module.getStudioHistoryKeyboardAction({ key: "z", shiftKey: false, ctrlKey: true }), "undo");
+  assert.equal(module.getStudioHistoryKeyboardAction({ key: "z", shiftKey: true, metaKey: true }), "redo");
+  assert.equal(module.getStudioHistoryKeyboardAction({ key: "y", shiftKey: false, ctrlKey: true }), "redo");
+  assert.equal(module.getStudioHistoryKeyboardAction({ key: "z", shiftKey: false }), undefined);
+});

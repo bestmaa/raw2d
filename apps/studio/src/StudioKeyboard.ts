@@ -1,4 +1,4 @@
-import type { ApplyStudioKeyboardOptions, StudioKeyboardResult } from "./StudioKeyboard.type";
+import type { ApplyStudioKeyboardOptions, StudioHistoryKeyboardAction, StudioKeyboardCommand, StudioKeyboardResult } from "./StudioKeyboard.type";
 
 const arrowDeltas = {
   ArrowDown: { x: 0, y: 1 },
@@ -53,4 +53,26 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
     selectedObjectId: options.selectedObjectId,
     handled: true
   };
+}
+
+export function getStudioHistoryKeyboardAction(command: StudioKeyboardCommand): StudioHistoryKeyboardAction | undefined {
+  if (!(command.ctrlKey || command.metaKey)) {
+    return undefined;
+  }
+
+  const key = command.key.toLowerCase();
+
+  if (key === "z" && command.shiftKey) {
+    return "redo";
+  }
+
+  if (key === "z") {
+    return "undo";
+  }
+
+  if (key === "y") {
+    return "redo";
+  }
+
+  return undefined;
 }

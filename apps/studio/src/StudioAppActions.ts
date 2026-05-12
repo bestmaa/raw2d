@@ -40,6 +40,16 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
+  if (action === "undo") {
+    options.onUndo();
+    return;
+  }
+
+  if (action === "redo") {
+    options.onRedo();
+    return;
+  }
+
   if (action === "save-scene") {
     downloadStudioScene({ scene: options.getScene() });
     return;

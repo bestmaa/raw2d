@@ -3,7 +3,9 @@ import type { StudioAppOptions } from "./StudioApp.type";
 import { getStudioCanvasWorldPoint, moveStudioObject, startStudioDrag } from "./StudioDrag";
 import type { StudioDragSession } from "./StudioDrag.type";
 import { createStudioInspectorModel } from "./StudioInspector";
-import { applyStudioKeyboardCommand } from "./StudioKeyboard";
+import { applyStudioKeyboardCommand, getStudioHistoryKeyboardAction } from "./StudioKeyboard";
+import { createStudioHistory, redoStudioHistory, undoStudioHistory } from "./StudioHistory";
+import type { StudioHistoryState } from "./StudioHistory.type";
 import { bindStudioLayerButtons } from "./StudioLayerBindings";
 import { bindStudioPropertyInputs } from "./StudioPropertyBindings";
 import { bindStudioRendererSwitch } from "./StudioRendererBindings";
@@ -25,6 +27,7 @@ export class StudioApp {
   private selectedObjectId: string | undefined;
   private dragSession: StudioDragSession | undefined;
   private resizeSession: StudioResizeSession | undefined;
+  private history: StudioHistoryState = createStudioHistory();
   private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
   private statusMessage = "Ready";
 
@@ -83,6 +86,8 @@ export class StudioApp {
       setRendererMode: (mode) => { this.rendererMode = mode; },
       setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
       setStatusMessage: (message) => { this.statusMessage = message; },
+      onUndo: () => { this.applyHistoryAction("undo"); },
+      onRedo: () => { this.applyHistoryAction("redo"); },
       mount: () => { this.mount(); }
     });
   }
@@ -182,6 +187,19 @@ export class StudioApp {
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
+    const historyAction = getStudioHistoryKeyboardAction({
+      key: event.key,
+      shiftKey: event.shiftKey,
+      ctrlKey: event.ctrlKey,
+      metaKey: event.metaKey
+    });
+
+    if (historyAction) {
+      this.applyHistoryAction(historyAction);
+      event.preventDefault();
+      return;
+    }
+
     const result = applyStudioKeyboardCommand({
       scene: this.sceneState,
       selectedObjectId: this.selectedObjectId,
@@ -195,6 +213,26 @@ export class StudioApp {
     this.sceneState = result.scene;
     this.selectedObjectId = result.selectedObjectId;
     event.preventDefault();
+    this.mount();
+  }
+
+  private applyHistoryAction(action: "undo" | "redo"): void {
+    const result = action === "undo"
+      ? undoStudioHistory({ scene: this.sceneState, history: this.history })
+      : redoStudioHistory({ scene: this.sceneState, history: this.history });
+
+    if (!result.handled) {
+      this.statusMessage = action === "undo" ? "Nothing to undo" : "Nothing to redo";
+      this.mount();
+      return;
+    }
+
+    this.sceneState = result.scene;
+    this.history = result.history;
+    if (this.selectedObjectId && !this.sceneState.objects.some((object) => object.id === this.selectedObjectId)) {
+      this.selectedObjectId = undefined;
+    }
+    this.statusMessage = action === "undo" ? "Undid edit" : "Redid edit";
     this.mount();
   }
 

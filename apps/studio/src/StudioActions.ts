@@ -12,12 +12,22 @@ const toolActions: readonly StudioAction[] = ["rect", "circle", "line", "text", 
 
 export function bindStudioActions(options: StudioActionBindingOptions): void {
   const sampleButton = options.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
+  const undoButton = options.root.querySelector<HTMLButtonElement>('[data-action="undo"]');
+  const redoButton = options.root.querySelector<HTMLButtonElement>('[data-action="redo"]');
   const saveButton = options.root.querySelector<HTMLButtonElement>('[data-action="save-scene"]');
   const loadButton = options.root.querySelector<HTMLButtonElement>('[data-action="load-scene"]');
   const exportButton = options.root.querySelector<HTMLButtonElement>('[data-action="export-png"]');
 
   sampleButton?.addEventListener("click", () => {
     options.onAction("sample-scene");
+  });
+
+  undoButton?.addEventListener("click", () => {
+    options.onAction("undo");
+  });
+
+  redoButton?.addEventListener("click", () => {
+    options.onAction("redo");
   });
 
   saveButton?.addEventListener("click", () => {
@@ -53,6 +63,8 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "sprite":
       return addStudioSpriteObject({ scene });
     case "sample-scene":
+    case "undo":
+    case "redo":
     case "save-scene":
     case "load-scene":
     case "export-png":

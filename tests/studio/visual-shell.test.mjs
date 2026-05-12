@@ -29,6 +29,8 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   const layout = await fetchText("/studio/src/StudioLayout.ts");
   assert.match(layout, /studio-canvas/);
   assert.match(layout, /data-action="sample-scene"/);
+  assert.match(layout, /data-action="undo"/);
+  assert.match(layout, /data-action="redo"/);
   assert.match(layout, /data-action="save-scene"/);
   assert.match(layout, /data-action="load-scene"/);
   assert.match(layout, /data-action="export-png"/);

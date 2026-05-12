@@ -1,5 +1,7 @@
 export type StudioAction =
   | "sample-scene"
+  | "undo"
+  | "redo"
   | "save-scene"
   | "load-scene"
   | "export-png"

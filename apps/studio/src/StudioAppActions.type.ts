@@ -8,5 +8,7 @@ export interface StudioAppActionBindingOptions {
   readonly setRendererMode: (mode: StudioRendererMode) => void;
   readonly setSelectedObjectId: (selectedObjectId: string | undefined) => void;
   readonly setStatusMessage: (message: string) => void;
+  readonly onUndo: () => void;
+  readonly onRedo: () => void;
   readonly mount: () => void;
 }
