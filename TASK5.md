@@ -67,7 +67,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T255 | Version: v1.16.2 | Status: completed | Goal: Wire undo and redo keyboard shortcuts and toolbar buttons in Studio. | Verify: browser keyboard and button check. | Commit: `Add Studio undo redo controls`
 - T256 | Version: v1.16.3 | Status: completed | Goal: Convert create, drag, resize, delete, layer order, and property edits to explicit Studio commands. | Verify: unit tests plus browser edit workflow check. | Commit: `Use Studio edit commands`
 - T257 | Version: v1.16.4 | Status: completed | Goal: Document Studio command history and undo/redo behavior. | Verify: docs route check and Hinglish docs parity. | Commit: `Document Studio undo redo`
-- T258 | Version: v1.16.5 | Status: pending | Goal: Add browser smoke coverage for undo and redo workflows. | Verify: browser test for create, move, resize, property edit, undo, redo. | Commit: `Test Studio undo redo`
+- T258 | Version: v1.16.5 | Status: completed | Goal: Add browser smoke coverage for undo and redo workflows. | Verify: browser test for create, move, resize, property edit, undo, redo. | Commit: `Test Studio undo redo`
 - T259 | Version: v1.16.6 | Status: pending | Goal: Phase 24 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio undo/redo workflow. | Commit: `Release Studio command history phase`
 
 ## Phase 25: Studio Assets
