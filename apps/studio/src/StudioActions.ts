@@ -17,6 +17,7 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
   const saveButton = options.root.querySelector<HTMLButtonElement>('[data-action="save-scene"]');
   const loadButton = options.root.querySelector<HTMLButtonElement>('[data-action="load-scene"]');
   const exportButton = options.root.querySelector<HTMLButtonElement>('[data-action="export-png"]');
+  const copyCanvasButton = options.root.querySelector<HTMLButtonElement>('[data-action="copy-canvas-code"]');
 
   sampleButton?.addEventListener("click", () => {
     options.onAction("sample-scene");
@@ -40,6 +41,10 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
 
   exportButton?.addEventListener("click", () => {
     options.onAction("export-png");
+  });
+
+  copyCanvasButton?.addEventListener("click", () => {
+    options.onAction("copy-canvas-code");
   });
 
   for (const action of toolActions) {
@@ -68,6 +73,7 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "save-scene":
     case "load-scene":
     case "export-png":
+    case "copy-canvas-code":
       return scene;
   }
 }

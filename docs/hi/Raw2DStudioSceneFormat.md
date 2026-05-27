@@ -60,6 +60,7 @@ Persistence me abhi teen user-facing actions hain:
 - Save stable `.raw2d.json` download karta hai.
 - Load valid `.raw2d.json` read karta hai, schema validate karta hai, phir Studio scene state replace karta hai.
 - Export current canvas preview ko PNG ke roop me download karta hai.
+- Copy Code clipboard me Canvas-only Raw2D snippet likhta hai jo public `raw2d` imports use karta hai, Studio internals nahi.
 
 Invalid JSON, unsupported object types, aur invalid geometry Studio status bar me import errors ke roop me dikhte hain.
 Missing asset references scene load karte hain, lekin explicit warnings dikhate hain taaki user IDs fix kar sake bina baaki scene data khoye.

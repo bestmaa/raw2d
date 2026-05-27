@@ -60,6 +60,7 @@ Persistence currently has three user-facing actions:
 - Save downloads stable `.raw2d.json`.
 - Load reads a valid `.raw2d.json`, validates the schema, then replaces Studio scene state.
 - Export downloads the current canvas preview as PNG.
+- Copy Code writes a Canvas-only Raw2D snippet to the clipboard using public `raw2d` imports, not Studio internals.
 
 Invalid JSON, unsupported object types, and invalid geometry are reported in the Studio status bar as import errors.
 Missing asset references load the scene with explicit warnings so the user can fix IDs without losing other scene data.

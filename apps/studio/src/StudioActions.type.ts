@@ -5,6 +5,7 @@ export type StudioAction =
   | "save-scene"
   | "load-scene"
   | "export-png"
+  | "copy-canvas-code"
   | "rect"
   | "circle"
   | "line"

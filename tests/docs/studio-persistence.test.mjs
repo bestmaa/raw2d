@@ -45,6 +45,14 @@ test("Studio persistence docs cover explicit validation messages", () => {
   }
 });
 
+test("Studio persistence docs cover Canvas code export", () => {
+  for (const content of [englishFormat, hinglishFormat, routeTopics]) {
+    assert.match(content, /Copy Code/i);
+    assert.match(content, /Canvas-only|Canvas/);
+    assert.match(content, /raw2d/);
+  }
+});
+
 test("Studio persistence docs are available from readme docs", () => {
   assert.match(readmeDocs, /Raw2DStudioSceneFormat/);
   assert.match(readmeDocs, /studio-scene-format/);

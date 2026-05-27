@@ -1,6 +1,7 @@
 import { bindStudioActions } from "./StudioActions";
 import type { StudioAction } from "./StudioActions.type";
 import type { StudioAppActionBindingOptions } from "./StudioAppActions.type";
+import { copyStudioCanvasCode } from "./StudioCanvasCodeExport";
 import { bindStudioSceneLoadInput, clickStudioSceneLoadInput } from "./StudioLoadBindings";
 import { downloadStudioCanvasPng } from "./StudioPngExport";
 import { downloadStudioScene } from "./StudioSave";
@@ -69,9 +70,20 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
+  if (action === "copy-canvas-code") {
+    void copyStudioCanvasCode({ scene: options.getScene() })
+      .then(() => { options.setStatusMessage("Copied Canvas code"); options.mount(); })
+      .catch((error: unknown) => { options.setStatusMessage(`Copy error: ${getErrorMessage(error)}`); options.mount(); });
+    return;
+  }
+
   options.onCreateObject(action);
 }
 
 function createLoadStatusMessage(warnings: readonly string[]): string {
   return warnings.length === 0 ? "Loaded scene" : `Loaded scene with warnings: ${warnings.join(" ")}`;
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : "Clipboard unavailable";
 }
