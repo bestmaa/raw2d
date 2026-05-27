@@ -97,7 +97,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T274 | Version: v1.19.1 | Status: completed | Goal: Add copy-to-code export for Canvas scenes from Studio without importing Studio internals. | Verify: unit test generated code and browser copy check. | Commit: `Add Studio Canvas code export`
 - T275 | Version: v1.19.2 | Status: completed | Goal: Add copy-to-code export for WebGL scenes with explicit renderer support warnings. | Verify: unit test generated code and browser warning check. | Commit: `Add Studio WebGL code export`
 - T276 | Version: v1.19.3 | Status: completed | Goal: Add Studio scene import from Raw2D MCP JSON with deterministic id handling. | Verify: import tests for valid, duplicate, and invalid ids. | Commit: `Add Studio MCP import`
-- T277 | Version: v1.19.4 | Status: pending | Goal: Document Studio import, export, validation, and generated-code boundaries. | Verify: docs route and README checks. | Commit: `Document Studio import export`
+- T277 | Version: v1.19.4 | Status: completed | Goal: Document Studio import, export, validation, and generated-code boundaries. | Verify: docs route and README checks. | Commit: `Document Studio import export`
 - T278 | Version: v1.19.5 | Status: pending | Goal: Phase 27 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio import/export workflow. | Commit: `Release Studio import export phase`
 
 ## Phase 28: Effects Package Foundation

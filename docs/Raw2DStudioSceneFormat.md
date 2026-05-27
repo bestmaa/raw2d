@@ -58,7 +58,7 @@ Objects should use explicit `type` values and public Raw2D-style fields.
 Persistence currently has five user-facing actions:
 
 - Save downloads stable `.raw2d.json`.
-- Load reads a valid `.raw2d.json`, validates the schema, then replaces Studio scene state.
+- Load reads a valid `.raw2d.json` or Raw2D MCP scene JSON, validates the schema, then replaces Studio scene state.
 - Export downloads the current canvas preview as PNG.
 - Copy Code writes a Canvas-only Raw2D snippet to the clipboard using public `raw2d` imports, not Studio internals.
 - Copy WebGL writes a WebGLRenderer2D snippet with explicit WebGL2, Sprite texture, and Text2D texture warnings.
@@ -66,6 +66,34 @@ Persistence currently has five user-facing actions:
 Invalid JSON, unsupported object types, and invalid geometry are reported in the Studio status bar as import errors.
 Missing asset references load the scene with explicit warnings so the user can fix IDs without losing other scene data.
 Generated WebGL code checks `isWebGL2Available` before constructing the renderer and logs unsupported-object diagnostics after render.
+
+## MCP Import
+
+Studio accepts the Raw2D MCP document shape:
+
+```json
+{
+  "scene": {
+    "objects": [
+      { "id": "card", "type": "rect", "width": 120, "height": 80 }
+    ]
+  },
+  "camera": { "x": 0, "y": 0, "zoom": 1 }
+}
+```
+
+MCP import keeps valid object IDs as-is. Duplicate IDs are made deterministic with numeric suffixes such as `shape`, `shape-2`, and `shape-3`.
+Invalid or missing IDs become deterministic fallback IDs such as `mcp-rect-1`.
+Each repaired ID is reported as a warning so import is inspectable instead of silent.
+
+MCP Sprite objects map `textureId` to Studio `assetSlot`. Since MCP JSON does not carry local image bytes, missing texture assets load as explicit diagnostics until the user imports or binds image assets.
+
+## Generated Code Boundary
+
+Generated snippets are app code, not Studio project files.
+They must import public APIs from `raw2d` and must not import `apps/studio`, `StudioRenderAdapter`, panel state, or editor commands.
+
+Canvas generated code is the full-fidelity fallback path. WebGL generated code is explicit about renderer limits: it checks WebGL2 support, includes texture placeholders for Sprite objects, and reports unsupported WebGL diagnostics after render.
 
 ## Assets
 
@@ -106,11 +134,13 @@ Do not save runtime-only data.
 ## Load Rule
 
 Load validates first, then creates Raw2D objects through the runtime adapter.
+Raw2D MCP import converts to Studio state first, then the same runtime adapter creates Raw2D objects.
 
 Invalid objects should be reported with useful object messages such as `Invalid Studio rect geometry rect-1: width must be greater than 0`.
 Unsupported object types should name the rejected type and object id, for example `Unsupported Studio object type "mesh" for object bad-1`.
 
 Missing Sprite asset references are returned as diagnostics, for example `Sprite sprite-1 references missing asset asset-9`.
+Duplicate or invalid MCP IDs are repaired deterministically and returned as warnings.
 
 ## Compatibility
 

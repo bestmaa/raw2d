@@ -110,13 +110,29 @@ Editor UI state: apps/studio`
       },
       {
         title: "Save Load Export",
-        body: "Save downloads .raw2d.json, Load validates and replaces Studio scene state, Export downloads the current canvas preview as PNG, Copy Code writes a Canvas-only Raw2D snippet, and Copy WebGL writes a WebGLRenderer2D snippet with explicit renderer support warnings. Unsupported object types and invalid geometry become import errors; missing asset references load with warnings.",
+        body: "Save downloads .raw2d.json, Load validates Studio JSON or Raw2D MCP scene JSON and replaces Studio scene state, Export downloads the current canvas preview as PNG, Copy Code writes a Canvas-only Raw2D snippet, and Copy WebGL writes a WebGLRenderer2D snippet with explicit renderer support warnings. Unsupported object types and invalid geometry become import errors; missing asset references load with warnings.",
         code: `serializeStudioScene(scene)
 deserializeStudioScene(json)
+importStudioSceneFromMcpDocument(document)
 Loaded scene with warnings
 import { Canvas, Scene } from "raw2d"
 import { WebGLRenderer2D, isWebGL2Available } from "raw2d"
 getStudioCanvasPngDataUrl(root)`
+      },
+      {
+        title: "Import Boundaries",
+        body: "Studio JSON preserves editor-safe metadata. Raw2D MCP JSON imports through a conversion step first: valid IDs stay unchanged, duplicate IDs get deterministic suffixes, invalid IDs get deterministic mcp-type-index fallbacks, and every repair is returned as a warning.",
+        code: `MCP: { scene: { objects: [] }, camera }
+valid id: "shape"
+duplicate ids: "shape", "shape-2"
+invalid id: "mcp-rect-1"`
+      },
+      {
+        title: "Generated Code Boundary",
+        body: "Generated code is app code, not a Studio save file. It imports only public raw2d APIs and must not import apps/studio, StudioRenderAdapter, panel state, or editor commands. Canvas is the full-fidelity fallback; WebGL is explicit about WebGL2 and renderer diagnostics.",
+        code: `Allowed: import { Canvas, WebGLRenderer2D } from "raw2d"
+Blocked: import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter"
+WebGL: isWebGL2Available + diagnostics.stats.unsupported`
       },
       {
         title: "Assets",

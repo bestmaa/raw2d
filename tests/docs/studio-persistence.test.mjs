@@ -41,6 +41,8 @@ test("Studio persistence docs cover explicit validation messages", () => {
   for (const content of [englishFormat, hinglishFormat, routeTopics]) {
     assert.match(content, /unsupported object/i);
     assert.match(content, /invalid geometry/i);
+    assert.match(content, /duplicate.*MCP IDs|Duplicate IDs|duplicate IDs/i);
+    assert.match(content, /invalid.*MCP IDs|Invalid .* IDs|invalid IDs/i);
     assert.match(content, /Loaded scene with warnings|warnings|diagnostics/i);
   }
 });
@@ -59,6 +61,24 @@ test("Studio persistence docs cover WebGL code export warnings", () => {
     assert.match(content, /WebGLRenderer2D/);
     assert.match(content, /WebGL2|isWebGL2Available/);
     assert.match(content, /warnings|diagnostics/i);
+  }
+});
+
+test("Studio persistence docs cover MCP import boundaries", () => {
+  for (const content of [englishFormat, hinglishFormat, routeTopics]) {
+    assert.match(content, /Raw2D MCP/);
+    assert.match(content, /scene.*objects|objects.*scene/s);
+    assert.match(content, /mcp-rect-1/);
+    assert.match(content, /deterministic/i);
+  }
+});
+
+test("Studio persistence docs cover generated-code boundaries", () => {
+  for (const content of [englishFormat, hinglishFormat, routeTopics]) {
+    assert.match(content, /Generated Code Boundary|Generated snippets|Generated code/i);
+    assert.match(content, /public `?raw2d`?|public raw2d/i);
+    assert.match(content, /StudioRenderAdapter/);
+    assert.match(content, /apps\/studio/);
   }
 });
 
