@@ -6,7 +6,7 @@ import type {
   StudioResizeHandleId,
   StudioResizeStart
 } from "./StudioResize.type";
-import type { StudioRectState, StudioSceneObject, StudioSceneState, StudioSpriteState } from "./StudioSceneState.type";
+import type { StudioCircleState, StudioRectState, StudioSceneObject, StudioSceneState, StudioSpriteState } from "./StudioSceneState.type";
 
 const handleSize = 10;
 const handleHitPadding = 5;
@@ -59,25 +59,27 @@ export function startStudioResize(
 }
 
 export function resizeStudioObject(options: ResizeStudioObjectOptions): StudioSceneState {
-  const nextBounds = resizeBounds(options.session.startBounds, options.session.handleId, {
+  const delta = {
     x: options.pointer.x - options.session.startPointer.x,
     y: options.pointer.y - options.session.startPointer.y
-  });
+  };
 
   return {
     ...options.scene,
     objects: options.scene.objects.map((object) => {
-      if (object.id !== options.session.objectId || !isResizableObject(object)) {
+      if (object.id !== options.session.objectId) {
         return object;
       }
 
-      return {
-        ...object,
-        x: Math.round(nextBounds.x),
-        y: Math.round(nextBounds.y),
-        width: Math.round(nextBounds.width),
-        height: Math.round(nextBounds.height)
-      };
+      if (isBoxResizableObject(object)) {
+        return resizeBoxObject(object, resizeBounds(options.session.startBounds, options.session.handleId, delta));
+      }
+
+      if (object.type === "circle") {
+        return resizeCircleObject(object, resizeSquareBounds(options.session.startBounds, options.session.handleId, delta));
+      }
+
+      return object;
     })
   };
 }
@@ -115,10 +117,18 @@ function getResizableObjectBounds(scene: StudioSceneState, objectId: string | un
     return undefined;
   }
 
+  if (object.type === "circle") {
+    return { x: object.x - object.radius, y: object.y - object.radius, width: object.radius * 2, height: object.radius * 2 };
+  }
+
   return { x: object.x, y: object.y, width: object.width, height: object.height };
 }
 
-function isResizableObject(object: StudioSceneObject): object is StudioRectState | StudioSpriteState {
+function isResizableObject(object: StudioSceneObject): object is StudioCircleState | StudioRectState | StudioSpriteState {
+  return object.type === "circle" || isBoxResizableObject(object);
+}
+
+function isBoxResizableObject(object: StudioSceneObject): object is StudioRectState | StudioSpriteState {
   return object.type === "rect" || object.type === "sprite";
 }
 
@@ -142,6 +152,52 @@ function resizeBounds(bounds: StudioResizeBounds, handleId: StudioResizeHandleId
     : normalizeAxis(bounds.y, bounds.y + bounds.height + delta.y);
 
   return { x: horizontal.position, y: vertical.position, width: horizontal.size, height: vertical.size };
+}
+
+function resizeSquareBounds(bounds: StudioResizeBounds, handleId: StudioResizeHandleId, delta: StudioPoint): StudioResizeBounds {
+  const fixedCorner = getFixedCorner(bounds, handleId);
+  const movingCorner = getMovingCorner(bounds, handleId, delta);
+  const size = Math.max(minimumSize, Math.abs(movingCorner.x - fixedCorner.x), Math.abs(movingCorner.y - fixedCorner.y));
+
+  return {
+    x: movingCorner.x < fixedCorner.x ? fixedCorner.x - size : fixedCorner.x,
+    y: movingCorner.y < fixedCorner.y ? fixedCorner.y - size : fixedCorner.y,
+    width: size,
+    height: size
+  };
+}
+
+function getFixedCorner(bounds: StudioResizeBounds, handleId: StudioResizeHandleId): StudioPoint {
+  return {
+    x: handleId.endsWith("left") ? bounds.x + bounds.width : bounds.x,
+    y: handleId.startsWith("top") ? bounds.y + bounds.height : bounds.y
+  };
+}
+
+function getMovingCorner(bounds: StudioResizeBounds, handleId: StudioResizeHandleId, delta: StudioPoint): StudioPoint {
+  return {
+    x: (handleId.endsWith("left") ? bounds.x : bounds.x + bounds.width) + delta.x,
+    y: (handleId.startsWith("top") ? bounds.y : bounds.y + bounds.height) + delta.y
+  };
+}
+
+function resizeBoxObject(object: StudioRectState | StudioSpriteState, bounds: StudioResizeBounds): StudioRectState | StudioSpriteState {
+  return {
+    ...object,
+    x: Math.round(bounds.x),
+    y: Math.round(bounds.y),
+    width: Math.round(bounds.width),
+    height: Math.round(bounds.height)
+  };
+}
+
+function resizeCircleObject(object: StudioCircleState, bounds: StudioResizeBounds): StudioCircleState {
+  return {
+    ...object,
+    x: Math.round(bounds.x + bounds.width / 2),
+    y: Math.round(bounds.y + bounds.height / 2),
+    radius: Math.round(bounds.width / 2)
+  };
 }
 
 function normalizeAxis(fixedPosition: number, movingPosition: number): { readonly position: number; readonly size: number } {

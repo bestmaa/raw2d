@@ -13,7 +13,7 @@ const viteBin = fileURLToPath(new URL("../../node_modules/vite/bin/vite.js", imp
 const port = 7400 + Math.floor(Math.random() * 500);
 const baseUrl = `http://127.0.0.1:${port}`;
 
-test("Studio undo redo smoke covers create move resize and property edits", async (t) => {
+test("Studio undo redo smoke covers create move resize and Circle radius edits", async (t) => {
   const server = startStudioServer();
   const modules = await importWorkflowModules(t);
 
@@ -22,8 +22,9 @@ test("Studio undo redo smoke covers create move resize and property edits", asyn
   });
 
   await waitForServer(server);
-  await assertStudioUndoRedoRoute();
+  await assertStudioEditingRoute();
   assertUndoRedoWorkflow(modules);
+  assertCircleResizeWorkflow(modules);
 });
 
 async function importWorkflowModules(t) {
@@ -39,11 +40,13 @@ async function importWorkflowModules(t) {
   });
   await writeTranspiledModule("apps/studio/src/StudioCommandFactory.ts", join(directory, "StudioCommandFactory.js"));
   await writeTranspiledModule("apps/studio/src/StudioObjectFactory.ts", join(directory, "StudioObjectFactory.js"));
+  await writeTranspiledModule("apps/studio/src/StudioResize.ts", join(directory, "StudioResize.js"));
 
   return {
     history: await import(pathToFileURL(join(directory, "StudioHistory.js")).href),
     commands: await import(pathToFileURL(join(directory, "StudioCommandFactory.js")).href),
-    objects: await import(pathToFileURL(join(directory, "StudioObjectFactory.js")).href)
+    objects: await import(pathToFileURL(join(directory, "StudioObjectFactory.js")).href),
+    resize: await import(pathToFileURL(join(directory, "StudioResize.js")).href)
   };
 }
 
@@ -63,7 +66,7 @@ async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) 
   await writeFile(outputPath, output);
 }
 
-async function assertStudioUndoRedoRoute() {
+async function assertStudioEditingRoute() {
   const html = await fetchText("/studio/");
   assert.match(html, /studio-root/);
 
@@ -75,6 +78,11 @@ async function assertStudioUndoRedoRoute() {
   assert.match(app, /applyStudioHistoryCommand/);
   assert.match(app, /undoStudioHistory/);
   assert.match(app, /redoStudioHistory/);
+
+  const resize = await fetchText("/studio/src/StudioResize.ts");
+  assert.match(resize, /resizeCircleObject/);
+  assert.match(resize, /resizeSquareBounds/);
+  assert.match(resize, /radius/);
 }
 
 function assertUndoRedoWorkflow(modules) {
@@ -117,6 +125,23 @@ function assertUndoRedoWorkflow(modules) {
   assert.equal(findObject(scene, createdObject.id).material.fillColor, "#ff0000");
 }
 
+function assertCircleResizeWorkflow(modules) {
+  const scene = { ...createEmptyScene(), objects: [{ id: "circle-1", type: "circle", name: "Circle 1", x: 60, y: 60, radius: 30 }] };
+  const resizeStart = modules.resize.startStudioResize(scene, "circle-1", { x: 90, y: 90 });
+
+  assert.ok(resizeStart);
+
+  const nextScene = modules.resize.resizeStudioObject({
+    scene,
+    session: resizeStart.session,
+    pointer: { x: 120, y: 110 }
+  });
+
+  assert.equal(nextScene.objects[0].x, 75);
+  assert.equal(nextScene.objects[0].y, 75);
+  assert.equal(nextScene.objects[0].radius, 45);
+}
+
 function applyEdit(modules, scene, history, command) {
   assert.ok(command);
   const result = modules.history.applyStudioHistoryCommand({ scene, history, command });
@@ -152,6 +177,7 @@ function createEmptyScene() {
     name: "Browser Undo Redo Test",
     rendererMode: "canvas",
     camera: { x: 0, y: 0, zoom: 1 },
+    assets: [],
     objects: []
   };
 }

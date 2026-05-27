@@ -29,12 +29,17 @@ function createScene() {
   };
 }
 
-test("Studio resize handles appear only for Rect and Sprite selections", async () => {
+test("Studio resize handles appear for Rect Sprite and Circle selections", async () => {
   const module = await importResizeModule();
 
   assert.equal(module.getStudioResizeHandles(createScene(), "rect-1").length, 4);
   assert.equal(module.getStudioResizeHandles(createScene(), "sprite-1").length, 4);
-  assert.equal(module.getStudioResizeHandles(createScene(), "circle-1").length, 0);
+  assert.deepEqual(module.getStudioResizeHandles(createScene(), "circle-1"), [
+    { id: "top-left", x: 30, y: 30, size: 10 },
+    { id: "top-right", x: 90, y: 30, size: 10 },
+    { id: "bottom-left", x: 30, y: 90, size: 10 },
+    { id: "bottom-right", x: 90, y: 90, size: 10 }
+  ]);
 });
 
 test("Studio bottom-right resize updates width and height immutably", async () => {
@@ -103,4 +108,42 @@ test("Studio corner resize flips bounds after crossing the opposite corner", asy
     assert.equal(nextScene.objects[0].width, resizeCase.expected.width);
     assert.equal(nextScene.objects[0].height, resizeCase.expected.height);
   }
+});
+
+test("Studio Circle corner resize updates center and radius from square bounds", async () => {
+  const module = await importResizeModule();
+  const scene = createScene();
+  const resizeStart = module.startStudioResize(scene, "circle-1", { x: 90, y: 90 });
+
+  assert.ok(resizeStart);
+
+  const nextScene = module.resizeStudioObject({
+    scene,
+    session: resizeStart.session,
+    pointer: { x: 120, y: 110 }
+  });
+
+  assert.equal(scene.objects[2].radius, 30);
+  assert.equal(nextScene.objects[2].x, 75);
+  assert.equal(nextScene.objects[2].y, 75);
+  assert.equal(nextScene.objects[2].radius, 45);
+});
+
+test("Studio Circle resize keeps radius positive after crossing the opposite corner", async () => {
+  const module = await importResizeModule();
+  const scene = createScene();
+  const resizeStart = module.startStudioResize(scene, "circle-1", { x: 30, y: 30 });
+
+  assert.ok(resizeStart);
+
+  const nextScene = module.resizeStudioObject({
+    scene,
+    session: resizeStart.session,
+    pointer: { x: 110, y: 105 }
+  });
+
+  assert.equal(nextScene.objects[2].x, 100);
+  assert.equal(nextScene.objects[2].y, 100);
+  assert.equal(nextScene.objects[2].radius, 10);
+  assert.ok(nextScene.objects[2].radius > 0);
 });
