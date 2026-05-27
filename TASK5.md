@@ -83,7 +83,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 ## Phase 26: Transform Tool Coverage
 
 - T267 | Version: v1.18.0 | Status: completed | Goal: Add resize support for Circle radius using clear bounds handles without storing negative radius. | Verify: unit and browser resize checks. | Commit: `Add Studio circle resize`
-- T268 | Version: v1.18.1 | Status: pending | Goal: Add Line endpoint handles for editing start and end points. | Verify: unit and browser line endpoint checks. | Commit: `Add Studio line endpoint handles`
+- T268 | Version: v1.18.1 | Status: completed | Goal: Add Line endpoint handles for editing start and end points. | Verify: unit and browser line endpoint checks. | Commit: `Add Studio line endpoint handles`
 - T269 | Version: v1.18.2 | Status: pending | Goal: Add Text2D resize behavior using explicit text bounds or scale rules documented in Studio tools. | Verify: unit and browser text resize checks. | Commit: `Add Studio text resize`
 - T270 | Version: v1.18.3 | Status: pending | Goal: Add multi-select selection bounds and group move for selected objects. | Verify: shift-select, drag group, delete group, and layer panel tests. | Commit: `Add Studio multi select`
 - T271 | Version: v1.18.4 | Status: pending | Goal: Add visual regression coverage for resize handles crossing all four corners. | Verify: browser screenshot or pixel check. | Commit: `Test Studio resize visuals`

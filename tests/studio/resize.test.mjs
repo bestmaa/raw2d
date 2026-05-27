@@ -4,15 +4,22 @@ import test from "node:test";
 import ts from "typescript";
 
 async function importResizeModule() {
+  const lineSource = readFileSync("apps/studio/src/StudioLineResize.ts", "utf8");
+  const lineOutput = transpile(lineSource);
+  const lineUrl = `data:text/javascript;base64,${Buffer.from(lineOutput).toString("base64")}`;
   const source = readFileSync("apps/studio/src/StudioResize.ts", "utf8");
-  const output = ts.transpileModule(source, {
+  const output = transpile(source).replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`);
+  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
+  return import(url);
+}
+
+function transpile(source) {
+  return ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText;
-  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
-  return import(url);
 }
 
 function createScene() {
@@ -24,7 +31,8 @@ function createScene() {
     objects: [
       { id: "rect-1", type: "rect", name: "Rect 1", x: 10, y: 20, width: 100, height: 80 },
       { id: "sprite-1", type: "sprite", name: "Sprite 1", x: 160, y: 40, width: 64, height: 64, assetSlot: "empty" },
-      { id: "circle-1", type: "circle", name: "Circle 1", x: 60, y: 60, radius: 30 }
+      { id: "circle-1", type: "circle", name: "Circle 1", x: 60, y: 60, radius: 30 },
+      { id: "line-1", type: "line", name: "Line 1", x: 120, y: 300, startX: 0, startY: 0, endX: 240, endY: 0 }
     ]
   };
 }
@@ -39,6 +47,10 @@ test("Studio resize handles appear for Rect Sprite and Circle selections", async
     { id: "top-right", x: 90, y: 30, size: 10 },
     { id: "bottom-left", x: 30, y: 90, size: 10 },
     { id: "bottom-right", x: 90, y: 90, size: 10 }
+  ]);
+  assert.deepEqual(module.getStudioResizeHandles(createScene(), "line-1"), [
+    { id: "line-start", x: 120, y: 300, size: 10 },
+    { id: "line-end", x: 360, y: 300, size: 10 }
   ]);
 });
 
@@ -146,4 +158,44 @@ test("Studio Circle resize keeps radius positive after crossing the opposite cor
   assert.equal(nextScene.objects[2].y, 100);
   assert.equal(nextScene.objects[2].radius, 10);
   assert.ok(nextScene.objects[2].radius > 0);
+});
+
+test("Studio Line start endpoint handle edits local start point", async () => {
+  const module = await importResizeModule();
+  const scene = createScene();
+  const resizeStart = module.startStudioResize(scene, "line-1", { x: 120, y: 300 });
+
+  assert.ok(resizeStart);
+
+  const nextScene = module.resizeStudioObject({
+    scene,
+    session: resizeStart.session,
+    pointer: { x: 150, y: 330 }
+  });
+
+  assert.equal(nextScene.objects[3].x, 120);
+  assert.equal(nextScene.objects[3].y, 300);
+  assert.equal(nextScene.objects[3].startX, 30);
+  assert.equal(nextScene.objects[3].startY, 30);
+  assert.equal(nextScene.objects[3].endX, 240);
+  assert.equal(nextScene.objects[3].endY, 0);
+});
+
+test("Studio Line end endpoint handle edits local end point", async () => {
+  const module = await importResizeModule();
+  const scene = createScene();
+  const resizeStart = module.startStudioResize(scene, "line-1", { x: 360, y: 300 });
+
+  assert.ok(resizeStart);
+
+  const nextScene = module.resizeStudioObject({
+    scene,
+    session: resizeStart.session,
+    pointer: { x: 330, y: 280 }
+  });
+
+  assert.equal(nextScene.objects[3].startX, 0);
+  assert.equal(nextScene.objects[3].startY, 0);
+  assert.equal(nextScene.objects[3].endX, 210);
+  assert.equal(nextScene.objects[3].endY, -20);
 });

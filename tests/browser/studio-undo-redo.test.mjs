@@ -17,9 +17,7 @@ test("Studio undo redo smoke covers create move resize and Circle radius edits",
   const server = startStudioServer();
   const modules = await importWorkflowModules(t);
 
-  t.after(async () => {
-    await stopServer(server.process);
-  });
+  t.after(async () => stopServer(server.process));
 
   await waitForServer(server);
   await assertStudioEditingRoute();
@@ -30,9 +28,7 @@ test("Studio undo redo smoke covers create move resize and Circle radius edits",
 async function importWorkflowModules(t) {
   const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-browser-history-"));
 
-  t.after(async () => {
-    await rm(directory, { recursive: true, force: true });
-  });
+  t.after(async () => rm(directory, { recursive: true, force: true }));
 
   await writeTranspiledModule("apps/studio/src/StudioCommand.ts", join(directory, "StudioCommand.js"));
   await writeTranspiledModule("apps/studio/src/StudioHistory.ts", join(directory, "StudioHistory.js"), {
@@ -40,7 +36,10 @@ async function importWorkflowModules(t) {
   });
   await writeTranspiledModule("apps/studio/src/StudioCommandFactory.ts", join(directory, "StudioCommandFactory.js"));
   await writeTranspiledModule("apps/studio/src/StudioObjectFactory.ts", join(directory, "StudioObjectFactory.js"));
-  await writeTranspiledModule("apps/studio/src/StudioResize.ts", join(directory, "StudioResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioLineResize.ts", join(directory, "StudioLineResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioResize.ts", join(directory, "StudioResize.js"), {
+    "./StudioLineResize": "./StudioLineResize.js"
+  });
 
   return {
     history: await import(pathToFileURL(join(directory, "StudioHistory.js")).href),

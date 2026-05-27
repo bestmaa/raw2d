@@ -1,7 +1,8 @@
 import type { StudioPoint } from "./StudioDrag.type";
+import type { StudioLineResizeState } from "./StudioLineResize.type";
 import type { StudioSceneState } from "./StudioSceneState.type";
 
-export type StudioResizeHandleId = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+export type StudioResizeHandleId = "top-left" | "top-right" | "bottom-left" | "bottom-right" | "line-start" | "line-end";
 
 export interface StudioResizeHandle {
   readonly id: StudioResizeHandleId;
@@ -15,6 +16,7 @@ export interface StudioResizeSession {
   readonly handleId: StudioResizeHandleId;
   readonly startPointer: StudioPoint;
   readonly startBounds: StudioResizeBounds;
+  readonly startLine?: StudioLineResizeState;
 }
 
 export interface StudioResizeBounds {

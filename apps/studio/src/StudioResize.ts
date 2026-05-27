@@ -1,4 +1,10 @@
 import type { StudioPoint } from "./StudioDrag.type";
+import {
+  createStudioLineResizeHandles,
+  getStudioLineBounds,
+  getStudioLineResizeState,
+  resizeStudioLineEndpoint
+} from "./StudioLineResize";
 import type {
   ResizeStudioObjectOptions,
   StudioResizeBounds,
@@ -6,7 +12,14 @@ import type {
   StudioResizeHandleId,
   StudioResizeStart
 } from "./StudioResize.type";
-import type { StudioCircleState, StudioRectState, StudioSceneObject, StudioSceneState, StudioSpriteState } from "./StudioSceneState.type";
+import type {
+  StudioCircleState,
+  StudioLineState,
+  StudioRectState,
+  StudioSceneObject,
+  StudioSceneState,
+  StudioSpriteState
+} from "./StudioSceneState.type";
 
 const handleSize = 10;
 const handleHitPadding = 5;
@@ -16,6 +29,12 @@ export function getStudioResizeHandles(
   scene: StudioSceneState,
   selectedObjectId: string | undefined
 ): readonly StudioResizeHandle[] {
+  const line = getResizableLine(scene, selectedObjectId);
+
+  if (line) {
+    return createStudioLineResizeHandles(line);
+  }
+
   const bounds = getResizableObjectBounds(scene, selectedObjectId);
 
   if (!bounds) {
@@ -42,6 +61,7 @@ export function startStudioResize(
   }
 
   const handle = getStudioResizeHandles(scene, selectedObjectId).find((candidate) => containsHandle(candidate, pointer));
+  const line = getResizableLine(scene, selectedObjectId);
 
   if (!handle) {
     return undefined;
@@ -53,7 +73,8 @@ export function startStudioResize(
       objectId: selectedObjectId,
       handleId: handle.id,
       startPointer: pointer,
-      startBounds: bounds
+      startBounds: bounds ?? getStudioLineBounds(line),
+      ...(line ? { startLine: getStudioLineResizeState(line) } : {})
     }
   };
 }
@@ -69,6 +90,15 @@ export function resizeStudioObject(options: ResizeStudioObjectOptions): StudioSc
     objects: options.scene.objects.map((object) => {
       if (object.id !== options.session.objectId) {
         return object;
+      }
+
+      if (object.type === "line" && options.session.startLine) {
+        return resizeStudioLineEndpoint({
+          object,
+          handleId: options.session.handleId,
+          startLine: options.session.startLine,
+          pointer: options.pointer
+        });
       }
 
       if (isBoxResizableObject(object)) {
@@ -121,11 +151,21 @@ function getResizableObjectBounds(scene: StudioSceneState, objectId: string | un
     return { x: object.x - object.radius, y: object.y - object.radius, width: object.radius * 2, height: object.radius * 2 };
   }
 
+  if (object.type === "line") {
+    return getStudioLineBounds(object);
+  }
+
   return { x: object.x, y: object.y, width: object.width, height: object.height };
 }
 
-function isResizableObject(object: StudioSceneObject): object is StudioCircleState | StudioRectState | StudioSpriteState {
-  return object.type === "circle" || isBoxResizableObject(object);
+function getResizableLine(scene: StudioSceneState, objectId: string | undefined): StudioLineState | undefined {
+  const object = scene.objects.find((candidate) => candidate.id === objectId);
+
+  return object?.type === "line" ? object : undefined;
+}
+
+function isResizableObject(object: StudioSceneObject): object is StudioCircleState | StudioLineState | StudioRectState | StudioSpriteState {
+  return object.type === "circle" || object.type === "line" || isBoxResizableObject(object);
 }
 
 function isBoxResizableObject(object: StudioSceneObject): object is StudioRectState | StudioSpriteState {

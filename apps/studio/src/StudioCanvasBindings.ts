@@ -94,6 +94,16 @@ function recordCanvasTransform(options: StudioCanvasBindingOptions, session: Stu
 
   const before = "startObject" in session
     ? { ...object, x: session.startObject.x, y: session.startObject.y }
+    : session.startLine
+      ? {
+          ...object,
+          x: session.startLine.objectX,
+          y: session.startLine.objectY,
+          startX: session.startLine.startX,
+          startY: session.startLine.startY,
+          endX: session.startLine.endX,
+          endY: session.startLine.endY
+        }
     : { ...object, x: session.startBounds.x, y: session.startBounds.y, width: session.startBounds.width, height: session.startBounds.height };
   const command = createStudioTransformCommand(before, object);
 
