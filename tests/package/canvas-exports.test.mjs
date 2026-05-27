@@ -22,6 +22,7 @@ function getExpectedCanvasRuntimeExports() {
     "Canvas",
     "CanvasRenderer",
     "CanvasObjectRenderer",
+    "applyCanvasEffects",
     "applyObjectTransform",
     "applyOriginOffset",
     "applyStrokeStyle",

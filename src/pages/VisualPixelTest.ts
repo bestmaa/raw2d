@@ -1,4 +1,21 @@
-import { Arc, BasicMaterial, Camera2D, Canvas, Circle, Rect, Scene, ShapePath, Text2D, WebGLRenderer2D, isWebGL2Available } from "raw2d";
+import {
+  Arc,
+  BasicMaterial,
+  Camera2D,
+  Canvas,
+  Circle,
+  Rect,
+  Scene,
+  ShapePath,
+  Text2D,
+  WebGLRenderer2D,
+  createBlurEffect,
+  createGrayscaleEffect,
+  createOpacityEffect,
+  createShadowEffect,
+  isWebGL2Available
+} from "raw2d";
+import type { Object2D, Raw2DEffect } from "raw2d";
 import type { VisualPixelRendererResult, VisualPixelTestResult } from "./VisualPixelTest.type";
 
 type ResultWindow = Window & { __raw2dPixelResult?: VisualPixelTestResult };
@@ -46,7 +63,7 @@ function createPanel(titleText: string): { readonly panel: HTMLElement; readonly
 
 function runCanvasTest(canvas: HTMLCanvasElement, output: HTMLElement): VisualPixelRendererResult {
   const renderer = new Canvas({ canvas, width, height, backgroundColor });
-  renderer.render(createScene(), new Camera2D());
+  renderer.render(createScene(), new Camera2D(), { effects: getCanvasEffects });
   const result = createResult("canvas", canvas);
   writeResult(output, result);
   return result;
@@ -79,12 +96,24 @@ function createScene(): Scene {
   const cyan = new BasicMaterial({ fillColor: "#35c2ff", strokeColor: "#f5f7fb", lineWidth: 3, strokeJoin: "round" });
   const pink = new BasicMaterial({ fillColor: "#f45b69", strokeColor: "#10141c", lineWidth: 2 });
 
-  scene.add(new Rect({ x: 18, y: 22, width: 54, height: 38, material: pink }));
-  scene.add(new Circle({ x: 108, y: 44, radius: 22, material: cyan }));
+  scene.add(new Rect({ name: "effect-shadow", x: 18, y: 22, width: 54, height: 38, material: pink }));
+  scene.add(new Circle({ name: "effect-soft", x: 108, y: 44, radius: 22, material: cyan }));
   scene.add(new Arc({ x: 154, y: 32, radiusX: 32, radiusY: 24, startAngle: 0, endAngle: Math.PI * 1.25, closed: true, material: pink }));
   scene.add(createShapePath(cyan));
   scene.add(new Text2D({ x: 18, y: 138, text: "Raw2D", font: "24px sans-serif", material: new BasicMaterial({ fillColor: "#f5f7fb" }) }));
   return scene;
+}
+
+function getCanvasEffects(object: Object2D): readonly Raw2DEffect[] {
+  if (object.name === "effect-shadow") {
+    return [createShadowEffect({ color: "rgba(0,0,0,0.45)", blur: 8, offsetX: 4, offsetY: 4 })];
+  }
+
+  if (object.name === "effect-soft") {
+    return [createOpacityEffect(0.86), createBlurEffect(0.3), createGrayscaleEffect(0.12)];
+  }
+
+  return [];
 }
 
 function createShapePath(material: BasicMaterial): ShapePath {

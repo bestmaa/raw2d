@@ -1,11 +1,13 @@
 import { Group2D, RenderList, type RenderItem } from "raw2d-core";
+import { applyCanvasEffects } from "./applyCanvasEffects.js";
 import type { CanvasObject } from "./Canvas.type.js";
 import { applyObjectTransform } from "./canvas/applyObjectTransform.js";
 import { createCanvasObjectRenderHandlers, renderCanvasObject } from "./canvas-object/index.js";
 import type { CanvasObjectRenderHandler } from "./canvas-object/index.js";
 import type {
   CanvasObjectRendererLike,
-  CanvasObjectRendererOptions
+  CanvasObjectRendererOptions,
+  CanvasObjectRendererRenderOptions
 } from "./CanvasObjectRenderer.type.js";
 
 export class CanvasObjectRenderer implements CanvasObjectRendererLike {
@@ -17,51 +19,80 @@ export class CanvasObjectRenderer implements CanvasObjectRendererLike {
     this.handlers = createCanvasObjectRenderHandlers();
   }
 
-  public render(objects: readonly CanvasObject[] | RenderList<CanvasObject>): void {
+  public render(
+    objects: readonly CanvasObject[] | RenderList<CanvasObject>,
+    options: CanvasObjectRendererRenderOptions = {}
+  ): void {
     if (objects instanceof RenderList) {
-      this.renderList(objects);
+      this.renderList(objects, options);
       return;
     }
 
     for (const object of objects) {
-      this.renderObject(object);
+      this.renderObject(object, undefined, options);
     }
   }
 
-  private renderList(renderList: RenderList<CanvasObject>): void {
+  private renderList(renderList: RenderList<CanvasObject>, options: CanvasObjectRendererRenderOptions): void {
     for (const item of renderList.getRootItems()) {
-      this.renderItem(item);
+      this.renderItem(item, options);
     }
   }
 
-  private renderItem(item: RenderItem<CanvasObject>): void {
-    this.renderObject(item.object, item.children);
+  private renderItem(item: RenderItem<CanvasObject>, options: CanvasObjectRendererRenderOptions): void {
+    this.renderObject(item.object, item.children, options);
   }
 
-  private renderObject(object: CanvasObject, children?: readonly RenderItem<CanvasObject>[]): void {
+  private renderObject(
+    object: CanvasObject,
+    children: readonly RenderItem<CanvasObject>[] | undefined,
+    options: CanvasObjectRendererRenderOptions
+  ): void {
     if (!object.visible) {
       return;
     }
 
+    const effects = options.effects?.(object) ?? [];
+
+    if (effects.length > 0) {
+      this.context.save();
+      applyCanvasEffects({ context: this.context, effects });
+      this.renderObjectWithoutEffects(object, children, options);
+      this.context.restore();
+      return;
+    }
+
+    this.renderObjectWithoutEffects(object, children, options);
+  }
+
+  private renderObjectWithoutEffects(
+    object: CanvasObject,
+    children: readonly RenderItem<CanvasObject>[] | undefined,
+    options: CanvasObjectRendererRenderOptions
+  ): void {
     if (object instanceof Group2D) {
-      this.renderGroup(object, children);
+      this.renderGroup(object, children, options);
       return;
     }
 
     renderCanvasObject({ context: this.context, object, handlers: this.handlers });
   }
 
-  private renderGroup(group: Group2D, children?: readonly RenderItem<CanvasObject>[]): void {
+  private renderGroup(
+    group: Group2D,
+    children: readonly RenderItem<CanvasObject>[] | undefined,
+    options: CanvasObjectRendererRenderOptions
+  ): void {
     this.context.save();
     applyObjectTransform({ context: this.context, object: group });
 
     if (children) {
       for (const child of children) {
-        this.renderItem(child);
+        this.renderItem(child, options);
       }
     } else {
       for (const child of group.getChildren()) {
-        this.renderObject(child);
+        this.renderObject(child, undefined, options);
       }
     }
 

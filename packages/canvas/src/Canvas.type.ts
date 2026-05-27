@@ -1,4 +1,5 @@
 import type { Object2D, Renderer2DRenderOptions, Renderer2DSize, Renderer2DStats } from "raw2d-core";
+import type { CanvasEffectProvider } from "./CanvasEffects.type.js";
 
 export type CanvasObject = Object2D;
 
@@ -13,6 +14,7 @@ export interface CanvasOptions {
 
 export interface CanvasRenderOptions extends Renderer2DRenderOptions<CanvasObject> {
   readonly cullingFilter?: (object: CanvasObject) => boolean;
+  readonly effects?: CanvasEffectProvider;
 }
 
 export interface CanvasSize extends Renderer2DSize {

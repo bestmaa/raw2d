@@ -116,7 +116,7 @@ export class Canvas implements Renderer2DLike<CanvasObject, CanvasRenderOptions,
     this.clear(this.backgroundColor);
     this.context.save();
     this.applyCamera(camera);
-    this.renderer.render(renderList);
+    this.renderer.render(renderList, { effects: options.effects });
     this.context.restore();
     this.stats = createCanvasStats(renderList);
   }
