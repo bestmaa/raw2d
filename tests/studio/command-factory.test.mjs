@@ -103,3 +103,23 @@ test("Studio command factory creates visibility and reorder commands", async () 
   assert.equal(module.createStudioVisibilityCommand(before.objects[1], before.objects[1]), undefined);
   assert.equal(module.createStudioReorderCommand(before, before, "rect-1"), undefined);
 });
+
+test("Studio command factory creates Sprite asset binding commands", async () => {
+  const module = await importCommandFactoryModule();
+  const scene = {
+    version: 1,
+    name: "Sprite Asset Factory",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    objects: [{ id: "sprite-1", type: "sprite", name: "Sprite", x: 0, y: 0, width: 64, height: 64, assetSlot: "empty" }]
+  };
+
+  assert.deepEqual(module.createStudioSpriteAssetCommand(scene, "sprite-1", "asset-1"), {
+    kind: "update-sprite-asset",
+    objectId: "sprite-1",
+    beforeAssetSlot: "empty",
+    afterAssetSlot: "asset-1"
+  });
+  assert.equal(module.createStudioSpriteAssetCommand(scene, "sprite-1", "empty"), undefined);
+  assert.equal(module.createStudioSpriteAssetCommand(scene, "missing", "asset-1"), undefined);
+});

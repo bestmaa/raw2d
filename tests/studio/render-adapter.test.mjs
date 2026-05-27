@@ -53,3 +53,22 @@ test("Studio render adapter preserves object visibility", async () => {
 
   assert.equal(runtime.objects[0].visible, false);
 });
+
+test("Studio render adapter creates Sprite objects for asset-backed Studio Sprites", async () => {
+  const module = await importRenderAdapterModule();
+  const runtime = module.createRuntimeSceneFromStudioState(
+    {
+      version: 1,
+      name: "Asset Sprite Test",
+      rendererMode: "canvas",
+      camera: { x: 0, y: 0, zoom: 1 },
+      assets: [{ id: "asset-1", type: "image", name: "Hero", width: 64, height: 64, src: "blob:hero", objectIds: ["sprite-1"] }],
+      objects: [{ id: "sprite-1", type: "sprite", name: "Sprite Slot", x: 40, y: 60, width: 32, height: 32, assetSlot: "asset-1" }]
+    },
+    { imageFactory: () => ({ width: 64, height: 64 }) }
+  );
+
+  assert.ok(runtime.objects[0].texture);
+  assert.equal(runtime.objects[0].texture.url, "blob:hero");
+  assert.equal(runtime.objects[0].width, 32);
+});

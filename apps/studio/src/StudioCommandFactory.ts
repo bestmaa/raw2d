@@ -63,6 +63,25 @@ export function createStudioReorderCommand(
     : { kind: "reorder-object", objectId, fromIndex, toIndex };
 }
 
+export function createStudioSpriteAssetCommand(
+  scene: StudioSceneState,
+  objectId: string | undefined,
+  assetId: string | undefined
+): StudioCommand | undefined {
+  const object = findStudioObject(scene, objectId);
+
+  if (!assetId || object?.type !== "sprite" || object.assetSlot === assetId) {
+    return undefined;
+  }
+
+  return {
+    kind: "update-sprite-asset",
+    objectId: object.id,
+    beforeAssetSlot: object.assetSlot,
+    afterAssetSlot: assetId
+  };
+}
+
 export function findStudioObject(scene: StudioSceneState, objectId: string | undefined): StudioSceneObject | undefined {
   return objectId ? scene.objects.find((object) => object.id === objectId) : undefined;
 }

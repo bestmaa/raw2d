@@ -24,14 +24,17 @@ test("Studio asset panel renders import controls, selection, and preview", async
       rendererMode: "canvas",
       camera: { x: 0, y: 0, zoom: 1 },
       assets: [{ id: "asset-1", type: "image", name: "Hero", width: 320, height: 180, src: "blob:hero", objectIds: [] }],
-      objects: []
+      objects: [{ id: "sprite-1", type: "sprite", name: "Sprite", x: 0, y: 0, width: 64, height: 64, assetSlot: "empty" }]
     },
-    "asset-1"
+    "asset-1",
+    "sprite-1"
   );
   const html = module.renderStudioAssetPanel(model);
 
   assert.equal(model.items[0].selected, true);
+  assert.equal(model.bindEnabled, true);
   assert.match(html, /data-asset-action="import"/);
+  assert.match(html, /data-asset-action="bind"/);
   assert.match(html, /data-asset-action="remove"/);
   assert.match(html, /data-asset-import-input/);
   assert.match(html, /data-asset-action="select"/);

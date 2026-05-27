@@ -74,7 +74,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 - T260 | Version: v1.17.0 | Status: completed | Goal: Add Studio asset state for image assets with stable ids, names, dimensions, and object references. | Verify: unit tests for add, remove, and lookup behavior. | Commit: `Add Studio asset state`
 - T261 | Version: v1.17.1 | Status: completed | Goal: Add Assets panel UI for local image import, selection, preview, and removal. | Verify: browser import and preview check. | Commit: `Add Studio assets panel`
-- T262 | Version: v1.17.2 | Status: pending | Goal: Bind Sprite objects to imported Studio image assets while keeping scene JSON explicit. | Verify: Sprite renders imported image in Canvas and WebGL modes where supported. | Commit: `Bind Studio sprites to assets`
+- T262 | Version: v1.17.2 | Status: completed | Goal: Bind Sprite objects to imported Studio image assets while keeping scene JSON explicit. | Verify: Sprite renders imported image in Canvas and WebGL modes where supported. | Commit: `Bind Studio sprites to assets`
 - T263 | Version: v1.17.3 | Status: pending | Goal: Persist asset metadata safely in saved Studio scenes and validate missing asset references on load. | Verify: save/load tests with valid and missing asset references. | Commit: `Persist Studio assets`
 - T264 | Version: v1.17.4 | Status: pending | Goal: Document Studio image asset workflow and current persistence limits. | Verify: docs route and README checks. | Commit: `Document Studio assets`
 - T265 | Version: v1.17.5 | Status: pending | Goal: Add browser smoke coverage for image import, Sprite binding, save, and reload warnings. | Verify: browser asset workflow test. | Commit: `Test Studio assets`

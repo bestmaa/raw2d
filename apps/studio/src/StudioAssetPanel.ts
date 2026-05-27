@@ -3,10 +3,14 @@ import type { StudioSceneState } from "./StudioSceneState.type";
 
 export function createStudioAssetPanelModel(
   scene: StudioSceneState,
-  selectedAssetId: string | undefined
+  selectedAssetId: string | undefined,
+  selectedObjectId?: string
 ): StudioAssetPanelModel {
+  const selectedObject = scene.objects.find((object) => object.id === selectedObjectId);
+
   return {
     selectedAssetId,
+    bindEnabled: Boolean(selectedAssetId && selectedObject?.type === "sprite"),
     items: scene.assets.map((asset) => ({
       id: asset.id,
       name: asset.name,
@@ -24,6 +28,7 @@ export function renderStudioAssetPanel(model: StudioAssetPanelModel): string {
     <div class="studio-assets">
       <div class="studio-asset-actions">
         <button type="button" data-asset-action="import">Import</button>
+        <button type="button" data-asset-action="bind" ${model.bindEnabled ? "" : "disabled"}>Use</button>
         <button type="button" data-asset-action="remove" ${selectedAsset ? "" : "disabled"}>Remove</button>
         <input type="file" accept="image/*" data-asset-import-input hidden>
       </div>

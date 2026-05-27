@@ -1,5 +1,6 @@
-import { BasicMaterial, Camera2D, Circle, Line, Rect, Scene, Text2D } from "raw2d";
+import { BasicMaterial, Camera2D, Circle, Line, Rect, Scene, Sprite, Text2D, Texture } from "raw2d";
 import type { Object2D } from "raw2d";
+import type { StudioImageAssetState } from "./StudioAssets.type";
 import type {
   StudioCircleState,
   StudioLineState,
@@ -11,11 +12,12 @@ import type {
   StudioTextState
 } from "./StudioSceneState.type";
 import type { StudioRuntimeScene } from "./StudioRenderAdapter.type";
+import type { StudioRenderAdapterOptions } from "./StudioRenderAdapter.type";
 
-export function createRuntimeSceneFromStudioState(state: StudioSceneState): StudioRuntimeScene {
+export function createRuntimeSceneFromStudioState(state: StudioSceneState, options: StudioRenderAdapterOptions = {}): StudioRuntimeScene {
   const scene = new Scene({ name: state.name });
   const camera = new Camera2D(state.camera);
-  const objects = state.objects.map(createRuntimeObject);
+  const objects = state.objects.map((object) => createRuntimeObject(object, state, options));
 
   for (const object of objects) {
     scene.add(object);
@@ -24,7 +26,11 @@ export function createRuntimeSceneFromStudioState(state: StudioSceneState): Stud
   return { scene, camera, objects };
 }
 
-function createRuntimeObject(object: StudioSceneObject): Object2D {
+function createRuntimeObject(
+  object: StudioSceneObject,
+  state: StudioSceneState,
+  options: StudioRenderAdapterOptions
+): Object2D {
   switch (object.type) {
     case "rect":
       return createRect(object);
@@ -35,7 +41,7 @@ function createRuntimeObject(object: StudioSceneObject): Object2D {
     case "text2d":
       return createText(object);
     case "sprite":
-      return createSpritePlaceholder(object);
+      return createSprite(object, state, options);
   }
 }
 
@@ -88,6 +94,28 @@ function createText(object: StudioTextState): Text2D {
   });
 }
 
+function createSprite(object: StudioSpriteState, state: StudioSceneState, options: StudioRenderAdapterOptions): Sprite | Rect {
+  const asset = (state.assets ?? []).find((candidate) => candidate.id === object.assetSlot && candidate.type === "image");
+
+  if (asset?.src) {
+    const source = options.imageFactory?.(asset.src, asset.width, asset.height) ?? createImageSource(asset);
+
+    if (source) {
+      return new Sprite({
+        name: object.name,
+        x: object.x,
+        y: object.y,
+        visible: object.visible ?? true,
+        width: object.width,
+        height: object.height,
+        texture: new Texture({ id: asset.id, source, width: asset.width, height: asset.height, url: asset.src })
+      });
+    }
+  }
+
+  return createSpritePlaceholder(object);
+}
+
 function createSpritePlaceholder(object: StudioSpriteState): Rect {
   return new Rect({
     name: object.name,
@@ -102,4 +130,14 @@ function createSpritePlaceholder(object: StudioSpriteState): Rect {
 
 function createMaterial(material: StudioMaterialState = {}): BasicMaterial {
   return new BasicMaterial(material);
+}
+
+function createImageSource(asset: StudioImageAssetState): CanvasImageSource | undefined {
+  if (typeof Image === "undefined") {
+    return undefined;
+  }
+
+  const image = new Image(asset.width, asset.height);
+  image.src = asset.src ?? "";
+  return image;
 }

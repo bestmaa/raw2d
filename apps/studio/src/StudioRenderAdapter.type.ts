@@ -5,3 +5,7 @@ export interface StudioRuntimeScene {
   readonly camera: Camera2D;
   readonly objects: readonly Object2D[];
 }
+
+export interface StudioRenderAdapterOptions {
+  readonly imageFactory?: (src: string, width: number, height: number) => CanvasImageSource;
+}

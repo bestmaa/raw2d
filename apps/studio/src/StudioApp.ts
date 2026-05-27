@@ -65,7 +65,7 @@ export class StudioApp {
       properties: inspector.properties,
       propertyFields: inspector.propertyFields,
       selectedLayerId: this.selectedObjectId,
-      assets: createStudioAssetPanelModel(this.sceneState, this.selectedAssetId),
+      assets: createStudioAssetPanelModel(this.sceneState, this.selectedAssetId, this.selectedObjectId),
       stats: this.rendererStats
     });
   }
@@ -86,7 +86,7 @@ export class StudioApp {
   }
 
   private bindAssets(): void {
-    bindStudioAssetPanel({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, getSelectedAssetId: () => this.selectedAssetId, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, mount: () => { this.mount(); } });
+    bindStudioAssetPanel({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, getSelectedAssetId: () => this.selectedAssetId, getSelectedObjectId: () => this.selectedObjectId, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, applyCommand: (command, options) => { this.applyCommand(command, options); }, setStatusMessage: (message) => { this.statusMessage = message; }, mount: () => { this.mount(); } });
   }
 
   private bindLayers(): void {

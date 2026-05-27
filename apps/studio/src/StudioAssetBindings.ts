@@ -1,6 +1,7 @@
 import { createStudioImageAssetInputFromFile } from "./StudioAssetImport";
 import type { StudioAssetBindingOptions } from "./StudioAssetBindings.type";
 import { addStudioImageAsset, getStudioAssetById, removeStudioAsset } from "./StudioAssets";
+import { createStudioSpriteAssetCommand } from "./StudioCommandFactory";
 
 export function bindStudioAssetPanel(options: StudioAssetBindingOptions): void {
   const importButton = options.root.querySelector<HTMLButtonElement>('[data-asset-action="import"]');
@@ -13,6 +14,10 @@ export function bindStudioAssetPanel(options: StudioAssetBindingOptions): void {
   removeButton?.addEventListener("click", () => {
     removeSelectedAsset(options);
   });
+  const bindButton = options.root.querySelector<HTMLButtonElement>('[data-asset-action="bind"]');
+  bindButton?.addEventListener("click", () => {
+    bindSelectedAsset(options);
+  });
   input?.addEventListener("change", () => {
     void importSelectedFile(options, input);
   });
@@ -24,6 +29,19 @@ export function bindStudioAssetPanel(options: StudioAssetBindingOptions): void {
       options.mount();
     });
   }
+}
+
+function bindSelectedAsset(options: StudioAssetBindingOptions): void {
+  const command = createStudioSpriteAssetCommand(options.getScene(), options.getSelectedObjectId(), options.getSelectedAssetId());
+
+  if (!command) {
+    return;
+  }
+
+  options.applyCommand(command, {
+    selectedObjectId: options.getSelectedObjectId(),
+    statusMessage: "Bound sprite asset"
+  });
 }
 
 async function importSelectedFile(options: StudioAssetBindingOptions, input: HTMLInputElement): Promise<void> {

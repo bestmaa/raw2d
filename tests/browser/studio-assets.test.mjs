@@ -27,13 +27,19 @@ test("Studio assets panel loads import and preview wiring through the browser de
 
   const panel = await fetchText("/studio/src/StudioAssetPanel.ts");
   assert.match(panel, /data-asset-action="import"/);
+  assert.match(panel, /data-asset-action="bind"/);
   assert.match(panel, /data-asset-action="select"/);
   assert.match(panel, /data-asset-preview/);
 
   const bindings = await fetchText("/studio/src/StudioAssetBindings.ts");
   assert.match(bindings, /createStudioImageAssetInputFromFile/);
+  assert.match(bindings, /createStudioSpriteAssetCommand/);
   assert.match(bindings, /addStudioImageAsset/);
   assert.match(bindings, /removeStudioAsset/);
+
+  const adapter = await fetchText("/studio/src/StudioRenderAdapter.ts");
+  assert.match(adapter, /new Sprite/);
+  assert.match(adapter, /new Texture/);
 });
 
 function startStudioServer() {

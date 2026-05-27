@@ -65,6 +65,13 @@ export interface StudioReorderObjectCommand {
   readonly toIndex: number;
 }
 
+export interface StudioUpdateSpriteAssetCommand {
+  readonly kind: "update-sprite-asset";
+  readonly objectId: string;
+  readonly beforeAssetSlot: string;
+  readonly afterAssetSlot: string;
+}
+
 export type StudioCommand =
   | StudioCreateObjectCommand
   | StudioDeleteObjectCommand
@@ -72,7 +79,8 @@ export type StudioCommand =
   | StudioUpdateMaterialCommand
   | StudioUpdateTextCommand
   | StudioSetVisibilityCommand
-  | StudioReorderObjectCommand;
+  | StudioReorderObjectCommand
+  | StudioUpdateSpriteAssetCommand;
 
 export interface ApplyStudioCommandOptions {
   readonly scene: StudioSceneState;

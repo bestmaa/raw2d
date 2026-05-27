@@ -8,5 +8,6 @@ export interface StudioAssetPanelItem {
 
 export interface StudioAssetPanelModel {
   readonly selectedAssetId?: string;
+  readonly bindEnabled: boolean;
   readonly items: readonly StudioAssetPanelItem[];
 }

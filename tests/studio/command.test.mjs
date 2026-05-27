@@ -133,3 +133,26 @@ test("Studio reorder command applies and inverts layer order", async () => {
 
   assert.deepEqual(restored.scene.objects.map((object) => object.id), ["rect-1", "circle-1", "text-1"]);
 });
+
+test("Studio sprite asset command applies and inverts asset references", async () => {
+  const module = await importCommandModule();
+  const scene = {
+    version: 1,
+    name: "Sprite Asset Command",
+    rendererMode: "canvas",
+    camera: { x: 0, y: 0, zoom: 1 },
+    assets: [{ id: "asset-1", type: "image", name: "Hero", width: 64, height: 64, objectIds: [] }],
+    objects: [{ id: "sprite-1", type: "sprite", name: "Sprite", x: 0, y: 0, width: 64, height: 64, assetSlot: "empty" }]
+  };
+  const command = { kind: "update-sprite-asset", objectId: "sprite-1", beforeAssetSlot: "empty", afterAssetSlot: "asset-1" };
+  const updated = module.applyStudioCommand({ scene, command });
+
+  assert.equal(updated.handled, true);
+  assert.equal(updated.scene.objects[0].assetSlot, "asset-1");
+  assert.deepEqual(updated.scene.assets[0].objectIds, ["sprite-1"]);
+
+  const reverted = module.applyStudioCommand({ scene: updated.scene, command: module.invertStudioCommand(command) });
+
+  assert.equal(reverted.scene.objects[0].assetSlot, "empty");
+  assert.deepEqual(reverted.scene.assets[0].objectIds, []);
+});

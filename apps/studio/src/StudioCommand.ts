@@ -25,6 +25,8 @@ export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCo
       return updateObject(scene, command.objectId, (object) => ({ ...object, visible: command.after }));
     case "reorder-object":
       return applyReorderObject(scene, command.objectId, command.toIndex);
+    case "update-sprite-asset":
+      return applySpriteAsset(scene, command.objectId, command.afterAssetSlot, command.beforeAssetSlot);
   }
 }
 
@@ -44,6 +46,8 @@ export function invertStudioCommand(command: StudioCommand): StudioCommand {
       return { ...command, before: command.after, after: command.before };
     case "reorder-object":
       return { ...command, fromIndex: command.toIndex, toIndex: command.fromIndex };
+    case "update-sprite-asset":
+      return { ...command, beforeAssetSlot: command.afterAssetSlot, afterAssetSlot: command.beforeAssetSlot };
   }
 }
 
@@ -106,6 +110,48 @@ function updateObjects(
 ): StudioCommandResult {
   const objects = update(scene.objects);
   return objects.length === scene.objects.length ? { scene, handled: false } : { scene: { ...scene, objects }, handled: true };
+}
+
+function applySpriteAsset(
+  scene: StudioSceneState,
+  objectId: string,
+  assetSlot: string,
+  previousAssetSlot: string
+): StudioCommandResult {
+  let handled = false;
+  const objects = scene.objects.map((object) => {
+    if (object.id !== objectId || object.type !== "sprite" || object.assetSlot === assetSlot) {
+      return object;
+    }
+
+    handled = true;
+    return { ...object, assetSlot };
+  });
+
+  if (!handled) {
+    return { scene, handled: false };
+  }
+
+  return { scene: { ...scene, objects, assets: updateAssetReferences(scene, objectId, previousAssetSlot, assetSlot) }, handled: true };
+}
+
+function updateAssetReferences(
+  scene: StudioSceneState,
+  objectId: string,
+  previousAssetSlot: string,
+  assetSlot: string
+): StudioSceneState["assets"] {
+  return scene.assets.map((asset) => {
+    if (asset.id === previousAssetSlot) {
+      return { ...asset, objectIds: asset.objectIds.filter((id) => id !== objectId) };
+    }
+
+    if (asset.id === assetSlot && !asset.objectIds.includes(objectId)) {
+      return { ...asset, objectIds: [...asset.objectIds, objectId] };
+    }
+
+    return asset;
+  });
 }
 
 function updateTransform(object: StudioSceneObject, transform: StudioTransformState): StudioSceneObject {
