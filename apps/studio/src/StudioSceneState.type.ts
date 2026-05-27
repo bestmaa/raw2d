@@ -1,4 +1,5 @@
 import type { StudioRendererMode } from "./StudioRenderer.type";
+import type { StudioAssetState } from "./StudioAssets.type";
 
 export interface StudioCameraState {
   readonly x: number;
@@ -66,5 +67,6 @@ export interface StudioSceneState {
   readonly name: string;
   readonly rendererMode: StudioRendererMode;
   readonly camera: StudioCameraState;
+  readonly assets: readonly StudioAssetState[];
   readonly objects: readonly StudioSceneObject[];
 }

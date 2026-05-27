@@ -18,6 +18,7 @@ export function deserializeStudioScene(json: string): StudioSceneState {
     name: expectString(source.name),
     rendererMode: expectRendererMode(source.rendererMode),
     camera: parseCamera(source.camera),
+    assets: [],
     objects: parseObjects(source.objects)
   };
 }

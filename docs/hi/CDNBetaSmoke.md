@@ -1,4 +1,4 @@
-﻿# CDN Beta Smoke
+# CDN Beta Smoke
 
 Ye smoke check public beta releases ke liye Raw2D browser CDN path verify karta hai.
 
@@ -30,8 +30,8 @@ npm run test:cdn:pinned -- --live
 ## Expected URLs
 
 ```bash
-https://cdn.jsdelivr.net/npm/raw2d@1.16.6/dist/raw2d.js
-https://cdn.jsdelivr.net/npm/raw2d@1.16.6/dist/raw2d.umd.cjs
+https://cdn.jsdelivr.net/npm/raw2d@1.17.0/dist/raw2d.js
+https://cdn.jsdelivr.net/npm/raw2d@1.17.0/dist/raw2d.umd.cjs
 ```
 
 ## Pass Criteria

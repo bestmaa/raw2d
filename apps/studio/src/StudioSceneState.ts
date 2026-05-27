@@ -10,6 +10,7 @@ export function createStudioSceneState(): StudioSceneState {
       y: 0,
       zoom: 1
     },
+    assets: [],
     objects: []
   };
 }
@@ -24,6 +25,7 @@ export function createStudioSampleSceneState(): StudioSceneState {
       y: 0,
       zoom: 1
     },
+    assets: [],
     objects: [
       {
         id: "sample-rect",
