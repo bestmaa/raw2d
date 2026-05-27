@@ -37,6 +37,14 @@ test("Studio persistence docs cover asset metadata limits", () => {
   }
 });
 
+test("Studio persistence docs cover explicit validation messages", () => {
+  for (const content of [englishFormat, hinglishFormat, routeTopics]) {
+    assert.match(content, /unsupported object/i);
+    assert.match(content, /invalid geometry/i);
+    assert.match(content, /Loaded scene with warnings|warnings|diagnostics/i);
+  }
+});
+
 test("Studio persistence docs are available from readme docs", () => {
   assert.match(readmeDocs, /Raw2DStudioSceneFormat/);
   assert.match(readmeDocs, /studio-scene-format/);

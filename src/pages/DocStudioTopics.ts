@@ -110,9 +110,10 @@ Editor UI state: apps/studio`
       },
       {
         title: "Save Load Export",
-        body: "Save downloads .raw2d.json, Load validates and replaces Studio scene state, and Export downloads the current canvas preview as PNG.",
+        body: "Save downloads .raw2d.json, Load validates and replaces Studio scene state, and Export downloads the current canvas preview as PNG. Unsupported object types and invalid geometry become import errors; missing asset references load with warnings.",
         code: `serializeStudioScene(scene)
 deserializeStudioScene(json)
+Loaded scene with warnings
 getStudioCanvasPngDataUrl(root)`
       },
       {

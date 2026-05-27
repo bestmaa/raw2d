@@ -15,12 +15,12 @@ export function bindStudioAppActions(options: StudioAppActionBindingOptions): vo
   });
   bindStudioSceneLoadInput({
     root: options.root,
-    onSceneLoaded: (scene) => {
-      options.setScene(scene);
-      options.setRendererMode(scene.rendererMode);
+    onSceneLoaded: (result) => {
+      options.setScene(result.scene);
+      options.setRendererMode(result.scene.rendererMode);
       options.setSelectedObjectId(undefined);
       options.setSelectedAssetId(undefined);
-      options.setStatusMessage("Loaded scene");
+      options.setStatusMessage(createLoadStatusMessage(result.warnings));
       options.resetHistory();
       options.mount();
     },
@@ -70,4 +70,8 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
   }
 
   options.onCreateObject(action);
+}
+
+function createLoadStatusMessage(warnings: readonly string[]): string {
+  return warnings.length === 0 ? "Loaded scene" : `Loaded scene with warnings: ${warnings.join(" ")}`;
 }

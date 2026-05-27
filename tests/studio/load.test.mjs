@@ -96,7 +96,35 @@ test("Studio load rejects unsupported object types", async () => {
         "camera": { "x": 0, "y": 0, "zoom": 1 },
         "objects": [{ "id": "bad-1", "type": "mesh", "name": "Bad", "x": 0, "y": 0 }]
       }`),
-    /Unsupported Studio object type/
+    /Unsupported Studio object type "mesh" for object bad-1/
+  );
+});
+
+test("Studio load rejects invalid geometry with explicit messages", async () => {
+  const module = await importLoadModule();
+
+  assert.throws(
+    () =>
+      module.deserializeStudioScene(`{
+        "version": 1,
+        "name": "Bad Rect",
+        "rendererMode": "canvas",
+        "camera": { "x": 0, "y": 0, "zoom": 1 },
+        "objects": [{ "id": "rect-1", "type": "rect", "name": "Bad", "x": 0, "y": 0, "width": 0, "height": 10 }]
+      }`),
+    /Invalid Studio rect geometry rect-1: width must be greater than 0/
+  );
+
+  assert.throws(
+    () =>
+      module.deserializeStudioScene(`{
+        "version": 1,
+        "name": "Bad Line",
+        "rendererMode": "canvas",
+        "camera": { "x": 0, "y": 0, "zoom": 1 },
+        "objects": [{ "id": "line-1", "type": "line", "name": "Bad", "x": 0, "y": 0, "startX": 2, "startY": 4, "endX": 2, "endY": 4 }]
+      }`),
+    /Invalid Studio line geometry line-1: start and end points must be different/
   );
 });
 

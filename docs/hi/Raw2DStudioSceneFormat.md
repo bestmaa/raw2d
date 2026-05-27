@@ -61,7 +61,8 @@ Persistence me abhi teen user-facing actions hain:
 - Load valid `.raw2d.json` read karta hai, schema validate karta hai, phir Studio scene state replace karta hai.
 - Export current canvas preview ko PNG ke roop me download karta hai.
 
-Invalid JSON Studio status bar me import error ke roop me dikhata hai.
+Invalid JSON, unsupported object types, aur invalid geometry Studio status bar me import errors ke roop me dikhte hain.
+Missing asset references scene load karte hain, lekin explicit warnings dikhate hain taaki user IDs fix kar sake bina baaki scene data khoye.
 
 ## Assets
 
@@ -103,7 +104,8 @@ Runtime-only data save nahi karna.
 
 Load flow pehle validate karta hai, phir runtime adapter ke through Raw2D objects create karta hai.
 
-Invalid objects useful path messages ke saath report hone chahiye, jaise `scene.objects[2].width`.
+Invalid objects useful object messages ke saath report hone chahiye, jaise `Invalid Studio rect geometry rect-1: width must be greater than 0`.
+Unsupported object types rejected type aur object id batayenge, jaise `Unsupported Studio object type "mesh" for object bad-1`.
 
 Missing Sprite asset references diagnostics ke roop me return hote hain, jaise `Sprite sprite-1 references missing asset asset-9`.
 

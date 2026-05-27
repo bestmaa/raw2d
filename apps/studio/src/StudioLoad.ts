@@ -39,6 +39,10 @@ export async function readStudioSceneFile(file: File): Promise<StudioSceneState>
   return deserializeStudioScene(await file.text());
 }
 
+export async function readStudioSceneFileWithDiagnostics(file: File): Promise<StudioSceneLoadResult> {
+  return deserializeStudioSceneWithDiagnostics(await file.text());
+}
+
 function parseCamera(value: unknown): StudioCameraState {
   const camera = expectRecord(value);
 
@@ -83,8 +87,8 @@ function parseAsset(value: unknown): StudioAssetState {
     id: expectString(asset.id),
     type: "image",
     name: expectString(asset.name),
-    width: expectNumber(asset.width),
-    height: expectNumber(asset.height),
+    width: expectPositiveNumber(asset.width, "asset", expectString(asset.id), "width"),
+    height: expectPositiveNumber(asset.height, "asset", expectString(asset.id), "height"),
     ...(mimeType ? { mimeType } : {}),
     objectIds: parseStringArray(asset.objectIds)
   };
@@ -99,25 +103,34 @@ function parseObject(value: unknown): StudioSceneObject {
   if (type === "line") return parseLine(object);
   if (type === "text2d") return parseText(object);
   if (type === "sprite") return parseSprite(object);
-  throw new Error(`Unsupported Studio object type: ${type}`);
+  throw new Error(`Unsupported Studio object type "${type}" for object ${getObjectLabel(object)}.`);
 }
 
 function parseRect(object: Record<string, unknown>): StudioRectState {
-  return { ...parseBase(object, "rect"), width: expectNumber(object.width), height: expectNumber(object.height) };
+  const base = parseBase(object, "rect");
+  return { ...base, width: expectPositiveNumber(object.width, "rect", base.id, "width"), height: expectPositiveNumber(object.height, "rect", base.id, "height") };
 }
 
 function parseCircle(object: Record<string, unknown>): StudioCircleState {
-  return { ...parseBase(object, "circle"), radius: expectNumber(object.radius) };
+  const base = parseBase(object, "circle");
+  return { ...base, radius: expectPositiveNumber(object.radius, "circle", base.id, "radius") };
 }
 
 function parseLine(object: Record<string, unknown>): StudioLineState {
-  return {
-    ...parseBase(object, "line"),
+  const base = parseBase(object, "line");
+  const line = {
+    ...base,
     startX: expectNumber(object.startX),
     startY: expectNumber(object.startY),
     endX: expectNumber(object.endX),
     endY: expectNumber(object.endY)
   };
+
+  if (line.startX === line.endX && line.startY === line.endY) {
+    throw new Error(`Invalid Studio line geometry ${line.id}: start and end points must be different.`);
+  }
+
+  return line;
 }
 
 function parseText(object: Record<string, unknown>): StudioTextState {
@@ -129,12 +142,8 @@ function parseText(object: Record<string, unknown>): StudioTextState {
 }
 
 function parseSprite(object: Record<string, unknown>): StudioSpriteState {
-  return {
-    ...parseBase(object, "sprite"),
-    width: expectNumber(object.width),
-    height: expectNumber(object.height),
-    assetSlot: expectString(object.assetSlot)
-  };
+  const base = parseBase(object, "sprite");
+  return { ...base, width: expectPositiveNumber(object.width, "sprite", base.id, "width"), height: expectPositiveNumber(object.height, "sprite", base.id, "height"), assetSlot: expectString(object.assetSlot) };
 }
 
 function parseBase<Type extends StudioSceneObject["type"]>(
@@ -190,6 +199,20 @@ function expectNumber(value: unknown): number {
   }
 
   return value;
+}
+
+function expectPositiveNumber(value: unknown, type: string, id: string, field: string): number {
+  const number = expectNumber(value);
+
+  if (number <= 0) {
+    throw new Error(`Invalid Studio ${type} geometry ${id}: ${field} must be greater than 0.`);
+  }
+
+  return number;
+}
+
+function getObjectLabel(object: Record<string, unknown>): string {
+  return typeof object.id === "string" ? object.id : "(missing id)";
 }
 
 function parseStringArray(value: unknown): readonly string[] {

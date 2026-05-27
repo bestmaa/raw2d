@@ -32,7 +32,7 @@ test("Studio persistence controls load through the browser dev server", async (t
   assert.match(actions, /downloadStudioScene/);
   assert.match(actions, /clickStudioSceneLoadInput/);
   assert.match(actions, /downloadStudioCanvasPng/);
-  assert.match(actions, /setStatusMessage\("Loaded scene"\)/);
+  assert.match(actions, /Loaded scene with warnings/);
   assert.match(actions, /Import error:/);
 
   const save = await fetchText("/studio/src/StudioSave.ts");
@@ -42,8 +42,9 @@ test("Studio persistence controls load through the browser dev server", async (t
 
   const load = await fetchText("/studio/src/StudioLoad.ts");
   assert.match(load, /deserializeStudioScene/);
-  assert.match(load, /readStudioSceneFile/);
+  assert.match(load, /readStudioSceneFileWithDiagnostics/);
   assert.match(load, /Unsupported Studio object type/);
+  assert.match(load, /Invalid Studio .* geometry/);
 
   const png = await fetchText("/studio/src/StudioPngExport.ts");
   assert.match(png, /getStudioCanvasPngDataUrl/);

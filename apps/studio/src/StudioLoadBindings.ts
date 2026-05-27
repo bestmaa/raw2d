@@ -1,4 +1,4 @@
-import { readStudioSceneFile } from "./StudioLoad";
+import { readStudioSceneFileWithDiagnostics } from "./StudioLoad";
 import type { StudioSceneLoadBindingOptions } from "./StudioLoad.type";
 
 export function bindStudioSceneLoadInput(options: StudioSceneLoadBindingOptions): void {
@@ -12,7 +12,7 @@ export function bindStudioSceneLoadInput(options: StudioSceneLoadBindingOptions)
       return;
     }
 
-    void readStudioSceneFile(file)
+    void readStudioSceneFileWithDiagnostics(file)
       .then(options.onSceneLoaded)
       .catch((error: unknown) => {
         options.onLoadError?.(error instanceof Error ? error : new Error("Studio scene load failed."));

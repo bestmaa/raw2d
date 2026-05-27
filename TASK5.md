@@ -93,7 +93,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 
 ## Phase 27: Studio Import Export Polish
 
-- T273 | Version: v1.19.0 | Status: pending | Goal: Add explicit Studio scene validation messages for unsupported object, missing asset, and invalid geometry states. | Verify: unit tests and browser load warning check. | Commit: `Add Studio validation messages`
+- T273 | Version: v1.19.0 | Status: completed | Goal: Add explicit Studio scene validation messages for unsupported object, missing asset, and invalid geometry states. | Verify: unit tests and browser load warning check. | Commit: `Add Studio validation messages`
 - T274 | Version: v1.19.1 | Status: pending | Goal: Add copy-to-code export for Canvas scenes from Studio without importing Studio internals. | Verify: unit test generated code and browser copy check. | Commit: `Add Studio Canvas code export`
 - T275 | Version: v1.19.2 | Status: pending | Goal: Add copy-to-code export for WebGL scenes with explicit renderer support warnings. | Verify: unit test generated code and browser warning check. | Commit: `Add Studio WebGL code export`
 - T276 | Version: v1.19.3 | Status: pending | Goal: Add Studio scene import from Raw2D MCP JSON with deterministic id handling. | Verify: import tests for valid, duplicate, and invalid ids. | Commit: `Add Studio MCP import`

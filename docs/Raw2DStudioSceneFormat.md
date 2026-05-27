@@ -61,7 +61,8 @@ Persistence currently has three user-facing actions:
 - Load reads a valid `.raw2d.json`, validates the schema, then replaces Studio scene state.
 - Export downloads the current canvas preview as PNG.
 
-Invalid JSON is reported in the Studio status bar as an import error.
+Invalid JSON, unsupported object types, and invalid geometry are reported in the Studio status bar as import errors.
+Missing asset references load the scene with explicit warnings so the user can fix IDs without losing other scene data.
 
 ## Assets
 
@@ -103,7 +104,8 @@ Do not save runtime-only data.
 
 Load validates first, then creates Raw2D objects through the runtime adapter.
 
-Invalid objects should be reported with useful path messages such as `scene.objects[2].width`.
+Invalid objects should be reported with useful object messages such as `Invalid Studio rect geometry rect-1: width must be greater than 0`.
+Unsupported object types should name the rejected type and object id, for example `Unsupported Studio object type "mesh" for object bad-1`.
 
 Missing Sprite asset references are returned as diagnostics, for example `Sprite sprite-1 references missing asset asset-9`.
 
