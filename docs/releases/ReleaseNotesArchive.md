@@ -1,5 +1,26 @@
 # Raw2D Release Notes Archive
 
+## v1.19.5 - Studio Import Export Phase
+
+Raw2D v1.19.5 publishes the Studio import/export polish phase.
+
+### Added
+
+- Studio import validation messages for unsupported objects, invalid geometry, and missing asset references.
+- Canvas code export that copies public `raw2d` app code without importing Studio internals.
+- WebGL code export with explicit WebGL2 checks, texture placeholder warnings, and renderer diagnostics.
+- Raw2D MCP scene JSON import with deterministic handling for valid, duplicate, and invalid object IDs.
+- English and Hinglish docs for Studio import/export, validation, generated-code boundaries, and MCP import behavior.
+- Browser and unit coverage for Studio generated code, MCP import, persistence wiring, and docs route coverage.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Browser Studio import/export workflow smoke tests.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.18.5 - Studio Transform Tools Phase
 
 Raw2D v1.18.5 publishes the Studio transform tools phase.
