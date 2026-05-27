@@ -1,5 +1,26 @@
 # Raw2D Release Notes
 
+## v1.17.6 - Studio Assets Phase
+
+Raw2D v1.17.6 publishes the Studio assets phase.
+
+### Added
+
+- Studio image asset state for local imports, dimensions, mime metadata, and object references.
+- Assets panel import, selection, preview, remove, and Sprite bind workflows.
+- Runtime adapter support that turns asset-backed Studio Sprite objects into Raw2D `Sprite` and `Texture` instances.
+- Scene save/load support for safe asset metadata, with diagnostics for missing Sprite assets and stale object references.
+- English and Hinglish docs for Studio asset workflows, persistence limits, and Sprite asset binding.
+- Browser smoke coverage for image import, Sprite binding, save metadata, and reload warnings.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Browser asset workflow smoke test.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.16.6 - Studio Command History Phase
 
 Raw2D v1.16.6 publishes the Studio command history phase.

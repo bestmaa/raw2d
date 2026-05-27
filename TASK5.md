@@ -78,7 +78,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T263 | Version: v1.17.3 | Status: completed | Goal: Persist asset metadata safely in saved Studio scenes and validate missing asset references on load. | Verify: save/load tests with valid and missing asset references. | Commit: `Persist Studio assets`
 - T264 | Version: v1.17.4 | Status: completed | Goal: Document Studio image asset workflow and current persistence limits. | Verify: docs route and README checks. | Commit: `Document Studio assets`
 - T265 | Version: v1.17.5 | Status: completed | Goal: Add browser smoke coverage for image import, Sprite binding, save, and reload warnings. | Verify: browser asset workflow test. | Commit: `Test Studio assets`
-- T266 | Version: v1.17.6 | Status: pending | Goal: Phase 25 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio assets workflow. | Commit: `Release Studio assets phase`
+- T266 | Version: v1.17.6 | Status: completed | Goal: Phase 25 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio assets workflow. | Commit: `Release Studio assets phase`
 
 ## Phase 26: Transform Tool Coverage
 
