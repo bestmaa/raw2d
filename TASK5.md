@@ -107,7 +107,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T281 | Version: v1.20.2 | Status: completed | Goal: Add WebGL effect support plan and minimal shader-pass boundary without coupling effects into core. | Verify: WebGL package tests and docs boundary checks. | Commit: `Add WebGL effects boundary`
 - T282 | Version: v1.20.3 | Status: completed | Goal: Add effects examples showing Canvas-first behavior and WebGL support limits. | Verify: examples tests and browser route check. | Commit: `Add effects examples`
 - T283 | Version: v1.20.4 | Status: completed | Goal: Document effects package APIs, non-goals, and renderer separation rules. | Verify: docs route and package README checks. | Commit: `Document effects package`
-- T284 | Version: v1.20.5 | Status: pending | Goal: Phase 28 release and publish. | Verify: CI, npm latest, Cloudflare docs, effects examples. | Commit: `Release effects foundation phase`
+- T284 | Version: v1.20.5 | Status: completed | Goal: Phase 28 release and publish. | Verify: CI, npm latest, Cloudflare docs, effects examples. | Commit: `Release effects foundation phase`
 
 ## Phase 29: WebGL Completion
 

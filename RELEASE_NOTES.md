@@ -1,5 +1,25 @@
 # Raw2D Release Notes
 
+## v1.20.5 - Effects Foundation Phase
+
+Raw2D v1.20.5 publishes the effects foundation phase.
+
+### Added
+
+- `raw2d-effects` descriptor factories and validation helpers for opacity, blur, grayscale, and shadow.
+- Canvas effect application through explicit renderer hooks while keeping scene objects renderer-neutral.
+- WebGL effect pass planning that separates draw-batch alpha work from framebuffer shader-pass work.
+- `/examples/effects-basic/` showing Canvas-first effect behavior and WebGL support limits.
+- Effects package docs covering APIs, non-goals, renderer boundaries, and core separation.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Workspace package dry-run.
+- Focused effects, Canvas effects, WebGL pass-plan, examples, and docs checks.
+- CDN pinned dry-run.
+
 ## v1.19.5 - Studio Import Export Phase
 
 Raw2D v1.19.5 publishes the Studio import/export polish phase.
