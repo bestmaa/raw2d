@@ -5,7 +5,7 @@ import { createStudioActionObject } from "./StudioActions";
 import type { StudioAppOptions } from "./StudioApp.type";
 import type { StudioCommand, StudioCommandApplyOptions } from "./StudioCommand.type";
 import { bindStudioCanvasDrag } from "./StudioCanvasBindings";
-import { createStudioCreateObjectCommand, createStudioDeleteObjectCommand, createStudioTransformCommand, findStudioObject } from "./StudioCommandFactory";
+import { createStudioCreateObjectCommand, createStudioDeleteObjectsCommand, createStudioTransformBatchCommand, createStudioTransformCommand, findStudioObject } from "./StudioCommandFactory";
 import { createStudioInspectorModel } from "./StudioInspector";
 import { applyStudioKeyboardCommand, getStudioHistoryKeyboardAction } from "./StudioKeyboard";
 import { applyStudioHistoryCommand, createStudioHistory, redoStudioHistory, undoStudioHistory } from "./StudioHistory";
@@ -19,6 +19,7 @@ import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
 import { createStudioSceneState } from "./StudioSceneState";
 import type { StudioSceneState } from "./StudioSceneState.type";
+import { getPrimaryStudioSelectionId, normalizeStudioSelection } from "./StudioSelection";
 import { createEmptyStudioStats } from "./StudioStats";
 import type { StudioStatsPanelModel } from "./StudioStats.type";
 
@@ -27,6 +28,7 @@ export class StudioApp {
   private sceneState: StudioSceneState = createStudioSceneState();
   private rendererMode: StudioRendererMode = "canvas";
   private selectedObjectId: string | undefined;
+  private selectedObjectIds: readonly string[] = [];
   private selectedAssetId: string | undefined;
   private history: StudioHistoryState = createStudioHistory();
   private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
@@ -52,19 +54,15 @@ export class StudioApp {
 
   private render(): void {
     const rendererLabel = getStudioRendererLabel(this.rendererMode);
+    this.syncSelection();
     const inspector = createStudioInspectorModel(this.sceneState, rendererLabel, {
-      selectedObjectId: this.selectedObjectId
+      selectedObjectId: this.selectedObjectId,
+      selectedObjectIds: this.selectedObjectIds
     });
 
     this.root.innerHTML = renderStudioLayout({
-      rendererLabel,
-      sceneName: this.sceneState.name,
-      statusMessage: this.statusMessage,
-      objectCount: this.sceneState.objects.length,
-      layers: inspector.layers,
-      properties: inspector.properties,
-      propertyFields: inspector.propertyFields,
-      selectedLayerId: this.selectedObjectId,
+      rendererLabel, sceneName: this.sceneState.name, statusMessage: this.statusMessage, objectCount: this.sceneState.objects.length,
+      layers: inspector.layers, properties: inspector.properties, propertyFields: inspector.propertyFields, selectedLayerId: this.selectedObjectId, selectedLayerIds: this.selectedObjectIds,
       assets: createStudioAssetPanelModel(this.sceneState, this.selectedAssetId, this.selectedObjectId),
       stats: this.rendererStats
     });
@@ -82,7 +80,7 @@ export class StudioApp {
   }
 
   private bindActions(): void {
-    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.selectedObjectId = id; }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
+    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
   }
 
   private bindAssets(): void {
@@ -91,12 +89,9 @@ export class StudioApp {
 
   private bindLayers(): void {
     bindStudioLayerButtons({
-      root: this.root,
-      getScene: () => this.sceneState,
-      getSelectedObjectId: () => this.selectedObjectId,
-      setScene: (scene) => { this.sceneState = scene; },
-      applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
-      setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
+      root: this.root, getScene: () => this.sceneState, getSelectedObjectId: () => this.selectedObjectId, getSelectedObjectIds: () => this.selectedObjectIds,
+      setScene: (scene) => { this.sceneState = scene; }, applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
+      setSelectedObjectId: (selectedObjectId) => { this.setSelectedObjectId(selectedObjectId); }, setSelectedObjectIds: (selectedObjectIds) => { this.setSelectedObjectIds(selectedObjectIds); },
       mount: () => { this.mount(); }
     });
   }
@@ -114,12 +109,9 @@ export class StudioApp {
 
   private bindCanvasDrag(): void {
     bindStudioCanvasDrag({
-      root: this.root,
-      getScene: () => this.sceneState,
-      getSelectedObjectId: () => this.selectedObjectId,
-      setScene: (scene) => { this.sceneState = scene; },
-      setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
-      applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
+      root: this.root, getScene: () => this.sceneState, getSelectedObjectId: () => this.selectedObjectId, getSelectedObjectIds: () => this.selectedObjectIds,
+      setScene: (scene) => { this.sceneState = scene; }, setSelectedObjectId: (selectedObjectId) => { this.setSelectedObjectId(selectedObjectId); },
+      setSelectedObjectIds: (selectedObjectIds) => { this.setSelectedObjectIds(selectedObjectIds); }, applyCommand: (command, commandOptions) => { this.applyCommand(command, commandOptions); },
       renderRuntimeScene: () => { this.renderRuntimeScene(); },
       mount: () => { this.mount(); }
     });
@@ -142,6 +134,7 @@ export class StudioApp {
     const result = applyStudioKeyboardCommand({
       scene: this.sceneState,
       selectedObjectId: this.selectedObjectId,
+      selectedObjectIds: this.selectedObjectIds,
       command: { key: event.key, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, metaKey: event.metaKey }
     });
 
@@ -152,10 +145,10 @@ export class StudioApp {
     const command = this.createKeyboardCommand(result.scene, event.key);
 
     if (command) {
-      this.applyCommand(command, { selectedObjectId: result.selectedObjectId, statusMessage: "Keyboard edit" });
+      this.applyCommand(command, { selectedObjectId: result.selectedObjectId, selectedObjectIds: result.selectedObjectIds, statusMessage: "Keyboard edit" });
     } else {
       this.sceneState = result.scene;
-      this.selectedObjectId = result.selectedObjectId;
+      this.setSelectedObjectIds(result.selectedObjectIds ?? (result.selectedObjectId ? [result.selectedObjectId] : []));
       this.mount();
     }
     event.preventDefault();
@@ -172,6 +165,7 @@ export class StudioApp {
 
     this.applyCommand(createStudioCreateObjectCommand(object, beforeCount), {
       selectedObjectId: object.id,
+      selectedObjectIds: [object.id],
       statusMessage: "Scene updated"
     });
   }
@@ -185,7 +179,7 @@ export class StudioApp {
 
     this.sceneState = result.scene;
     this.history = result.history;
-    this.selectedObjectId = options.selectedObjectId ?? this.selectedObjectId;
+    this.setSelectedObjectIds(options.selectedObjectIds ?? (options.selectedObjectId ? [options.selectedObjectId] : this.selectedObjectIds));
     this.statusMessage = options.statusMessage ?? "Scene updated";
     if (options.renderRuntimeOnly) {
       this.renderRuntimeScene();
@@ -196,7 +190,12 @@ export class StudioApp {
 
   private createKeyboardCommand(scene: StudioSceneState, key: string): StudioCommand | undefined {
     if (key === "Delete" || key === "Backspace") {
-      return createStudioDeleteObjectCommand(this.sceneState, this.selectedObjectId);
+      return createStudioDeleteObjectsCommand(this.sceneState, this.selectedObjectIds);
+    }
+
+    if (this.selectedObjectIds.length > 1) {
+      const beforeObjects = this.sceneState.objects.filter((object) => this.selectedObjectIds.includes(object.id));
+      return createStudioTransformBatchCommand(beforeObjects, scene);
     }
 
     const before = findStudioObject(this.sceneState, this.selectedObjectId);
@@ -215,9 +214,7 @@ export class StudioApp {
 
     this.sceneState = result.scene;
     this.history = result.history;
-    if (this.selectedObjectId && !this.sceneState.objects.some((object) => object.id === this.selectedObjectId)) {
-      this.selectedObjectId = undefined;
-    }
+    this.syncSelection();
     this.statusMessage = action === "undo" ? "Undid edit" : "Redid edit";
     this.mount();
   }
@@ -228,12 +225,7 @@ export class StudioApp {
     if (!canvasElement) {
       return;
     }
-    const result = renderStudioRuntimeScene({
-      canvasElement,
-      sceneState: this.sceneState,
-      selectedObjectId: this.selectedObjectId,
-      rendererMode: this.rendererMode
-    });
+    const result = renderStudioRuntimeScene({ canvasElement, sceneState: this.sceneState, selectedObjectId: this.selectedObjectId, selectedObjectIds: this.selectedObjectIds, rendererMode: this.rendererMode });
 
     this.rendererStats = result.stats;
     this.renderStatsPanel();
@@ -243,4 +235,15 @@ export class StudioApp {
     const statsElement = this.root.querySelector<HTMLElement>(".studio-stats");
     if (statsElement) statsElement.outerHTML = renderStudioStatsPanel(this.rendererStats);
   }
+
+  private setSelectedObjectId(selectedObjectId: string | undefined): void {
+    this.selectedObjectId = selectedObjectId; this.selectedObjectIds = selectedObjectId ? [selectedObjectId] : [];
+  }
+
+  private setSelectedObjectIds(selectedObjectIds: readonly string[]): void {
+    this.selectedObjectIds = normalizeStudioSelection({ scene: this.sceneState, selectedObjectIds });
+    this.selectedObjectId = getPrimaryStudioSelectionId(this.selectedObjectIds);
+  }
+
+  private syncSelection(): void { this.setSelectedObjectIds(this.selectedObjectIds); }
 }

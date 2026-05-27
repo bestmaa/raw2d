@@ -12,11 +12,13 @@ export type StudioHistoryKeyboardAction = "undo" | "redo";
 export interface StudioKeyboardResult {
   readonly scene: StudioSceneState;
   readonly selectedObjectId?: string;
+  readonly selectedObjectIds?: readonly string[];
   readonly handled: boolean;
 }
 
 export interface ApplyStudioKeyboardOptions {
   readonly scene: StudioSceneState;
   readonly selectedObjectId?: string;
+  readonly selectedObjectIds?: readonly string[];
   readonly command: StudioKeyboardCommand;
 }

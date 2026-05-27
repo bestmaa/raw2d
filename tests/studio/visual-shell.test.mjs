@@ -58,10 +58,11 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   const app = await fetchText("/studio/src/StudioApp.ts");
   assert.match(app, /applyStudioHistoryCommand/);
   assert.match(app, /createStudioCreateObjectCommand/);
-  assert.match(app, /createStudioDeleteObjectCommand/);
+  assert.match(app, /createStudioDeleteObjectsCommand/);
 
   const canvasBindings = await fetchText("/studio/src/StudioCanvasBindings.ts");
   assert.match(canvasBindings, /createStudioTransformCommand/);
+  assert.match(canvasBindings, /createStudioTransformBatchCommand/);
   assert.match(canvasBindings, /recordCanvasTransform/);
 
   const propertyBindings = await fetchText("/studio/src/StudioPropertyBindings.ts");

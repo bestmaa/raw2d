@@ -13,10 +13,16 @@ async function importResizeModule() {
   const textSource = readFileSync("apps/studio/src/StudioTextResize.ts", "utf8");
   const textOutput = transpile(textSource);
   const textUrl = `data:text/javascript;base64,${Buffer.from(textOutput).toString("base64")}`;
+  const boundsSource = readFileSync("apps/studio/src/StudioObjectBounds.ts", "utf8");
+  const boundsOutput = transpile(boundsSource)
+    .replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`)
+    .replaceAll('from "./StudioTextResize";', `from "${textUrl}";`);
+  const boundsUrl = `data:text/javascript;base64,${Buffer.from(boundsOutput).toString("base64")}`;
   const source = readFileSync("apps/studio/src/StudioResize.ts", "utf8");
   const output = transpile(source)
     .replaceAll('from "./StudioBoxResize";', `from "${boxUrl}";`)
     .replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`)
+    .replaceAll('from "./StudioObjectBounds";', `from "${boundsUrl}";`)
     .replaceAll('from "./StudioTextResize";', `from "${textUrl}";`);
   const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
   return import(url);

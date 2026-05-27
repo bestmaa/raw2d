@@ -2,6 +2,7 @@ import { Canvas, WebGLRenderer2D } from "raw2d";
 import { createRuntimeSceneFromStudioState } from "./StudioRenderAdapter";
 import { drawStudioResizeHandles } from "./StudioResize";
 import type { StudioRuntimeRenderOptions, StudioRuntimeRenderResult } from "./StudioRuntimeRender.type";
+import { drawStudioSelectionBounds } from "./StudioSelection";
 import { createStudioStatsPanel } from "./StudioStats";
 
 export function renderStudioRuntimeScene(options: StudioRuntimeRenderOptions): StudioRuntimeRenderResult {
@@ -16,7 +17,16 @@ export function renderStudioRuntimeScene(options: StudioRuntimeRenderOptions): S
   const stats = createStudioStatsPanel(options.rendererMode, renderer.getStats(), target.note ?? getStatsNote(renderer));
 
   if (renderer instanceof Canvas) {
-    drawStudioResizeHandles(renderer.getContext(), options.sceneState, options.selectedObjectId);
+    const selectedObjectIds = options.selectedObjectIds ?? (options.selectedObjectId ? [options.selectedObjectId] : []);
+    if (selectedObjectIds.length > 1) {
+      drawStudioSelectionBounds(renderer.getContext(), {
+        scene: options.sceneState,
+        selectedObjectIds,
+        minimumCount: 2
+      });
+    } else {
+      drawStudioResizeHandles(renderer.getContext(), options.sceneState, options.selectedObjectId);
+    }
   } else {
     renderer.dispose();
   }

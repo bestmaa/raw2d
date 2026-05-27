@@ -39,9 +39,9 @@ async function importWorkflowModules(t) {
   await writeTranspiledModule("apps/studio/src/StudioBoxResize.ts", join(directory, "StudioBoxResize.js"));
   await writeTranspiledModule("apps/studio/src/StudioLineResize.ts", join(directory, "StudioLineResize.js"));
   await writeTranspiledModule("apps/studio/src/StudioTextResize.ts", join(directory, "StudioTextResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioObjectBounds.ts", join(directory, "StudioObjectBounds.js"), { "./StudioLineResize": "./StudioLineResize.js", "./StudioTextResize": "./StudioTextResize.js" });
   await writeTranspiledModule("apps/studio/src/StudioResize.ts", join(directory, "StudioResize.js"), {
-    "./StudioBoxResize": "./StudioBoxResize.js",
-    "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioBoxResize": "./StudioBoxResize.js", "./StudioLineResize": "./StudioLineResize.js", "./StudioObjectBounds": "./StudioObjectBounds.js",
     "./StudioTextResize": "./StudioTextResize.js"
   });
 

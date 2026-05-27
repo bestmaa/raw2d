@@ -19,14 +19,16 @@ Select picking ke through ek ya zyada objects choose karta hai.
 - click top object select karta hai
 - shift click selection toggle karta hai
 - empty click selection clear karta hai
-- drag selected objects move kar sakta hai
-- handles selected object bounds resize kar sakte hain
+- drag selected objects ko ek group ki tarah move kar sakta hai
+- multiple selected objects ek explicit selection bounds box draw karte hain
+- handles ek selected object bounds resize kar sakte hain
 
 ## Move Tool
 
 Move selected objects translate karne ka focused mode hai.
 
 Yeh `x` aur `y` update karega, object geometry rewrite nahi karega.
+Multi-select move batch command record karta hai taaki undo/redo group edit ko atomic rakhe.
 
 ## Resize Tool
 
@@ -156,6 +158,7 @@ update-text
 set-visibility
 reorder-object
 update-sprite-asset
+batch
 ```
 
 Command history `apps/studio` ke andar rehti hai. Canvas aur WebGL renderers ko sirf runtime adapter se resulting scene state milta hai.

@@ -27,8 +27,8 @@ function renderTool(tool: StudioToolItem): string {
   `;
 }
 
-function renderLayer(layer: StudioLayerItem, selectedLayerId: string | undefined): string {
-  const isSelected = layer.id === selectedLayerId;
+function renderLayer(layer: StudioLayerItem, selectedLayerIds: readonly string[] | undefined): string {
+  const isSelected = selectedLayerIds?.includes(layer.id) ?? false;
 
   return `
     <div class="studio-layer-row">
@@ -153,7 +153,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           </section>
           <section>
             <h2>Layers</h2>
-            <div class="studio-stack">${layers.map((layer) => renderLayer(layer, options.selectedLayerId)).join("")}</div>
+            <div class="studio-stack">${layers.map((layer) => renderLayer(layer, options.selectedLayerIds ?? (options.selectedLayerId ? [options.selectedLayerId] : []))).join("")}</div>
           </section>
           <section>
             <h2>Properties</h2>

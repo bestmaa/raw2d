@@ -6,6 +6,7 @@ export interface StudioRuntimeRenderOptions {
   readonly canvasElement: HTMLCanvasElement;
   readonly sceneState: StudioSceneState;
   readonly selectedObjectId?: string;
+  readonly selectedObjectIds?: readonly string[];
   readonly rendererMode: StudioRendererMode;
 }
 

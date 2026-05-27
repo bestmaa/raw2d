@@ -73,7 +73,7 @@ export interface StudioUpdateSpriteAssetCommand {
   readonly afterAssetSlot: string;
 }
 
-export type StudioCommand =
+export type StudioSingleCommand =
   | StudioCreateObjectCommand
   | StudioDeleteObjectCommand
   | StudioUpdateTransformCommand
@@ -82,6 +82,13 @@ export type StudioCommand =
   | StudioSetVisibilityCommand
   | StudioReorderObjectCommand
   | StudioUpdateSpriteAssetCommand;
+
+export interface StudioBatchCommand {
+  readonly kind: "batch";
+  readonly commands: readonly StudioCommand[];
+}
+
+export type StudioCommand = StudioSingleCommand | StudioBatchCommand;
 
 export interface ApplyStudioCommandOptions {
   readonly scene: StudioSceneState;
@@ -95,6 +102,7 @@ export interface StudioCommandResult {
 
 export interface StudioCommandApplyOptions {
   readonly selectedObjectId?: string;
+  readonly selectedObjectIds?: readonly string[];
   readonly statusMessage?: string;
   readonly renderRuntimeOnly?: boolean;
 }

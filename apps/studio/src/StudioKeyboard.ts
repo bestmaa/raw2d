@@ -1,4 +1,5 @@
 import type { ApplyStudioKeyboardOptions, StudioHistoryKeyboardAction, StudioKeyboardCommand, StudioKeyboardResult } from "./StudioKeyboard.type";
+import { getPrimaryStudioSelectionId, normalizeStudioSelection } from "./StudioSelection";
 
 const arrowDeltas = {
   ArrowDown: { x: 0, y: 1 },
@@ -8,21 +9,32 @@ const arrowDeltas = {
 } as const;
 
 export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions): StudioKeyboardResult {
+  const selectedObjectIds = normalizeStudioSelection({
+    scene: options.scene,
+    selectedObjectIds: options.selectedObjectIds ?? (options.selectedObjectId ? [options.selectedObjectId] : [])
+  });
+
   if (options.command.key === "Escape") {
-    return { scene: options.scene, selectedObjectId: undefined, handled: Boolean(options.selectedObjectId) };
+    return {
+      scene: options.scene,
+      selectedObjectId: undefined,
+      selectedObjectIds: [],
+      handled: selectedObjectIds.length > 0
+    };
   }
 
-  if (!options.selectedObjectId) {
-    return { scene: options.scene, selectedObjectId: options.selectedObjectId, handled: false };
+  if (selectedObjectIds.length === 0) {
+    return { scene: options.scene, selectedObjectId: undefined, selectedObjectIds, handled: false };
   }
 
   if (options.command.key === "Delete" || options.command.key === "Backspace") {
     return {
       scene: {
         ...options.scene,
-        objects: options.scene.objects.filter((object) => object.id !== options.selectedObjectId)
+        objects: options.scene.objects.filter((object) => !selectedObjectIds.includes(object.id))
       },
       selectedObjectId: undefined,
+      selectedObjectIds: [],
       handled: true
     };
   }
@@ -30,7 +42,12 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
   const delta = arrowDeltas[options.command.key as keyof typeof arrowDeltas];
 
   if (!delta) {
-    return { scene: options.scene, selectedObjectId: options.selectedObjectId, handled: false };
+    return {
+      scene: options.scene,
+      selectedObjectId: getPrimaryStudioSelectionId(selectedObjectIds),
+      selectedObjectIds,
+      handled: false
+    };
   }
 
   const step = options.command.shiftKey ? 10 : 1;
@@ -39,7 +56,7 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
     scene: {
       ...options.scene,
       objects: options.scene.objects.map((object) => {
-        if (object.id !== options.selectedObjectId) {
+        if (!selectedObjectIds.includes(object.id)) {
           return object;
         }
 
@@ -50,7 +67,8 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
         };
       })
     },
-    selectedObjectId: options.selectedObjectId,
+    selectedObjectId: getPrimaryStudioSelectionId(selectedObjectIds),
+    selectedObjectIds,
     handled: true
   };
 }

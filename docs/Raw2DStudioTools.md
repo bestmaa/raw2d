@@ -19,14 +19,16 @@ Select chooses one or more objects using picking.
 - click selects top object
 - shift click toggles selection
 - empty click clears selection
-- drag can move selected objects
-- handles can resize selected object bounds
+- drag can move selected objects as one group
+- multiple selected objects draw one explicit selection bounds box
+- handles can resize one selected object bounds
 
 ## Move Tool
 
 Move is a focused mode for translating selected objects.
 
 It should update `x` and `y`, not rewrite object geometry.
+Multi-select move records a batch command so undo and redo keep the group edit atomic.
 
 ## Resize Tool
 
@@ -156,6 +158,7 @@ update-text
 set-visibility
 reorder-object
 update-sprite-asset
+batch
 ```
 
 The command history stays inside `apps/studio`. Canvas and WebGL renderers only receive the resulting scene state through the runtime adapter.

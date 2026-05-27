@@ -7,7 +7,7 @@ export function bindStudioLayerButtons(options: StudioLayerBindingOptions): void
   const layerButtons = options.root.querySelectorAll<HTMLButtonElement>("[data-layer-action]");
 
   for (const button of layerButtons) {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
       const action = button.dataset.layerAction as StudioLayerAction | undefined;
       const objectId = button.dataset.layerId;
 
@@ -16,13 +16,16 @@ export function bindStudioLayerButtons(options: StudioLayerBindingOptions): void
       const result = applyStudioLayerAction({
         scene,
         selectedObjectId: options.getSelectedObjectId(),
+        selectedObjectIds: options.getSelectedObjectIds(),
         objectId,
-        action
+        action,
+        additiveSelection: event.shiftKey
       });
 
       if (!result.handled) return;
       if (action === "select") {
         options.setSelectedObjectId(result.selectedObjectId);
+        options.setSelectedObjectIds(result.selectedObjectIds ?? []);
         options.mount();
         return;
       }
@@ -34,12 +37,17 @@ export function bindStudioLayerButtons(options: StudioLayerBindingOptions): void
         : createStudioReorderCommand(scene, result.scene, objectId);
 
       if (command) {
-        options.applyCommand(command, { selectedObjectId: result.selectedObjectId, statusMessage: "Layer updated" });
+        options.applyCommand(command, {
+          selectedObjectId: result.selectedObjectId,
+          selectedObjectIds: result.selectedObjectIds,
+          statusMessage: "Layer updated"
+        });
         return;
       }
 
       options.setScene(result.scene);
       options.setSelectedObjectId(result.selectedObjectId);
+      options.setSelectedObjectIds(result.selectedObjectIds ?? (result.selectedObjectId ? [result.selectedObjectId] : []));
       options.mount();
     });
   }

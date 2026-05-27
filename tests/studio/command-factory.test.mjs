@@ -47,6 +47,43 @@ test("Studio command factory creates object and delete commands", async () => {
   assert.equal(module.createStudioDeleteObjectCommand(scene, undefined), undefined);
 });
 
+test("Studio command factory creates grouped delete and transform commands", async () => {
+  const module = await importCommandFactoryModule();
+  const scene = createScene();
+  const movedScene = {
+    ...scene,
+    objects: [
+      { ...scene.objects[0], x: 18 },
+      { ...scene.objects[1], y: 88 }
+    ]
+  };
+
+  assert.deepEqual(module.createStudioDeleteObjectsCommand(scene, ["rect-1", "circle-1"]), {
+    kind: "batch",
+    commands: [
+      { kind: "delete-object", objectId: "circle-1", object: scene.objects[1], index: 1 },
+      { kind: "delete-object", objectId: "rect-1", object: scene.objects[0], index: 0 }
+    ]
+  });
+  assert.deepEqual(module.createStudioTransformBatchCommand(scene.objects, movedScene), {
+    kind: "batch",
+    commands: [
+      {
+        kind: "update-transform",
+        objectId: "rect-1",
+        before: { x: 10, y: 20, width: 100, height: 80 },
+        after: { x: 18, y: 20, width: 100, height: 80 }
+      },
+      {
+        kind: "update-transform",
+        objectId: "circle-1",
+        before: { x: 60, y: 70, radius: 30 },
+        after: { x: 60, y: 88, radius: 30 }
+      }
+    ]
+  });
+});
+
 test("Studio command factory creates transform and material commands only when values change", async () => {
   const module = await importCommandFactoryModule();
   const before = createScene().objects[0];

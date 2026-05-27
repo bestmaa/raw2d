@@ -48,9 +48,14 @@ async function importResizeModule(t) {
   await writeModule("StudioBoxResize");
   await writeModule("StudioLineResize");
   await writeModule("StudioTextResize");
+  await writeModule("StudioObjectBounds", {
+    "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioTextResize": "./StudioTextResize.js"
+  });
   await writeModule("StudioResize", {
     "./StudioBoxResize": "./StudioBoxResize.js",
     "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioObjectBounds": "./StudioObjectBounds.js",
     "./StudioTextResize": "./StudioTextResize.js"
   });
 

@@ -148,8 +148,9 @@ Sprite sprite-1 references missing asset asset-9.`
       },
       {
         title: "Select And Move",
-        body: "Select uses picking and explicit handles. Move updates x and y; Rect and Sprite resize bounds, Circle resize radius, Line resize endpoints, and Text2D resize scales the px font size.",
+        body: "Select uses picking, shift-select multi selection, explicit group bounds, and handles. Move updates x and y; Rect and Sprite resize bounds, Circle resize radius, Line resize endpoints, and Text2D resize scales the px font size.",
         code: `select object
+shift-select -> toggle multi selection
 drag selected -> update x/y
 resize handle -> update bounds or font scale`
       },
@@ -189,7 +190,7 @@ right: renderer, stats, layers, properties`
       },
       {
         title: "Layers",
-        body: "Layers show object name, type, visibility, order controls, and selection. The panel can select, hide/show, move up, and move down without touching renderer internals.",
+        body: "Layers show object name, type, visibility, order controls, and selection. The panel can select, shift-select multiple objects, hide/show, move up, and move down without touching renderer internals.",
         code: `Blue Card      Rect    Hide Up Down
 Accent Circle  Circle  Hide Up Down`
       },

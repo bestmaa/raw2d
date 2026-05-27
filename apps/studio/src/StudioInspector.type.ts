@@ -9,4 +9,5 @@ export interface StudioInspectorModel {
 
 export interface StudioInspectorOptions {
   readonly selectedObjectId?: string;
+  readonly selectedObjectIds?: readonly string[];
 }

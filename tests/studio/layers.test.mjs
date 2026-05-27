@@ -1,18 +1,46 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import test from "node:test";
 import ts from "typescript";
 
-async function importLayersModule() {
-  const source = readFileSync("apps/studio/src/StudioLayers.ts", "utf8");
-  const output = ts.transpileModule(source, {
+async function importLayersModule(t) {
+  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-layers-"));
+
+  t.after(async () => rm(directory, { recursive: true, force: true }));
+
+  await writeTranspiledModule("apps/studio/src/StudioLineResize.ts", join(directory, "StudioLineResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioTextResize.ts", join(directory, "StudioTextResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioObjectBounds.ts", join(directory, "StudioObjectBounds.js"), {
+    "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioTextResize": "./StudioTextResize.js"
+  });
+  await writeTranspiledModule("apps/studio/src/StudioSelection.ts", join(directory, "StudioSelection.js"), {
+    "./StudioObjectBounds": "./StudioObjectBounds.js"
+  });
+  await writeTranspiledModule("apps/studio/src/StudioLayers.ts", join(directory, "StudioLayers.js"), {
+    "./StudioSelection": "./StudioSelection.js"
+  });
+
+  return import(pathToFileURL(join(directory, "StudioLayers.js")).href);
+}
+
+async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) {
+  const source = await readFile(sourcePath, "utf8");
+  let output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText;
-  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
-  return import(url);
+
+  for (const [from, to] of Object.entries(replacements)) {
+    output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+  }
+
+  await writeFile(outputPath, output);
 }
 
 function createScene() {
@@ -29,8 +57,8 @@ function createScene() {
   };
 }
 
-test("Studio layer action selects an object", async () => {
-  const module = await importLayersModule();
+test("Studio layer action selects an object", async (t) => {
+  const module = await importLayersModule(t);
   const result = module.applyStudioLayerAction({
     scene: createScene(),
     selectedObjectId: undefined,
@@ -42,8 +70,23 @@ test("Studio layer action selects an object", async () => {
   assert.equal(result.selectedObjectId, "circle-1");
 });
 
-test("Studio layer action toggles visibility", async () => {
-  const module = await importLayersModule();
+test("Studio layer action shift-selects multiple objects", async (t) => {
+  const module = await importLayersModule(t);
+  const result = module.applyStudioLayerAction({
+    scene: createScene(),
+    selectedObjectIds: ["rect-1"],
+    objectId: "circle-1",
+    action: "select",
+    additiveSelection: true
+  });
+
+  assert.equal(result.handled, true);
+  assert.deepEqual(result.selectedObjectIds, ["rect-1", "circle-1"]);
+  assert.equal(result.selectedObjectId, "circle-1");
+});
+
+test("Studio layer action toggles visibility", async (t) => {
+  const module = await importLayersModule(t);
   const result = module.applyStudioLayerAction({
     scene: createScene(),
     selectedObjectId: "rect-1",
@@ -56,8 +99,8 @@ test("Studio layer action toggles visibility", async () => {
   assert.equal(result.selectedObjectId, "rect-1");
 });
 
-test("Studio layer action reorders objects", async () => {
-  const module = await importLayersModule();
+test("Studio layer action reorders objects", async (t) => {
+  const module = await importLayersModule(t);
   const result = module.applyStudioLayerAction({
     scene: createScene(),
     selectedObjectId: "text-1",

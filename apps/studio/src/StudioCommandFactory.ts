@@ -16,6 +16,24 @@ export function createStudioDeleteObjectCommand(scene: StudioSceneState, objectI
   return object ? { kind: "delete-object", objectId, object, index } : undefined;
 }
 
+export function createStudioDeleteObjectsCommand(
+  scene: StudioSceneState,
+  objectIds: readonly string[]
+): StudioCommand | undefined {
+  const commands = scene.objects
+    .map((object, index) => ({ object, index }))
+    .filter((entry) => objectIds.includes(entry.object.id))
+    .sort((a, b) => b.index - a.index)
+    .map((entry) => ({
+      kind: "delete-object" as const,
+      objectId: entry.object.id,
+      object: entry.object,
+      index: entry.index
+    }));
+
+  return createStudioBatchCommand(commands);
+}
+
 export function createStudioTransformCommand(before: StudioSceneObject, after: StudioSceneObject): StudioCommand | undefined {
   const beforeTransform = getTransformState(before);
   const afterTransform = getTransformState(after);
@@ -23,6 +41,28 @@ export function createStudioTransformCommand(before: StudioSceneObject, after: S
   return areTransformsEqual(beforeTransform, afterTransform)
     ? undefined
     : { kind: "update-transform", objectId: before.id, before: beforeTransform, after: afterTransform };
+}
+
+export function createStudioTransformBatchCommand(
+  beforeObjects: readonly StudioSceneObject[],
+  afterScene: StudioSceneState
+): StudioCommand | undefined {
+  const commands = beforeObjects
+    .map((before) => {
+      const after = findStudioObject(afterScene, before.id);
+      return after ? createStudioTransformCommand(before, after) : undefined;
+    })
+    .filter((command): command is StudioCommand => Boolean(command));
+
+  return createStudioBatchCommand(commands);
+}
+
+export function createStudioBatchCommand(commands: readonly StudioCommand[]): StudioCommand | undefined {
+  if (commands.length === 0) {
+    return undefined;
+  }
+
+  return commands.length === 1 ? commands[0] : { kind: "batch", commands };
 }
 
 export function createStudioMaterialCommand(before: StudioSceneObject, after: StudioSceneObject): StudioCommand | undefined {

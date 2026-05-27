@@ -55,3 +55,11 @@ test("Studio tools docs explain Text2D resize scale rules", () => {
     assert.match(content, /font size|font scale|font size scale/);
   }
 });
+
+test("Studio tools docs explain multi-select group movement", () => {
+  for (const content of [englishDocs, hinglishDocs, routeTopics]) {
+    assert.match(content, /shift-select|shift click/);
+    assert.match(content, /group|multiple/);
+    assert.match(content, /bounds/);
+  }
+});

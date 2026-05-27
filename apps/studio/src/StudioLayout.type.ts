@@ -29,6 +29,7 @@ export interface StudioLayoutOptions {
   readonly properties: readonly StudioPropertyRow[];
   readonly propertyFields: readonly StudioPropertyField[];
   readonly selectedLayerId?: string;
+  readonly selectedLayerIds?: readonly string[];
   readonly assets: StudioAssetPanelModel;
   readonly stats: StudioStatsPanelModel;
 }

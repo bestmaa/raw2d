@@ -59,6 +59,37 @@ test("Studio delete command applies and restores original index", async () => {
   assert.deepEqual(restored.scene.objects.map((object) => object.id), ["rect-1", "circle-1", "text-1"]);
 });
 
+test("Studio batch command applies and inverts grouped edits", async () => {
+  const module = await importCommandModule();
+  const command = {
+    kind: "batch",
+    commands: [
+      {
+        kind: "update-transform",
+        objectId: "rect-1",
+        before: { x: 10, y: 20, width: 100, height: 80 },
+        after: { x: 30, y: 24, width: 100, height: 80 }
+      },
+      {
+        kind: "update-transform",
+        objectId: "circle-1",
+        before: { x: 60, y: 70, radius: 30 },
+        after: { x: 80, y: 74, radius: 30 }
+      }
+    ]
+  };
+  const updated = module.applyStudioCommand({ scene: createScene(), command });
+
+  assert.equal(updated.handled, true);
+  assert.equal(updated.scene.objects[0].x, 30);
+  assert.equal(updated.scene.objects[1].x, 80);
+
+  const reverted = module.applyStudioCommand({ scene: updated.scene, command: module.invertStudioCommand(command) });
+
+  assert.equal(reverted.scene.objects[0].x, 10);
+  assert.equal(reverted.scene.objects[1].x, 60);
+});
+
 test("Studio transform command applies and inverts object geometry", async () => {
   const module = await importCommandModule();
   const command = {

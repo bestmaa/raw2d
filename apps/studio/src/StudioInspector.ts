@@ -8,7 +8,10 @@ export function createStudioInspectorModel(
   rendererLabel: string,
   options: StudioInspectorOptions = {}
 ): StudioInspectorModel {
-  const selectedObject = scene.objects.find((object) => object.id === options.selectedObjectId);
+  const selectedObjectIds = options.selectedObjectIds ?? (options.selectedObjectId ? [options.selectedObjectId] : []);
+  const selectedObject = selectedObjectIds.length === 1
+    ? scene.objects.find((object) => object.id === selectedObjectIds[0])
+    : undefined;
 
   return {
     layers: scene.objects.map((object) => ({
@@ -17,7 +20,7 @@ export function createStudioInspectorModel(
       type: object.type,
       visible: object.visible ?? true
     })),
-    properties: createProperties(scene, rendererLabel, selectedObject),
+    properties: createProperties(scene, rendererLabel, selectedObject, selectedObjectIds.length),
     propertyFields: createPropertyFields(selectedObject)
   };
 }
@@ -25,12 +28,13 @@ export function createStudioInspectorModel(
 function createProperties(
   scene: StudioSceneState,
   rendererLabel: string,
-  object: StudioSceneObject | undefined
+  object: StudioSceneObject | undefined,
+  selectedCount: number
 ): readonly StudioPropertyRow[] {
   const baseRows: readonly StudioPropertyRow[] = [
     { label: "Renderer", value: rendererLabel },
     { label: "Objects", value: String(scene.objects.length) },
-    { label: "Selection", value: object?.name ?? "None" }
+    { label: "Selection", value: getSelectionLabel(object, selectedCount) }
   ];
 
   if (!object) {
@@ -38,6 +42,14 @@ function createProperties(
   }
 
   return [...baseRows, ...createObjectProperties(object)];
+}
+
+function getSelectionLabel(object: StudioSceneObject | undefined, selectedCount: number): string {
+  if (selectedCount > 1) {
+    return `${selectedCount} objects`;
+  }
+
+  return object?.name ?? "None";
 }
 
 function createObjectProperties(object: StudioSceneObject): readonly StudioPropertyRow[] {

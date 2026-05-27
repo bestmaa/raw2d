@@ -54,14 +54,19 @@ async function importResizeModule(t) {
   const boxResizePath = join(directory, "StudioBoxResize.js");
   const lineResizePath = join(directory, "StudioLineResize.js");
   const textResizePath = join(directory, "StudioTextResize.js");
+  const boundsPath = join(directory, "StudioObjectBounds.js");
   const path = join(directory, "StudioResize.js");
 
   await writeFile(boxResizePath, transpile(await readFile("apps/studio/src/StudioBoxResize.ts", "utf8")));
   await writeFile(lineResizePath, transpile(await readFile("apps/studio/src/StudioLineResize.ts", "utf8")));
   await writeFile(textResizePath, transpile(await readFile("apps/studio/src/StudioTextResize.ts", "utf8")));
+  await writeFile(boundsPath, transpile(await readFile("apps/studio/src/StudioObjectBounds.ts", "utf8"))
+    .replaceAll('from "./StudioLineResize";', 'from "./StudioLineResize.js";')
+    .replaceAll('from "./StudioTextResize";', 'from "./StudioTextResize.js";'));
   await writeFile(path, transpile(await readFile("apps/studio/src/StudioResize.ts", "utf8"))
     .replaceAll('from "./StudioBoxResize";', 'from "./StudioBoxResize.js";')
     .replaceAll('from "./StudioLineResize";', 'from "./StudioLineResize.js";')
+    .replaceAll('from "./StudioObjectBounds";', 'from "./StudioObjectBounds.js";')
     .replaceAll('from "./StudioTextResize";', 'from "./StudioTextResize.js";'));
   return import(pathToFileURL(path).href);
 }

@@ -27,6 +27,8 @@ export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCo
       return applyReorderObject(scene, command.objectId, command.toIndex);
     case "update-sprite-asset":
       return applySpriteAsset(scene, command.objectId, command.afterAssetSlot, command.beforeAssetSlot);
+    case "batch":
+      return applyBatchCommand(scene, command.commands);
   }
 }
 
@@ -48,7 +50,29 @@ export function invertStudioCommand(command: StudioCommand): StudioCommand {
       return { ...command, fromIndex: command.toIndex, toIndex: command.fromIndex };
     case "update-sprite-asset":
       return { ...command, beforeAssetSlot: command.afterAssetSlot, afterAssetSlot: command.beforeAssetSlot };
+    case "batch":
+      return { kind: "batch", commands: [...command.commands].reverse().map((child) => invertStudioCommand(child)) };
   }
+}
+
+function applyBatchCommand(scene: StudioSceneState, commands: readonly StudioCommand[]): StudioCommandResult {
+  if (commands.length === 0) {
+    return { scene, handled: false };
+  }
+
+  let nextScene = scene;
+
+  for (const command of commands) {
+    const result = applyStudioCommand({ scene: nextScene, command });
+
+    if (!result.handled) {
+      return { scene, handled: false };
+    }
+
+    nextScene = result.scene;
+  }
+
+  return { scene: nextScene, handled: true };
 }
 
 function applyCreateObject(scene: StudioSceneState, object: StudioSceneObject, index: number | undefined): StudioCommandResult {
