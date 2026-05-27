@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raw2D Effects Basic</title>
+    <link rel="stylesheet" href="../shared/example.css" />
+  </head>
+  <body>
+    <main class="example-stage">
+      <section class="example-panel" aria-label="Effects basic example">
+        <header class="example-header">
+          <a class="example-eyebrow" href="../">Raw2D Examples</a>
+          <h1 class="example-title">Effects Basic</h1>
+          <p class="example-summary">
+            Canvas applies renderer hooks today; WebGL exposes the pass plan and current support limits.
+          </p>
+        </header>
+        <div class="example-runtime">
+          <canvas id="raw2d-canvas"></canvas>
+          <aside class="example-info" aria-label="Effects example details">
+            <h2>Renderer Boundary</h2>
+            <pre><code>npm install raw2d raw2d-webgl</code></pre>
+            <pre><code>renderer.render(scene, camera, { effects });</code></pre>
+            <div class="example-actions">
+              <button id="raw2d-toggle-effects" type="button">Disable effects</button>
+            </div>
+            <pre id="raw2d-stats" aria-live="polite"></pre>
+            <pre id="raw2d-webgl-plan" aria-live="polite"></pre>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
