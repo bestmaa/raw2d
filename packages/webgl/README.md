@@ -8,6 +8,12 @@ This package is the batch-first renderer path. It keeps the render pipeline visi
 Scene -> RenderPipeline -> RenderRun -> Buffer -> Shader -> DrawCall
 ```
 
+Effect work keeps the same transparent boundary:
+
+```text
+Raw2DEffect[] -> WebGLEffectPassPlan -> draw-batch pass | framebuffer shader pass
+```
+
 Current support:
 
 - `Rect`, `Circle`, `Ellipse`, `Line`, `Polyline`, convex `Polygon`
@@ -25,6 +31,7 @@ Current support:
 - reusable CPU-side float buffers
 - reusable GPU buffer upload capacity
 - static batch cache for clean static runs
+- explicit effect pass planning for opacity, grayscale, blur, and shadow
 - render stats for objects, sprites, textures, batches, vertices, draw calls, buffer uploads, and unsupported objects
 
 ## Usage
@@ -59,6 +66,25 @@ scene.add(new Sprite({ texture, x: 160, y: 40, width: 64, height: 64 }));
 renderer.render(scene, camera);
 console.log(renderer.getStats());
 ```
+
+## Effect Boundary
+
+`raw2d-webgl` does not put effect data into `raw2d-core`. Effects stay in `raw2d-effects`, while WebGL owns the renderer-specific pass plan:
+
+```ts
+import { createBlurEffect, createOpacityEffect } from "raw2d-effects";
+import { createWebGLEffectPassPlan } from "raw2d-webgl";
+
+const plan = createWebGLEffectPassPlan({
+  effects: [createOpacityEffect(0.8), createBlurEffect(4)]
+});
+
+console.log(plan.inlinePasses);
+console.log(plan.shaderPasses);
+console.log(plan.requiresFramebuffer);
+```
+
+This is a boundary helper, not full WebGL effect execution yet. Opacity is planned as a future draw-batch alpha pass. Grayscale, blur, and shadow are planned as framebuffer shader passes because they need rendered pixels instead of scene object data.
 
 ## Notes
 

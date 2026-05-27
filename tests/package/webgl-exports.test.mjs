@@ -30,6 +30,7 @@ function getExpectedWebGLRuntimeExports() {
     "classifyWebGLShapePathFill",
     "createMutableWebGLRenderStats",
     "createWebGLBufferUploaders",
+    "createWebGLEffectPassPlan",
     "createWebGLRectBatch",
     "createWebGLRenderRuns",
     "createWebGLShapeBatch",

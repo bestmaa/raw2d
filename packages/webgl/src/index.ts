@@ -1,5 +1,7 @@
 export * from "./WebGLRenderer2D.js";
 export * from "./WebGLRenderer2D.type.js";
+export * from "./createWebGLEffectPassPlan.js";
+export type * from "./WebGLEffectPass.type.js";
 export * from "./isWebGL2Available.js";
 export * from "./isWebGL2Available.type.js";
 export * from "./WebGLRenderer2DResources.js";
