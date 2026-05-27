@@ -29,6 +29,8 @@ test("Studio panel docs cover layers properties and stats", () => {
     assert.match(content, /Layers/);
     assert.match(content, /Properties/);
     assert.match(content, /Renderer Stats|Stats/);
+    assert.match(content, /Assets/);
+    assert.match(content, /Use|asset/);
     assert.match(content, /fillColor/);
     assert.match(content, /textureBinds/);
   }

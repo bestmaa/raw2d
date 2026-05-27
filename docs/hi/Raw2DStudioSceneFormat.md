@@ -22,6 +22,7 @@ Abhi `apps/studio` save file `StudioSceneState` ke close hai, taaki Save aur Loa
     "y": 0,
     "zoom": 1
   },
+  "assets": [],
   "objects": []
 }
 ```
@@ -62,20 +63,29 @@ Persistence me abhi teen user-facing actions hain:
 
 Invalid JSON Studio status bar me import error ke roop me dikhata hai.
 
-## Planned Assets
+## Assets
 
-Texture assets IDs use karenge, taaki Sprite objects image bytes directly store na karein.
+Image assets IDs use karte hain, taaki Sprite objects image bytes directly store na karein.
 
 ```json
 {
-  "id": "hero-texture",
-  "src": "./assets/hero.png",
-  "width": 256,
-  "height": 256
+  "id": "asset-1",
+  "type": "image",
+  "name": "hero.png",
+  "width": 320,
+  "height": 180,
+  "mimeType": "image/png",
+  "objectIds": ["sprite-1"]
 }
 ```
 
-Sprites `textureId` aur optional atlas `frameName` se asset reference karenge.
+Sprites `assetSlot` ke through assets reference karte hain:
+
+```json
+{ "id": "sprite-1", "type": "sprite", "assetSlot": "asset-1" }
+```
+
+Studio sirf safe asset metadata save karta hai. Preview ke liye jo browser object URL use hota hai wo runtime-only hai aur `.raw2d.json` me nahi likha jata. Missing local image data ke saath scene reload hone par metadata visible rehna chahiye aur missing references warning deni chahiye.
 
 ## Save Rule
 
@@ -94,6 +104,8 @@ Runtime-only data save nahi karna.
 Load flow pehle validate karta hai, phir runtime adapter ke through Raw2D objects create karta hai.
 
 Invalid objects useful path messages ke saath report hone chahiye, jaise `scene.objects[2].width`.
+
+Missing Sprite asset references diagnostics ke roop me return hote hain, jaise `Sprite sprite-1 references missing asset asset-9`.
 
 ## Compatibility
 

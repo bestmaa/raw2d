@@ -122,13 +122,19 @@ Sprite creates a placeholder object with an asset slot.
 addStudioSpriteObject({ scene });
 ```
 
-Current placeholder:
+Current object:
 
 ```json
 { "type": "sprite", "width": 128, "height": 128, "assetSlot": "empty" }
 ```
 
-Later, the asset slot can point to a texture or atlas frame without changing the tool boundary.
+After an image asset is imported in the Assets panel, select a Sprite, select the asset, then click `Use`. Studio records an explicit command and updates the Sprite `assetSlot` to the asset id.
+
+```json
+{ "type": "sprite", "width": 128, "height": 128, "assetSlot": "asset-1" }
+```
+
+The runtime adapter turns an asset-backed Sprite into a Raw2D `Sprite` with a `Texture` in Canvas and WebGL modes where the browser image source is available. If the asset is missing, Studio keeps the placeholder path visible and reports diagnostics on load.
 
 ## Command Rule
 
@@ -142,6 +148,7 @@ update-material
 update-text
 set-visibility
 reorder-object
+update-sprite-asset
 ```
 
 The command history stays inside `apps/studio`. Canvas and WebGL renderers only receive the resulting scene state through the runtime adapter.

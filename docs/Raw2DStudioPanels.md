@@ -36,13 +36,28 @@ Properties edit the selected object's public fields.
 
 ## Assets Panel
 
-Assets are still planned. Sprite currently uses an `assetSlot` placeholder until save/load and asset import land.
+Assets now track local image metadata in Studio scene state.
 
 - import image
-- list textures
-- list atlas frames
-- choose active sprite asset
+- select an imported asset
+- preview the image
+- remove an asset
+- bind the selected asset to the selected Sprite with `Use`
 - show missing asset warnings
+
+Imported images use browser object URLs for the current editing session. Save keeps safe metadata such as id, name, dimensions, mimeType, and object references, but it does not embed image bytes or persist blob URLs.
+
+```json
+{
+  "id": "asset-1",
+  "type": "image",
+  "name": "hero.png",
+  "width": 320,
+  "height": 180,
+  "mimeType": "image/png",
+  "objectIds": ["sprite-1"]
+}
+```
 
 ## Renderer Stats Panel
 

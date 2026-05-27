@@ -36,13 +36,28 @@ Properties selected object ke public fields edit karta hai.
 
 ## Assets Panel
 
-Assets panel abhi planned hai. Sprite filhaal `assetSlot` placeholder use karta hai jab tak asset import flow nahi aata.
+Assets panel ab local image metadata ko Studio scene state me track karta hai.
 
 - image import
-- textures list
-- atlas frames list
-- active sprite asset choose karna
+- imported asset select karna
+- image preview
+- asset remove karna
+- selected Sprite par selected asset ko `Use` se bind karna
 - missing asset warnings dikhana
+
+Imported images current editing session ke liye browser object URLs use karte hain. Save safe metadata jaise id, name, dimensions, mimeType, aur object references rakhta hai, lekin image bytes ya blob URLs save nahi karta.
+
+```json
+{
+  "id": "asset-1",
+  "type": "image",
+  "name": "hero.png",
+  "width": 320,
+  "height": 180,
+  "mimeType": "image/png",
+  "objectIds": ["sprite-1"]
+}
+```
 
 ## Renderer Stats Panel
 

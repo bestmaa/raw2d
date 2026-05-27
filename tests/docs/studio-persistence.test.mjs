@@ -21,8 +21,19 @@ test("Studio persistence docs cover save load export", () => {
 test("Studio persistence docs show current scene schema", () => {
   for (const content of [englishFormat, hinglishFormat, routeTopics]) {
     assert.match(content, /rendererMode/);
+    assert.match(content, /"assets": \[\]/);
     assert.match(content, /"objects": \[\]/);
     assert.doesNotMatch(content, /"scene": \{ "objects"/);
+  }
+});
+
+test("Studio persistence docs cover asset metadata limits", () => {
+  for (const content of [englishFormat, hinglishFormat, routeTopics]) {
+    assert.match(content, /assetSlot/);
+    assert.match(content, /asset-1/);
+    assert.match(content, /mimeType/);
+    assert.match(content, /blob URL|blob URLs|object URL/);
+    assert.match(content, /missing asset/i);
   }
 });
 

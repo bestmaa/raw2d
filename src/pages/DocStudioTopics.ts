@@ -84,12 +84,13 @@ Editor UI state: apps/studio`
     sections: [
       {
         title: "Current Document",
-        body: "Studio saves a readable JSON document with version, name, rendererMode, camera, and objects. It does not store renderer internals.",
+        body: "Studio saves a readable JSON document with version, name, rendererMode, camera, assets, and objects. It does not store renderer internals.",
         code: `{
   "version": 1,
   "name": "Untitled Scene",
   "rendererMode": "canvas",
   "camera": { "x": 0, "y": 0, "zoom": 1 },
+  "assets": [],
   "objects": []
 }`
       },
@@ -115,9 +116,22 @@ deserializeStudioScene(json)
 getStudioCanvasPngDataUrl(root)`
       },
       {
+        title: "Assets",
+        body: "Studio saves safe image asset metadata and Sprite assetSlot references. Browser blob URLs used for image preview are runtime-only and are not written into .raw2d.json.",
+        code: `{
+  "assets": [
+    { "id": "asset-1", "type": "image", "name": "hero.png", "width": 320, "height": 180, "mimeType": "image/png", "objectIds": ["sprite-1"] }
+  ],
+  "objects": [
+    { "id": "sprite-1", "type": "sprite", "assetSlot": "asset-1" }
+  ]
+}`
+      },
+      {
         title: "Import Errors",
-        body: "Invalid JSON is reported in the Studio status bar before any scene state is replaced.",
-        code: `Import error: Studio scene version must be 1.`
+        body: "Invalid JSON is reported in the Studio status bar before any scene state is replaced. Missing Sprite asset references are returned as load diagnostics.",
+        code: `Import error: Studio scene version must be 1.
+Sprite sprite-1 references missing asset asset-9.`
       }
     ]
   },
@@ -150,12 +164,12 @@ addStudioSpriteObject({ scene })`
       },
       {
         title: "Sprite Placeholder",
-        body: "Sprite currently stores an asset slot and renders as a placeholder. Later save/load can point that slot to a texture or atlas frame.",
+        body: "Sprite stores an asset slot. Use the Assets panel to import an image, select a Sprite, select the asset, and click Use to bind it. The runtime adapter renders asset-backed Sprites as Raw2D Sprite and Texture objects.",
         code: `{
   "type": "sprite",
   "width": 128,
   "height": 128,
-  "assetSlot": "empty"
+  "assetSlot": "asset-1"
 }`
       }
     ]
@@ -194,8 +208,9 @@ WebGL: batches, vertices, textureBinds, unsupported`
       },
       {
         title: "Assets",
-        body: "Assets are still planned. Sprite currently keeps an assetSlot placeholder until save/load and asset import arrive.",
-        code: `assetSlot: "empty"`
+        body: "Assets can import local images, show a preview, remove entries, and bind the selected image asset to the selected Sprite. Save keeps metadata, not image bytes or blob URLs.",
+        code: `Import -> select asset -> select Sprite -> Use
+assetSlot: "asset-1"`
       }
     ]
   },

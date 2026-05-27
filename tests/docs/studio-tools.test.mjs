@@ -23,7 +23,8 @@ test("Studio tools docs cover current MVP creation helpers", () => {
 test("Studio tools docs explain Sprite placeholder asset slot", () => {
   for (const content of [englishDocs, hinglishDocs, routeTopics]) {
     assert.match(content, /assetSlot/);
-    assert.match(content, /empty/);
+    assert.match(content, /asset-1/);
+    assert.match(content, /update-sprite-asset|Use/);
   }
 });
 

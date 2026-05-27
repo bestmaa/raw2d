@@ -22,6 +22,7 @@ The current `apps/studio` save file is intentionally close to `StudioSceneState`
     "y": 0,
     "zoom": 1
   },
+  "assets": [],
   "objects": []
 }
 ```
@@ -62,20 +63,29 @@ Persistence currently has three user-facing actions:
 
 Invalid JSON is reported in the Studio status bar as an import error.
 
-## Planned Assets
+## Assets
 
-Texture assets should use IDs so Sprite objects do not store image bytes directly.
+Image assets use IDs so Sprite objects do not store image bytes directly.
 
 ```json
 {
-  "id": "hero-texture",
-  "src": "./assets/hero.png",
-  "width": 256,
-  "height": 256
+  "id": "asset-1",
+  "type": "image",
+  "name": "hero.png",
+  "width": 320,
+  "height": 180,
+  "mimeType": "image/png",
+  "objectIds": ["sprite-1"]
 }
 ```
 
-Sprites reference assets by `textureId` and optional atlas `frameName`.
+Sprites reference assets through `assetSlot`:
+
+```json
+{ "id": "sprite-1", "type": "sprite", "assetSlot": "asset-1" }
+```
+
+Studio saves safe asset metadata only. The browser object URL used for preview is runtime-only and is not written to `.raw2d.json`. Reloading a scene with missing local image data should keep the asset metadata visible and warn about missing references instead of silently inventing texture bytes.
 
 ## Save Rule
 
@@ -94,6 +104,8 @@ Do not save runtime-only data.
 Load validates first, then creates Raw2D objects through the runtime adapter.
 
 Invalid objects should be reported with useful path messages such as `scene.objects[2].width`.
+
+Missing Sprite asset references are returned as diagnostics, for example `Sprite sprite-1 references missing asset asset-9`.
 
 ## Compatibility
 
