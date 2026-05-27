@@ -1,3 +1,5 @@
+import type { StudioAssetState } from "./StudioAssets.type";
+import type { StudioSceneLoadResult } from "./StudioLoad.type";
 import type {
   StudioCameraState,
   StudioCircleState,
@@ -10,16 +12,26 @@ import type {
 } from "./StudioSceneState.type";
 
 export function deserializeStudioScene(json: string): StudioSceneState {
+  return deserializeStudioSceneWithDiagnostics(json).scene;
+}
+
+export function deserializeStudioSceneWithDiagnostics(json: string): StudioSceneLoadResult {
   const document = JSON.parse(json) as unknown;
   const source = expectRecord(document);
-
-  return {
+  const assets = parseAssets(source.assets);
+  const objects = parseObjects(source.objects);
+  const scene = {
     version: expectVersion(source.version),
     name: expectString(source.name),
     rendererMode: expectRendererMode(source.rendererMode),
     camera: parseCamera(source.camera),
-    assets: [],
-    objects: parseObjects(source.objects)
+    assets,
+    objects
+  };
+
+  return {
+    scene,
+    warnings: validateAssetReferences(scene)
   };
 }
 
@@ -43,6 +55,39 @@ function parseObjects(value: unknown): readonly StudioSceneObject[] {
   }
 
   return value.map(parseObject);
+}
+
+function parseAssets(value: unknown): readonly StudioAssetState[] {
+  if (value === undefined) {
+    return [];
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error("Studio scene assets must be an array.");
+  }
+
+  return value.map(parseAsset);
+}
+
+function parseAsset(value: unknown): StudioAssetState {
+  const asset = expectRecord(value);
+  const type = expectString(asset.type);
+
+  if (type !== "image") {
+    throw new Error(`Unsupported Studio asset type: ${type}`);
+  }
+
+  const mimeType = typeof asset.mimeType === "string" ? asset.mimeType : undefined;
+
+  return {
+    id: expectString(asset.id),
+    type: "image",
+    name: expectString(asset.name),
+    width: expectNumber(asset.width),
+    height: expectNumber(asset.height),
+    ...(mimeType ? { mimeType } : {}),
+    objectIds: parseStringArray(asset.objectIds)
+  };
 }
 
 function parseObject(value: unknown): StudioSceneObject {
@@ -145,4 +190,34 @@ function expectNumber(value: unknown): number {
   }
 
   return value;
+}
+
+function parseStringArray(value: unknown): readonly string[] {
+  if (!Array.isArray(value)) {
+    throw new Error("Studio scene field must be a string array.");
+  }
+
+  return value.map(expectString);
+}
+
+function validateAssetReferences(scene: StudioSceneState): readonly string[] {
+  const assetIds = new Set(scene.assets.map((asset) => asset.id));
+  const objectIds = new Set(scene.objects.map((object) => object.id));
+  const warnings: string[] = [];
+
+  for (const object of scene.objects) {
+    if (object.type === "sprite" && object.assetSlot !== "empty" && !assetIds.has(object.assetSlot)) {
+      warnings.push(`Sprite ${object.id} references missing asset ${object.assetSlot}.`);
+    }
+  }
+
+  for (const asset of scene.assets) {
+    for (const objectId of asset.objectIds) {
+      if (!objectIds.has(objectId)) {
+        warnings.push(`Asset ${asset.id} references missing object ${objectId}.`);
+      }
+    }
+  }
+
+  return warnings;
 }

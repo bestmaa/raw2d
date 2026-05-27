@@ -21,6 +21,7 @@ function createScene() {
     name: "Save Test",
     rendererMode: "canvas",
     camera: { x: 0, y: 0, zoom: 1 },
+    assets: [],
     objects: [
       {
         id: "rect-1",
@@ -51,6 +52,7 @@ test("Studio save serializes the stable scene schema", async () => {
     "y": 0,
     "zoom": 1
   },
+  "assets": [],
   "objects": [
     {
       "id": "rect-1",
@@ -76,4 +78,17 @@ test("Studio save creates a stable scene filename", async () => {
   const module = await importSaveModule();
 
   assert.equal(module.createStudioSceneFilename(createScene()), "save-test.raw2d.json");
+});
+
+test("Studio save persists safe asset metadata without session object URLs", async () => {
+  const module = await importSaveModule();
+  const document = module.createStudioSceneSaveDocument({
+    ...createScene(),
+    assets: [{ id: "asset-1", type: "image", name: "Hero", width: 64, height: 64, src: "blob:hero", mimeType: "image/png", objectIds: ["sprite-1"] }],
+    objects: [{ id: "sprite-1", type: "sprite", name: "Sprite", x: 0, y: 0, width: 64, height: 64, assetSlot: "asset-1" }]
+  });
+
+  assert.deepEqual(document.assets, [
+    { id: "asset-1", type: "image", name: "Hero", width: 64, height: 64, mimeType: "image/png", objectIds: ["sprite-1"] }
+  ]);
 });

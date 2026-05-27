@@ -31,8 +31,57 @@ test("Studio load deserializes saved scene JSON", async () => {
   assert.equal(scene.name, "Loaded Scene");
   assert.equal(scene.rendererMode, "webgl");
   assert.deepEqual(scene.camera, { x: 4, y: 8, zoom: 2 });
+  assert.deepEqual(scene.assets, []);
   assert.equal(scene.objects[0].width, 120);
   assert.equal(scene.objects[1].text, "Loaded");
+});
+
+test("Studio load deserializes saved asset metadata", async () => {
+  const module = await importLoadModule();
+  const result = module.deserializeStudioSceneWithDiagnostics(`{
+    "version": 1,
+    "name": "Loaded Assets",
+    "rendererMode": "canvas",
+    "camera": { "x": 0, "y": 0, "zoom": 1 },
+    "assets": [
+      { "id": "asset-1", "type": "image", "name": "Hero", "width": 64, "height": 64, "mimeType": "image/png", "objectIds": ["sprite-1"] }
+    ],
+    "objects": [
+      { "id": "sprite-1", "type": "sprite", "name": "Sprite", "x": 0, "y": 0, "width": 64, "height": 64, "assetSlot": "asset-1" }
+    ]
+  }`);
+
+  assert.deepEqual(result.warnings, []);
+  assert.deepEqual(result.scene.assets[0], {
+    id: "asset-1",
+    type: "image",
+    name: "Hero",
+    width: 64,
+    height: 64,
+    mimeType: "image/png",
+    objectIds: ["sprite-1"]
+  });
+});
+
+test("Studio load reports missing asset references as diagnostics", async () => {
+  const module = await importLoadModule();
+  const result = module.deserializeStudioSceneWithDiagnostics(`{
+    "version": 1,
+    "name": "Missing Assets",
+    "rendererMode": "canvas",
+    "camera": { "x": 0, "y": 0, "zoom": 1 },
+    "assets": [
+      { "id": "asset-1", "type": "image", "name": "Hero", "width": 64, "height": 64, "objectIds": ["missing-object"] }
+    ],
+    "objects": [
+      { "id": "sprite-1", "type": "sprite", "name": "Sprite", "x": 0, "y": 0, "width": 64, "height": 64, "assetSlot": "missing-asset" }
+    ]
+  }`);
+
+  assert.deepEqual(result.warnings, [
+    "Sprite sprite-1 references missing asset missing-asset.",
+    "Asset asset-1 references missing object missing-object."
+  ]);
 });
 
 test("Studio load rejects unsupported object types", async () => {

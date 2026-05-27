@@ -5,6 +5,7 @@ export interface StudioSceneSaveDocument {
   readonly name: string;
   readonly rendererMode: StudioSceneState["rendererMode"];
   readonly camera: StudioSceneState["camera"];
+  readonly assets: StudioSceneState["assets"];
   readonly objects: StudioSceneState["objects"];
 }
 

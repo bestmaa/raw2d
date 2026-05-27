@@ -7,6 +7,15 @@ export function createStudioSceneSaveDocument(scene: StudioSceneState): StudioSc
     name: scene.name,
     rendererMode: scene.rendererMode,
     camera: scene.camera,
+    assets: scene.assets.map((asset) => ({
+      id: asset.id,
+      type: asset.type,
+      name: asset.name,
+      width: asset.width,
+      height: asset.height,
+      ...(asset.mimeType ? { mimeType: asset.mimeType } : {}),
+      objectIds: asset.objectIds
+    })),
     objects: scene.objects
   };
 }
