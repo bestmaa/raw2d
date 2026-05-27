@@ -1,5 +1,27 @@
 # Raw2D Release Notes Archive
 
+## v1.18.5 - Studio Transform Tools Phase
+
+Raw2D v1.18.5 publishes the Studio transform tools phase.
+
+### Added
+
+- Studio Circle resize handles that update center and radius without storing negative radius.
+- Studio Line endpoint handles for editing local start and end points.
+- Studio Text2D resize behavior that scales `px` font size from estimated text bounds.
+- Studio multi-select state, layer shift-select, group selection bounds, group move, and group delete workflows.
+- Batch Studio commands so grouped transform/delete edits stay atomic for undo and redo.
+- Browser regression coverage for resize handles crossing all four corners.
+- English and Hinglish docs for transform tool behavior and multi-select movement.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Browser transform workflow smoke tests.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.17.6 - Studio Assets Phase
 
 Raw2D v1.17.6 publishes the Studio assets phase.
