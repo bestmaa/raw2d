@@ -116,6 +116,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <button type="button" data-action="load-scene">Load</button>
           <button type="button" data-action="export-png">Export</button>
           <button type="button" data-action="copy-canvas-code">Copy Code</button>
+          <button type="button" data-action="copy-webgl-code">Copy WebGL</button>
           <input type="file" accept="application/json,.json" data-scene-load-input hidden>
         </nav>
       </header>

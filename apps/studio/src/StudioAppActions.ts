@@ -6,6 +6,7 @@ import { bindStudioSceneLoadInput, clickStudioSceneLoadInput } from "./StudioLoa
 import { downloadStudioCanvasPng } from "./StudioPngExport";
 import { downloadStudioScene } from "./StudioSave";
 import { createStudioSampleSceneState } from "./StudioSceneState";
+import { copyStudioWebGLCode, createStudioWebGLCodeWarnings } from "./StudioWebGLCodeExport";
 
 export function bindStudioAppActions(options: StudioAppActionBindingOptions): void {
   bindStudioActions({
@@ -73,6 +74,15 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
   if (action === "copy-canvas-code") {
     void copyStudioCanvasCode({ scene: options.getScene() })
       .then(() => { options.setStatusMessage("Copied Canvas code"); options.mount(); })
+      .catch((error: unknown) => { options.setStatusMessage(`Copy error: ${getErrorMessage(error)}`); options.mount(); });
+    return;
+  }
+
+  if (action === "copy-webgl-code") {
+    const scene = options.getScene();
+    const warnings = createStudioWebGLCodeWarnings(scene);
+    void copyStudioWebGLCode({ scene })
+      .then(() => { options.setStatusMessage(`Copied WebGL code with warnings: ${warnings.join(" ")}`); options.mount(); })
       .catch((error: unknown) => { options.setStatusMessage(`Copy error: ${getErrorMessage(error)}`); options.mount(); });
     return;
   }

@@ -35,6 +35,7 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   assert.match(layout, /data-action="load-scene"/);
   assert.match(layout, /data-action="export-png"/);
   assert.match(layout, /data-action="copy-canvas-code"/);
+  assert.match(layout, /data-action="copy-webgl-code"/);
   assert.match(layout, /data-scene-load-input/);
   assert.match(layout, /data-renderer="\$\{option\.mode\}"/);
   assert.match(layout, /studio-stats/);
@@ -63,6 +64,7 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
 
   const appActions = await fetchText("/studio/src/StudioAppActions.ts");
   assert.match(appActions, /copyStudioCanvasCode/);
+  assert.match(appActions, /copyStudioWebGLCode/);
 
   const canvasBindings = await fetchText("/studio/src/StudioCanvasBindings.ts");
   assert.match(canvasBindings, /createStudioTransformCommand/);

@@ -53,6 +53,15 @@ test("Studio persistence docs cover Canvas code export", () => {
   }
 });
 
+test("Studio persistence docs cover WebGL code export warnings", () => {
+  for (const content of [englishFormat, hinglishFormat, routeTopics]) {
+    assert.match(content, /Copy WebGL/i);
+    assert.match(content, /WebGLRenderer2D/);
+    assert.match(content, /WebGL2|isWebGL2Available/);
+    assert.match(content, /warnings|diagnostics/i);
+  }
+});
+
 test("Studio persistence docs are available from readme docs", () => {
   assert.match(readmeDocs, /Raw2DStudioSceneFormat/);
   assert.match(readmeDocs, /studio-scene-format/);

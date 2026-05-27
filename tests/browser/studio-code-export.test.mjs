@@ -9,7 +9,7 @@ const viteBin = fileURLToPath(new URL("../../node_modules/vite/bin/vite.js", imp
 const port = 9000 + Math.floor(Math.random() * 400);
 const baseUrl = `http://127.0.0.1:${port}`;
 
-test("Studio Canvas code export wiring loads through browser server", async (t) => {
+test("Studio code export wiring loads through browser server", async (t) => {
   const server = startStudioServer();
 
   t.after(async () => stopServer(server.process));
@@ -17,16 +17,26 @@ test("Studio Canvas code export wiring loads through browser server", async (t) 
 
   const layout = await fetchText("/studio/src/StudioLayout.ts");
   assert.match(layout, /data-action="copy-canvas-code"/);
+  assert.match(layout, /data-action="copy-webgl-code"/);
 
   const actions = await fetchText("/studio/src/StudioAppActions.ts");
   assert.match(actions, /copyStudioCanvasCode/);
+  assert.match(actions, /copyStudioWebGLCode/);
   assert.match(actions, /Copied Canvas code/);
+  assert.match(actions, /Copied WebGL code with warnings/);
 
   const exportSource = await fetchText("/studio/src/StudioCanvasCodeExport.ts");
   assert.match(exportSource, /from "raw2d"/);
   assert.match(exportSource, /navigator\.clipboard/);
   assert.match(exportSource, /new Canvas/);
   assert.doesNotMatch(exportSource, /from "\.\/StudioRenderAdapter"/);
+
+  const webglExportSource = await fetchText("/studio/src/StudioWebGLCodeExport.ts");
+  assert.match(webglExportSource, /WebGLRenderer2D/);
+  assert.match(webglExportSource, /isWebGL2Available/);
+  assert.match(webglExportSource, /WebGL support warning/);
+  assert.match(webglExportSource, /navigator\.clipboard/);
+  assert.doesNotMatch(webglExportSource, /from "\.\/StudioRenderAdapter"/);
 });
 
 function startStudioServer() {

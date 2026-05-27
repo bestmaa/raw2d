@@ -55,15 +55,17 @@ Objects should use explicit `type` values and public Raw2D-style fields.
 
 ## Save, Load, Export
 
-Persistence currently has three user-facing actions:
+Persistence currently has five user-facing actions:
 
 - Save downloads stable `.raw2d.json`.
 - Load reads a valid `.raw2d.json`, validates the schema, then replaces Studio scene state.
 - Export downloads the current canvas preview as PNG.
 - Copy Code writes a Canvas-only Raw2D snippet to the clipboard using public `raw2d` imports, not Studio internals.
+- Copy WebGL writes a WebGLRenderer2D snippet with explicit WebGL2, Sprite texture, and Text2D texture warnings.
 
 Invalid JSON, unsupported object types, and invalid geometry are reported in the Studio status bar as import errors.
 Missing asset references load the scene with explicit warnings so the user can fix IDs without losing other scene data.
+Generated WebGL code checks `isWebGL2Available` before constructing the renderer and logs unsupported-object diagnostics after render.
 
 ## Assets
 

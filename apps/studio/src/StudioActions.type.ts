@@ -6,6 +6,7 @@ export type StudioAction =
   | "load-scene"
   | "export-png"
   | "copy-canvas-code"
+  | "copy-webgl-code"
   | "rect"
   | "circle"
   | "line"
