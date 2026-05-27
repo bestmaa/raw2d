@@ -66,9 +66,12 @@ test("Studio asset workflow loads import, Sprite binding, save, and reload warni
 
   const load = await fetchText("/studio/src/StudioLoad.ts");
   assert.match(load, /deserializeStudioSceneWithDiagnostics/);
-  assert.match(load, /validateAssetReferences/);
-  assert.match(load, /references missing asset/);
-  assert.match(load, /references missing object/);
+  assert.match(load, /validateStudioAssetReferences/);
+
+  const diagnostics = await fetchText("/studio/src/StudioSceneDiagnostics.ts");
+  assert.match(diagnostics, /validateStudioAssetReferences/);
+  assert.match(diagnostics, /references missing asset/);
+  assert.match(diagnostics, /references missing object/);
 });
 
 function startStudioServer() {

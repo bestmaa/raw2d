@@ -1,5 +1,7 @@
 import type { StudioAssetState } from "./StudioAssets.type";
 import type { StudioSceneLoadResult } from "./StudioLoad.type";
+import { importStudioSceneFromMcpDocument, isRaw2DMcpSceneDocument } from "./StudioMcpImport";
+import { validateStudioAssetReferences } from "./StudioSceneDiagnostics";
 import type {
   StudioCameraState,
   StudioCircleState,
@@ -18,6 +20,11 @@ export function deserializeStudioScene(json: string): StudioSceneState {
 export function deserializeStudioSceneWithDiagnostics(json: string): StudioSceneLoadResult {
   const document = JSON.parse(json) as unknown;
   const source = expectRecord(document);
+
+  if (isRaw2DMcpSceneDocument(source)) {
+    return importStudioSceneFromMcpDocument(source);
+  }
+
   const assets = parseAssets(source.assets);
   const objects = parseObjects(source.objects);
   const scene = {
@@ -31,7 +38,7 @@ export function deserializeStudioSceneWithDiagnostics(json: string): StudioScene
 
   return {
     scene,
-    warnings: validateAssetReferences(scene)
+    warnings: validateStudioAssetReferences(scene)
   };
 }
 
@@ -221,26 +228,4 @@ function parseStringArray(value: unknown): readonly string[] {
   }
 
   return value.map(expectString);
-}
-
-function validateAssetReferences(scene: StudioSceneState): readonly string[] {
-  const assetIds = new Set(scene.assets.map((asset) => asset.id));
-  const objectIds = new Set(scene.objects.map((object) => object.id));
-  const warnings: string[] = [];
-
-  for (const object of scene.objects) {
-    if (object.type === "sprite" && object.assetSlot !== "empty" && !assetIds.has(object.assetSlot)) {
-      warnings.push(`Sprite ${object.id} references missing asset ${object.assetSlot}.`);
-    }
-  }
-
-  for (const asset of scene.assets) {
-    for (const objectId of asset.objectIds) {
-      if (!objectIds.has(objectId)) {
-        warnings.push(`Asset ${asset.id} references missing object ${objectId}.`);
-      }
-    }
-  }
-
-  return warnings;
 }

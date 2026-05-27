@@ -1,22 +1,46 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import test from "node:test";
 import ts from "typescript";
 
-async function importLoadModule() {
-  const source = readFileSync("apps/studio/src/StudioLoad.ts", "utf8");
-  const output = ts.transpileModule(source, {
+async function importLoadModule(t) {
+  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-load-"));
+
+  t.after(async () => rm(directory, { recursive: true, force: true }));
+
+  await writeTranspiledModule("apps/studio/src/StudioSceneDiagnostics.ts", join(directory, "StudioSceneDiagnostics.js"));
+  await writeTranspiledModule("apps/studio/src/StudioMcpImport.ts", join(directory, "StudioMcpImport.js"), {
+    "./StudioSceneDiagnostics": "./StudioSceneDiagnostics.js"
+  });
+  await writeTranspiledModule("apps/studio/src/StudioLoad.ts", join(directory, "StudioLoad.js"), {
+    "./StudioMcpImport": "./StudioMcpImport.js",
+    "./StudioSceneDiagnostics": "./StudioSceneDiagnostics.js"
+  });
+
+  return import(pathToFileURL(join(directory, "StudioLoad.js")).href);
+}
+
+async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) {
+  const source = await readFile(sourcePath, "utf8");
+  let output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText;
-  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
-  return import(url);
+
+  for (const [from, to] of Object.entries(replacements)) {
+    output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+  }
+
+  await writeFile(outputPath, output);
 }
 
-test("Studio load deserializes saved scene JSON", async () => {
-  const module = await importLoadModule();
+test("Studio load deserializes saved scene JSON", async (t) => {
+  const module = await importLoadModule(t);
   const scene = module.deserializeStudioScene(`{
     "version": 1,
     "name": "Loaded Scene",
@@ -36,8 +60,8 @@ test("Studio load deserializes saved scene JSON", async () => {
   assert.equal(scene.objects[1].text, "Loaded");
 });
 
-test("Studio load deserializes saved asset metadata", async () => {
-  const module = await importLoadModule();
+test("Studio load deserializes saved asset metadata", async (t) => {
+  const module = await importLoadModule(t);
   const result = module.deserializeStudioSceneWithDiagnostics(`{
     "version": 1,
     "name": "Loaded Assets",
@@ -63,8 +87,8 @@ test("Studio load deserializes saved asset metadata", async () => {
   });
 });
 
-test("Studio load reports missing asset references as diagnostics", async () => {
-  const module = await importLoadModule();
+test("Studio load reports missing asset references as diagnostics", async (t) => {
+  const module = await importLoadModule(t);
   const result = module.deserializeStudioSceneWithDiagnostics(`{
     "version": 1,
     "name": "Missing Assets",
@@ -84,8 +108,71 @@ test("Studio load reports missing asset references as diagnostics", async () => 
   ]);
 });
 
-test("Studio load rejects unsupported object types", async () => {
-  const module = await importLoadModule();
+test("Studio load imports valid Raw2D MCP scene JSON", async (t) => {
+  const module = await importLoadModule(t);
+  const result = module.deserializeStudioSceneWithDiagnostics(`{
+    "scene": {
+      "objects": [
+        { "id": "card", "type": "rect", "x": 10, "y": 20, "width": 120, "height": 80, "material": { "fillColor": "#35c2ff" } },
+        { "id": "label", "type": "text2d", "x": 16, "y": 32, "text": "MCP", "font": "24px sans-serif" }
+      ]
+    },
+    "camera": { "x": 4, "y": 8, "zoom": 2 }
+  }`);
+
+  assert.equal(result.scene.name, "Imported MCP Scene");
+  assert.equal(result.scene.rendererMode, "canvas");
+  assert.deepEqual(result.scene.camera, { x: 4, y: 8, zoom: 2 });
+  assert.deepEqual(result.warnings, []);
+  assert.equal(result.scene.objects[0].id, "card");
+  assert.equal(result.scene.objects[0].name, "Rect card");
+  assert.equal(result.scene.objects[1].id, "label");
+  assert.equal(result.scene.objects[1].text, "MCP");
+});
+
+test("Studio load imports duplicate Raw2D MCP ids deterministically", async (t) => {
+  const module = await importLoadModule(t);
+  const result = module.deserializeStudioSceneWithDiagnostics(`{
+    "scene": {
+      "objects": [
+        { "id": "shape", "type": "rect", "width": 120, "height": 80 },
+        { "id": "shape", "type": "circle", "radius": 24 },
+        { "id": "shape", "type": "line", "startX": 0, "startY": 0, "endX": 20, "endY": 20 }
+      ]
+    },
+    "camera": { "x": 0, "y": 0, "zoom": 1 }
+  }`);
+
+  assert.deepEqual(result.scene.objects.map((object) => object.id), ["shape", "shape-2", "shape-3"]);
+  assert.deepEqual(result.warnings, [
+    "Raw2D MCP object id shape was duplicated; using shape-2.",
+    "Raw2D MCP object id shape was duplicated; using shape-3."
+  ]);
+});
+
+test("Studio load imports invalid Raw2D MCP ids deterministically", async (t) => {
+  const module = await importLoadModule(t);
+  const result = module.deserializeStudioSceneWithDiagnostics(`{
+    "scene": {
+      "objects": [
+        { "id": "", "type": "rect", "width": 120, "height": 80 },
+        { "id": "bad id", "type": "circle", "radius": 24 },
+        { "type": "text2d", "text": "Missing id" }
+      ]
+    },
+    "camera": { "x": 0, "y": 0, "zoom": 1 }
+  }`);
+
+  assert.deepEqual(result.scene.objects.map((object) => object.id), ["mcp-rect-1", "mcp-circle-2", "mcp-text2d-3"]);
+  assert.deepEqual(result.warnings, [
+    "Raw2D MCP object at index 0 had invalid id; using mcp-rect-1.",
+    "Raw2D MCP object at index 1 had invalid id; using mcp-circle-2.",
+    "Raw2D MCP object at index 2 had invalid id; using mcp-text2d-3."
+  ]);
+});
+
+test("Studio load rejects unsupported object types", async (t) => {
+  const module = await importLoadModule(t);
 
   assert.throws(
     () =>
@@ -100,8 +187,8 @@ test("Studio load rejects unsupported object types", async () => {
   );
 });
 
-test("Studio load rejects invalid geometry with explicit messages", async () => {
-  const module = await importLoadModule();
+test("Studio load rejects invalid geometry with explicit messages", async (t) => {
+  const module = await importLoadModule(t);
 
   assert.throws(
     () =>
@@ -128,14 +215,14 @@ test("Studio load rejects invalid geometry with explicit messages", async () => 
   );
 });
 
-test("Studio load reports malformed JSON", async () => {
-  const module = await importLoadModule();
+test("Studio load reports malformed JSON", async (t) => {
+  const module = await importLoadModule(t);
 
   assert.throws(() => module.deserializeStudioScene("{"), /Expected property name|JSON/);
 });
 
-test("Studio load reports missing required schema fields", async () => {
-  const module = await importLoadModule();
+test("Studio load reports missing required schema fields", async (t) => {
+  const module = await importLoadModule(t);
 
   assert.throws(
     () =>

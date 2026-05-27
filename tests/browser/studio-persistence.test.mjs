@@ -43,8 +43,14 @@ test("Studio persistence controls load through the browser dev server", async (t
   const load = await fetchText("/studio/src/StudioLoad.ts");
   assert.match(load, /deserializeStudioScene/);
   assert.match(load, /readStudioSceneFileWithDiagnostics/);
+  assert.match(load, /isRaw2DMcpSceneDocument/);
   assert.match(load, /Unsupported Studio object type/);
   assert.match(load, /Invalid Studio .* geometry/);
+
+  const mcpImport = await fetchText("/studio/src/StudioMcpImport.ts");
+  assert.match(mcpImport, /importStudioSceneFromMcpDocument/);
+  assert.match(mcpImport, /createUniqueId/);
+  assert.match(mcpImport, /invalid id/);
 
   const png = await fetchText("/studio/src/StudioPngExport.ts");
   assert.match(png, /getStudioCanvasPngDataUrl/);
