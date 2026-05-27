@@ -1,16 +1,34 @@
 # raw2d-effects
 
-Placeholder package for future Raw2D effects.
+Renderer-neutral effect descriptors for Raw2D.
 
-This package is intentionally minimal right now. Effects will stay optional so the core, Canvas renderer, and WebGL renderer remain lightweight and easy to inspect.
+This package only owns effect data and validation helpers. Canvas and WebGL application code lives in renderer packages so the core stays lightweight and easy to inspect.
 
 ```bash
 npm install raw2d-effects
 ```
 
-Planned direction:
+Current descriptors:
 
-- renderer-friendly effect data
-- no physics or external rendering dependency
-- explicit Canvas/WebGL implementation boundaries
-- small focused modules when features are added
+- `opacity`
+- `blur`
+- `grayscale`
+- `shadow`
+
+```ts
+import { createBlurEffect, createOpacityEffect, validateRaw2DEffects } from "raw2d-effects";
+
+const effects = [
+  createOpacityEffect(0.75),
+  createBlurEffect(4)
+];
+
+const result = validateRaw2DEffects(effects);
+```
+
+Boundary rules:
+
+- no Canvas or WebGL imports
+- no DOM dependency
+- no shader or filter implementation here
+- renderer packages decide how to apply supported descriptors

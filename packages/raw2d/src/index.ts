@@ -84,6 +84,15 @@ export {
   getSpriteWorldBounds
 } from "raw2d-sprite";
 export { Text2D, measureText2DLocalBounds, measureText2DWorldBounds } from "raw2d-text";
+export {
+  createBlurEffect,
+  createGrayscaleEffect,
+  createOpacityEffect,
+  createShadowEffect,
+  isRaw2DEffect,
+  validateRaw2DEffect,
+  validateRaw2DEffects
+} from "raw2d-effects";
 
 export type * from "raw2d-core";
 export type * from "raw2d-canvas";

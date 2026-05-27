@@ -55,8 +55,16 @@ test("raw2d-interaction runtime exports match the audited public surface", () =>
   ].sort());
 });
 
-test("raw2d-effects is intentionally empty for now", () => {
-  assert.deepEqual(Object.keys(Effects), []);
+test("raw2d-effects runtime exports match the audited public surface", () => {
+  assert.deepEqual(Object.keys(Effects).sort(), [
+    "createBlurEffect",
+    "createGrayscaleEffect",
+    "createOpacityEffect",
+    "createShadowEffect",
+    "isRaw2DEffect",
+    "validateRaw2DEffect",
+    "validateRaw2DEffects"
+  ].sort());
 });
 
 test("raw2d-react exposes the first component bridge surface", () => {

@@ -103,10 +103,11 @@ const renderer = new WebGLRenderer2D({ canvas: canvasElement });`
       },
       {
         title: "Feature Package Boundary",
-        body: "Sprite, text, and interaction packages are focused public surfaces. raw2d-effects is reserved and intentionally empty for now.",
+        body: "Sprite, text, interaction, and effects packages are focused public surfaces. raw2d-effects owns renderer-neutral effect descriptors and validation helpers, not renderer implementation.",
         code: `import { Sprite, TextureLoader } from "raw2d-sprite";
 import { Text2D } from "raw2d-text";
-import { InteractionController } from "raw2d-interaction";`
+import { InteractionController } from "raw2d-interaction";
+import { createOpacityEffect } from "raw2d-effects";`
       },
       {
         title: "Umbrella Runtime Boundary",

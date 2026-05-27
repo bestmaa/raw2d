@@ -1,7 +1,7 @@
 {
   "name": "raw2d-effects",
-  "version": "1.19.5",
-  "description": "Effects package placeholder for Raw2D.",
+  "version": "1.20.0",
+  "description": "Renderer-neutral effect descriptors and validation helpers for Raw2D.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

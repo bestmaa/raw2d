@@ -25,6 +25,7 @@ test("umbrella package exports common public API", () => {
   assert.equal(typeof Raw2D.Sprite, "function");
   assert.equal(typeof Raw2D.Text2D, "function");
   assert.equal(typeof Raw2D.InteractionController, "function");
+  assert.equal(typeof Raw2D.createOpacityEffect, "function");
 });
 
 test("umbrella package runtime exports match the audited public surface", () => {
@@ -122,6 +123,10 @@ function getExpectedUmbrellaRuntimeExports() {
     "containsPolygonPoint",
     "containsPolylinePoint",
     "containsRectPoint",
+    "createBlurEffect",
+    "createGrayscaleEffect",
+    "createOpacityEffect",
+    "createShadowEffect",
     "createSpriteAnimationClip",
     "createSpriteFromAtlas",
     "createSpritesFromAtlas",
@@ -149,6 +154,7 @@ function getExpectedUmbrellaRuntimeExports() {
     "getSpriteWorldBounds",
     "getVisibleObjects",
     "getWorldBounds",
+    "isRaw2DEffect",
     "isWebGL2Available",
     "measureText2DLocalBounds",
     "measureText2DWorldBounds",
@@ -162,6 +168,8 @@ function getExpectedUmbrellaRuntimeExports() {
     "startObjectResize",
     "updateObjectDrag",
     "updateObjectResize",
+    "validateRaw2DEffect",
+    "validateRaw2DEffects",
     "worldToLocalPoint"
   ].sort();
 }
