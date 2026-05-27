@@ -9,7 +9,7 @@ const viteBin = fileURLToPath(new URL("../../node_modules/vite/bin/vite.js", imp
 const port = 7400 + Math.floor(Math.random() * 400);
 const baseUrl = `http://127.0.0.1:${port}`;
 
-test("Studio assets panel loads import and preview wiring through the browser dev server", async (t) => {
+test("Studio asset workflow loads import, Sprite binding, save, and reload warning wiring", async (t) => {
   const server = startStudioServer();
 
   t.after(async () => {
@@ -31,15 +31,44 @@ test("Studio assets panel loads import and preview wiring through the browser de
   assert.match(panel, /data-asset-action="select"/);
   assert.match(panel, /data-asset-preview/);
 
+  const importModule = await fetchText("/studio/src/StudioAssetImport.ts");
+  assert.match(importModule, /createStudioImageAssetInputFromFile/);
+  assert.match(importModule, /createObjectURL/);
+  assert.match(importModule, /mimeType/);
+  assert.match(importModule, /naturalWidth/);
+  assert.match(importModule, /naturalHeight/);
+
   const bindings = await fetchText("/studio/src/StudioAssetBindings.ts");
   assert.match(bindings, /createStudioImageAssetInputFromFile/);
   assert.match(bindings, /createStudioSpriteAssetCommand/);
   assert.match(bindings, /addStudioImageAsset/);
   assert.match(bindings, /removeStudioAsset/);
+  assert.match(bindings, /Bound sprite asset/);
 
   const adapter = await fetchText("/studio/src/StudioRenderAdapter.ts");
   assert.match(adapter, /new Sprite/);
   assert.match(adapter, /new Texture/);
+
+  const commandFactory = await fetchText("/studio/src/StudioCommandFactory.ts");
+  assert.match(commandFactory, /createStudioSpriteAssetCommand/);
+  assert.match(commandFactory, /update-sprite-asset/);
+
+  const command = await fetchText("/studio/src/StudioCommand.ts");
+  assert.match(command, /case "update-sprite-asset"/);
+  assert.match(command, /updateAssetReferences/);
+
+  const save = await fetchText("/studio/src/StudioSave.ts");
+  assert.match(save, /createStudioSceneSaveDocument/);
+  assert.match(save, /assets: scene\.assets\.map/);
+  assert.match(save, /mimeType/);
+  assert.match(save, /objectIds/);
+  assert.doesNotMatch(save, /src:\s*asset\.src/);
+
+  const load = await fetchText("/studio/src/StudioLoad.ts");
+  assert.match(load, /deserializeStudioSceneWithDiagnostics/);
+  assert.match(load, /validateAssetReferences/);
+  assert.match(load, /references missing asset/);
+  assert.match(load, /references missing object/);
 });
 
 function startStudioServer() {
