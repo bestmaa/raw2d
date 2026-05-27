@@ -1,4 +1,6 @@
 import { bindStudioAppActions } from "./StudioAppActions";
+import { bindStudioAssetPanel } from "./StudioAssetBindings";
+import { createStudioAssetPanelModel } from "./StudioAssetPanel";
 import { createStudioActionObject } from "./StudioActions";
 import type { StudioAppOptions } from "./StudioApp.type";
 import type { StudioCommand, StudioCommandApplyOptions } from "./StudioCommand.type";
@@ -25,6 +27,7 @@ export class StudioApp {
   private sceneState: StudioSceneState = createStudioSceneState();
   private rendererMode: StudioRendererMode = "canvas";
   private selectedObjectId: string | undefined;
+  private selectedAssetId: string | undefined;
   private history: StudioHistoryState = createStudioHistory();
   private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
   private statusMessage = "Ready";
@@ -40,6 +43,7 @@ export class StudioApp {
     this.render();
     this.bindRendererSwitch();
     this.bindActions();
+    this.bindAssets();
     this.bindLayers();
     this.bindProperties();
     this.bindCanvasDrag();
@@ -61,6 +65,7 @@ export class StudioApp {
       properties: inspector.properties,
       propertyFields: inspector.propertyFields,
       selectedLayerId: this.selectedObjectId,
+      assets: createStudioAssetPanelModel(this.sceneState, this.selectedAssetId),
       stats: this.rendererStats
     });
   }
@@ -77,19 +82,11 @@ export class StudioApp {
   }
 
   private bindActions(): void {
-    bindStudioAppActions({
-      root: this.root,
-      getScene: () => this.sceneState,
-      setScene: (scene) => { this.sceneState = scene; },
-      setRendererMode: (mode) => { this.rendererMode = mode; },
-      setSelectedObjectId: (selectedObjectId) => { this.selectedObjectId = selectedObjectId; },
-      setStatusMessage: (message) => { this.statusMessage = message; },
-      resetHistory: () => { this.history = createStudioHistory(); },
-      onUndo: () => { this.applyHistoryAction("undo"); },
-      onRedo: () => { this.applyHistoryAction("redo"); },
-      onCreateObject: (action) => { this.handleCreateObject(action); },
-      mount: () => { this.mount(); }
-    });
+    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.selectedObjectId = id; }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
+  }
+
+  private bindAssets(): void {
+    bindStudioAssetPanel({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, getSelectedAssetId: () => this.selectedAssetId, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, mount: () => { this.mount(); } });
   }
 
   private bindLayers(): void {

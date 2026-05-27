@@ -1,6 +1,7 @@
 import type { StudioLayoutOptions, StudioLayerItem, StudioPropertyRow, StudioToolItem } from "./StudioLayout.type";
 import type { StudioPropertyField } from "./StudioProperties.type";
 import type { StudioStatsPanelModel, StudioStatsRow } from "./StudioStats.type";
+import { renderStudioAssetPanel } from "./StudioAssetPanel";
 import { studioRendererOptions } from "./StudioRenderer";
 
 const tools: readonly StudioToolItem[] = [
@@ -145,6 +146,10 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <section>
             <h2>Stats</h2>
             ${renderStudioStatsPanel(options.stats)}
+          </section>
+          <section>
+            <h2>Assets</h2>
+            ${renderStudioAssetPanel(options.assets)}
           </section>
           <section>
             <h2>Layers</h2>

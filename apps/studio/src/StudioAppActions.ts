@@ -17,11 +17,12 @@ export function bindStudioAppActions(options: StudioAppActionBindingOptions): vo
     root: options.root,
     onSceneLoaded: (scene) => {
       options.setScene(scene);
-    options.setRendererMode(scene.rendererMode);
-    options.setSelectedObjectId(undefined);
-    options.setStatusMessage("Loaded scene");
-    options.resetHistory();
-    options.mount();
+      options.setRendererMode(scene.rendererMode);
+      options.setSelectedObjectId(undefined);
+      options.setSelectedAssetId(undefined);
+      options.setStatusMessage("Loaded scene");
+      options.resetHistory();
+      options.mount();
     },
     onLoadError: (error) => {
       options.setStatusMessage(`Import error: ${error.message}`);
@@ -36,6 +37,7 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     options.setScene(scene);
     options.setRendererMode(scene.rendererMode);
     options.setSelectedObjectId(undefined);
+    options.setSelectedAssetId(undefined);
     options.setStatusMessage("Loaded sample scene");
     options.resetHistory();
     options.mount();

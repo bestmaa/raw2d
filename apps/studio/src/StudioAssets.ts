@@ -90,12 +90,17 @@ function createStudioImageAsset(options: AddStudioImageAssetOptions): StudioImag
     assertSceneObjectExists(options.scene, objectId);
   }
 
+  const src = normalizeOptionalText(options.asset.src);
+  const mimeType = normalizeOptionalText(options.asset.mimeType);
+
   return {
     id,
     type: "image",
     name: normalizeAssetName(options.asset.name),
     width: normalizeDimension(options.asset.width, "width"),
     height: normalizeDimension(options.asset.height, "height"),
+    ...(src ? { src } : {}),
+    ...(mimeType ? { mimeType } : {}),
     objectIds
   };
 }
@@ -132,4 +137,9 @@ function normalizeDimension(value: number, label: "width" | "height"): number {
   }
 
   return value;
+}
+
+function normalizeOptionalText(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
 }

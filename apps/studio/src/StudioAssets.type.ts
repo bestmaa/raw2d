@@ -6,6 +6,8 @@ export interface StudioImageAssetState {
   readonly name: string;
   readonly width: number;
   readonly height: number;
+  readonly src?: string;
+  readonly mimeType?: string;
   readonly objectIds: readonly string[];
 }
 
@@ -16,6 +18,8 @@ export interface StudioImageAssetInput {
   readonly name: string;
   readonly width: number;
   readonly height: number;
+  readonly src?: string;
+  readonly mimeType?: string;
   readonly objectIds?: readonly string[];
 }
 
