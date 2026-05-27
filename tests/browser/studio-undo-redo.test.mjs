@@ -36,9 +36,13 @@ async function importWorkflowModules(t) {
   });
   await writeTranspiledModule("apps/studio/src/StudioCommandFactory.ts", join(directory, "StudioCommandFactory.js"));
   await writeTranspiledModule("apps/studio/src/StudioObjectFactory.ts", join(directory, "StudioObjectFactory.js"));
+  await writeTranspiledModule("apps/studio/src/StudioBoxResize.ts", join(directory, "StudioBoxResize.js"));
   await writeTranspiledModule("apps/studio/src/StudioLineResize.ts", join(directory, "StudioLineResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioTextResize.ts", join(directory, "StudioTextResize.js"));
   await writeTranspiledModule("apps/studio/src/StudioResize.ts", join(directory, "StudioResize.js"), {
-    "./StudioLineResize": "./StudioLineResize.js"
+    "./StudioBoxResize": "./StudioBoxResize.js",
+    "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioTextResize": "./StudioTextResize.js"
   });
 
   return {
@@ -79,8 +83,8 @@ async function assertStudioEditingRoute() {
   assert.match(app, /redoStudioHistory/);
 
   const resize = await fetchText("/studio/src/StudioResize.ts");
-  assert.match(resize, /resizeCircleObject/);
-  assert.match(resize, /resizeSquareBounds/);
+  assert.match(resize, /resizeStudioCircleObject/);
+  assert.match(resize, /resizeStudioSquareBounds/);
   assert.match(resize, /radius/);
 }
 
@@ -240,7 +244,5 @@ async function stopServer(viteProcess) {
 }
 
 function delay(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

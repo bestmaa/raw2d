@@ -1,15 +1,16 @@
 import type { StudioPoint } from "./StudioDrag.type";
+import { resizeStudioBounds, resizeStudioBoxObject, resizeStudioCircleObject, resizeStudioSquareBounds } from "./StudioBoxResize";
 import {
   createStudioLineResizeHandles,
   getStudioLineBounds,
   getStudioLineResizeState,
   resizeStudioLineEndpoint
 } from "./StudioLineResize";
+import { getStudioTextResizeBounds, getStudioTextResizeState, resizeStudioTextObject } from "./StudioTextResize";
 import type {
   ResizeStudioObjectOptions,
   StudioResizeBounds,
   StudioResizeHandle,
-  StudioResizeHandleId,
   StudioResizeStart
 } from "./StudioResize.type";
 import type {
@@ -18,12 +19,12 @@ import type {
   StudioRectState,
   StudioSceneObject,
   StudioSceneState,
-  StudioSpriteState
+  StudioSpriteState,
+  StudioTextState
 } from "./StudioSceneState.type";
 
 const handleSize = 10;
 const handleHitPadding = 5;
-const minimumSize = 16;
 
 export function getStudioResizeHandles(
   scene: StudioSceneState,
@@ -62,6 +63,7 @@ export function startStudioResize(
 
   const handle = getStudioResizeHandles(scene, selectedObjectId).find((candidate) => containsHandle(candidate, pointer));
   const line = getResizableLine(scene, selectedObjectId);
+  const text = getResizableText(scene, selectedObjectId);
 
   if (!handle) {
     return undefined;
@@ -74,7 +76,8 @@ export function startStudioResize(
       handleId: handle.id,
       startPointer: pointer,
       startBounds: bounds ?? getStudioLineBounds(line),
-      ...(line ? { startLine: getStudioLineResizeState(line) } : {})
+      ...(line ? { startLine: getStudioLineResizeState(line) } : {}),
+      ...(text ? { startText: getStudioTextResizeState(text) } : {})
     }
   };
 }
@@ -102,11 +105,18 @@ export function resizeStudioObject(options: ResizeStudioObjectOptions): StudioSc
       }
 
       if (isBoxResizableObject(object)) {
-        return resizeBoxObject(object, resizeBounds(options.session.startBounds, options.session.handleId, delta));
+        return resizeStudioBoxObject(object, resizeStudioBounds(options.session.startBounds, options.session.handleId, delta));
       }
 
       if (object.type === "circle") {
-        return resizeCircleObject(object, resizeSquareBounds(options.session.startBounds, options.session.handleId, delta));
+        return resizeStudioCircleObject(object, resizeStudioSquareBounds(options.session.startBounds, options.session.handleId, delta));
+      }
+
+      if (object.type === "text2d") {
+        return resizeStudioTextObject({
+          object,
+          bounds: resizeStudioBounds(options.session.startBounds, options.session.handleId, delta)
+        });
       }
 
       return object;
@@ -155,6 +165,10 @@ function getResizableObjectBounds(scene: StudioSceneState, objectId: string | un
     return getStudioLineBounds(object);
   }
 
+  if (object.type === "text2d") {
+    return getStudioTextResizeBounds(object);
+  }
+
   return { x: object.x, y: object.y, width: object.width, height: object.height };
 }
 
@@ -164,8 +178,14 @@ function getResizableLine(scene: StudioSceneState, objectId: string | undefined)
   return object?.type === "line" ? object : undefined;
 }
 
-function isResizableObject(object: StudioSceneObject): object is StudioCircleState | StudioLineState | StudioRectState | StudioSpriteState {
-  return object.type === "circle" || object.type === "line" || isBoxResizableObject(object);
+function getResizableText(scene: StudioSceneState, objectId: string | undefined): StudioTextState | undefined {
+  const object = scene.objects.find((candidate) => candidate.id === objectId);
+
+  return object?.type === "text2d" ? object : undefined;
+}
+
+function isResizableObject(object: StudioSceneObject): object is StudioCircleState | StudioLineState | StudioRectState | StudioSpriteState | StudioTextState {
+  return object.type === "circle" || object.type === "line" || object.type === "text2d" || isBoxResizableObject(object);
 }
 
 function isBoxResizableObject(object: StudioSceneObject): object is StudioRectState | StudioSpriteState {
@@ -181,68 +201,4 @@ function containsHandle(handle: StudioResizeHandle, pointer: StudioPoint): boole
     pointer.y >= handle.y - radius &&
     pointer.y <= handle.y + radius
   );
-}
-
-function resizeBounds(bounds: StudioResizeBounds, handleId: StudioResizeHandleId, delta: StudioPoint): StudioResizeBounds {
-  const horizontal = handleId.endsWith("left")
-    ? normalizeAxis(bounds.x + bounds.width, bounds.x + delta.x)
-    : normalizeAxis(bounds.x, bounds.x + bounds.width + delta.x);
-  const vertical = handleId.startsWith("top")
-    ? normalizeAxis(bounds.y + bounds.height, bounds.y + delta.y)
-    : normalizeAxis(bounds.y, bounds.y + bounds.height + delta.y);
-
-  return { x: horizontal.position, y: vertical.position, width: horizontal.size, height: vertical.size };
-}
-
-function resizeSquareBounds(bounds: StudioResizeBounds, handleId: StudioResizeHandleId, delta: StudioPoint): StudioResizeBounds {
-  const fixedCorner = getFixedCorner(bounds, handleId);
-  const movingCorner = getMovingCorner(bounds, handleId, delta);
-  const size = Math.max(minimumSize, Math.abs(movingCorner.x - fixedCorner.x), Math.abs(movingCorner.y - fixedCorner.y));
-
-  return {
-    x: movingCorner.x < fixedCorner.x ? fixedCorner.x - size : fixedCorner.x,
-    y: movingCorner.y < fixedCorner.y ? fixedCorner.y - size : fixedCorner.y,
-    width: size,
-    height: size
-  };
-}
-
-function getFixedCorner(bounds: StudioResizeBounds, handleId: StudioResizeHandleId): StudioPoint {
-  return {
-    x: handleId.endsWith("left") ? bounds.x + bounds.width : bounds.x,
-    y: handleId.startsWith("top") ? bounds.y + bounds.height : bounds.y
-  };
-}
-
-function getMovingCorner(bounds: StudioResizeBounds, handleId: StudioResizeHandleId, delta: StudioPoint): StudioPoint {
-  return {
-    x: (handleId.endsWith("left") ? bounds.x : bounds.x + bounds.width) + delta.x,
-    y: (handleId.startsWith("top") ? bounds.y : bounds.y + bounds.height) + delta.y
-  };
-}
-
-function resizeBoxObject(object: StudioRectState | StudioSpriteState, bounds: StudioResizeBounds): StudioRectState | StudioSpriteState {
-  return {
-    ...object,
-    x: Math.round(bounds.x),
-    y: Math.round(bounds.y),
-    width: Math.round(bounds.width),
-    height: Math.round(bounds.height)
-  };
-}
-
-function resizeCircleObject(object: StudioCircleState, bounds: StudioResizeBounds): StudioCircleState {
-  return {
-    ...object,
-    x: Math.round(bounds.x + bounds.width / 2),
-    y: Math.round(bounds.y + bounds.height / 2),
-    radius: Math.round(bounds.width / 2)
-  };
-}
-
-function normalizeAxis(fixedPosition: number, movingPosition: number): { readonly position: number; readonly size: number } {
-  const size = Math.max(minimumSize, Math.abs(movingPosition - fixedPosition));
-  const position = movingPosition < fixedPosition ? fixedPosition - size : fixedPosition;
-
-  return { position, size };
 }

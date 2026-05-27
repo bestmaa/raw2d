@@ -103,6 +103,7 @@ The object stores transform separately from line geometry:
 ## Text Tool
 
 Text creates Text2D and exposes text and font values in Properties.
+Studio resize handles use estimated text bounds and scale the `px` font size instead of storing separate text width and height fields.
 
 ```ts
 addStudioTextObject({ scene });
@@ -112,6 +113,12 @@ Full text defaults:
 
 ```json
 { "type": "text2d", "text": "Raw2D Text", "font": "32px sans-serif" }
+```
+
+Resize rule:
+
+```txt
+drag text bounds -> update x/y and font size
 ```
 
 ## Sprite Tool

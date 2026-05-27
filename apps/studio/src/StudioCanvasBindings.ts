@@ -104,6 +104,8 @@ function recordCanvasTransform(options: StudioCanvasBindingOptions, session: Stu
           endX: session.startLine.endX,
           endY: session.startLine.endY
         }
+      : session.startText
+        ? { ...object, x: session.startText.x, y: session.startText.y, font: session.startText.font }
     : { ...object, x: session.startBounds.x, y: session.startBounds.y, width: session.startBounds.width, height: session.startBounds.height };
   const command = createStudioTransformCommand(before, object);
 

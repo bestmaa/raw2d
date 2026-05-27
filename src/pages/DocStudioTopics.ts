@@ -148,10 +148,10 @@ Sprite sprite-1 references missing asset asset-9.`
       },
       {
         title: "Select And Move",
-        body: "Select should use picking, support multi-select later, and reuse raw2d-interaction for drag and resize where possible. Move updates x and y.",
+        body: "Select uses picking and explicit handles. Move updates x and y; Rect and Sprite resize bounds, Circle resize radius, Line resize endpoints, and Text2D resize scales the px font size.",
         code: `select object
 drag selected -> update x/y
-resize handle -> update bounds fields`
+resize handle -> update bounds or font scale`
       },
       {
         title: "Current Create Tools",

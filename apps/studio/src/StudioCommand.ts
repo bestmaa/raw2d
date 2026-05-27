@@ -182,7 +182,11 @@ function updateTransform(object: StudioSceneObject, transform: StudioTransformSt
     };
   }
 
-  return { ...object, x, y };
+  if (object.type === "text2d") {
+    return { ...object, x, y, font: transform.font };
+  }
+
+  return assertNeverObject(object);
 }
 
 function updateTextContent(object: StudioSceneObject, content: StudioTextContentState): StudioSceneObject {
@@ -191,4 +195,8 @@ function updateTextContent(object: StudioSceneObject, content: StudioTextContent
 
 function clampIndex(index: number, maxIndex: number): number {
   return Math.max(0, Math.min(maxIndex, index));
+}
+
+function assertNeverObject(object: never): never {
+  throw new Error(`Unsupported Studio object transform: ${JSON.stringify(object)}`);
 }

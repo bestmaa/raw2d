@@ -110,9 +110,17 @@ function getTransformState(object: StudioSceneObject): StudioTransformState {
     };
   }
 
-  return { x: object.x, y: object.y };
+  if (object.type === "text2d") {
+    return { x: object.x, y: object.y, font: object.font };
+  }
+
+  return assertNeverObject(object);
 }
 
 function areTransformsEqual(before: StudioTransformState, after: StudioTransformState): boolean {
   return JSON.stringify(before) === JSON.stringify(after);
+}
+
+function assertNeverObject(object: never): never {
+  throw new Error(`Unsupported Studio object transform: ${JSON.stringify(object)}`);
 }

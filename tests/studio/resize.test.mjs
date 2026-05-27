@@ -4,11 +4,20 @@ import test from "node:test";
 import ts from "typescript";
 
 async function importResizeModule() {
+  const boxSource = readFileSync("apps/studio/src/StudioBoxResize.ts", "utf8");
+  const boxOutput = transpile(boxSource);
+  const boxUrl = `data:text/javascript;base64,${Buffer.from(boxOutput).toString("base64")}`;
   const lineSource = readFileSync("apps/studio/src/StudioLineResize.ts", "utf8");
   const lineOutput = transpile(lineSource);
   const lineUrl = `data:text/javascript;base64,${Buffer.from(lineOutput).toString("base64")}`;
+  const textSource = readFileSync("apps/studio/src/StudioTextResize.ts", "utf8");
+  const textOutput = transpile(textSource);
+  const textUrl = `data:text/javascript;base64,${Buffer.from(textOutput).toString("base64")}`;
   const source = readFileSync("apps/studio/src/StudioResize.ts", "utf8");
-  const output = transpile(source).replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`);
+  const output = transpile(source)
+    .replaceAll('from "./StudioBoxResize";', `from "${boxUrl}";`)
+    .replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`)
+    .replaceAll('from "./StudioTextResize";', `from "${textUrl}";`);
   const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
   return import(url);
 }
@@ -32,12 +41,13 @@ function createScene() {
       { id: "rect-1", type: "rect", name: "Rect 1", x: 10, y: 20, width: 100, height: 80 },
       { id: "sprite-1", type: "sprite", name: "Sprite 1", x: 160, y: 40, width: 64, height: 64, assetSlot: "empty" },
       { id: "circle-1", type: "circle", name: "Circle 1", x: 60, y: 60, radius: 30 },
-      { id: "line-1", type: "line", name: "Line 1", x: 120, y: 300, startX: 0, startY: 0, endX: 240, endY: 0 }
+      { id: "line-1", type: "line", name: "Line 1", x: 120, y: 300, startX: 0, startY: 0, endX: 240, endY: 0 },
+      { id: "text-1", type: "text2d", name: "Text 1", x: 80, y: 180, text: "Raw2D", font: "24px sans-serif" }
     ]
   };
 }
 
-test("Studio resize handles appear for Rect Sprite and Circle selections", async () => {
+test("Studio resize handles appear for Rect Sprite Circle Line and Text selections", async () => {
   const module = await importResizeModule();
 
   assert.equal(module.getStudioResizeHandles(createScene(), "rect-1").length, 4);
@@ -51,6 +61,12 @@ test("Studio resize handles appear for Rect Sprite and Circle selections", async
   assert.deepEqual(module.getStudioResizeHandles(createScene(), "line-1"), [
     { id: "line-start", x: 120, y: 300, size: 10 },
     { id: "line-end", x: 360, y: 300, size: 10 }
+  ]);
+  assert.deepEqual(module.getStudioResizeHandles(createScene(), "text-1"), [
+    { id: "top-left", x: 80, y: 156, size: 10 },
+    { id: "top-right", x: 152, y: 156, size: 10 },
+    { id: "bottom-left", x: 80, y: 186, size: 10 },
+    { id: "bottom-right", x: 152, y: 186, size: 10 }
   ]);
 });
 
@@ -198,4 +214,22 @@ test("Studio Line end endpoint handle edits local end point", async () => {
   assert.equal(nextScene.objects[3].startY, 0);
   assert.equal(nextScene.objects[3].endX, 210);
   assert.equal(nextScene.objects[3].endY, -20);
+});
+
+test("Studio Text2D corner resize scales font size from explicit text bounds", async () => {
+  const module = await importResizeModule();
+  const scene = createScene();
+  const resizeStart = module.startStudioResize(scene, "text-1", { x: 152, y: 186 });
+
+  assert.ok(resizeStart);
+
+  const nextScene = module.resizeStudioObject({
+    scene,
+    session: resizeStart.session,
+    pointer: { x: 188, y: 201 }
+  });
+
+  assert.equal(nextScene.objects[4].x, 80);
+  assert.equal(nextScene.objects[4].y, 192);
+  assert.equal(nextScene.objects[4].font, "36px sans-serif");
 });

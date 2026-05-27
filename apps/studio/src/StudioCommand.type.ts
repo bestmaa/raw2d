@@ -10,6 +10,7 @@ export interface StudioTransformState {
   readonly startY?: number;
   readonly endX?: number;
   readonly endY?: number;
+  readonly font?: string;
 }
 
 export interface StudioTextContentState {

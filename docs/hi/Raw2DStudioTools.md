@@ -103,6 +103,7 @@ Transform line geometry se alag store hota hai:
 ## Text Tool
 
 Text tool Text2D create karta hai aur Properties me text/font values dikhata hai.
+Studio resize handles estimated text bounds use karte hain aur alag text width/height fields store karne ke bajay `px` font size scale karte hain.
 
 ```ts
 addStudioTextObject({ scene });
@@ -112,6 +113,12 @@ Default text object:
 
 ```json
 { "type": "text2d", "text": "Raw2D Text", "font": "32px sans-serif" }
+```
+
+Resize rule:
+
+```txt
+drag text bounds -> x/y aur font size update
 ```
 
 ## Sprite Tool

@@ -83,6 +83,19 @@ test("Studio command factory creates text commands only for Text2D changes", asy
   assert.equal(module.createStudioTextCommand(createScene().objects[0], before), undefined);
 });
 
+test("Studio command factory includes Text2D font in transform commands", async () => {
+  const module = await importCommandFactoryModule();
+  const before = { id: "text-1", type: "text2d", name: "Text 1", x: 10, y: 20, text: "Layer" };
+  const after = { ...before, y: 34, font: "32px sans-serif" };
+
+  assert.deepEqual(module.createStudioTransformCommand(before, after), {
+    kind: "update-transform",
+    objectId: "text-1",
+    before: { x: 10, y: 20, font: undefined },
+    after: { x: 10, y: 34, font: "32px sans-serif" }
+  });
+});
+
 test("Studio command factory creates visibility and reorder commands", async () => {
   const module = await importCommandFactoryModule();
   const before = createScene();

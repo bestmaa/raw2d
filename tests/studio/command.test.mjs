@@ -79,6 +79,26 @@ test("Studio transform command applies and inverts object geometry", async () =>
   assert.equal(reverted.scene.objects[0].width, 100);
 });
 
+test("Studio transform command applies and inverts Text2D font scale", async () => {
+  const module = await importCommandModule();
+  const command = {
+    kind: "update-transform",
+    objectId: "text-1",
+    before: { x: 120, y: 80, font: undefined },
+    after: { x: 120, y: 92, font: "36px sans-serif" }
+  };
+  const updated = module.applyStudioCommand({ scene: createScene(), command });
+
+  assert.equal(updated.handled, true);
+  assert.equal(updated.scene.objects[2].y, 92);
+  assert.equal(updated.scene.objects[2].font, "36px sans-serif");
+
+  const reverted = module.applyStudioCommand({ scene: updated.scene, command: module.invertStudioCommand(command) });
+
+  assert.equal(reverted.scene.objects[2].y, 80);
+  assert.equal(reverted.scene.objects[2].font, undefined);
+});
+
 test("Studio material and visibility commands apply and invert", async () => {
   const module = await importCommandModule();
   const materialCommand = {

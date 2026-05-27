@@ -47,3 +47,11 @@ test("Studio tools docs cover current command history names", () => {
     assert.doesNotMatch(content, /produce command objects later/);
   }
 });
+
+test("Studio tools docs explain Text2D resize scale rules", () => {
+  for (const content of [englishDocs, hinglishDocs, routeTopics]) {
+    assert.match(content, /Text2D/);
+    assert.match(content, /resize|Resize/);
+    assert.match(content, /font size|font scale|font size scale/);
+  }
+});

@@ -10,60 +10,61 @@ import ts from "typescript";
 
 const studioRoot = fileURLToPath(new URL("../../apps/studio/", import.meta.url));
 const viteBin = fileURLToPath(new URL("../../node_modules/vite/bin/vite.js", import.meta.url));
-const port = 7800 + Math.floor(Math.random() * 400);
+const port = 8200 + Math.floor(Math.random() * 400);
 const baseUrl = `http://127.0.0.1:${port}`;
 
-test("Studio Line endpoint resize handles load and edit through browser smoke", async (t) => {
+test("Studio Text2D resize scales font through browser smoke", async (t) => {
   const server = startStudioServer();
   const resize = await importResizeModule(t);
 
-  t.after(async () => {
-    await stopServer(server.process);
-  });
-
+  t.after(async () => stopServer(server.process));
   await waitForServer(server);
 
-  const source = await fetchText("/studio/src/StudioResize.ts");
-  assert.match(source, /resizeStudioLineEndpoint/);
-  const lineSource = await fetchText("/studio/src/StudioLineResize.ts");
-  assert.match(lineSource, /line-start/);
-  assert.match(lineSource, /line-end/);
+  const resizeSource = await fetchText("/studio/src/StudioResize.ts");
+  assert.match(resizeSource, /resizeStudioTextObject/);
+  const textSource = await fetchText("/studio/src/StudioTextResize.ts");
+  assert.match(textSource, /setFontSize/);
+  assert.match(textSource, /getStudioTextResizeBounds/);
 
   const scene = createScene();
-  const resizeStart = resize.startStudioResize(scene, "line-1", { x: 360, y: 300 });
+  const resizeStart = resize.startStudioResize(scene, "text-1", { x: 152, y: 186 });
 
   assert.ok(resizeStart);
 
   const nextScene = resize.resizeStudioObject({
     scene,
     session: resizeStart.session,
-    pointer: { x: 330, y: 280 }
+    pointer: { x: 188, y: 201 }
   });
 
-  assert.equal(nextScene.objects[0].endX, 210);
-  assert.equal(nextScene.objects[0].endY, -20);
+  assert.equal(nextScene.objects[0].y, 192);
+  assert.equal(nextScene.objects[0].font, "36px sans-serif");
 });
 
 async function importResizeModule(t) {
-  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-browser-line-resize-"));
+  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-browser-text-resize-"));
 
-  t.after(async () => {
-    await rm(directory, { recursive: true, force: true });
+  t.after(async () => rm(directory, { recursive: true, force: true }));
+  await writeModule("StudioBoxResize");
+  await writeModule("StudioLineResize");
+  await writeModule("StudioTextResize");
+  await writeModule("StudioResize", {
+    "./StudioBoxResize": "./StudioBoxResize.js",
+    "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioTextResize": "./StudioTextResize.js"
   });
 
-  const boxResizePath = join(directory, "StudioBoxResize.js");
-  const lineResizePath = join(directory, "StudioLineResize.js");
-  const textResizePath = join(directory, "StudioTextResize.js");
-  const path = join(directory, "StudioResize.js");
+  return import(pathToFileURL(join(directory, "StudioResize.js")).href);
 
-  await writeFile(boxResizePath, transpile(await readFile("apps/studio/src/StudioBoxResize.ts", "utf8")));
-  await writeFile(lineResizePath, transpile(await readFile("apps/studio/src/StudioLineResize.ts", "utf8")));
-  await writeFile(textResizePath, transpile(await readFile("apps/studio/src/StudioTextResize.ts", "utf8")));
-  await writeFile(path, transpile(await readFile("apps/studio/src/StudioResize.ts", "utf8"))
-    .replaceAll('from "./StudioBoxResize";', 'from "./StudioBoxResize.js";')
-    .replaceAll('from "./StudioLineResize";', 'from "./StudioLineResize.js";')
-    .replaceAll('from "./StudioTextResize";', 'from "./StudioTextResize.js";'));
-  return import(pathToFileURL(path).href);
+  async function writeModule(name, replacements = {}) {
+    let output = transpile(await readFile(`apps/studio/src/${name}.ts`, "utf8"));
+
+    for (const [from, to] of Object.entries(replacements)) {
+      output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+    }
+
+    await writeFile(join(directory, `${name}.js`), output);
+  }
 }
 
 function transpile(source) {
@@ -75,11 +76,11 @@ function transpile(source) {
 function createScene() {
   return {
     version: 1,
-    name: "Line Resize Test",
+    name: "Text Resize Test",
     rendererMode: "canvas",
     camera: { x: 0, y: 0, zoom: 1 },
     assets: [],
-    objects: [{ id: "line-1", type: "line", name: "Line 1", x: 120, y: 300, startX: 0, startY: 0, endX: 240, endY: 0 }]
+    objects: [{ id: "text-1", type: "text2d", name: "Text 1", x: 80, y: 180, text: "Raw2D", font: "24px sans-serif" }]
   };
 }
 
@@ -104,7 +105,7 @@ function startStudioServer() {
 async function waitForServer(server) {
   for (let attempt = 0; attempt < 80; attempt += 1) {
     if (server.process.exitCode !== null) {
-      throw new Error(`Studio Vite exited before line resize smoke started.\n${server.getLogs()}`);
+      throw new Error(`Studio Vite exited before text resize smoke started.\n${server.getLogs()}`);
     }
 
     try {
