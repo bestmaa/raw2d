@@ -4,6 +4,7 @@ import type { Raw2DFiberHostPropsByType, Raw2DFiberHostType } from "./Raw2DFiber
 export interface Raw2DFiberHostInstance<TType extends Raw2DFiberHostType = Raw2DFiberHostType> {
   readonly type: TType;
   readonly object: Object2D;
+  readonly children: Raw2DFiberHostInstance[];
   props: Raw2DFiberHostPropsByType[TType];
 }
 
@@ -20,4 +21,5 @@ export interface Raw2DFiberHostConfig {
   ): void;
   appendChild(parent: Raw2DFiberHostParent, child: Raw2DFiberHostInstance): void;
   removeChild(parent: Raw2DFiberHostParent, child: Raw2DFiberHostInstance): void;
+  disposeInstance(instance: Raw2DFiberHostInstance): void;
 }

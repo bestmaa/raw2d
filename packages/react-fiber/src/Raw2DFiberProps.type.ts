@@ -1,4 +1,5 @@
 import type {
+  AssetGroup,
   BasicMaterialStrokeCap,
   BasicMaterialStrokeJoin,
   Object2DOriginValue,
@@ -54,8 +55,13 @@ export interface Raw2DFiberText2DProps extends Raw2DFiberObjectProps, Raw2DFiber
   readonly baseline?: CanvasTextBaseline;
 }
 
+export type Raw2DFiberTextureOwnership = "external" | "owned";
+
 export interface Raw2DFiberSpriteProps extends Raw2DFiberObjectProps {
-  readonly texture: Texture;
+  readonly texture?: Texture;
+  readonly assetGroup?: AssetGroup;
+  readonly textureName?: string;
+  readonly textureOwnership?: Raw2DFiberTextureOwnership;
   readonly frame?: TextureFrame | null;
   readonly width?: number;
   readonly height?: number;

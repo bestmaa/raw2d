@@ -2,6 +2,7 @@ import { BasicMaterial, Circle, Group2D, Line, Rect, Sprite, Text2D } from "raw2
 import { applyRaw2DFiberMaterialProps, applyRaw2DFiberObjectProps } from "./applyRaw2DFiberProps.js";
 import type { Raw2DFiberHostInstance } from "./Raw2DFiberHostConfig.type.js";
 import type { Raw2DFiberHostPropsByType, Raw2DFiberHostType } from "./Raw2DFiberProps.type.js";
+import { resolveRaw2DFiberSpriteTexture } from "./resolveRaw2DFiberSpriteTexture.js";
 
 export function createRaw2DFiberInstance<TType extends Raw2DFiberHostType>(
   type: TType,
@@ -21,31 +22,32 @@ function createTypedInstance<TType extends Raw2DFiberHostType>(
       const circleProps = props as Raw2DFiberHostPropsByType["rawCircle"];
       const material = createMaterial(circleProps);
       const object = new Circle({ ...circleProps, material });
-      return { type, object, props };
+      return { type, object, children: [], props };
     }
     case "rawGroup2D":
-      return { type, object: new Group2D(props), props };
+      return { type, object: new Group2D(props), children: [], props };
     case "rawLine": {
       const lineProps = props as Raw2DFiberHostPropsByType["rawLine"];
       const material = createMaterial(lineProps);
       const object = new Line({ ...lineProps, startX: lineProps.startX ?? 0, startY: lineProps.startY ?? 0, material });
-      return { type, object, props };
+      return { type, object, children: [], props };
     }
     case "rawRect": {
       const rectProps = props as Raw2DFiberHostPropsByType["rawRect"];
       const material = createMaterial(rectProps);
       const object = new Rect({ ...rectProps, material });
-      return { type, object, props };
+      return { type, object, children: [], props };
     }
     case "rawSprite": {
       const spriteProps = props as Raw2DFiberHostPropsByType["rawSprite"];
-      return { type, object: new Sprite(spriteProps), props };
+      const texture = resolveRaw2DFiberSpriteTexture(spriteProps);
+      return { type, object: new Sprite({ ...spriteProps, texture }), children: [], props };
     }
     case "rawText2D": {
       const textProps = props as Raw2DFiberHostPropsByType["rawText2D"];
       const material = createMaterial(textProps);
       const object = new Text2D({ ...textProps, material });
-      return { type, object, props };
+      return { type, object, children: [], props };
     }
   }
 }

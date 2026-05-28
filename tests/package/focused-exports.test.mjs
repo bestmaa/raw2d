@@ -101,7 +101,10 @@ test("raw2d-react-fiber exposes the scaffolded reconciler boundary", () => {
     "applyRaw2DFiberObjectProps",
     "createRaw2DFiberHostConfig",
     "createRaw2DFiberInstance",
+    "disposeRaw2DFiberInstance",
     "getRaw2DFiberHostBoundary",
+    "resolveRaw2DFiberSpriteTexture",
+    "shouldDisposeRaw2DFiberTexture",
     "updateRaw2DFiberInstance"
   ].sort());
   assert.equal(ReactFiber.RAW2D_REACT_FIBER_PACKAGE_INFO.packageName, "raw2d-react-fiber");
