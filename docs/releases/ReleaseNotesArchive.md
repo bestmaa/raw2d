@@ -1,5 +1,26 @@
 # Raw2D Release Notes Archive
 
+## v1.21.5 - WebGL Completion Phase
+
+Raw2D v1.21.5 publishes the WebGL completion phase.
+
+### Added
+
+- SVG texture rasterization helpers in `raw2d-sprite` for Canvas and WebGL texture workflows.
+- Static WebGL run compaction with explicit diagnostics through `compactWebGLStaticRuns`.
+- Advanced atlas packing diagnostics for fragmentation, outer waste, occupancy, and resize suggestions.
+- Browser visual pixel coverage for WebGL Sprite, Text2D, ShapePath fallback, culling, static batches, and static cache hits.
+- WebGL completion docs covering status, tradeoffs, performance reading, and release verification.
+
+### Verification
+
+- Full test suite.
+- Docs production build.
+- Browser visual pixel and WebGL geometry regression checks.
+- WebGL docs snippet smoke.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.20.5 - Effects Foundation Phase
 
 Raw2D v1.20.5 publishes the effects foundation phase.

@@ -116,7 +116,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T287 | Version: v1.21.2 | Status: completed | Goal: Add advanced atlas packing diagnostics for fragmentation, wasted area, and resize suggestions. | Verify: sprite packer tests and docs snippets. | Commit: `Add atlas packing diagnostics`
 - T288 | Version: v1.21.3 | Status: completed | Goal: Add WebGL renderer parity visual coverage for text, sprites, paths, culling, and static runs. | Verify: browser visual regression tests. | Commit: `Test WebGL renderer parity visuals`
 - T289 | Version: v1.21.4 | Status: completed | Goal: Document WebGL completion status, remaining tradeoffs, and performance reading guide. | Verify: docs route and README checks. | Commit: `Document WebGL completion`
-- T290 | Version: v1.21.5 | Status: pending | Goal: Phase 29 release and publish. | Verify: CI, npm latest, Cloudflare docs, WebGL benchmark workflow. | Commit: `Release WebGL completion phase`
+- T290 | Version: v1.21.5 | Status: completed | Goal: Phase 29 release and publish. | Verify: CI, npm latest, Cloudflare docs, WebGL benchmark workflow. | Commit: `Release WebGL completion phase`
 
 ## Phase 30: React Fiber Package
 
