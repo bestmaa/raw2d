@@ -10,6 +10,7 @@ import {
   WebGLRenderer2D,
   WebGLShapePathTextureCache,
   analyzeWebGLSpriteBatching,
+  compactWebGLStaticRuns,
   createWebGLEffectPassPlan,
   createWebGLShapePathFallbackBatch,
   estimateWebGLSpriteTextureBinds,
@@ -60,6 +61,7 @@ test("focused packages expose installable entry points", () => {
   assert.equal(typeof sortWebGLSpritesForBatching, "function");
   assert.equal(typeof estimateWebGLSpriteTextureBinds, "function");
   assert.equal(typeof analyzeWebGLSpriteBatching, "function");
+  assert.equal(typeof compactWebGLStaticRuns, "function");
   assert.equal(typeof WebGLShapePathTextureCache, "function");
   assert.equal(typeof createWebGLShapePathFallbackBatch, "function");
 });

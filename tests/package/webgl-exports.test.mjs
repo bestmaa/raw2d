@@ -28,6 +28,7 @@ function getExpectedWebGLRuntimeExports() {
     "analyzeWebGLSpriteBatching",
     "applyWebGLSpriteSorting",
     "classifyWebGLShapePathFill",
+    "compactWebGLStaticRuns",
     "createMutableWebGLRenderStats",
     "createWebGLBufferUploaders",
     "createWebGLEffectPassPlan",

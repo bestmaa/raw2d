@@ -1,5 +1,6 @@
 import { Camera2D, RenderPipeline, getRendererSupport, type Object2D, type RendererSupportProfile, type RenderList, type Scene } from "raw2d-core";
 import { createWebGLRenderRuns } from "./createWebGLRenderRuns.js";
+import { compactWebGLStaticRuns } from "./compactWebGLStaticRuns.js";
 import { applyWebGLSpriteSorting } from "./applyWebGLSpriteSorting.js";
 import { createWebGLSpriteBatch } from "./createWebGLSpriteBatch.js";
 import { createMutableWebGLRenderStats } from "./createMutableWebGLRenderStats.js";
@@ -118,11 +119,12 @@ export class WebGLRenderer2D implements WebGLRenderer2DLike {
 
     const renderList = options.renderList ?? this.createRenderList(scene, camera, options);
     const items = renderList.getFlatItems();
-    const runs = applyWebGLSpriteSorting({
+    const sortedRuns = applyWebGLSpriteSorting({
       runs: createWebGLRenderRuns(items, getWebGLRenderRunKind),
       mode: options.spriteSorting,
       getTextureKey: (texture) => this.resources.textureCache.getKey(texture)
     });
+    const runs = compactWebGLStaticRuns({ runs: sortedRuns }).runs;
     const stats = createMutableWebGLRenderStats(renderList.getStats());
 
     this.clear();

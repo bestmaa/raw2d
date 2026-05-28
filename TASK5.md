@@ -112,7 +112,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 ## Phase 29: WebGL Completion
 
 - T285 | Version: v1.21.0 | Status: completed | Goal: Add documented SVG-to-canvas texture rasterization helper in the sprite or WebGL boundary. | Verify: unit tests and WebGL texture example check. | Commit: `Add SVG texture rasterization helper`
-- T286 | Version: v1.21.1 | Status: pending | Goal: Add static batch compaction for compatible clean WebGL runs while preserving transparent diagnostics. | Verify: WebGL static cache and draw-call tests. | Commit: `Compact WebGL static batches`
+- T286 | Version: v1.21.1 | Status: completed | Goal: Add static batch compaction for compatible clean WebGL runs while preserving transparent diagnostics. | Verify: WebGL static cache and draw-call tests. | Commit: `Compact WebGL static batches`
 - T287 | Version: v1.21.2 | Status: pending | Goal: Add advanced atlas packing diagnostics for fragmentation, wasted area, and resize suggestions. | Verify: sprite packer tests and docs snippets. | Commit: `Add atlas packing diagnostics`
 - T288 | Version: v1.21.3 | Status: pending | Goal: Add WebGL renderer parity visual coverage for text, sprites, paths, culling, and static runs. | Verify: browser visual regression tests. | Commit: `Test WebGL renderer parity visuals`
 - T289 | Version: v1.21.4 | Status: pending | Goal: Document WebGL completion status, remaining tradeoffs, and performance reading guide. | Verify: docs route and README checks. | Commit: `Document WebGL completion`

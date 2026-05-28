@@ -31,6 +31,7 @@ Current support:
 - reusable CPU-side float buffers
 - reusable GPU buffer upload capacity
 - static batch cache for clean static runs
+- static run compaction for adjacent clean WebGL runs
 - explicit effect pass planning for opacity, grayscale, blur, and shadow
 - render stats for objects, sprites, textures, batches, vertices, draw calls, buffer uploads, and unsupported objects
 
@@ -212,6 +213,21 @@ console.log(renderer.getStats().staticCacheHits);
 
 Keep animated sprites dynamic because changing `sprite.frame` invalidates static sprite cache data.
 
+Adjacent clean static shape or sprite runs are compacted before rendering:
+
+```ts
+import { compactWebGLStaticRuns } from "raw2d-webgl";
+
+const result = compactWebGLStaticRuns({ runs });
+
+console.log(result.inputRuns);
+console.log(result.outputRuns);
+console.log(result.compactedRuns);
+console.log(result.mergedStaticObjects);
+```
+
+Compaction does not reorder the scene and does not cross dynamic, unsupported, or shape/sprite boundaries. The helper exposes the same diagnostics that the renderer uses internally, so custom pipelines can inspect exactly what was merged.
+
 ## Performance Reading
 
 Render twice when measuring static cache:
@@ -265,7 +281,7 @@ console.log(renderer.getStats().staticCacheMisses);
 // 1
 ```
 
-SVG texture sources should be rasterized to canvas before upload. Smarter atlas packing strategies and static batch compaction are future steps.
+SVG texture sources should be rasterized to canvas before upload. Smarter atlas packing strategies are a future step.
 
 `WebGLRenderer2D` already uses `WebGLFloatBuffer` internally for shape and sprite batch data. Custom batch code can pass a `floatBuffer` option to `createWebGLShapeBatch` or `createWebGLSpriteBatch`.
 

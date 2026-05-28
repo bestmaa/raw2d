@@ -46,6 +46,8 @@ export * from "./WebGLStaticBatchCache.js";
 export * from "./WebGLStaticBatchCache.type.js";
 export * from "./createWebGLRectBatch.js";
 export * from "./createWebGLBufferUploaders.js";
+export * from "./compactWebGLStaticRuns.js";
+export type * from "./compactWebGLStaticRuns.type.js";
 export * from "./createWebGLRenderRuns.js";
 export * from "./createMutableWebGLRenderStats.js";
 export * from "./createWebGLShapeBatch.js";
