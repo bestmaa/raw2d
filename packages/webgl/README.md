@@ -281,7 +281,9 @@ console.log(renderer.getStats().staticCacheMisses);
 // 1
 ```
 
-SVG texture sources should be rasterized to canvas before upload. Smarter atlas packing strategies are a future step.
+SVG texture sources should be rasterized to canvas before upload. WebGL intentionally accepts raster `Texture` sources and leaves SVG-specific conversion in `raw2d-sprite`.
+
+Raw2D keeps Canvas as the complete reference renderer. WebGL is the batch-first performance path for large, texture-heavy, or mostly static scenes. Remaining tradeoffs are explicit: complex ShapePath fills use the raster fallback, Text2D uses raster textures rather than a glyph atlas, sprite sorting is opt-in, and static batches rebuild when camera or viewport inputs change.
 
 `WebGLRenderer2D` already uses `WebGLFloatBuffer` internally for shape and sprite batch data. Custom batch code can pass a `floatBuffer` option to `createWebGLShapeBatch` or `createWebGLSpriteBatch`.
 

@@ -28,6 +28,7 @@ const topicCopy: Record<string, TopicCopy> = {
   "webgl-context-lifecycle": { label: "WebGL Context", title: "WebGL Context Lifecycle", description: "Context lost, restore aur dispose handling ka WebGL lifecycle." },
   "webgl-performance": { label: "WebGL Performance", title: "WebGL Performance", description: "Canvas aur WebGL performance stats ko practical tarike se compare karna." },
   "webgl-visual-tests": { label: "WebGL Visual Tests", title: "WebGL Visual Tests", description: "Browser me Canvas aur WebGL ke real pixels check karna." },
+  "webgl-completion": { label: "WebGL Completion", title: "WebGL Completion Status", description: "WebGL status, tradeoffs, aur performance reading guide." },
   group2d: { label: "Group2D", title: "Group2D", description: "Objects ko group karke parent transform ke saath render karna." },
   origin: { label: "Origin", title: "Origin", description: "Object ka pivot point set karna, jisse rotation aur scale control hota hai." },
   "transform-matrix": { label: "Transform Matrix", title: "Transform Matrix", description: "Position, rotation, scale aur parent transform ka matrix flow." },

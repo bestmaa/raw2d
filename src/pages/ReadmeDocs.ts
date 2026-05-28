@@ -74,6 +74,7 @@ import webGLContextLifecycle from "../../docs/WebGLContextLifecycle.md?raw";
 import webGLFloatBuffer from "../../docs/WebGLFloatBuffer.md?raw";
 import webGLBufferUploader from "../../docs/WebGLBufferUploader.md?raw";
 import webGLStaticBatchCache from "../../docs/WebGLStaticBatchCache.md?raw";
+import webGLCompletion from "../../docs/WebGLCompletion.md?raw";
 import type { ReadmeDoc } from "./ReadmePage.type";
 
 export const readmeDocs: readonly ReadmeDoc[] = [
@@ -161,6 +162,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "webgl-float-buffer", label: "WebGLFloatBuffer", filename: "WebGLFloatBuffer.md", content: webGLFloatBuffer },
   { id: "webgl-buffer-uploader", label: "WebGLBufferUploader", filename: "WebGLBufferUploader.md", content: webGLBufferUploader },
   { id: "webgl-static-batch-cache", label: "WebGL Static Cache", filename: "WebGLStaticBatchCache.md", content: webGLStaticBatchCache },
+  { id: "webgl-completion", label: "WebGL Completion", filename: "WebGLCompletion.md", content: webGLCompletion },
   { id: "transform-matrix", label: "Transform Matrix", filename: "TransformMatrix.md", content: transformMatrix },
   { id: "group2d", label: "Group2D", filename: "Group2D.md", content: group2d },
   { id: "camera-controls", label: "CameraControls", filename: "CameraControls.md", content: cameraControls },

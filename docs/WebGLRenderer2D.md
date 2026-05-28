@@ -22,7 +22,7 @@ Current scope:
 - supports opt-in rasterized fallback for complex ShapePath fills
 - reports batch, cache, texture, vertex, draw call, and upload stats
 
-Canvas is still the complete renderer. WebGL is the performance path being built out.
+Canvas is still the complete reference renderer. WebGL is the batch-first performance path for large, texture-heavy, or mostly static scenes.
 
 ## Basic Usage
 
@@ -242,6 +242,6 @@ const rebuilt = renderer.getStats().staticCacheMisses;
 
 The current WebGL vertex batches are already projected into clip space, so camera position, camera zoom, renderer width, and renderer height are part of the static cache key. Panning, zooming, or resizing the renderer rebuilds static batches correctly.
 
-## Current Limitations
+## Current Tradeoffs
 
-No advanced atlas bin packing, automatic static batch compaction, glyph atlas/SDF text, polygon holes, or SVG texture upload path yet. Direct ShapePath fill supports one simple closed subpath; complex fills need `shapePathFillFallback: "rasterize"` for texture fallback.
+WebGL keeps the pipeline explicit instead of trying to hide every renderer difference. Complex ShapePath fills need `shapePathFillFallback: "rasterize"` when direct geometry is not enough. Text2D uses raster textures rather than a glyph atlas or SDF text path. Sprite sorting is opt-in because automatic texture sorting can change visual stacking. Static batches rebuild on camera or viewport changes because current vertices are projected into clip space.

@@ -28,6 +28,7 @@ async function readWebGLSnippets() {
     "src/pages/DocWebGLPipelineTopics.ts",
     "src/pages/DocWebGLBatcherTopics.ts",
     "src/pages/DocWebGLPerformanceTopics.ts",
+    "src/pages/DocWebGLCompletionTopics.ts",
     "src/pages/DocWebGLRendererTopics.ts"
   ];
   const snippets = [];
