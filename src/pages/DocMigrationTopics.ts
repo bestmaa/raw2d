@@ -18,7 +18,7 @@ import { Canvas } from "raw2d";`
       },
       {
         title: "Canvas To CanvasRenderer",
-        body: "Canvas remains a compatibility alias. New renderer-focused examples should use CanvasRenderer for naming parity with WebGLRenderer2D.",
+        body: "Canvas remains a compatibility alias and is not scheduled for removal in the v1 freeze. New renderer-focused examples should use CanvasRenderer for naming parity with WebGLRenderer2D.",
         code: `// Before:
 const renderer = new Canvas({ canvas });
 
@@ -43,17 +43,26 @@ new Text2D({ text: "Raw2D", x: 24, y: 48 });`
       },
       {
         title: "React Package Boundary",
-        body: "raw2d-react is a bridge package. It should not change core object APIs, renderer APIs, or package boundaries.",
+        body: "raw2d-react is a bridge package. raw2d-react-fiber is a separate reconciler package, not a rename. Neither package should change core object APIs, renderer APIs, or package boundaries.",
         code: `import { Raw2DCanvas, RawRect } from "raw2d-react";
+import { createRaw2DFiberHostConfig } from "raw2d-react-fiber";
 
 // Core app code can still use raw2d directly.
 import { Scene, Rect } from "raw2d";`
       },
       {
+        title: "Aliases And Deprecations",
+        body: "Raw2D v1.25.0 does not remove runtime exports. Migration notes for future deprecations should list the old import, preferred import, and first version where an alias can be removed.",
+        code: `import { Canvas, CanvasRenderer } from "raw2d";
+
+Canvas === CanvasRenderer;`
+      },
+      {
         title: "Release Checklist",
-        body: "Before upgrading across pre-v1 releases, check release notes, run typecheck, open docs examples, and verify package imports.",
+        body: "Before upgrading across pre-v1 releases, check release notes, run typecheck, run public surface audits for focused package usage, open docs examples, and verify package imports.",
         code: `npm install raw2d@latest
 npm run typecheck
+node --test tests/package/public-surface-audit.test.mjs
 npm run build`
       }
     ]

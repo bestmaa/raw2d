@@ -142,12 +142,12 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T304 | Version: v1.24.2 | Status: completed | Goal: Add zoom-to-selection, fit-to-scene, and minimap helpers for large Studio scenes. | Verify: browser camera workflow tests. | Commit: `Add Studio navigation helpers`
 - T305 | Version: v1.24.3 | Status: completed | Goal: Add stable Studio clipboard format for copy and paste across documents. | Verify: unit tests for clipboard serialization and browser paste check. | Commit: `Add Studio clipboard`
 - T306 | Version: v1.24.4 | Status: completed | Goal: Document advanced Studio editing workflows and keyboard accessibility. | Verify: docs route and accessibility checks. | Commit: `Document Studio advanced editing`
-- T307 | Version: v1.24.5 | Status: in_progress | Goal: Phase 32 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio advanced editing workflow. | Commit: `Release Studio advanced editing phase`
+- T307 | Version: v1.24.5 | Status: blocked | Goal: Phase 32 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio advanced editing workflow. | Commit: `Release Studio advanced editing phase`
   - Blocked: local release checks, pushed `main`, retagged `v1.24.5`, CI, and Cloudflare deploy passed; GitHub Publish fails at the npm publish step and npm latest remains `1.16.6`.
 
 ## Phase 33: V1 Final Hardening
 
-- T308 | Version: v1.25.0 | Status: pending | Goal: Freeze public APIs across all packages and add migration notes for aliases or deprecated names. | Verify: public surface audit and type tests. | Commit: `Freeze Raw2D public API`
+- T308 | Version: v1.25.0 | Status: completed | Goal: Freeze public APIs across all packages and add migration notes for aliases or deprecated names. | Verify: public surface audit and type tests. | Commit: `Freeze Raw2D public API`
 - T309 | Version: v1.25.1 | Status: pending | Goal: Add full renderer parity browser matrix across Canvas and WebGL examples. | Verify: browser and visual regression suite. | Commit: `Add renderer parity matrix`
 - T310 | Version: v1.25.2 | Status: pending | Goal: Add final package size, tree-shaking, CDN, and fresh install audits for every public package. | Verify: audit scripts and consumer smoke tests. | Commit: `Audit final package readiness`
 - T311 | Version: v1.25.3 | Status: pending | Goal: Polish docs IA, beginner path, Hinglish parity, and release checklists for v1 users. | Verify: docs build, docs tests, browser mobile checks. | Commit: `Polish v1 docs`

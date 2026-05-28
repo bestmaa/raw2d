@@ -11,10 +11,13 @@ test("pre-v1 migration guide is documented in markdown and docs route", async ()
   for (const content of [english, hinglish, topics]) {
     assert.match(content, /CanvasRenderer/);
     assert.match(content, /raw2d-react/);
+    assert.match(content, /raw2d-react-fiber/);
     assert.match(content, /createWebGLShapeBatch/);
+    assert.match(content, /alias/i);
+    assert.match(content, /not scheduled for removal|removal ke liye scheduled nahi/);
+    assert.match(content, /public-surface-audit/);
   }
 
   assert.match(topics, /pre-v1-migration/);
   assert.match(registry, /migrationTopics/);
 });
-

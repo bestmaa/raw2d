@@ -1,5 +1,25 @@
 # Raw2D Release Notes
 
+## v1.25.0 - Public API Freeze
+
+Raw2D v1.25.0 freezes the public API surface before the v1 release candidate.
+
+### Added
+
+- Expanded API freeze docs covering every published package, documented aliases, package boundaries, and migration-note rules.
+- Stronger public option-name type checks for Canvas, WebGL, and effects surfaces.
+- Package dependency metadata coverage for public type imports such as Canvas effects.
+- Migration notes clarifying that `Canvas` remains a `CanvasRenderer` compatibility alias and `raw2d-react-fiber` is separate from `raw2d-react`.
+- Fixed focused WebGL install smoke coverage so local `raw2d-effects` tarballs are installed with local WebGL tarballs.
+
+### Verification
+
+- Full test suite.
+- Public surface, export map, metadata, and type audits.
+- Docs production build.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.24.5 - Studio Advanced Editing Phase
 
 Raw2D v1.24.5 publishes the Studio advanced editing phase.

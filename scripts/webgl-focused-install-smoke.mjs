@@ -22,7 +22,7 @@ try {
 }
 
 async function packPackages(destination) {
-  const directories = ["packages/core", "packages/text", "packages/sprite", "packages/webgl"];
+  const directories = ["packages/core", "packages/effects", "packages/text", "packages/sprite", "packages/webgl"];
   const tarballs = [];
 
   for (const directory of directories) {

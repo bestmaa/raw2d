@@ -47,6 +47,14 @@ test("package legal files are present and carry Raw2D attribution", async () => 
   }
 });
 
+test("package dependency metadata covers public declaration imports", async () => {
+  const canvas = await readManifest("canvas");
+  const webgl = await readManifest("webgl");
+
+  assert.equal(canvas.dependencies["raw2d-effects"], "1.25.0");
+  assert.equal(webgl.dependencies["raw2d-effects"], "1.25.0");
+});
+
 async function readManifest(dir) {
   return JSON.parse(await readFile(join("packages", dir, "package.json"), "utf8"));
 }
