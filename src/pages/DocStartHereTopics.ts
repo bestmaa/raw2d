@@ -39,10 +39,10 @@ renderer.render(scene, camera);`
       },
       {
         title: "Beginner Order",
-        body: "Read in this order: install, Canvas, Scene, Camera2D, Rect or Circle, Texture, Sprite, examples, Studio, WebGL, Interaction, then React or MCP only if needed.",
+        body: "Read in this order: install, Canvas, Scene, Camera2D, Rect or Circle, Texture, Sprite, examples, Studio, WebGL, Interaction, then React or MCP only if needed. Before publishing, finish the API freeze, migration, package readiness, and v1 release checklists.",
         code: `Start Here -> Canvas Init -> Scene -> Camera2D -> Rect
 Texture -> Sprite -> Examples -> Studio -> Canvas / WebGL -> Interaction Path
-React Later -> MCP`
+React Later -> MCP -> Package Readiness -> v1 Release Checklist`
       },
       {
         title: "When To Use Canvas",
@@ -62,13 +62,17 @@ const renderer = isWebGL2Available({ canvas: canvasElement })
       },
       {
         title: "What To Open Next",
-        body: "After this page, open Beginner Path for the step-by-step flow, Examples for copy-paste runnable scenes, then Studio to inspect how Raw2D scene data becomes an editor workflow.",
+        body: "After this page, open Beginner Path for the step-by-step flow, Examples for copy-paste runnable scenes, then Studio to inspect how Raw2D scene data becomes an editor workflow. Release-facing users should finish API freeze, migration, package readiness, and v1 release checklists.",
         code: `/doc#beginner-path
 /doc#examples
 /examples/canvas-basic/
 /examples/webgl-basic/
 /doc#studio-shell
-/studio`
+/studio
+/doc#api-freeze-checklist
+/doc#pre-v1-migration
+/doc#package-readiness-audit
+/doc#v1-release-checklist`
       }
     ]
   }

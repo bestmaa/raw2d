@@ -1,12 +1,15 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
 import test from "node:test";
+
+const version = JSON.parse(readFileSync("package.json", "utf8")).version;
 
 test("package readiness audit covers size tree-shaking CDN and fresh installs", async () => {
   const result = await runAudit();
 
   assert.equal(result.code, 0, result.output);
-  assert.match(result.output, /Raw2D package readiness audit v1\.25\.2/);
+  assert.match(result.output, new RegExp(`Raw2D package readiness audit v${escapeRegExp(version)}`));
   assert.match(result.output, /raw2d-webgl/);
   assert.match(result.output, /fresh install scripts: 7/);
   assert.match(result.output, /cdn entry: \.\/dist\/raw2d\.js \/ \.\/dist\/raw2d\.umd\.cjs/);
@@ -32,4 +35,8 @@ async function runAudit() {
   });
 
   return { code, output };
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

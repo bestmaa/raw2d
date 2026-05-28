@@ -83,13 +83,29 @@ export const docGroups: readonly DocGroup[] = [
   {
     id: "start-here",
     label: "Start Here",
-    description: "Install, first render, examples, releases, and publish basics.",
+    description: "Install, first render, examples, Studio, glossary, and license.",
     hiLabel: "Yahan Se Shuru Karein",
-    hiDescription: "Install, pehla render, examples, releases, aur publish basics.",
+    hiDescription: "Install, pehla render, examples, Studio, glossary, aur license.",
     topics: [
       ...startHereTopics,
       ...setupTopics,
       ...beginnerPathTopics,
+      ...exampleTopics,
+      ...showcaseTopics,
+      ...studioTopics,
+      ...studioDemoTopics,
+      ...docQaChecklistTopics,
+      ...glossaryTopics,
+      ...licenseTopics
+    ]
+  },
+  {
+    id: "release-readiness",
+    label: "Release Readiness",
+    description: "API freeze, package audits, publish flow, CDN checks, and browser QA.",
+    hiLabel: "Release Readiness",
+    hiDescription: "API freeze, package audits, publish flow, CDN checks, aur browser QA.",
+    topics: [
       ...publicApiTopics,
       ...apiFreezeTopics,
       ...migrationTopics,
@@ -109,14 +125,7 @@ export const docGroups: readonly DocGroup[] = [
       ...darkOverflowTopics,
       ...consoleAuditTopics,
       ...accessibilityTopics,
-      ...canvasQATopics,
-      ...exampleTopics,
-      ...showcaseTopics,
-      ...studioTopics,
-      ...studioDemoTopics,
-      ...docQaChecklistTopics,
-      ...glossaryTopics,
-      ...licenseTopics
+      ...canvasQATopics
     ]
   },
   {

@@ -19,6 +19,11 @@ import examples from "../../docs/Examples.md?raw";
 import gettingStarted from "../../docs/GettingStarted.md?raw";
 import glossary from "../../docs/Glossary.md?raw";
 import v1Install from "../../docs/V1Install.md?raw";
+import v1ReleaseChecklist from "../../docs/V1ReleaseChecklist.md?raw";
+import npmPublishChecklist from "../../docs/NpmPublishChecklist.md?raw";
+import apiFreezeChecklist from "../../docs/APIFreezeChecklist.md?raw";
+import docsDeployChecklist from "../../docs/DocsDeployChecklist.md?raw";
+import cdnVerificationChecklist from "../../docs/CDNVerificationChecklist.md?raw";
 import group2d from "../../docs/Group2D.md?raw";
 import hitTesting from "../../docs/HitTesting.md?raw";
 import interactionController from "../../docs/InteractionController.md?raw";
@@ -83,6 +88,11 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "GettingStarted.md", content: gettingStarted },
   { id: "v1-install", label: "V1 Install", filename: "V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "PublicAPI.md", content: publicApi },
+  { id: "v1-release-checklist", label: "v1 Release Checklist", filename: "V1ReleaseChecklist.md", content: v1ReleaseChecklist },
+  { id: "npm-publish-checklist", label: "npm Publish Checklist", filename: "NpmPublishChecklist.md", content: npmPublishChecklist },
+  { id: "api-freeze-checklist", label: "API Freeze Checklist", filename: "APIFreezeChecklist.md", content: apiFreezeChecklist },
+  { id: "docs-deploy-checklist", label: "Docs Deploy Checklist", filename: "DocsDeployChecklist.md", content: docsDeployChecklist },
+  { id: "cdn-verification-checklist", label: "CDN Verification Checklist", filename: "CDNVerificationChecklist.md", content: cdnVerificationChecklist },
   {
     id: "public-beta-hardening-plan",
     label: "Public Beta Hardening",

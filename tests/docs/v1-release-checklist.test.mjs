@@ -11,11 +11,13 @@ test("v1 release checklist covers API, docs, package, and publish gates", async 
   for (const content of [english, hinglish, topics]) {
     assert.match(content, /API Freeze/);
     assert.match(content, /CanvasRenderer/);
-    assert.match(content, /npm pack/);
+    assert.match(content, /npm pack|pack:check/);
+    assert.match(content, /audit:package/);
+    assert.match(content, /test:consumer/);
     assert.match(content, /jsDelivr|jsdelivr/i);
+    assert.match(content, /focused|focused package|focused packages/i);
   }
 
   assert.match(topics, /v1-release-checklist/);
   assert.match(registry, /releaseTopics/);
 });
-

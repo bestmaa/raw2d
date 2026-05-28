@@ -55,6 +55,7 @@ Docs padhte waqt ye flow follow karein:
 9. Canvas / WebGL
 10. Interaction Path
 11. React ya MCP, sirf jab project me zarurat ho
+12. Publish se pehle Package Readiness aur v1 Release Checklist
 
 ## Canvas First
 
@@ -66,4 +67,4 @@ WebGL tab use karein jab scene me bahut objects, sprites, texture atlas, ya draw
 
 ## Next
 
-Next docs: `/doc#beginner-path`, phir `/examples/canvas-basic/`, phir `/examples/webgl-basic/`, phir `/doc#studio-shell` aur `/studio`.
+Next docs: `/doc#beginner-path`, phir `/examples/canvas-basic/`, phir `/examples/webgl-basic/`, phir `/doc#studio-shell` aur `/studio`. Publish ya production release se pehle `/doc#api-freeze-checklist`, `/doc#pre-v1-migration`, `/doc#package-readiness-audit`, aur `/doc#v1-release-checklist` open karein.

@@ -9,10 +9,12 @@ export const publishTopics: readonly DocTopic[] = [
     sections: [
       {
         title: "Before Publish",
-        body: "Confirm the version was intentionally changed, release notes were updated, and all package manifests agree on the same release version.",
+        body: "Confirm the version was intentionally changed, release notes were updated, all package manifests agree on the same release version, and package readiness passed.",
         code: `npm run typecheck
 npm test
 npm run pack:check -- --silent
+npm run audit:package
+npm run test:consumer
 git status --short`
       },
       {
@@ -24,18 +26,28 @@ git push origin v0.10.9`
       },
       {
         title: "npm Verification",
-        body: "After the workflow finishes, verify the umbrella package and focused packages from npm before announcing the release.",
+        body: "After the workflow finishes, verify the umbrella package and every focused package from npm before announcing the release.",
         code: `npm view raw2d version
 npm view raw2d-core version
 npm view raw2d-canvas version
 npm view raw2d-webgl version
-npm view raw2d-react version`
+npm view raw2d-sprite version
+npm view raw2d-text version
+npm view raw2d-effects version
+npm view raw2d-interaction version
+npm view raw2d-mcp version
+npm view raw2d-react version
+npm view raw2d-react-fiber version`
       },
       {
-        title: "Consumer Check",
-        body: "Create a temporary consumer project or run the package import tests so the published package is known to install and build.",
-        code: `node --test tests/package/import-consumer.test.mjs
-curl -I https://cdn.jsdelivr.net/npm/raw2d@0.10.9/dist/raw2d.js`
+        title: "CDN And Consumer Check",
+        body: "Run the consumer install checks and verify umbrella plus focused jsDelivr URLs once npm has the published version.",
+        code: `npm run test:consumer
+npm run test:cdn:pinned -- --live
+curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-core@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-canvas@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-webgl@VERSION/dist/index.js`
       }
     ]
   }

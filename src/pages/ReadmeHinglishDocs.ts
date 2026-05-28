@@ -11,6 +11,11 @@ import examples from "../../docs/hi/Examples.md?raw";
 import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
 import glossary from "../../docs/hi/Glossary.md?raw";
 import v1Install from "../../docs/hi/V1Install.md?raw";
+import v1ReleaseChecklist from "../../docs/hi/V1ReleaseChecklist.md?raw";
+import npmPublishChecklist from "../../docs/hi/NpmPublishChecklist.md?raw";
+import apiFreezeChecklist from "../../docs/hi/APIFreezeChecklist.md?raw";
+import docsDeployChecklist from "../../docs/hi/DocsDeployChecklist.md?raw";
+import cdnVerificationChecklist from "../../docs/hi/CDNVerificationChecklist.md?raw";
 import scene from "../../docs/hi/Scene.md?raw";
 import camera2d from "../../docs/hi/Camera2D.md?raw";
 import cameraWorldBounds from "../../docs/hi/CameraWorldBounds.md?raw";
@@ -83,6 +88,11 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "getting-started", label: "Getting Started", filename: "hi/GettingStarted.md", content: gettingStarted },
   { id: "v1-install", label: "V1 Install", filename: "hi/V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "hi/PublicAPI.md", content: publicApi },
+  { id: "v1-release-checklist", label: "v1 Release Checklist", filename: "hi/V1ReleaseChecklist.md", content: v1ReleaseChecklist },
+  { id: "npm-publish-checklist", label: "npm Publish Checklist", filename: "hi/NpmPublishChecklist.md", content: npmPublishChecklist },
+  { id: "api-freeze-checklist", label: "API Freeze Checklist", filename: "hi/APIFreezeChecklist.md", content: apiFreezeChecklist },
+  { id: "docs-deploy-checklist", label: "Docs Deploy Checklist", filename: "hi/DocsDeployChecklist.md", content: docsDeployChecklist },
+  { id: "cdn-verification-checklist", label: "CDN Verification Checklist", filename: "hi/CDNVerificationChecklist.md", content: cdnVerificationChecklist },
   {
     id: "public-beta-hardening-plan",
     label: "Public Beta Hardening",

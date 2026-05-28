@@ -14,6 +14,8 @@ test("docs pager exposes beginner group progress and stable topic ids", () => {
 
 test("beginner docs keep Start Here as the first navigation group", () => {
   assert.match(topics, /id: "start-here"/);
+  assert.match(topics, /id: "release-readiness"/);
   assert.ok(topics.indexOf("id: \"start-here\"") < topics.indexOf("id: \"scene-foundations\""));
+  assert.ok(topics.indexOf("id: \"release-readiness\"") < topics.indexOf("id: \"scene-foundations\""));
   assert.ok(topics.indexOf("...startHereTopics") < topics.indexOf("...setupTopics"));
 });

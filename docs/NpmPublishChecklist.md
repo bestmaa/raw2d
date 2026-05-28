@@ -27,8 +27,9 @@ default path because the workflow already handles the npm token.
 ## npm Verification
 
 - Check `npm view raw2d version`.
-- Check focused packages such as `raw2d-core`, `raw2d-canvas`, `raw2d-webgl`,
-  and `raw2d-react`.
+- Check every focused package: `raw2d-core`, `raw2d-canvas`, `raw2d-webgl`,
+  `raw2d-sprite`, `raw2d-text`, `raw2d-effects`, `raw2d-interaction`,
+  `raw2d-mcp`, `raw2d-react`, and `raw2d-react-fiber`.
 - Confirm package README and metadata render correctly on npm.
 
 ## CDN Verification
@@ -41,4 +42,11 @@ curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.umd.cjs
 curl -I https://cdn.jsdelivr.net/npm/raw2d-core@VERSION/dist/index.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d-canvas@VERSION/dist/index.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d-webgl@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-sprite@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-text@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-effects@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-interaction@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-mcp@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-react@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-react-fiber@VERSION/dist/index.js
 ```

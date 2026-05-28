@@ -1,5 +1,13 @@
 # Raw2D Release Notes
 
+## v1.25.3 - v1 Docs Polish
+
+Raw2D v1.25.3 polishes the v1 user path across beginner docs, Hinglish parity, and release checklists.
+
+- Start Here and Beginner Path now connect first render learning to API freeze, migration, package readiness, and v1 release checklists.
+- v1 release checklists now include `audit:package`, fresh consumer install smokes, focused CDN verification, and package readiness language.
+- All Raw2D workspace packages are fixed-version bumped to `1.25.3`.
+
 ## v1.25.2 - Final Package Readiness Audit
 
 Raw2D v1.25.2 adds the final package readiness audit for the v1 hardening pass.

@@ -12,8 +12,9 @@ test("docs navigation groups include English and Hinglish descriptions", async (
 
   assert.match(typeSource, /readonly description: string/);
   assert.match(typeSource, /readonly hiDescription: string/);
-  assert.equal(countMatches(topicSource, "description:"), 8);
-  assert.equal(countMatches(topicSource, "hiDescription:"), 8);
+  assert.equal(countMatches(topicSource, "description:"), 9);
+  assert.equal(countMatches(topicSource, "hiDescription:"), 9);
+  assert.match(topicSource, /id: "release-readiness"/);
   assert.match(sidebarSource, /doc-nav-group-description/);
   assert.match(sidebarSource, /group\.hiDescription : group\.description/);
 });

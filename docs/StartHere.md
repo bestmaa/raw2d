@@ -55,6 +55,7 @@ Use this order while learning:
 9. Canvas / WebGL
 10. Interaction Path
 11. React Later or MCP only if needed
+12. Package Readiness and v1 Release Checklist before publishing
 
 ## Canvas First
 
@@ -66,4 +67,4 @@ WebGL is the batch-first renderer. Use it for many sprites, texture atlas scenes
 
 ## Next
 
-Open `/doc#beginner-path`, then `/examples/canvas-basic/`, then `/examples/webgl-basic/`, then `/doc#studio-shell` and `/studio`.
+Open `/doc#beginner-path`, then `/examples/canvas-basic/`, then `/examples/webgl-basic/`, then `/doc#studio-shell` and `/studio`. Before publish or production release, open `/doc#api-freeze-checklist`, `/doc#pre-v1-migration`, `/doc#package-readiness-audit`, and `/doc#v1-release-checklist`.

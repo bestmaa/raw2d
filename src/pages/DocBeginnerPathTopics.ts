@@ -101,6 +101,15 @@ renderer.render(scene, camera);`
 /doc#studio-tools
 /doc#studio-scene-format
 /studio`
+      },
+      {
+        title: "10. Before Production Or Release",
+        body: "When the app moves from learning to release work, read the public API, migration, package readiness, and v1 release checklists. These pages make Raw2D's package boundaries and publish gates explicit.",
+        code: `/doc#public-api
+/doc#api-freeze-checklist
+/doc#pre-v1-migration
+/doc#package-readiness-audit
+/doc#v1-release-checklist`
       }
     ]
   }

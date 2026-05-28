@@ -33,7 +33,12 @@ test("core beginner Hinglish markdown avoids awkward mixed copy", async () => {
     "docs/hi/WebGLWhenNeeded.md",
     "docs/hi/ReactAdapterVsFiber.md",
     "docs/hi/Raw2DMCPBeginner.md",
-    "docs/hi/PublicBetaHardeningPlan.md"
+    "docs/hi/PublicBetaHardeningPlan.md",
+    "docs/hi/V1ReleaseChecklist.md",
+    "docs/hi/NpmPublishChecklist.md",
+    "docs/hi/APIFreezeChecklist.md",
+    "docs/hi/DocsDeployChecklist.md",
+    "docs/hi/CDNVerificationChecklist.md"
   ];
 
   for (const path of paths) {
@@ -41,6 +46,23 @@ test("core beginner Hinglish markdown avoids awkward mixed copy", async () => {
     assert.doesNotMatch(content, /Why Use करें|Use करें|samajhna easy|good|required nahi/);
     assert.doesNotMatch(content, /Pehle .* use karo|wait karo|add karna nahi hai/);
   }
+});
+
+test("Hinglish interactive release checklists use release-specific copy", async () => {
+  const hinglishSource = await readText("src/pages/DocHinglishReleaseCopy.ts");
+
+  for (const topicId of [
+    "v1-release-checklist",
+    "npm-publish-checklist",
+    "api-freeze-checklist",
+    "docs-deploy-checklist",
+    "cdn-verification-checklist"
+  ]) {
+    assert.match(hinglishSource, new RegExp(topicId));
+  }
+
+  assert.match(hinglishSource, /release gate/);
+  assert.match(hinglishSource, /package version parity/);
 });
 
 test("Studio Hinglish markdown uses polished app copy", async () => {

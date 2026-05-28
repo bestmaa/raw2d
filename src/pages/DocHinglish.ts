@@ -1,4 +1,5 @@
 import type { DocSection, DocTopic } from "./DocPage.type";
+import { createHinglishReleaseBody, releaseTopicCopy } from "./DocHinglishReleaseCopy";
 
 interface TopicCopy { readonly label: string; readonly title: string; readonly description: string; }
 
@@ -217,7 +218,7 @@ const bodyCopy = new Map<string, string>([
 ]);
 
 export function createHinglishTopic(topic: DocTopic): DocTopic {
-  const copy = topicCopy[topic.id] ?? fallbackTopic(topic);
+  const copy = topicCopy[topic.id] ?? releaseTopicCopy[topic.id] ?? fallbackTopic(topic);
 
   return {
     ...topic,
@@ -230,13 +231,8 @@ export function createHinglishTopic(topic: DocTopic): DocTopic {
 
 function createHinglishSection(topic: DocTopic, section: DocSection): DocSection {
   const title = titleCopy.get(section.title) ?? section.title;
-  const body = bodyCopy.get(section.title) ?? createDefaultBody(topic, title);
-
-  return {
-    ...section,
-    title,
-    body
-  };
+  const body = bodyCopy.get(section.title) ?? createHinglishReleaseBody(topic, title) ?? createDefaultBody(topic, title);
+  return { ...section, title, body };
 }
 
 function createDefaultBody(topic: DocTopic, sectionTitle: string): string {

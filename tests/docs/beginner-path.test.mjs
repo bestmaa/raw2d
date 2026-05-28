@@ -29,3 +29,12 @@ test("beginner path sends users to Studio after examples", () => {
   assert.match(source, /\/studio/);
   assert.ok(source.indexOf("8. Next Examples") < source.indexOf("9. Open Studio After Examples"));
 });
+
+test("beginner path leads release-facing users to v1 readiness docs", () => {
+  assert.match(source, /Before Production Or Release/);
+  assert.match(source, /\/doc#public-api/);
+  assert.match(source, /\/doc#api-freeze-checklist/);
+  assert.match(source, /\/doc#pre-v1-migration/);
+  assert.match(source, /\/doc#package-readiness-audit/);
+  assert.match(source, /\/doc#v1-release-checklist/);
+});

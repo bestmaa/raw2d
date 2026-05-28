@@ -14,6 +14,8 @@ test("start here docs define the first-time user path", () => {
     assert.match(content, /Scene/);
     assert.match(content, /Camera2D/);
     assert.match(content, /WebGL/);
+    assert.match(content, /package-readiness-audit|Package Readiness/);
+    assert.match(content, /v1-release-checklist|v1 Release Checklist/);
   }
 });
 

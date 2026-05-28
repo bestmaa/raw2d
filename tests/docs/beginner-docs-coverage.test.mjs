@@ -26,6 +26,8 @@ test("beginner navigation keeps the expected early learning order", () => {
   assertBefore("...startHereTopics", "...setupTopics");
   assertBefore("...setupTopics", "...beginnerPathTopics");
   assertBefore("...beginnerPathTopics", "...publicApiTopics");
+  assertBefore("id: \"start-here\"", "id: \"release-readiness\"");
+  assertBefore("id: \"release-readiness\"", "id: \"scene-foundations\"");
   assertBefore("...exampleTopics", "...studioTopics");
   assertBefore("...canvasInitTopics", "...coreTopics");
   assertBefore("...webGLDecisionTopics", "...rendererChoiceTopics");

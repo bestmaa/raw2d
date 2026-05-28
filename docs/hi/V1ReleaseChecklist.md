@@ -15,7 +15,7 @@ Raw2D ko v1 stable bolne se pehle ye checklist complete karo.
 - CanvasRenderer complete reference renderer hai.
 - WebGLRenderer2D supported objects aur fallback behavior document karta hai.
 - WebGL diagnostics field names stable hain.
-- Bundle size audit pass hai.
+- Bundle size aur package readiness audits pass hain.
 
 ## Docs And Examples
 
@@ -30,6 +30,8 @@ Raw2D ko v1 stable bolne se pehle ye checklist complete karo.
 - Har package README, LICENSE, NOTICE, aur TRADEMARKS include karta hai.
 - Har package me repository, issue, homepage, aur keyword metadata hai.
 - `npm pack --workspaces --dry-run` expected package files dikhata hai.
+- `npm run audit:package` `issues: 0` report karta hai.
+- `npm run test:consumer` umbrella, focused, Canvas, WebGL, MCP, aur React fresh install smoke tests pass karta hai.
 
 ## Publish Verification
 
@@ -37,5 +39,5 @@ Raw2D ko v1 stable bolne se pehle ye checklist complete karo.
 - Git tag push hua hai.
 - GitHub Actions CI aur Publish pass hain.
 - npm versions visible hain.
-- jsDelivr URLs 200 return karte hain.
+- jsDelivr umbrella aur focused package URLs 200 return karte hain.
 - `https://raw2d.com/doc` 200 return karta hai.

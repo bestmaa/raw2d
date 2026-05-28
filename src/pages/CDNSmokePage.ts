@@ -1,11 +1,11 @@
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene, Text2D } from "raw2d";
 
-const pinnedVersion = "1.25.2";
-const esmUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.js";
-const umdUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.umd.cjs";
-const coreUrl = "https://cdn.jsdelivr.net/npm/raw2d-core@1.25.2/dist/index.js";
-const canvasUrl = "https://cdn.jsdelivr.net/npm/raw2d-canvas@1.25.2/dist/index.js";
-const webglUrl = "https://cdn.jsdelivr.net/npm/raw2d-webgl@1.25.2/dist/index.js";
+const pinnedVersion = "1.25.3";
+const esmUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.3/dist/raw2d.js";
+const umdUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.3/dist/raw2d.umd.cjs";
+const coreUrl = "https://cdn.jsdelivr.net/npm/raw2d-core@1.25.3/dist/index.js";
+const canvasUrl = "https://cdn.jsdelivr.net/npm/raw2d-canvas@1.25.3/dist/index.js";
+const webglUrl = "https://cdn.jsdelivr.net/npm/raw2d-webgl@1.25.3/dist/index.js";
 
 export function renderCDNSmokePage(root: HTMLElement): void {
   root.innerHTML = `

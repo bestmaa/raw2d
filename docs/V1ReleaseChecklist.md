@@ -15,7 +15,7 @@ Use this checklist before Raw2D is marked as v1 stable.
 - CanvasRenderer remains the complete reference renderer.
 - WebGLRenderer2D documents supported objects and fallback behavior.
 - WebGL diagnostics keep stable field names.
-- Bundle size audit passes.
+- Bundle size and package readiness audits pass.
 
 ## Docs And Examples
 
@@ -30,6 +30,8 @@ Use this checklist before Raw2D is marked as v1 stable.
 - Every package includes README, LICENSE, NOTICE, and TRADEMARKS.
 - Every package has repository, issue, homepage, and keyword metadata.
 - `npm pack --workspaces --dry-run` shows the expected package files.
+- `npm run audit:package` reports `issues: 0`.
+- `npm run test:consumer` passes umbrella, focused, Canvas, WebGL, MCP, and React fresh install smoke tests.
 
 ## Publish Verification
 
@@ -37,5 +39,5 @@ Use this checklist before Raw2D is marked as v1 stable.
 - Git tag is pushed.
 - GitHub Actions CI and Publish pass.
 - npm versions are visible.
-- jsDelivr URLs return 200.
+- jsDelivr umbrella and focused package URLs return 200.
 - `https://raw2d.com/doc` returns 200.

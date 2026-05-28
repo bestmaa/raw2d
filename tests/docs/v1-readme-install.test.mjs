@@ -19,6 +19,17 @@ test("README and /readme docs cover v1 install and package split", async () => {
   assert.match(hiDoc, /V1 Install Aur Package Split/);
   assert.match(readmeDocs, /V1Install\.md/);
   assert.match(readmeHiDocs, /hi\/V1Install\.md/);
+
+  for (const filename of [
+    "V1ReleaseChecklist.md",
+    "NpmPublishChecklist.md",
+    "APIFreezeChecklist.md",
+    "DocsDeployChecklist.md",
+    "CDNVerificationChecklist.md"
+  ]) {
+    assert.match(readmeDocs, new RegExp(filename));
+    assert.match(readmeHiDocs, new RegExp(`hi/${filename}`));
+  }
 });
 
 async function readText(path) {
