@@ -13,6 +13,7 @@ export interface StudioLayerItem {
   readonly label: string;
   readonly type: string;
   readonly visible: boolean;
+  readonly depth?: number;
 }
 
 export interface StudioPropertyRow {

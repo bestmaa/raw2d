@@ -31,6 +31,8 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   assert.match(layout, /data-action="sample-scene"/);
   assert.match(layout, /data-action="undo"/);
   assert.match(layout, /data-action="redo"/);
+  assert.match(layout, /data-action="group"/);
+  assert.match(layout, /data-action="ungroup"/);
   assert.match(layout, /data-action="save-scene"/);
   assert.match(layout, /data-action="load-scene"/);
   assert.match(layout, /data-action="export-png"/);
@@ -60,7 +62,11 @@ test("Studio shell serves visual editor controls and runtime wiring", async (t) 
   const app = await fetchText("/studio/src/StudioApp.ts");
   assert.match(app, /applyStudioHistoryCommand/);
   assert.match(app, /createStudioCreateObjectCommand/);
-  assert.match(app, /createStudioDeleteObjectsCommand/);
+  assert.match(app, /createStudioKeyboardCommand/);
+
+  const keyboardFactory = await fetchText("/studio/src/StudioKeyboardCommandFactory.ts");
+  assert.match(keyboardFactory, /createStudioDeleteObjectsCommand/);
+  assert.match(keyboardFactory, /createStudioTransformBatchCommand/);
 
   const appActions = await fetchText("/studio/src/StudioAppActions.ts");
   assert.match(appActions, /copyStudioCanvasCode/);

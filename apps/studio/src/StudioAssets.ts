@@ -42,7 +42,7 @@ export function getStudioAssetObjects(options: StudioAssetLookupOptions): readon
   }
 
   return asset.objectIds
-    .map((objectId) => options.scene.objects.find((object) => object.id === objectId))
+    .map((objectId) => findStudioObject(options.scene.objects, objectId))
     .filter((object): object is StudioSceneObject => Boolean(object));
 }
 
@@ -116,9 +116,20 @@ function createNextStudioAssetId(assets: readonly StudioAssetState[]): string {
 }
 
 function assertSceneObjectExists(scene: StudioSceneState, objectId: string): void {
-  if (!scene.objects.some((object) => object.id === objectId)) {
+  if (!findStudioObject(scene.objects, objectId)) {
     throw new Error(`Studio asset object reference was not found: ${objectId}`);
   }
+}
+
+function findStudioObject(objects: readonly StudioSceneObject[], objectId: string): StudioSceneObject | undefined {
+  for (const object of objects) {
+    if (object.id === objectId) return object;
+    if (object.type === "group") {
+      const child = findStudioObject(object.children, objectId);
+      if (child) return child;
+    }
+  }
+  return undefined;
 }
 
 function normalizeAssetName(name: string): string {

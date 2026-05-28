@@ -22,6 +22,7 @@ export interface StudioCreateObjectCommand {
   readonly kind: "create-object";
   readonly object: StudioSceneObject;
   readonly index?: number;
+  readonly parentId?: string;
 }
 
 export interface StudioDeleteObjectCommand {
@@ -29,6 +30,7 @@ export interface StudioDeleteObjectCommand {
   readonly objectId: string;
   readonly object: StudioSceneObject;
   readonly index: number;
+  readonly parentId?: string;
 }
 
 export interface StudioUpdateTransformCommand {
@@ -73,6 +75,12 @@ export interface StudioUpdateSpriteAssetCommand {
   readonly afterAssetSlot: string;
 }
 
+export interface StudioReplaceObjectsCommand {
+  readonly kind: "replace-objects";
+  readonly before: readonly StudioSceneObject[];
+  readonly after: readonly StudioSceneObject[];
+}
+
 export type StudioSingleCommand =
   | StudioCreateObjectCommand
   | StudioDeleteObjectCommand
@@ -81,7 +89,8 @@ export type StudioSingleCommand =
   | StudioUpdateTextCommand
   | StudioSetVisibilityCommand
   | StudioReorderObjectCommand
-  | StudioUpdateSpriteAssetCommand;
+  | StudioUpdateSpriteAssetCommand
+  | StudioReplaceObjectsCommand;
 
 export interface StudioBatchCommand {
   readonly kind: "batch";

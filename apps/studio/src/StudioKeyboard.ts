@@ -1,4 +1,5 @@
 import type { ApplyStudioKeyboardOptions, StudioHistoryKeyboardAction, StudioKeyboardCommand, StudioKeyboardResult } from "./StudioKeyboard.type";
+import { mapStudioSceneObjects, removeStudioSceneObject } from "./StudioSceneGraph";
 import { getPrimaryStudioSelectionId, normalizeStudioSelection } from "./StudioSelection";
 
 const arrowDeltas = {
@@ -29,10 +30,7 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
 
   if (options.command.key === "Delete" || options.command.key === "Backspace") {
     return {
-      scene: {
-        ...options.scene,
-        objects: options.scene.objects.filter((object) => !selectedObjectIds.includes(object.id))
-      },
+      scene: deleteSelectedObjects(options.scene, selectedObjectIds),
       selectedObjectId: undefined,
       selectedObjectIds: [],
       handled: true
@@ -55,7 +53,7 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
   return {
     scene: {
       ...options.scene,
-      objects: options.scene.objects.map((object) => {
+      objects: mapStudioSceneObjects(options.scene.objects, (object) => {
         if (!selectedObjectIds.includes(object.id)) {
           return object;
         }
@@ -71,6 +69,10 @@ export function applyStudioKeyboardCommand(options: ApplyStudioKeyboardOptions):
     selectedObjectIds,
     handled: true
   };
+}
+
+function deleteSelectedObjects(scene: ApplyStudioKeyboardOptions["scene"], selectedObjectIds: readonly string[]): ApplyStudioKeyboardOptions["scene"] {
+  return selectedObjectIds.reduce((nextScene, objectId) => removeStudioSceneObject(nextScene, objectId) ?? nextScene, scene);
 }
 
 export function getStudioHistoryKeyboardAction(command: StudioKeyboardCommand): StudioHistoryKeyboardAction | undefined {

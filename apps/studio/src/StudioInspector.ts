@@ -2,6 +2,7 @@ import type { StudioInspectorModel, StudioInspectorOptions } from "./StudioInspe
 import type { StudioPropertyRow } from "./StudioLayout.type";
 import type { StudioPropertyField } from "./StudioProperties.type";
 import type { StudioMaterialState, StudioSceneObject, StudioSceneState } from "./StudioSceneState.type";
+import { flattenStudioSceneObjects } from "./StudioSceneGraph";
 
 export function createStudioInspectorModel(
   scene: StudioSceneState,
@@ -9,16 +10,18 @@ export function createStudioInspectorModel(
   options: StudioInspectorOptions = {}
 ): StudioInspectorModel {
   const selectedObjectIds = options.selectedObjectIds ?? (options.selectedObjectId ? [options.selectedObjectId] : []);
+  const entries = flattenStudioSceneObjects(scene);
   const selectedObject = selectedObjectIds.length === 1
-    ? scene.objects.find((object) => object.id === selectedObjectIds[0])
+    ? entries.find((entry) => entry.object.id === selectedObjectIds[0])?.object
     : undefined;
 
   return {
-    layers: scene.objects.map((object) => ({
-      id: object.id,
-      label: object.name,
-      type: object.type,
-      visible: object.visible ?? true
+    layers: entries.map((entry) => ({
+      id: entry.object.id,
+      label: entry.object.name,
+      type: entry.object.type,
+      visible: entry.object.visible ?? true,
+      depth: entry.depth
     })),
     properties: createProperties(scene, rendererLabel, selectedObject, selectedObjectIds.length),
     propertyFields: createPropertyFields(selectedObject)
@@ -95,7 +98,7 @@ function createObjectProperties(object: StudioSceneObject): readonly StudioPrope
     ];
   }
 
-  return transformRows;
+  return [...transformRows, { label: "Children", value: String(object.children.length) }];
 }
 
 function createPropertyFields(object: StudioSceneObject | undefined): readonly StudioPropertyField[] {

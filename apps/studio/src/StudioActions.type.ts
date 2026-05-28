@@ -7,6 +7,8 @@ export type StudioAction =
   | "export-png"
   | "copy-canvas-code"
   | "copy-webgl-code"
+  | "group"
+  | "ungroup"
   | "rect"
   | "circle"
   | "line"

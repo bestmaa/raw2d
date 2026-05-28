@@ -1,15 +1,16 @@
 import type { ApplyStudioLayerActionOptions, StudioLayerActionResult } from "./StudioLayers.type";
+import { findStudioSceneObject, mapStudioSceneObjects } from "./StudioSceneGraph";
 import { getPrimaryStudioSelectionId, normalizeStudioSelection, updateStudioSelection } from "./StudioSelection";
-import type { StudioSceneObject } from "./StudioSceneState.type";
+import type { StudioGroupState, StudioSceneObject } from "./StudioSceneState.type";
 
 export function applyStudioLayerAction(options: ApplyStudioLayerActionOptions): StudioLayerActionResult {
-  const index = options.scene.objects.findIndex((object) => object.id === options.objectId);
+  const entry = findStudioSceneObject(options.scene, options.objectId);
   const selectedObjectIds = normalizeStudioSelection({
     scene: options.scene,
     selectedObjectIds: options.selectedObjectIds ?? (options.selectedObjectId ? [options.selectedObjectId] : [])
   });
 
-  if (index === -1) {
+  if (!entry) {
     return { scene: options.scene, selectedObjectId: getPrimaryStudioSelectionId(selectedObjectIds), selectedObjectIds, handled: false };
   }
 
@@ -32,7 +33,7 @@ export function applyStudioLayerAction(options: ApplyStudioLayerActionOptions): 
     return {
       scene: {
         ...options.scene,
-        objects: options.scene.objects.map((object) =>
+        objects: mapStudioSceneObjects(options.scene.objects, (object) =>
           object.id === options.objectId ? { ...object, visible: !(object.visible ?? true) } : object
         )
       },
@@ -42,22 +43,27 @@ export function applyStudioLayerAction(options: ApplyStudioLayerActionOptions): 
     };
   }
 
-  return moveLayer(options, index, selectedObjectIds);
+  return moveLayer(options, entry.index, selectedObjectIds, entry.parentId);
 }
 
 function moveLayer(
   options: ApplyStudioLayerActionOptions,
   index: number,
-  selectedObjectIds: readonly string[]
+  selectedObjectIds: readonly string[],
+  parentId: string | undefined
 ): StudioLayerActionResult {
   const direction = options.action === "move-up" ? -1 : 1;
   const targetIndex = index + direction;
 
-  if (targetIndex < 0 || targetIndex >= options.scene.objects.length) {
+  const siblings = parentId
+    ? (findStudioSceneObject(options.scene, parentId)?.object as StudioGroupState | undefined)?.children
+    : options.scene.objects;
+
+  if (!siblings || targetIndex < 0 || targetIndex >= siblings.length) {
     return { scene: options.scene, selectedObjectId: getPrimaryStudioSelectionId(selectedObjectIds), selectedObjectIds, handled: false };
   }
 
-  const objects = [...options.scene.objects];
+  const objects = [...siblings];
   const current = objects[index];
   const target = objects[targetIndex];
 
@@ -69,9 +75,24 @@ function moveLayer(
   objects[targetIndex] = current;
 
   return {
-    scene: { ...options.scene, objects: objects as readonly StudioSceneObject[] },
+    scene: parentId
+      ? replaceGroupChildren(options, parentId, objects)
+      : { ...options.scene, objects: objects as readonly StudioSceneObject[] },
     selectedObjectId: options.objectId,
     selectedObjectIds: [options.objectId],
     handled: true
+  };
+}
+
+function replaceGroupChildren(
+  options: ApplyStudioLayerActionOptions,
+  parentId: string,
+  children: readonly StudioSceneObject[]
+): ApplyStudioLayerActionOptions["scene"] {
+  return {
+    ...options.scene,
+    objects: mapStudioSceneObjects(options.scene.objects, (object) =>
+      object.id === parentId && object.type === "group" ? { ...object, children } : object
+    )
   };
 }

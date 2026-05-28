@@ -13,6 +13,8 @@ export interface StudioAppActionBindingOptions {
   readonly resetHistory: () => void;
   readonly onUndo: () => void;
   readonly onRedo: () => void;
+  readonly onGroup: () => void;
+  readonly onUngroup: () => void;
   readonly onCreateObject: (action: StudioAction) => void;
   readonly mount: () => void;
 }

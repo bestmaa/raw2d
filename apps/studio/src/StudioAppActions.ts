@@ -56,6 +56,16 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
+  if (action === "group") {
+    options.onGroup();
+    return;
+  }
+
+  if (action === "ungroup") {
+    options.onUngroup();
+    return;
+  }
+
   if (action === "save-scene") {
     downloadStudioScene({ scene: options.getScene() });
     return;

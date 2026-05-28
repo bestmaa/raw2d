@@ -13,6 +13,9 @@ async function importResizeModule() {
   const textSource = readFileSync("apps/studio/src/StudioTextResize.ts", "utf8");
   const textOutput = transpile(textSource);
   const textUrl = `data:text/javascript;base64,${Buffer.from(textOutput).toString("base64")}`;
+  const graphSource = readFileSync("apps/studio/src/StudioSceneGraph.ts", "utf8");
+  const graphOutput = transpile(graphSource);
+  const graphUrl = `data:text/javascript;base64,${Buffer.from(graphOutput).toString("base64")}`;
   const boundsSource = readFileSync("apps/studio/src/StudioObjectBounds.ts", "utf8");
   const boundsOutput = transpile(boundsSource)
     .replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`)
@@ -23,6 +26,7 @@ async function importResizeModule() {
     .replaceAll('from "./StudioBoxResize";', `from "${boxUrl}";`)
     .replaceAll('from "./StudioLineResize";', `from "${lineUrl}";`)
     .replaceAll('from "./StudioObjectBounds";', `from "${boundsUrl}";`)
+    .replaceAll('from "./StudioSceneGraph";', `from "${graphUrl}";`)
     .replaceAll('from "./StudioTextResize";', `from "${textUrl}";`);
   const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
   return import(url);

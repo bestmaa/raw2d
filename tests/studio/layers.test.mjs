@@ -13,15 +13,18 @@ async function importLayersModule(t) {
 
   await writeTranspiledModule("apps/studio/src/StudioLineResize.ts", join(directory, "StudioLineResize.js"));
   await writeTranspiledModule("apps/studio/src/StudioTextResize.ts", join(directory, "StudioTextResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioSceneGraph.ts", join(directory, "StudioSceneGraph.js"));
   await writeTranspiledModule("apps/studio/src/StudioObjectBounds.ts", join(directory, "StudioObjectBounds.js"), {
     "./StudioLineResize": "./StudioLineResize.js",
     "./StudioTextResize": "./StudioTextResize.js"
   });
   await writeTranspiledModule("apps/studio/src/StudioSelection.ts", join(directory, "StudioSelection.js"), {
-    "./StudioObjectBounds": "./StudioObjectBounds.js"
+    "./StudioObjectBounds": "./StudioObjectBounds.js",
+    "./StudioSceneGraph": "./StudioSceneGraph.js"
   });
   await writeTranspiledModule("apps/studio/src/StudioLayers.ts", join(directory, "StudioLayers.js"), {
-    "./StudioSelection": "./StudioSelection.js"
+    "./StudioSelection": "./StudioSelection.js",
+    "./StudioSceneGraph": "./StudioSceneGraph.js"
   });
 
   return import(pathToFileURL(join(directory, "StudioLayers.js")).href);

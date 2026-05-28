@@ -1,4 +1,5 @@
 import { getStudioObjectBounds } from "./StudioObjectBounds";
+import { flattenStudioSceneObjects } from "./StudioSceneGraph";
 import type {
   StudioSelectionBounds,
   StudioSelectionBoundsOptions,
@@ -7,16 +8,17 @@ import type {
 } from "./StudioSelection.type";
 
 export function normalizeStudioSelection(options: StudioSelectionOptions): readonly string[] {
-  const ids = new Set(options.scene.objects.map((object) => object.id));
+  const entries = flattenStudioSceneObjects(options.scene);
+  const entryById = new Map(entries.map((entry) => [entry.object.id, entry]));
   const selection: string[] = [];
 
   for (const id of options.selectedObjectIds) {
-    if (ids.has(id) && !selection.includes(id)) {
+    if (entryById.has(id) && !selection.includes(id)) {
       selection.push(id);
     }
   }
 
-  return selection;
+  return selection.filter((id) => !hasSelectedAncestor(id, selection, entryById));
 }
 
 export function updateStudioSelection(options: UpdateStudioSelectionOptions): readonly string[] {
@@ -46,9 +48,17 @@ export function getStudioSelectionBounds(options: StudioSelectionBoundsOptions):
     return undefined;
   }
 
-  const bounds = options.scene.objects
-    .filter((object) => selection.includes(object.id))
-    .map((object) => getStudioObjectBounds(object));
+  const bounds = flattenStudioSceneObjects(options.scene)
+    .filter((entry) => selection.includes(entry.object.id))
+    .map((entry) => {
+      const local = getStudioObjectBounds(entry.object);
+      return {
+        x: local.x + entry.worldX - entry.object.x,
+        y: local.y + entry.worldY - entry.object.y,
+        width: local.width,
+        height: local.height
+      };
+    });
 
   if (bounds.length === 0) {
     return undefined;
@@ -60,6 +70,24 @@ export function getStudioSelectionBounds(options: StudioSelectionBoundsOptions):
   const maxY = Math.max(...bounds.map((bound) => bound.y + bound.height));
 
   return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+}
+
+function hasSelectedAncestor(
+  objectId: string,
+  selection: readonly string[],
+  entryById: ReadonlyMap<string, ReturnType<typeof flattenStudioSceneObjects>[number]>
+): boolean {
+  let parentId = entryById.get(objectId)?.parentId;
+
+  while (parentId) {
+    if (selection.includes(parentId)) {
+      return true;
+    }
+
+    parentId = entryById.get(parentId)?.parentId;
+  }
+
+  return false;
 }
 
 export function drawStudioSelectionBounds(

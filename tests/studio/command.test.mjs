@@ -1,18 +1,35 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import test from "node:test";
 import ts from "typescript";
 
-async function importCommandModule() {
-  const source = readFileSync("apps/studio/src/StudioCommand.ts", "utf8");
-  const output = ts.transpileModule(source, {
+async function importCommandModule(t) {
+  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-command-"));
+  t.after(async () => rm(directory, { recursive: true, force: true }));
+  await writeTranspiledModule("apps/studio/src/StudioSceneGraph.ts", join(directory, "StudioSceneGraph.js"));
+  await writeTranspiledModule("apps/studio/src/StudioCommand.ts", join(directory, "StudioCommand.js"), {
+    "./StudioSceneGraph": "./StudioSceneGraph.js"
+  });
+  return import(pathToFileURL(join(directory, "StudioCommand.js")).href);
+}
+
+async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) {
+  const source = await readFile(sourcePath, "utf8");
+  let output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText;
-  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
-  return import(url);
+
+  for (const [from, to] of Object.entries(replacements)) {
+    output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+  }
+
+  await writeFile(outputPath, output);
 }
 
 function createScene() {
@@ -29,8 +46,8 @@ function createScene() {
   };
 }
 
-test("Studio create command applies and inverts", async () => {
-  const module = await importCommandModule();
+test("Studio create command applies and inverts", async (t) => {
+  const module = await importCommandModule(t);
   const object = { id: "sprite-1", type: "sprite", name: "Sprite 1", x: 200, y: 120, width: 64, height: 64, assetSlot: "empty" };
   const command = { kind: "create-object", object, index: 1 };
   const created = module.applyStudioCommand({ scene: createScene(), command });
@@ -44,8 +61,8 @@ test("Studio create command applies and inverts", async () => {
   assert.deepEqual(reverted.scene.objects.map((candidate) => candidate.id), ["rect-1", "circle-1", "text-1"]);
 });
 
-test("Studio delete command applies and restores original index", async () => {
-  const module = await importCommandModule();
+test("Studio delete command applies and restores original index", async (t) => {
+  const module = await importCommandModule(t);
   const scene = createScene();
   const command = { kind: "delete-object", objectId: "circle-1", object: scene.objects[1], index: 1 };
   const deleted = module.applyStudioCommand({ scene, command });
@@ -59,8 +76,8 @@ test("Studio delete command applies and restores original index", async () => {
   assert.deepEqual(restored.scene.objects.map((object) => object.id), ["rect-1", "circle-1", "text-1"]);
 });
 
-test("Studio batch command applies and inverts grouped edits", async () => {
-  const module = await importCommandModule();
+test("Studio batch command applies and inverts grouped edits", async (t) => {
+  const module = await importCommandModule(t);
   const command = {
     kind: "batch",
     commands: [
@@ -90,8 +107,8 @@ test("Studio batch command applies and inverts grouped edits", async () => {
   assert.equal(reverted.scene.objects[1].x, 60);
 });
 
-test("Studio transform command applies and inverts object geometry", async () => {
-  const module = await importCommandModule();
+test("Studio transform command applies and inverts object geometry", async (t) => {
+  const module = await importCommandModule(t);
   const command = {
     kind: "update-transform",
     objectId: "rect-1",
@@ -110,8 +127,8 @@ test("Studio transform command applies and inverts object geometry", async () =>
   assert.equal(reverted.scene.objects[0].width, 100);
 });
 
-test("Studio transform command applies and inverts Text2D font scale", async () => {
-  const module = await importCommandModule();
+test("Studio transform command applies and inverts Text2D font scale", async (t) => {
+  const module = await importCommandModule(t);
   const command = {
     kind: "update-transform",
     objectId: "text-1",
@@ -130,8 +147,8 @@ test("Studio transform command applies and inverts Text2D font scale", async () 
   assert.equal(reverted.scene.objects[2].font, undefined);
 });
 
-test("Studio material and visibility commands apply and invert", async () => {
-  const module = await importCommandModule();
+test("Studio material and visibility commands apply and invert", async (t) => {
+  const module = await importCommandModule(t);
   const materialCommand = {
     kind: "update-material",
     objectId: "rect-1",
@@ -152,8 +169,8 @@ test("Studio material and visibility commands apply and invert", async () => {
   assert.equal(reverted.scene.objects[0].material, undefined);
 });
 
-test("Studio text command applies and inverts text content", async () => {
-  const module = await importCommandModule();
+test("Studio text command applies and inverts text content", async (t) => {
+  const module = await importCommandModule(t);
   const command = {
     kind: "update-text",
     objectId: "text-1",
@@ -172,8 +189,8 @@ test("Studio text command applies and inverts text content", async () => {
   assert.equal(reverted.scene.objects[2].font, undefined);
 });
 
-test("Studio reorder command applies and inverts layer order", async () => {
-  const module = await importCommandModule();
+test("Studio reorder command applies and inverts layer order", async (t) => {
+  const module = await importCommandModule(t);
   const command = { kind: "reorder-object", objectId: "text-1", fromIndex: 2, toIndex: 0 };
   const reordered = module.applyStudioCommand({ scene: createScene(), command });
 
@@ -185,8 +202,8 @@ test("Studio reorder command applies and inverts layer order", async () => {
   assert.deepEqual(restored.scene.objects.map((object) => object.id), ["rect-1", "circle-1", "text-1"]);
 });
 
-test("Studio sprite asset command applies and inverts asset references", async () => {
-  const module = await importCommandModule();
+test("Studio sprite asset command applies and inverts asset references", async (t) => {
+  const module = await importCommandModule(t);
   const scene = {
     version: 1,
     name: "Sprite Asset Command",

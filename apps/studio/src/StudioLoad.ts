@@ -5,6 +5,7 @@ import { validateStudioAssetReferences } from "./StudioSceneDiagnostics";
 import type {
   StudioCameraState,
   StudioCircleState,
+  StudioGroupState,
   StudioLineState,
   StudioRectState,
   StudioSceneObject,
@@ -110,6 +111,7 @@ function parseObject(value: unknown): StudioSceneObject {
   if (type === "line") return parseLine(object);
   if (type === "text2d") return parseText(object);
   if (type === "sprite") return parseSprite(object);
+  if (type === "group") return parseGroup(object);
   throw new Error(`Unsupported Studio object type "${type}" for object ${getObjectLabel(object)}.`);
 }
 
@@ -151,6 +153,11 @@ function parseText(object: Record<string, unknown>): StudioTextState {
 function parseSprite(object: Record<string, unknown>): StudioSpriteState {
   const base = parseBase(object, "sprite");
   return { ...base, width: expectPositiveNumber(object.width, "sprite", base.id, "width"), height: expectPositiveNumber(object.height, "sprite", base.id, "height"), assetSlot: expectString(object.assetSlot) };
+}
+
+function parseGroup(object: Record<string, unknown>): StudioGroupState {
+  const base = parseBase(object, "group");
+  return { ...base, children: parseObjects(object.children) };
 }
 
 function parseBase<Type extends StudioSceneObject["type"]>(

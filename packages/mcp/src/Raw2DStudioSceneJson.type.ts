@@ -1,5 +1,5 @@
 export type Raw2DMcpStudioRendererMode = "canvas" | "webgl";
-export type Raw2DMcpStudioObjectType = "rect" | "circle" | "line" | "text2d" | "sprite";
+export type Raw2DMcpStudioObjectType = "rect" | "circle" | "line" | "text2d" | "sprite" | "group";
 
 export interface Raw2DMcpStudioCameraJson {
   readonly x: number;
@@ -55,12 +55,18 @@ export interface Raw2DMcpStudioSpriteJson extends Raw2DMcpStudioObjectBaseJson {
   readonly assetSlot: string;
 }
 
+export interface Raw2DMcpStudioGroupJson extends Raw2DMcpStudioObjectBaseJson {
+  readonly type: "group";
+  readonly children: readonly Raw2DMcpStudioObjectJson[];
+}
+
 export type Raw2DMcpStudioObjectJson =
   | Raw2DMcpStudioRectJson
   | Raw2DMcpStudioCircleJson
   | Raw2DMcpStudioLineJson
   | Raw2DMcpStudioTextJson
-  | Raw2DMcpStudioSpriteJson;
+  | Raw2DMcpStudioSpriteJson
+  | Raw2DMcpStudioGroupJson;
 
 export interface Raw2DMcpStudioImageAssetJson {
   readonly id: string;

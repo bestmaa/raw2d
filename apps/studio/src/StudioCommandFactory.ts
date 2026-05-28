@@ -10,25 +10,27 @@ export function createStudioDeleteObjectCommand(scene: StudioSceneState, objectI
     return undefined;
   }
 
-  const index = scene.objects.findIndex((object) => object.id === objectId);
-  const object = scene.objects[index];
+  const entry = findStudioObjectEntry(scene, objectId);
 
-  return object ? { kind: "delete-object", objectId, object, index } : undefined;
+  return entry
+    ? { kind: "delete-object", objectId, object: entry.object, index: entry.index, ...(entry.parentId ? { parentId: entry.parentId } : {}) }
+    : undefined;
 }
 
 export function createStudioDeleteObjectsCommand(
   scene: StudioSceneState,
   objectIds: readonly string[]
 ): StudioCommand | undefined {
-  const commands = scene.objects
-    .map((object, index) => ({ object, index }))
-    .filter((entry) => objectIds.includes(entry.object.id))
+  const commands = objectIds
+    .map((objectId) => findStudioObjectEntry(scene, objectId))
+    .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
     .sort((a, b) => b.index - a.index)
     .map((entry) => ({
       kind: "delete-object" as const,
       objectId: entry.object.id,
       object: entry.object,
-      index: entry.index
+      index: entry.index,
+      ...(entry.parentId ? { parentId: entry.parentId } : {})
     }));
 
   return createStudioBatchCommand(commands);
@@ -123,7 +125,38 @@ export function createStudioSpriteAssetCommand(
 }
 
 export function findStudioObject(scene: StudioSceneState, objectId: string | undefined): StudioSceneObject | undefined {
-  return objectId ? scene.objects.find((object) => object.id === objectId) : undefined;
+  return findStudioObjectEntry(scene, objectId)?.object;
+}
+
+function findStudioObjectEntry(scene: StudioSceneState, objectId: string | undefined): {
+  readonly object: StudioSceneObject;
+  readonly index: number;
+  readonly parentId?: string;
+} | undefined {
+  if (!objectId) {
+    return undefined;
+  }
+
+  return findInObjects(scene.objects, objectId);
+}
+
+function findInObjects(
+  objects: readonly StudioSceneObject[],
+  objectId: string,
+  parentId?: string
+): ReturnType<typeof findStudioObjectEntry> {
+  for (const [index, object] of objects.entries()) {
+    if (object.id === objectId) {
+      return { object, index, parentId };
+    }
+
+    if (object.type === "group") {
+      const child = findInObjects(object.children, objectId, object.id);
+      if (child) return child;
+    }
+  }
+
+  return undefined;
 }
 
 function getTextContent(object: StudioSceneObject): StudioTextContentState {
@@ -154,13 +187,9 @@ function getTransformState(object: StudioSceneObject): StudioTransformState {
     return { x: object.x, y: object.y, font: object.font };
   }
 
-  return assertNeverObject(object);
+  return { x: object.x, y: object.y };
 }
 
 function areTransformsEqual(before: StudioTransformState, after: StudioTransformState): boolean {
   return JSON.stringify(before) === JSON.stringify(after);
-}
-
-function assertNeverObject(object: never): never {
-  throw new Error(`Unsupported Studio object transform: ${JSON.stringify(object)}`);
 }

@@ -7,7 +7,7 @@ export function createStudioCanvasCode(options: StudioCanvasCodeExportOptions): 
   const height = options.height ?? 600;
   const backgroundColor = options.backgroundColor ?? "#0a121c";
   const imports = collectCanvasCodeImports(options.scene.objects);
-  const objectCode = options.scene.objects.map((object, index) => createObjectCode(object, `object${index + 1}`)).join("\n\n");
+  const objectCode = options.scene.objects.map((object, index) => createObjectCode(object, `object${index + 1}`, "scene")).join("\n\n");
 
   return [
     `import { ${imports.join(", ")} } from "raw2d";`,
@@ -47,16 +47,27 @@ function collectCanvasCodeImports(objects: readonly StudioSceneObject[]): readon
   for (const object of objects) {
     names.add(getClassName(object));
     if (object.type === "sprite") names.add("Texture");
+    if (object.type === "group") {
+      for (const childImport of collectCanvasCodeImports(object.children)) {
+        names.add(childImport);
+      }
+    }
   }
 
   return [...names].sort();
 }
 
-function createObjectCode(object: StudioSceneObject, variableName: string): string {
-  return [
+function createObjectCode(object: StudioSceneObject, variableName: string, parentName: string): string {
+  const lines = [
     `const ${variableName} = new ${getClassName(object)}(${createObjectOptionsCode(object)});`,
-    `scene.add(${variableName});`
-  ].join("\n");
+    `${parentName}.add(${variableName});`
+  ];
+
+  if (object.type === "group") {
+    lines.push(...object.children.map((child, index) => createObjectCode(child, `${variableName}Child${index + 1}`, variableName)));
+  }
+
+  return lines.join("\n");
 }
 
 function createObjectOptionsCode(object: StudioSceneObject): string {
@@ -66,7 +77,7 @@ function createObjectOptionsCode(object: StudioSceneObject): string {
   else if (object.type === "circle") entries.push(["radius", object.radius]);
   else if (object.type === "line") entries.push(["startX", object.startX], ["startY", object.startY], ["endX", object.endX], ["endY", object.endY]);
   else if (object.type === "text2d") entries.push(["text", object.text], ["font", object.font]);
-  else entries.push(["texture", createPlaceholderTextureCode(object.assetSlot)], ["width", object.width], ["height", object.height]);
+  else if (object.type === "sprite") entries.push(["texture", createPlaceholderTextureCode(object.assetSlot)], ["width", object.width], ["height", object.height]);
 
   return toObjectCode(Object.fromEntries(entries.filter(([, value]) => value !== undefined)));
 }
@@ -77,6 +88,7 @@ function createBaseEntries(object: StudioSceneObject): Array<[string, unknown]> 
 }
 
 function getClassName(object: StudioSceneObject): string {
+  if (object.type === "group") return "Group2D";
   if (object.type === "text2d") return "Text2D";
   return object.type.charAt(0).toUpperCase() + object.type.slice(1);
 }

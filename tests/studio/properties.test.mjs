@@ -1,18 +1,35 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import test from "node:test";
 import ts from "typescript";
 
-async function importPropertiesModule() {
-  const source = readFileSync("apps/studio/src/StudioProperties.ts", "utf8");
-  const output = ts.transpileModule(source, {
+async function importPropertiesModule(t) {
+  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-properties-"));
+  t.after(async () => rm(directory, { recursive: true, force: true }));
+  await writeTranspiledModule("apps/studio/src/StudioSceneGraph.ts", join(directory, "StudioSceneGraph.js"));
+  await writeTranspiledModule("apps/studio/src/StudioProperties.ts", join(directory, "StudioProperties.js"), {
+    "./StudioSceneGraph": "./StudioSceneGraph.js"
+  });
+  return import(pathToFileURL(join(directory, "StudioProperties.js")).href);
+}
+
+async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) {
+  const source = await readFile(sourcePath, "utf8");
+  let output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText;
-  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
-  return import(url);
+
+  for (const [from, to] of Object.entries(replacements)) {
+    output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+  }
+
+  await writeFile(outputPath, output);
 }
 
 function createScene() {
@@ -25,8 +42,8 @@ function createScene() {
   };
 }
 
-test("Studio property edit updates transform fields immutably", async () => {
-  const module = await importPropertiesModule();
+test("Studio property edit updates transform fields immutably", async (t) => {
+  const module = await importPropertiesModule(t);
   const scene = createScene();
   const result = module.applyStudioPropertyEdit({
     scene,
@@ -40,8 +57,8 @@ test("Studio property edit updates transform fields immutably", async () => {
   assert.equal(scene.objects[0].width, 100);
 });
 
-test("Studio property edit updates material fields", async () => {
-  const module = await importPropertiesModule();
+test("Studio property edit updates material fields", async (t) => {
+  const module = await importPropertiesModule(t);
   const result = module.applyStudioPropertyEdit({
     scene: createScene(),
     selectedObjectId: "rect-1",
@@ -53,8 +70,8 @@ test("Studio property edit updates material fields", async () => {
   assert.equal(result.scene.objects[0].material.fillColor, "#ff0000");
 });
 
-test("Studio property edit ignores invalid numbers", async () => {
-  const module = await importPropertiesModule();
+test("Studio property edit ignores invalid numbers", async (t) => {
+  const module = await importPropertiesModule(t);
   const result = module.applyStudioPropertyEdit({
     scene: createScene(),
     selectedObjectId: "rect-1",

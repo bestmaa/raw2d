@@ -1,5 +1,7 @@
 import type { MoveStudioObjectOptions, StudioDragStart, StudioPoint } from "./StudioDrag.type";
+import { findStudioSceneObject, flattenStudioSceneObjects, mapStudioSceneObjects } from "./StudioSceneGraph";
 import type { StudioCameraState, StudioSceneObject, StudioSceneState, StudioTextState } from "./StudioSceneState.type";
+import { getStudioObjectBounds } from "./StudioObjectBounds";
 
 const lineHitTolerance = 8;
 
@@ -25,9 +27,10 @@ export function startStudioDrag(
 ): StudioDragStart | undefined {
   const pickedId = pickStudioObjectId(scene, pointer);
   const objectId = pickedId ?? selectedObjectId;
-  const object = scene.objects.find((candidate) => candidate.id === objectId);
+  const entry = findStudioSceneObject(scene, objectId);
+  const object = entry?.object;
 
-  if (!object || !containsStudioObjectPoint(object, pointer)) {
+  if (!entry || !object || !containsStudioObjectPoint(object, pointer, entry.worldX, entry.worldY)) {
     return undefined;
   }
 
@@ -47,7 +50,7 @@ export function moveStudioObject(options: MoveStudioObjectOptions): StudioSceneS
 
   return {
     ...options.scene,
-    objects: options.scene.objects.map((object) => {
+    objects: mapStudioSceneObjects(options.scene.objects, (object) => {
       if (object.id !== options.session.objectId) {
         return object;
       }
@@ -62,42 +65,47 @@ export function moveStudioObject(options: MoveStudioObjectOptions): StudioSceneS
 }
 
 export function pickStudioObjectId(scene: StudioSceneState, pointer: StudioPoint): string | undefined {
-  for (const object of [...scene.objects].reverse()) {
-    if (containsStudioObjectPoint(object, pointer)) {
-      return object.id;
+  for (const entry of [...flattenStudioSceneObjects(scene)].reverse()) {
+    if (containsStudioObjectPoint(entry.object, pointer, entry.worldX, entry.worldY)) {
+      return entry.object.id;
     }
   }
 
   return undefined;
 }
 
-function containsStudioObjectPoint(object: StudioSceneObject, pointer: StudioPoint): boolean {
+function containsStudioObjectPoint(object: StudioSceneObject, pointer: StudioPoint, worldX: number, worldY: number): boolean {
+  if (object.type === "group") {
+    const bounds = getStudioObjectBounds(object);
+    return isPointInRect(pointer, bounds.x + worldX - object.x, bounds.y + worldY - object.y, bounds.width, bounds.height);
+  }
+
   if (object.type === "rect" || object.type === "sprite") {
-    return isPointInRect(pointer, object.x, object.y, object.width, object.height);
+    return isPointInRect(pointer, worldX, worldY, object.width, object.height);
   }
 
   if (object.type === "circle") {
-    return distance(pointer.x, pointer.y, object.x, object.y) <= object.radius;
+    return distance(pointer.x, pointer.y, worldX, worldY) <= object.radius;
   }
 
   if (object.type === "line") {
     return getPointSegmentDistance(pointer, {
-      x: object.x + object.startX,
-      y: object.y + object.startY
+      x: worldX + object.startX,
+      y: worldY + object.startY
     }, {
-      x: object.x + object.endX,
-      y: object.y + object.endY
+      x: worldX + object.endX,
+      y: worldY + object.endY
     }) <= Math.max(lineHitTolerance, object.material?.lineWidth ?? 0);
   }
 
-  return containsTextPoint(object, pointer);
+  return containsTextPoint(object, pointer, worldX, worldY);
 }
 
-function containsTextPoint(object: StudioTextState, pointer: StudioPoint): boolean {
+function containsTextPoint(object: StudioTextState, pointer: StudioPoint, worldX: number, worldY: number): boolean {
   const fontSize = parseFontSize(object.font);
   const width = Math.max(fontSize, object.text.length * fontSize * 0.6);
 
-  return isPointInRect(pointer, object.x, object.y - fontSize, width, fontSize * 1.25);
+  return isPointInRect(pointer, worldX, worldY - fontSize, width, fontSize * 1.25);
 }
 
 function isPointInRect(point: StudioPoint, x: number, y: number, width: number, height: number): boolean {

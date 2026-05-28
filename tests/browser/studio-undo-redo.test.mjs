@@ -15,9 +15,9 @@ const baseUrl = `http://127.0.0.1:${port}`;
 
 test("Studio undo redo smoke covers create move resize and Circle radius edits", async (t) => {
   const server = startStudioServer();
-  const modules = await importWorkflowModules(t);
-
   t.after(async () => stopServer(server.process));
+
+  const modules = await importWorkflowModules(t);
 
   await waitForServer(server);
   await assertStudioEditingRoute();
@@ -30,7 +30,10 @@ async function importWorkflowModules(t) {
 
   t.after(async () => rm(directory, { recursive: true, force: true }));
 
-  await writeTranspiledModule("apps/studio/src/StudioCommand.ts", join(directory, "StudioCommand.js"));
+  await writeTranspiledModule("apps/studio/src/StudioSceneGraph.ts", join(directory, "StudioSceneGraph.js"));
+  await writeTranspiledModule("apps/studio/src/StudioCommand.ts", join(directory, "StudioCommand.js"), {
+    "./StudioSceneGraph": "./StudioSceneGraph.js"
+  });
   await writeTranspiledModule("apps/studio/src/StudioHistory.ts", join(directory, "StudioHistory.js"), {
     "./StudioCommand": "./StudioCommand.js"
   });
@@ -42,7 +45,7 @@ async function importWorkflowModules(t) {
   await writeTranspiledModule("apps/studio/src/StudioObjectBounds.ts", join(directory, "StudioObjectBounds.js"), { "./StudioLineResize": "./StudioLineResize.js", "./StudioTextResize": "./StudioTextResize.js" });
   await writeTranspiledModule("apps/studio/src/StudioResize.ts", join(directory, "StudioResize.js"), {
     "./StudioBoxResize": "./StudioBoxResize.js", "./StudioLineResize": "./StudioLineResize.js", "./StudioObjectBounds": "./StudioObjectBounds.js",
-    "./StudioTextResize": "./StudioTextResize.js"
+    "./StudioSceneGraph": "./StudioSceneGraph.js", "./StudioTextResize": "./StudioTextResize.js"
   });
 
   return {
@@ -224,9 +227,7 @@ async function waitForServer(server) {
 }
 
 async function fetchText(route) {
-  const response = await fetch(`${baseUrl}${route}`, {
-    headers: { accept: route.endsWith(".ts") ? "text/javascript" : "text/html" }
-  });
+  const response = await fetch(`${baseUrl}${route}`, { headers: { accept: route.endsWith(".ts") ? "text/javascript" : "text/html" } });
   const body = await response.text();
 
   assert.equal(response.status, 200, route);

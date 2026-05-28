@@ -7,13 +7,12 @@ import type {
 } from "./validateRaw2DStudioScene.type.js";
 import { validateRaw2DStudioCommands } from "./validateRaw2DStudioCommand.js";
 
-const objectTypes = new Set(["rect", "circle", "line", "text2d", "sprite"]);
+const objectTypes = new Set(["rect", "circle", "line", "text2d", "sprite", "group"]);
 
 export function validateRaw2DStudioScene(options: ValidateRaw2DStudioSceneOptions): Raw2DMcpStudioValidationResult {
   const errors: Raw2DMcpStudioValidationIssue[] = [];
   const warnings: Raw2DMcpStudioValidationWarning[] = [];
   const document = asRecord(options.document);
-
   if (!document) {
     return { valid: false, errors: [{ path: "$", message: "Studio scene must be an object." }], warnings };
   }
@@ -23,7 +22,6 @@ export function validateRaw2DStudioScene(options: ValidateRaw2DStudioSceneOption
   validateAssetReferences(document, objectIds, warnings);
   validateRendererWarnings(document, warnings);
   validateRaw2DStudioCommands(options.commands, errors);
-
   return { valid: errors.length === 0, errors, warnings };
 }
 
@@ -44,22 +42,19 @@ function validateCamera(value: unknown, errors: Raw2DMcpStudioValidationIssue[])
     errors.push({ path: "$.camera", message: "Studio camera must be an object." });
     return;
   }
-
   validateNumber(camera.x, "$.camera.x", errors);
   validateNumber(camera.y, "$.camera.y", errors);
-
   if (!isFiniteNumber(camera.zoom) || camera.zoom <= 0) {
     errors.push({ path: "$.camera.zoom", message: "Studio camera zoom must be a positive finite number." });
   }
 }
 
-function validateObjects(value: unknown, ids: Set<string>, errors: Raw2DMcpStudioValidationIssue[]): void {
+function validateObjects(value: unknown, ids: Set<string>, errors: Raw2DMcpStudioValidationIssue[], path = "$.objects"): void {
   if (!Array.isArray(value)) {
-    errors.push({ path: "$.objects", message: "Studio objects must be an array." });
+    errors.push({ path, message: "Studio objects must be an array." });
     return;
   }
-
-  value.forEach((item, index) => validateObject(item, `$.objects[${index}]`, ids, errors));
+  value.forEach((item, index) => validateObject(item, `${path}[${index}]`, ids, errors));
 }
 
 function validateObject(value: unknown, path: string, ids: Set<string>, errors: Raw2DMcpStudioValidationIssue[]): void {
@@ -69,7 +64,6 @@ function validateObject(value: unknown, path: string, ids: Set<string>, errors: 
     errors.push({ path, message: "Studio object must be an object." });
     return;
   }
-
   validateObjectId(object.id, `${path}.id`, ids, errors);
   validateObjectType(object.type, `${path}.type`, errors);
   validateString(object.name, `${path}.name`, errors);
@@ -77,10 +71,10 @@ function validateObject(value: unknown, path: string, ids: Set<string>, errors: 
   validateNumber(object.y, `${path}.y`, errors);
   if (object.visible !== undefined && typeof object.visible !== "boolean") errors.push({ path: `${path}.visible`, message: "Visible must be boolean." });
   validateMaterial(object.material, `${path}.material`, errors);
-  validateObjectShape(object, path, errors);
+  validateObjectShape(object, path, ids, errors);
 }
 
-function validateObjectShape(object: Record<string, unknown>, path: string, errors: Raw2DMcpStudioValidationIssue[]): void {
+function validateObjectShape(object: Record<string, unknown>, path: string, ids: Set<string>, errors: Raw2DMcpStudioValidationIssue[]): void {
   if (object.type === "rect") validateSizePair(object, path, errors);
   else if (object.type === "circle") validatePositiveNumber(object.radius, `${path}.radius`, errors);
   else if (object.type === "line") validateLine(object, path, errors);
@@ -88,6 +82,8 @@ function validateObjectShape(object: Record<string, unknown>, path: string, erro
   else if (object.type === "sprite") {
     validateSizePair(object, path, errors);
     validateString(object.assetSlot, `${path}.assetSlot`, errors);
+  } else if (object.type === "group") {
+    validateObjects(object.children, ids, errors, `${path}.children`);
   }
 }
 
@@ -112,7 +108,6 @@ function validateAsset(
     errors.push({ path, message: "Studio asset must be an object." });
     return;
   }
-
   validateObjectId(asset.id, `${path}.id`, assetIds, errors);
   if (asset.type !== "image") errors.push({ path: `${path}.type`, message: "Studio asset type must be image." });
   validateString(asset.name, `${path}.name`, errors);
@@ -130,14 +125,12 @@ function validateAssetReferences(
 ): void {
   const assets = Array.isArray(document.assets) ? document.assets.map(asRecord).filter(isRecord) : [];
   const assetIds = new Set(assets.map((asset) => (typeof asset.id === "string" ? asset.id : "")));
-  const objects = Array.isArray(document.objects) ? document.objects.map(asRecord).filter(isRecord) : [];
-
-  objects.forEach((object, index) => {
-    if (object.type === "sprite" && object.assetSlot !== "empty" && !assetIds.has(String(object.assetSlot))) {
-      warnings.push({ path: `$.objects[${index}].assetSlot`, message: `Sprite references missing asset "${String(object.assetSlot)}".` });
+  const objects = Array.isArray(document.objects) ? flattenObjects(document.objects) : [];
+  objects.forEach((object) => {
+    if (object.value.type === "sprite" && object.value.assetSlot !== "empty" && !assetIds.has(String(object.value.assetSlot))) {
+      warnings.push({ path: `${object.path}.assetSlot`, message: `Sprite references missing asset "${String(object.value.assetSlot)}".` });
     }
   });
-
   for (const asset of assets) {
     for (const objectId of Array.isArray(asset.objectIds) ? asset.objectIds : []) {
       if (typeof objectId === "string" && !objectIds.has(objectId)) {
@@ -149,11 +142,10 @@ function validateAssetReferences(
 
 function validateRendererWarnings(document: Record<string, unknown>, warnings: Raw2DMcpStudioRendererWarning[]): void {
   if (document.rendererMode !== "webgl" || !Array.isArray(document.objects)) return;
-
   warnings.push({ path: "$.rendererMode", message: "WebGL mode requires WebGL2 support in the browser." });
-  document.objects.map(asRecord).filter(isRecord).forEach((object, index) => {
-    if (object.type === "sprite") warnings.push({ path: `$.objects[${index}]`, message: "Sprite assets need runtime image or atlas texture loading for WebGL." });
-    if (object.type === "text2d") warnings.push({ path: `$.objects[${index}]`, message: "Text2D WebGL output depends on loaded fonts for stable metrics." });
+  flattenObjects(document.objects).forEach((object) => {
+    if (object.value.type === "sprite") warnings.push({ path: object.path, message: "Sprite assets need runtime image or atlas texture loading for WebGL." });
+    if (object.value.type === "text2d") warnings.push({ path: object.path, message: "Text2D WebGL output depends on loaded fonts for stable metrics." });
   });
 }
 
@@ -164,7 +156,6 @@ function validateLine(object: Record<string, unknown>, path: string, errors: Raw
   validateNumber(object.endY, `${path}.endY`, errors);
   if (object.startX === object.endX && object.startY === object.endY) errors.push({ path, message: "Studio line start and end points must differ." });
 }
-
 function validateMaterial(value: unknown, path: string, errors: Raw2DMcpStudioValidationIssue[]): void {
   if (value === undefined) return;
   const material = asRecord(value);
@@ -202,6 +193,21 @@ function validateSizePair(object: Record<string, unknown>, path: string, errors:
 
 function validateRendererMode(value: unknown, path: string, errors: Raw2DMcpStudioValidationIssue[]): void {
   if (value !== "canvas" && value !== "webgl") errors.push({ path, message: "Renderer mode must be canvas or webgl." });
+}
+
+function flattenObjects(value: readonly unknown[], path = "$.objects"): readonly {
+  readonly value: Record<string, unknown>;
+  readonly path: string;
+}[] {
+  return value.flatMap((item, index) => {
+    const object = asRecord(item);
+    if (!object) return [];
+    const objectPath = `${path}[${index}]`;
+    const children = object.type === "group" && Array.isArray(object.children)
+      ? flattenObjects(object.children, `${objectPath}.children`)
+      : [];
+    return [{ value: object, path: objectPath }, ...children];
+  });
 }
 
 function validateObjectType(value: unknown, path: string, errors: Raw2DMcpStudioValidationIssue[]): void {

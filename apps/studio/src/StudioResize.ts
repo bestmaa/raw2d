@@ -8,6 +8,7 @@ import {
 } from "./StudioLineResize";
 import { getStudioObjectBounds } from "./StudioObjectBounds";
 import { getStudioTextResizeState, resizeStudioTextObject } from "./StudioTextResize";
+import { findStudioSceneObject, mapStudioSceneObjects } from "./StudioSceneGraph";
 import type {
   ResizeStudioObjectOptions,
   StudioResizeBounds,
@@ -31,13 +32,13 @@ export function getStudioResizeHandles(
   scene: StudioSceneState,
   selectedObjectId: string | undefined
 ): readonly StudioResizeHandle[] {
-  const line = getResizableLine(scene, selectedObjectId);
+  const line = getResizableWorldLine(scene, selectedObjectId);
 
   if (line) {
     return createStudioLineResizeHandles(line);
   }
 
-  const bounds = getResizableObjectBounds(scene, selectedObjectId);
+  const bounds = getResizableWorldObjectBounds(scene, selectedObjectId);
 
   if (!bounds) {
     return [];
@@ -64,6 +65,7 @@ export function startStudioResize(
 
   const handle = getStudioResizeHandles(scene, selectedObjectId).find((candidate) => containsHandle(candidate, pointer));
   const line = getResizableLine(scene, selectedObjectId);
+  const worldLine = getResizableWorldLine(scene, selectedObjectId);
   const text = getResizableText(scene, selectedObjectId);
 
   if (!handle) {
@@ -77,7 +79,7 @@ export function startStudioResize(
       handleId: handle.id,
       startPointer: pointer,
       startBounds: bounds ?? getStudioLineBounds(line),
-      ...(line ? { startLine: getStudioLineResizeState(line) } : {}),
+      ...(worldLine ? { startLine: getStudioLineResizeState(worldLine) } : {}),
       ...(text ? { startText: getStudioTextResizeState(text) } : {})
     }
   };
@@ -91,7 +93,7 @@ export function resizeStudioObject(options: ResizeStudioObjectOptions): StudioSc
 
   return {
     ...options.scene,
-    objects: options.scene.objects.map((object) => {
+    objects: mapStudioSceneObjects(options.scene.objects, (object) => {
       if (object.id !== options.session.objectId) {
         return object;
       }
@@ -152,7 +154,7 @@ export function drawStudioResizeHandles(
 }
 
 function getResizableObjectBounds(scene: StudioSceneState, objectId: string | undefined): StudioResizeBounds | undefined {
-  const object = scene.objects.find((candidate) => candidate.id === objectId);
+  const object = findStudioSceneObject(scene, objectId)?.object;
 
   if (!object || !isResizableObject(object)) {
     return undefined;
@@ -161,14 +163,32 @@ function getResizableObjectBounds(scene: StudioSceneState, objectId: string | un
   return getStudioObjectBounds(object);
 }
 
+function getResizableWorldObjectBounds(scene: StudioSceneState, objectId: string | undefined): StudioResizeBounds | undefined {
+  const entry = findStudioSceneObject(scene, objectId);
+
+  if (!entry || !isResizableObject(entry.object)) {
+    return undefined;
+  }
+
+  const bounds = getStudioObjectBounds(entry.object);
+  const parentOffset = getEntryParentOffset(entry);
+  return { ...bounds, x: bounds.x + parentOffset.x, y: bounds.y + parentOffset.y };
+}
+
 function getResizableLine(scene: StudioSceneState, objectId: string | undefined): StudioLineState | undefined {
-  const object = scene.objects.find((candidate) => candidate.id === objectId);
+  const object = findStudioSceneObject(scene, objectId)?.object;
 
   return object?.type === "line" ? object : undefined;
 }
 
+function getResizableWorldLine(scene: StudioSceneState, objectId: string | undefined): StudioLineState | undefined {
+  const entry = findStudioSceneObject(scene, objectId);
+
+  return entry?.object.type === "line" ? { ...entry.object, x: entry.worldX, y: entry.worldY } : undefined;
+}
+
 function getResizableText(scene: StudioSceneState, objectId: string | undefined): StudioTextState | undefined {
-  const object = scene.objects.find((candidate) => candidate.id === objectId);
+  const object = findStudioSceneObject(scene, objectId)?.object;
 
   return object?.type === "text2d" ? object : undefined;
 }
@@ -179,6 +199,10 @@ function isResizableObject(object: StudioSceneObject): object is StudioCircleSta
 
 function isBoxResizableObject(object: StudioSceneObject): object is StudioRectState | StudioSpriteState {
   return object.type === "rect" || object.type === "sprite";
+}
+
+function getEntryParentOffset(entry: { readonly object: StudioSceneObject; readonly worldX: number; readonly worldY: number }): StudioPoint {
+  return { x: entry.worldX - entry.object.x, y: entry.worldY - entry.object.y };
 }
 
 function containsHandle(handle: StudioResizeHandle, pointer: StudioPoint): boolean {

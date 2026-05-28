@@ -1,8 +1,9 @@
-import { BasicMaterial, Camera2D, Circle, Line, Rect, Scene, Sprite, Text2D, Texture } from "raw2d";
+import { BasicMaterial, Camera2D, Circle, Group2D, Line, Rect, Scene, Sprite, Text2D, Texture } from "raw2d";
 import type { Object2D } from "raw2d";
 import type { StudioImageAssetState } from "./StudioAssets.type";
 import type {
   StudioCircleState,
+  StudioGroupState,
   StudioLineState,
   StudioMaterialState,
   StudioRectState,
@@ -42,7 +43,24 @@ function createRuntimeObject(
       return createText(object);
     case "sprite":
       return createSprite(object, state, options);
+    case "group":
+      return createGroup(object, state, options);
   }
+}
+
+function createGroup(object: StudioGroupState, state: StudioSceneState, options: StudioRenderAdapterOptions): Group2D {
+  const group = new Group2D({
+    name: object.name,
+    x: object.x,
+    y: object.y,
+    visible: object.visible ?? true
+  });
+
+  for (const child of object.children) {
+    group.add(createRuntimeObject(child, state, options));
+  }
+
+  return group;
 }
 
 function createRect(object: StudioRectState): Rect {

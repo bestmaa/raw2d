@@ -1,4 +1,5 @@
 import type { StudioPropertyEditOptions, StudioPropertyEditResult, StudioPropertyId } from "./StudioProperties.type";
+import { mapStudioSceneObjects } from "./StudioSceneGraph";
 import type { StudioMaterialState, StudioSceneObject } from "./StudioSceneState.type";
 
 export function applyStudioPropertyEdit(options: StudioPropertyEditOptions): StudioPropertyEditResult {
@@ -7,7 +8,7 @@ export function applyStudioPropertyEdit(options: StudioPropertyEditOptions): Stu
   }
 
   let handled = false;
-  const objects = options.scene.objects.map((object) => {
+  const objects = mapStudioSceneObjects(options.scene.objects, (object) => {
     if (object.id !== options.selectedObjectId) {
       return object;
     }

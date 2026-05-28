@@ -29,9 +29,10 @@ function renderTool(tool: StudioToolItem): string {
 
 function renderLayer(layer: StudioLayerItem, selectedLayerIds: readonly string[] | undefined): string {
   const isSelected = selectedLayerIds?.includes(layer.id) ?? false;
+  const indent = ` style="padding-left: ${(layer.depth ?? 0) * 12}px"`;
 
   return `
-    <div class="studio-layer-row">
+    <div class="studio-layer-row"${indent}>
       <button class="studio-layer${isSelected ? " is-selected" : ""}" type="button" data-layer-action="select" data-layer-id="${layer.id}">
         <span>${layer.label}</span>
         <small>${layer.type}</small>
@@ -112,6 +113,8 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <button type="button" data-action="sample-scene">Sample</button>
           <button type="button" data-action="undo">Undo</button>
           <button type="button" data-action="redo">Redo</button>
+          <button type="button" data-action="group">Group</button>
+          <button type="button" data-action="ungroup">Ungroup</button>
           <button type="button" data-action="save-scene">Save</button>
           <button type="button" data-action="load-scene">Load</button>
           <button type="button" data-action="export-png">Export</button>

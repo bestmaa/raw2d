@@ -1,18 +1,42 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import test from "node:test";
 import ts from "typescript";
 
-async function importDragModule() {
-  const source = readFileSync("apps/studio/src/StudioDrag.ts", "utf8");
-  const output = ts.transpileModule(source, {
+async function importDragModule(t) {
+  const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-drag-"));
+  t.after(async () => rm(directory, { recursive: true, force: true }));
+  await writeTranspiledModule("apps/studio/src/StudioLineResize.ts", join(directory, "StudioLineResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioTextResize.ts", join(directory, "StudioTextResize.js"));
+  await writeTranspiledModule("apps/studio/src/StudioSceneGraph.ts", join(directory, "StudioSceneGraph.js"));
+  await writeTranspiledModule("apps/studio/src/StudioObjectBounds.ts", join(directory, "StudioObjectBounds.js"), {
+    "./StudioLineResize": "./StudioLineResize.js",
+    "./StudioTextResize": "./StudioTextResize.js"
+  });
+  await writeTranspiledModule("apps/studio/src/StudioDrag.ts", join(directory, "StudioDrag.js"), {
+    "./StudioSceneGraph": "./StudioSceneGraph.js",
+    "./StudioObjectBounds": "./StudioObjectBounds.js"
+  });
+  return import(pathToFileURL(join(directory, "StudioDrag.js")).href);
+}
+
+async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) {
+  const source = await readFile(sourcePath, "utf8");
+  let output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText;
-  const url = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
-  return import(url);
+
+  for (const [from, to] of Object.entries(replacements)) {
+    output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+  }
+
+  await writeFile(outputPath, output);
 }
 
 function createScene() {
@@ -28,16 +52,16 @@ function createScene() {
   };
 }
 
-test("Studio drag starts from the topmost object under the pointer", async () => {
-  const module = await importDragModule();
+test("Studio drag starts from the topmost object under the pointer", async (t) => {
+  const module = await importDragModule(t);
   const dragStart = module.startStudioDrag(createScene(), undefined, { x: 60, y: 60 });
 
   assert.equal(dragStart?.selectedObjectId, "circle-1");
   assert.equal(dragStart?.session.objectId, "circle-1");
 });
 
-test("Studio drag moves selected object without mutating the source scene", async () => {
-  const module = await importDragModule();
+test("Studio drag moves selected object without mutating the source scene", async (t) => {
+  const module = await importDragModule(t);
   const scene = createScene();
   const dragStart = module.startStudioDrag(scene, "rect-1", { x: 20, y: 30 });
 
@@ -56,8 +80,8 @@ test("Studio drag moves selected object without mutating the source scene", asyn
   assert.equal(nextScene.objects[1], scene.objects[1]);
 });
 
-test("Studio drag does not start when the selected object is missed", async () => {
-  const module = await importDragModule();
+test("Studio drag does not start when the selected object is missed", async (t) => {
+  const module = await importDragModule(t);
   const dragStart = module.startStudioDrag(createScene(), "rect-1", { x: 300, y: 300 });
 
   assert.equal(dragStart, undefined);

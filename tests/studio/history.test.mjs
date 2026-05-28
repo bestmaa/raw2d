@@ -9,20 +9,27 @@ import ts from "typescript";
 async function importHistoryModule() {
   const directory = await mkdtemp(join(tmpdir(), "raw2d-studio-history-"));
 
-  await writeTranspiledModule("apps/studio/src/StudioCommand.ts", join(directory, "StudioCommand.js"));
+  await writeTranspiledModule("apps/studio/src/StudioSceneGraph.ts", join(directory, "StudioSceneGraph.js"));
+  await writeTranspiledModule("apps/studio/src/StudioCommand.ts", join(directory, "StudioCommand.js"), {
+    "./StudioSceneGraph": "./StudioSceneGraph.js"
+  });
   await writeTranspiledModule("apps/studio/src/StudioHistory.ts", join(directory, "StudioHistory.js"));
 
   return import(pathToFileURL(join(directory, "StudioHistory.js")).href);
 }
 
-async function writeTranspiledModule(sourcePath, outputPath) {
+async function writeTranspiledModule(sourcePath, outputPath, replacements = {}) {
   const source = await readFile(sourcePath, "utf8");
-  const output = ts.transpileModule(source, {
+  let output = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022
     }
   }).outputText.replaceAll('from "./StudioCommand";', 'from "./StudioCommand.js";');
+
+  for (const [from, to] of Object.entries(replacements)) {
+    output = output.replaceAll(`from "${from}";`, `from "${to}";`);
+  }
 
   await writeFile(outputPath, output);
 }

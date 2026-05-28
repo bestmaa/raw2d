@@ -8,7 +8,7 @@ export function createStudioWebGLCode(options: StudioWebGLCodeExportOptions): st
   const backgroundColor = options.backgroundColor ?? "#0a121c";
   const imports = collectWebGLCodeImports(options.scene.objects);
   const warnings = createStudioWebGLCodeWarnings(options.scene);
-  const objectCode = options.scene.objects.map((object, index) => createObjectCode(object, `object${index + 1}`)).join("\n\n");
+  const objectCode = options.scene.objects.map((object, index) => createObjectCode(object, `object${index + 1}`, "scene")).join("\n\n");
 
   return [
     `import { ${imports.join(", ")} } from "raw2d";`,
@@ -48,15 +48,19 @@ export function createStudioWebGLCode(options: StudioWebGLCodeExportOptions): st
 export function createStudioWebGLCodeWarnings(scene: StudioSceneState): readonly string[] {
   const warnings = ["WebGL2 is required; generated code throws when the browser cannot create a WebGL2 context."];
 
-  if (scene.objects.some((object) => object.type === "sprite")) {
+  if (hasObjectType(scene.objects, "sprite")) {
     warnings.push("Sprite texture sources are placeholders; replace each 1x1 canvas with real image or atlas textures.");
   }
 
-  if (scene.objects.some((object) => object.type === "text2d")) {
+  if (hasObjectType(scene.objects, "text2d")) {
     warnings.push("Text2D uses WebGL text textures; load required fonts before the first render for stable metrics.");
   }
 
   return warnings;
+}
+
+function hasObjectType(objects: readonly StudioSceneObject[], type: StudioSceneObject["type"]): boolean {
+  return objects.some((object) => object.type === type || (object.type === "group" && hasObjectType(object.children, type)));
 }
 
 export async function copyStudioWebGLCode(options: CopyStudioWebGLCodeOptions): Promise<string> {
@@ -73,16 +77,27 @@ function collectWebGLCodeImports(objects: readonly StudioSceneObject[]): readonl
   for (const object of objects) {
     names.add(getClassName(object));
     if (object.type === "sprite") names.add("Texture");
+    if (object.type === "group") {
+      for (const childImport of collectWebGLCodeImports(object.children)) {
+        names.add(childImport);
+      }
+    }
   }
 
   return [...names].sort();
 }
 
-function createObjectCode(object: StudioSceneObject, variableName: string): string {
-  return [
+function createObjectCode(object: StudioSceneObject, variableName: string, parentName: string): string {
+  const lines = [
     `const ${variableName} = new ${getClassName(object)}(${createObjectOptionsCode(object)});`,
-    `scene.add(${variableName});`
-  ].join("\n");
+    `${parentName}.add(${variableName});`
+  ];
+
+  if (object.type === "group") {
+    lines.push(...object.children.map((child, index) => createObjectCode(child, `${variableName}Child${index + 1}`, variableName)));
+  }
+
+  return lines.join("\n");
 }
 
 function createObjectOptionsCode(object: StudioSceneObject): string {
@@ -92,7 +107,7 @@ function createObjectOptionsCode(object: StudioSceneObject): string {
   else if (object.type === "circle") entries.push(["radius", object.radius]);
   else if (object.type === "line") entries.push(["startX", object.startX], ["startY", object.startY], ["endX", object.endX], ["endY", object.endY]);
   else if (object.type === "text2d") entries.push(["text", object.text], ["font", object.font]);
-  else entries.push(["texture", createPlaceholderTextureCode(object.assetSlot)], ["width", object.width], ["height", object.height]);
+  else if (object.type === "sprite") entries.push(["texture", createPlaceholderTextureCode(object.assetSlot)], ["width", object.width], ["height", object.height]);
 
   return toObjectCode(Object.fromEntries(entries.filter(([, value]) => value !== undefined)));
 }
@@ -103,6 +118,7 @@ function createBaseEntries(object: StudioSceneObject): Array<[string, unknown]> 
 }
 
 function getClassName(object: StudioSceneObject): string {
+  if (object.type === "group") return "Group2D";
   if (object.type === "text2d") return "Text2D";
   return object.type.charAt(0).toUpperCase() + object.type.slice(1);
 }

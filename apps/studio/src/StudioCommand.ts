@@ -6,15 +6,16 @@ import type {
   StudioTransformState
 } from "./StudioCommand.type";
 import type { StudioSceneObject, StudioSceneState } from "./StudioSceneState.type";
+import { findStudioSceneObject, insertStudioSceneObject, mapStudioSceneObjects, removeStudioSceneObject } from "./StudioSceneGraph";
 
 export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCommandResult {
   const { command, scene } = options;
 
   switch (command.kind) {
     case "create-object":
-      return applyCreateObject(scene, command.object, command.index);
+      return applyCreateObject(scene, command.object, command.index, command.parentId);
     case "delete-object":
-      return updateObjects(scene, (objects) => objects.filter((object) => object.id !== command.objectId));
+      return applyDeleteObject(scene, command.objectId);
     case "update-transform":
       return updateObject(scene, command.objectId, (object) => updateTransform(object, command.after));
     case "update-material":
@@ -27,6 +28,8 @@ export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCo
       return applyReorderObject(scene, command.objectId, command.toIndex);
     case "update-sprite-asset":
       return applySpriteAsset(scene, command.objectId, command.afterAssetSlot, command.beforeAssetSlot);
+    case "replace-objects":
+      return { scene: { ...scene, objects: command.after }, handled: true };
     case "batch":
       return applyBatchCommand(scene, command.commands);
   }
@@ -35,9 +38,20 @@ export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCo
 export function invertStudioCommand(command: StudioCommand): StudioCommand {
   switch (command.kind) {
     case "create-object":
-      return { kind: "delete-object", objectId: command.object.id, object: command.object, index: command.index ?? Number.MAX_SAFE_INTEGER };
+      return {
+        kind: "delete-object",
+        objectId: command.object.id,
+        object: command.object,
+        index: command.index ?? Number.MAX_SAFE_INTEGER,
+        ...(command.parentId ? { parentId: command.parentId } : {})
+      };
     case "delete-object":
-      return { kind: "create-object", object: command.object, index: command.index };
+      return {
+        kind: "create-object",
+        object: command.object,
+        index: command.index,
+        ...(command.parentId ? { parentId: command.parentId } : {})
+      };
     case "update-transform":
       return { ...command, before: command.after, after: command.before };
     case "update-material":
@@ -50,6 +64,8 @@ export function invertStudioCommand(command: StudioCommand): StudioCommand {
       return { ...command, fromIndex: command.toIndex, toIndex: command.fromIndex };
     case "update-sprite-asset":
       return { ...command, beforeAssetSlot: command.afterAssetSlot, afterAssetSlot: command.beforeAssetSlot };
+    case "replace-objects":
+      return { ...command, before: command.after, after: command.before };
     case "batch":
       return { kind: "batch", commands: [...command.commands].reverse().map((child) => invertStudioCommand(child)) };
   }
@@ -75,15 +91,23 @@ function applyBatchCommand(scene: StudioSceneState, commands: readonly StudioCom
   return { scene: nextScene, handled: true };
 }
 
-function applyCreateObject(scene: StudioSceneState, object: StudioSceneObject, index: number | undefined): StudioCommandResult {
-  if (scene.objects.some((candidate) => candidate.id === object.id)) {
+function applyCreateObject(
+  scene: StudioSceneState,
+  object: StudioSceneObject,
+  index: number | undefined,
+  parentId: string | undefined
+): StudioCommandResult {
+  if (findStudioSceneObject(scene, object.id)) {
     return { scene, handled: false };
   }
 
-  const objects = [...scene.objects];
-  objects.splice(clampIndex(index ?? objects.length, objects.length), 0, object);
+  const nextScene = insertStudioSceneObject(scene, object, index ?? scene.objects.length, parentId);
+  return nextScene ? { scene: nextScene, handled: true } : { scene, handled: false };
+}
 
-  return { scene: { ...scene, objects }, handled: true };
+function applyDeleteObject(scene: StudioSceneState, objectId: string): StudioCommandResult {
+  const nextScene = removeStudioSceneObject(scene, objectId);
+  return nextScene ? { scene: nextScene, handled: true } : { scene, handled: false };
 }
 
 function applyReorderObject(scene: StudioSceneState, objectId: string, toIndex: number): StudioCommandResult {
@@ -116,7 +140,7 @@ function updateObject(
   update: (object: StudioSceneObject) => StudioSceneObject
 ): StudioCommandResult {
   let handled = false;
-  const objects = scene.objects.map((object) => {
+  const objects = mapStudioSceneObjects(scene.objects, (object) => {
     if (object.id !== objectId) {
       return object;
     }
@@ -128,14 +152,6 @@ function updateObject(
   return handled ? { scene: { ...scene, objects }, handled } : { scene, handled };
 }
 
-function updateObjects(
-  scene: StudioSceneState,
-  update: (objects: readonly StudioSceneObject[]) => readonly StudioSceneObject[]
-): StudioCommandResult {
-  const objects = update(scene.objects);
-  return objects.length === scene.objects.length ? { scene, handled: false } : { scene: { ...scene, objects }, handled: true };
-}
-
 function applySpriteAsset(
   scene: StudioSceneState,
   objectId: string,
@@ -143,7 +159,7 @@ function applySpriteAsset(
   previousAssetSlot: string
 ): StudioCommandResult {
   let handled = false;
-  const objects = scene.objects.map((object) => {
+  const objects = mapStudioSceneObjects(scene.objects, (object) => {
     if (object.id !== objectId || object.type !== "sprite" || object.assetSlot === assetSlot) {
       return object;
     }
@@ -210,7 +226,7 @@ function updateTransform(object: StudioSceneObject, transform: StudioTransformSt
     return { ...object, x, y, font: transform.font };
   }
 
-  return assertNeverObject(object);
+  return { ...object, x, y };
 }
 
 function updateTextContent(object: StudioSceneObject, content: StudioTextContentState): StudioSceneObject {
@@ -219,8 +235,4 @@ function updateTextContent(object: StudioSceneObject, content: StudioTextContent
 
 function clampIndex(index: number, maxIndex: number): number {
   return Math.max(0, Math.min(maxIndex, index));
-}
-
-function assertNeverObject(object: never): never {
-  throw new Error(`Unsupported Studio object transform: ${JSON.stringify(object)}`);
 }

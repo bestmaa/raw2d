@@ -19,6 +19,8 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
   const exportButton = options.root.querySelector<HTMLButtonElement>('[data-action="export-png"]');
   const copyCanvasButton = options.root.querySelector<HTMLButtonElement>('[data-action="copy-canvas-code"]');
   const copyWebGLButton = options.root.querySelector<HTMLButtonElement>('[data-action="copy-webgl-code"]');
+  const groupButton = options.root.querySelector<HTMLButtonElement>('[data-action="group"]');
+  const ungroupButton = options.root.querySelector<HTMLButtonElement>('[data-action="ungroup"]');
 
   sampleButton?.addEventListener("click", () => {
     options.onAction("sample-scene");
@@ -52,6 +54,14 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
     options.onAction("copy-webgl-code");
   });
 
+  groupButton?.addEventListener("click", () => {
+    options.onAction("group");
+  });
+
+  ungroupButton?.addEventListener("click", () => {
+    options.onAction("ungroup");
+  });
+
   for (const action of toolActions) {
     const button = options.root.querySelector<HTMLButtonElement>(`[data-tool="${action}"]`);
     button?.addEventListener("click", () => {
@@ -80,6 +90,8 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "export-png":
     case "copy-canvas-code":
     case "copy-webgl-code":
+    case "group":
+    case "ungroup":
       return scene;
   }
 }
