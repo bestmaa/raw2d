@@ -13,11 +13,20 @@ Ye page same scene ko Canvas aur WebGL dono se render karta hai, phir result exp
 - `coloredPixels`
 - `width`
 - `height`
+- `matrix`
 
 Browser console me read karein:
 
 ```ts
 console.log(window.__raw2dPixelResult);
+console.table(window.__raw2dPixelResult.matrix);
 ```
 
-Iska use real browser pixel smoke test ke liye karein. Unit tests WebGL geometry snapshots lock karte hain, aur ye page blank canvas, sirf background output, context, color, shader, ya viewport issue pakadne me help karta hai.
+Matrix me `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, `Polygon`,
+`ShapePath`, `Sprite`, `Text2D`, aur `Group2D` ke liye Canvas/WebGL row hoti
+hai.
+
+Iska use real browser pixel smoke test ke liye karein. Unit tests WebGL geometry
+snapshots lock karte hain, aur ye page blank canvas, sirf background output,
+context, color, shader, viewport, ya per-object renderer parity issue pakadne me
+help karta hai.

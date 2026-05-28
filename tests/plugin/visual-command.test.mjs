@@ -12,7 +12,7 @@ test("Raw2D visual pixel command reports the visual test plan", async () => {
 
   assert.equal(result.ok, true);
   assert.equal(result.type, "visual-pixel-test-plan");
-  assert.deepEqual(result.args, ["--test", "tests/webgl/visual-regression.test.mjs"]);
+  assert.deepEqual(result.args, ["--test", "tests/webgl/visual-regression.test.mjs", "tests/browser/visual-pixel.test.mjs"]);
   assert.match(result.command, /node/);
 });
 
@@ -37,4 +37,3 @@ async function runForOutput(command, args, cwd) {
 
   return output;
 }
-

@@ -1,5 +1,14 @@
 # Raw2D Release Notes
 
+## v1.25.1 - Renderer Parity Matrix
+
+Raw2D v1.25.1 adds a browser-visible Canvas/WebGL parity matrix for the final v1 hardening pass.
+
+- `/visual-test` now exposes `window.__raw2dPixelResult.matrix` with per-object Canvas and WebGL status, hash, and colored pixel counts.
+- The matrix covers `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, `Polygon`, `ShapePath`, `Sprite`, `Text2D`, and `Group2D`.
+- Browser, docs, plugin, and MCP visual-check tests now point at the parity matrix instead of stale renderer-test paths.
+- All Raw2D workspace packages are fixed-version bumped to `1.25.1`.
+
 ## v1.25.0 - Public API Freeze
 
 Raw2D v1.25.0 freezes the public API surface before the v1 release candidate.

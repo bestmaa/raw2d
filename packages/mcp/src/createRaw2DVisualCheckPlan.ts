@@ -17,6 +17,12 @@ const browserSmokeCommand: Raw2DMcpVisualCheckCommand = {
   description: "Verify docs and example routes load through Vite."
 };
 
+const browserMatrixCommand: Raw2DMcpVisualCheckCommand = {
+  command: "node",
+  args: ["--test", "tests/browser/visual-pixel.test.mjs"],
+  description: "Verify the Canvas/WebGL renderer parity matrix for every supported object kind."
+};
+
 export function createRaw2DVisualCheckPlan(options: CreateRaw2DVisualCheckPlanOptions = {}): Raw2DMcpVisualCheckPlan {
   const target = options.target ?? "all";
 
@@ -36,5 +42,9 @@ function getCommands(target: Raw2DMcpVisualCheckTarget): readonly Raw2DMcpVisual
     return [browserSmokeCommand];
   }
 
-  return [webglGeometryCommand, browserSmokeCommand];
+  if (target === "browser-matrix") {
+    return [browserMatrixCommand];
+  }
+
+  return [webglGeometryCommand, browserMatrixCommand, browserSmokeCommand];
 }

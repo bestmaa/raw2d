@@ -7,7 +7,7 @@ const pluginRoot = fileURLToPath(new URL("../", import.meta.url));
 const repoRoot = path.resolve(pluginRoot, "../..");
 const options = parseArgs(process.argv.slice(2));
 const command = process.execPath;
-const args = ["--test", "tests/webgl/visual-regression.test.mjs"];
+const args = ["--test", "tests/webgl/visual-regression.test.mjs", "tests/browser/visual-pixel.test.mjs"];
 
 if (options.dryRun) {
   const result = {
@@ -64,4 +64,3 @@ function run(commandToRun, argsToRun, cwd) {
     child.on("close", resolve);
   });
 }
-

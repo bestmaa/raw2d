@@ -15,6 +15,7 @@ import {
 } from "raw2d";
 import type { VisualPixelCoverage, VisualPixelRendererResult, VisualPixelTestResult } from "./VisualPixelTest.type";
 import { createBaseCoverage, createEmptyCoverage, createWebGLCoverage } from "./VisualPixelCoverage";
+import { runVisualPixelMatrix } from "./VisualPixelMatrix";
 
 type ResultWindow = Window & { __raw2dPixelResult?: VisualPixelTestResult };
 
@@ -27,18 +28,23 @@ export function renderVisualPixelTestPage(): HTMLElement {
   const root = document.createElement("main");
   const title = document.createElement("h1");
   const grid = document.createElement("div");
+  const matrixTitle = document.createElement("h2");
+  const matrixOutput = document.createElement("pre");
   const canvasPanel = createPanel("Canvas");
   const webglPanel = createPanel("WebGL");
 
   root.className = "visual-test-page";
   title.textContent = "Raw2D Visual Pixel Test";
+  matrixTitle.textContent = "Renderer Parity Matrix";
+  matrixOutput.className = "visual-test-output";
   grid.className = "visual-test-grid";
   grid.append(canvasPanel.panel, webglPanel.panel);
-  root.append(title, grid);
+  root.append(title, grid, matrixTitle, matrixOutput);
 
   const result = {
     canvas: runCanvasTest(canvasPanel.canvas, canvasPanel.output),
-    webgl: runWebGLTest(webglPanel.canvas, webglPanel.output)
+    webgl: runWebGLTest(webglPanel.canvas, webglPanel.output),
+    matrix: runVisualPixelMatrix(matrixOutput)
   };
   (window as ResultWindow).__raw2dPixelResult = result;
   return root;

@@ -16,7 +16,7 @@ http://localhost:5174/visual-test`
       },
       {
         title: "Read The Result",
-        body: "Each renderer reports status, hash, non-background coloredPixels, width, height, coverage, and a short message. WebGL can be unavailable on devices without WebGL2.",
+        body: "Each renderer reports status, hash, non-background coloredPixels, width, height, coverage, and a short message. The matrix rows also report Canvas and WebGL status for every supported object kind.",
         code: `const result = window.__raw2dPixelResult;
 
 console.log(result.canvas.status);
@@ -24,15 +24,17 @@ console.log(result.canvas.hash);
 console.log(result.webgl.status);
 console.log(result.webgl.coloredPixels);
 console.log(result.webgl.coverage.sprites);
-console.log(result.webgl.coverage.staticCacheHits);`
+console.log(result.webgl.coverage.staticCacheHits);
+console.table(result.matrix);`
       },
       {
         title: "Covered Features",
-        body: "The visual scene includes Sprite, Text2D, ShapePath raster fallback, culling, and static render mode so WebGL parity does not regress quietly.",
+        body: "The visual scene includes Sprite, Text2D, ShapePath raster fallback, culling, and static render mode. The matrix separately checks Rect, Circle, Ellipse, Arc, Line, Polyline, Polygon, ShapePath, Sprite, Text2D, and Group2D.",
         code: `if (result.webgl.status === "passed") {
   console.log(result.webgl.coverage.shapePaths);
   console.log(result.webgl.coverage.culled);
   console.log(result.webgl.coverage.staticBatches);
+  console.log(result.matrix.length);
 }`
       },
       {

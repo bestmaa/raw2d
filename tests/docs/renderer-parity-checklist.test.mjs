@@ -17,6 +17,8 @@ test("renderer parity checklist covers shared renderer behavior", () => {
 test("renderer parity checklist covers browser and visual checks", () => {
   for (const content of [topic, english, hinglish]) {
     assert.match(content, /test:browser/);
+    assert.match(content, /visual-pixel\.test\.mjs/);
+    assert.match(content, /__raw2dPixelResult\.matrix/);
     assert.match(content, /benchmark/);
     assert.match(content, /visual-test/);
     assert.match(content, /WebGL2/);

@@ -25,12 +25,15 @@ test("visual pixel page covers WebGL parity signals", async (t) => {
 
   const source = [
     await fetchText("/src/pages/VisualPixelTest.ts"),
-    await fetchText("/src/pages/VisualPixelCoverage.ts")
+    await fetchText("/src/pages/VisualPixelCoverage.ts"),
+    await fetchText("/src/pages/VisualPixelMatrix.ts")
   ].join("\n");
   for (const expected of [
     "new Sprite",
     "new Text2D",
     "new ShapePath",
+    "getRendererSupportMatrix",
+    "Renderer Parity Matrix",
     "setRenderMode(\"static\")",
     "culling: true",
     "staticCacheHits",
@@ -51,6 +54,20 @@ test("visual pixel page covers WebGL parity signals", async (t) => {
   assert.equal(result.webgl.coverage.staticBatches > 0, true);
   assert.equal(result.webgl.coverage.staticCacheHits > 0, true);
   assert.equal(result.webgl.coloredPixels > 0, true);
+  assert.equal(result.matrix.length, 11);
+
+  const expectedKinds = ["Arc", "Circle", "Ellipse", "Group2D", "Line", "Polygon", "Polyline", "Rect", "ShapePath", "Sprite", "Text2D"];
+  assert.deepEqual(
+    result.matrix.map((row) => row.kind).sort(),
+    expectedKinds
+  );
+
+  for (const row of result.matrix) {
+    assert.equal(row.canvas.status, "passed", row.kind);
+    assert.equal(row.webgl.status, "passed", row.kind);
+    assert.equal(row.canvas.coloredPixels > 0, true, row.kind);
+    assert.equal(row.webgl.coloredPixels > 0, true, row.kind);
+  }
 });
 
 function startViteServer() {

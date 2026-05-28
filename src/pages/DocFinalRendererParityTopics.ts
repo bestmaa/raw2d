@@ -17,6 +17,15 @@ zIndex render order
 Camera x/y/zoom`
       },
       {
+        title: "Browser Matrix",
+        body: "The visual-test route exposes window.__raw2dPixelResult.matrix with a Canvas and WebGL row for every support-matrix object: Rect, Circle, Ellipse, Arc, Line, Polyline, Polygon, ShapePath, Sprite, Text2D, and Group2D.",
+        code: `const result = window.__raw2dPixelResult;
+
+for (const row of result.matrix) {
+  console.log(row.kind, row.canvas.status, row.webgl.status);
+}`
+      },
+      {
         title: "Known Differences",
         body: "Document any renderer difference clearly. WebGL may batch, cache, or fallback differently, but it should not silently hide supported content.",
         code: `Canvas: reference renderer
@@ -28,7 +37,7 @@ WebGL2 unavailable: clear message`
         title: "Checks",
         body: "Run Canvas, WebGL, benchmark, visual-test, and support matrix checks before release.",
         code: `npm run test:browser
-node --test tests/renderers/*.test.mjs
+node --test tests/browser/visual-pixel.test.mjs
 http://localhost:5197/benchmark
 http://localhost:5197/visual-test`
       }

@@ -1,4 +1,4 @@
-export type Raw2DMcpVisualCheckTarget = "webgl-geometry" | "browser-smoke" | "all";
+export type Raw2DMcpVisualCheckTarget = "webgl-geometry" | "browser-matrix" | "browser-smoke" | "all";
 
 export interface CreateRaw2DVisualCheckPlanOptions {
   readonly target?: Raw2DMcpVisualCheckTarget;

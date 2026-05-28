@@ -25,9 +25,17 @@ test("createRaw2DVisualCheckPlan returns browser smoke command", () => {
   assert.deepEqual(plan.commands[0]?.args, ["run", "test:browser"]);
 });
 
+test("createRaw2DVisualCheckPlan returns browser matrix command", () => {
+  const plan = createRaw2DVisualCheckPlan({ target: "browser-matrix" });
+
+  assert.equal(plan.manualBrowserRequired, true);
+  assert.equal(plan.commands[0]?.command, "node");
+  assert.deepEqual(plan.commands[0]?.args, ["--test", "tests/browser/visual-pixel.test.mjs"]);
+});
+
 test("createRaw2DVisualCheckPlan defaults to all visual checks", () => {
   const plan = createRaw2DVisualCheckPlan();
 
   assert.equal(plan.target, "all");
-  assert.equal(plan.commands.length, 2);
+  assert.equal(plan.commands.length, 3);
 });

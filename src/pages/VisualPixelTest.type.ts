@@ -1,6 +1,12 @@
+import type { RendererSupportLevel, RendererSupportObjectKind } from "raw2d";
+
+export type VisualPixelRendererName = "canvas" | "webgl";
+
+export type VisualPixelStatus = "passed" | "unavailable" | "failed";
+
 export interface VisualPixelRendererResult {
-  readonly renderer: "canvas" | "webgl";
-  readonly status: "passed" | "unavailable" | "failed";
+  readonly renderer: VisualPixelRendererName;
+  readonly status: VisualPixelStatus;
   readonly hash: string;
   readonly coloredPixels: number;
   readonly width: number;
@@ -23,4 +29,21 @@ export interface VisualPixelCoverage {
 export interface VisualPixelTestResult {
   readonly canvas: VisualPixelRendererResult;
   readonly webgl: VisualPixelRendererResult;
+  readonly matrix: readonly VisualPixelMatrixRow[];
+}
+
+export interface VisualPixelMatrixCell {
+  readonly renderer: VisualPixelRendererName;
+  readonly status: VisualPixelStatus;
+  readonly hash: string;
+  readonly coloredPixels: number;
+  readonly message: string;
+}
+
+export interface VisualPixelMatrixRow {
+  readonly kind: RendererSupportObjectKind;
+  readonly canvasSupport: RendererSupportLevel;
+  readonly webglSupport: RendererSupportLevel;
+  readonly canvas: VisualPixelMatrixCell;
+  readonly webgl: VisualPixelMatrixCell;
 }

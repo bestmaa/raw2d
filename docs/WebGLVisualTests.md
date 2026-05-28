@@ -13,11 +13,18 @@ The page renders the same scene with Canvas and WebGL, then writes:
 - `coloredPixels`
 - `width`
 - `height`
+- `matrix`
 
 Read it from the browser console:
 
 ```ts
 console.log(window.__raw2dPixelResult);
+console.table(window.__raw2dPixelResult.matrix);
 ```
 
-Use this for real browser pixel checks. Unit tests still lock WebGL geometry snapshots, while this page catches blank canvas, background-only output, context, color, shader, and viewport problems.
+The matrix has one Canvas/WebGL row for `Rect`, `Circle`, `Ellipse`, `Arc`,
+`Line`, `Polyline`, `Polygon`, `ShapePath`, `Sprite`, `Text2D`, and `Group2D`.
+
+Use this for real browser pixel checks. Unit tests still lock WebGL geometry
+snapshots, while this page catches blank canvas, background-only output,
+context, color, shader, viewport, and per-object renderer parity problems.

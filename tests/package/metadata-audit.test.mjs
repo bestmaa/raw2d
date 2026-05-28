@@ -51,8 +51,8 @@ test("package dependency metadata covers public declaration imports", async () =
   const canvas = await readManifest("canvas");
   const webgl = await readManifest("webgl");
 
-  assert.equal(canvas.dependencies["raw2d-effects"], "1.25.0");
-  assert.equal(webgl.dependencies["raw2d-effects"], "1.25.0");
+  assert.equal(canvas.dependencies["raw2d-effects"], "1.25.1");
+  assert.equal(webgl.dependencies["raw2d-effects"], "1.25.1");
 });
 
 async function readManifest(dir) {

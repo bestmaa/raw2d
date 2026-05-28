@@ -40,7 +40,7 @@ test("visual check tool returns command plans without executing them", () => {
 
   assert.deepEqual(
     plan.commands.map((command) => command.command),
-    ["node", "npm"]
+    ["node", "node", "npm"]
   );
 });
 

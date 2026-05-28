@@ -13,6 +13,20 @@ CanvasRenderer aur WebGLRenderer2D in behavior par agree karne chahiye:
 - Camera x/y/zoom.
 - Material color basics.
 
+## Browser Matrix
+
+`/visual-test` page ko `window.__raw2dPixelResult.matrix` expose karna chahiye
+jisme public support-matrix ke har object ke liye ek row ho:
+
+- `Rect`, `Circle`, `Ellipse`, `Arc`, `Line`, `Polyline`, aur `Polygon`.
+- `ShapePath`, WebGL rasterized fill fallback ke saath.
+- `Sprite` aur `Text2D` texture paths.
+- `Group2D` flattened child rendering.
+
+Har row Canvas aur WebGL dono se render honi chahiye, status, hash, aur colored
+pixel count report kare, aur agar koi renderer sirf background pixels draw kare
+to browser test fail hona chahiye.
+
 ## Known Differences
 
 - Canvas reference renderer hai.
@@ -25,7 +39,7 @@ CanvasRenderer aur WebGLRenderer2D in behavior par agree karne chahiye:
 
 ```sh
 npm run test:browser
-node --test tests/renderers/*.test.mjs
+node --test tests/browser/visual-pixel.test.mjs
 ```
 
 Release se pehle browser me `/benchmark` aur `/visual-test` bhi open karo.

@@ -12,8 +12,10 @@ export async function importVisualPixelPage(t, root) {
   });
 
   await writeTranspiledModule(directory, "VisualPixelCoverage");
+  await writeTranspiledModule(directory, "VisualPixelMatrix");
   await writeTranspiledModule(directory, "VisualPixelTest", {
-    "./VisualPixelCoverage": "./VisualPixelCoverage.js"
+    "./VisualPixelCoverage": "./VisualPixelCoverage.js",
+    "./VisualPixelMatrix": "./VisualPixelMatrix.js"
   });
 
   return import(pathToFileURL(join(directory, "VisualPixelTest.js")).href);
