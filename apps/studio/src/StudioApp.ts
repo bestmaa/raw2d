@@ -3,6 +3,8 @@ import { bindStudioAssetPanel } from "./StudioAssetBindings";
 import { createStudioAssetPanelModel } from "./StudioAssetPanel";
 import { createStudioActionObject } from "./StudioActions";
 import type { StudioAppOptions } from "./StudioApp.type";
+import { serializeStudioClipboard } from "./StudioClipboard";
+import { createStudioPasteCommand } from "./StudioClipboardCommands";
 import type { StudioCommand, StudioCommandApplyOptions } from "./StudioCommand.type";
 import { bindStudioCanvasDrag } from "./StudioCanvasBindings";
 import { createStudioArrangementCommand } from "./StudioArrangementCommands";
@@ -58,17 +60,10 @@ export class StudioApp {
     });
   }
   private bindRendererSwitch(): void {
-    bindStudioRendererSwitch({
-      root: this.root,
-      onRendererMode: (mode) => {
-        this.rendererMode = mode;
-        this.rendererStats = createEmptyStudioStats(mode);
-        this.mount();
-      }
-    });
+    bindStudioRendererSwitch({ root: this.root, onRendererMode: (mode) => { this.rendererMode = mode; this.rendererStats = createEmptyStudioStats(mode); this.mount(); } });
   }
   private bindActions(): void {
-    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onGroup: () => { this.handleGroupObjects(); }, onUngroup: () => { this.handleUngroupObject(); }, onArrange: (action) => { this.handleArrangement(action); }, onNavigate: (action) => { this.handleNavigation(action); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
+    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onGroup: () => { this.handleGroupObjects(); }, onUngroup: () => { this.handleUngroupObject(); }, onArrange: (action) => { this.handleArrangement(action); }, onNavigate: (action) => { this.handleNavigation(action); }, onCopySelection: () => { void this.copySelection(); }, onPasteSelection: () => { void this.pasteSelection(); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
   }
 
   private bindAssets(): void {
@@ -106,6 +101,7 @@ export class StudioApp {
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
+    if (this.handleClipboardShortcut(event)) return;
     const historyAction = getStudioHistoryKeyboardAction({
       key: event.key,
       shiftKey: event.shiftKey,
@@ -161,22 +157,12 @@ export class StudioApp {
   }
   private handleGroupObjects(): void {
     const result = createStudioGroupCommand(this.sceneState, this.selectedObjectIds);
-
-    if (!result) {
-      this.statusMessage = "Select at least two root objects to group";
-      this.mount();
-      return;
-    }
+    if (!result) { this.statusMessage = "Select at least two root objects to group"; this.mount(); return; }
     this.applyCommand(result.command, result.options);
   }
   private handleUngroupObject(): void {
     const result = createStudioUngroupCommand(this.sceneState, this.selectedObjectId);
-
-    if (!result) {
-      this.statusMessage = "Select a group to ungroup";
-      this.mount();
-      return;
-    }
+    if (!result) { this.statusMessage = "Select a group to ungroup"; this.mount(); return; }
     this.applyCommand(result.command, result.options);
   }
   private handleArrangement(action: Parameters<typeof createStudioArrangementCommand>[2]): void {
@@ -188,6 +174,24 @@ export class StudioApp {
     const scene = action === "zoom-selection" ? zoomStudioCameraToSelection({ scene: this.sceneState, selectedObjectIds: this.selectedObjectIds }) : fitStudioCameraToScene(this.sceneState);
     if (!scene) { this.statusMessage = action === "zoom-selection" ? "Select an object to zoom" : "Scene is empty"; this.mount(); return; }
     this.sceneState = scene; this.statusMessage = action === "zoom-selection" ? "Zoomed to selection" : "Fit scene"; this.mount();
+  }
+  private handleClipboardShortcut(event: KeyboardEvent): boolean {
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return false;
+    if (!(event.ctrlKey || event.metaKey)) return false;
+    const key = event.key.toLowerCase();
+    if (key === "c") { void this.copySelection(); event.preventDefault(); return true; }
+    if (key === "v") { void this.pasteSelection(); event.preventDefault(); return true; }
+    return false;
+  }
+  private async copySelection(): Promise<void> {
+    const text = serializeStudioClipboard(this.sceneState, this.selectedObjectIds);
+    if (!text) { this.statusMessage = "Select objects to copy"; this.mount(); return; }
+    try { await navigator.clipboard.writeText(text); this.statusMessage = "Copied selection"; } catch { this.statusMessage = "Clipboard unavailable"; } this.mount();
+  }
+  private async pasteSelection(): Promise<void> {
+    const result = await navigator.clipboard.readText().then((text) => createStudioPasteCommand(this.sceneState, text)).catch(() => undefined);
+    if (result) this.applyCommand(result.command, result.options);
+    else { this.statusMessage = "Clipboard has no Raw2D Studio selection"; this.mount(); }
   }
   private applyCommand(command: StudioCommand, options: StudioCommandApplyOptions = {}): void {
     const result = applyStudioHistoryCommand({ scene: this.sceneState, history: this.history, command });

@@ -19,6 +19,8 @@ export interface StudioAppActionBindingOptions {
   readonly onUngroup: () => void;
   readonly onArrange: (action: StudioArrangementAction) => void;
   readonly onNavigate: (action: StudioNavigationAction) => void;
+  readonly onCopySelection: () => void;
+  readonly onPasteSelection: () => void;
   readonly onCreateObject: (action: StudioAction) => void;
   readonly mount: () => void;
 }

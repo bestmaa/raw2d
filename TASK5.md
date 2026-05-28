@@ -140,7 +140,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T302 | Version: v1.24.0 | Status: completed | Goal: Add grouping and ungrouping in Studio using `Group2D` semantics without hiding scene hierarchy. | Verify: unit and browser group edit tests. | Commit: `Add Studio grouping`
 - T303 | Version: v1.24.1 | Status: completed | Goal: Add object duplication, alignment, distribute, and snapping helpers as explicit commands. | Verify: unit and browser editing tests. | Commit: `Add Studio arrangement tools`
 - T304 | Version: v1.24.2 | Status: completed | Goal: Add zoom-to-selection, fit-to-scene, and minimap helpers for large Studio scenes. | Verify: browser camera workflow tests. | Commit: `Add Studio navigation helpers`
-- T305 | Version: v1.24.3 | Status: pending | Goal: Add stable Studio clipboard format for copy and paste across documents. | Verify: unit tests for clipboard serialization and browser paste check. | Commit: `Add Studio clipboard`
+- T305 | Version: v1.24.3 | Status: completed | Goal: Add stable Studio clipboard format for copy and paste across documents. | Verify: unit tests for clipboard serialization and browser paste check. | Commit: `Add Studio clipboard`
 - T306 | Version: v1.24.4 | Status: pending | Goal: Document advanced Studio editing workflows and keyboard accessibility. | Verify: docs route and accessibility checks. | Commit: `Document Studio advanced editing`
 - T307 | Version: v1.24.5 | Status: pending | Goal: Phase 32 release and publish. | Verify: CI, npm latest, Cloudflare docs, Studio advanced editing workflow. | Commit: `Release Studio advanced editing phase`
 

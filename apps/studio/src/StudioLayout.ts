@@ -151,6 +151,8 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <button type="button" data-action="ungroup">Ungroup</button>
           ${arrangeActions.map(([action, label]) => `<button type="button" data-action="${action}">${label}</button>`).join("")}
           ${navigationActions.map(([action, label]) => `<button type="button" data-action="${action}">${label}</button>`).join("")}
+          <button type="button" data-action="copy-selection">Copy</button>
+          <button type="button" data-action="paste-selection">Paste</button>
           <button type="button" data-action="save-scene">Save</button>
           <button type="button" data-action="load-scene">Load</button>
           <button type="button" data-action="export-png">Export</button>

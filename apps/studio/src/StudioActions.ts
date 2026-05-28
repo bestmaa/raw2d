@@ -30,6 +30,8 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
   const saveButton = options.root.querySelector<HTMLButtonElement>('[data-action="save-scene"]');
   const loadButton = options.root.querySelector<HTMLButtonElement>('[data-action="load-scene"]');
   const exportButton = options.root.querySelector<HTMLButtonElement>('[data-action="export-png"]');
+  const copySelectionButton = options.root.querySelector<HTMLButtonElement>('[data-action="copy-selection"]');
+  const pasteSelectionButton = options.root.querySelector<HTMLButtonElement>('[data-action="paste-selection"]');
   const copyCanvasButton = options.root.querySelector<HTMLButtonElement>('[data-action="copy-canvas-code"]');
   const copyWebGLButton = options.root.querySelector<HTMLButtonElement>('[data-action="copy-webgl-code"]');
   const groupButton = options.root.querySelector<HTMLButtonElement>('[data-action="group"]');
@@ -57,6 +59,14 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
 
   exportButton?.addEventListener("click", () => {
     options.onAction("export-png");
+  });
+
+  copySelectionButton?.addEventListener("click", () => {
+    options.onAction("copy-selection");
+  });
+
+  pasteSelectionButton?.addEventListener("click", () => {
+    options.onAction("paste-selection");
   });
 
   copyCanvasButton?.addEventListener("click", () => {
@@ -115,6 +125,8 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "save-scene":
     case "load-scene":
     case "export-png":
+    case "copy-selection":
+    case "paste-selection":
     case "copy-canvas-code":
     case "copy-webgl-code":
     case "group":

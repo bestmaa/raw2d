@@ -8,6 +8,8 @@ export type StudioAction =
   | "save-scene"
   | "load-scene"
   | "export-png"
+  | "copy-selection"
+  | "paste-selection"
   | "copy-canvas-code"
   | "copy-webgl-code"
   | "group"

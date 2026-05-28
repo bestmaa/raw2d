@@ -83,6 +83,16 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
+  if (action === "copy-selection") {
+    options.onCopySelection();
+    return;
+  }
+
+  if (action === "paste-selection") {
+    options.onPasteSelection();
+    return;
+  }
+
   if (action === "load-scene") {
     clickStudioSceneLoadInput(options.root);
     return;
