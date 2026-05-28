@@ -51,6 +51,7 @@ import shapePath from "../../docs/ShapePath.md?raw";
 import showcaseDemo from "../../docs/ShowcaseDemo.md?raw";
 import raw2dMcpServerEntry from "../../docs/Raw2DMCPServerEntry.md?raw";
 import raw2dMcpSchemas from "../../docs/Raw2DMCPSchemas.md?raw";
+import raw2dMcpStudioAutomation from "../../docs/Raw2DMCPStudioAutomation.md?raw";
 import raw2dMcpPluginConsumer from "../../docs/Raw2DMCPPluginConsumer.md?raw";
 import raw2dStudioShell from "../../docs/Raw2DStudioShell.md?raw";
 import raw2dStudioDemoChecklist from "../../docs/Raw2DStudioDemoChecklist.md?raw";
@@ -126,6 +127,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "showcase-demo", label: "Showcase Demo", filename: "ShowcaseDemo.md", content: showcaseDemo },
   { id: "raw2d-mcp-server-entry", label: "MCP Server Entry", filename: "Raw2DMCPServerEntry.md", content: raw2dMcpServerEntry },
   { id: "raw2d-mcp-schemas", label: "MCP Schemas", filename: "Raw2DMCPSchemas.md", content: raw2dMcpSchemas },
+  { id: "raw2d-mcp-studio-automation", label: "MCP Studio Automation", filename: "Raw2DMCPStudioAutomation.md", content: raw2dMcpStudioAutomation },
   { id: "raw2d-mcp-plugin-consumer", label: "MCP Plugin Consumer", filename: "Raw2DMCPPluginConsumer.md", content: raw2dMcpPluginConsumer },
   { id: "studio-shell", label: "Studio Shell", filename: "Raw2DStudioShell.md", content: raw2dStudioShell },
   { id: "studio-demo-checklist", label: "Studio Demo Checklist", filename: "Raw2DStudioDemoChecklist.md", content: raw2dStudioDemoChecklist },

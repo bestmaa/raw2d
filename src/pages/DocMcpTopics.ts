@@ -93,6 +93,21 @@ for (const command of plan.commands) {
 }`
       },
       {
+        title: "Studio Automation",
+        body: "Studio automation helpers prepare explicit edit plans and Studio JSON. Agents should validate, show the plan, and let the host decide whether to write files or import into Studio.",
+        code: `import {
+  createRaw2DMcpSceneEditPlan,
+  generateRaw2DStudioExample,
+  validateRaw2DStudioScene
+} from "raw2d-mcp";
+
+const plan = createRaw2DMcpSceneEditPlan({ document, operations });
+const example = generateRaw2DStudioExample({ document, name: "Agent Draft" });
+const validation = validateRaw2DStudioScene({ document: example.document });
+
+console.log(plan.steps, validation.warnings);`
+      },
+      {
         title: "AI Control Rule",
         body: "Agents should validate and show generated output before any host environment writes files, runs visual checks, publishes packages, or pushes Git.",
         code: `Allowed inside raw2d-mcp:

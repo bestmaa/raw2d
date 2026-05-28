@@ -51,6 +51,12 @@ The returned shape is intentionally close to Raw2D examples:
 
 Input and output schemas for every public tool are documented in `docs/Raw2DMCPSchemas.md`.
 
+Studio automation boundaries are documented in `docs/Raw2DMCPStudioAutomation.md`.
+
+## Studio Automation
+
+Use `createRaw2DMcpSceneEditPlan`, `validateRaw2DStudioScene`, and `generateRaw2DStudioExample` when an agent needs to prepare Studio-safe edits. These helpers return explicit data only; they do not write `.raw2d.json` files, import into Studio, click the UI, or run renderers.
+
 ## Boundary
 
 This package should return data and generated code. It should not silently mutate a project or transmit project data.
