@@ -52,3 +52,29 @@ test("Studio interaction docs cover command history behavior", () => {
     assert.match(content, /Ctrl\/Cmd\+Z/);
   }
 });
+
+test("Studio interaction docs cover advanced editing workflows", () => {
+  for (const content of [englishInteraction, hinglishInteraction, routeTopics]) {
+    assert.match(content, /Group/);
+    assert.match(content, /Ungroup/);
+    assert.match(content, /Duplicate/);
+    assert.match(content, /Align/);
+    assert.match(content, /Distribute/);
+    assert.match(content, /Snap/);
+    assert.match(content, /Zoom Selection|zoomStudioCameraToSelection/);
+    assert.match(content, /Fit Scene|fitStudioCameraToScene/);
+    assert.match(content, /minimap|createStudioMinimapModel/);
+    assert.match(content, /raw2d-studio-clipboard/);
+  }
+});
+
+test("Studio interaction docs cover keyboard accessibility", () => {
+  for (const content of [englishInteraction, hinglishInteraction, routeTopics]) {
+    assert.match(content, /Tab/);
+    assert.match(content, /Shift\+Tab/);
+    assert.match(content, /Enter/);
+    assert.match(content, /focused|Focused/);
+    assert.match(content, /Ctrl\/Cmd\+C/);
+    assert.match(content, /Ctrl\/Cmd\+V/);
+  }
+});

@@ -28,4 +28,15 @@ chahiye, sirf canvas-only information nahi.
 ## Smoke Routes
 
 Commit se pehle real browser me `/doc`, `/doc#canvas-init`,
-`/doc#webgl-renderer`, aur `/doc#interaction-controller` open karo.
+`/doc#webgl-renderer`, aur `/doc#interaction-controller` open karo. Studio docs
+change hon to `/doc#studio-interaction` bhi open karo.
+
+## Studio Editing
+
+- Tab aur Shift+Tab Studio toolbar aur panel controls tak pahunchne chahiye.
+- Enter focused Group, Ungroup, Duplicate, Align, Distribute, Snap, Zoom
+  Selection, Fit Scene, Copy, aur Paste buttons activate kare.
+- Ctrl/Cmd+C editor focus me selection copy kare.
+- Ctrl/Cmd+V valid `raw2d-studio-clipboard` data paste kare.
+- Focused property inputs normal typing rakhein aur editor shortcuts ki wajah se
+  text na khoen.

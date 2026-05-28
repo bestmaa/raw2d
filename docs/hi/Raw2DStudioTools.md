@@ -158,14 +158,44 @@ update-text
 set-visibility
 reorder-object
 update-sprite-asset
+replace-objects
 batch
 ```
 
 Command history `apps/studio` ke andar rehti hai. Canvas aur WebGL renderers ko sirf runtime adapter se resulting scene state milta hai.
+
+## Advanced Editing
+
+Advanced tools bhi wahi explicit command rule follow karte hain. Ye pehle Studio scene JSON change karte hain aur Canvas/WebGL me direct draw nahi karte.
+
+```text
+Group -> root objects ko group object aur children me badlo
+Ungroup -> child world positions restore karo
+Duplicate -> stable id suffixes ke saath selection clone karo
+Align -> selected bounds ko shared edge ya center par lao
+Distribute -> teen ya zyada bounds ko ek axis par spread karo
+Snap -> selected world positions ko Studio grid par round karo
+```
+
+Grouping `Group2D`-style hierarchy use karta hai bina children chhupaye. Group duplicate karne par nested children clone hote hain aur Sprite asset references explicit rehte hain. Align, distribute, aur snap transform batch commands banate hain taaki undo/redo poore edit ko atomic rakhe.
+
+## Navigation And Clipboard
+
+Bade scenes hidden renderer state ke bajay camera helpers use karte hain.
+
+```text
+Zoom Selection -> camera selected bounds frame karta hai
+Fit Scene -> camera all scene bounds frame karta hai
+Minimap -> object bounds aur viewport bounds dikhata hai
+Copy -> raw2d-studio-clipboard payload
+Paste -> remapped ids aur safe asset metadata ke saath replace-objects command
+```
+
+Clipboard format document data hai, DOM ya canvas pixels nahi. Paste payload validate karta hai, conflicting object ids remap karta hai, matching asset metadata reuse karta hai, aur pasted objects select karta hai.
 
 ## Verification
 
 - Har tool explicit scene state changes se map hota hai.
 - Tools Canvas ya WebGL rendering logic own nahi karte.
 - Selection aur resize jahan possible ho `raw2d-interaction` reuse karte hain.
-- Undo/redo create, delete, move, resize, layer, aur property edits ke liye kaam karna chahiye.
+- Undo/redo create, delete, move, resize, layer, property, grouping, arrangement, aur paste edits ke liye kaam karna chahiye.

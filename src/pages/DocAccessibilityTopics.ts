@@ -38,7 +38,16 @@ Visual test result text`
         code: `http://localhost:5197/doc
 http://localhost:5197/doc#canvas-init
 http://localhost:5197/doc#webgl-renderer
-http://localhost:5197/doc#interaction-controller`
+http://localhost:5197/doc#interaction-controller
+http://localhost:5197/doc#studio-interaction`
+      },
+      {
+        title: "Studio Editing",
+        body: "Studio docs should cover keyboard access for advanced editing controls: Group, Ungroup, Duplicate, Align, Distribute, Snap, Zoom Selection, Fit Scene, Copy, and Paste.",
+        code: `Tab to Studio toolbar buttons
+Enter activates Group, Ungroup, Duplicate, Align, Distribute, Snap
+Ctrl/Cmd+C copies selection
+Ctrl/Cmd+V pastes valid Studio clipboard data`
       }
     ]
   }

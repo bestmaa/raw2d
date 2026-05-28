@@ -5,17 +5,20 @@ export const studioInteractionTopics: readonly DocTopic[] = [
     id: "studio-interaction",
     label: "Studio Interaction",
     title: "Raw2D Studio Interaction",
-    description: "Selection, drag, resize, keyboard, layer, property, undo, redo, and stats behavior in the current Studio app.",
+    description: "Selection, drag, resize, advanced editing, keyboard accessibility, undo, redo, and stats behavior in the current Studio app.",
     sections: [
       {
         title: "Current Controls",
-        body: "Studio supports single-object selection, drag movement, Rect/Sprite resize handles, keyboard nudging, delete, and escape clear. Input becomes explicit scene-state updates.",
+        body: "Studio supports selection, shift-select multi-selection, drag movement, Rect/Sprite resize handles, keyboard nudging, delete, escape clear, copy, and paste. Input becomes explicit scene-state updates.",
         code: `click object -> select
+shift-click -> toggle multi-selection
 drag selected -> update x/y
 corner handle -> resize Rect/Sprite
 Arrow keys -> nudge
 Escape -> clear selection
-Delete -> remove selected`
+Delete -> remove selected
+Ctrl/Cmd+C -> copy selection
+Ctrl/Cmd+V -> paste selection`
       },
       {
         title: "State Flow",
@@ -24,17 +27,45 @@ Delete -> remove selected`
       },
       {
         title: "Undo Redo",
-        body: "Create, delete, drag, resize, keyboard movement, layer visibility, layer order, and transform, material, or text property edits are recorded in Studio history.",
+        body: "Create, delete, drag, resize, keyboard movement, layer visibility, layer order, grouping, arrangement, paste, and transform, material, or text property edits are recorded in Studio history.",
         code: `Ctrl/Cmd+Z -> undoStudioHistory
 Ctrl/Cmd+Shift+Z -> redoStudioHistory
 Ctrl+Y -> redoStudioHistory`
       },
       {
+        title: "Advanced Editing",
+        body: "Group and Ungroup preserve visible hierarchy and child world positions. Duplicate remaps ids and Sprite asset references. Align, distribute, and snap use selection bounds and transform batch commands.",
+        code: `Group -> replace-objects
+Ungroup -> replace-objects
+Duplicate -> replace-objects
+Align Left -> update-transform batch
+Distribute H -> update-transform batch
+Snap -> update-transform batch`
+      },
+      {
+        title: "Navigation And Clipboard",
+        body: "Zoom Selection and Fit Scene update camera state without rewriting objects. The minimap displays object bounds and viewport bounds. Copy and Paste use a versioned raw2d-studio-clipboard JSON payload with validation and id remapping.",
+        code: `zoomStudioCameraToSelection
+fitStudioCameraToScene
+createStudioMinimapModel
+raw2d-studio-clipboard`
+      },
+      {
         title: "Keyboard",
-        body: "Arrow keys move by one unit, Shift+Arrow moves by ten units, Escape clears selection, and Delete or Backspace removes the selected object.",
+        body: "Arrow keys move by one unit, Shift+Arrow moves by ten units, Escape clears selection, Delete or Backspace removes the selected object, and Ctrl/Cmd+C or Ctrl/Cmd+V copy and paste valid Studio selections.",
         code: `ArrowRight -> x + 1
 Shift+ArrowRight -> x + 10
-Escape -> selectedObjectId = undefined`
+Escape -> selectedObjectId = undefined
+Ctrl/Cmd+C -> copy selection
+Ctrl/Cmd+V -> paste selection`
+      },
+      {
+        title: "Keyboard Accessibility",
+        body: "Toolbar actions stay as buttons so Tab, Shift+Tab, and Enter can reach and activate them. Property inputs keep text editing safe, and editor shortcuts should not steal normal typing from focused fields.",
+        code: `Tab -> next toolbar or panel control
+Shift+Tab -> previous control
+Enter -> activate focused button
+focused input -> keep typing local`
       },
       {
         title: "Panel Commands",

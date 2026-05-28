@@ -24,3 +24,17 @@ test("docs accessibility checklist covers visual docs routes", () => {
     assert.match(content, /Hinglish/);
   }
 });
+
+test("docs accessibility checklist covers Studio editing controls", () => {
+  for (const content of [topic, english, hinglish]) {
+    assert.match(content, /studio-interaction/);
+    assert.match(content, /Group/);
+    assert.match(content, /Ungroup/);
+    assert.match(content, /Duplicate/);
+    assert.match(content, /Align/);
+    assert.match(content, /Distribute/);
+    assert.match(content, /Snap/);
+    assert.match(content, /Ctrl\/Cmd\+C/);
+    assert.match(content, /Ctrl\/Cmd\+V/);
+  }
+});

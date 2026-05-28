@@ -158,14 +158,44 @@ update-text
 set-visibility
 reorder-object
 update-sprite-asset
+replace-objects
 batch
 ```
 
 The command history stays inside `apps/studio`. Canvas and WebGL renderers only receive the resulting scene state through the runtime adapter.
+
+## Advanced Editing
+
+Advanced tools still follow the same explicit command rule. They change Studio scene JSON first and never draw through Canvas or WebGL directly.
+
+```text
+Group -> replace root objects with a group object and children
+Ungroup -> restore child world positions
+Duplicate -> clone selection with stable id suffixes
+Align -> move selected bounds to a shared edge or center
+Distribute -> spread three or more bounds along one axis
+Snap -> round selected world positions to the Studio grid
+```
+
+Grouping uses `Group2D`-style hierarchy without hiding the children. Duplicating a group clones its nested children and keeps Sprite asset references explicit. Align, distribute, and snap produce transform batch commands so undo and redo keep the whole edit atomic.
+
+## Navigation And Clipboard
+
+Large scenes use camera helpers instead of hidden renderer state.
+
+```text
+Zoom Selection -> camera frames selected bounds
+Fit Scene -> camera frames all scene bounds
+Minimap -> shows object bounds and viewport bounds
+Copy -> raw2d-studio-clipboard payload
+Paste -> replace-objects command with remapped ids and safe asset metadata
+```
+
+The clipboard format is document data, not DOM or canvas pixels. Paste validates the payload, remaps conflicting object ids, reuses matching asset metadata, and selects the pasted objects.
 
 ## Verification
 
 - Every tool maps to explicit scene state changes.
 - Tools do not own Canvas or WebGL rendering logic.
 - Selection and resize reuse `raw2d-interaction` where possible.
-- Undo/redo should work for create, delete, move, resize, layer, and property edits.
+- Undo/redo should work for create, delete, move, resize, layer, property, grouping, arrangement, and paste edits.

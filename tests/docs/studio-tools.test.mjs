@@ -63,3 +63,16 @@ test("Studio tools docs explain multi-select group movement", () => {
     assert.match(content, /bounds/);
   }
 });
+
+test("Studio tools docs explain advanced editing helpers", () => {
+  for (const content of [englishDocs, hinglishDocs]) {
+    assert.match(content, /Group/);
+    assert.match(content, /Ungroup/);
+    assert.match(content, /Duplicate/);
+    assert.match(content, /Align/);
+    assert.match(content, /Distribute/);
+    assert.match(content, /Snap/);
+    assert.match(content, /replace-objects/);
+    assert.match(content, /raw2d-studio-clipboard/);
+  }
+});
