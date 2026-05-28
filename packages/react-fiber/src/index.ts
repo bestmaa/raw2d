@@ -1,6 +1,10 @@
 export { applyRaw2DFiberMaterialProps, applyRaw2DFiberObjectProps } from "./applyRaw2DFiberProps.js";
 export { createRaw2DFiberInstance } from "./createRaw2DFiberInstance.js";
 export { disposeRaw2DFiberInstance } from "./disposeRaw2DFiberInstance.js";
+export {
+  attachRaw2DFiberInteractionInstances,
+  createRaw2DFiberInteractionBridge
+} from "./Raw2DFiberInteractionBridge.js";
 export { RAW2D_FIBER_HOST_CONFIG, createRaw2DFiberHostConfig } from "./Raw2DFiberHostConfig.js";
 export { RAW2D_FIBER_HOST_BOUNDARY, getRaw2DFiberHostBoundary } from "./Raw2DFiberHostBoundary.js";
 export { RAW2D_REACT_FIBER_PACKAGE_INFO } from "./ReactFiberPackageInfo.js";
@@ -11,6 +15,11 @@ export type {
   Raw2DFiberHostInstance,
   Raw2DFiberHostParent
 } from "./Raw2DFiberHostConfig.type.js";
+export type {
+  Raw2DFiberInteractionBridge,
+  Raw2DFiberInteractionBridgeOptions,
+  Raw2DFiberInteractionBridgeSnapshot
+} from "./Raw2DFiberInteractionBridge.type.js";
 export type {
   Raw2DFiberHostBoundary,
   Raw2DFiberHostBoundaryStage,

@@ -15,6 +15,7 @@ npm install raw2d raw2d-react-fiber react
 - host config helpers for create, update, append, and remove operations
 - explicit sprite texture ownership for update and unmount cleanup
 - sprite texture lookup from `AssetGroup` with `textureName`
+- optional interaction bridge for selection, drag, resize, and camera controls
 - no Canvas, WebGL, or core API changes
 - no external `react-reconciler` dependency yet
 

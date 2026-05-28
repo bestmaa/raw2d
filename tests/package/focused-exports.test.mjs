@@ -99,6 +99,8 @@ test("raw2d-react-fiber exposes the scaffolded reconciler boundary", () => {
     "RAW2D_REACT_FIBER_PACKAGE_INFO",
     "applyRaw2DFiberMaterialProps",
     "applyRaw2DFiberObjectProps",
+    "attachRaw2DFiberInteractionInstances",
+    "createRaw2DFiberInteractionBridge",
     "createRaw2DFiberHostConfig",
     "createRaw2DFiberInstance",
     "disposeRaw2DFiberInstance",
