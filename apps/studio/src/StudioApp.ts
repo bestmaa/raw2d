@@ -5,6 +5,7 @@ import { createStudioActionObject } from "./StudioActions";
 import type { StudioAppOptions } from "./StudioApp.type";
 import type { StudioCommand, StudioCommandApplyOptions } from "./StudioCommand.type";
 import { bindStudioCanvasDrag } from "./StudioCanvasBindings";
+import { createStudioArrangementCommand } from "./StudioArrangementCommands";
 import { createStudioCreateObjectCommand } from "./StudioCommandFactory";
 import { createStudioInspectorModel } from "./StudioInspector";
 import { createStudioGroupCommand, createStudioUngroupCommand } from "./StudioGroupingCommands";
@@ -35,21 +36,9 @@ export class StudioApp {
   private history: StudioHistoryState = createStudioHistory();
   private rendererStats: StudioStatsPanelModel = createEmptyStudioStats("canvas");
   private statusMessage = "Ready";
-  public constructor(options: StudioAppOptions) {
-    this.root = options.root;
-    document.addEventListener("keydown", (event) => {
-      this.handleKeyDown(event);
-    });
-  }
+  public constructor(options: StudioAppOptions) { this.root = options.root; document.addEventListener("keydown", (event) => { this.handleKeyDown(event); }); }
   public mount(): void {
-    this.render();
-    this.bindRendererSwitch();
-    this.bindActions();
-    this.bindAssets();
-    this.bindLayers();
-    this.bindProperties();
-    this.bindCanvasDrag();
-    this.renderRuntimeScene();
+    this.render(); this.bindRendererSwitch(); this.bindActions(); this.bindAssets(); this.bindLayers(); this.bindProperties(); this.bindCanvasDrag(); this.renderRuntimeScene();
   }
   private render(): void {
     const rendererLabel = getStudioRendererLabel(this.rendererMode);
@@ -77,7 +66,7 @@ export class StudioApp {
     });
   }
   private bindActions(): void {
-    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onGroup: () => { this.handleGroupObjects(); }, onUngroup: () => { this.handleUngroupObject(); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
+    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onGroup: () => { this.handleGroupObjects(); }, onUngroup: () => { this.handleUngroupObject(); }, onArrange: (action) => { this.handleArrangement(action); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
   }
 
   private bindAssets(): void {
@@ -187,6 +176,11 @@ export class StudioApp {
       return;
     }
     this.applyCommand(result.command, result.options);
+  }
+  private handleArrangement(action: Parameters<typeof createStudioArrangementCommand>[2]): void {
+    const result = createStudioArrangementCommand(this.sceneState, this.selectedObjectIds, action);
+    if (result) this.applyCommand(result.command, result.options);
+    else { this.statusMessage = "Select more objects to arrange"; this.mount(); }
   }
   private applyCommand(command: StudioCommand, options: StudioCommandApplyOptions = {}): void {
     const result = applyStudioHistoryCommand({ scene: this.sceneState, history: this.history, command });

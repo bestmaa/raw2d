@@ -79,6 +79,8 @@ export interface StudioReplaceObjectsCommand {
   readonly kind: "replace-objects";
   readonly before: readonly StudioSceneObject[];
   readonly after: readonly StudioSceneObject[];
+  readonly beforeAssets?: StudioSceneState["assets"];
+  readonly afterAssets?: StudioSceneState["assets"];
 }
 
 export type StudioSingleCommand =

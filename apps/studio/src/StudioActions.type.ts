@@ -1,3 +1,5 @@
+import type { StudioArrangementAction } from "./StudioArrangement.type";
+
 export type StudioAction =
   | "sample-scene"
   | "undo"
@@ -9,6 +11,7 @@ export type StudioAction =
   | "copy-webgl-code"
   | "group"
   | "ungroup"
+  | StudioArrangementAction
   | "rect"
   | "circle"
   | "line"

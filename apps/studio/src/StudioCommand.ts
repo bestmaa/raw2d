@@ -29,7 +29,7 @@ export function applyStudioCommand(options: ApplyStudioCommandOptions): StudioCo
     case "update-sprite-asset":
       return applySpriteAsset(scene, command.objectId, command.afterAssetSlot, command.beforeAssetSlot);
     case "replace-objects":
-      return { scene: { ...scene, objects: command.after }, handled: true };
+      return { scene: { ...scene, objects: command.after, assets: command.afterAssets ?? scene.assets }, handled: true };
     case "batch":
       return applyBatchCommand(scene, command.commands);
   }
@@ -65,7 +65,13 @@ export function invertStudioCommand(command: StudioCommand): StudioCommand {
     case "update-sprite-asset":
       return { ...command, beforeAssetSlot: command.afterAssetSlot, afterAssetSlot: command.beforeAssetSlot };
     case "replace-objects":
-      return { ...command, before: command.after, after: command.before };
+      return {
+        ...command,
+        before: command.after,
+        after: command.before,
+        beforeAssets: command.afterAssets,
+        afterAssets: command.beforeAssets
+      };
     case "batch":
       return { kind: "batch", commands: [...command.commands].reverse().map((child) => invertStudioCommand(child)) };
   }

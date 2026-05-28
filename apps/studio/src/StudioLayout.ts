@@ -18,6 +18,19 @@ const emptyLayers: readonly StudioLayerItem[] = [
   { id: "guide", label: "Workspace Guide", type: "Guide", visible: true }
 ];
 
+const arrangeActions = [
+  ["duplicate", "Duplicate"],
+  ["align-left", "Left"],
+  ["align-center", "Center"],
+  ["align-right", "Right"],
+  ["align-top", "Top"],
+  ["align-middle", "Middle"],
+  ["align-bottom", "Bottom"],
+  ["distribute-horizontal", "Distribute H"],
+  ["distribute-vertical", "Distribute V"],
+  ["snap-grid", "Snap"]
+] as const;
+
 function renderTool(tool: StudioToolItem): string {
   return `
     <button class="studio-tool" type="button" data-tool="${tool.id}">
@@ -115,6 +128,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <button type="button" data-action="redo">Redo</button>
           <button type="button" data-action="group">Group</button>
           <button type="button" data-action="ungroup">Ungroup</button>
+          ${arrangeActions.map(([action, label]) => `<button type="button" data-action="${action}">${label}</button>`).join("")}
           <button type="button" data-action="save-scene">Save</button>
           <button type="button" data-action="load-scene">Load</button>
           <button type="button" data-action="export-png">Export</button>

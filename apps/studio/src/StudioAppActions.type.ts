@@ -1,6 +1,7 @@
 import type { StudioRendererMode } from "./StudioRenderer.type";
 import type { StudioSceneState } from "./StudioSceneState.type";
 import type { StudioAction } from "./StudioActions.type";
+import type { StudioArrangementAction } from "./StudioArrangement.type";
 
 export interface StudioAppActionBindingOptions {
   readonly root: HTMLElement;
@@ -15,6 +16,7 @@ export interface StudioAppActionBindingOptions {
   readonly onRedo: () => void;
   readonly onGroup: () => void;
   readonly onUngroup: () => void;
+  readonly onArrange: (action: StudioArrangementAction) => void;
   readonly onCreateObject: (action: StudioAction) => void;
   readonly mount: () => void;
 }

@@ -1,5 +1,6 @@
 import { bindStudioActions } from "./StudioActions";
 import type { StudioAction } from "./StudioActions.type";
+import type { StudioArrangementAction } from "./StudioArrangement.type";
 import type { StudioAppActionBindingOptions } from "./StudioAppActions.type";
 import { copyStudioCanvasCode } from "./StudioCanvasCodeExport";
 import { bindStudioSceneLoadInput, clickStudioSceneLoadInput } from "./StudioLoadBindings";
@@ -66,6 +67,11 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
+  if (isArrangementAction(action)) {
+    options.onArrange(action);
+    return;
+  }
+
   if (action === "save-scene") {
     downloadStudioScene({ scene: options.getScene() });
     return;
@@ -106,4 +112,8 @@ function createLoadStatusMessage(warnings: readonly string[]): string {
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Clipboard unavailable";
+}
+
+function isArrangementAction(action: StudioAction): action is StudioArrangementAction {
+  return action === "duplicate" || action.startsWith("align-") || action.startsWith("distribute-") || action === "snap-grid";
 }

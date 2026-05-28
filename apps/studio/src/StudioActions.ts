@@ -9,6 +9,18 @@ import {
 import type { StudioSceneState } from "./StudioSceneState.type";
 
 const toolActions: readonly StudioAction[] = ["rect", "circle", "line", "text", "sprite"];
+const arrangementActions: readonly StudioAction[] = [
+  "duplicate",
+  "align-left",
+  "align-center",
+  "align-right",
+  "align-top",
+  "align-middle",
+  "align-bottom",
+  "distribute-horizontal",
+  "distribute-vertical",
+  "snap-grid"
+];
 
 export function bindStudioActions(options: StudioActionBindingOptions): void {
   const sampleButton = options.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
@@ -62,6 +74,13 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
     options.onAction("ungroup");
   });
 
+  for (const action of arrangementActions) {
+    const button = options.root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`);
+    button?.addEventListener("click", () => {
+      options.onAction(action);
+    });
+  }
+
   for (const action of toolActions) {
     const button = options.root.querySelector<HTMLButtonElement>(`[data-tool="${action}"]`);
     button?.addEventListener("click", () => {
@@ -92,6 +111,16 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "copy-webgl-code":
     case "group":
     case "ungroup":
+    case "duplicate":
+    case "align-left":
+    case "align-center":
+    case "align-right":
+    case "align-top":
+    case "align-middle":
+    case "align-bottom":
+    case "distribute-horizontal":
+    case "distribute-vertical":
+    case "snap-grid":
       return scene;
   }
 }
