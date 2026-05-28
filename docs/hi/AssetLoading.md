@@ -160,7 +160,7 @@ const player = createSpriteFromAtlas({
 });
 ```
 
-String entry `{ type: "texture", url }` ka shorthand hai. Atlas entry internally `TextureAtlasLoader` use karti hai. `packAtlas` texture entries ko generated `TextureAtlas` me pack karta hai, aur `getAtlasPackingStats()` occupancy, wasted area, aur frame count deta hai.
+String entry `{ type: "texture", url }` ka shorthand hai. Atlas entry internally `TextureAtlasLoader` use karti hai. `packAtlas` texture entries ko generated `TextureAtlas` me pack karta hai, aur `getAtlasPackingStats()` occupancy, wasted area, fragmentation, resize suggestions, aur frame count deta hai.
 
 ## Loading Progress
 

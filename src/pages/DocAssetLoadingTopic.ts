@@ -30,7 +30,8 @@ export const assetLoadingTopic: DocTopic = {
 const playerTexture = assets.getTexture("player");
 const playerAtlas = assets.getAtlas("playerAtlas");
 const packedSprites = assets.getAtlas("sprites");
-const packingStats = assets.getAtlasPackingStats("sprites");`
+const packingStats = assets.getAtlasPackingStats("sprites");
+console.log(packingStats.fragmentation, packingStats.resizeSuggestion.action);`
     },
     {
       title: "Progress",

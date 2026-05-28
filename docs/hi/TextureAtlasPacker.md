@@ -41,11 +41,14 @@ console.log(result.stats.width, result.stats.height);
 console.log(result.stats.usedArea);
 console.log(result.stats.wastedArea);
 console.log(result.stats.occupancy);
+console.log(result.stats.fragmentation);
+console.log(result.stats.resizeSuggestion);
 
 const atlas = result.atlas;
 ```
 
 `occupancy` ka matlab hai `usedArea / totalArea`. Ye value jitni high hogi, atlas me empty space utna kam hoga.
+`fragmentedArea` occupied bounds ke andar ke gaps batata hai, aur `outerWasteArea` bounds ke bahar ka empty area. `resizeSuggestion` batata hai ki size rakhna hai, shrink karna hai, ya row gaps zyada hone par wider atlas try karna hai.
 
 ## WebGL Batching
 

@@ -50,11 +50,14 @@ console.log(result.stats.width, result.stats.height);
 console.log(result.stats.usedArea);
 console.log(result.stats.wastedArea);
 console.log(result.stats.occupancy);
+console.log(result.stats.fragmentation);
+console.log(result.stats.resizeSuggestion);
 
 const atlas = result.atlas;
 ```
 
 `occupancy` is `usedArea / totalArea`. Higher occupancy means less empty atlas space.
+`fragmentedArea` measures gaps inside the occupied bounds, while `outerWasteArea` measures unused area outside those bounds. `resizeSuggestion` reports whether this layout should stay as-is, shrink outer waste, or try a wider atlas when row gaps dominate.
 
 ## WebGL Batching
 

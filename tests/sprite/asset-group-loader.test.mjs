@@ -105,8 +105,17 @@ test("AssetGroupLoader can pack loaded textures into an atlas", async () => {
     totalArea: 638,
     usedArea: 440,
     wastedArea: 198,
+    fragmentedArea: 148,
+    outerWasteArea: 50,
     occupancy: 440 / 638,
-    frameCount: 2
+    fragmentation: 148 / 198,
+    frameCount: 2,
+    resizeSuggestion: {
+      action: "growWidth",
+      width: 64,
+      height: 22,
+      reason: "Internal row gaps dominate wasted area; a wider atlas may reduce fragmentation."
+    }
   });
   assert.deepEqual(group.getSnapshot().atlasPackingStatsNames, ["sprites"]);
 });

@@ -58,10 +58,41 @@ test("TextureAtlasPacker reports packing diagnostics", () => {
     totalArea: 768,
     usedArea: 456,
     wastedArea: 312,
+    fragmentedArea: 204,
+    outerWasteArea: 108,
     occupancy: 0.59375,
-    frameCount: 2
+    fragmentation: 204 / 312,
+    frameCount: 2,
+    resizeSuggestion: {
+      action: "growWidth",
+      width: 64,
+      height: 32,
+      reason: "Internal row gaps dominate wasted area; a wider atlas may reduce fragmentation."
+    }
   });
   assert.deepEqual(result.atlas.getFrame("run"), { x: 2, y: 20, width: 20, height: 10 });
+});
+
+test("TextureAtlasPacker reports shrink suggestions for outer waste", () => {
+  const packer = new TextureAtlasPacker({
+    padding: 1,
+    maxWidth: 64,
+    powerOfTwo: true,
+    createCanvas: createCanvasFactory([])
+  });
+  const result = packer.packWithStats([
+    { name: "wide", source: { width: 17, height: 9 } }
+  ]);
+
+  assert.equal(result.stats.fragmentedArea, 27);
+  assert.equal(result.stats.outerWasteArea, 332);
+  assert.equal(result.stats.fragmentation, 27 / 359);
+  assert.deepEqual(result.stats.resizeSuggestion, {
+    action: "shrink",
+    width: 18,
+    height: 10,
+    reason: "Outer empty area is larger than internal packing gaps."
+  });
 });
 
 test("TextureAtlasPacker can sort by area before packing", () => {

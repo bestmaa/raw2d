@@ -81,7 +81,11 @@ const result = new TextureAtlasPacker({ sort: "area" }).packWithStats(items);
 
 console.log(result.stats.occupancy);
 console.log(result.stats.wastedArea);
+console.log(result.stats.fragmentation);
+console.log(result.stats.resizeSuggestion);
 ```
+
+`fragmentedArea` tracks empty gaps inside the occupied atlas bounds, while `outerWasteArea` tracks empty space outside those bounds. `resizeSuggestion` gives a small deterministic hint such as keeping the current size, shrinking outer waste, or trying a wider atlas when row gaps dominate.
 
 ## Asset Loading
 

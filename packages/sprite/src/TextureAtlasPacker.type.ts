@@ -31,13 +31,28 @@ export interface TextureAtlasPackerStats {
   readonly totalArea: number;
   readonly usedArea: number;
   readonly wastedArea: number;
+  readonly fragmentedArea: number;
+  readonly outerWasteArea: number;
   readonly occupancy: number;
+  readonly fragmentation: number;
   readonly frameCount: number;
+  readonly resizeSuggestion: TextureAtlasPackerResizeSuggestion;
 }
 
 export interface TextureAtlasPackerStatsFrame {
+  readonly x?: number;
+  readonly y?: number;
   readonly width: number;
   readonly height: number;
+}
+
+export type TextureAtlasPackerResizeAction = "keep" | "shrink" | "growWidth";
+
+export interface TextureAtlasPackerResizeSuggestion {
+  readonly action: TextureAtlasPackerResizeAction;
+  readonly width: number;
+  readonly height: number;
+  readonly reason: string;
 }
 
 export type TextureAtlasPackerCanvas = TextureSource & {

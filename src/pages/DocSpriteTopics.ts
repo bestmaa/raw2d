@@ -88,7 +88,7 @@ scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
       },
       {
         title: "Pack Separate Sources",
-        body: "TextureAtlasPacker creates one canvas texture from separate image-like sources. Use packWithStats when you also need atlas usage diagnostics.",
+        body: "TextureAtlasPacker creates one canvas texture from separate image-like sources. Use packWithStats when you also need atlas usage diagnostics, fragmentation, and resize hints.",
         liveDemoId: "texture-atlas",
         code: `const result = new TextureAtlasPacker({
   padding: 2,
@@ -105,6 +105,8 @@ scene.add(new Sprite({ texture: atlas.texture, frame: atlas.getFrame("run") }));
 
 const atlas = result.atlas;
 console.log(result.stats.occupancy);
+console.log(result.stats.fragmentation);
+console.log(result.stats.resizeSuggestion.action);
 
 scene.add(new Sprite({
   texture: atlas.texture,

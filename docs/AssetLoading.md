@@ -160,7 +160,7 @@ const player = createSpriteFromAtlas({
 });
 ```
 
-String entries are shorthand for `{ type: "texture", url }`. Atlas entries use `TextureAtlasLoader` internally. `packAtlas` packs texture entries into a generated `TextureAtlas`, and `getAtlasPackingStats()` exposes occupancy, wasted area, and frame count.
+String entries are shorthand for `{ type: "texture", url }`. Atlas entries use `TextureAtlasLoader` internally. `packAtlas` packs texture entries into a generated `TextureAtlas`, and `getAtlasPackingStats()` exposes occupancy, wasted area, fragmentation, resize suggestions, and frame count.
 
 ## Loading Progress
 
