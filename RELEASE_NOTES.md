@@ -1,5 +1,27 @@
 # Raw2D Release Notes
 
+## v1.24.5 - Studio Advanced Editing Phase
+
+Raw2D v1.24.5 publishes the Studio advanced editing phase.
+
+### Added
+
+- Studio grouping and ungrouping with visible `Group2D`-style hierarchy and child world-position preservation.
+- Studio duplication, alignment, distribution, and snap-to-grid helpers as explicit commands.
+- Studio zoom-to-selection, fit-to-scene, and read-only minimap helpers for larger scenes.
+- Stable `raw2d-studio-clipboard` copy and paste payloads with validation, id remapping, and safe asset metadata.
+- English and Hinglish documentation for advanced editing workflows and keyboard accessibility.
+
+### Verification
+
+- Full test suite.
+- Browser smoke suite.
+- Consumer install smoke tests including MCP and React packages.
+- Docs production build.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+- Browser route checks for Studio advanced editing and accessibility docs.
+
 ## v1.23.4 - MCP Studio Automation Phase
 
 Raw2D v1.23.4 publishes the MCP Studio automation phase.
