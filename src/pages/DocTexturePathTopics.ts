@@ -27,6 +27,18 @@ export const texturePathTopics: readonly DocTopic[] = [
 scene.add(sprite);`
       },
       {
+        title: "Rasterize SVG Texture",
+        body: "Use createSvgTexture when vector artwork should become a normal Texture before Canvas or WebGL rendering. SVG rasterization stays in the sprite package so WebGL does not need an SVG-specific path.",
+        code: `const texture = await createSvgTexture({
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><circle cx="32" cy="32" r="28" fill="#35c2ff"/></svg>',
+  width: 64,
+  height: 64,
+  id: "vector-icon"
+});
+
+scene.add(new Sprite({ texture, width: 64, height: 64 }));`
+      },
+      {
         title: "Create Atlas",
         body: "TextureAtlas maps frame names to source rectangles inside one shared texture.",
         code: `const atlas = new TextureAtlas({

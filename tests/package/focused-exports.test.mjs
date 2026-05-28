@@ -21,10 +21,12 @@ test("raw2d-sprite runtime exports match the audited public surface", () => {
     "createSpriteAnimationClip",
     "createSpriteFromAtlas",
     "createSpritesFromAtlas",
+    "createSvgTexture",
     "getSpriteLocalBounds",
     "getSpriteWorldBounds",
     "getTextureSourceSize",
-    "normalizeTextureSize"
+    "normalizeTextureSize",
+    "rasterizeSvgToCanvas"
   ].sort());
 });
 

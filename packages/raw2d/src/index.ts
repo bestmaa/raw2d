@@ -80,8 +80,10 @@ export {
   createSpriteAnimationClip,
   createSpriteFromAtlas,
   createSpritesFromAtlas,
+  createSvgTexture,
   getSpriteLocalBounds,
-  getSpriteWorldBounds
+  getSpriteWorldBounds,
+  rasterizeSvgToCanvas
 } from "raw2d-sprite";
 export { Text2D, measureText2DLocalBounds, measureText2DWorldBounds } from "raw2d-text";
 export {

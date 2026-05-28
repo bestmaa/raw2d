@@ -108,6 +108,23 @@ const texture = new TextureLoader().fromSource(canvasSource, {
 });
 ```
 
+Use `createSvgTexture()` when vector artwork should become a normal `Texture` before Canvas or WebGL rendering:
+
+```ts
+import { Sprite, createSvgTexture } from "raw2d-sprite";
+
+const texture = await createSvgTexture({
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><circle cx="32" cy="32" r="28" fill="#35c2ff"/></svg>',
+  width: 64,
+  height: 64,
+  id: "vector-icon"
+});
+
+scene.add(new Sprite({ texture, width: 64, height: 64 }));
+```
+
+`rasterizeSvgToCanvas()` returns only the generated canvas when you want to pack it into an atlas or inspect the pixels yourself. This helper lives in `raw2d-sprite` because it prepares texture sources; WebGL still consumes the resulting `Texture` through the regular sprite path.
+
 Loader cache stores URL load promises. Use `clearCache()` for loader cache and renderer disposal APIs for GPU resources.
 
 ```ts

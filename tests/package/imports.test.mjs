@@ -27,6 +27,7 @@ test("umbrella package exports common public API", () => {
   assert.equal(typeof Raw2D.Text2D, "function");
   assert.equal(typeof Raw2D.InteractionController, "function");
   assert.equal(typeof Raw2D.createOpacityEffect, "function");
+  assert.equal(typeof Raw2D.createSvgTexture, "function");
 });
 
 test("umbrella package runtime exports match the audited public surface", () => {
@@ -132,6 +133,7 @@ function getExpectedUmbrellaRuntimeExports() {
     "createSpriteAnimationClip",
     "createSpriteFromAtlas",
     "createSpritesFromAtlas",
+    "createSvgTexture",
     "endObjectDrag",
     "endObjectResize",
     "flattenPathCommands",
@@ -162,6 +164,7 @@ function getExpectedUmbrellaRuntimeExports() {
     "measureText2DWorldBounds",
     "pickObject",
     "pickResizeHandle",
+    "rasterizeSvgToCanvas",
     "resolveObject2DOrigin",
     "detachObject2D",
     "disposeObject2D",

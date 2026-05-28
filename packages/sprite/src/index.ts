@@ -6,6 +6,8 @@ export * from "./Sprite.js";
 export * from "./Sprite.type.js";
 export * from "./Texture.js";
 export * from "./Texture.type.js";
+export * from "./SvgTexture.js";
+export * from "./SvgTexture.type.js";
 export * from "./TextureSourceSize.js";
 export * from "./TextureSourceSize.type.js";
 export * from "./TextureAtlas.js";
