@@ -18,6 +18,7 @@ const toolNames = [
   "raw2d_create_scene_edit_plan",
   "raw2d_inspect_scene",
   "raw2d_validate_scene",
+  "raw2d_validate_studio_scene",
   "raw2d_generate_canvas_example",
   "raw2d_generate_webgl_example",
   "raw2d_generate_docs_snippet",

@@ -22,6 +22,8 @@ import { updateRaw2DObjects } from "./updateRaw2DObjects.js";
 import type { UpdateRaw2DObjectsOptions } from "./updateRaw2DObjects.type.js";
 import { validateRaw2DScene } from "./validateRaw2DScene.js";
 import type { ValidateRaw2DSceneOptions } from "./validateRaw2DScene.type.js";
+import { validateRaw2DStudioScene } from "./validateRaw2DStudioScene.js";
+import type { ValidateRaw2DStudioSceneOptions } from "./validateRaw2DStudioScene.type.js";
 
 type ToolHandler = (params: unknown) => unknown;
 
@@ -38,7 +40,8 @@ const handlers: Readonly<Record<string, ToolHandler>> = {
   raw2d_update_material: (params) => updateRaw2DObjectMaterial(requireRecord<UpdateRaw2DObjectMaterialOptions>(params)),
   raw2d_update_objects: (params) => updateRaw2DObjects(requireRecord<UpdateRaw2DObjectsOptions>(params)),
   raw2d_update_transform: (params) => updateRaw2DObjectTransform(requireRecord<UpdateRaw2DObjectTransformOptions>(params)),
-  raw2d_validate_scene: (params) => validateRaw2DScene(requireRecord<ValidateRaw2DSceneOptions>(params))
+  raw2d_validate_scene: (params) => validateRaw2DScene(requireRecord<ValidateRaw2DSceneOptions>(params)),
+  raw2d_validate_studio_scene: (params) => validateRaw2DStudioScene(requireRecord<ValidateRaw2DStudioSceneOptions>(params))
 };
 
 export function dispatchRaw2DMcpTool(method: string, params?: unknown): unknown {

@@ -143,6 +143,29 @@ Output:
 
 Reports path-based validation errors without throwing for bad scene data.
 
+### raw2d_validate_studio_scene
+
+Input:
+
+```ts
+{
+  document: unknown;
+  commands?: unknown[];
+}
+```
+
+Output:
+
+```ts
+{
+  valid: boolean;
+  errors: { path: string; message: string }[];
+  warnings: { path: string; message: string }[];
+}
+```
+
+Validates Studio scene JSON, image assets, optional command JSON, and WebGL renderer warnings without importing Studio runtime code.
+
 ### raw2d_generate_canvas_example
 
 Input:

@@ -57,6 +57,7 @@ raw2d_update_objects -> { document, updatedIds }
 raw2d_create_scene_edit_plan -> { document, steps, affectedObjectIds }
 raw2d_inspect_scene -> inspection JSON
 raw2d_validate_scene -> { valid, errors }
+raw2d_validate_studio_scene -> { valid, errors, warnings }
 raw2d_generate_canvas_example -> { code, renderer }
 raw2d_generate_webgl_example -> { code, renderer }
 raw2d_generate_docs_snippet -> { markdown }

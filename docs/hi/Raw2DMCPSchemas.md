@@ -143,6 +143,29 @@ Output:
 
 Bad scene data ke liye throw nahi karta; path-based validation errors return karta hai.
 
+### raw2d_validate_studio_scene
+
+Input:
+
+```ts
+{
+  document: unknown;
+  commands?: unknown[];
+}
+```
+
+Output:
+
+```ts
+{
+  valid: boolean;
+  errors: { path: string; message: string }[];
+  warnings: { path: string; message: string }[];
+}
+```
+
+Studio runtime code import kiye bina Studio scene JSON, image assets, optional command JSON, aur WebGL renderer warnings validate karta hai.
+
 ### raw2d_generate_canvas_example
 
 Input:

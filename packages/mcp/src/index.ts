@@ -12,6 +12,7 @@ export { updateRaw2DObjectMaterial } from "./updateRaw2DObjectMaterial.js";
 export { updateRaw2DObjectTransform } from "./updateRaw2DObjectTransform.js";
 export { updateRaw2DObjects } from "./updateRaw2DObjects.js";
 export { validateRaw2DScene } from "./validateRaw2DScene.js";
+export { validateRaw2DStudioScene } from "./validateRaw2DStudioScene.js";
 export type { AddRaw2DSceneObjectOptions } from "./addRaw2DSceneObject.js";
 export type {
   AuditRaw2DPackageExportsOptions,
@@ -55,6 +56,22 @@ export type {
   Raw2DMcpText2DJson
 } from "./Raw2DSceneObjectJson.type.js";
 export type {
+  Raw2DMcpStudioAssetJson,
+  Raw2DMcpStudioCameraJson,
+  Raw2DMcpStudioCircleJson,
+  Raw2DMcpStudioImageAssetJson,
+  Raw2DMcpStudioLineJson,
+  Raw2DMcpStudioMaterialJson,
+  Raw2DMcpStudioObjectBaseJson,
+  Raw2DMcpStudioObjectJson,
+  Raw2DMcpStudioObjectType,
+  Raw2DMcpStudioRectJson,
+  Raw2DMcpStudioRendererMode,
+  Raw2DMcpStudioSceneJson,
+  Raw2DMcpStudioSpriteJson,
+  Raw2DMcpStudioTextJson
+} from "./Raw2DStudioSceneJson.type.js";
+export type {
   InspectRaw2DSceneOptions,
   Raw2DMcpObjectTypeCounts,
   Raw2DMcpSceneInspection
@@ -84,3 +101,11 @@ export type {
   Raw2DMcpValidationResult,
   ValidateRaw2DSceneOptions
 } from "./validateRaw2DScene.type.js";
+export type {
+  Raw2DMcpStudioCommandKind,
+  Raw2DMcpStudioRendererWarning,
+  Raw2DMcpStudioValidationIssue,
+  Raw2DMcpStudioValidationResult,
+  Raw2DMcpStudioValidationWarning,
+  ValidateRaw2DStudioSceneOptions
+} from "./validateRaw2DStudioScene.type.js";

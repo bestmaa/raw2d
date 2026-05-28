@@ -9,6 +9,7 @@ const tools: readonly Raw2DMcpToolDefinition[] = [
   { name: "raw2d_create_scene_edit_plan", description: "Create a deterministic scene edit plan for Studio-safe automation.", mutatesScene: true },
   { name: "raw2d_inspect_scene", description: "Summarize scene counts and renderer hints.", mutatesScene: false },
   { name: "raw2d_validate_scene", description: "Validate scene JSON without mutating it.", mutatesScene: false },
+  { name: "raw2d_validate_studio_scene", description: "Validate Studio scene JSON, command JSON, assets, and renderer warnings.", mutatesScene: false },
   { name: "raw2d_generate_canvas_example", description: "Generate Canvas example code.", mutatesScene: false },
   { name: "raw2d_generate_webgl_example", description: "Generate WebGL example code.", mutatesScene: false },
   { name: "raw2d_generate_docs_snippet", description: "Generate a docs snippet from scene JSON.", mutatesScene: false },
