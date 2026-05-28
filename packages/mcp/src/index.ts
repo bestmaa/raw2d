@@ -1,6 +1,7 @@
 export { addRaw2DSceneObject } from "./addRaw2DSceneObject.js";
 export { auditRaw2DPackageExports } from "./auditRaw2DPackageExports.js";
 export { createRaw2DSceneJson } from "./createRaw2DSceneJson.js";
+export { createRaw2DMcpSceneEditPlan } from "./createRaw2DMcpSceneEditPlan.js";
 export { createRaw2DVisualCheckPlan } from "./createRaw2DVisualCheckPlan.js";
 export { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
 export { generateRaw2DCanvasExample } from "./generateRaw2DCanvasExample.js";
@@ -25,6 +26,20 @@ export type {
   Raw2DMcpSceneDocument,
   Raw2DMcpSceneJson
 } from "./Raw2DSceneJson.type.js";
+export type {
+  CreateRaw2DMcpSceneEditPlanOptions,
+  Raw2DMcpClearSpriteAssetOperation,
+  Raw2DMcpCreateObjectOperation,
+  Raw2DMcpDeleteObjectOperation,
+  Raw2DMcpObjectGeometryPatch,
+  Raw2DMcpReorderObjectOperation,
+  Raw2DMcpSceneEditOperation,
+  Raw2DMcpSceneEditOperationType,
+  Raw2DMcpSceneEditPlan,
+  Raw2DMcpSceneEditPlanStep,
+  Raw2DMcpSetSpriteAssetOperation,
+  Raw2DMcpUpdateObjectOperation
+} from "./createRaw2DMcpSceneEditPlan.type.js";
 export type {
   Raw2DMcpCircleJson,
   Raw2DMcpLineJson,

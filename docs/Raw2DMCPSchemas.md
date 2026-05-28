@@ -85,6 +85,38 @@ Output:
 
 Applies multiple transform and material patches in one deterministic scene update.
 
+### raw2d_create_scene_edit_plan
+
+Input:
+
+```ts
+{
+  document: SceneDocument;
+  operations: (
+    | { type: "createObject"; object: SceneObject; index?: number }
+    | { type: "updateObject"; id: string; transform?: TransformPatch; material?: MaterialPatch; geometry?: object }
+    | { type: "deleteObject"; id: string }
+    | { type: "reorderObject"; id: string; index: number }
+    | { type: "setSpriteAsset"; id: string; textureId: string; frameName?: string }
+    | { type: "clearSpriteAsset"; id: string }
+  )[];
+}
+```
+
+Output:
+
+```ts
+{
+  document: SceneDocument;
+  steps: { id: string; type: string; objectId: string; summary: string }[];
+  affectedObjectIds: string[];
+  beforeObjectIds: string[];
+  afterObjectIds: string[];
+}
+```
+
+Builds a deterministic edit plan for Studio-safe create, update, delete, reorder, and Sprite asset-reference workflows.
+
 ### raw2d_inspect_scene
 
 Input:

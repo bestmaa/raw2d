@@ -1,6 +1,8 @@
 import { addRaw2DSceneObject } from "./addRaw2DSceneObject.js";
 import type { AddRaw2DSceneObjectOptions } from "./addRaw2DSceneObject.js";
 import { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
+import { createRaw2DMcpSceneEditPlan } from "./createRaw2DMcpSceneEditPlan.js";
+import type { CreateRaw2DMcpSceneEditPlanOptions } from "./createRaw2DMcpSceneEditPlan.type.js";
 import { createRaw2DSceneJson } from "./createRaw2DSceneJson.js";
 import type { CreateRaw2DSceneJsonOptions } from "./Raw2DSceneJson.type.js";
 import { createRaw2DVisualCheckPlan } from "./createRaw2DVisualCheckPlan.js";
@@ -25,6 +27,7 @@ type ToolHandler = (params: unknown) => unknown;
 
 const handlers: Readonly<Record<string, ToolHandler>> = {
   raw2d_add_object: (params) => addRaw2DSceneObject(requireRecord<AddRaw2DSceneObjectOptions>(params)),
+  raw2d_create_scene_edit_plan: (params) => createRaw2DMcpSceneEditPlan(requireRecord<CreateRaw2DMcpSceneEditPlanOptions>(params)),
   raw2d_create_scene: (params) => createRaw2DSceneJson(optionalRecord<CreateRaw2DSceneJsonOptions>(params)),
   raw2d_generate_canvas_example: (params) => generateRaw2DCanvasExample(requireRecord<GenerateRaw2DExampleOptions>(params)),
   raw2d_generate_docs_snippet: (params) => generateRaw2DDocsSnippet(requireRecord<GenerateRaw2DDocsSnippetOptions>(params)),

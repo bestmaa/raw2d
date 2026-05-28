@@ -54,6 +54,7 @@ raw2d_add_object -> SceneDocument
 raw2d_update_transform -> SceneDocument
 raw2d_update_material -> SceneDocument
 raw2d_update_objects -> { document, updatedIds }
+raw2d_create_scene_edit_plan -> { document, steps, affectedObjectIds }
 raw2d_inspect_scene -> inspection JSON
 raw2d_validate_scene -> { valid, errors }
 raw2d_generate_canvas_example -> { code, renderer }

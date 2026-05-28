@@ -7,6 +7,7 @@
 - Create Raw2D scene JSON with camera defaults.
 - Add supported object JSON.
 - Update transform and material fields immutably, including batch updates.
+- Create deterministic scene edit plans for Studio-safe create, update, delete, reorder, and Sprite asset-reference workflows.
 - Validate and inspect scene JSON.
 - Generate Canvas, WebGL, and markdown examples.
 - Create explicit visual-check and export-audit plans.

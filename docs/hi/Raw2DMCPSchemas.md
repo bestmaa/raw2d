@@ -85,6 +85,38 @@ Output:
 
 Ek hi deterministic update me kai objects ke transform aur material patches apply karta hai.
 
+### raw2d_create_scene_edit_plan
+
+Input:
+
+```ts
+{
+  document: SceneDocument;
+  operations: (
+    | { type: "createObject"; object: SceneObject; index?: number }
+    | { type: "updateObject"; id: string; transform?: TransformPatch; material?: MaterialPatch; geometry?: object }
+    | { type: "deleteObject"; id: string }
+    | { type: "reorderObject"; id: string; index: number }
+    | { type: "setSpriteAsset"; id: string; textureId: string; frameName?: string }
+    | { type: "clearSpriteAsset"; id: string }
+  )[];
+}
+```
+
+Output:
+
+```ts
+{
+  document: SceneDocument;
+  steps: { id: string; type: string; objectId: string; summary: string }[];
+  affectedObjectIds: string[];
+  beforeObjectIds: string[];
+  afterObjectIds: string[];
+}
+```
+
+Studio-safe create, update, delete, reorder, aur Sprite asset-reference workflows ke liye deterministic edit plan banata hai.
+
 ### raw2d_inspect_scene
 
 Input:
