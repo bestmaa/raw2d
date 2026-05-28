@@ -133,7 +133,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T298 | Version: v1.23.1 | Status: completed | Goal: Add MCP validators for Studio scene JSON including assets, commands, and renderer warnings. | Verify: schema tests for valid and invalid Studio scenes. | Commit: `Add MCP Studio validation`
 - T299 | Version: v1.23.2 | Status: completed | Goal: Add MCP generated Studio examples that round-trip through save/load and renderer adapters. | Verify: generated example build and scene validation tests. | Commit: `Add MCP Studio examples`
 - T300 | Version: v1.23.3 | Status: completed | Goal: Document MCP Studio automation boundaries and agent-safe workflows. | Verify: docs route and README checks. | Commit: `Document MCP Studio automation`
-- T301 | Version: v1.23.4 | Status: pending | Goal: Phase 31 release and publish. | Verify: CI, npm latest, Cloudflare docs, MCP install smoke. | Commit: `Release MCP Studio automation phase`
+- T301 | Version: v1.23.4 | Status: completed | Goal: Phase 31 release and publish. | Verify: CI, npm latest, Cloudflare docs, MCP install smoke. | Commit: `Release MCP Studio automation phase`
 
 ## Phase 32: Studio Advanced Editing
 

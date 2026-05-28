@@ -1,5 +1,26 @@
 # Raw2D Release Notes
 
+## v1.23.4 - MCP Studio Automation Phase
+
+Raw2D v1.23.4 publishes the MCP Studio automation phase.
+
+### Added
+
+- MCP scene edit plans for Studio-safe create, update, delete, reorder, and asset-reference operations.
+- Studio scene JSON validation for assets, commands, duplicate IDs, and renderer-specific warnings.
+- Generated Studio examples that round-trip through save/load and renderer adapter checks.
+- English and Hinglish documentation for MCP Studio automation boundaries and agent-safe workflows.
+- MCP README coverage for edit plans, Studio validation, generated examples, and tool boundaries.
+
+### Verification
+
+- Full test suite.
+- Browser smoke suite.
+- Consumer install smoke tests including MCP and React packages.
+- Docs production build.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.22.5 - React Fiber Phase
 
 Raw2D v1.22.5 publishes the React Fiber package phase.
