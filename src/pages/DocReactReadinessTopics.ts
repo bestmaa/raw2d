@@ -24,8 +24,8 @@ node --test tests/react/*.test.mjs`
       {
         title: "Docs",
         body: "React docs should explain that the package is optional, early, and separate from the browser-first Raw2D runtime.",
-        code: `http://localhost:5197/doc#react-package-design
-http://localhost:5197/examples/react-basic/`
+        code: `http://localhost:5174/doc#react-package-design
+http://localhost:5174/examples/react-basic/`
       }
     ]
   }

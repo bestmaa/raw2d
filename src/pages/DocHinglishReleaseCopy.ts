@@ -4,6 +4,7 @@ interface TopicCopy { readonly label: string; readonly title: string; readonly d
 
 const releaseTopicIds = new Set([
   "v1-release-checklist",
+  "v1-bug-bash-report",
   "npm-publish-checklist",
   "api-freeze-checklist",
   "docs-deploy-checklist",
@@ -12,6 +13,7 @@ const releaseTopicIds = new Set([
 
 export const releaseTopicCopy: Readonly<Record<string, TopicCopy>> = {
   "v1-release-checklist": { label: "v1 Release Checklist", title: "v1 Release Checklist", description: "Stable v1 mark karne se pehle API, renderer, docs, package aur publish gates." },
+  "v1-bug-bash-report": { label: "v1 Bug Bash Report", title: "v1 Bug Bash Report", description: "Release candidate se pehle docs, examples, Studio, runtime packages, aur package readiness ka final record." },
   "npm-publish-checklist": { label: "npm Publish Checklist", title: "npm Publish Checklist", description: "GitHub workflow se publish karne se pehle aur baad ke npm/CDN checks." },
   "api-freeze-checklist": { label: "API Freeze Checklist", title: "API Freeze Checklist", description: "v1 ke liye package exports, constructor options, renderer lifecycle aur aliases freeze karna." },
   "docs-deploy-checklist": { label: "Docs Deploy Checklist", title: "Docs Deploy Checklist", description: "Cloudflare docs deploy ke baad routes, redirects aur assets verify karna." },

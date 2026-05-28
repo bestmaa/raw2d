@@ -12,6 +12,7 @@ import gettingStarted from "../../docs/hi/GettingStarted.md?raw";
 import glossary from "../../docs/hi/Glossary.md?raw";
 import v1Install from "../../docs/hi/V1Install.md?raw";
 import v1ReleaseChecklist from "../../docs/hi/V1ReleaseChecklist.md?raw";
+import v1BugBashReport from "../../docs/hi/V1BugBashReport.md?raw";
 import npmPublishChecklist from "../../docs/hi/NpmPublishChecklist.md?raw";
 import apiFreezeChecklist from "../../docs/hi/APIFreezeChecklist.md?raw";
 import docsDeployChecklist from "../../docs/hi/DocsDeployChecklist.md?raw";
@@ -89,6 +90,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "v1-install", label: "V1 Install", filename: "hi/V1Install.md", content: v1Install },
   { id: "public-api", label: "Public API", filename: "hi/PublicAPI.md", content: publicApi },
   { id: "v1-release-checklist", label: "v1 Release Checklist", filename: "hi/V1ReleaseChecklist.md", content: v1ReleaseChecklist },
+  { id: "v1-bug-bash-report", label: "v1 Bug Bash Report", filename: "hi/V1BugBashReport.md", content: v1BugBashReport },
   { id: "npm-publish-checklist", label: "npm Publish Checklist", filename: "hi/NpmPublishChecklist.md", content: npmPublishChecklist },
   { id: "api-freeze-checklist", label: "API Freeze Checklist", filename: "hi/APIFreezeChecklist.md", content: apiFreezeChecklist },
   { id: "docs-deploy-checklist", label: "Docs Deploy Checklist", filename: "hi/DocsDeployChecklist.md", content: docsDeployChecklist },

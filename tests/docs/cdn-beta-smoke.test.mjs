@@ -15,7 +15,12 @@ test("CDN beta smoke documents pinned CDN URLs and route", () => {
   const esmPattern = new RegExp(`cdn\\.jsdelivr\\.net/npm/raw2d@${escapeRegExp(version)}/dist/raw2d\\.js`);
   const corePattern = new RegExp(`cdn\\.jsdelivr\\.net/npm/raw2d-core@${escapeRegExp(version)}/dist/index\\.js`);
 
-  for (const content of [page, english, hinglish]) {
+  assert.match(page, new RegExp(`const pinnedVersion = "${escapeRegExp(version)}"`));
+  assert.match(page, /raw2d@\$\{pinnedVersion\}\/dist\/raw2d\.js/);
+  assert.match(page, /raw2d-core@\$\{pinnedVersion\}\/dist\/index\.js/);
+  assert.match(page, /raw2d\.umd\.cjs/);
+
+  for (const content of [english, hinglish]) {
     assert.match(content, /cdn-smoke/);
     assert.match(content, esmPattern);
     assert.match(content, corePattern);

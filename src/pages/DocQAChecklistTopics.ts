@@ -21,20 +21,20 @@ npm run test:consumer`
         body: "Open the docs route after changes. Check the edited topic, sidebar state, search, language switch, code blocks, and live examples.",
         code: `npm run dev -- --host 0.0.0.0 --port 5197
 
-http://localhost:5197/doc`
+http://localhost:5174/doc`
       },
       {
         title: "Audit Route Coverage",
         body: "For docs hardening tasks, open the docs shell, important hash topics, readme page, benchmark page, visual test page, and every example route in a browser.",
-        code: `http://localhost:5197/doc#install-setup
-http://localhost:5197/doc#texture
-http://localhost:5197/doc#sprite
-http://localhost:5197/doc#webgl-performance
-http://localhost:5197/readme
-http://localhost:5197/benchmark
-http://localhost:5197/visual-test
-http://localhost:5197/examples/webgl-pipeline
-http://localhost:5197/examples/react-basic/`
+        code: `http://localhost:5174/doc#install-setup
+http://localhost:5174/doc#texture
+http://localhost:5174/doc#sprite
+http://localhost:5174/doc#webgl-performance
+http://localhost:5174/readme
+http://localhost:5174/benchmark
+http://localhost:5174/visual-test
+http://localhost:5174/examples/webgl-pipeline
+http://localhost:5174/examples/react-basic/`
       },
       {
         title: "Check Feature Examples",

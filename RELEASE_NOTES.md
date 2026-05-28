@@ -1,5 +1,13 @@
 # Raw2D Release Notes
 
+## v1.25.4 - v1 Bug Bash
+
+Raw2D v1.25.4 runs the final v1 bug bash across docs, examples, Studio, React, MCP, Canvas, WebGL, and package readiness.
+
+- Added a v1 bug bash report so release-candidate checks have one source of truth.
+- Reverified browser docs, examples, Studio entry points, package audits, CDN pinned URLs, and consumer install smokes.
+- All Raw2D workspace packages are fixed-version bumped to `1.25.4`.
+
 ## v1.25.3 - v1 Docs Polish
 
 Raw2D v1.25.3 polishes the v1 user path across beginner docs, Hinglish parity, and release checklists.

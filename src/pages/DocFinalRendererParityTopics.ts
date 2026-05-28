@@ -38,8 +38,8 @@ WebGL2 unavailable: clear message`
         body: "Run Canvas, WebGL, benchmark, visual-test, and support matrix checks before release.",
         code: `npm run test:browser
 node --test tests/browser/visual-pixel.test.mjs
-http://localhost:5197/benchmark
-http://localhost:5197/visual-test`
+http://localhost:5174/benchmark
+http://localhost:5174/visual-test`
       }
     ]
   }

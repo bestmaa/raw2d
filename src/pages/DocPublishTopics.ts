@@ -20,9 +20,9 @@ git status --short`
       {
         title: "GitHub Workflow",
         body: "Raw2D publishes through the GitHub workflow so local npm OTP is not required. Push the release commit and tag only after local verification passes.",
-        code: `git tag v0.10.9
+        code: `git tag vVERSION
 git push origin main
-git push origin v0.10.9`
+git push origin vVERSION`
       },
       {
         title: "npm Verification",

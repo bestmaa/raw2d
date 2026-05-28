@@ -31,7 +31,7 @@ raw2d`
       {
         title: "Pass Rule",
         body: "The audit must print issues: 0. If a package grows past its budget, reduce the entry size or raise the budget with a release note explaining why.",
-        code: `Raw2D package readiness audit v1.25.3
+        code: `Raw2D package readiness audit v1.25.4
 issues: 0`
       }
     ]

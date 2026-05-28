@@ -35,6 +35,7 @@ test("core beginner Hinglish markdown avoids awkward mixed copy", async () => {
     "docs/hi/Raw2DMCPBeginner.md",
     "docs/hi/PublicBetaHardeningPlan.md",
     "docs/hi/V1ReleaseChecklist.md",
+    "docs/hi/V1BugBashReport.md",
     "docs/hi/NpmPublishChecklist.md",
     "docs/hi/APIFreezeChecklist.md",
     "docs/hi/DocsDeployChecklist.md",
@@ -53,6 +54,7 @@ test("Hinglish interactive release checklists use release-specific copy", async 
 
   for (const topicId of [
     "v1-release-checklist",
+    "v1-bug-bash-report",
     "npm-publish-checklist",
     "api-freeze-checklist",
     "docs-deploy-checklist",

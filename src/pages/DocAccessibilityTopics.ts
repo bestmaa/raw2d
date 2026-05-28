@@ -35,11 +35,11 @@ Visual test result text`
       {
         title: "Smoke Routes",
         body: "Check the main docs routes in a browser at desktop and narrow widths before committing.",
-        code: `http://localhost:5197/doc
-http://localhost:5197/doc#canvas-init
-http://localhost:5197/doc#webgl-renderer
-http://localhost:5197/doc#interaction-controller
-http://localhost:5197/doc#studio-interaction`
+        code: `http://localhost:5174/doc
+http://localhost:5174/doc#canvas-init
+http://localhost:5174/doc#webgl-renderer
+http://localhost:5174/doc#interaction-controller
+http://localhost:5174/doc#studio-interaction`
       },
       {
         title: "Studio Editing",

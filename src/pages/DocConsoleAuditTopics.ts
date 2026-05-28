@@ -10,13 +10,13 @@ export const consoleAuditTopics: readonly DocTopic[] = [
       {
         title: "Routes To Check",
         body: "Open the main docs pages and representative examples with DevTools console visible. Any uncaught error fails the audit.",
-        code: `http://localhost:5197/doc
-http://localhost:5197/readme
-http://localhost:5197/benchmark
-http://localhost:5197/visual-test
-http://localhost:5197/examples/canvas-basic/
-http://localhost:5197/examples/webgl-basic/
-http://localhost:5197/examples/interaction-basic/`
+        code: `http://localhost:5174/doc
+http://localhost:5174/readme
+http://localhost:5174/benchmark
+http://localhost:5174/visual-test
+http://localhost:5174/examples/canvas-basic/
+http://localhost:5174/examples/webgl-basic/
+http://localhost:5174/examples/interaction-basic/`
       },
       {
         title: "What Fails",

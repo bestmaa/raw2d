@@ -10,11 +10,11 @@ export const interactionQATopics: readonly DocTopic[] = [
       {
         title: "Open The Routes",
         body: "Check the interaction docs and standalone interaction example in a browser. The examples must show visible selectable objects.",
-        code: `http://localhost:5197/doc#interaction-controller
-http://localhost:5197/doc#selection-manager
-http://localhost:5197/doc#keyboard-controller
-http://localhost:5197/doc#camera-controls
-http://localhost:5197/examples/interaction-basic/`
+        code: `http://localhost:5174/doc#interaction-controller
+http://localhost:5174/doc#selection-manager
+http://localhost:5174/doc#keyboard-controller
+http://localhost:5174/doc#camera-controls
+http://localhost:5174/examples/interaction-basic/`
       },
       {
         title: "Pointer Behavior",

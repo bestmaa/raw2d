@@ -10,12 +10,12 @@ export const canvasQATopics: readonly DocTopic[] = [
       {
         title: "Open The Routes",
         body: "Check the docs and the standalone Canvas example. Both must load without console errors, blank canvases, or broken imports.",
-        code: `http://localhost:5197/doc#canvas-init
-http://localhost:5197/doc#rect
-http://localhost:5197/doc#circle
-http://localhost:5197/doc#line
-http://localhost:5197/doc#text2d
-http://localhost:5197/examples/canvas-basic/`
+        code: `http://localhost:5174/doc#canvas-init
+http://localhost:5174/doc#rect
+http://localhost:5174/doc#circle
+http://localhost:5174/doc#line
+http://localhost:5174/doc#text2d
+http://localhost:5174/examples/canvas-basic/`
       },
       {
         title: "Canvas Pixels",

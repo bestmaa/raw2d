@@ -56,14 +56,53 @@ npm run test:browser`
         body: "Open the CDN smoke page before release, then verify pinned jsDelivr ESM and UMD URLs after the publish workflow finishes.",
         code: `Check:
 /cdn-smoke
-https://cdn.jsdelivr.net/npm/raw2d@1.25.3/dist/raw2d.js
-https://cdn.jsdelivr.net/npm/raw2d@1.25.3/dist/raw2d.umd.cjs`
+https://cdn.jsdelivr.net/npm/raw2d@1.25.4/dist/raw2d.js
+https://cdn.jsdelivr.net/npm/raw2d@1.25.4/dist/raw2d.umd.cjs`
       },
       {
         title: "Pass Criteria",
         body: "The checklist passes only when docs content is readable, examples and Studio routes load, code blocks do not overflow badly, links route correctly, and no fatal browser console errors appear.",
         code: `npm run build:docs
 npm run test:browser`
+      }
+    ]
+  },
+  {
+    id: "v1-bug-bash-report",
+    label: "v1 Bug Bash Report",
+    title: "v1 Bug Bash Report",
+    description: "Final release-candidate bug bash record for docs, examples, Studio, runtime packages, and package readiness.",
+    sections: [
+      {
+        title: "Scope",
+        body: "Run the final bug bash across user-facing routes, package boundaries, and release-readiness checks before the publish candidate.",
+        code: `/doc
+/readme
+/examples/
+/studio
+/cdn-smoke
+Canvas / WebGL / React / MCP / Studio`
+      },
+      {
+        title: "Required Checks",
+        body: "The report should list every broad command that proves docs, browser routes, package readiness, consumer installs, and CDN pinned URLs still work.",
+        code: `npm test
+npm run build:docs
+npm run test:browser
+npm run test:browser:mobile-docs
+npm run test:browser:dark-overflow
+npm run audit:package
+npm run test:consumer
+npm run pack:check -- --silent
+npm run test:cdn:pinned
+node scripts/audit-doc-links.mjs`
+      },
+      {
+        title: "Pass Rule",
+        body: "The bug bash passes only when no blocker remains and every concrete finding is fixed or explicitly deferred with a reason.",
+        code: `Report status: passed
+Unresolved blockers: none
+Deferred findings: documented with reason`
       }
     ]
   }

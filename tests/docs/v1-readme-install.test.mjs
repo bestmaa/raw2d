@@ -22,6 +22,7 @@ test("README and /readme docs cover v1 install and package split", async () => {
 
   for (const filename of [
     "V1ReleaseChecklist.md",
+    "V1BugBashReport.md",
     "NpmPublishChecklist.md",
     "APIFreezeChecklist.md",
     "DocsDeployChecklist.md",

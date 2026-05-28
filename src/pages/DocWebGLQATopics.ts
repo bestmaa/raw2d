@@ -10,12 +10,12 @@ export const webGLQATopics: readonly DocTopic[] = [
       {
         title: "Open The Routes",
         body: "Check the WebGL docs, benchmark, visual test, and standalone example in a real browser. The page must not fall back silently or show a blank canvas.",
-        code: `http://localhost:5197/doc#webgl-renderer
-http://localhost:5197/doc#webgl-performance
-http://localhost:5197/doc#webgl-visual-tests
-http://localhost:5197/benchmark
-http://localhost:5197/visual-test
-http://localhost:5197/examples/webgl-basic/`
+        code: `http://localhost:5174/doc#webgl-renderer
+http://localhost:5174/doc#webgl-performance
+http://localhost:5174/doc#webgl-visual-tests
+http://localhost:5174/benchmark
+http://localhost:5174/visual-test
+http://localhost:5174/examples/webgl-basic/`
       },
       {
         title: "Renderer Diagnostics",
