@@ -9,6 +9,9 @@ const hinglish = readFileSync("docs/hi/CDNVerificationChecklist.md", "utf8");
 test("CDN checklist covers pinned and latest jsDelivr URLs", () => {
   for (const content of [topic, english, hinglish]) {
     assert.match(content, /cdn\.jsdelivr\.net\/npm\/raw2d@/);
+    assert.match(content, /cdn\.jsdelivr\.net\/npm\/raw2d-core@/);
+    assert.match(content, /cdn\.jsdelivr\.net\/npm\/raw2d-canvas@/);
+    assert.match(content, /cdn\.jsdelivr\.net\/npm\/raw2d-webgl@/);
     assert.match(content, /cdn\.jsdelivr\.net\/npm\/raw2d\/dist/);
     assert.match(content, /raw2d\.umd\.cjs/);
   }

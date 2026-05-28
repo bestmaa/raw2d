@@ -30,6 +30,7 @@ import { mcpTopics } from "./DocMcpTopics";
 import { mcpReadinessTopics } from "./DocMCPReadinessTopics";
 import { migrationTopics } from "./DocMigrationTopics";
 import { mobileViewportTopics } from "./DocMobileViewportTopics";
+import { packageReadinessTopics } from "./DocPackageReadinessTopics";
 import { pluginTopics } from "./DocPluginTopics";
 import { postReleaseAuditTopics } from "./DocPostReleaseAuditTopics";
 import { publicBetaTopics } from "./DocPublicBetaTopics";
@@ -99,6 +100,7 @@ export const docGroups: readonly DocGroup[] = [
       ...publicBetaTopics,
       ...betaInstallTopics,
       ...installSmokeTopics,
+      ...packageReadinessTopics,
       ...publishTopics,
       ...deployTopics,
       ...cdnTopics,

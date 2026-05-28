@@ -1,7 +1,7 @@
 {
   "name": "raw2d-workspace",
   "private": true,
-  "version": "1.25.1",
+  "version": "1.25.2",
   "description": "A low-level browser-first 2D rendering engine for JavaScript and TypeScript.",
   "type": "module",
   "workspaces": [
@@ -20,7 +20,7 @@
     "test:browser": "npm run build && node --test tests/browser/*.test.mjs",
     "test:browser:dark-overflow": "node scripts/dark-ui-overflow-check.mjs",
     "test:browser:mobile-docs": "node scripts/docs-mobile-viewport-check.mjs",
-    "test:consumer": "node scripts/consumer-smoke.mjs && node scripts/umbrella-install-smoke.mjs && node scripts/focused-install-smoke.mjs && node scripts/mcp-install-smoke.mjs && node scripts/react-install-smoke.mjs",
+    "test:consumer": "node scripts/consumer-smoke.mjs && node scripts/umbrella-install-smoke.mjs && node scripts/canvas-focused-install-smoke.mjs && node scripts/webgl-focused-install-smoke.mjs && node scripts/focused-install-smoke.mjs && node scripts/mcp-install-smoke.mjs && node scripts/react-install-smoke.mjs",
     "test:consumer:umbrella": "node scripts/umbrella-install-smoke.mjs",
     "test:consumer:canvas": "node scripts/canvas-focused-install-smoke.mjs",
     "test:consumer:webgl": "node scripts/webgl-focused-install-smoke.mjs",
@@ -35,6 +35,7 @@
     "test:cdn:pinned": "node scripts/cdn-pinned-check.mjs",
     "audit:docs": "node scripts/audit-doc-links.mjs",
     "audit:bundle": "node scripts/audit-bundle-size.mjs --check",
+    "audit:package": "node scripts/audit-package-readiness.mjs --check",
     "pack:check": "npm pack --workspaces --dry-run"
   },
   "repository": {

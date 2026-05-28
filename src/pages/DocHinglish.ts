@@ -6,6 +6,7 @@ const topicCopy: Record<string, TopicCopy> = {
   setup: { label: "Install / Setup", title: "Install / Setup", description: "Raw2D ko npm ya CDN se start karne ka seedha tarika." },
   "start-here-guide": { label: "Start Here", title: "Yahan Se Shuru Karein", description: "Pehli baar Raw2D use karne ke liye simple beginner path." },
   "public-api": { label: "Public API", title: "Public API", description: "Stable app API aur focused low-level packages ki boundary." },
+  "package-readiness-audit": { label: "Package Readiness", title: "Package Readiness Audit", description: "Release se pehle package size, tree-shaking, CDN, aur fresh install audit." },
   "beginner-path": { label: "Beginner Path", title: "Beginner Path", description: "Raw2D me install se render tak ka short first-scene flow." },
   "texture-path": { label: "Texture Path", title: "Texture Path", description: "Texture load, atlas, sprite aur animation ka practical flow." },
   examples: { label: "Examples", title: "Examples", description: "Chhote package-style examples jo wahi imports use karte hain jo users npm se karenge." },

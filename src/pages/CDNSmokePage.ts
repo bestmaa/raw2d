@@ -1,8 +1,11 @@
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene, Text2D } from "raw2d";
 
-const pinnedVersion = "1.25.1";
-const esmUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.1/dist/raw2d.js";
-const umdUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.1/dist/raw2d.umd.cjs";
+const pinnedVersion = "1.25.2";
+const esmUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.js";
+const umdUrl = "https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.umd.cjs";
+const coreUrl = "https://cdn.jsdelivr.net/npm/raw2d-core@1.25.2/dist/index.js";
+const canvasUrl = "https://cdn.jsdelivr.net/npm/raw2d-canvas@1.25.2/dist/index.js";
+const webglUrl = "https://cdn.jsdelivr.net/npm/raw2d-webgl@1.25.2/dist/index.js";
 
 export function renderCDNSmokePage(root: HTMLElement): void {
   root.innerHTML = `
@@ -13,7 +16,10 @@ export function renderCDNSmokePage(root: HTMLElement): void {
         <div class="doc-section">
           <h2>Pinned URLs</h2>
           <pre><code>${esmUrl}
-${umdUrl}</code></pre>
+${umdUrl}
+${coreUrl}
+${canvasUrl}
+${webglUrl}</code></pre>
         </div>
         <div class="doc-section">
           <h2>Browser Import</h2>
@@ -45,7 +51,10 @@ const renderer = new CanvasRenderer({ canvas, width: 320, height: 180 });</code>
 }
 
 export const CDN_SMOKE_URLS = {
+  canvas: canvasUrl,
+  core: coreUrl,
   esm: esmUrl,
   pinnedVersion,
-  umd: umdUrl
+  umd: umdUrl,
+  webgl: webglUrl
 } as const;

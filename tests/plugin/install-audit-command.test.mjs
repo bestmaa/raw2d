@@ -12,9 +12,11 @@ test("Raw2D fresh install audit command reports its command plan", async () => {
 
   assert.equal(result.ok, true);
   assert.equal(result.type, "fresh-install-audit-plan");
-  assert.deepEqual(result.commands.map((command) => command.command), ["npm", "npm"]);
+  assert.deepEqual(result.commands.map((command) => command.command), ["npm", "npm", "npm", "npm"]);
   assert.deepEqual(result.commands[0]?.args, ["run", "pack:check", "--", "--silent"]);
-  assert.deepEqual(result.commands[1]?.args, ["run", "test:consumer"]);
+  assert.deepEqual(result.commands[1]?.args, ["run", "audit:package"]);
+  assert.deepEqual(result.commands[2]?.args, ["run", "test:consumer"]);
+  assert.deepEqual(result.commands[3]?.args, ["run", "test:cdn:pinned"]);
 });
 
 async function runForOutput(command, args, cwd) {

@@ -10,8 +10,22 @@ export const cdnTopics: readonly DocTopic[] = [
       {
         title: "Pinned Version URLs",
         body: "Always verify pinned version URLs first. They should return 200 and the expected JavaScript content type.",
-        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d@1.25.1/dist/raw2d.js
-curl -I https://cdn.jsdelivr.net/npm/raw2d@1.25.1/dist/raw2d.umd.cjs`
+        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.umd.cjs
+curl -I https://cdn.jsdelivr.net/npm/raw2d-core@1.25.2/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-canvas@1.25.2/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-webgl@1.25.2/dist/index.js`
+      },
+      {
+        title: "Focused Package URLs",
+        body: "The final package audit should cover every focused package CDN ESM entry, not only the umbrella package.",
+        code: `raw2d-sprite
+raw2d-text
+raw2d-effects
+raw2d-interaction
+raw2d-mcp
+raw2d-react
+raw2d-react-fiber`
       },
       {
         title: "Latest URL",
@@ -22,7 +36,7 @@ curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs`
       {
         title: "Browser Import",
         body: "Load the ESM CDN build in a browser module script and create a tiny scene. This confirms the package works without bundler aliases.",
-        code: `import { Scene, Camera2D, CanvasRenderer } from "https://cdn.jsdelivr.net/npm/raw2d@1.25.1/dist/raw2d.js";
+        code: `import { Scene, Camera2D, CanvasRenderer } from "https://cdn.jsdelivr.net/npm/raw2d@1.25.2/dist/raw2d.js";
 
 const scene = new Scene();
 const camera = new Camera2D();

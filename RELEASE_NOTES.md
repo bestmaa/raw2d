@@ -1,5 +1,13 @@
 # Raw2D Release Notes
 
+## v1.25.2 - Final Package Readiness Audit
+
+Raw2D v1.25.2 adds the final package readiness audit for the v1 hardening pass.
+
+- Added `npm run audit:package` to check every public package for fixed versions, Raw2D dependency pins, package files, tarball size, unpacked size, entry gzip size, tree-shaking metadata, CDN entry paths, and fresh install scripts.
+- Documented the package readiness audit in English and Hinglish docs and registered it in the docs navigation.
+- All Raw2D workspace packages are fixed-version bumped to `1.25.2`.
+
 ## v1.25.1 - Renderer Parity Matrix
 
 Raw2D v1.25.1 adds a browser-visible Canvas/WebGL parity matrix for the final v1 hardening pass.

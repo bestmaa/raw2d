@@ -8,7 +8,9 @@ const repoRoot = path.resolve(pluginRoot, "../..");
 const options = parseArgs(process.argv.slice(2));
 const commands = [
   { command: "npm", args: ["run", "pack:check", "--", "--silent"] },
-  { command: "npm", args: ["run", "test:consumer"] }
+  { command: "npm", args: ["run", "audit:package"] },
+  { command: "npm", args: ["run", "test:consumer"] },
+  { command: "npm", args: ["run", "test:cdn:pinned"] }
 ];
 
 if (options.dryRun) {

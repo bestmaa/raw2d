@@ -9,6 +9,8 @@ Ye checklist sirf tab use karo jab task me clearly Raw2D release publish karna h
 - `npm run typecheck` run karo.
 - `npm test` run karo.
 - `npm run pack:check -- --silent` run karo.
+- `npm run audit:package` run karo.
+- `npm run test:consumer` run karo.
 - Commit se pehle `git status --short` me sirf intended changes hone chahiye.
 
 ## GitHub Workflow
@@ -36,4 +38,7 @@ npm update ke baad jsDelivr check karo:
 ```sh
 curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.umd.cjs
+curl -I https://cdn.jsdelivr.net/npm/raw2d-core@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-canvas@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-webgl@VERSION/dist/index.js
 ```

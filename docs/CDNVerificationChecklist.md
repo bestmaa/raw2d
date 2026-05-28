@@ -9,9 +9,15 @@ Pinned URLs are the source of truth for a release:
 ```sh
 curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.umd.cjs
+curl -I https://cdn.jsdelivr.net/npm/raw2d-core@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-canvas@VERSION/dist/index.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d-webgl@VERSION/dist/index.js
 ```
 
-Both should return 200 and JavaScript content.
+These should return 200 and JavaScript content. For the final package audit,
+also check the focused package URLs for `raw2d-sprite`, `raw2d-text`,
+`raw2d-effects`, `raw2d-interaction`, `raw2d-mcp`, `raw2d-react`, and
+`raw2d-react-fiber`.
 
 ## Latest URLs
 

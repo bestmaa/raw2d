@@ -11,6 +11,8 @@ Confirm karo ki published packages, CDN files, docs snippets, examples, aur Stud
 Temporary projects me ye commands run karo:
 
 ```bash
+npm run audit:package
+npm run test:consumer
 npm install raw2d
 npm install raw2d-core raw2d-canvas raw2d-webgl raw2d-sprite raw2d-text
 npm install raw2d-mcp
