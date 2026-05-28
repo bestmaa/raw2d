@@ -6,6 +6,7 @@ export { createRaw2DVisualCheckPlan } from "./createRaw2DVisualCheckPlan.js";
 export { createRaw2DMcpManifest } from "./createRaw2DMcpManifest.js";
 export { generateRaw2DCanvasExample } from "./generateRaw2DCanvasExample.js";
 export { generateRaw2DDocsSnippet } from "./generateRaw2DDocsSnippet.js";
+export { generateRaw2DStudioExample } from "./generateRaw2DStudioExample.js";
 export { generateRaw2DWebGLExample } from "./generateRaw2DWebGLExample.js";
 export { inspectRaw2DScene } from "./inspectRaw2DScene.js";
 export { updateRaw2DObjectMaterial } from "./updateRaw2DObjectMaterial.js";
@@ -81,6 +82,10 @@ export type {
   Raw2DMcpExampleRenderer,
   Raw2DMcpGeneratedExample
 } from "./generateRaw2DExample.type.js";
+export type {
+  GenerateRaw2DStudioExampleOptions,
+  Raw2DMcpGeneratedStudioExample
+} from "./generateRaw2DStudioExample.type.js";
 export type { GenerateRaw2DDocsSnippetOptions, Raw2DMcpDocsSnippet } from "./generateRaw2DDocsSnippet.type.js";
 export type {
   CreateRaw2DVisualCheckPlanOptions,

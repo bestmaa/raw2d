@@ -60,6 +60,7 @@ raw2d_validate_scene -> { valid, errors }
 raw2d_validate_studio_scene -> { valid, errors, warnings }
 raw2d_generate_canvas_example -> { code, renderer }
 raw2d_generate_webgl_example -> { code, renderer }
+raw2d_generate_studio_example -> { json, filename, validation }
 raw2d_generate_docs_snippet -> { markdown }
 raw2d_run_visual_check -> { commands }`
       },

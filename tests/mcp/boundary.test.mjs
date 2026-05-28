@@ -15,6 +15,7 @@ const expectedTools = [
   "raw2d_validate_studio_scene",
   "raw2d_generate_canvas_example",
   "raw2d_generate_webgl_example",
+  "raw2d_generate_studio_example",
   "raw2d_generate_docs_snippet",
   "raw2d_run_visual_check"
 ];
@@ -53,6 +54,7 @@ function getExpectedExports() {
     "createRaw2DVisualCheckPlan",
     "generateRaw2DCanvasExample",
     "generateRaw2DDocsSnippet",
+    "generateRaw2DStudioExample",
     "generateRaw2DWebGLExample",
     "inspectRaw2DScene",
     "updateRaw2DObjectMaterial",

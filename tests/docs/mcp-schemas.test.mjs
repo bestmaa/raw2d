@@ -21,6 +21,7 @@ const toolNames = [
   "raw2d_validate_studio_scene",
   "raw2d_generate_canvas_example",
   "raw2d_generate_webgl_example",
+  "raw2d_generate_studio_example",
   "raw2d_generate_docs_snippet",
   "raw2d_run_visual_check"
 ];

@@ -12,6 +12,7 @@ const tools: readonly Raw2DMcpToolDefinition[] = [
   { name: "raw2d_validate_studio_scene", description: "Validate Studio scene JSON, command JSON, assets, and renderer warnings.", mutatesScene: false },
   { name: "raw2d_generate_canvas_example", description: "Generate Canvas example code.", mutatesScene: false },
   { name: "raw2d_generate_webgl_example", description: "Generate WebGL example code.", mutatesScene: false },
+  { name: "raw2d_generate_studio_example", description: "Generate Studio scene JSON that can round-trip through Studio save/load.", mutatesScene: false },
   { name: "raw2d_generate_docs_snippet", description: "Generate a docs snippet from scene JSON.", mutatesScene: false },
   { name: "raw2d_run_visual_check", description: "Describe the future visual check command boundary.", mutatesScene: false }
 ];

@@ -10,6 +10,8 @@ import type { CreateRaw2DVisualCheckPlanOptions } from "./createRaw2DVisualCheck
 import { generateRaw2DCanvasExample } from "./generateRaw2DCanvasExample.js";
 import { generateRaw2DDocsSnippet } from "./generateRaw2DDocsSnippet.js";
 import type { GenerateRaw2DDocsSnippetOptions } from "./generateRaw2DDocsSnippet.type.js";
+import { generateRaw2DStudioExample } from "./generateRaw2DStudioExample.js";
+import type { GenerateRaw2DStudioExampleOptions } from "./generateRaw2DStudioExample.type.js";
 import { generateRaw2DWebGLExample } from "./generateRaw2DWebGLExample.js";
 import type { GenerateRaw2DExampleOptions } from "./generateRaw2DExample.type.js";
 import { inspectRaw2DScene } from "./inspectRaw2DScene.js";
@@ -33,6 +35,7 @@ const handlers: Readonly<Record<string, ToolHandler>> = {
   raw2d_create_scene: (params) => createRaw2DSceneJson(optionalRecord<CreateRaw2DSceneJsonOptions>(params)),
   raw2d_generate_canvas_example: (params) => generateRaw2DCanvasExample(requireRecord<GenerateRaw2DExampleOptions>(params)),
   raw2d_generate_docs_snippet: (params) => generateRaw2DDocsSnippet(requireRecord<GenerateRaw2DDocsSnippetOptions>(params)),
+  raw2d_generate_studio_example: (params) => generateRaw2DStudioExample(requireRecord<GenerateRaw2DStudioExampleOptions>(params)),
   raw2d_generate_webgl_example: (params) => generateRaw2DWebGLExample(requireRecord<GenerateRaw2DExampleOptions>(params)),
   raw2d_inspect_scene: (params) => inspectRaw2DScene(requireRecord<InspectRaw2DSceneOptions>(params)),
   raw2d_manifest: () => createRaw2DMcpManifest(),

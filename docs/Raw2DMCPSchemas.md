@@ -198,6 +198,28 @@ Output:
 
 Generates copyable WebGLRenderer2D setup code with explicit Raw2D imports.
 
+### raw2d_generate_studio_example
+
+Input:
+
+```ts
+{ document: SceneDocument; name?: string; rendererMode?: "canvas" | "webgl" }
+```
+
+Output:
+
+```ts
+{
+  renderer: "studio";
+  filename: string;
+  json: string;
+  document: StudioSceneDocument;
+  validation: { valid: boolean; errors: unknown[]; warnings: unknown[] };
+}
+```
+
+Generates Studio `.raw2d.json` that can round-trip through Studio save/load and renderer adapters.
+
 ### raw2d_generate_docs_snippet
 
 Input:

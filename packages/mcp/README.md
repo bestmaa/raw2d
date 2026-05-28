@@ -11,6 +11,7 @@
 - Validate and inspect scene JSON.
 - Validate Studio scene JSON, asset references, command JSON, and WebGL renderer warnings.
 - Generate Canvas, WebGL, and markdown examples.
+- Generate Studio `.raw2d.json` examples that round-trip through Studio save/load and renderer adapters.
 - Create explicit visual-check and export-audit plans.
 - Keep runtime code deterministic and side-effect free.
 - Avoid browser, file-writing, publishing, or network behavior in the scaffold.
