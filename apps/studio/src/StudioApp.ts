@@ -18,6 +18,7 @@ import { bindStudioPropertyInputs } from "./StudioPropertyBindings";
 import { bindStudioRendererSwitch } from "./StudioRendererBindings";
 import { renderStudioRuntimeScene } from "./StudioRuntimeRender";
 import { renderStudioLayout, renderStudioStatsPanel } from "./StudioLayout";
+import { createStudioMinimapModel, fitStudioCameraToScene, zoomStudioCameraToSelection } from "./StudioNavigation";
 import { getStudioRendererLabel } from "./StudioRenderer";
 import type { StudioRendererMode } from "./StudioRenderer.type";
 import { createStudioSceneState } from "./StudioSceneState";
@@ -52,6 +53,7 @@ export class StudioApp {
       rendererLabel, sceneName: this.sceneState.name, statusMessage: this.statusMessage, objectCount: this.sceneState.objects.length,
       layers: inspector.layers, properties: inspector.properties, propertyFields: inspector.propertyFields, selectedLayerId: this.selectedObjectId, selectedLayerIds: this.selectedObjectIds,
       assets: createStudioAssetPanelModel(this.sceneState, this.selectedAssetId, this.selectedObjectId),
+      minimap: createStudioMinimapModel({ scene: this.sceneState, selectedObjectIds: this.selectedObjectIds }),
       stats: this.rendererStats
     });
   }
@@ -66,7 +68,7 @@ export class StudioApp {
     });
   }
   private bindActions(): void {
-    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onGroup: () => { this.handleGroupObjects(); }, onUngroup: () => { this.handleUngroupObject(); }, onArrange: (action) => { this.handleArrangement(action); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
+    bindStudioAppActions({ root: this.root, getScene: () => this.sceneState, setScene: (scene) => { this.sceneState = scene; }, setRendererMode: (mode) => { this.rendererMode = mode; }, setSelectedObjectId: (id) => { this.setSelectedObjectId(id); }, setSelectedAssetId: (id) => { this.selectedAssetId = id; }, setStatusMessage: (message) => { this.statusMessage = message; }, resetHistory: () => { this.history = createStudioHistory(); }, onUndo: () => { this.applyHistoryAction("undo"); }, onRedo: () => { this.applyHistoryAction("redo"); }, onGroup: () => { this.handleGroupObjects(); }, onUngroup: () => { this.handleUngroupObject(); }, onArrange: (action) => { this.handleArrangement(action); }, onNavigate: (action) => { this.handleNavigation(action); }, onCreateObject: (action) => { this.handleCreateObject(action); }, mount: () => { this.mount(); } });
   }
 
   private bindAssets(): void {
@@ -181,6 +183,11 @@ export class StudioApp {
     const result = createStudioArrangementCommand(this.sceneState, this.selectedObjectIds, action);
     if (result) this.applyCommand(result.command, result.options);
     else { this.statusMessage = "Select more objects to arrange"; this.mount(); }
+  }
+  private handleNavigation(action: "zoom-selection" | "fit-scene"): void {
+    const scene = action === "zoom-selection" ? zoomStudioCameraToSelection({ scene: this.sceneState, selectedObjectIds: this.selectedObjectIds }) : fitStudioCameraToScene(this.sceneState);
+    if (!scene) { this.statusMessage = action === "zoom-selection" ? "Select an object to zoom" : "Scene is empty"; this.mount(); return; }
+    this.sceneState = scene; this.statusMessage = action === "zoom-selection" ? "Zoomed to selection" : "Fit scene"; this.mount();
   }
   private applyCommand(command: StudioCommand, options: StudioCommandApplyOptions = {}): void {
     const result = applyStudioHistoryCommand({ scene: this.sceneState, history: this.history, command });

@@ -1,5 +1,6 @@
 import { StudioApp } from "./StudioApp";
 import "./assets.css";
+import "./navigation.css";
 import "./properties.css";
 import "./responsive.css";
 import "./style.css";

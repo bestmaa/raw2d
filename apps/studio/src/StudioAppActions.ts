@@ -1,6 +1,7 @@
 import { bindStudioActions } from "./StudioActions";
 import type { StudioAction } from "./StudioActions.type";
 import type { StudioArrangementAction } from "./StudioArrangement.type";
+import type { StudioNavigationAction } from "./StudioNavigation.type";
 import type { StudioAppActionBindingOptions } from "./StudioAppActions.type";
 import { copyStudioCanvasCode } from "./StudioCanvasCodeExport";
 import { bindStudioSceneLoadInput, clickStudioSceneLoadInput } from "./StudioLoadBindings";
@@ -72,6 +73,11 @@ function handleAction(options: StudioAppActionBindingOptions, action: StudioActi
     return;
   }
 
+  if (isNavigationAction(action)) {
+    options.onNavigate(action);
+    return;
+  }
+
   if (action === "save-scene") {
     downloadStudioScene({ scene: options.getScene() });
     return;
@@ -116,4 +122,8 @@ function getErrorMessage(error: unknown): string {
 
 function isArrangementAction(action: StudioAction): action is StudioArrangementAction {
   return action === "duplicate" || action.startsWith("align-") || action.startsWith("distribute-") || action === "snap-grid";
+}
+
+function isNavigationAction(action: StudioAction): action is StudioNavigationAction {
+  return action === "zoom-selection" || action === "fit-scene";
 }

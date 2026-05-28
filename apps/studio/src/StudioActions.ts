@@ -21,6 +21,7 @@ const arrangementActions: readonly StudioAction[] = [
   "distribute-vertical",
   "snap-grid"
 ];
+const navigationActions: readonly StudioAction[] = ["zoom-selection", "fit-scene"];
 
 export function bindStudioActions(options: StudioActionBindingOptions): void {
   const sampleButton = options.root.querySelector<HTMLButtonElement>('[data-action="sample-scene"]');
@@ -81,6 +82,13 @@ export function bindStudioActions(options: StudioActionBindingOptions): void {
     });
   }
 
+  for (const action of navigationActions) {
+    const button = options.root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`);
+    button?.addEventListener("click", () => {
+      options.onAction(action);
+    });
+  }
+
   for (const action of toolActions) {
     const button = options.root.querySelector<HTMLButtonElement>(`[data-tool="${action}"]`);
     button?.addEventListener("click", () => {
@@ -121,6 +129,8 @@ export function createStudioActionObject(scene: StudioSceneState, action: Studio
     case "distribute-horizontal":
     case "distribute-vertical":
     case "snap-grid":
+    case "zoom-selection":
+    case "fit-scene":
       return scene;
   }
 }

@@ -31,6 +31,11 @@ const arrangeActions = [
   ["snap-grid", "Snap"]
 ] as const;
 
+const navigationActions = [
+  ["zoom-selection", "Zoom Selection"],
+  ["fit-scene", "Fit Scene"]
+] as const;
+
 function renderTool(tool: StudioToolItem): string {
   return `
     <button class="studio-tool" type="button" data-tool="${tool.id}">
@@ -101,6 +106,22 @@ function renderStatsRow(row: StudioStatsRow): string {
   `;
 }
 
+function renderMinimap(options: StudioLayoutOptions["minimap"]): string {
+  const itemHtml = options.items.map((item) => `
+    <span class="studio-minimap-item${item.selected ? " is-selected" : ""}" style="${toMinimapStyle(item)}"></span>
+  `).join("");
+  return `
+    <div class="studio-minimap" data-minimap style="aspect-ratio: ${options.width} / ${options.height}">
+      ${itemHtml}
+      <span class="studio-minimap-viewport" style="${toMinimapStyle(options.viewport)}"></span>
+    </div>
+  `;
+}
+
+function toMinimapStyle(bounds: { readonly x: number; readonly y: number; readonly width: number; readonly height: number }): string {
+  return `left:${bounds.x}%;top:${bounds.y}%;width:${bounds.width}%;height:${bounds.height}%`;
+}
+
 export function renderStudioStatsPanel(stats: StudioStatsPanelModel): string {
   return `
     <div class="studio-stats" data-stats-renderer="${stats.renderer}">
@@ -129,6 +150,7 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <button type="button" data-action="group">Group</button>
           <button type="button" data-action="ungroup">Ungroup</button>
           ${arrangeActions.map(([action, label]) => `<button type="button" data-action="${action}">${label}</button>`).join("")}
+          ${navigationActions.map(([action, label]) => `<button type="button" data-action="${action}">${label}</button>`).join("")}
           <button type="button" data-action="save-scene">Save</button>
           <button type="button" data-action="load-scene">Load</button>
           <button type="button" data-action="export-png">Export</button>
@@ -165,6 +187,10 @@ export function renderStudioLayout(options: StudioLayoutOptions): string {
           <section>
             <h2>Stats</h2>
             ${renderStudioStatsPanel(options.stats)}
+          </section>
+          <section>
+            <h2>Navigation</h2>
+            ${renderMinimap(options.minimap)}
           </section>
           <section>
             <h2>Assets</h2>

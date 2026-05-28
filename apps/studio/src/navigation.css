@@ -1,0 +1,27 @@
+.studio-minimap {
+  position: relative;
+  overflow: hidden;
+  min-height: 118px;
+  border: 1px solid #31566c;
+  border-radius: 6px;
+  background: #0c1722;
+}
+
+.studio-minimap-item,
+.studio-minimap-viewport {
+  position: absolute;
+  min-width: 3px;
+  min-height: 3px;
+  border: 1px solid #5da7c9;
+  background: #1d6178;
+}
+
+.studio-minimap-item.is-selected {
+  border-color: #facc15;
+  background: #8a7c18;
+}
+
+.studio-minimap-viewport {
+  border-color: #f8fafc;
+  background: rgb(248 250 252 / 12%);
+}

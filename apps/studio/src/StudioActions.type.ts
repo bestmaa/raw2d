@@ -1,4 +1,5 @@
 import type { StudioArrangementAction } from "./StudioArrangement.type";
+import type { StudioNavigationAction } from "./StudioNavigation.type";
 
 export type StudioAction =
   | "sample-scene"
@@ -12,6 +13,7 @@ export type StudioAction =
   | "group"
   | "ungroup"
   | StudioArrangementAction
+  | StudioNavigationAction
   | "rect"
   | "circle"
   | "line"
