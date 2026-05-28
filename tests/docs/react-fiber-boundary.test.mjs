@@ -16,5 +16,5 @@ test("React Fiber boundary docs mention the scaffolded package boundary", async 
   }
 
   assert.match(readme, /custom reconciler boundary/);
-  assert.match(readme, /no reconciler host config implementation yet/);
+  assert.match(readme, /host config helpers/);
 });

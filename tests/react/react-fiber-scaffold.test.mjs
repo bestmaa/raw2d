@@ -6,9 +6,9 @@ import {
   getRaw2DFiberHostBoundary
 } from "raw2d-react-fiber";
 
-test("raw2d-react-fiber exposes a scaffold-only host boundary", () => {
+test("raw2d-react-fiber exposes the host config boundary", () => {
   assert.equal(RAW2D_REACT_FIBER_PACKAGE_INFO.packageName, "raw2d-react-fiber");
-  assert.equal(RAW2D_REACT_FIBER_PACKAGE_INFO.status, "scaffold");
+  assert.equal(RAW2D_REACT_FIBER_PACKAGE_INFO.status, "host-config");
   assert.equal(RAW2D_REACT_FIBER_PACKAGE_INFO.changesCoreApi, false);
 
   assert.equal(RAW2D_FIBER_HOST_BOUNDARY.packageName, "raw2d-react-fiber");

@@ -95,11 +95,18 @@ test("raw2d-react exposes the first component bridge surface", () => {
 test("raw2d-react-fiber exposes the scaffolded reconciler boundary", () => {
   assert.deepEqual(Object.keys(ReactFiber).sort(), [
     "RAW2D_FIBER_HOST_BOUNDARY",
+    "RAW2D_FIBER_HOST_CONFIG",
     "RAW2D_REACT_FIBER_PACKAGE_INFO",
-    "getRaw2DFiberHostBoundary"
+    "applyRaw2DFiberMaterialProps",
+    "applyRaw2DFiberObjectProps",
+    "createRaw2DFiberHostConfig",
+    "createRaw2DFiberInstance",
+    "getRaw2DFiberHostBoundary",
+    "updateRaw2DFiberInstance"
   ].sort());
   assert.equal(ReactFiber.RAW2D_REACT_FIBER_PACKAGE_INFO.packageName, "raw2d-react-fiber");
   assert.equal(ReactFiber.RAW2D_REACT_FIBER_PACKAGE_INFO.changesCoreApi, false);
   assert.equal(ReactFiber.RAW2D_FIBER_HOST_BOUNDARY.ownsRenderer, false);
+  assert.equal(typeof ReactFiber.createRaw2DFiberHostConfig, "function");
   assert.deepEqual(ReactFiber.getRaw2DFiberHostBoundary(), ReactFiber.RAW2D_FIBER_HOST_BOUNDARY);
 });

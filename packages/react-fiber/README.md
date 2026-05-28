@@ -10,10 +10,11 @@ npm install raw2d raw2d-react-fiber react
 
 ## Current Status
 
-- package metadata, export map, and TypeScript build scaffold
+- package metadata, export map, and TypeScript build
 - explicit host boundary descriptor for the future reconciler
+- host config helpers for create, update, append, and remove operations
 - no Canvas, WebGL, or core API changes
-- no reconciler host config implementation yet
+- no external `react-reconciler` dependency yet
 
 ## Host Boundary
 
@@ -25,4 +26,4 @@ The Fiber package boundary is intentionally narrow:
 - `raw2d-canvas` and `raw2d-webgl` stay renderer-only and do not import React.
 - Asset lifecycle hooks stay explicit so texture cleanup is debuggable.
 
-T292 adds the first host config for `Rect`, `Circle`, `Line`, `Text2D`, `Sprite`, `Group2D`, and material props.
+The first host config supports `Rect`, `Circle`, `Line`, `Text2D`, `Sprite`, `Group2D`, and material props.

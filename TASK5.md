@@ -121,7 +121,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 ## Phase 30: React Fiber Package
 
 - T291 | Version: v1.22.0 | Status: completed | Goal: Add `raw2d-react-fiber` package scaffold with custom reconciler boundaries documented. | Verify: package metadata, export map, and build tests. | Commit: `Scaffold React Fiber package`
-- T292 | Version: v1.22.1 | Status: pending | Goal: Implement host config for Rect, Circle, Line, Text2D, Sprite, Group2D, and material props. | Verify: reconciler unit tests for create, update, and remove. | Commit: `Add React Fiber host config`
+- T292 | Version: v1.22.1 | Status: completed | Goal: Implement host config for Rect, Circle, Line, Text2D, Sprite, Group2D, and material props. | Verify: reconciler unit tests for create, update, and remove. | Commit: `Add React Fiber host config`
 - T293 | Version: v1.22.2 | Status: pending | Goal: Add lifecycle-safe texture and asset handling for React Fiber sprites. | Verify: consumer tests for mount, update, unmount, and texture cleanup. | Commit: `Add React Fiber asset lifecycle`
 - T294 | Version: v1.22.3 | Status: pending | Goal: Add React Fiber interaction bridge for selection, drag, resize, and camera controls as optional helpers. | Verify: browser React example workflow. | Commit: `Add React Fiber interaction helpers`
 - T295 | Version: v1.22.4 | Status: pending | Goal: Add React Fiber examples and migration guide from `raw2d-react`. | Verify: examples tests and docs route check. | Commit: `Document React Fiber package`
