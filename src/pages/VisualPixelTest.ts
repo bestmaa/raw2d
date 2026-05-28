@@ -7,16 +7,14 @@ import {
   Rect,
   Scene,
   ShapePath,
+  Sprite,
   Text2D,
+  Texture,
   WebGLRenderer2D,
-  createBlurEffect,
-  createGrayscaleEffect,
-  createOpacityEffect,
-  createShadowEffect,
   isWebGL2Available
 } from "raw2d";
-import type { Object2D, Raw2DEffect } from "raw2d";
-import type { VisualPixelRendererResult, VisualPixelTestResult } from "./VisualPixelTest.type";
+import type { VisualPixelCoverage, VisualPixelRendererResult, VisualPixelTestResult } from "./VisualPixelTest.type";
+import { createBaseCoverage, createEmptyCoverage, createWebGLCoverage } from "./VisualPixelCoverage";
 
 type ResultWindow = Window & { __raw2dPixelResult?: VisualPixelTestResult };
 
@@ -63,8 +61,8 @@ function createPanel(titleText: string): { readonly panel: HTMLElement; readonly
 
 function runCanvasTest(canvas: HTMLCanvasElement, output: HTMLElement): VisualPixelRendererResult {
   const renderer = new Canvas({ canvas, width, height, backgroundColor });
-  renderer.render(createScene(), new Camera2D(), { effects: getCanvasEffects });
-  const result = createResult("canvas", canvas);
+  renderer.render(createScene(), new Camera2D(), { culling: true });
+  const result = createResult("canvas", canvas, createBaseCoverage(renderer.getStats()));
   writeResult(output, result);
   return result;
 }
@@ -84,8 +82,13 @@ function runWebGLTest(canvas: HTMLCanvasElement, output: HTMLElement): VisualPix
     shapePathFillFallback: "rasterize",
     curveSegments: 24
   });
-  renderer.render(createScene(), new Camera2D());
-  const result = createWebGLResult(canvas, renderer.gl);
+  const scene = createScene();
+  const camera = new Camera2D();
+
+  renderer.render(scene, camera, { culling: true });
+  renderer.render(scene, camera, { culling: true });
+
+  const result = createWebGLResult(canvas, renderer.gl, createWebGLCoverage(renderer.getStats()));
   renderer.dispose();
   writeResult(output, result);
   return result;
@@ -95,25 +98,20 @@ function createScene(): Scene {
   const scene = new Scene();
   const cyan = new BasicMaterial({ fillColor: "#35c2ff", strokeColor: "#f5f7fb", lineWidth: 3, strokeJoin: "round" });
   const pink = new BasicMaterial({ fillColor: "#f45b69", strokeColor: "#10141c", lineWidth: 2 });
+  const staticRect = new Rect({ name: "static-rect", x: 18, y: 22, width: 54, height: 38, material: pink });
+  const sprite = new Sprite({ texture: createSpriteTexture(), x: 196, y: 118, width: 32, height: 32, origin: "center" });
 
-  scene.add(new Rect({ name: "effect-shadow", x: 18, y: 22, width: 54, height: 38, material: pink }));
-  scene.add(new Circle({ name: "effect-soft", x: 108, y: 44, radius: 22, material: cyan }));
+  staticRect.setRenderMode("static");
+  sprite.setRenderMode("static");
+
+  scene.add(staticRect);
+  scene.add(new Circle({ x: 108, y: 44, radius: 22, material: cyan }));
   scene.add(new Arc({ x: 154, y: 32, radiusX: 32, radiusY: 24, startAngle: 0, endAngle: Math.PI * 1.25, closed: true, material: pink }));
   scene.add(createShapePath(cyan));
+  scene.add(sprite);
   scene.add(new Text2D({ x: 18, y: 138, text: "Raw2D", font: "24px sans-serif", material: new BasicMaterial({ fillColor: "#f5f7fb" }) }));
+  scene.add(new Rect({ name: "culled-offscreen", x: 320, y: 20, width: 40, height: 40, material: cyan }));
   return scene;
-}
-
-function getCanvasEffects(object: Object2D): readonly Raw2DEffect[] {
-  if (object.name === "effect-shadow") {
-    return [createShadowEffect({ color: "rgba(0,0,0,0.45)", blur: 8, offsetX: 4, offsetY: 4 })];
-  }
-
-  if (object.name === "effect-soft") {
-    return [createOpacityEffect(0.86), createBlurEffect(0.3), createGrayscaleEffect(0.12)];
-  }
-
-  return [];
 }
 
 function createShapePath(material: BasicMaterial): ShapePath {
@@ -125,23 +123,48 @@ function createShapePath(material: BasicMaterial): ShapePath {
     .closePath();
 }
 
-function createResult(renderer: "canvas", canvas: HTMLCanvasElement): VisualPixelRendererResult {
+function createSpriteTexture(): Texture {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  canvas.width = 32;
+  canvas.height = 32;
+
+  if (context) {
+    context.fillStyle = "#facc15";
+    context.fillRect(0, 0, 32, 32);
+    context.fillStyle = "#10141c";
+    context.fillRect(6, 6, 20, 20);
+    context.fillStyle = "#35c2ff";
+    context.fillRect(10, 10, 12, 12);
+  }
+
+  return new Texture({ source: canvas, width: 32, height: 32 });
+}
+
+function createResult(renderer: "canvas", canvas: HTMLCanvasElement, coverage: VisualPixelCoverage): VisualPixelRendererResult {
   const context = canvas.getContext("2d");
 
   if (!context) {
     return createUnavailableResult(renderer, "2D context is not available.");
   }
 
-  return createPixelResult(renderer, context.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height);
+  return createPixelResult(renderer, context.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height, coverage);
 }
 
-function createWebGLResult(canvas: HTMLCanvasElement, gl: WebGL2RenderingContext): VisualPixelRendererResult {
+function createWebGLResult(canvas: HTMLCanvasElement, gl: WebGL2RenderingContext, coverage: VisualPixelCoverage): VisualPixelRendererResult {
   const pixels = new Uint8Array(canvas.width * canvas.height * 4);
   gl.readPixels(0, 0, canvas.width, canvas.height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-  return createPixelResult("webgl", pixels, canvas.width, canvas.height);
+  return createPixelResult("webgl", pixels, canvas.width, canvas.height, coverage);
 }
 
-function createPixelResult(renderer: "canvas" | "webgl", pixels: ArrayLike<number>, resultWidth: number, resultHeight: number): VisualPixelRendererResult {
+function createPixelResult(
+  renderer: "canvas" | "webgl",
+  pixels: ArrayLike<number>,
+  resultWidth: number,
+  resultHeight: number,
+  coverage: VisualPixelCoverage
+): VisualPixelRendererResult {
   const coloredPixels = countNonBackgroundPixels(pixels);
   return {
     renderer,
@@ -150,12 +173,13 @@ function createPixelResult(renderer: "canvas" | "webgl", pixels: ArrayLike<numbe
     coloredPixels,
     width: resultWidth,
     height: resultHeight,
+    coverage,
     message: coloredPixels > 0 ? "Rendered non-background pixels." : "Only background pixels were rendered."
   };
 }
 
 function createUnavailableResult(renderer: "canvas" | "webgl", message: string): VisualPixelRendererResult {
-  return { renderer, status: "unavailable", hash: "", coloredPixels: 0, width, height, message };
+  return { renderer, status: "unavailable", hash: "", coloredPixels: 0, width, height, coverage: createEmptyCoverage(), message };
 }
 
 function countNonBackgroundPixels(pixels: ArrayLike<number>): number {
