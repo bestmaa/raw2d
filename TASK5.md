@@ -124,7 +124,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T292 | Version: v1.22.1 | Status: completed | Goal: Implement host config for Rect, Circle, Line, Text2D, Sprite, Group2D, and material props. | Verify: reconciler unit tests for create, update, and remove. | Commit: `Add React Fiber host config`
 - T293 | Version: v1.22.2 | Status: completed | Goal: Add lifecycle-safe texture and asset handling for React Fiber sprites. | Verify: consumer tests for mount, update, unmount, and texture cleanup. | Commit: `Add React Fiber asset lifecycle`
 - T294 | Version: v1.22.3 | Status: completed | Goal: Add React Fiber interaction bridge for selection, drag, resize, and camera controls as optional helpers. | Verify: browser React example workflow. | Commit: `Add React Fiber interaction helpers`
-- T295 | Version: v1.22.4 | Status: pending | Goal: Add React Fiber examples and migration guide from `raw2d-react`. | Verify: examples tests and docs route check. | Commit: `Document React Fiber package`
+- T295 | Version: v1.22.4 | Status: completed | Goal: Add React Fiber examples and migration guide from `raw2d-react`. | Verify: examples tests and docs route check. | Commit: `Document React Fiber package`
 - T296 | Version: v1.22.5 | Status: pending | Goal: Phase 30 release and publish. | Verify: CI, npm latest, Cloudflare docs, React consumer installs. | Commit: `Release React Fiber phase`
 
 ## Phase 31: MCP Studio Automation

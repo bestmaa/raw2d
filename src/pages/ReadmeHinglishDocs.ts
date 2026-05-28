@@ -70,6 +70,7 @@ import publicBetaHardeningPlan from "../../docs/hi/PublicBetaHardeningPlan.md?ra
 import productDocsSnippetAudit from "../../docs/hi/ProductDocsSnippetAudit.md?raw";
 import reactAdapterVsFiber from "../../docs/hi/ReactAdapterVsFiber.md?raw";
 import reactBetaInstallAudit from "../../docs/hi/ReactBetaInstallAudit.md?raw";
+import reactFiberMigration from "../../docs/hi/ReactFiberMigration.md?raw";
 import dragging from "../../docs/hi/Dragging.md?raw";
 import resizeHandles from "../../docs/hi/ResizeHandles.md?raw";
 import objectResize from "../../docs/hi/ObjectResize.md?raw";
@@ -131,6 +132,7 @@ export const readmeHinglishDocs: readonly ReadmeDoc[] = [
   { id: "studio-scene-format", label: "Studio Scene Format", filename: "hi/Raw2DStudioSceneFormat.md", content: raw2dStudioSceneFormat },
   { id: "react-adapter-vs-fiber", label: "React Adapter Vs Fiber", filename: "hi/ReactAdapterVsFiber.md", content: reactAdapterVsFiber },
   { id: "react-fiber-boundary", label: "React Fiber Boundary", filename: "hi/ReactFiberBoundary.md", content: reactFiberBoundary },
+  { id: "react-fiber-migration", label: "React Fiber Migration", filename: "hi/ReactFiberMigration.md", content: reactFiberMigration },
   { id: "react-renderer-api-audit", label: "React Renderer API Audit", filename: "hi/ReactRendererAPIAudit.md", content: reactRendererAPIAudit },
   { id: "react-reconciler-model", label: "React Reconciler Model", filename: "hi/ReactReconcilerModel.md", content: reactReconcilerModel },
   { id: "glossary", label: "Glossary", filename: "hi/Glossary.md", content: glossary },

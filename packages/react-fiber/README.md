@@ -31,3 +31,17 @@ The Fiber package boundary is intentionally narrow:
 - User-passed textures are external by default. Set `textureOwnership: "owned"` only when Fiber should dispose the texture after replacement or unmount.
 
 The first host config supports `Rect`, `Circle`, `Line`, `Text2D`, `Sprite`, `Group2D`, and material props.
+
+## Example
+
+Run the host config example from the repo:
+
+```bash
+npm run dev
+```
+
+Open `/examples/react-fiber-basic/`.
+
+## Migration
+
+Use `raw2d-react` for ready component wrappers. Move to `raw2d-react-fiber` when you need host instances, custom reconciliation, explicit texture ownership, or direct interaction bridge control.

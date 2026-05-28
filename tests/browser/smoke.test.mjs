@@ -114,6 +114,7 @@ function getHtmlRoutes() {
     "/examples/shape-path/",
     "/examples/mcp-scene/",
     "/examples/react-basic/",
+    "/examples/react-fiber-basic/",
     "/examples/text-basic/"
   ];
 }
@@ -136,6 +137,7 @@ function getModuleRoutes() {
     "/examples/shape-path/main.ts",
     "/examples/mcp-scene/main.ts",
     "/examples/react-basic/main.ts",
+    "/examples/react-fiber-basic/main.ts",
     "/examples/text-basic/main.ts"
   ];
 }

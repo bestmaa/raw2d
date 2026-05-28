@@ -29,6 +29,44 @@ export const reactReconcilerTopics: readonly DocTopic[] = [
     ]
   },
   {
+    id: "react-fiber-migration",
+    label: "Fiber Migration",
+    title: "React Fiber Migration",
+    description: "Move from raw2d-react components to raw2d-react-fiber host instances only when lower-level control is needed.",
+    sections: [
+      {
+        title: "Choose Package",
+        body: "raw2d-react is the ready component bridge. raw2d-react-fiber is the host config package for custom reconciliation and explicit interaction control.",
+        code: `raw2d-react        component wrappers
+raw2d-react-fiber  host config and interaction bridge`
+      },
+      {
+        title: "Host Instance",
+        body: "Fiber host instances create normal Raw2D objects and attach them to Scene or Group2D through public APIs.",
+        code: `const host = createRaw2DFiberHostConfig();
+const rect = host.createInstance("rawRect", {
+  x: 80,
+  y: 80,
+  width: 140,
+  height: 88
+});
+host.appendChild(scene, rect);`
+      },
+      {
+        title: "Interaction",
+        body: "The interaction bridge wraps public selection, drag, resize, and camera controls without drawing overlays or touching renderer internals.",
+        code: `const bridge = createRaw2DFiberInteractionBridge({
+  canvas,
+  scene,
+  camera,
+  requestRender
+});
+bridge.enableSelection();
+bridge.attachInstance(rect, { select: true, drag: true });`
+      }
+    ]
+  },
+  {
     id: "react-reconciler-model",
     label: "Reconciler Model",
     title: "React Reconciler Model",

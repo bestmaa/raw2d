@@ -35,6 +35,7 @@ import publicBetaHardeningPlan from "../../docs/PublicBetaHardeningPlan.md?raw";
 import productDocsSnippetAudit from "../../docs/ProductDocsSnippetAudit.md?raw";
 import reactAdapterVsFiber from "../../docs/ReactAdapterVsFiber.md?raw";
 import reactBetaInstallAudit from "../../docs/ReactBetaInstallAudit.md?raw";
+import reactFiberMigration from "../../docs/ReactFiberMigration.md?raw";
 import rect from "../../docs/Rect.md?raw";
 import renderOrder from "../../docs/RenderOrder.md?raw";
 import renderer2d from "../../docs/Renderer2D.md?raw";
@@ -131,6 +132,7 @@ export const readmeDocs: readonly ReadmeDoc[] = [
   { id: "studio-scene-format", label: "Studio Scene Format", filename: "Raw2DStudioSceneFormat.md", content: raw2dStudioSceneFormat },
   { id: "react-adapter-vs-fiber", label: "React Adapter Vs Fiber", filename: "ReactAdapterVsFiber.md", content: reactAdapterVsFiber },
   { id: "react-fiber-boundary", label: "React Fiber Boundary", filename: "ReactFiberBoundary.md", content: reactFiberBoundary },
+  { id: "react-fiber-migration", label: "React Fiber Migration", filename: "ReactFiberMigration.md", content: reactFiberMigration },
   { id: "react-renderer-api-audit", label: "React Renderer API Audit", filename: "ReactRendererAPIAudit.md", content: reactRendererAPIAudit },
   { id: "react-reconciler-model", label: "React Reconciler Model", filename: "ReactReconcilerModel.md", content: reactReconcilerModel },
   { id: "glossary", label: "Glossary", filename: "Glossary.md", content: glossary },

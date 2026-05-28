@@ -32,6 +32,7 @@ npx vite --host 0.0.0.0 --port 5175
 - `/examples/text-basic/` shows Text2D rendering.
 - `/examples/mcp-scene/` shows `raw2d-mcp` scene JSON helpers.
 - `/examples/react-basic/` shows the separate `raw2d-react` bridge.
+- `/examples/react-fiber-basic/` shows the `raw2d-react-fiber` host config and interaction bridge.
 
 ## Package Imports
 
@@ -42,6 +43,7 @@ npm install raw2d
 npm install raw2d-core raw2d-canvas
 npm install raw2d-core raw2d-webgl
 npm install raw2d raw2d-react react react-dom
+npm install raw2d raw2d-react-fiber react react-dom
 ```
 
 Use the umbrella package when learning:
@@ -61,6 +63,7 @@ React and MCP are separate packages:
 
 ```ts
 import { Raw2DCanvas, RawRect } from "raw2d-react";
+import { createRaw2DFiberHostConfig } from "raw2d-react-fiber";
 import { createRaw2DSceneJson } from "raw2d-mcp";
 ```
 
