@@ -1,5 +1,26 @@
 # Raw2D Release Notes Archive
 
+## v1.22.5 - React Fiber Phase
+
+Raw2D v1.22.5 publishes the React Fiber package phase.
+
+### Added
+
+- `raw2d-react-fiber` as a separate package with an explicit custom reconciler boundary.
+- Host config helpers for Rect, Circle, Line, Text2D, Sprite, and Group2D instances without copying PixiJS or Phaser APIs.
+- Lifecycle-safe Sprite texture handling for external textures, owned textures, and `AssetGroup` lookups.
+- Optional interaction bridge helpers that connect React-managed Raw2D objects to selection, camera, and controller workflows.
+- Runnable React Fiber example and migration docs for moving from the older `raw2d-react` helpers.
+
+### Verification
+
+- Full test suite.
+- Browser smoke suite.
+- React consumer install smoke tests.
+- Docs production build.
+- Workspace package dry-run.
+- CDN pinned dry-run.
+
 ## v1.21.5 - WebGL Completion Phase
 
 Raw2D v1.21.5 publishes the WebGL completion phase.

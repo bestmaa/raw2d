@@ -22,7 +22,14 @@ try {
 }
 
 async function packFocusedPackages(destination) {
-  const directories = ["packages/core", "packages/text", "packages/sprite", "packages/canvas", "packages/webgl"];
+  const directories = [
+    "packages/core",
+    "packages/effects",
+    "packages/text",
+    "packages/sprite",
+    "packages/canvas",
+    "packages/webgl"
+  ];
   const tarballs = [];
 
   for (const directory of directories) {
@@ -63,15 +70,20 @@ async function createProject(directory) {
 `);
   await writeFile(path.join(directory, "runtime-check.mjs"), `const core = await import("raw2d-core");
 const canvas = await import("raw2d-canvas");
+const effects = await import("raw2d-effects");
 const webgl = await import("raw2d-webgl");
 const sprite = await import("raw2d-sprite");
 const text = await import("raw2d-text");
 
-if (typeof core.Scene !== "function" || typeof canvas.CanvasRenderer !== "function") {
+if (
+  typeof core.Scene !== "function" ||
+  typeof canvas.CanvasRenderer !== "function" ||
+  typeof effects.createOpacityEffect !== "function"
+) {
   throw new Error("focused runtime exports are missing");
 }
 
-console.log("focused-runtime-ok", typeof webgl.WebGLRenderer2D, typeof sprite.Sprite, typeof text.Text2D);
+console.log("focused-runtime-ok", typeof webgl.WebGLRenderer2D, typeof sprite.Sprite, typeof text.Text2D, effects.createOpacityEffect(1).type);
 `);
   await writeFile(path.join(directory, "src/main.ts"), getMainSource());
 }

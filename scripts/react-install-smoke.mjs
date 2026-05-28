@@ -35,7 +35,8 @@ async function packReactPackages(destination) {
     "packages/webgl",
     "packages/effects",
     "packages/raw2d",
-    "packages/react"
+    "packages/react",
+    "packages/react-fiber"
   ];
   const tarballs = [];
 
@@ -72,10 +73,17 @@ async function createProject(directory) {
 }
 `);
   await writeFile(path.join(directory, "runtime-check.mjs"), `const react = await import("raw2d-react");
+const fiber = await import("raw2d-react-fiber");
 if (typeof react.Raw2DCanvas !== "function" || typeof react.RawRect !== "function") {
   throw new Error("raw2d-react runtime exports are missing");
 }
-console.log("react-runtime-ok", react.RAW2D_REACT_PACKAGE_INFO.packageName);
+if (
+  typeof fiber.createRaw2DFiberHostConfig !== "function" ||
+  fiber.RAW2D_REACT_FIBER_PACKAGE_INFO.packageName !== "raw2d-react-fiber"
+) {
+  throw new Error("raw2d-react-fiber runtime exports are missing");
+}
+console.log("react-runtime-ok", react.RAW2D_REACT_PACKAGE_INFO.packageName, fiber.RAW2D_REACT_FIBER_PACKAGE_INFO.packageName);
 `);
   await writeFile(path.join(directory, "src/main.ts"), getMainSource());
 }
@@ -83,18 +91,24 @@ console.log("react-runtime-ok", react.RAW2D_REACT_PACKAGE_INFO.packageName);
 function getMainSource() {
   return `import { createElement } from "react";
 import { createRoot } from "react-dom/client";
-import { Texture } from "raw2d";
+import { Scene, Texture } from "raw2d";
+import { createRaw2DFiberHostConfig } from "raw2d-react-fiber";
 import { Raw2DCanvas, RawCircle, RawRect, RawSprite, RawText2D } from "raw2d-react";
 
 const textureCanvas = document.createElement("canvas");
 textureCanvas.width = 16;
 textureCanvas.height = 16;
 const texture = new Texture({ source: textureCanvas, width: 16, height: 16 });
+const scene = new Scene();
+const fiber = createRaw2DFiberHostConfig();
+const fiberRect = fiber.createInstance("rawRect", { fillColor: "#35c2ff", height: 24, width: 32 });
 const root = document.querySelector("#root");
 
 if (!root) {
   throw new Error("Root not found.");
 }
+
+fiber.appendChild(scene, fiberRect);
 
 createRoot(root).render(createElement(Raw2DCanvas, { renderer: "canvas", width: 320, height: 240 }, [
   createElement(RawRect, { fillColor: "#35c2ff", height: 64, key: "rect", width: 96, x: 24, y: 32 }),
