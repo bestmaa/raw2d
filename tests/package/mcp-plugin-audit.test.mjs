@@ -2,7 +2,19 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const packageDirs = ["canvas", "core", "effects", "interaction", "mcp", "raw2d", "react", "sprite", "text", "webgl"];
+const packageDirs = [
+  "canvas",
+  "core",
+  "effects",
+  "interaction",
+  "mcp",
+  "raw2d",
+  "react",
+  "react-fiber",
+  "sprite",
+  "text",
+  "webgl"
+];
 
 test("raw2d-mcp package stays focused on MCP and core data", async () => {
   const manifest = await readJson("packages/mcp/package.json");

@@ -18,7 +18,7 @@ export const reactReconcilerTopics: readonly DocTopic[] = [
       },
       {
         title: "Future Fiber",
-        body: "raw2d-react-fiber should wait for stable lifecycle hooks, host nodes, and commit batching.",
+        body: "raw2d-react-fiber now owns the scaffolded custom reconciler boundary while host config work waits for stable lifecycle hooks, host nodes, and commit batching.",
         code: `<Raw2DCanvas renderer="webgl" width={800} height={480}>
   <rawScene>
     <rawRect x={80} y={80} width={160} height={96} />
@@ -36,7 +36,7 @@ export const reactReconcilerTopics: readonly DocTopic[] = [
     sections: [
       {
         title: "Host Node",
-        body: "The React package should keep a small host node that points to a normal Raw2D object.",
+        body: "The React Fiber package should keep a small host node that points to a normal Raw2D object.",
         code: `interface Raw2DHostNode {
   readonly id: string;
   readonly type: string;

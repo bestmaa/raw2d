@@ -3,7 +3,19 @@ import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
 
-const packageDirs = ["canvas", "core", "effects", "interaction", "mcp", "raw2d", "react", "sprite", "text", "webgl"];
+const packageDirs = [
+  "canvas",
+  "core",
+  "effects",
+  "interaction",
+  "mcp",
+  "raw2d",
+  "react",
+  "react-fiber",
+  "sprite",
+  "text",
+  "webgl"
+];
 const expectedFiles = ["README.md", "LICENSE", "NOTICE", "TRADEMARKS.md"];
 
 test("package metadata includes source, docs, legal, and discovery fields", async () => {
@@ -38,4 +50,3 @@ test("package legal files are present and carry Raw2D attribution", async () => 
 async function readManifest(dir) {
   return JSON.parse(await readFile(join("packages", dir, "package.json"), "utf8"));
 }
-

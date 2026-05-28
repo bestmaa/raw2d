@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 
-const packageNames = ["canvas", "core", "effects", "interaction", "mcp", "react", "sprite", "text", "webgl"];
+const packageNames = ["canvas", "core", "effects", "interaction", "mcp", "react", "react-fiber", "sprite", "text", "webgl"];
 const umbrellaLimits = {
   "packages/raw2d/dist/raw2d.js": { bytes: 160_000, gzipBytes: 40_000 },
   "packages/raw2d/dist/raw2d.umd.cjs": { bytes: 125_000, gzipBytes: 35_000 }

@@ -9,6 +9,7 @@ const packageIndexPaths = [
   "packages/interaction/src/index.ts",
   "packages/mcp/src/index.ts",
   "packages/raw2d/src/index.ts",
+  "packages/react-fiber/src/index.ts",
   "packages/react/src/index.ts",
   "packages/sprite/src/index.ts",
   "packages/text/src/index.ts",
@@ -35,6 +36,7 @@ const forbiddenExportsByPackage = new Map([
 const umbrellaForbiddenImports = [
   "raw2d-mcp",
   "raw2d-react",
+  "raw2d-react-fiber",
   "CanvasObjectRenderer",
   "WebGLFloatBuffer",
   "WebGLTextTextureCache",
@@ -61,4 +63,3 @@ test("umbrella source barrel keeps package internals out", async () => {
     assert.doesNotMatch(source, new RegExp(`\\\\b${forbiddenName}\\\\b`), `raw2d must not export ${forbiddenName}`);
   }
 });
-

@@ -3,6 +3,7 @@ import test from "node:test";
 import * as Effects from "raw2d-effects";
 import * as Interaction from "raw2d-interaction";
 import * as ReactBridge from "raw2d-react";
+import * as ReactFiber from "raw2d-react-fiber";
 import * as Sprite from "raw2d-sprite";
 import * as Text from "raw2d-text";
 
@@ -89,4 +90,16 @@ test("raw2d-react exposes the first component bridge surface", () => {
   assert.equal(typeof ReactBridge.createRaw2DReactRenderer, "function");
   assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.packageName, "raw2d-react");
   assert.equal(ReactBridge.RAW2D_REACT_PACKAGE_INFO.changesCoreApi, false);
+});
+
+test("raw2d-react-fiber exposes the scaffolded reconciler boundary", () => {
+  assert.deepEqual(Object.keys(ReactFiber).sort(), [
+    "RAW2D_FIBER_HOST_BOUNDARY",
+    "RAW2D_REACT_FIBER_PACKAGE_INFO",
+    "getRaw2DFiberHostBoundary"
+  ].sort());
+  assert.equal(ReactFiber.RAW2D_REACT_FIBER_PACKAGE_INFO.packageName, "raw2d-react-fiber");
+  assert.equal(ReactFiber.RAW2D_REACT_FIBER_PACKAGE_INFO.changesCoreApi, false);
+  assert.equal(ReactFiber.RAW2D_FIBER_HOST_BOUNDARY.ownsRenderer, false);
+  assert.deepEqual(ReactFiber.getRaw2DFiberHostBoundary(), ReactFiber.RAW2D_FIBER_HOST_BOUNDARY);
 });
