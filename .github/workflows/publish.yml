@@ -32,18 +32,27 @@ jobs:
       - name: Pack check
         run: npm run pack:check -- --silent
 
+      - name: Package readiness audit
+        run: npm run audit:package
+
+      - name: Consumer install smoke
+        run: npm run test:consumer
+
+      - name: CDN pinned dry run
+        run: npm run test:cdn:pinned
+
       - name: Publish
         run: |
           npm publish --workspace raw2d-core --access public
+          npm publish --workspace raw2d-effects --access public
           npm publish --workspace raw2d-text --access public
           npm publish --workspace raw2d-sprite --access public
-          npm publish --workspace raw2d-canvas --access public
-          npm publish --workspace raw2d-webgl --access public
-          npm publish --workspace raw2d-effects --access public
           npm publish --workspace raw2d-interaction --access public
           npm publish --workspace raw2d-mcp --access public
+          npm publish --workspace raw2d-canvas --access public
+          npm publish --workspace raw2d-webgl --access public
+          npm publish --workspace raw2d --access public
           npm publish --workspace raw2d-react --access public
           npm publish --workspace raw2d-react-fiber --access public
-          npm publish --workspace raw2d --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

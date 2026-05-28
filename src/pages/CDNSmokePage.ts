@@ -1,6 +1,6 @@
 import { BasicMaterial, Camera2D, Canvas, Rect, Scene, Text2D } from "raw2d";
 
-const pinnedVersion = "1.25.4";
+const pinnedVersion = "1.25.5";
 const esmUrl = `https://cdn.jsdelivr.net/npm/raw2d@${pinnedVersion}/dist/raw2d.js`;
 const umdUrl = `https://cdn.jsdelivr.net/npm/raw2d@${pinnedVersion}/dist/raw2d.umd.cjs`;
 const coreUrl = `https://cdn.jsdelivr.net/npm/raw2d-core@${pinnedVersion}/dist/index.js`;

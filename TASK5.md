@@ -152,4 +152,4 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T310 | Version: v1.25.2 | Status: completed | Goal: Add final package size, tree-shaking, CDN, and fresh install audits for every public package. | Verify: audit scripts and consumer smoke tests. | Commit: `Audit final package readiness`
 - T311 | Version: v1.25.3 | Status: completed | Goal: Polish docs IA, beginner path, Hinglish parity, and release checklists for v1 users. | Verify: docs build, docs tests, browser mobile checks. | Commit: `Polish v1 docs`
 - T312 | Version: v1.25.4 | Status: completed | Goal: Run final bug bash for docs, examples, Studio, React, MCP, Canvas, and WebGL. | Verify: bug bash report and linked fixes. | Commit: `Run v1 bug bash`
-- T313 | Version: v1.25.5 | Status: pending | Goal: Phase 33 release candidate and publish. | Verify: CI, npm latest, Cloudflare docs, CDN pinned URLs, post-release audit. | Commit: `Release Raw2D v1 candidate`
+- T313 | Version: v1.25.5 | Status: completed | Goal: Phase 33 release candidate and publish. | Verify: CI, npm latest, Cloudflare docs, CDN pinned URLs, post-release audit. | Commit: `Release Raw2D v1 candidate`

@@ -1,5 +1,13 @@
 # Raw2D Release Notes
 
+## v1.25.5 - Raw2D v1 Candidate
+
+Raw2D v1.25.5 is the Phase 33 release candidate and publish pass for the v1 hardening line.
+
+- Bumped every Raw2D workspace package together to `1.25.5`.
+- Hardened the GitHub publish workflow with package readiness, consumer install, and CDN pinned dry-run checks before npm publish.
+- Publish order now follows package dependency boundaries so focused packages are published before packages that depend on them.
+
 ## v1.25.4 - v1 Bug Bash
 
 Raw2D v1.25.4 runs the final v1 bug bash across docs, examples, Studio, React, MCP, Canvas, WebGL, and package readiness.
