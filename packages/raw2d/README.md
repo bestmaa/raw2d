@@ -8,6 +8,8 @@ Public documentation:
 https://raw2d.com/doc
 ```
 
+Feedback, bug reports, feature ideas, renderer questions, and MCP/automation questions: https://github.com/bestmaa/raw2d/issues. Direct questions: bestemplin@gmail.com.
+
 It is designed around explicit control and readable internals:
 
 - `raw2d-core` for scene graph, objects, camera, and materials.

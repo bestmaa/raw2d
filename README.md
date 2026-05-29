@@ -4,7 +4,7 @@ Raw2D is a low-level 2D rendering engine for JavaScript and TypeScript.
 
 It is browser-first, Canvas-first, WebGL2-ready, and built around small isolated modules. Objects store scene data and transform behavior. Renderers draw those objects.
 
-Public docs: https://raw2d.com/doc and markdown reference: https://raw2d.com/readme
+Public docs: https://raw2d.com/doc and markdown reference: https://raw2d.com/readme. Feedback: https://github.com/bestmaa/raw2d/issues. Direct questions: bestemplin@gmail.com.
 
 ## Why Raw2D Exists
 

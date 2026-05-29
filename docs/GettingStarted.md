@@ -4,6 +4,8 @@ This guide is the shortest path from install to a working Raw2D scene.
 
 Use `raw2d` first. It is the umbrella package that re-exports the stable public API from the focused packages.
 
+Feedback: use Raw2D GitHub Issues for bugs, feature ideas, renderer questions, and MCP/automation questions: https://github.com/bestmaa/raw2d/issues. Direct Raw2D questions: bestemplin@gmail.com.
+
 ## Install
 
 ```bash
