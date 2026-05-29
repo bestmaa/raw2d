@@ -37,6 +37,8 @@
     "audit:docs": "node scripts/audit-doc-links.mjs",
     "audit:bundle": "node scripts/audit-bundle-size.mjs --check",
     "audit:package": "node scripts/audit-package-readiness.mjs --check",
+    "release:preflight": "node scripts/release-publish-check.mjs preflight",
+    "release:postpublish": "node scripts/release-publish-check.mjs postpublish",
     "pack:check": "npm pack --workspaces --dry-run"
   },
   "repository": {

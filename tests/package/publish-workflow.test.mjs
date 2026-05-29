@@ -5,10 +5,24 @@ import test from "node:test";
 const workflow = readFileSync(".github/workflows/publish.yml", "utf8");
 
 test("publish workflow runs release readiness gates before npm publish", () => {
+  assertBefore("npm run release:preflight", "npm test");
   assertBefore("npm run pack:check -- --silent", "npm run audit:package");
   assertBefore("npm run audit:package", "npm run test:consumer");
   assertBefore("npm run test:consumer", "npm run test:cdn:pinned");
   assertBefore("npm run test:cdn:pinned", "npm publish --workspace raw2d-core --access public");
+});
+
+test("publish workflow verifies auth tag and post-publish state", () => {
+  const script = readFileSync("scripts/release-publish-check.mjs", "utf8");
+
+  assert.match(workflow, /NODE_AUTH_TOKEN: \$\{\{ secrets\.NPM_TOKEN \}\}/);
+  assert.match(workflow, /npm run release:preflight/);
+  assert.match(workflow, /npm run release:postpublish/);
+  assert.match(workflow, /npm run test:cdn:pinned -- --live/);
+  assert.match(script, /GITHUB_REF_TYPE/);
+  assert.match(script, /npm", \["whoami"\]/);
+  assert.match(script, /already published/);
+  assert.match(script, /latest is/);
 });
 
 test("publish workflow publishes dependencies before dependent packages", () => {

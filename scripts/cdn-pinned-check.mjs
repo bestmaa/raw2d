@@ -27,15 +27,38 @@ for (const url of urls) {
 
 if (live) {
   for (const url of urls) {
-    const response = await fetch(url, { method: "HEAD" });
-
-    if (!response.ok) {
-      throw new Error(`CDN URL failed: ${url} ${response.status}`);
-    }
+    await assertCdnUrl(url);
   }
 }
 
 console.log(`cdn-pinned-ok raw2d packages@${version}`);
 for (const url of urls) {
   console.log(url);
+}
+
+async function assertCdnUrl(url) {
+  const attempts = 6;
+  let lastStatus = "unknown";
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const response = await fetch(url, { method: "HEAD" });
+
+    if (response.ok) {
+      return;
+    }
+
+    lastStatus = String(response.status);
+
+    if (attempt < attempts) {
+      await delay(5000);
+    }
+  }
+
+  throw new Error(`CDN URL failed: ${url} ${lastStatus}`);
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
