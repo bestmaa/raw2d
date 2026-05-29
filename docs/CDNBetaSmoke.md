@@ -35,6 +35,13 @@ https://cdn.jsdelivr.net/npm/raw2d@1.25.5/dist/raw2d.umd.cjs
 https://cdn.jsdelivr.net/npm/raw2d-core@1.25.5/dist/index.js
 https://cdn.jsdelivr.net/npm/raw2d-canvas@1.25.5/dist/index.js
 https://cdn.jsdelivr.net/npm/raw2d-webgl@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-sprite@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-text@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-effects@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-interaction@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-mcp@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-react@1.25.5/dist/index.js
+https://cdn.jsdelivr.net/npm/raw2d-react-fiber@1.25.5/dist/index.js
 ```
 
 ## Pass Criteria

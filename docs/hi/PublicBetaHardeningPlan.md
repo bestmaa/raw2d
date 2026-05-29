@@ -33,8 +33,8 @@ Har app me `npm run build` pass hona chahiye. Browser me kam se kam ek visible C
 CDN gate pinned jsDelivr assets check karta hai, sirf `latest` nahi:
 
 ```bash
-curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.0/dist/raw2d.js
-curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.0/dist/raw2d.umd.cjs
+curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.umd.cjs
 ```
 
 Gate tab pass hai jab dono files success return karein aur browser CDN example local bundling ke bina Raw2D import kar sake.

@@ -5,13 +5,14 @@ Use this report after publishing a Raw2D version.
 ## Result
 
 ```text
-Version: v1.1.x
-npm package: pass / fail
-CDN UMD: pass / fail
-Docs route: pass / fail
-Browser examples: pass / fail
-Studio docs/demo: pass / fail
-Decision: pass / fail
+Version: v1.25.5
+npm package: pass
+registry install smoke: pass
+CDN pinned live: pass
+Docs route: pass
+Browser examples: pass
+Studio docs/demo: pass
+Decision: pass
 ```
 
 ## NPM Checks
@@ -19,27 +20,30 @@ Decision: pass / fail
 ```bash
 npm view raw2d version
 npm view raw2d-core version
+npm view raw2d-canvas version
 npm view raw2d-webgl version
-npm install raw2d
+npm view raw2d-react-fiber version
+npm run test:consumer:registry
 ```
 
-Fresh install checks must cover the umbrella package, focused packages, `raw2d-mcp`, and `raw2d-react`.
+Fresh install checks covered the umbrella package, focused packages, `raw2d-mcp`, `raw2d-react`, and `raw2d-react-fiber`.
 
 ## CDN Checks
 
 ```bash
 curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs
+npm run test:cdn:pinned -- --live
 ```
 
-Record CDN lag when npm is published but jsDelivr has not refreshed yet.
+No CDN lag was observed for pinned `1.25.5` package URLs.
 
 ## Browser Checks
 
-Open `https://raw2d.com/doc` and verify Canvas, WebGL, Sprite, Texture Atlas, Interaction, and React examples without console errors.
+Checked `https://raw2d.com/doc`, `/readme`, `/examples/`, `/studio`, `/cdn-smoke`, `/doc#studio-demo-checklist`, and `/readme#studio-demo-checklist`; each route returned `200`.
 
-Open `https://raw2d.com/studio`, `/doc#studio-demo-checklist`, and `/readme#studio-demo-checklist`. Confirm Studio demo, save/load/export, and responsive checklist docs are reachable.
+The browser bug bash and mobile/dark docs checks had already passed for the published build, including Canvas, WebGL, Sprite, Texture Atlas, Interaction, React, and Studio coverage.
 
 ## Release Decision
 
-Release notes are ready only when npm, CDN, docs, and browser checks pass.
+Release notes are ready: npm, CDN, docs, examples, and Studio route checks passed for `1.25.5`.

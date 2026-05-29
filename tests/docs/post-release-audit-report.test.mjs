@@ -9,6 +9,7 @@ const hinglish = readFileSync("docs/hi/PostReleaseAuditReport.md", "utf8");
 test("post-release audit report covers npm and CDN checks", () => {
   for (const content of [topic, english, hinglish]) {
     assert.match(content, /npm view raw2d version/);
+    assert.match(content, /test:consumer:registry/);
     assert.match(content, /cdn\.jsdelivr/);
     assert.match(content, /raw2d\.umd\.cjs/);
   }

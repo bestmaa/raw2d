@@ -27,6 +27,7 @@
     "test:consumer:focused": "node scripts/focused-install-smoke.mjs",
     "test:consumer:mcp": "node scripts/mcp-install-smoke.mjs",
     "test:consumer:react": "node scripts/react-install-smoke.mjs",
+    "test:consumer:registry": "node scripts/post-release-registry-smoke.mjs",
     "test:snippets:canvas": "node scripts/docs-canvas-snippet-smoke.mjs",
     "test:snippets:interaction": "node scripts/docs-interaction-snippet-smoke.mjs",
     "test:snippets:product": "node scripts/product-docs-snippet-smoke.mjs",

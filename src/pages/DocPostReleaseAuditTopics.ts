@@ -55,27 +55,30 @@ npm run test:cdn:pinned -- --live`
     sections: [
       {
         title: "Current Result",
-        body: "Use this report after a version is published. Fill the published version, npm metadata result, CDN result, docs result, and browser result before announcing the release.",
-code: `Version: v1.1.x
-npm package: pass / fail
-CDN UMD: pass / fail
-Docs route: pass / fail
-Browser examples: pass / fail
-Studio docs/demo: pass / fail`
+        body: "Raw2D v1.25.5 passed the post-release audit. npm metadata, registry install smoke, live CDN, docs routes, examples, and Studio routes are verified.",
+        code: `Version: v1.25.5
+npm package: pass
+registry install smoke: pass
+CDN pinned live: pass
+Docs route: pass
+Browser examples: pass
+Studio docs/demo: pass`
       },
       {
         title: "NPM Checks",
-        body: "Confirm the umbrella package and focused packages resolve from npm, then run fresh install smoke apps without workspace links.",
+        body: "The umbrella package and focused packages resolve from npm. The registry smoke installs public packages directly, without workspace tarballs.",
         code: `npm view raw2d version
 npm view raw2d-core version
 npm view raw2d-webgl version
-npm install raw2d`
+npm view raw2d-react-fiber version
+npm run test:consumer:registry`
       },
       {
         title: "CDN Checks",
-        body: "Check jsDelivr for ESM and UMD output. The CDN can lag npm briefly, so record the time if the package was just published.",
+        body: "Check jsDelivr for ESM and UMD output. The live pinned check passed for the published v1.25.5 package set.",
         code: `curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.js
-curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs`
+curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs
+npm run test:cdn:pinned -- --live`
       },
       {
         title: "Browser Checks",
@@ -91,7 +94,7 @@ https://raw2d.com/studio
       },
       {
         title: "Report Decision",
-        body: "Publish release notes only when all checks pass. If any check fails, keep the report with the failing command and fix before publishing again.",
+        body: "Release notes are ready because npm, CDN, docs, examples, and Studio route checks passed for v1.25.5.",
         code: `Decision: pass
 Release notes: ready
 Next audit: after next version bump`

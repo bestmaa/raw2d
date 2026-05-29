@@ -25,8 +25,8 @@ npm run preview
       {
         title: "CDN Gates",
         body: "Use pinned jsDelivr URLs for release checks. Latest URLs are useful for users, but pinned URLs prove the exact release is available.",
-        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.0/dist/raw2d.js
-curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.0/dist/raw2d.umd.cjs`
+        code: `curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.umd.cjs`
       },
       {
         title: "Docs Gates",

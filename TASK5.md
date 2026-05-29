@@ -154,3 +154,9 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T312 | Version: v1.25.4 | Status: completed | Goal: Run final bug bash for docs, examples, Studio, React, MCP, Canvas, and WebGL. | Verify: bug bash report and linked fixes. | Commit: `Run v1 bug bash`
 - T313 | Version: v1.25.5 | Status: completed | Goal: Phase 33 release candidate and publish. | Verify: CI, npm latest, Cloudflare docs, CDN pinned URLs, post-release audit. | Commit: `Release Raw2D v1 candidate`
   - Completed: pushed `main` and tag `v1.25.5`; CI, Plugin, Cloudflare Workers, and GitHub Publish passed. npm latest is `1.25.5` for all 11 Raw2D packages, and live pinned jsDelivr URLs passed.
+
+## Phase 34: Post-Release Stabilization
+
+- T314 | Version: post-v1.25.5 | Status: completed | Goal: Run post-release audit from public npm, CDN, docs, examples, and Studio routes. | Verify: npm registry matrix, live CDN, raw2d.com route checks, fresh consumer installs, and audit report. | Commit: `Audit published v1 release`
+- T315 | Version: post-v1.25.5 | Status: pending | Goal: Review and clean remaining user-edited README and Getting Started docs without losing contact/package details. | Verify: docs tests, README snippet tests, and file-size checks. | Commit: `Clean release docs`
+- T316 | Version: post-v1.25.5 | Status: pending | Goal: Harden release workflow diagnostics for npm auth, already-published packages, and post-publish verification. | Verify: workflow tests and dry-run script checks. | Commit: `Harden release workflow`

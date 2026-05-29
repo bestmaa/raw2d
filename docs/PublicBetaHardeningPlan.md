@@ -33,8 +33,8 @@ Each app must run `npm run build` and render at least one visible Canvas, WebGL,
 The CDN gate checks pinned jsDelivr assets, not only `latest`:
 
 ```bash
-curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.0/dist/raw2d.js
-curl -I https://cdn.jsdelivr.net/npm/raw2d@1.7.0/dist/raw2d.umd.cjs
+curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.js
+curl -I https://cdn.jsdelivr.net/npm/raw2d@VERSION/dist/raw2d.umd.cjs
 ```
 
 The gate passes when both files return success and a browser CDN example can import Raw2D without local bundling.
