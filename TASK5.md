@@ -164,3 +164,4 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 ## Phase 35: Release Health Automation
 
 - T317 | Version: post-v1.25.5 | Status: completed | Goal: Add one release health command for npm latest, live CDN, registry consumer, and public route checks. | Verify: health command tests and live post-release smoke. | Commit: `Add release health check`
+- T318 | Version: post-v1.25.5 | Status: completed | Goal: Add a scheduled and manual GitHub release health workflow that runs the public release health command. | Verify: workflow tests and dry workflow audit. | Commit: `Add release health workflow`
