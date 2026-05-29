@@ -6,6 +6,7 @@ Raw2D version publish hone ke baad yeh report fill karo.
 
 ```text
 Version: v1.25.5
+release health: pass
 npm package: pass
 registry install smoke: pass
 CDN pinned live: pass
@@ -24,6 +25,7 @@ npm view raw2d-canvas version
 npm view raw2d-webgl version
 npm view raw2d-react-fiber version
 npm run test:consumer:registry
+npm run release:health
 ```
 
 Fresh install me umbrella package, focused packages, `raw2d-mcp`, `raw2d-react`, aur `raw2d-react-fiber` check hue.
@@ -34,13 +36,14 @@ Fresh install me umbrella package, focused packages, `raw2d-mcp`, `raw2d-react`,
 curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs
 npm run test:cdn:pinned -- --live
+npm run release:health
 ```
 
 Pinned `1.25.5` package URLs par CDN lag observe nahi hua.
 
 ## Browser Checks
 
-`https://raw2d.com/doc`, `/readme`, `/examples/`, `/studio`, `/cdn-smoke`, `/doc#studio-demo-checklist`, aur `/readme#studio-demo-checklist` check hue; har route ne `200` return kiya.
+`https://raw2d.com/doc`, `/readme`, `/examples/`, `/examples/canvas-basic/`, `/studio`, `/cdn-smoke`, `/doc#studio-demo-checklist`, aur `/readme#studio-demo-checklist` check hue; har route ne `200` return kiya.
 
 Published build ke liye browser bug bash aur mobile/dark docs checks pehle pass ho chuke hain, including Canvas, WebGL, Sprite, Texture Atlas, Interaction, React, aur Studio coverage.
 

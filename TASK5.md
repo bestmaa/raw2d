@@ -160,3 +160,7 @@ On release tasks, add release notes, push main, tag version, verify CI/npm/Cloud
 - T314 | Version: post-v1.25.5 | Status: completed | Goal: Run post-release audit from public npm, CDN, docs, examples, and Studio routes. | Verify: npm registry matrix, live CDN, raw2d.com route checks, fresh consumer installs, and audit report. | Commit: `Audit published v1 release`
 - T315 | Version: post-v1.25.5 | Status: completed | Goal: Review and clean remaining user-edited README and Getting Started docs without losing contact/package details. | Verify: docs tests, README snippet tests, and file-size checks. | Commit: `Clean release docs`
 - T316 | Version: post-v1.25.5 | Status: completed | Goal: Harden release workflow diagnostics for npm auth, already-published packages, and post-publish verification. | Verify: workflow tests and dry-run script checks. | Commit: `Harden release workflow`
+
+## Phase 35: Release Health Automation
+
+- T317 | Version: post-v1.25.5 | Status: completed | Goal: Add one release health command for npm latest, live CDN, registry consumer, and public route checks. | Verify: health command tests and live post-release smoke. | Commit: `Add release health check`

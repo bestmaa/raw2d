@@ -43,7 +43,8 @@ import { WebGLRenderer2D } from "raw2d-webgl";`
 npm run build:docs
 npm run test:browser
 npm run test:consumer
-npm run test:cdn:pinned -- --live`
+npm run test:cdn:pinned -- --live
+npm run release:health`
       }
     ]
   },
@@ -57,6 +58,7 @@ npm run test:cdn:pinned -- --live`
         title: "Current Result",
         body: "Raw2D v1.25.5 passed the post-release audit. npm metadata, registry install smoke, live CDN, docs routes, examples, and Studio routes are verified.",
         code: `Version: v1.25.5
+release health: pass
 npm package: pass
 registry install smoke: pass
 CDN pinned live: pass
@@ -71,14 +73,16 @@ Studio docs/demo: pass`
 npm view raw2d-core version
 npm view raw2d-webgl version
 npm view raw2d-react-fiber version
-npm run test:consumer:registry`
+npm run test:consumer:registry
+npm run release:health`
       },
       {
         title: "CDN Checks",
         body: "Check jsDelivr for ESM and UMD output. The live pinned check passed for the published v1.25.5 package set.",
         code: `curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.js
 curl -I https://cdn.jsdelivr.net/npm/raw2d/dist/raw2d.umd.cjs
-npm run test:cdn:pinned -- --live`
+npm run test:cdn:pinned -- --live
+npm run release:health`
       },
       {
         title: "Browser Checks",

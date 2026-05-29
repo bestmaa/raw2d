@@ -39,6 +39,7 @@
     "audit:package": "node scripts/audit-package-readiness.mjs --check",
     "release:preflight": "node scripts/release-publish-check.mjs preflight",
     "release:postpublish": "node scripts/release-publish-check.mjs postpublish",
+    "release:health": "node scripts/release-health-check.mjs",
     "pack:check": "npm pack --workspaces --dry-run"
   },
   "repository": {
